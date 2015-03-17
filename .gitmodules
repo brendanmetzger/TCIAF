@@ -1,0 +1,3 @@
+[submodule "bloc"]
+	path = bloc
+	url = git@github.com:brendanmetzger/bloc.git
