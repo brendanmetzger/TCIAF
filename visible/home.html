@@ -1,0 +1,25 @@
+<section>
+  <div id="test">
+    <p class="pretty">hi</p>
+  </div>
+
+  <script type="text/javascript">
+
+      bootstrap.queue(function () {
+        var s = new SVG(document.getElementById('test'), {height:500,width:500,viewbox:'100 100 0 0'});
+        s.createElement('path', {
+          d: 'M50,50A25,25,0,1,1,100,100',
+          //rx ry x-axis-rotation large-arc-flag sweep-flag x y)+
+          stroke:'#000',
+          'stroke-width':10,
+          fill: 'none'
+        });
+      });
+
+  </script>
+      
+  <style type="text/css">
+      .pretty {font-size:4em;}
+    </style>
+      
+</section>
