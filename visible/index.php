@@ -10,10 +10,8 @@ $app = new application;
 
 #3. All code is executed in this callback.
 $app->queue('http-request', function($app) {
-  // Simplest would be to define a request
-  $request = new request($_REQUEST);
-
   // route the controller as best we can
+  $request = null;
   $route   = new router($request);
   $route->delegate('explore', 'index');
 
