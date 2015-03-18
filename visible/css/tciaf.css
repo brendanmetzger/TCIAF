@@ -2,5 +2,9 @@ body {
   font-size:62.5%;
   font-family:Inconsolata;
   background-color:#fff;
-  
+  margin:5em;
+}
+
+footer {
+  border-top:1px solid #000;
 }

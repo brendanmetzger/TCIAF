@@ -11,7 +11,13 @@ class explore
   public function index()
   {
     $view = new view('visible/layout.html');
-		$view->setPage('//body/section', 'visible/home.html');
+    $view->content = 'visible/home.html';
+		
+    
+    
+    // $plat = new view\plat($view->xpath->query('//body//article')->item(0));
+
+    
     print $view->render();
   }
 }
