@@ -6,12 +6,12 @@ use \bloc\view as view;
  * Explore Represents the user's interest.
  */
 
-class explore
+class explore extends locus
 {
   public function index()
   {
-    $view = new view('visible/layout.html');
-    $view->content = 'visible/home.html';
+    $view = new view('layout.html');
+    $view->content = 'home.html';
 		
     $data = new \stdClass;
     $data->supporters = [
@@ -27,4 +27,10 @@ class explore
     
     print $view->render();
   }
+  
+  protected function lonely($value='')
+  {
+    echo "not gonna see this till some login implemented";
+  }
+  
 }
