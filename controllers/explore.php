@@ -14,6 +14,8 @@ class explore extends locus
     $view->content = 'home.html';
 		
     $data = new \stdClass;
+    $data->year = 2015;
+    $data->title = 'Third Coast.';
     $data->supporters = [
       ['name' => 'The MacArthur Foundation'],
       ['name' => 'The Richard H. Driehaus Foundation'],
@@ -21,16 +23,14 @@ class explore extends locus
       ['name' => 'Individual Donors']
     ];
     
-    
     $plat = new view\plat($view, $data);
-
-    
     print $view->render();
   }
   
   protected function lonely($value='')
   {
-    echo "not gonna see this till some login implemented";
+    $view = new view('admin.html');
+    print $view->render();
   }
   
 }
