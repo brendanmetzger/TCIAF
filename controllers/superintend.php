@@ -6,16 +6,16 @@ use \bloc\view as view;
  * Third Coast International Audio Festival Defaults
  */
 
-class locus
+class superintend
 {
   public function __construct()
   {
-    view::$webroot = 'visible/';
+    view::$webroot = 'views/';
   }
   
   public function index()
   {
-    echo 'hello';
+    echo 'hi';
   }
   
   public function login($redirect_url, $post_data)

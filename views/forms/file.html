@@ -1,0 +1,13 @@
+<form name="uploadData">
+  <h1>File</h1>
+  <input type="file" name="fileChooser" value="" id="fileChooser" />
+  <script type="text/javascript">
+  // <![CDATA[
+    var file = document.getElementById('fileChooser');
+    file.addEventListener('change', function (evt) {
+      console.log(this.files);
+    }, false);
+    console.log(file);
+  //]]>
+  </script>
+</form>

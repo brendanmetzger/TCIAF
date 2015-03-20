@@ -6,7 +6,7 @@ use \bloc\view as view;
  * Explore Represents the user's interest.
  */
 
-class explore extends locus
+class explore extends superintend
 {
   public function index()
   {
@@ -30,6 +30,7 @@ class explore extends locus
   protected function lonely($value='')
   {
     $view = new view('admin.html');
+    $view->content = 'forms/file.html';
     print $view->render();
   }
   
