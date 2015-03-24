@@ -10,27 +10,27 @@ class explore extends superintend
 {
   public function index()
   {
-    $view = new view('layout.html');
-    $view->content = 'home.html';
+    $view = new view('views/layout.html');
+    $view->content = 'views/home.html';
 		
-    $data = new \stdClass;
-    $data->year = 2015;
-    $data->title = 'Third Coast.';
-    $data->supporters = [
-      ['name' => 'The MacArthur Foundation'],
-      ['name' => 'The Richard H. Driehaus Foundation'],
-      ['name' => 'The Boeing Company'],
-      ['name' => 'Individual Donors']
-    ];
-    
-    $plat = new view\plat($view, $data);
-    print $view->render();
+    $data = new \bloc\model\Dictionary([
+      'year' => 2015,
+      'title' => 'Third Coast',
+      'supporters' => [
+        ['name' => 'The MacArthur Foundation'],
+        ['name' => 'The Richard H. Driehaus Foundation'],
+        ['name' => 'The Boeing Company'],
+        ['name' => 'Individual Donors']
+      ]
+    ]);
+
+    print $view->render($data);
   }
   
   protected function lonely($value='')
   {
-    $view = new view('admin.html');
-    $view->content = 'forms/file.html';
+    $view = new view('views/admin.html');
+    $view->content = 'views/forms/file.html';
     print $view->render();
   }
   

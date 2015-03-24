@@ -8,10 +8,6 @@ use \bloc\view as view;
 
 class superintend
 {
-  public function __construct()
-  {
-    view::$webroot = 'views/';
-  }
   
   public function index()
   {
@@ -20,7 +16,7 @@ class superintend
   
   public function login($redirect_url, $post_data)
   {
-    $view = new View('layout.html');
+    $view = new View('views/layout.html');
     $view->content = 'forms/credentials.html';
     
     $data = new \stdClass;
