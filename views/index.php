@@ -8,6 +8,12 @@ require_once  '../bloc/application.php';
 #2. Create an instance of the application
 $app = new application;
 
+$app->prepare('session-start', function() {
+  if (array_key_exists('PHPSESSID', $_COOKIE)) {
+    session_start();
+  }
+});
+
 #3. All code is executed in this callback.
 $app->prepare('http-request', function($app) {
   $start = microtime(true);
@@ -20,4 +26,5 @@ $app->prepare('http-request', function($app) {
 
 
 #4. Run the app. Nothing happens w/o this. Can call different stuff from the queue.
+$app->execute('session-start');
 echo $app->execute('http-request');

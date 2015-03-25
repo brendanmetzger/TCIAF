@@ -21,14 +21,10 @@ class superintend
 
     View::addRenderer('before', view\renderer::addPartials($this));
     View::addRenderer('after', view\renderer::HTML());
-
-    if (! $access) {
-      session_start();
-      $this->authenticated = array_key_exists('user', $_SESSION);
-      $this->title = "Administrate";
-    } 
     
-    if ($restricted) {
+    $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+        
+    if ($this->authenticated) {
       $this->partials['helper'] = 'views/admin.html';
     }
   }
@@ -57,6 +53,7 @@ class superintend
     $users = new \bloc\DOM\Document('data/users', ['validateOnParse' => true]);
     $user = $users->getElementById($data->username);
     if ($user && password_verify($data->password, $user->getAttribute('password'))) {
+      session_start();
       $_SESSION['user'] = $data->username;
       header("Location: {$redirect_url}");
       exit();
