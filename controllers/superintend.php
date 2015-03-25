@@ -1,6 +1,6 @@
 <?php
 namespace controllers;
-use \bloc\view as view;
+use \bloc\view as View;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -9,19 +9,33 @@ use \bloc\view as view;
 class superintend
 {
   use \bloc\registry;
+
+  protected $partials = [
+    'layout' => 'views/layout.html',
+  ];
   
+      
   public function __construct($request, $access)
   {
     $this->registry = new \bloc\model\dictionary;
 
+    View::addRenderer('before', view\renderer::addPartials($this));
+    View::addRenderer('after', view\renderer::HTML());
+
     if (! $access) {
       session_start();
       $this->authenticated = array_key_exists('user', $_SESSION);
-      $this->layout = '/views/layout.html';
       $this->title = "Administrate";
-    } else {
-      $this->layout = '/views/layout.html';
+    } 
+    
+    if ($restricted) {
+      $this->partials['helper'] = 'views/admin.html';
     }
+  }
+  
+  public function getPartials()
+  {
+    return $this->partials;
   }
   
   public function index()
@@ -31,7 +45,8 @@ class superintend
   
   public function login($redirect_url, $post_data)
   {
-    $view = new View($this->layout);
+    $view = new View($this->partials['layout']);
+    
     $view->content = 'views/forms/credentials.html';
     
     $data = new \bloc\model\dictionary;
@@ -63,7 +78,7 @@ class superintend
   
   protected function review($id = null)
   {
-    $view = new view($this->layout);
+    $view = new View($this->partials['layout']);
     $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
     
     $this->features = $db->query("SELECT * FROM features LIMIT 25")->fetch_all(MYSQLI_ASSOC);

@@ -9,7 +9,7 @@ require_once  '../bloc/application.php';
 $app = new application;
 
 #3. All code is executed in this callback.
-$app->queue('http-request', function($app) {
+$app->prepare('http-request', function($app) {
   $start = microtime(true);
   // Provide a namespace to load objects that can respond to controller->action
   $router  = new router('controllers', new request($_REQUEST));
@@ -20,4 +20,4 @@ $app->queue('http-request', function($app) {
 
 
 #4. Run the app. Nothing happens w/o this. Can call different stuff from the queue.
-echo $app->run('http-request');
+echo $app->execute('http-request');
