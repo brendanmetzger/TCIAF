@@ -10,12 +10,14 @@ $app = new application;
 
 #3. All code is executed in this callback.
 $app->queue('http-request', function($app) {
+  $start = microtime(true);
   // Provide a namespace to load objects that can respond to controller->action
   $router  = new router('controllers', new request($_REQUEST));
   // default controller and action as arguments, in case nothin doin in the request
   $router->delegate('superintend', 'index');
+  return microtime(true) - $start;
 });
 
 
 #4. Run the app. Nothing happens w/o this. Can call different stuff from the queue.
-$app->run('http-request');
+echo $app->run('http-request');
