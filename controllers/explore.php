@@ -27,8 +27,9 @@ class explore extends superintend
     print $view->render($data);
   }
   
-  protected function lonely($value='')
+  protected function lonely($value = '')
   {
+    \bloc\application::dump($_SESSION);
     $view = new view('views/admin.html');
     $view->content = 'views/forms/file.html';
     print $view->render();
