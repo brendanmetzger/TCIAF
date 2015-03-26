@@ -6,7 +6,7 @@ use \bloc\view as view;
  * Explore Represents the user's interest.
  */
 
-class explore extends superintend
+class Explore extends Home
 {
   public function index()
   {

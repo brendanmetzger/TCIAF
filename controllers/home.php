@@ -6,7 +6,7 @@ use \bloc\view as View;
  * Third Coast International Audio Festival Defaults
  */
 
-class superintend extends \bloc\controller
+class Home extends \bloc\controller
 {
 
   protected $partials = [
@@ -29,27 +29,28 @@ class superintend extends \bloc\controller
     ];
     
     if ($this->authenticated) {
+      $this->user = $_SESSION['user'];
       $this->partials['helper'] = 'views/admin.html';
     }
   }
-  
   
   public function index()
   {
     print (new View($this->partials['layout']))->render($this());
   }
   
-  public function login($redirect_url, $post_data)
+  public function login($redirect_url, $request)
   {
     $view = new View($this->partials['layout']);    
     $view->content = 'views/forms/credentials.html';
-    
-    $username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
-    $password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
-    
+        
+    $username = $request->post('username');
+    $password = $request->post('password');
+
+      
     if ($user = (new \models\person)->authenticate($username, $password)) {
       session_start();
-      $_SESSION['user'] = $user->getAttribute('username');
+      $_SESSION['user'] = $user->getAttribute('id');
       \bloc\router::redirect('/');
     }
     

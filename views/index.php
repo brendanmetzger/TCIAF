@@ -22,7 +22,7 @@ $app->prepare('http-request', function($app) {
   // Provide a namespace to load objects that can respond to controller->action
   $router  = new router('controllers', new request($_REQUEST));
   // default controller and action as arguments, in case nothin doin in the request
-  $router->delegate('superintend', 'index');
+  $router->delegate('home', 'index');
   return microtime(true) - $start;
 });
 
