@@ -6,7 +6,7 @@ use \bloc\view as View;
  * Third Coast International Audio Festival Defaults
  */
 
-class Home extends \bloc\controller
+class Manage extends \bloc\controller
 {
 
   protected $partials = [

@@ -6,16 +6,9 @@ use \bloc\view as view;
  * Explore Represents the user's interest.
  */
 
-class Explore extends Home
+class Explore extends Manage
 {
-  public function index()
-  {
-    $view = new view('views/layout.html');
-    $view->content = 'views/home.html';
-    
-    print $view->render($this());
-  }
-  
+
   protected function review($id = null)
   {
     $view = new View($this->partials['layout']);
