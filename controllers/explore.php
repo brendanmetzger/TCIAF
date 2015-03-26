@@ -12,27 +12,24 @@ class explore extends superintend
   {
     $view = new view('views/layout.html');
     $view->content = 'views/home.html';
-		
-    $data = new \bloc\model\Dictionary([
-      'year' => 2015,
-      'title' => 'Third Coast',
-      'supporters' => [
-        ['name' => 'The MacArthur Foundation'],
-        ['name' => 'The Richard H. Driehaus Foundation'],
-        ['name' => 'The Boeing Company'],
-        ['name' => 'Individual Donors']
-      ]
-    ]);
-
-    print $view->render($data);
+    
+    print $view->render($this());
   }
   
-  protected function lonely($value = '')
+  protected function review($id = null)
   {
-    \bloc\application::dump($_SESSION);
-    $view = new view('views/admin.html');
-    $view->content = 'views/forms/file.html';
-    print $view->render();
-  }
-  
+    $view = new View($this->partials['layout']);
+    $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $this->features = $db->query("SELECT * FROM features LIMIT 25")->fetch_all(MYSQLI_ASSOC);
+    $view->content = 'views/feature.html';
+    // \bloc\application::dump($this->registry);
+    // $fragment = $view->dom->createDocumentFragment();
+    // $fragment->appendXML("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>");
+    // \bloc\application::dump(new view($fragment));
+    // $view->fieldlist = new view($fragment);
+    
+    
+    print $view->render($this());
+  }  
 }

@@ -1,6 +1,8 @@
 <?php
 namespace bloc;
 
+date_default_timezone_set ('America/Chicago');
+
 #1. Frow where index.php is located, load the application file. This is the only mandatory part I think.
 require_once  '../bloc/application.php';
 
