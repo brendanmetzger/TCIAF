@@ -46,6 +46,21 @@
       <script type="text/javascript">
       // <![CDATA[
         bootstrap.queue(function () {
+          var myRequest = new XMLHttpRequest();
+              myRequest.open("GET", "/");
+              myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+              myRequest.send();
+              
+              myRequest.onreadystatechange = function () {
+                if (myRequest.readyState === 4) {
+                  if (myRequest.status === 200) {
+                    console.log(myRequest.responseXML);          
+                  } else {
+                    console.log('boop');
+                  }
+                }
+              };
+              
           var s = new SVG(document.getElementById('test'), {height:500,width:500,viewbox:'100 100 0 0'});
           s.createElement('path', {
             d: 'M50,50A25,25,0,1,1,100,100',
