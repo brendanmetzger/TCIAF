@@ -17,9 +17,7 @@ $app->prepare('session-start', function ($app) {
 });
 
 $app->prepare('debug ', function ($app) {
-  if (array_key_exists('PHPSESSID', $_COOKIE)) {
-    session_start();
-  }
+
 });
 
 $app->prepare('before-output', function ($app) {
@@ -32,14 +30,20 @@ $app->prepare('before-output', function ($app) {
   }
 });
 
-#3. All code is executed in this callback.
+# main page deal
 $app->prepare('http-request', function ($app) {
   $start = microtime(true);
-  // Provide a namespace to load objects that can respond to controller->action
+  // Provide a namespace (also a directory) to load objects that can respond to controller->action
   $router  = new router('controllers', new request($_REQUEST));
   // default controller and action as arguments, in case nothin doin in the request
   $router->delegate('manage', 'index');
   return microtime(true) - $start;
+});
+
+$app->prepare('test-after', function ($app) {
+  flush();
+  sleep(5);
+  echo "\n\n This works!";
 });
 
 
@@ -47,3 +51,4 @@ $app->prepare('http-request', function ($app) {
 $app->execute('session-start');
 $app->execute('before-output');
 $app->execute('http-request');
+$app->execute('test-after');
