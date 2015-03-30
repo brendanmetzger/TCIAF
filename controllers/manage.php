@@ -36,7 +36,7 @@ class Manage extends \bloc\controller
   
   public function index()
   {
-    print (new View($this->partials['layout']))->render($this());
+    return (new View($this->partials['layout']))->render($this());
   }
   
   public function login($redirect_url, $request)
@@ -58,6 +58,6 @@ class Manage extends \bloc\controller
     $this->username = $username;
     $this->password = null;   
 
-    print $view->render($this());
+    return $view->render($this());
   }
 }

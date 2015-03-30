@@ -8,7 +8,7 @@ require_once  '../bloc/application.php';
 
 
 #2. Create an instance of the application
-$app = new application;
+$app = new Application;
 
 $app->prepare('session-start', function ($app) {
   if (array_key_exists('PHPSESSID', $_COOKIE)) {
@@ -17,7 +17,7 @@ $app->prepare('session-start', function ($app) {
 });
 
 $app->prepare('debug ', function ($app) {
-
+  // a place to log stuff, benchmark, etc.
 });
 
 $app->prepare('before-output', function ($app) {
@@ -32,12 +32,20 @@ $app->prepare('before-output', function ($app) {
 
 # main page deal
 $app->prepare('http-request', function ($app) {
-  $start = microtime(true);
+  
   // Provide a namespace (also a directory) to load objects that can respond to controller->action
   $router  = new router('controllers', new request($_REQUEST));
   // default controller and action as arguments, in case nothin doin in the request
-  $router->delegate('manage', 'index');
-  return microtime(true) - $start;
+  $view = $router->delegate('manage', 'index');
+  
+  // 
+  (new DOM\Element('pre', microtime(true) - $app->benchmark))->insert($view->dom->documentElement->lastChild)->setAttribute('class', 'console');
+
+
+
+  print $view;
+  
+  return true;
 });
 
 $app->prepare('test-after', function ($app) {
@@ -51,4 +59,4 @@ $app->prepare('test-after', function ($app) {
 $app->execute('session-start');
 $app->execute('before-output');
 $app->execute('http-request');
-$app->execute('test-after');
+// $app->execute('test-after');

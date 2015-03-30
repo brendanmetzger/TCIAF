@@ -17,17 +17,17 @@
     
     <script type="text/javascript">
       // <![CDATA[
-      window.bootstrap = (function(d,w,c,q,t) {
+      window.bloc = (function(d,w,c,q,t) {
         return { 
           tag: function (src, async) {var s = d.createElement('script');s.type = 'text/javascript';s.src = src;s.async = async;return s;},
           embed: function() {for (var i=0; i < arguments.length; i++) {var s = this.tag(arguments[i], false);s.onload = this.load; q.push(s);} return this;},
           track: function (src) { for (var i=0; i < arguments.length; i++) {t.push(this.tag(arguments[i], true));} return this;},
-          load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { w.bootstrap.init();}},
-          init: function() {w._sf_endpt = (new Date()).getTime(); c.forEach(function (f) { f.call();}); c=[]; while(t.length > 0) d.body.appendChild(t.shift());},
-          queue: function(f) {if (typeof f === 'function') c.unshift(f);}
+          load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { w.bloc.execute();}},
+          execute: function() {c.forEach(function (f) { f.call();}); c=[]; while(t.length > 0) d.body.appendChild(t.shift());},
+          prepare: function(f) {if (typeof f === 'function') c.unshift(f);}
       };}(document, window, [], [], []));
       
-      bootstrap.embed('/js/bloc.js');
+      bloc.embed('/js/bloc.js');
       // ]]>
     </script>
   </head>
@@ -45,7 +45,7 @@
 
       <script type="text/javascript">
       // <![CDATA[
-        bootstrap.queue(function () {
+        bloc.prepare(function () {
           var myRequest = new XMLHttpRequest();
               myRequest.open("GET", "/");
               myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -78,7 +78,7 @@
     <!-- insert views/footer.html -->
     
     <script type="text/javascript">
-      window.bootstrap.load();
+      window.bloc.load();
     </script>
   </body>
 </html>

@@ -19,7 +19,6 @@ class Explore extends Manage
 
     // $view->fieldlist = (new \bloc\DOM\Document("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>", [], \bloc\DOM\Document::TEXT))->documentElement;
     
-    
-    print $view->render($this());
+    return $view->render($this());
   }  
 }
