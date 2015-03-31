@@ -35,12 +35,11 @@ $app->prepare('http-request', function ($app) {
   
   // Provide a namespace (also a directory) to load objects that can respond to controller->action
   $router  = new router('controllers', new request($_REQUEST));
+  
   // default controller and action as arguments, in case nothin doin in the request
   $view = $router->delegate('manage', 'index');
-  
-  // 
-  (new DOM\Element('pre', microtime(true) - $app->benchmark))->insert($view->dom->documentElement->lastChild)->setAttribute('class', 'console');
 
+  (new DOM\Element('pre', microtime(true) - $app->benchmark))->insert($view->dom->documentElement->lastChild)->setAttribute('class', 'console');
 
 
   print $view;

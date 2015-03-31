@@ -12,4 +12,4 @@ function Editor() {
   }, false);
 }
 
-var editor = new Editor();
+// var editor = new Editor();

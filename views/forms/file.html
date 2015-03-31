@@ -1,5 +1,33 @@
 <form name="uploadData">
-  <h1>File</h1>
+  <h1>[Edit @feature:title]</h1>
+
+  <label for="title">Title</label>
+  <input type="text" name="title" value="[@feature:title]" id="title" />
+  
+  <label for="description">Description</label>
+  <textarea name="description" rows="8" cols="40" id="description">[@feature:description]</textarea>
+  
+  <label for="created_at">Created At</label>
+  <input type="text" name="created_at" value="[@feature:created_at]" id="created_at" />
+  
+  
+  
+  <label for="origin_country">Origin Country</label>
+  <input type="text" name="origin_country" value="[@feature:origin_country]" id="origin_country" />
+  
+  <label for="premier_location">Premier Location</label>
+  <input type="text" name="premier_location" value="[@feature:premier_locaction]" id="premier_location" />
+  
+  <label for="premier_date">Premier Date</label>
+  <input type="text" name="premier_date" value="[@feature:premier_date]" id="premier_date" />
+  
+  <audio src="[@s3/@feature:id/@feature:mp3_file_name]" controls="controls">
+    Your browser does not support the audio element.
+  </audio>
+    
+  
+  
+  
   <input type="file" name="fileChooser" value="" id="fileChooser" />
   <script type="text/javascript">
   // <![CDATA[
