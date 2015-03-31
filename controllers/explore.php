@@ -20,7 +20,21 @@ class Explore extends Manage
     // $view->fieldlist = (new \bloc\DOM\Document("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>", [], \bloc\DOM\Document::TEXT))->documentElement;
     
     return $view->render($this());
+  }
+  
+  protected function xml($id = null)
+  {
+    $view = new View($this->partials['layout']);
+    
+    $db = simplexml_load_file(PATH.'data/features.xml', '\\bloc\\types\\xml', LIBXML_COMPACT);
+    $this->features = $db->xpath('//features/row[position()<=25]');;    
+    $view->content = 'views/feature.html';
+
+    // $view->fieldlist = (new \bloc\DOM\Document("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>", [], \bloc\DOM\Document::TEXT))->documentElement;
+    
+    return $view->render($this());
   } 
+
   
   protected function fix($id)
   {
