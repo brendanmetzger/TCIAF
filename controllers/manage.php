@@ -13,7 +13,7 @@ class Manage extends \bloc\controller
     'layout' => 'views/layout.html',
   ];
   
-  public function __construct($request, $access)
+  public function __construct($request)
   {
     View::addRenderer('before', view\renderer::addPartials($this));
     View::addRenderer('after', view\renderer::HTML());
