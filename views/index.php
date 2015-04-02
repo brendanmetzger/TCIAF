@@ -7,13 +7,13 @@ date_default_timezone_set ('America/Chicago');
 require_once  '../bloc/application.php';
 
 
-#2. Create an instance of the application
-$app = new Application;
 
+#2. Create an instance of the application
+$app = new Application(['mode' => getenv('MODE') ?: 'production']);
+
+// this is non functional, but indicates some meta programming potential.
 $app->prepare('session-start', function ($app) {
-  if (array_key_exists('PHPSESSID', $_COOKIE)) {
-    session_start();
-  }
+  $app::session('TCIAF');
 });
 
 $app->prepare('debug ', function ($app) {
@@ -47,10 +47,8 @@ $app->prepare('http-request', function ($app) {
   return true;
 });
 
-$app->prepare('test-after', function ($app) {
-  flush();
-  sleep(5);
-  echo "\n\n This works!";
+$app->prepare('clean-up', function ($app) {
+  session_write_close();
 });
 
 
@@ -58,4 +56,4 @@ $app->prepare('test-after', function ($app) {
 $app->execute('session-start');
 $app->execute('before-output');
 $app->execute('http-request');
-// $app->execute('test-after');
+$app->execute('clean-up');

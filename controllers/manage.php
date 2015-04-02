@@ -19,6 +19,7 @@ class Manage extends \bloc\controller
     View::addRenderer('after', view\renderer::HTML());
     
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+
 		$this->year = date('Y');
     $this->title = "Third Coast";
     $this->supporters = [
@@ -34,30 +35,31 @@ class Manage extends \bloc\controller
     }
   }
   
-  public function index()
+  public function GETindex()
   {
     return (new View($this->partials['layout']))->render($this());
   }
   
-  public function login($redirect_url, $request)
+  public function GETlogin($redirect, $username = null)
   {
     $view = new View($this->partials['layout']);    
     $view->content = 'views/forms/credentials.html';
-        
+    
+    $data = new \bloc\types\Dictionary(['username' => $username, 'password' => null, 'redirect' => $redirect]);
+    return $view->render($data);
+  }
+  
+  public function POSTLogin($request)
+  {
     $username = $request->post('username');
     $password = $request->post('password');
-
-      
-    if ($user = (new \models\person)->authenticate($username, $password)) {
-      session_start();
-      $_SESSION['user'] = $user->getAttribute('id');
-      \bloc\router::redirect('/');
-    }
+    $redirect = $request->post('redirect');
     
-    $this->action   = $redirect_url;
-    $this->username = $username;
-    $this->password = null;   
-
-    return $view->render($this());
+    if ($user = (new \models\person)->authenticate($username, $password)) {
+      \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
+      \bloc\router::redirect($redirect);
+    } else {
+      $this->GETLogin($request, $redirect, $username);
+    }
   }
 }

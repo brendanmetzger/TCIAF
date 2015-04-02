@@ -9,7 +9,7 @@ use \bloc\view as view;
 class Explore extends Manage
 {
 
-  protected function review($id = null)
+  protected function GETreview($id = null)
   {
     $view = new View($this->partials['layout']);
     
@@ -22,7 +22,7 @@ class Explore extends Manage
     return $view->render($this());
   }
   
-  protected function xml($id = null)
+  protected function GETxml($id = null)
   {
     $view = new View($this->partials['layout']);
     
@@ -36,7 +36,7 @@ class Explore extends Manage
   } 
 
   
-  protected function fix($id)
+  protected function GETfix($id)
   {
     $view = new View($this->partials['layout']);
     $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
