@@ -11,14 +11,14 @@ class Person
   
   public function __construct()
   {
-    $this->storage = new \bloc\DOM\Document('data/users', ['validateOnParse' => true]);
+    $this->storage = new \bloc\DOM\Document('data/people', ['validateOnParse' => true]);
   }
   
-  public function authenticate($username, $password)
+  public function authenticate($username, $password, $role = 1)
   {
     if ($user = $this->storage->getElementById($username)) {
       if (password_verify($password, $user->getAttribute('hash'))) {
-        return $user;
+        return (int)$user->getAttribute('role') <= 1;
       }
     }
     return false;

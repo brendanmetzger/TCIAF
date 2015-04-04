@@ -26,7 +26,7 @@ class Explore extends Manage
   {
     $view = new View($this->partials['layout']);
     
-    $db = simplexml_load_file(PATH.'data/features.xml', '\\bloc\\types\\xml', LIBXML_COMPACT);
+    $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/features')), '\\bloc\\types\\xml', LIBXML_COMPACT);
     $this->features = $db->xpath('//features/row[position()<=105]');;    
     $view->content = 'views/feature.html';
 

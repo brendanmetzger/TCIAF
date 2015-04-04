@@ -16,10 +16,6 @@ $app->prepare('session-start', function ($app) {
   $app::session('TCIAF');
 });
 
-$app->prepare('debug ', function ($app) {
-  // a place to log stuff, benchmark, etc.
-});
-
 $app->prepare('before-output', function ($app) {
   $needle = 'HTTP_X_REQUESTED_WITH';
   if (array_key_exists($needle, $_SERVER) && $_SERVER[$needle] == 'XMLHttpRequest' ) {

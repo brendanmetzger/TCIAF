@@ -40,26 +40,53 @@ class Manage extends \bloc\controller
     return (new View($this->partials['layout']))->render($this());
   }
   
-  public function GETlogin($redirect, $username = null)
+  public function GETlogin($redirect, $username = null, $message = null)
   {
-    $view = new View($this->partials['layout']);    
+    $view = new View($this->partials['layout']);
     $view->content = 'views/forms/credentials.html';
+
+    $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+    $key = ip2long(getenv('REMOTE_ADDR')) + ip2long(getenv('SERVER_ADDR'));
+    $this->input = new \bloc\types\Dictionary([
+      'token'    => base_convert($key, 10, date('G')+11),
+      'message'  => $message ?: 'Login',
+      'username' => $username,
+      'password' => null, 
+      'redirect' => $redirect,
+      'tokens'   => [
+        'username' => \bloc\types\string::rotate('username', $token),
+        'password' => \bloc\types\string::rotate('password', $token),
+        'redirect' => \bloc\types\string::rotate('redirect', $token),
+      ]
+      
+    ]);
     
-    $data = new \bloc\types\Dictionary(['username' => $username, 'password' => null, 'redirect' => $redirect]);
-    return $view->render($data);
+    
+    return $view->render($this());
   }
   
-  public function POSTLogin($request)
+  public function POSTLogin($request, $key)
   {
-    $username = $request->post('username');
-    $password = $request->post('password');
-    $redirect = $request->post('redirect');
     
-    if ($user = (new \models\person)->authenticate($username, $password)) {
+    $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+    $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
+        
+    $username = $request->post(\bloc\types\string::rotate('username', $token));
+    $password = $request->post(\bloc\types\string::rotate('password', $token));
+    $redirect = $request->post(\bloc\types\string::rotate('redirect', $token));
+    
+    if ($key && $user = (new \models\person)->authenticate($username, $password)) {
       \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
       \bloc\router::redirect($redirect);
-    } else {
-      $this->GETLogin($request, $redirect, $username);
-    }
+    } 
+    
+    return $this->GETLogin($redirect, $username, "Hmm, better try again.");
+  }
+  
+  public function CLItask($file)
+  {
+    $text = file_get_contents(PATH . $file);
+    $compressed = gzencode($text, 3);
+    file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
   }
 }

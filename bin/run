@@ -23,6 +23,7 @@ $app->prepare('command', function ($app) {
   $delegate = array_combine(['controller', 'action'], array_filter(preg_split('/\W+/', trim(array_shift($params)))) ?: [null,null]);
   
   // request expects array of this form [controller=>string,action=>string,params=[]]
+  Request::$HTTP = false;
   $request = new Request(array_merge($delegate, ['params' => $params]), false);
   
   // Provide a namespace (also a directory) to load objects that can respond to controller->action
