@@ -25,7 +25,6 @@ class Explore extends Manage
   protected function GETxml($id = null)
   {
     $view = new View($this->partials['layout']);
-    
     $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/features')), '\\bloc\\types\\xml', LIBXML_COMPACT);
     $this->features = $db->xpath('//features/row[position()<=105]');;    
     $view->content = 'views/feature.html';

@@ -87,6 +87,7 @@ class Manage extends \bloc\controller
   {
     $text = file_get_contents(PATH . $file);
     $compressed = gzencode($text, 3);
+        
     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
   }
 }
