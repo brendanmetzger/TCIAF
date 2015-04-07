@@ -12,27 +12,14 @@ class Explore extends Manage
   protected function GETreview($id = null)
   {
     $view = new View($this->partials['layout']);
-    
-    $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    $this->features = $db->query("SELECT * FROM features LIMIT 105")->fetch_all(MYSQLI_ASSOC);
-    $view->content = 'views/feature.html';
+    $db = simplexml_load_string(file_get_contents(PATH.'data/records.xml'), '\\bloc\\types\\xml', LIBXML_COMPACT);
+    $this->features = $db->xpath('//records/record[position()>=200 and position()<=300]');
 
-    // $view->fieldlist = (new \bloc\DOM\Document("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>", [], \bloc\DOM\Document::TEXT))->documentElement;
-    
+    $view->content = 'views/feature.html';
+    $view->fieldlist = (new \bloc\DOM\Document('<ul><li>[$location]</li><li>[$premier:@date]</li><li>[$premier]</li><li>[$@published]</li></ul>', [], \bloc\DOM\Document::TEXT))->documentElement;
     return $view->render($this());
   }
   
-  protected function GETxml($id = null)
-  {
-    $view = new View($this->partials['layout']);
-    $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/features')), '\\bloc\\types\\xml', LIBXML_COMPACT);
-    $this->features = $db->xpath('//features/row[position()<=105]');;    
-    $view->content = 'views/feature.html';
-
-    // $view->fieldlist = (new \bloc\DOM\Document("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>", [], \bloc\DOM\Document::TEXT))->documentElement;
-    
-    return $view->render($this());
-  } 
 
   
   protected function GETfix($id)

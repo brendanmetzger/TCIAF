@@ -36,5 +36,8 @@ $app->prepare('command', function ($app) {
 });
 
 
+$start = microtime(true);
 
 $app->execute('command');
+
+print "\n\nExecuted:" . (microtime(true) - $start) . "\n\n";
