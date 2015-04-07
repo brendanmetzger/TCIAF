@@ -9,7 +9,8 @@ require  '../bloc/application.php';
 
 
 #2. Create an instance of the application
-$app = new Application(['mode' => getenv('MODE') ?: 'production']);
+$app = Application::instance(['mode' => getenv('MODE') ?: 'production']);
+
 
 // this is non functional, but indicates some meta programming potential.
 $app->prepare('session-start', function ($app) {
