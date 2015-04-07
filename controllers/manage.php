@@ -1,6 +1,8 @@
 <?php
 namespace controllers;
-use \bloc\view as View;
+use \bloc\View;
+use \bloc\View\Renderer;
+use \bloc\Types\String;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -15,8 +17,8 @@ class Manage extends \bloc\controller
   
   public function __construct($request)
   {
-    View::addRenderer('before', view\renderer::addPartials($this));
-    View::addRenderer('after', view\renderer::HTML());
+    View::addRenderer('before', Renderer::addPartials($this));
+    View::addRenderer('after', Renderer::HTML());
     
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
@@ -54,9 +56,9 @@ class Manage extends \bloc\controller
       'password' => null, 
       'redirect' => $redirect,
       'tokens'   => [
-        'username' => \bloc\types\string::rotate('username', $token),
-        'password' => \bloc\types\string::rotate('password', $token),
-        'redirect' => \bloc\types\string::rotate('redirect', $token),
+        'username' => String::rotate('username', $token),
+        'password' => String::rotate('password', $token),
+        'redirect' => String::rotate('redirect', $token),
       ]
       
     ]);
@@ -70,9 +72,9 @@ class Manage extends \bloc\controller
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
         
-    $username = $request->post(\bloc\types\string::rotate('username', $token));
-    $password = $request->post(\bloc\types\string::rotate('password', $token));
-    $redirect = $request->post(\bloc\types\string::rotate('redirect', $token));
+    $username = $request->post(String::rotate('username', $token));
+    $password = $request->post(String::rotate('password', $token));
+    $redirect = $request->post(String::rotate('redirect', $token));
 
     if ($key) {
       if ($user = (new \models\person)->authenticate($username, $password)) {
@@ -133,38 +135,6 @@ class Manage extends \bloc\controller
   
   public function CLIimportfeatures()
   {
-    /*
-    
-	<features>
-	<row>
-		<id>1</id>
-		<title>Road Scholar </title>
-		<description>&lt;p&gt;
-	You might recognize Andrei Codrescu&amp;#39;s voice from his insightful commentaries on NPR, but Codrescu has also brought his unique perspective on American culture to the silver screen, via the movie &lt;i&gt;Road Scholar&lt;/i&gt;.&lt;/p&gt;
-&lt;p&gt;
-	Released in 1992, the film tells the story of his cross-country road trip in a 1968 cherry-red Cadillac. In this audio excerpt from the film, Codrescu shares his impressions of America through a lyrical blend of scrutiny, criticism, and respect.&lt;/p&gt;</description>
-		<created_at>2009-10-09 20:37:51</created_at>
-		<updated_at>2011-04-28 20:47:35</updated_at>
-		<origin_country>USA</origin_country>
-		<premier_locaction>PBS</premier_locaction>
-		<premier_date>2001</premier_date>
-		<published>1</published>
-		<permalink>NULL</permalink>
-		<delta>0</delta>
-	</row>
-    
-<records>
-  <config/>
-  <record id="f" date="today" title="s" created="1" updated="2">
-    <abstract>This is something</abstract>
-    <premier date="0" location="no"/>
-    <location geo="0,0">USA</location>
-    <media id="something" type="image">A Photo</media>
-  </record>
-</records>
-    
-    */
-    
     $word_chars = array(
       "\xe2\x80\x98" => "'", // left single quote
       "\xe2\x80\x99" => "'", // right single quote
@@ -206,6 +176,17 @@ class Manage extends \bloc\controller
         echo "something happended!";
         exit();
       }
+    }
+  }
+  
+  public function CLIaws()
+  {
+    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+    $result = $client->listBuckets();
+
+    foreach ($result['Buckets'] as $bucket) {
+        // Each Bucket value will contain a Name and CreationDate
+        echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
     }
   }
 }
