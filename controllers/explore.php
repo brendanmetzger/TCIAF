@@ -13,11 +13,11 @@ class Explore extends Manage
   protected function GETreview($id = null)
   {
     $view = new View($this->partials['layout']);
-    $db = simplexml_load_string(file_get_contents(PATH.'data/records.xml'), '\\bloc\\types\\xml', LIBXML_COMPACT);
-    $this->features = $db->xpath('//records/record[position()>=200 and position()<=203]');
 
+    $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/db5')), '\\bloc\\types\\xml', LIBXML_COMPACT);
+    $this->features = $db->xpath("/tciaf/group[@type='published']/token[position()>=0][position()<=100]");
     $view->content = 'views/feature.html';
-    $view->fieldlist = (new Document('<ul><li>[$location]</li><li>[$premier:@date]</li><li>[$premier]</li><li>[$@published]</li></ul>', [], Document::TEXT))->documentElement;
+    // $view->fieldlist = (new Document('<ul><li>[$location]</li><li>[$premier:@date]</li><li>[$premier]</li><li>[$@published]</li></ul>', [], Document::TEXT))->documentElement;
     return $view->render($this());
   }
   
@@ -27,11 +27,16 @@ class Explore extends Manage
   {
     $view = new View($this->partials['layout']);
     $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    $id = substr($id, 1);
+    $id = substr($id, 2);
     $this->s3 = 'http://s3.amazonaws.com/3rdcoast-features/mp3s';
     $this->feature = $db->query("SELECT * FROM features LEFT JOIN audio_files ON (features.id = audio_files.feature_id) WHERE features.id = '{$id}'")->fetch_assoc();
     // \bloc\application::dump($this->feature);
     $view->content = 'views/forms/file.html';
     return $view->render($this());
-  } 
+  }
+  
+  public function POSTfix($request, $id)
+  {
+    
+  }
 }

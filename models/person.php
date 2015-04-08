@@ -16,7 +16,7 @@ class Person
   
   static public function create($instance, $data)
   {
-    $agent = $instance->storage->createElement('agent', null);
+    $agent = $instance->storage->createElement('token', null);
     foreach ($data['attributes'] as $key => $value) {
       $agent->setAttribute($key, $value);
     }
@@ -35,7 +35,10 @@ class Person
   {
     if ($user = $this->storage->getElementById($username)) {
       if (password_verify($password, $user->getAttribute('hash'))) {
-        return (int)$user->getAttribute('level') <= 1 ? $user : false;
+        /*
+          TODO need a system to check for role of staff or contributor.
+        */
+        return true ? $user : false;
       }
     }
     return false;

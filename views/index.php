@@ -35,8 +35,8 @@ $app->prepare('http-request', function ($app) {
   
   // default controller and action as arguments, in case nothin doin in the request
   $view = $router->delegate('manage', 'index');
-
-  (new DOM\Element('pre', microtime(true) - $app->benchmark))->insert($view->dom->documentElement->lastChild)->setAttribute('class', 'console');
+  $benchmark =  round(microtime(true) - $app->benchmark, 4) . "s " . round(memory_get_peak_usage() / pow(1024, 2), 4). "Mb";
+  (new DOM\Element('pre', $benchmark))->insert($view->dom->documentElement->lastChild)->setAttribute('class', 'console');
 
 
   print $view;

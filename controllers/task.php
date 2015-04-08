@@ -15,7 +15,29 @@ class Task extends \bloc\controller
   public function CLIindex()
   {
     // show a list of methods.
-    print_r(get_class_methods($this));
+    $reflection_class = new \ReflectionClass($this);
+    
+    $instance_class_name = get_class($this);
+    $parent_class_name = $reflection_class->getParentClass()->name;
+    $methods = ['instance' => [], 'parent' => []];
+    
+    foreach ($reflection_class->getMethods() as $method) {
+      if (substr($method->name, 0, 3) == 'CLI') {
+        $name = $method->getDeclaringClass()->name;
+        if ($instance_class_name == $name) {
+          $methods['instance'][] = substr($method->name, 3) . "\n";
+        }
+        if ($parent_class_name == $name) {
+          $methods['parent'][] = substr($method->name, 3) . "\n";
+        }
+      }
+    }
+    
+    echo "Available Methods in {$instance_class_name}\n";
+    
+    
+    print_r($methods);
+    
   }
   
   public function CLIcompress($file)
@@ -81,6 +103,22 @@ class Task extends \bloc\controller
     }
     
     return $result;
+  }
+  
+  public function CLIaws()
+  {
+    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+    $result = $client->listObjects([
+        'Bucket' => '3rdcoast-features',
+        'MaxKeys' => 2,
+        'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
+    ]);
+    print($result);
+    // foreach ($result['Buckets'] as $bucket) {
+    //   print_r($bucket);
+    //     // Each Bucket value will contain a Name and CreationDate
+    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
+    // }
   }
 
 }

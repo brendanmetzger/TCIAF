@@ -40,4 +40,5 @@ $start = microtime(true);
 
 $app->execute('command');
 
-print "\n\nExecuted:" . (microtime(true) - $start) . "\n\n";
+print "\n\nExecuted:" . (microtime(true) - $start) . "ms. Memory Peak: " . (memory_get_peak_usage() / pow(1024, 2)). "mb\n\n";
+

@@ -8,7 +8,7 @@ use \bloc\Application;
 
 class Import extends Task
 {
-  public function CLIimportproducers()
+  public function CLIproducers()
   {
     $xml = simplexml_load_file(PATH.'data/producers.xml');
     $admin = [186, 260, 1222];
@@ -41,7 +41,7 @@ class Import extends Task
     }
   }
   
-  public function CLIimportfeatures()
+  public function CLIfeatures()
   {
     $word_chars = array(
       "\xe2\x80\x98" => "'", // left single quote
@@ -87,25 +87,187 @@ class Import extends Task
     }
   }
   
-  public function CLIaws()
+  
+  public function CLImapAudiotoFeatures()
   {
-    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
-    $result = $client->listObjects([
-        'Bucket' => '3rdcoast-features',
-        'MaxKeys' => 2,
-        'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
-    ]);
-    print($result);
-    // foreach ($result['Buckets'] as $bucket) {
-    //   print_r($bucket);
-    //     // Each Bucket value will contain a Name and CreationDate
-    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
-    // }
+    $doc = new \bloc\DOM\Document('data/db');
+    $xml  = new \DomXpath($doc);
+
+
+    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    foreach ($features as $feature) {
+      $id = substr($feature->getAttribute('id'), 2);
+      $audio = $sql->query("SELECT CONCAT(id, '/', mp3_file_name) as file FROM audio_files  WHERE feature_id = '{$id}'")->fetch_assoc();
+      $media = $doc->createElement("media");
+      $media->setAttribute('src', $audio['file']);
+      $media->setAttribute('type', 'audio');
+      $feature->appendChild($media);
+      if (!$doc->validate()) {
+        echo "There was a problem regarding:\n";
+        print_r($feature);
+        exit();
+      }
+    }
+  }
+  
+  public function CLIremap()
+  {
+    $doc = new \bloc\DOM\Document('data/db');
+    $xml  = new \DomXpath($doc);
+    
+    $groups = [];
+    foreach ($xml->query("//group") as $group) {
+      $groups[$group->getAttribute('type')] = $group;
+    }
+    
+    foreach ($xml->query("//token") as $token) {
+      $group = $token->getAttribute('type');
+      echo "Moving {$token->getAttribute('title')} to {$group} group.\n"; 
+      $token->removeAttribute('type'); 
+      $groups[$group]->appendChild($token);
+    }
+    
+    if ($doc->validate()) {
+      // $doc->save(PATH.'data/db2.xml');
+    }
+  }
+  
+  public function CLImapFeaturestoProducers()
+  {
+    $doc  = new \bloc\DOM\Document('data/db2');
+    $xml  = new \DomXpath($doc);
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
+
+    foreach ($features as $feature) {
+      $id       = substr($feature->getAttribute('id'), 2);
+      $join     = $sql->query("SELECT * FROM features_producers  WHERE feature_id = '{$id}'")->fetch_assoc();
+      $pid      = ':'.$join['producer_id'];
+      $producer = $doc->getElementById($pid);
+      
+      if ($producer) {
+        $pointer = $doc->createElement("pointer");
+        $pointer->setAttribute('rel', $pid);
+        $pointer->setAttribute('type', 'producer');
+        $feature->appendChild($pointer);
+      } 
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db3.xml';
+      echo "New File: {$file}\n";
+      // $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+    
+  }
+  
+  public function CLImapPhotostoFeatures()
+  {
+    # implement
+  }
+  
+  public function CLImapAwardsToProducer()
+  {
+    $doc  = new \bloc\DOM\Document('data/db3');
+    $xml  = new \DomXpath($doc);
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $group = $xml->query("//group[@type='competition']")->item(0);
+    $driehaus  = $doc->getElementById('c:1');
+
+    $awards = $sql->query('SELECT competition_awards.feature_id, competition_awards.title as award, competition_editions.title as year_of, competitions.title as competition FROM competition_awards LEFT JOIN competition_editions ON (competition_awards.edition_id = competition_editions.id) LEFT JOIN competitions ON (competition_editions.competition_id = competitions.id)')->fetch_all(MYSQLI_ASSOC);
+    $years = [];
+    foreach ($awards as $award) {
+      if (! array_key_exists($award['year_of'], $years)) {
+        $years[$award['year_of']] = [];
+      }
+      $years[$award['year_of']][] = $award;
+    }
+    
+    foreach ($years as $key => $awards) {
+      echo "Create token for $key\n";
+      echo "Create pointer to token in {$driehaus->getAttribute('title')}\n\n";
+
+      
+      $cid = 'd:'.$key;
+      $competition = $doc->createElement('token');
+      $competition->setAttribute('id', $cid);
+      $competition->setAttribute('title', $key);
+      
+      $group->appendChild($competition);
+
+      
+      $pointer = $doc->createElement("pointer");
+      $pointer->setAttribute('rel', $cid);
+      $pointer->setAttribute('type', 'issue');
+      $driehaus->appendChild($pointer);
+      
+      foreach ($awards as $award) {
+        $subpointer = $doc->createElement('pointer', trim($award['award']));
+        $subpointer->setAttribute('rel', 's:'.$award['feature_id']);
+        $subpointer->setAttribute('type', 'winner');
+        $competition->appendChild($subpointer);
+      }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db4.xml';
+      echo "New File: {$file}\n";
+      // $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+    
+    
+  }
+  
+  public function CLIdonors()
+  {
+    $doc  = new \bloc\DOM\Document('data/db4');
+    $xml  = new \DomXpath($doc);
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $group = $xml->query("//group[@type='organization']")->item(0);
+    $driehaus  = $doc->getElementById('c:1');
+
+    foreach ($sql->query('SELECT * from donors')->fetch_all(MYSQLI_ASSOC) as $donor) {
+      $token = $doc->createElement('token');
+      $token->setAttribute('id', 'o:'.$donor['id']);
+      $token->setAttribute('title',  $donor['name']);
+      $group->appendChild($token);
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db5.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+  }
+  
+  
+  /*
+    TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.
+  */
+  public function Categories()
+  {
+    # implement
+  }
+  
+  public function Tags($value='')
+  {
+   # implement
   }
   
   public function CLISync()
   {
-    for ($i=10; $i < 50; $i++) { 
+    for ($i=10; $i < 150; $i++) { 
       $handle = curl_init();
     
       $url = 'http://local.thirdcoastfestival.org/explore/fix/:' . $i;
