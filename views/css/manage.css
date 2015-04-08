@@ -1,12 +1,29 @@
 .console {
-  background-color:rgba(0,0,0,1);
+  background-color:rgba(33,33,33,1);
   color:#fff;
-  width:95%;
+  width:97.5%;
   margin:0;
-  font-size:2em;
-  padding:2.5%;
+  font-size:1.5em;
+  padding:1.25%;
+  overflow:scroll;
+  height:1em;
   position:fixed;
   bottom:0;
   left:0;
   opacity:0.75;
+  transition:height 0.25s;
+  word-wrap: break-word;
+}
+
+.console:hover, .console.open {
+  height:50%;
+  opacity:1;
+}
+
+.console hr {
+  border-width:1px 0 0;
+  border-color:rgba(255,255,255,0.5);
+  border-style:dashed;
+  margin:1em 0;
+  display:block;
 }

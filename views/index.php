@@ -35,17 +35,37 @@ $app->prepare('http-request', function ($app) {
   
   // default controller and action as arguments, in case nothin doin in the request
   $view = $router->delegate('manage', 'index');
-  $benchmark =  round(microtime(true) - $app->benchmark, 4) . "s " . round(memory_get_peak_usage() / pow(1024, 2), 4). "Mb";
-  (new DOM\Element('pre', $benchmark))->insert($view->dom->documentElement->lastChild)->setAttribute('class', 'console');
-
-
-  print $view;
+  
+  print $app->execute('debug', $view);
   
   return true;
 });
 
 $app->prepare('clean-up', function ($app) {
   session_write_close();
+});
+
+$app->prepare('debug', function ($app, $view) {
+  if (getenv('MODE') === 'development') {
+    $log = array_reverse($app::instance()->log(round(microtime(true) - $app->benchmark, 4) . "s " . round(memory_get_peak_usage() / pow(1024, 2), 4). "Mb"));
+    
+    if ($view instanceof \bloc\view) {
+
+      $elem = (new DOM\Element('pre'))->insert($view->dom->documentElement->lastChild);
+      $elem->setAttribute('class', 'console');
+      foreach ($log as $message) {
+        $elem->appendChild($elem->ownerDocument->createTextNode(print_r($message, true)));
+        $elem->appendChild($elem->ownerDocument->createElement('hr'));
+      }
+    
+    } else {
+      echo "<pre>";
+      print_r($log);
+      echo "</pre>";
+    }
+  }
+  
+  return $view;
 });
 
 

@@ -245,7 +245,7 @@ class Import extends Task
     if ($doc->validate()) {
       $file = 'data/db5.xml';
       echo "New File: {$file}\n";
-      $doc->save(PATH . $file);
+      // $doc->save(PATH . $file);
       
       $this->CLIcompress($file);
     }

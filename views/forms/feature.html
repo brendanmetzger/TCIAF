@@ -1,0 +1,52 @@
+<form name="uploadData" method="POST" action="[/explore/edit/$feature:@id]">
+  <input type="hidden" name="attributes[created]" value="[$feature:@created]" />
+  
+  <h1>[Edit $feature:title]</h1>
+
+  <label for="title">Title</label>
+  <input type="text" name="title" value="[$feature:@title]" id="title" />
+  
+  <label for="description">Description</label>
+  <textarea name="description" rows="8" cols="40" id="description">[$feature:abstract]</textarea>
+  
+  
+  
+  <label for="location">Origin Country</label>
+  <input type="text" name="location" value="[$feature:location]" id="location" />
+  
+  <label for="premier">Premier Location</label>
+  <input type="text" name="premier[CDATA]" value="[$feature:premier]" id="premier" />
+  
+  <label for="premier_date">Premier Date</label>
+  <input type="text" name="premier[attributes][date]" value="[$feature:premier:@date]" id="premier_date" />
+  
+  <br/>
+  <input type="hidden" name="media[attributes][src]" value="[$feature:media:@src]" />
+  <input type="hidden" name="media[attributes][type]" value="[$feature:media:@type]" />
+  
+  <audio src="[$s3/$feature:media:@src]" controls="controls" preload="none">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <!--iterate pointers -->
+  <div>
+    <h2>[$pointer:@type: $rel:@title]</h2>
+    <p>[$rel:abstract]</p>
+    <input type="hidden" name="[pointer[$pointer:@rel][attributes][type]]" value="[$pointer:@type]" id="[type_$pointer:@rel]" />
+    <input type="hidden" name="[pointer[$pointer:@rel][attributes][rel]]" value="[$pointer:@rel]" id="[$pointer:@rel]" />
+  </div>
+  
+  <input type="file" name="fileChooser" value="" id="fileChooser" />
+  <script type="text/javascript">
+  // <![CDATA[
+    var file = document.getElementById('fileChooser');
+    file.addEventListener('change', function (evt) {
+      console.log(this.files);
+    }, false);
+    console.log(file);
+  //]]>
+  </script>
+  
+  <button type="submit">Submit</button>
+    
+</form>
