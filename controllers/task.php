@@ -26,6 +26,14 @@ class Task extends \bloc\controller
     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
   }
   
+  public function CLILogout()
+  {
+    if (unlink("/tmp/curlCookies.txt")) {
+      echo "\nGoodbye!\n";
+    }
+    
+  }
+  
   public function CLILogin($xml)
   {
     $postdata = [];
@@ -62,7 +70,8 @@ class Task extends \bloc\controller
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($handle, CURLOPT_AUTOREFERER,    true);
-    curl_setopt($handle, CURLOPT_COOKIEFILE, "");
+    curl_setopt($handle, CURLOPT_COOKIEFILE, "/tmp/curlCookies.txt");
+    curl_setopt($handle, CURLOPT_COOKIEJAR, "/tmp/curlCookies.txt");
     
     $result = curl_exec($handle);
     $info   = curl_getinfo($handle);

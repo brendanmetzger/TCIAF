@@ -105,27 +105,35 @@ class Import extends Task
   
   public function CLISync()
   {
-    $handle = curl_init();
+    for ($i=10; $i < 50; $i++) { 
+      $handle = curl_init();
     
-    $url = 'http://local.thirdcoastfestival.org/explore/fix/:15';
+      $url = 'http://local.thirdcoastfestival.org/explore/fix/:' . $i;
 
-    curl_setopt($handle, CURLOPT_URL, $url);
-    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($handle, CURLOPT_COOKIEFILE, "");
+      curl_setopt($handle, CURLOPT_URL, $url);
+      curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($handle, CURLOPT_COOKIEFILE, "/tmp/curlCookies.txt");
+      curl_setopt($handle, CURLOPT_COOKIEJAR, "/tmp/curlCookies.txt");
     
-    $result = curl_exec($handle);
-    $info   = curl_getinfo($handle);
+      $result = curl_exec($handle);
+      $info   = curl_getinfo($handle);
     
-    curl_close($handle);
+      curl_close($handle);
     
-    if ($info['http_code'] == 401) {
-      $result = $this->CLILogin($result);
-    }
+      if ($info['http_code'] == 401) {
+        $result = $this->CLILogin($result);
+      }
         
-    $xml = simplexml_load_string(html_entity_decode($result, ENT_QUOTES, "utf-8"));
-    $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
-    foreach ($xml->xpath('//xmlns:form')[0]->input as $input) {
-      print_r($input);
+      if ($xml = simplexml_load_string(html_entity_decode($result, ENT_QUOTES, "utf-8"))) {
+        $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
+        foreach ($xml->xpath('//xmlns:form')[0]->input as $input) {
+          echo $input['name'] . "\n";
+        }
+        
+      } else {
+        echo $result;
+      }
+      echo "\n\n\n";
     }
   }
 }
