@@ -1,15 +1,3 @@
-document.body.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 18) {
-    document.body.querySelector('.console').className = 'console open';
-  }
-}, false);
-
-document.body.addEventListener('keyup', function (evt) {
-  if (evt.keyCode === 18) {
-    document.body.querySelector('.console').className = 'console';
-  }
-}, false);
-
 function Editor() {
   document.body.addEventListener('dblclick', function (evt) {
     var elem = evt.srcElement;

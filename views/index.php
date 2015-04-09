@@ -47,16 +47,18 @@ $app->prepare('clean-up', function ($app) {
 
 $app->prepare('debug', function ($app, $view) {
   if (getenv('MODE') === 'development') {
-    $log = array_reverse($app::instance()->log(round(microtime(true) - $app->benchmark, 4) . "s " . round(memory_get_peak_usage() / pow(1024, 2), 4). "Mb"));
+    $app::instance()->log('Peak Memory: ' . round(memory_get_peak_usage() / pow(1024, 2), 4). "Mb");
+    $app::instance()->log('Executed in: ' . round(microtime(true) - $app->benchmark, 4) . "s ");
     
     if ($view instanceof \bloc\view) {
 
-      $elem = (new DOM\Element('pre'))->insert($view->dom->documentElement->lastChild);
-      $elem->setAttribute('class', 'console');
-      foreach ($log as $message) {
-        $elem->appendChild($elem->ownerDocument->createTextNode(print_r($message, true)));
-        $elem->appendChild($elem->ownerDocument->createElement('hr'));
+      $elem = (new DOM\Element('script'))->insert($view->dom->documentElement->lastChild);
+      $elem->setAttribute('type', 'text/javascript');
+      $elem->appendChild($elem->ownerDocument->createTextNode("console.group('Backend notes');"));
+      foreach (array_reverse($app::instance()->log()) as $message) {
+        $elem->appendChild($elem->ownerDocument->createTextNode(sprintf("console.log(%s);", json_encode($message))));
       }
+      $elem->appendChild($elem->ownerDocument->createTextNode("console.groupEnd();"));
     
     } else {
       echo "<pre>";

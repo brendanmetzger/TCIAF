@@ -11,14 +11,22 @@ use \bloc\types\Map;
 class Explore extends Manage
 {
 
-  protected function GETreview($id = null)
+  protected function GETreview($index = 0, $per = 10)
   {
     $view = new View($this->partials['layout']);
-
-    $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/db5')), '\\bloc\\types\\xml', LIBXML_COMPACT);
-    $this->features = $db->xpath("/tciaf/group[@type='published']/token[position()>=0][position()<=100]");
+    $cur = ($index*$per);
     
-    $view->content = 'views/feature.html';
+    $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/db5')), '\\bloc\\types\\xml', LIBXML_COMPACT);
+    $this->features = $db->xpath("/tciaf/group[@type='published']/token[position()>={$cur}][position()<={$per}]");
+    
+    if (count($this->features) == $per) {
+      $this->next = $index+1;
+    }
+    if ($index > 0) {
+      $this->prev = $index-1;
+    }
+    
+    $view->content = 'views/listing/features.html';
     // $view->fieldlist = (new Document('<ul><li>[$location]</li><li>[$premier:@date]</li><li>[$premier]</li><li>[$@published]</li></ul>', [], Document::TEXT))->documentElement;
     return $view->render($this());
   }
@@ -39,7 +47,7 @@ class Explore extends Manage
 
     $this->pointers = $points;
 
-    
+    \bloc\application::instance()->log($this->pointers);
 
     $view->content = 'views/forms/feature.html';
     return $view->render($this());
