@@ -62,7 +62,7 @@ $app->prepare('debug', function ($app, $view) {
     
     } else {
       echo "<pre>";
-      print_r($log);
+      print_r($app::instance()->log());
       echo "</pre>";
     }
   }

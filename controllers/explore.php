@@ -2,7 +2,7 @@
 namespace controllers;
 use \bloc\View;
 use \bloc\DOM\Document;
-use \bloc\types\Map;
+use \bloc\types\xml;
 
 /**
  * Explore Represents the user's interest.
@@ -16,7 +16,7 @@ class Explore extends Manage
     $view = new View($this->partials['layout']);
     $cur = ($index*$per);
     
-    $db = simplexml_load_string(gzdecode(file_get_contents(PATH.'data/db5')), '\\bloc\\types\\xml', LIBXML_COMPACT);
+    $db = xml::load('data/db5');
     $this->features = $db->xpath("/tciaf/group[@type='published']/token[position()>={$cur}][position()<={$per}]");
     
     if (count($this->features) == $per) {
@@ -31,12 +31,26 @@ class Explore extends Manage
     return $view->render($this());
   }
   
+  public function GETpeople($pid)
+  {
+    $view = new View($this->partials['layout']);
+    
+    $db = xml::load('data/db5');
+    
+    $this->person   = $db->xpath("/tciaf/group[@type='person']/token[@id='{$pid}']")[0];
+    $this->features = $db->xpath("/tciaf/group[@type='published']/token[pointer[@rel='{$pid}']]");
+    
+    $view->content = 'views/forms/person.html';
+    
+    return $view->render($this());
+  }
 
   
   protected function GETedit($id)
   {
     $view = new View($this->partials['layout']);
-    $db = simplexml_load_string(file_get_contents(PATH.'data/db5.xml'), '\\bloc\\types\\xml', LIBXML_COMPACT);
+
+    $db = xml::load('data/db5');
 
     $this->s3       = 'http://s3.amazonaws.com/3rdcoast-features/mp3s';
     $this->feature  = $db->xpath("/tciaf/group/token[@id='{$id}']")[0];

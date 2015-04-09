@@ -1,9 +1,9 @@
 body {
   font-size:62.5%;
   font-family:Inconsolata;
-  margin:5em;
-  background:#fff url(/images/pidgey.svg) no-repeat 0 0;
-  background-size:100% auto;
+  margin:10%;
+  background:#fff url(/images/pidgey.svg) no-repeat 1.5% 1.5%;
+  background-size:7.5% auto;
 }
 
 footer {
