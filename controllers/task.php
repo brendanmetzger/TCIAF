@@ -39,6 +39,40 @@ class Task extends \bloc\controller
     print_r($methods);
     
   }
+
+  public function CLIsort()
+  {
+    $doc  = new \bloc\DOM\Document('data/db5');
+    $xml  = new \DomXpath($doc);
+    
+    $order = [];
+    foreach ($xml->query('//group[@type="person"]/token') as $person) {
+      $key = strtolower(preg_replace('/\W/', '', $person->getAttribute('title')));
+      $order[$key] = $person;
+    }
+    
+    $group = $xml->query('//group[@type="person"]')->item(0);
+    
+    $placement = $group->firstChild;
+    
+    ksort($order);    
+        
+    foreach (array_reverse($order) as $node) {
+      $group->insertBefore($node, $placement);
+      $placement = $node;
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db5.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+    
+    
+    
+  }
   
   public function CLIcompress($file)
   {
