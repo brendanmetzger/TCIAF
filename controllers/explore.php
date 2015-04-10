@@ -11,7 +11,7 @@ use \bloc\types\xml;
 class Explore extends Manage
 {
 
-  protected function GETreview($index = 0, $per = 10)
+  protected function GETfeatures($index = 0, $per = 10)
   {
     $view = new View($this->partials['layout']);
     $cur = ($index*$per);
@@ -31,16 +31,26 @@ class Explore extends Manage
     return $view->render($this());
   }
   
-  public function GETpeople($pid)
+  public function GETperson($pid)
   {
     $view = new View($this->partials['layout']);
     
     $db = xml::load('data/db5');
     
-    $this->person   = $db->xpath("/tciaf/group[@type='person']/token[@id='{$pid}']")[0];
+    $this->person   = $db->findOne("/tciaf/group[@type='person']/token[@id='{$pid}']");
     $this->features = $db->xpath("/tciaf/group[@type='published']/token[pointer[@rel='{$pid}']]");
-    
+
     $view->content = 'views/forms/person.html';
+    
+    return $view->render($this());
+  }
+  
+  public function GETpeople()
+  {
+    $view = new View($this->partials['layout']);
+    $view->content = 'views/listing/people.html';
+    
+    $this->people = xml::load('data/db5')->find("/tciaf/group[@type='person']/token");
     
     return $view->render($this());
   }
@@ -55,7 +65,7 @@ class Explore extends Manage
     $this->s3_bucket = 'http://s3.amazonaws.com/3rdcoast-features/mp3s';
     $this->feature   = $data->findOne("/tciaf/group/token[@id='{$id}']");
 
-    $this->feature->pointer->map(function ($point) use($data){
+    $this->feature->pointer->map(function($point) use($data) {
       return ['rel'     => $data->findOne("/tciaf/group/token[@id='{$point['rel']}']"),
               'pointer' => $point,
             ];
