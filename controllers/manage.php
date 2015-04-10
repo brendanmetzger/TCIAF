@@ -5,6 +5,7 @@ use \bloc\View\Renderer;
 use \bloc\Types\String;
 use \bloc\Application;
 use \bloc\types\xml;
+use \bloc\types\Dictionary;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -33,6 +34,9 @@ class Manage extends \bloc\controller
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
+      $this->tasks = (new Dictionary(['people', 'features']))->map(function($task) {
+        return ['url' => "/explore/{$task}", 'name' => $task];
+      });
       $this->partials['helper'] = 'views/admin.html';
     }
   }
