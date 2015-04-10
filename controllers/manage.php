@@ -4,6 +4,7 @@ use \bloc\View;
 use \bloc\View\Renderer;
 use \bloc\Types\String;
 use \bloc\Application;
+use \bloc\types\xml;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -25,12 +26,10 @@ class Manage extends \bloc\controller
     
 		$this->year = date('Y');
     $this->title = "Third Coast";
-    $this->supporters = [
-      ['name' => 'The MacArthur Foundation'],
-      ['name' => 'The Richard H. Driehaus Foundation'],
-      ['name' => 'The Boeing Company'],
-      ['name' => 'Individual Donors']
-    ];
+
+    $this->supporters = xml::load('data/db5')->find("//group[@type='organization']/token[@id='TCIAF']/pointer[@type='sponsor']")->map(function($supporter) {
+      return xml::load('data/db5')->findOne("//group[@type='organization']/token[@id='{$supporter['rel']}']");
+    });
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
@@ -65,7 +64,6 @@ class Manage extends \bloc\controller
         'password' => String::rotate('password', $token),
         'redirect' => String::rotate('redirect', $token),
       ]
-      
     ]);
       
     return $view->render($this());
