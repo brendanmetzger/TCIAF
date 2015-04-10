@@ -50,7 +50,12 @@ class Explore extends Manage
     $view = new View($this->partials['layout']);
     $view->content = 'views/listing/people.html';
     
-    $this->people = xml::load('data/db5')->find("/tciaf/group[@type='person']/token");
+    $this->people = xml::load('data/db5')->find("/tciaf/group[@type='person']/token[position()<100]")->map(function($person) {
+      $person['title'] = strtoupper($person['title']);
+      return $person;
+    });
+    
+    
     
     return $view->render($this());
   }
@@ -66,11 +71,12 @@ class Explore extends Manage
     $this->feature   = $data->findOne("/tciaf/group/token[@id='{$id}']");
 
     $this->feature->pointer->map(function($point) use($data) {
+      \bloc\application::instance()->log($point);
       return ['rel'     => $data->findOne("/tciaf/group/token[@id='{$point['rel']}']"),
               'pointer' => $point,
             ];
     });
-    
+
     return $view->render($this());
   }
   
