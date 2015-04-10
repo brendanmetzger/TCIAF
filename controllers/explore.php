@@ -49,21 +49,18 @@ class Explore extends Manage
   protected function GETedit($id)
   {
     $view = new View($this->partials['layout']);
-
-    $db = xml::load('data/db5');
-
-    $this->s3       = 'http://s3.amazonaws.com/3rdcoast-features/mp3s';
-    $this->feature  = $db->xpath("/tciaf/group/token[@id='{$id}']")[0];
-
-    foreach ($this->feature->pointer as $point) {
-      $points[] = ['rel' => $db->xpath("/tciaf/group/token[@id='{$point['rel']}']")[0], 'pointer' => $point];
-    }
-
-    $this->pointers = $points;
-
-    \bloc\application::instance()->log($this->pointers);
-
     $view->content = 'views/forms/feature.html';
+    $data = xml::load('data/db5');
+
+    $this->s3_bucket = 'http://s3.amazonaws.com/3rdcoast-features/mp3s';
+    $this->feature   = $data->findOne("/tciaf/group/token[@id='{$id}']");
+
+    $this->feature->pointer->map(function ($point) use($data){
+      return ['rel'     => $data->findOne("/tciaf/group/token[@id='{$point['rel']}']"),
+              'pointer' => $point,
+            ];
+    });
+    
     return $view->render($this());
   }
   
