@@ -29,7 +29,7 @@ class Manage extends \bloc\controller
     $this->title = "Third Coast";
 
     $this->supporters = xml::load('data/db5')->find("//group[@type='organization']/token[@id='TCIAF']/pointer[@type='sponsor']")->map(function($supporter) {
-      return xml::load('data/db5')->findOne("//group[@type='organization']/token[@id='{$supporter['rel']}']");
+      return xml::load('data/db5')->findOne("//group[@type='organization']/token[@id='{$supporter['token']}']");
     });
     
     if ($this->authenticated) {
