@@ -32,7 +32,9 @@ $app->prepare('http-request', function ($app) {
   // default controller and action as arguments, in case nothin doin in the request
   $response->setBody($router->delegate('manage', 'index'));
   
+
   $app->execute('debug', $response);
+
   
   print $response;
 });

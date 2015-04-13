@@ -30,8 +30,8 @@ $app->prepare('command', function ($app) {
   $router  = new Router('controllers', $request);
   
   // default controller and action as arguments, in case nothin doin in the request
-  $view = $router->delegate('task', 'index');
-  echo $view;
+  echo $router->delegate('task', 'index');
+
   return true;
 });
 

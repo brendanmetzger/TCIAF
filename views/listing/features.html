@@ -1,4 +1,4 @@
-<section>
+<section class="features">
   <!-- insert views/partials/pagination.html -->
   <!-- iterate features -->
   <div data-created-at="[$feature:@created]" data-updated-at="[$feature:@age]">
@@ -10,4 +10,11 @@
     <p>[$feature:abstract]</p>
     <!-- replace fieldlist -->
   </div>
+  <style type="text/css" media="screen">
+    .features div {
+      border:1px solid #aaa;
+      margin:1em;
+      padding:1em;
+    }
+  </style>
 </section>
