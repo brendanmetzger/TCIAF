@@ -65,12 +65,23 @@ class Task extends \bloc\controller
     if ($doc->validate()) {
       $file = 'data/db5.xml';
       echo "New File: {$file}\n";
-      $doc->save(PATH . $file);
+      // $doc->save(PATH . $file);
       
       $this->CLIcompress($file);
     }
-    
-    
+  }
+  
+  public function CLIvalid()
+  {
+    libxml_use_internal_errors(true);
+    $doc  = new \bloc\DOM\Document('data/db5');
+    if ($doc->validate()) {
+      
+    } else {
+      foreach(libxml_get_errors() as $error) {
+        print_r($error);
+      }
+    }
     
   }
   

@@ -2,7 +2,7 @@
 namespace controllers;
 use \bloc\View;
 use \bloc\DOM\Document;
-use \bloc\types\xml;
+use \bloc\types\XML;
 use \bloc\types\Dictionary;
 
 /**
@@ -16,11 +16,11 @@ class Explore extends Manage
   {
     $view = new View($this->partials['layout']);
     
-    $db = xml::load('data/db5');
+    $db = XML::load('data/db5');
     
     $this->features = $db->find("//group[@type='published']/token")->map(function($feature) use($db){
       
-      $feature->name = (string)$db->findOne("//group[@type='person']/token[@id='{$feature->pointer['rel']}']")['title'];
+      $feature->name = (string)$db->findOne("//group[@type='person']/token[@id='{$feature->pointer['token']}']")['title'];
       return $feature;
       
     })->limit($index, $per, $this->setProperty('paginate', ['prefix' => 'explore/features']));
@@ -34,23 +34,24 @@ class Explore extends Manage
   public function GETperson($pid)
   {
     $view = new View($this->partials['layout']);
+    $view->content = 'views/forms/person.html';
     
-    $db = xml::load('data/db5');
+    $db = XML::load('data/db5');
     
     $this->person   = $db->findOne("//group[@type='person']/token[@id='{$pid}']");
-    $this->features = $db->xpath("//group[@type='published']/token[pointer[@rel='{$pid}']]");
+    $this->features = $db->find("//group[@type='published']/token[pointer[@token='{$pid}']]");
 
-    $view->content = 'views/forms/person.html';
+    
     
     return $view->render($this());
   }
   
-  public function GETpeople($type = 'producer', $index =0, $per = 100)
+  public function GETpeople($type = 'producer', $index = 0, $per = 100)
   {
     $view = new View($this->partials['layout']);
     $view->content = 'views/listing/people.html';
 
-    $this->people = xml::load('data/db5')->find("id(//group[@type='published']//pointer[@type='{$type}']/@rel)")->map(function($person) {
+    $this->people = XML::load('data/db5')->find("id(//group[@type='published']//pointer[@type='{$type}']/@token)")->map(function($person) {
         
         $person['title'] = strtoupper($person['title']);
         return $person;
@@ -66,13 +67,13 @@ class Explore extends Manage
   {
     $view = new View($this->partials['layout']);
     $view->content = 'views/forms/feature.html';
-    $data = xml::load('data/db5');
+    $data = XML::load('data/db5');
 
     $this->s3_url  = $data->findOne('/tciaf/config/key[@id="k:s3"]');
     $this->feature = $data->findOne("/tciaf/group/token[@id='{$id}']");
     
     $this->feature->pointer->map(function($point) use($data) {
-      return ['rel'     => $data->findOne("//token[@id='{$point['rel']}']"),
+      return ['token'     => $data->findOne("//token[@id='{$point['token']}']"),
               'pointer' => $point,
             ];
     });

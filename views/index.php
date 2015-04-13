@@ -35,6 +35,7 @@ $app->prepare('http-request', function ($app) {
   
   // default controller and action as arguments, in case nothin doin in the request
   $view = $router->delegate('manage', 'index');
+    
   
   print $app->execute('debug', $view);
   

@@ -24,7 +24,7 @@ class Manage extends \bloc\controller
     View::addRenderer('after', Renderer::HTML());
     
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
-    
+
 		$this->year = date('Y');
     $this->title = "Third Coast";
 

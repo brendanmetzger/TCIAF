@@ -28,10 +28,10 @@
   
   <!--iterate feature:pointer -->
   <div>
-    <h2><a href="[/explore/person/$rel:@id]">[$pointer:@type: $rel:@title]</a></h2>
-    <p>[$rel:abstract]</p>
-    <input type="hidden" name="[pointer[$pointer:@rel][attributes][type]]" value="[$pointer:@type]" id="[type_$pointer:@rel]" />
-    <input type="hidden" name="[pointer[$pointer:@rel][attributes][rel]]" value="[$pointer:@rel]" id="[$pointer:@rel]" />
+    <h2><a href="[/explore/person/$token:@id]">[$pointer:@type: $token:@title]</a></h2>
+    <p>[$token:abstract]</p>
+    <input type="hidden" name="[pointer[$pointer:@token][attributes][type]]" value="[$pointer:@type]" id="[type_$pointer:@token]" />
+    <input type="hidden" name="[pointer[$pointer:@token][attributes][token]]" value="[$pointer:@token]" id="[$pointer:@token]" />
   </div>
   
   <input type="file" name="fileChooser" value="" id="fileChooser" />
