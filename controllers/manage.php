@@ -28,10 +28,8 @@ class Manage extends \bloc\controller
 		$this->year = date('Y');
     $this->title = "Third Coast";
 
-    $this->supporters = xml::load('data/db5')->find("//group[@type='organization']/token[@id='TCIAF']/pointer[@type='sponsor']")->map(function($supporter) {
-      return xml::load('data/db5')->findOne("//group[@type='organization']/token[@id='{$supporter['token']}']");
-    });
-    
+    $this->supporters = xml::load('data/db6')->find("//token[pointer[@token='TCIAF' and @type='sponsor']]");
+        
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['people', 'features']))->map(function($task) {
@@ -48,9 +46,7 @@ class Manage extends \bloc\controller
   
   public function GETlogin($redirect, $username = null, $message = null)
   {
-    View::addRenderer('preflight', function ($view) {
-      header("HTTP/1.0 401 Unauthorized");
-    });
+    Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
     $view = new View($this->partials['layout']);
     $view->content = 'views/forms/credentials.html';

@@ -11,9 +11,7 @@ class Assets extends Manage
 
   public function GETimage($file = null)
   {
-    View::addRenderer('preflight', function ($view) {
-      header('Content-Type: image/svg+xml; charset=utf-8');
-    });
+    
     $view = new View('views/images/pidgey.svg');
     $this->brown = '#FFF' ?: '#88746A';
     $this->red = '#FF0000' ?: '#EE3124';

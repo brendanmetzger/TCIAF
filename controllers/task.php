@@ -71,6 +71,30 @@ class Task extends \bloc\controller
     }
   }
   
+  public function CLIpointerproducer()
+  {
+    $doc  = new \bloc\DOM\Document('data/db5');
+    $xml  = new \DomXpath($doc);
+    
+    $pointers = $xml->query('//group[@type="published" or @type="unpublished"]/token/pointer');
+    
+    foreach ($pointers as $pointer) {
+      $token = $doc->getElementById($pointer->getAttribute('token'));
+      $pointer->setAttribute('token', $pointer->parentNode->getAttribute('id'));
+      $token->appendChild($pointer);
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db6.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+    
+    
+  }
+  
   public function CLIvalid()
   {
     libxml_use_internal_errors(true);

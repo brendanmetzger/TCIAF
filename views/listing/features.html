@@ -1,10 +1,13 @@
 <section>
   <!-- insert views/partials/pagination.html -->
   <!-- iterate features -->
-  <div data-created-at="[$@created]" data-updated-at="[$@age]">
-    <h2><a href="[/explore/edit/$@id]">[$@title]</a></h2>
-    <cite>[by $name]</cite>
-    <p>[$abstract]</p>
+  <div data-created-at="[$feature:@created]" data-updated-at="[$feature:@age]">
+    <h2><a href="[/explore/edit/$feature:@id]">[$feature:@title]</a></h2>
+    
+    <!-- iterate producers -->
+    <cite><a href="[/explore/person/$@id]">[by $@title]</a></cite>
+    
+    <p>[$feature:abstract]</p>
     <!-- replace fieldlist -->
   </div>
 </section>

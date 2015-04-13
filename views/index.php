@@ -17,43 +17,41 @@ $app->prepare('session-start', function ($app) {
   $app::session('TCIAF');
 });
 
-$app->prepare('before-output', function ($app) {
-  $needle = 'HTTP_X_REQUESTED_WITH';
-  if (array_key_exists($needle, $_SERVER) && $_SERVER[$needle] == 'XMLHttpRequest' ) {
-    View::addRenderer('preflight', function ($view) {
-      $view->context = $view->dom->documentElement->lastChild;
-      header('Content-Type: application/xml; charset=utf-8');
-    });
-  }
-});
 
 # main page deal
 $app->prepare('http-request', function ($app) {
+
+  $request  = new Request($_REQUEST);
+  $response = new Response($request);
+
+  $app->setExchanges($request, $response);
   
   // Provide a namespace (also a directory) to load objects that can respond to controller->action
-  $router  = new router('controllers', new request($_REQUEST));
+  $router  = new Router('controllers', $request);
   
   // default controller and action as arguments, in case nothin doin in the request
-  $view = $router->delegate('manage', 'index');
-    
+  $response->setBody($router->delegate('manage', 'index'));
   
-  print $app->execute('debug', $view);
+  $app->execute('debug', $response);
   
-  return true;
+  print $response;
 });
+
 
 $app->prepare('clean-up', function ($app) {
   session_write_close();
 });
 
-$app->prepare('debug', function ($app, $view) {
+
+$app->prepare('debug', function ($app, $response) {
   if (getenv('MODE') === 'development') {
     $app::instance()->log('Peak Memory: ' . round(memory_get_peak_usage() / pow(1024, 2), 4). "Mb");
     $app::instance()->log('Executed in: ' . round(microtime(true) - $app->benchmark, 4) . "s ");
     
-    if ($view instanceof \bloc\view) {
-
-      $elem = (new DOM\Element('script'))->insert($view->dom->documentElement->lastChild);
+    $output = $response->getBody();
+    if ($output instanceof \bloc\view) {
+      
+      $elem = (new DOM\Element('script'))->insert($output->dom->documentElement->lastChild);
       $elem->setAttribute('type', 'text/javascript');
       $elem->appendChild($elem->ownerDocument->createTextNode("console.group('Backend notes');"));
       foreach (array_reverse($app::instance()->log()) as $message) {
@@ -62,18 +60,17 @@ $app->prepare('debug', function ($app, $view) {
       $elem->appendChild($elem->ownerDocument->createTextNode("console.groupEnd();"));
     
     } else {
-      echo "<pre>";
-      print_r($app::instance()->log());
-      echo "</pre>";
+      // echo "<pre>";
+      // print_r($app::instance()->log());
+      // echo "</pre>";
     }
   }
   
-  return $view;
+  return $output;
 });
 
 
 #4. Run the app. Nothing happens w/o this. Can call different stuff from the queue.
 $app->execute('session-start');
-$app->execute('before-output');
 $app->execute('http-request');
 $app->execute('clean-up');
