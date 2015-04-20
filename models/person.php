@@ -7,46 +7,53 @@ namespace models;
 
 class Person
 {
-  public $storage;
+  public $context;
   
-  public function __construct()
+  public function __construct($id = null)
   {
-    $this->storage = new \bloc\DOM\Document('data/agents', ['validateOnParse' => true]);    
+    if ($id !== null) {
+      if (! $this->context = Token::storage()->getElementById($id)) {
+        throw new \InvalidArgumentException("{$id}... Doesn't ring a bell.", 1);
+      }
+    }
   }
   
   static public function create($instance, $data)
   {
-    $agent = $instance->storage->createElement('token', null);
+    $token = Token::storage()->createElement('token', null);
+    
     foreach ($data['attributes'] as $key => $value) {
-      $agent->setAttribute($key, $value);
+      $token->setAttribute($key, $value);
     }
     
-    $instance->storage->documentElement->appendChild($agent);
+    Token::storage()->appendChild($token);
     
     if (!empty($data['abstract'])) {
-      $abstract = $agent->appendChild($instance->storage->createElement('abstract', $data['abstract']['CDATA']));
+      $abstract = $token->appendChild($instance->storage->createElement('abstract', $data['abstract']['CDATA']));
       $abstract->setAttribute('content', $data['abstract']['content']);
     }
     
     return $instance->storage->validate() ? $instance : false;
   }
   
-  public function authenticate($username, $password, $role = 1)
+  public function authenticate($password)
   {
-    if ($user = $this->storage->getElementById($username)) {
-      if (password_verify($password, $user->getAttribute('hash'))) {
-        /*
-          TODO need a system to check for role of staff or contributor.
-        */
-        return true ? $user : false;
-      }
+    if (! password_verify($password, $this->context->getAttribute('hash'))) {
+      throw new \InvalidArgumentException("Might I ask you to try once more?", 1);
     }
-    return false;
+    return $this->context;
+  }
+  
+  public function authorize()
+  {
+    /*
+      TODO need a system to check for role of staff or contributor.
+    */
   }
   
   public function save()
   {
-    $file = PATH . 'data/agents.xml';
-    return $this->storage->save($file);
+    // $file = PATH . 'data/agents.xml';
+    return Token::storage()->save($file);
   }
 }

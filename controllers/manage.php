@@ -14,12 +14,13 @@ use \bloc\types\Dictionary;
 class Manage extends \bloc\controller
 {
 
-  protected $partials = [
-    'layout' => 'views/layout.html',
-  ];
+  protected $partials;
   
   public function __construct($request)
   {
+    $this->partials = new \StdClass();
+    $this->partials->layout = 'views/layout.html';
+
     View::addRenderer('before', Renderer::addPartials($this));
     View::addRenderer('after', Renderer::HTML());
     
@@ -28,27 +29,27 @@ class Manage extends \bloc\controller
 		$this->year = date('Y');
     $this->title = "Third Coast";
 
-    $this->supporters = xml::load('data/db6')->find("//token[pointer[@token='TCIAF' and @type='sponsor']]");
+    $this->supporters = xml::load(\models\Token::DB)->find("/tciaf/token[pointer[@token='TCIAF' and @type='sponsor']]");
         
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['people', 'features']))->map(function($task) {
         return ['url' => "/explore/{$task}", 'name' => $task];
       });
-      $this->partials['helper'] = 'views/admin.html';
+      $this->partials->helper = 'views/admin.html';
     }
   }
   
   public function GETindex()
   {
-    return (new View($this->partials['layout']))->render($this());
+    return (new View($this->partials->layout))->render($this());
   }
   
   public function GETlogin($redirect, $username = null, $message = null)
   {
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
-    $view = new View($this->partials['layout']);
+    $view = new View($this->partials->layout);
     $view->content = 'views/forms/credentials.html';
 
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
@@ -79,11 +80,12 @@ class Manage extends \bloc\controller
     $redirect = $request->post(String::rotate('redirect', $token));
     
     if ($key) {
-      if ($user = (new \models\person)->authenticate($username, $password)) {
+      try {
+        $user = (new \models\person($username))->authenticate($password);
         Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('id')]);
         \bloc\router::redirect($redirect);
-      } else {
-        $message = "Your credentials weren't quite right.";
+      } catch (\InvalidArgumentException $e) {
+        $message = $e->getMessage();
       }
     } else {
       $message = "This form has expired - it can happen.. try again!";
