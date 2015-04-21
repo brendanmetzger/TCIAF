@@ -1,10 +1,23 @@
-<form>
-  <h2>[$person:@title]</h2>
-  <p>[$person:abstract]</p>
+<form action="[/explore/edit/person/$item:@id]" method="POST" class="editor">
+  <input type="hidden" name="token[@][id]" value="[$item:@id]" />
+  <input type="hidden" name="token[@][created]" value="[$item:@created]" />
+  <input type="hidden" name="token[@][age]" value="[$item:@age]" />
   
-  <!-- iterate features -->
+  <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text"/>
+  <label for="title">Title</label>
+  
+  <textarea id="abstract" name="token[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
+  <label for="abstract">Abstract</label>
+  
+  <textarea id="raw" class="console">[$raw]</textarea>
+  
+  
+  <!-- iterate item:pointer -->
   <div>
-    <h3><a href="[/explore/edit/$@id]">[$@title]</a></h3>
-    <p>[$abstract]</p>
+    <input type="hidden" name="[token[pointer][$pointer:@id][type]]" value="[$pointer:@type]" />
+    <input type="hidden" name="[token[pointer][$pointer:@id][token]]" value="[$pointer:@id]" />
+    <h3><a href="[/explore/edit/feature/$token:@id]">[$token:@title]</a></h3>
+    <p>[$token:abstract]</p>
   </div>
+  <button>submit</button>
 </form>

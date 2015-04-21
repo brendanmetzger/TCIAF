@@ -3,14 +3,25 @@
   color:#fff;
   width:97.5%;
   margin:0;
-  font-size:1.5em;
-  padding:1.25%;
+  font-size:1.25em;
+  padding:2em 1.25%;
+  display:block;
   overflow:scroll;
-  height:1em;
   position:fixed;
   bottom:0;
   left:0;
   opacity:0.75;
+  font-family:Inconsolata;
+  line-height:1em;
   transition:height 0.25s;
-  word-wrap: break-word;
+  white-space: pre;
 }
+
+form.editor .text + label {
+  color:#ddd;
+}
+
+form.editor .text:focus + label {
+  color:#00A4E4;
+}
+

@@ -10,20 +10,19 @@ class Token
 {
   const DB = 'data/db6';
   
-  private $storage = [];
-  static public function storage($type = 'doc')
+  private $storage = null;
+  static public function storage()
   {
     static $instance = null;
     
     if ($instance === null) {
       $instance = new static();
     }
-    return $instance->storage[$type];
+    return $instance->storage;
   }
   
   private function __construct()
   {
-    $this->storage['doc']   = new Document(self::DB, ['validateOnParse' => true]);
-    $this->storage['xpath'] = null ;
+    $this->storage = new Document(self::DB, ['validateOnParse' => true]);
   }
 }

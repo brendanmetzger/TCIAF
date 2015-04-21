@@ -7,7 +7,25 @@ namespace models;
 
 class Person
 {
-  public $context;
+  public $context = null;
+  
+  static public $fixture = [
+    'token' => [
+      '@' => [
+        'id'      => null,
+        'level'   => 0,
+        'title'    => '',
+        'created' => '',
+        'updated' => '',
+      ],
+      'abstract' => [
+        'CDATA'   => '',
+        '@' => [
+          'content' => 'bio'
+        ]
+      ]
+    ]
+  ];
   
   public function __construct($id = null)
   {
@@ -20,20 +38,25 @@ class Person
   
   static public function create($instance, $data)
   {
-    $token = Token::storage()->createElement('token', null);
-    
-    foreach ($data['attributes'] as $key => $value) {
-      $token->setAttribute($key, $value);
+    if ($instance->context === null) {
+      $instance->context = Token::storage()->createElement('token', null);
+      Token::storage()->pick('//group[@type="person"]')->appendChild($instance->context);
     }
     
-    Token::storage()->appendChild($token);
+    $data = array_replace_recursive(self::$fixture, $data);
     
-    if (!empty($data['abstract'])) {
-      $abstract = $token->appendChild($instance->storage->createElement('abstract', $data['abstract']['CDATA']));
-      $abstract->setAttribute('content', $data['abstract']['content']);
+    return $data;
+    
+    foreach ($data['token']['@'] as $key => $value) {
+      $instance->context->setAttribute($key, $value);
     }
     
-    return $instance->storage->validate() ? $instance : false;
+    if (!empty($data['token']['abstract'])) {
+      $abstract = $instance->context->appendChild(Token::storage()->createElement('abstract', $data['token']['abstract']['CDATA']));
+      $abstract->setAttribute('content', $data['token']['abstract']['@']['content']);
+    }
+    
+    return Token::storage()->validate() ? $instance : false;
   }
   
   public function authenticate($password)

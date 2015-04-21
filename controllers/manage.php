@@ -93,4 +93,9 @@ class Manage extends \bloc\controller
     
     return $this->GETLogin($redirect, $username, $message);
   }
+  
+  public function POSTadd($request, $model)
+  {
+    \bloc\application::instance()->log(NS.'models'.NS.$model);
+  }
 }
