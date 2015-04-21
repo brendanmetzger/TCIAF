@@ -26,7 +26,13 @@ textarea {
 input, textarea {
   font-size:1.5em;
   width:100%;
-  border-color:#ddd;
+  border-color:#eee;
   border-style:solid;
-  border-width:0 0 1px;
+  transition:box-shadow 0.25s;
+}
+
+.text:focus {
+  outline:1px solid #EEE;
+  box-shadow:-0.075em -0.075em 0.25em rgba(0,0,0,0.05);
+  border:none;
 }

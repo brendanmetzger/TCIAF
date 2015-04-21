@@ -63,14 +63,16 @@ class Explore extends Manage
     
     $this->references = $data->find("/tciaf/group/token[pointer[@token='{$id}']]");
     
-    $this->raw = $this->item->asXML();
-
     return $view->render($this());
   }
 
-  protected function POSTedit($request, $type, $id)
+  protected function POSTedit($request, $type, $id = null)
   {
-    echo "<pre>";
-    print_r($_POST);
+    $class = "\\Models\\{$type}";
+    
+    $thing = $class::create(new $class($id), $_POST);
+    $thing->save();
+    
+    \bloc\application::instance()->log($thing);
   }
 }

@@ -62,9 +62,7 @@ $app->prepare('debug', function ($app, $response) {
       $elem->appendChild($elem->ownerDocument->createTextNode("console.groupEnd();"));
     
     } else {
-      // echo "<pre>";
-      // print_r($app::instance()->log());
-      // echo "</pre>";
+      $response->setBody($output . "<pre>" . print_r($app::instance()->log(), true) . "</pre>");
     }
   }
   

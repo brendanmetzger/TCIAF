@@ -8,7 +8,7 @@ use \bloc\DOM\Document;
 
 class Token
 {
-  const DB = 'data/db6';
+  const DB = 'data/db7';
   
   private $storage = null;
   static public function storage()

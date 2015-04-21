@@ -18,10 +18,22 @@
 }
 
 form.editor .text + label {
-  color:#ddd;
+  height:0;
+  padding-top:1.25em;
+  transition:height 0.25s, padding-top 0.25s;
+  overflow:hidden;
+  letter-spacing:0.075em;
 }
-
 form.editor .text:focus + label {
   color:#00A4E4;
+  height:1em;
+  padding-top:0.25em;
 }
+
+
+form.editor .text {
+  margin-top:1em;
+  border-width:0 0 0 1px;
+}
+
 

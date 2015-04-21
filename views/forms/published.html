@@ -24,7 +24,10 @@
   <input type="text" name="token[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
   <label for="premier_date">Premier Date</label>
   
+  <input type="file" name="fileChooser" value="" id="fileChooser" />
+  
   <audio src="[$s3_url/$item:media:@src]" controls="controls" preload="none">[$item:media:@src]</audio>
+  
   
   <!--iterate references -->
   <div>
@@ -32,7 +35,7 @@
     <p>[$abstract]</p>
   </div>
   
-  <input type="file" name="fileChooser" value="" id="fileChooser" />
+  
   <script type="text/javascript">
   // <![CDATA[
     var file = document.getElementById('fileChooser');

@@ -13,10 +13,9 @@ class Person
     'token' => [
       '@' => [
         'id'      => null,
-        'level'   => 0,
         'title'    => '',
         'created' => '',
-        'updated' => '',
+        'age' => '',
       ],
       'abstract' => [
         'CDATA'   => '',
@@ -34,6 +33,7 @@ class Person
         throw new \InvalidArgumentException("{$id}... Doesn't ring a bell.", 1);
       }
     }
+    self::$fixture['token']['@']['age'] = (new \DateTime())->format('Y-m-d H:i:s');
   }
   
   static public function create($instance, $data)
@@ -45,8 +45,7 @@ class Person
     
     $data = array_replace_recursive(self::$fixture, $data);
     
-    return $data;
-    
+        
     foreach ($data['token']['@'] as $key => $value) {
       $instance->context->setAttribute($key, $value);
     }
@@ -55,6 +54,7 @@ class Person
       $abstract = $instance->context->appendChild(Token::storage()->createElement('abstract', $data['token']['abstract']['CDATA']));
       $abstract->setAttribute('content', $data['token']['abstract']['@']['content']);
     }
+    
     
     return Token::storage()->validate() ? $instance : false;
   }
@@ -76,7 +76,7 @@ class Person
   
   public function save()
   {
-    // $file = PATH . 'data/agents.xml';
+    $file = PATH . Token::DB . '.xml';
     return Token::storage()->save($file);
   }
 }
