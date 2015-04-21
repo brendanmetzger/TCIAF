@@ -58,10 +58,10 @@ class Explore extends Manage
     $this->item   = $data->findOne("/tciaf/group/token[@id='{$id}']");
 
     $this->item->pointer->map(function($point) use($data) {
-      return ['token'     => $data->findOne("//token[@id='{$point['token']}']"),
-              'pointer' => $point,
-            ];
+      return [ 'token' => $data->findOne("//token[@id='{$point['token']}']"), 'pointer' => $point ];
     });
+    
+    $this->references = $data->find("/tciaf/group/token[pointer[@token='{$id}']]");
     
     $this->raw = $this->item->asXML();
 
