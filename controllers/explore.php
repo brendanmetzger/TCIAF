@@ -37,11 +37,7 @@ class Explore extends Manage
 
     $this->people = XML::load(Token::DB)
                     ->find("//group[@type='person']/token[pointer[@type='{$type}']]")
-                    // ->map(function($person) {
-                    //   return $person;
-                    // })
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
-
 
     return $view->render($this());
   }
@@ -68,12 +64,20 @@ class Explore extends Manage
 
   protected function POSTedit($request, $type, $id = null)
   {
-
     $model = Token::factory($type);
-    
     $instance = $model::create(new $model($id), $_POST);
-    $instance->save();
     
-    \bloc\application::instance()->log($instance);
+    /*
+      TODO proper redirect
+    */
+    
+    /*
+      TODO retrieve validation errors and output
+    */
+    if ($instance->save()) {
+      \bloc\application::instance()->log($instance);
+    }
+    
+    
   }
 }

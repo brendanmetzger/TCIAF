@@ -36,7 +36,7 @@ class Manage extends \bloc\controller
       $this->tasks = (new Dictionary(['people', 'features']))->map(function($task) {
         return ['url' => "/explore/{$task}", 'name' => $task];
       });
-      $this->partials->helper = 'views/admin.html';
+      $this->partials->helper = 'views/partials/admin.html';
     }
   }
   
@@ -45,7 +45,7 @@ class Manage extends \bloc\controller
     return (new View($this->partials->layout))->render($this());
   }
   
-  public function GETlogin($redirect, $username = null, $message = null)
+  public function GETlogin($redirect = '/', $username = null, $message = null)
   {
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
@@ -94,14 +94,12 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  public function POSTadd($request, $model)
-  {
-    \bloc\application::instance()->log(NS.'models'.NS.$model);
-  }
-  
   protected function POSTupload($request, $name)
   {
     print_r($_FILES);
     print_r($_POST);
+    /*
+      TODO post uploaded file somewhere
+    */
   }
 }

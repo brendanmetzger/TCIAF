@@ -1,10 +1,10 @@
 body {
-  
   margin:10%;
   background:#fff url(/images/pidgey.svg) no-repeat 1.5% 1.5%;
   background-size:7.5% auto;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
 }
+
 
 h1, footer, input, textarea {
   font-family:Inconsolata;
@@ -13,7 +13,14 @@ h1, footer, input, textarea {
 footer {
   border-top:1px solid #000;
 }
-label, p {
+/* Very General Stuff*/
+.inline {display:inline;}
+
+
+
+
+
+label, p, .p {
   font-size:1.25em;
 }
 input, textarea {
@@ -40,4 +47,15 @@ input, textarea {
   outline:none;
   box-shadow:-0.075em -0.075em 0.25em rgba(0,0,0,0.05);
   border-width:1px;
+}
+
+.dashboard {
+  position:fixed;
+  top:0;
+  left:0;
+  margin:0;
+  width:80%;
+  padding:1em 10%;
+  box-shadow:0 0 0.5em rgba(0,0,0,0.1);
+  background-color:rgba(255,255,255,1);
 }

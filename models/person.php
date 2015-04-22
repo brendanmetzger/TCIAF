@@ -51,7 +51,8 @@ class Person
     }
     
     if (!empty($data['token']['abstract'])) {
-      $abstract = $instance->context->appendChild(Token::storage()->createElement('abstract', $data['token']['abstract']['CDATA']));
+      $abstract = $instance->context->getFirst('abstract') ?: $instance->context->appendChild(Token::storage()->createElement('abstract'));
+      $abstract->nodeValue = $data['token']['abstract']['CDATA'];
       $abstract->setAttribute('content', $data['token']['abstract']['@']['content']);
     }
     
