@@ -47,8 +47,7 @@ class Explore extends Manage
 
     $storage = Token::storage();
 
-    $this->s3_url = $storage->find('/tciaf/config/key[@id="k:s3"]')->pick(0);
-
+    $this->s3_url = $storage->getElementById('k:s3');
 
     $this->item = $storage->getElementById($id);
 
@@ -58,6 +57,10 @@ class Explore extends Manage
     $this->pointers = $this->item['pointer']->map(function($point) use($storage) {
       $token = $storage->getElementById($point['@token']);
       return [ 'token' => $token, 'pointer' => $point ];
+    });
+    
+    $this->spectra = (new Dictionary(range(0,5)))->map(function($item) {
+      return ['index' => $item, 'value' => rand(0,100)]; 
     });
 
 
