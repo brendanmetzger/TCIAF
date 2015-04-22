@@ -31,9 +31,16 @@ form.editor .text:focus + label {
 form.editor .text {
   margin-top:1em;
   line-height:1.25em;
-  background:#fff url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' ><line x1='1' y1='0' x2='1' y2='10' stroke='#FDA1A8' fill='none'/></svg>") repeat-y 1em 0;
-  padding-left:2em;
+  background:#fff url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' ><line x1='1' y1='0' x2='1' y2='10' stroke='#FDA1A8' fill='none'/></svg>") repeat-y 1% 0;
+  background-attachment:fixed;
+  padding:0.25em 2% 0.25em 3%;
+  width:95%;
   border-width:0 0 1px 0;
 }
+
+form.editor .text:focus {
+  padding:0.25em 3% 0.25em 2%;
+}
+
 
 

@@ -5,9 +5,12 @@
     <h2><a href="[/explore/edit/published/$feature:@id]">[$feature:@title]</a></h2>
     
     <!-- iterate producers -->
-    <cite><a href="[/explore/person/$@id]">[by $@title]</a></cite>
+    <cite>
+      <a href="[/explore/edit/person/$@id]">[by $@title]</a>
+    </cite>
     
     <p>[$feature:abstract]</p>
+    
     <!-- replace fieldlist -->
   </div>
   <style type="text/css" media="screen">

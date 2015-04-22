@@ -28,8 +28,9 @@ class Manage extends \bloc\controller
 
 		$this->year = date('Y');
     $this->title = "Third Coast";
-
-    $this->supporters = xml::load(\models\Token::DB)->find("/tciaf/group/token[pointer[@type='sponsor' and @token='TCIAF']]");
+    
+    $this->supporters = $this->features = \models\Token::storage()->find("/tciaf/group/token[pointer[@type='sponsor' and @token='TCIAF']]");
+    // $this->supporters = xml::load(\models\Token::DB)->find();
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
@@ -92,6 +93,27 @@ class Manage extends \bloc\controller
     }
     
     return $this->GETLogin($redirect, $username, $message);
+  }
+  
+  protected function GETpointer($action, $type, $pointer, $reference)
+  {
+    return 'not yet';
+    /*
+      TODO this should all be in a factory, and the 'type' would handle add/removes of whatever.
+    */
+    // $action will be add|remove
+    if ($action == 'remove') {
+      $item = \models\Token::storage()->find("/tciaf/group/token[@id='{$reference}']/pointer[@type='{$type}' and @token='{$pointer}']")->pick(0);
+      $item->parentNode->removeChild($item);
+    } else if ($action == 'add') {
+      $container = \models\Token::storage()->getElementById($reference);
+      $item = \models\Token::storage()->createElement('pointer');
+      $item->setAttribute('type', $type);
+      $item->setAttribute('token', $pointer);
+      $container->appendChild($item);
+    }
+    
+    print_r($item);
   }
   
   protected function POSTupload($request, $name)

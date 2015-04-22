@@ -2,7 +2,6 @@
 namespace controllers;
 use \bloc\View;
 use \bloc\DOM\Document;
-use \bloc\types\XML;
 use \bloc\types\Dictionary;
 use \models\Token;
 
@@ -17,13 +16,11 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content   = 'views/listing/features.html';
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
-
-    $db = XML::load(Token::DB);
-
-    $this->features = $db->find("/tciaf/group[@type='published']/token")->map(function($feature) use($db) {
+    
+    $this->features = Token::storage()->find("/tciaf/group[@type='published']/token")->map(function($feature) {
       return [
         'feature'   => $feature,
-        'producers' => $db->find("/tciaf/group[@type='person']/token[pointer[@token='{$feature['id']}']]"),
+        'producers' => Token::storage()->find("/tciaf/group[@type='person']/token[pointer[@token='{$feature['@id']}']]"),
       ];
     })->limit($index, $per, $this->setProperty('paginate', ['prefix' => 'explore/features']));
 
@@ -35,7 +32,7 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = 'views/listing/people.html';
 
-    $this->people = XML::load(Token::DB)
+    $this->people = Token::storage()
                     ->find("//group[@type='person']/token[pointer[@type='{$type}']]")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
 
@@ -48,16 +45,23 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = "views/forms/{$type}.html";
 
-    $data = XML::load(Token::DB);
+    $storage = Token::storage();
 
-    $this->s3_url = $data->findOne('/tciaf/config/key[@id="k:s3"]');
-    $this->item   = $data->findOne("/tciaf/group/token[@id='{$id}']");
+    $this->s3_url = $storage->find('/tciaf/config/key[@id="k:s3"]')->pick(0);
 
-    $this->item->pointer->map(function($point) use($data) {
-      return [ 'token' => $data->findOne("//token[@id='{$point['token']}']"), 'pointer' => $point ];
-    });
+
+    $this->item = $storage->getElementById($id);
+
+    $this->item['abstract'] =  str_replace("¶", "\n\n", (string)$this->item['abstract']);
     
-    $this->references = $data->find("/tciaf/group/token[pointer[@token='{$id}']]");
+
+    $this->pointers = $this->item['pointer']->map(function($point) use($storage) {
+      $token = $storage->getElementById($point['@token']);
+      return [ 'token' => $token, 'pointer' => $point ];
+    });
+
+
+    $this->references = $storage->find("/tciaf/group/token[pointer[@token='{$id}']]");
     
     return $view->render($this());
   }

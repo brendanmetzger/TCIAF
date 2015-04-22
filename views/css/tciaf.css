@@ -1,49 +1,85 @@
 body {
   margin:10%;
-  background:#fff url(/images/pidgey.svg) no-repeat 1.5% 1.5%;
+  background:#fff url(/images/pidgey.svg) no-repeat 1.5% 5%;
   background-size:7.5% auto;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
 }
 
 
-h1, footer, input, textarea {
-  font-family:Inconsolata;
-}
 
 footer {
   border-top:1px solid #000;
 }
-/* Very General Stuff*/
-.inline {display:inline;}
+
+/* Color ------------------- */
+
+svg .brown {fill:#88746A;}
+svg .red   {fill:#EE3124;}
+svg .blue  {fill:#5B9B98;}
+
+a {color:#88746A;}
+a:hover {color:#5B9B98;}
 
 
+/* Generic Classes -------------------*/
+
+.inline  {display:inline;}
+.margins {margin:1em;}
+.padded  {padding:1em;}
 
 
+/* Typography ------------------- */
+
+h1, footer, input, textarea {
+  font-family:Inconsolata;
+}
 
 label, p, .p {
   font-size:1.25em;
 }
-input, textarea {
-  padding:0.5em;
+
+label, cite, em, p, li {
+  font-weight:400;
+}
+
+input, textarea, legend {
+ font-size:1.5em;
+}
+
+legend {
+  text-transform:capitalize;
+}
+
+
+/* Layout ------------------- */
+
+ul, ol {
+  margin:0;
+  padding:0 0 0 2em;
 }
 
 label {
   display:block;
   margin:0.25em 0;
 }
-textarea {
-  height:10em;
+
+input, textarea, fieldset {
+  width:97%;
+  padding:0.25em 1.5%;
+  border: 1px solid #eee;
+  transition:box-shadow 0.25s, padding 0.25s, width 0.25s;
 }
-input, textarea {
-  font-size:1.5em;
-  width:100%;
-  border-color:#eee;
-  border-style:solid;
-  transition:box-shadow 0.25s, padding 0.25s;
+
+fieldset {
+  padding-bottom:1em;
+  margin-bottom:1em;
+}
+
+legend {
+  padding:0 0.5em;
 }
 
 .text:focus {
-  padding-left:1em !important;
   outline:none;
   box-shadow:-0.075em -0.075em 0.25em rgba(0,0,0,0.05);
   border-width:1px;
