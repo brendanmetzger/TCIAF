@@ -29,9 +29,10 @@ bloc.prepare(function () {
     stylesheet--;
   }
   
-  var size = window.getComputedStyle(document.querySelector('.text') || document.body, null).getPropertyValue("line-height");
-  var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"' height='"+size+"' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
-  stylesheet.insertRule('form.editor .text:focus {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ Math.floor(parseFloat(size)) + 'px' +' !important; }', 0);
+  var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
+  var size = Math.ceil(parseFloat(elem.getPropertyValue("line-height"), 10));  
+  var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
+  stylesheet.insertRule('form.editor .text:focus {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', 0);
   
   var textareas = document.querySelectorAll('textarea.text');
   for (var i = textareas.length - 1; i >= 0; i--) {

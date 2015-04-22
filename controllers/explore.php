@@ -51,7 +51,10 @@ class Explore extends Manage
 
     $this->item = $storage->getElementById($id);
 
-    $this->item['abstract'] =  str_replace("¶", "\n\n", (string)$this->item['abstract']);
+    if ($this->item['abstract'] != '') {
+      $this->item['abstract'] =  str_replace("¶", "\n\n", (string)$this->item['abstract']);
+    }
+    
     
 
     $this->pointers = $this->item['pointer']->map(function($point) use($storage) {

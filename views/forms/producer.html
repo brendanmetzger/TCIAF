@@ -1,4 +1,4 @@
-<form action="[/explore/edit/person/$item:@id]" method="POST" class="editor">
+<form action="[/explore/edit/producer/$item:@id]" method="POST" class="editor">
   <fieldset>
     <legend>Edit</legend>
     <input type="hidden" name="token[@][id]" value="[$item:@id]" />
@@ -12,9 +12,11 @@
     <label for="abstract">Abstract</label>
   </fieldset>
   
+  <hr />
+  
   <!-- iterate pointers -->
   <fieldset>
-    <legend>[also... $pointer:@type]</legend>
+    <legend>[$pointer:@type]</legend>
     <input type="hidden" name="[token[pointer][$pointer:@id][type]]" value="[$pointer:@type]" />
     <input type="hidden" name="[token[pointer][$pointer:@id][token]]" value="[$pointer:@id]" />
     <h3><a href="[/explore/edit/published/$token:@id]">[$token:@title]</a></h3>

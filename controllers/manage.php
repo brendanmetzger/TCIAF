@@ -116,7 +116,7 @@ class Manage extends \bloc\controller
     print_r($item);
   }
   
-  protected function POSTupload($request, $name)
+  protected function POSTupload($request)
   {
     print_r($_FILES);
     print_r($_POST);

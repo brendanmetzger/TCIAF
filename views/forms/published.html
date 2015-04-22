@@ -1,10 +1,7 @@
 <form name="uploadData" method="POST" action="[/explore/edit/published/$item:@id]" class="editor">
   <input type="hidden" name="token[@][id]" value="[$item:@id]" />
   <input type="hidden" name="token[@][created]" value="[$item:@created]" />
-  <input type="hidden" name="token[@][age]" value="[$item:@age]" />
-  <input type="hidden" name="token[media][@][src]" value="[$item:media:@src]" />
-  <input type="hidden" name="token[media][@][type]" value="[$item:media:@type]" />
-  
+  <input type="hidden" name="token[@][age]" value="[$item:@age]" />  
   
   <fieldset>
     <legend>Edit</legend>
@@ -27,7 +24,10 @@
   
   <fieldset>
     <legend>Media</legend>
-    <input type="file" name="fileChooser" value="" id="fileChooser" />
+    <input type="text" readonly="readonly" name="token[media][@][src]" value="[$item:media:@src]" />
+    <input type="hidden" name="token[media][@][type]" value="[$item:media:@type]" />
+    
+    <input type="file" name="uploader" id="fileChooser" />
     <audio src="[$s3_url/$item:media:@src]" controls="controls" preload="none">[$item:media:@src]</audio>
   </fieldset>
   
@@ -41,18 +41,18 @@
     
   </fieldset>
   
+  <!--iterate references -->
   <fieldset>
-    <legend>References</legend>
-    <!--iterate references -->
-    <div>
-      <h2><a href="[/explore/edit/person/$@id]">[$@title]</a></h2>
+    <legend>[$pointer:@type]</legend>
+        <h2><a href="[/explore/edit/$pointer:@type/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
       <a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a reference]</a>
       <hr/>
-    </div>
-    <a href="/manage/pointer/add/">Add Reference</a>
+
+
   </fieldset>
   
+  <a href="/manage/pointer/add/">Add Reference</a>
   
   <script type="text/javascript">
   // <![CDATA[
@@ -62,7 +62,7 @@
       file.addEventListener('change', function (evt) {
         var fd = new FormData();
             fd.append("image", this.files[0]);
-          // These extra params aren't necessary but show that you can include other data.
+
             fd.append("token[id]", 1000);
             fd.append("token[title]", 'test');
 

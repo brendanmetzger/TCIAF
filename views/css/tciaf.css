@@ -63,11 +63,17 @@ label {
   margin:0.25em 0;
 }
 
+hr {
+  border:none;
+  border-top:1px solid #eee;
+  margin:5em;
+}
+
 input, textarea, fieldset {
   width:97%;
   padding:0.25em 1.5%;
   border: 1px solid #eee;
-  transition:box-shadow 0.25s, padding 0.25s, width 0.25s;
+  transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s;
 }
 
 fieldset {
