@@ -6,7 +6,7 @@
   <input type="hidden" name="token[media][@][type]" value="[$item:media:@type]" />
   
   
-  <h1>[Edit $item:title]</h1>
+  <h2><em>[Edit $item:@title]</em></h2>
 
 
   <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text"/>
@@ -38,11 +38,19 @@
   
   <script type="text/javascript">
   // <![CDATA[
-    var file = document.getElementById('fileChooser');
-    file.addEventListener('change', function (evt) {
-      console.log(this.files);
-    }, false);
-    console.log(file);
+    bloc.prepare(function () {
+      var file = document.getElementById('fileChooser');
+      var uploader = new Upload('/manage/upload');
+      file.addEventListener('change', function (evt) {
+        var fd = new FormData();
+            fd.append("image", this.files[0]);
+          // These extra params aren't necessary but show that you can include other data.
+            fd.append("token[id]", 1000);
+            fd.append("token[title]", 'test');
+
+        uploader.attach(fd);
+      }, false);
+    });
   //]]>
   </script>
   

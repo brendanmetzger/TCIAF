@@ -68,11 +68,12 @@ class Explore extends Manage
 
   protected function POSTedit($request, $type, $id = null)
   {
-    $class = "\\Models\\{$type}";
+
+    $model = Token::factory($type);
     
-    $thing = $class::create(new $class($id), $_POST);
-    $thing->save();
+    $instance = $model::create(new $model($id), $_POST);
+    $instance->save();
     
-    \bloc\application::instance()->log($thing);
+    \bloc\application::instance()->log($instance);
   }
 }

@@ -29,8 +29,8 @@ class Manage extends \bloc\controller
 		$this->year = date('Y');
     $this->title = "Third Coast";
 
-    $this->supporters = xml::load(\models\Token::DB)->find("/tciaf/token[pointer[@token='TCIAF' and @type='sponsor']]");
-        
+    $this->supporters = xml::load(\models\Token::DB)->find("/tciaf/group/token[pointer[@type='sponsor' and @token='TCIAF']]");
+    
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['people', 'features']))->map(function($task) {
@@ -97,5 +97,11 @@ class Manage extends \bloc\controller
   public function POSTadd($request, $model)
   {
     \bloc\application::instance()->log(NS.'models'.NS.$model);
+  }
+  
+  protected function POSTupload($request, $name)
+  {
+    print_r($_FILES);
+    print_r($_POST);
   }
 }

@@ -1,9 +1,13 @@
 body {
-  font-size:62.5%;
-  font-family:Inconsolata;
+  
   margin:10%;
   background:#fff url(/images/pidgey.svg) no-repeat 1.5% 1.5%;
   background-size:7.5% auto;
+  font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
+}
+
+h1, footer, input, textarea {
+  font-family:Inconsolata;
 }
 
 footer {
@@ -28,11 +32,12 @@ input, textarea {
   width:100%;
   border-color:#eee;
   border-style:solid;
-  transition:box-shadow 0.25s;
+  transition:box-shadow 0.25s, padding 0.25s;
 }
 
 .text:focus {
-  outline:1px solid #EEE;
+  padding-left:1em !important;
+  outline:none;
   box-shadow:-0.075em -0.075em 0.25em rgba(0,0,0,0.05);
-  border:none;
+  border-width:1px;
 }
