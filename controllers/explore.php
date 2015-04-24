@@ -14,7 +14,7 @@ class Explore extends Manage
   protected function GETfeatures($index = 0, $per = 25)
   {
     $view = new View($this->partials->layout);
-    $view->content   = 'views/listing/features.html';
+    $view->content   = 'views/lists/features.html';
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
     $this->features = Token::storage()->find("/tciaf/group[@type='published']/token")->map(function($feature) {
@@ -30,8 +30,8 @@ class Explore extends Manage
   public function GETpeople($type = 'producer', $index = 0, $per = 100)
   {
     $view = new View($this->partials->layout);
-    $view->content = 'views/listing/people.html';
-
+    $view->content = 'views/lists/people.html';
+    $this->search = ['message' => 'search people'];
     $this->people = Token::storage()
                     ->find("//group[@type='person']/token[pointer[@type='{$type}']]")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
@@ -47,10 +47,17 @@ class Explore extends Manage
 
     $storage = Token::storage();
 
-    $this->s3_url = $storage->getElementById('k:s3');
-
-    $this->item = $storage->getElementById($id);
-
+    $this->s3_url  = $storage->getElementById('k:s3');
+    $this->item    = $storage->getElementById($id);
+    
+    $this->spectra = $storage->find('/tciaf/config/spectra')->map(function($item) {
+      return ['item' => $item, 'title' => $item->nodeValue];
+    });
+    
+    
+    /*
+      TODO this should go in model.
+    */
     if ($this->item['abstract'] != '') {
       $this->item['abstract'] =  str_replace("¶", "\n\n", (string)$this->item['abstract']);
     }
@@ -62,10 +69,7 @@ class Explore extends Manage
       return [ 'token' => $token, 'pointer' => $point ];
     });
     
-    $this->spectra = (new Dictionary(range(0,5)))->map(function($item) {
-      return ['index' => $item, 'value' => rand(0,100)]; 
-    });
-
+    
 
     $this->references = $storage->find("/tciaf/group/token[pointer[@token='{$id}']]");
     

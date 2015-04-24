@@ -31,18 +31,20 @@
     <audio src="[$s3_url/$item:media:@src]" controls="controls" preload="none">[$item:media:@src]</audio>
   </fieldset>
   
-  <fieldset>
+  <fieldset class="secondary">
     <legend>Spectra</legend>
     <!-- iterate spectra -->
-    <label>
-      <span>[$index]</span>
-      <input type="range" min="0" max="100" name="spectra[$index]" value="[$value]" />
+    <label class="range inline">
+      <h4>[$title]</h4>
+      <span>[$item:@from]</span>
+      <input type="range" min="0" max="100" name="spectra[$title]" value="[$value]" />
+      <span>[$item:@to]</span>
     </label>
     
   </fieldset>
   
   <!--iterate references -->
-  <fieldset>
+  <fieldset class="tertiary">
     <legend>[$pointer:@type]</legend>
         <h2><a href="[/explore/edit/$pointer:@type/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
