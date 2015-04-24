@@ -27,11 +27,11 @@ class Explore extends Manage
     return $view->render($this());
   }
 
-  public function GETpeople($type = 'producer', $index = 0, $per = 100)
+  public function GETpeople($type = 'producer', $index = 1, $per = 100)
   {
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/people.html';
-    $this->search = ['message' => 'search people'];
+    $this->search = ['topic' => 'people'];
     $this->people = Token::storage()
                     ->find("//group[@type='person']/token[pointer[@type='{$type}']]")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
@@ -40,15 +40,19 @@ class Explore extends Manage
   }
   
 
-  protected function GETedit($type, $id)
+  protected function GETedit($id)
   {
     $view = new View($this->partials->layout);
-    $view->content = "views/forms/{$type}.html";
+    
 
     $storage = Token::storage();
 
     $this->s3_url  = $storage->getElementById('k:s3');
     $this->item    = $storage->getElementById($id);
+    
+    $type = $this->item->parentNode->getAttribute('type');
+    
+    $view->content = "views/forms/{$type}.html";
     
     $this->spectra = $storage->find('/tciaf/config/spectra')->map(function($item) {
       return ['item' => $item, 'title' => $item->nodeValue];
@@ -76,9 +80,9 @@ class Explore extends Manage
     return $view->render($this());
   }
 
-  protected function POSTedit($request, $type, $id = null)
+  protected function POSTedit($request, $id = null)
   {
-    $model = Token::factory($type);
+    $model = Token::factory(Token::ID($id));
     $instance = $model::create(new $model($id), $_POST);
     
     /*

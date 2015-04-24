@@ -1,4 +1,4 @@
-<form name="uploadData" method="POST" action="[/explore/edit/published/$item:@id]" class="editor">
+<form name="uploadData" method="POST" action="[/explore/edit/$item:@id]" class="editor">
   <input type="hidden" name="token[@][id]" value="[$item:@id]" />
   <input type="hidden" name="token[@][created]" value="[$item:@created]" />
   <input type="hidden" name="token[@][age]" value="[$item:@age]" />  
@@ -31,10 +31,10 @@
     <audio src="[$s3_url/$item:media:@src]" controls="controls" preload="none">[$item:media:@src]</audio>
   </fieldset>
   
-  <fieldset class="secondary">
+  <fieldset class="secondary spectra">
     <legend>Spectra</legend>
     <!-- iterate spectra -->
-    <label class="range inline">
+    <label class="range">
       <h4>[$title]</h4>
       <span>[$item:@from]</span>
       <input type="range" min="0" max="100" name="spectra[$title]" value="[$value]" />
@@ -46,9 +46,9 @@
   <!--iterate references -->
   <fieldset class="tertiary">
     <legend>[$pointer:@type]</legend>
-        <h2><a href="[/explore/edit/$pointer:@type/$@id]">[$@title]</a></h2>
+        <h2><a href="[/explore/edit/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
-      <a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a reference]</a>
+      <a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a>
       <hr/>
 
 

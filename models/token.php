@@ -23,10 +23,21 @@ use \bloc\DOM\Document;
       }
       return $instance->storage;
     }
-  
-    static public function factory($model_name)
+    
+    static public function ID($id)
     {
-      return  NS . __NAMESPACE__ . NS . $model_name;
+      if (! $element = Token::storage()->getElementById($id)) {
+        throw new \InvalidArgumentException("{$id}... Doesn't ring a bell.", 1);
+      }
+      return $element;
+    }
+  
+    static public function factory($model_or_element)
+    {
+      if ($model_or_element instanceof \DOMElement) {
+        $model_or_element = $model_or_element->parentNode->getAttribute('type');
+      }
+      return  NS . __NAMESPACE__ . NS . $model_or_element;
     }
   
     private function __construct()

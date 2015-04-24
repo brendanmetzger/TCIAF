@@ -45,19 +45,32 @@ form.editor .text:focus {
   padding:0.25em 3% 0.25em 2%;
 }
 
-label.inline input[type='range'] {
+label + label.range {
+  display:block;
+  border-top:1px dashed #EEE;
+}
+label.range h4 {
+  background-color:#fff;
+  text-align:center;
+}
+label.range input[type='range'] {
   display: inline-block;
-  
+  cursor:pointer;
   margin:0;
   padding:0;
   width: 60%;
 }
-label.inline span {
+
+label.range span {
   display:inline-block;
   margin:0;
   padding:0;
   text-align:center;
   vertical-align:top;
-  width:19%;
+  width:19.5%;
+}
+
+.spectra {
+  background:transparent url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1' ><path d='M0,0l1,1' stroke='#EEE' fill='none'/></svg>") repeat-y 50% 0;
 }
 

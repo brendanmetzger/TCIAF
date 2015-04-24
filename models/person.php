@@ -29,9 +29,7 @@ class Person
   public function __construct($id = null)
   {
     if ($id !== null) {
-      if (! $this->context = Token::storage()->getElementById($id)) {
-        throw new \InvalidArgumentException("{$id}... Doesn't ring a bell.", 1);
-      }
+      $this->context = Token::ID($id);
     }
     self::$fixture['token']['@']['age'] = (new \DateTime())->format('Y-m-d H:i:s');
   }
