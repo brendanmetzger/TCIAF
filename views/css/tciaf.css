@@ -26,6 +26,22 @@ a:hover {color:#5B9B98;}
 .inline  {display:inline;}
 .margins {margin:1em;}
 .padded  {padding:1em;}
+.columns {
+  -webkit-column-gap: 2em;
+  -moz-column-gap: 1em;
+  column-gap: 1em;
+}
+.columns.three {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;  
+}
+.columns.ruled {
+  -webkit-column-rule: 1px solid #eee;
+  -moz-column-rule: 1px solid #eee;
+  column-rule: 1px solid #eee;
+  
+}
 
 
 /* Typography ------------------- */
@@ -112,19 +128,4 @@ legend {
   padding:1em 10%;
   box-shadow:0 0 0.5em rgba(0,0,0,0.1);
   background-color:rgba(255,255,255,1);
-}
-
-
-/* Components */
-
-form#search {
-  position:relative;
-}
-form#search ul {
-  position:absolute;
-  width:100%;
-  background-color:rgba(255,255,255,0.9);
-}
-form#search ul li {
-  padding:1em;
 }

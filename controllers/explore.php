@@ -36,6 +36,8 @@ class Explore extends Manage
                     ->find("//group[@type='person']/token[pointer[@type='{$type}']]")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
 
+
+
     return $view->render($this());
   }
   

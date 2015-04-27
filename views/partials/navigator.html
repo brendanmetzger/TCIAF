@@ -1,4 +1,19 @@
 <nav>
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+      form#search {
+        position:relative;
+      }
+      form#search ul {
+        position:absolute;
+        width:100%;
+        background-color:rgba(255,255,255,0.9);
+      }
+      form#search ul li {
+        padding:1em;
+      }
+    /* ]]> */
+  </style>
   <a href="[/$paginate:prefix/$paginate:previous]">Prev</a>
   <em>[$paginate:index of $paginate:total]</em>
   <a href="[/$paginate:prefix/$paginate:next]">Next</a>
@@ -65,13 +80,8 @@
           return;
           for (var i = 0; i < this.items.length; i++) {
             var key = this.indices[i];
-           
           }
-          
         });
-        
-        
-
       });
     // ]]>
   </script>

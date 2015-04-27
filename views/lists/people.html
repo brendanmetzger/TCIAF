@@ -1,10 +1,22 @@
 <section>
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    ul.people {
+      list-style:none;
+      font-size:1.25em;
+      padding:0;
+    }
+    ul.people li {
+      padding:0.125em;
+    }
+    /* ]]> */
+  </style>
   <!-- insert views/partials/navigator.html -->
   <ul>
     <!-- iterate roles -->
     <li><a href="[/explore/people/$role]">[$role]</a></li>
   </ul>
-  <ul>
+  <ul class="people columns three ruled">
     <!-- iterate people -->
     <li><a href="[/explore/edit/$@id]">[$@title]</a></li>
   </ul>
