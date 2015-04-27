@@ -43,5 +43,5 @@ use \bloc\DOM\Document;
     private function __construct()
     {
       $this->storage = new Document(self::DB, ['validateOnParse' => true]);
-    }
+    }    
   }

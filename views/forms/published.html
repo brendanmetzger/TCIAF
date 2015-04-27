@@ -1,7 +1,7 @@
 <form name="uploadData" method="POST" action="[/explore/edit/$item:@id]" class="editor">
   <input type="hidden" name="token[@][id]" value="[$item:@id]" />
   <input type="hidden" name="token[@][created]" value="[$item:@created]" />
-  <input type="hidden" name="token[@][age]" value="[$item:@age]" />  
+  <input type="hidden" name="token[@][updated]" value="[$item:@age]" />  
   
   <fieldset>
     <legend>Edit</legend>
@@ -24,6 +24,7 @@
   
   <fieldset>
     <legend>Media</legend>
+    
     <input type="text" readonly="readonly" name="token[media][@][src]" value="[$item:media:@src]" />
     <input type="hidden" name="token[media][@][type]" value="[$item:media:@type]" />
     
@@ -34,10 +35,10 @@
   <fieldset class="secondary spectra">
     <legend>Spectra</legend>
     <!-- iterate spectra -->
-    <label class="range">
+    <label class="range container">
       <h4>[$title]</h4>
       <span>[$item:@from]</span>
-      <input type="range" min="0" max="100" name="spectra[$title]" value="[$value]" />
+      <input type="range" min="0" max="100" name="[token[spectrum][CDATA][$item:@id]]" value="[$value]" />
       <span>[$item:@to]</span>
     </label>
     

@@ -5,20 +5,13 @@ namespace models;
  * Person
  */
 
-class Person
+class Person extends Model
 {
-  public $context = null;
+  const NAME = 'person';
   
   static public $fixture = [
     'token' => [
-      '@' => [
-        'id'      => null,
-        'title'    => '',
-        'created' => '',
-        'age' => '',
-      ],
       'abstract' => [
-        'CDATA'   => '',
         '@' => [
           'content' => 'bio'
         ]
@@ -26,13 +19,6 @@ class Person
     ]
   ];
   
-  public function __construct($id = null)
-  {
-    if ($id !== null) {
-      $this->context = Token::ID($id);
-    }
-    self::$fixture['token']['@']['age'] = (new \DateTime())->format('Y-m-d H:i:s');
-  }
   
   static public function create($instance, $data)
   {

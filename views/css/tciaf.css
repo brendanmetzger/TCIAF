@@ -21,8 +21,8 @@ a {color:#88746A;}
 a:hover {color:#5B9B98;}
 
 
-/* Generic Classes -------------------*/
-
+/* Generic Classes ------------------- */
+.container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .inline  {display:inline;}
 .margins {margin:1em;}
 .padded  {padding:1em;}

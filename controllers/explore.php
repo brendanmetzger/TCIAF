@@ -11,7 +11,7 @@ use \models\Token;
 
 class Explore extends Manage
 {
-  protected function GETfeatures($index = 0, $per = 25)
+  protected function GETfeatures($index = 1, $per = 25)
   {
     $view = new View($this->partials->layout);
     $view->content   = 'views/lists/features.html';
@@ -56,18 +56,11 @@ class Explore extends Manage
     
     $view->content = "views/forms/{$type}.html";
     
-    $this->spectra = $storage->find('/tciaf/config/spectra')->map(function($item) {
-      return ['item' => $item, 'title' => $item->nodeValue];
+    parse_str($this->item->getFirst('spectrum')->nodeValue, $spectra);
+
+    $this->spectra = $storage->find('/tciaf/config/spectra')->map(function($item) use($spectra) {
+      return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];
     });
-    
-    
-    /*
-      TODO this should go in model.
-    */
-    if ($this->item['abstract'] != '') {
-      $this->item['abstract'] =  str_replace("¶", "\n\n", (string)$this->item['abstract']);
-    }
-    
     
 
     $this->pointers = $this->item['pointer']->map(function($point) use($storage) {
@@ -86,7 +79,7 @@ class Explore extends Manage
   {
     $model = Token::factory(Token::ID($id));
     $instance = $model::create(new $model($id), $_POST);
-    
+
     /*
       TODO proper redirect
     */
