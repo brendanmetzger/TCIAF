@@ -50,20 +50,14 @@ class Explore extends Manage
     $storage = Token::storage();
 
     $this->s3_url  = $storage->getElementById('k:s3');
-    $this->item    = $storage->getElementById($id);
     
-    $type = $this->item->parentNode->getAttribute('type');
-    
-    $view->content = "views/forms/{$type}.html";
-    
-    parse_str($this->item->getFirst('spectrum')->nodeValue, $spectra);
+    $this->item = Token::factory(Token::ID($id));
 
-    $this->spectra = $storage->find('/tciaf/config/spectra')->map(function($item) use($spectra) {
-      return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];
-    });
+    $view->content = sprintf("views/forms/%s.html", $this->item->name());
+        
     
-
-    $this->pointers = $this->item['pointer']->map(function($point) use($storage) {
+    
+    $this->pointers = $this->item->pointer->map(function($point) use($storage) {
       $token = $storage->getElementById($point['@token']);
       return [ 'token' => $token, 'pointer' => $point ];
     });
@@ -78,8 +72,7 @@ class Explore extends Manage
   protected function POSTedit($request, $id = null)
   {
     $model = Token::factory(Token::ID($id));
-    $instance = $model::create(new $model($id), $_POST);
-
+    
     /*
       TODO proper redirect
     */
@@ -87,8 +80,12 @@ class Explore extends Manage
     /*
       TODO retrieve validation errors and output
     */
-    if ($instance->save()) {
-      \bloc\application::instance()->log($instance);
+    if ($instance = $model::create($model, $_POST)) {
+      if ($instance->save()) {
+        \bloc\application::instance()->log($instance);
+      }
+    } else {
+      \bloc\application::instance()->log($model->errors);
     }
     
     

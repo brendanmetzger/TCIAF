@@ -34,11 +34,11 @@
   
   <fieldset class="secondary spectra">
     <legend>Spectra</legend>
-    <!-- iterate spectra -->
+    <!-- iterate item:spectra -->
     <label class="range container">
       <h4>[$title]</h4>
       <span>[$item:@from]</span>
-      <input type="range" min="0" max="100" name="[token[spectrum][CDATA][$item:@id]]" value="[$value]" />
+      <input type="range" min="0" max="100" name="[token[spectra][CDATA][$item:@id]]" value="[$value]" />
       <span>[$item:@to]</span>
     </label>
     

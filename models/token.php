@@ -34,10 +34,13 @@ use \bloc\DOM\Document;
   
     static public function factory($model_or_element)
     {
+      $param = null;
       if ($model_or_element instanceof \DOMElement) {
+        $param = $model_or_element;
         $model_or_element = $model_or_element->parentNode->getAttribute('type');
       }
-      return  NS . __NAMESPACE__ . NS . $model_or_element;
+      $classname = NS . __NAMESPACE__ . NS . $model_or_element;
+      return  new $classname($param);
     }
   
     private function __construct()

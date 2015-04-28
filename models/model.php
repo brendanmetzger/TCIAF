@@ -1,8 +1,9 @@
 <?php
 namespace models;
 
-abstract class Model
+abstract class Model extends \bloc\Model
 {
+  const NAME = null;
   public $context = null,
          $errors  = [];
   
@@ -26,13 +27,40 @@ abstract class Model
   public function __construct($id = null)
   {
     if ($id !== null) {
-      $this->context = Token::ID($id);
+      if ($id instanceof \DOMElement) {
+        $this->context = $id;
+      } else {
+        $this->context = Token::ID($id);
+      }
     }
+  }
+  
+  public function __call($method, $arguments)
+  {
+    $accessor = substr($method, 0, 3); // will be get or set
+    $context = $arguments[0];
+   
+    if ($accessor == 'get') {
+      return $context[substr($method,3)];
+    } else {
+      $value   = $arguments[1];
+    
+      if (substr($method, -9) == 'attribute') {
+        $key = substr($method, 3, -9);
+        $context->setAttribute($key, $value);
+      } else {
+        $context->setNodeValue($value);
+      }
+    }
+  }
+  
+  public function __get($property)
+  {
+    return $this->{"get{$property}"}($this->context);
   }
   
   static public function create($instance, $data)
   {
-    
     if ($instance->context === null) {
       $instance->context = Token::storage()->createElement('token', null);
       Token::storage()->pick('//group[@type="'.static::NAME.'"]')->appendChild($instance->context);
@@ -41,8 +69,17 @@ abstract class Model
     $data = array_replace_recursive(self::$fixture, static::$fixture, $data);
 
     $instance->mergeInput($data);
-    
-    return Token::storage()->validate() ? $instance : false;
+    if (Token::storage()->validate()) {
+      return $instance;
+    } else {
+      $instance->errors = libxml_get_errors();
+      return false;
+    }
+  }
+  
+  public function name()
+  {
+    return static::NAME;
   }
   
   public function save()
@@ -77,25 +114,7 @@ abstract class Model
     foreach ($attributes as $property => $value) {
       $this->{"set{$property}attribute"}($context, $value);
     }
-  }
-  
-  public function __call($method, $arguments)
-  {
-    if ($method === 'save') {
-      print_r($arguments);
-      exit();
-    }
-    $context = $arguments[0];
-    $value   = $arguments[1];
-    
-    if (substr($method, -9) == 'attribute') {
-      $key = substr($method, 3, -9);
-      $context->setAttribute($key, $value);
-    } else {
-      $context->setNodeValue($value);
-    }
-  }
-  
+  }  
   
   public function setUpdatedAttribute(\DOMElement $context, $value)
   {
@@ -109,6 +128,6 @@ abstract class Model
   
   public function getAbstract(\DOMElement $context)
   {
-    return str_replace("¶", "\n\n", $context->nodeValue);
+    return str_replace("¶", "\n\n", $context->getFirst('abstract')->nodeValue);
   }
 }
