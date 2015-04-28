@@ -15,7 +15,8 @@ class Person extends Model
         '@' => [
           'content' => 'bio'
         ]
-      ]
+      ],
+      'pointer' => []
     ]
   ];
   

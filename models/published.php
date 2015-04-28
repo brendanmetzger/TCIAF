@@ -41,7 +41,7 @@ namespace models;
     
     public function getSpectra(\DOMElement $context)
     {
-      parse_str($context->getFirst('spectra')->nodeValue, $spectra);
+      parse_str($context->getFirst('spectra')->nodeValue ?: $this::$fixture['token']['spectra']['CDATA'], $spectra);
       
      return Token::storage()->find('/tciaf/config/spectra')->map(function($item) use($spectra) {
         return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];

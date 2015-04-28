@@ -59,7 +59,7 @@ class Explore extends Manage
     
     $this->pointers = $this->item->pointer->map(function($point) use($storage) {
       $token = $storage->getElementById($point['@token']);
-      return [ 'token' => $token, 'pointer' => $point ];
+      return [ 'token' => $token, 'pointer' => $point, 'index' => \bloc\registry::index()];
     });
     
     
@@ -73,6 +73,8 @@ class Explore extends Manage
   {
     $model = Token::factory(Token::ID($id));
     
+    echo "<pre>";
+    print_r($_POST);
     /*
       TODO proper redirect
     */

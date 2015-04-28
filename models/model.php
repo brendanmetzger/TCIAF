@@ -102,6 +102,8 @@ abstract class Model extends \bloc\Model
         $this->setAttributes($value, $context);
       } else if ($node === 'CDATA') {
         $this->{"set{$key}"}($context, $value);
+      } else if (is_int($node)) {
+        echo "deal with array of elements";
       } else {
         $elem = $context->getFirst($node) ?: $context->appendChild(Token::storage()->createElement($node));
         $this->mergeInput([$node => $value], $elem);        
