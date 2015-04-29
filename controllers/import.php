@@ -150,7 +150,7 @@ class Import extends Task
       
       if ($producer) {
         $pointer = $doc->createElement("pointer");
-        $pointer->setAttribute('rel', $pid);
+        $pointer->setAttribute('token', $pid);
         $pointer->setAttribute('type', 'producer');
         $feature->appendChild($pointer);
       } 
@@ -163,7 +163,47 @@ class Import extends Task
       
       $this->CLIcompress($file);
     }
+  }
+  
+  public function CLImapAllFeaturesToProducers()
+  {
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    $results = $sql->query("SELECT COUNT(feature_id) as c, feature_id FROM features_producers GROUP BY (feature_id) ORDER BY c DESC")->fetch_all(MYSQLI_ASSOC);
+    $doc  = new \bloc\DOM\Document('data/db7');
+    $xml  = new \DomXpath($doc);
     
+    foreach ($results as $result) {
+      if ($result['c'] <= 1) continue;
+      $feature = $result['feature_id'];
+      $producers = $sql->query("SELECT producer_id as id FROM features_producers WHERE feature_id = '{$feature}'")->fetch_all(MYSQLI_ASSOC);
+      foreach ($producers as $producer) {
+
+        $p = $doc->getElementById('p:'.$producer['id']);
+        $exp = "pointer[@token='s:{$feature}']";
+
+        $pointer = $xml->query($exp, $p);
+                echo $pointer->length . "\n";
+        if ($p && $pointer->length === 0) {
+          
+          $pointer = $doc->createElement("pointer");
+          $pointer->setAttribute('token', 's:'.$feature);
+          $pointer->setAttribute('type', 'producer');
+          $p->appendChild($pointer);
+          
+           echo $producer['id'] . " has no pointer \n";
+        }
+      }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db8.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    } else {
+      print_r(libxml_get_errors());
+    } 
   }
   
   public function CLImapPhotostoFeatures()

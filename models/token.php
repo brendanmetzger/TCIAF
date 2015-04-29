@@ -10,7 +10,7 @@ use \bloc\DOM\Document;
 
   class Token
   {
-    const DB = 'data/db7';
+    const DB = 'data/db8';
   
     private $storage = null;
 

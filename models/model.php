@@ -3,7 +3,6 @@ namespace models;
 
 abstract class Model extends \bloc\Model
 {
-  const NAME = null;
   public $context = null,
          $errors  = [];
   
@@ -77,11 +76,6 @@ abstract class Model extends \bloc\Model
       $instance->errors = libxml_get_errors();
       return false;
     }
-  }
-  
-  public function name()
-  {
-    return static::NAME;
   }
   
   public function save()
