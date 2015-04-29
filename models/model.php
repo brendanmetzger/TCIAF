@@ -96,9 +96,10 @@ abstract class Model extends \bloc\Model
   public function mergeInput($input, \DOMElement $decendant = null)
   {
     $key = key($input);
-
     $context = $decendant ?: $this->context;
+    
     foreach ($input[$key] as $node => $value) {
+      if (empty($value)) continue;
       if ($node === '@') {
         $this->setAttributes($value, $context);
       } else if ($node === 'CDATA') {
@@ -106,8 +107,7 @@ abstract class Model extends \bloc\Model
       } else if (is_int($node)) {
         echo "deal with array of {$key} elements";
       } else {
-        $elem = $context->getFirst($node) ?: $context->appendChild(Token::storage()->createElement($node));
-        $this->mergeInput([$node => $value], $elem);        
+        $this->mergeInput([$node => $value], $context->getFirst($node));
       }
     }
   }
