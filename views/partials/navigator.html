@@ -37,7 +37,7 @@
   <a href="[/$paginate:prefix/$paginate:next]">Next</a>
   <input type="range" min="1" max="[$paginate:total]" value="[$paginate:index]" step="1" onchange="[window.location.href = '/$paginate:prefix/'+this.value;]" oninput="this.parentNode.querySelector('em').innerHTML = 'Go to page ' + this.value"/>
   <form action="" id="search" data-redirect="/explore/edit/" data-topic="[$search:topic]" method="GET">
-    <input type="text" name="search" placeholder="[search $search:topic]" class="text"/>
+    <input type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off"/>
   </form>
   <script type="text/javascript">
     // <![CDATA[
@@ -102,6 +102,13 @@
           
           var letter = String.fromCharCode(evt.keyCode);
           
+          var meta = evt.keyIdentifier.toLowerCase();
+          if (catalog && (meta === 'down' || meta == 'up')) {            
+            evt.preventDefault();
+
+            menu.cycle(meta == 'down' ? 1 : -1, this, results);
+            return;
+          }
           
           if (alphanumeric.test(letter) && this.value.length === 0) {
             halt = true;
@@ -111,15 +118,10 @@
         });
         
         searchbox.addEventListener('keyup', function (evt) {
-          if (halt === null) return;
+           var meta = evt.keyIdentifier.toLowerCase();
+          if (halt === null || (meta === 'down' || meta == 'up')) return;
           
-          var meta = evt.keyIdentifier.toLowerCase();
-          if (catalog && (meta === 'down' || meta == 'up')) {            
-            evt.preventDefault();
-
-            menu.cycle(meta == 'down' ? 1 : -1, this, results);
-            return;
-          }
+          
           
           var new_element = results.cloneNode();    
           results.parentNode.replaceChild(new_element, results);
