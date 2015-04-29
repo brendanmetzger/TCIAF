@@ -109,15 +109,9 @@ input, textarea, fieldset {
   transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s;
 }
 
-.primary {
-  
-}
-
-.secondary {
-}
-
-.tertiary {
-}
+.primary   {}
+.secondary {}
+.tertiary  {}
 
 .content {
   margin:0 5% 0 10%;
@@ -144,7 +138,7 @@ legend {
 
 .text:focus {
   outline:none;
-  box-shadow:-0.075em -0.075em 0.25em rgba(0,0,0,0.05);
+  box-shadow:0 -0.075em 0.25em rgba(0,0,0,0.25);
   border-width:1px;
 }
 

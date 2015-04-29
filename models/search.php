@@ -23,8 +23,8 @@ namespace models;
       $parts = preg_split('/\s+/', $value);
       $level = 1;
       foreach ($parts as $part) {
-        $idx = substr(strtolower($part), 0, 1);
         $key = strtolower(preg_replace('/[^a-z0-9]/i', '', $part));
+        $idx = substr(strtolower($part), 0, 1);
         $this->index[$idx][$id] = [$level++, $value];
       }
     }

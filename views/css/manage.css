@@ -21,9 +21,9 @@
 }
 
 form.editor .text + label {
-  color:#EEE;
+  color:#aaa;
+  font-weight:400;
   transition:color 0.25s;
-  overflow:hidden;
   letter-spacing:0.075em;
 }
 form.editor .text:focus + label {

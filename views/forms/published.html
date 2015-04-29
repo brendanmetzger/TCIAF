@@ -1,4 +1,9 @@
 <form name="uploadData" method="POST" action="[/explore/edit/$item:@id]" class="editor">
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    fieldset div.group {width:33%;}
+    /* ]]> */
+  </style>
   <input type="hidden" name="token[@][id]" value="[$item:@id]" />
   <input type="hidden" name="token[@][created]" value="[$item:@created]" />
   
@@ -10,15 +15,21 @@
 
     <textarea name="token[abstract][CDATA]" rows="8" cols="40" id="description" class="required text">[$item:abstract]</textarea>
     <label for="description">Description</label>  
-
-    <input type="text" name="token[location][CDATA]" value="[$item:location]" id="location" class="required text" />
-    <label for="location">Origin Country</label>  
-  
-    <input type="text" name="token[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
-    <label for="premier">Premier Location</label>
-  
-    <input type="text" name="token[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
-    <label for="premier_date">Premier Date</label>
+    
+    <div class="group left">
+      <input type="text" name="token[location][CDATA]" value="[$item:location]" id="location" class="required text" />
+      <label for="location">Origin Country</label>  
+    </div>
+    
+    <div class="group left">
+      <input type="text" name="token[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
+      <label for="premier">Premier Location</label>
+    </div>
+    
+    <div class="group left">
+      <input type="text" name="token[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
+      <label for="premier_date">Premier Date</label>
+    </div>
   </fieldset>
   
   <fieldset>
