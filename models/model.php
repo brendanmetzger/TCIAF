@@ -20,7 +20,8 @@ abstract class Model extends \bloc\Model
         '@' => [
           'content' => 'description'
         ]
-      ]
+      ],
+      'pointer' => []
     ]
   ];
   
@@ -103,7 +104,7 @@ abstract class Model extends \bloc\Model
       } else if ($node === 'CDATA') {
         $this->{"set{$key}"}($context, $value);
       } else if (is_int($node)) {
-        echo "deal with array of elements";
+        echo "deal with array of {$key} elements";
       } else {
         $elem = $context->getFirst($node) ?: $context->appendChild(Token::storage()->createElement($node));
         $this->mergeInput([$node => $value], $elem);        
@@ -131,5 +132,12 @@ abstract class Model extends \bloc\Model
   public function getAbstract(\DOMElement $context)
   {
     return str_replace("¶", "\n\n", $context->getFirst('abstract')->nodeValue);
+  }
+  
+  public function getStatus($context)
+  {
+    $updated = strtotime($context['@updated']);
+    $message = (time() - $updated) < 5 ? "Just Saved" : "Last Edited " . date('m/d/y g:ia', $updated);
+    return new \bloc\types\Dictionary(['text' => $message, 'type' => 'success']);
   }
 }

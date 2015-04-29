@@ -14,7 +14,13 @@ class Search extends Manage
   public function GETpeople($subset = null)
   {
     $search = new \models\search("//group[@type='person']/token");
-    return $search->asJSON($subset);
+    return $search->asJSON($subset, 'people');
+  }
+  
+  public function GETfeatures($subset = null)
+  {
+    $search = new \models\search("//group[@type='published']/token");
+    return $search->asJSON($subset, 'features');
   }
 
 }

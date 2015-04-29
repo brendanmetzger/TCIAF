@@ -1,15 +1,13 @@
+html{
+  height: 100%;
+}
 body {
-  margin:10%;
+  min-height:100%;
   background:#fff url(/images/pidgey.svg) no-repeat 1.5% 5%;
   background-size:7.5% auto;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
 }
 
-
-
-footer {
-  border-top:1px solid #000;
-}
 
 /* Color ------------------- */
 
@@ -30,6 +28,18 @@ a:hover {color:#5B9B98;}
 .inline  {display:inline;}
 .margins {margin:1em;}
 .padded  {padding:1em;}
+.ragleft {text-align:right;}
+.clear {clear:left;}
+.group {
+  display:block;
+  box-sizing:border-box;
+}
+.group.left {
+  float:left;
+}
+.group.right {
+  float:right;
+}
 .columns {
   -webkit-column-gap: 2em;
   -moz-column-gap: 1em;
@@ -44,7 +54,6 @@ a:hover {color:#5B9B98;}
   -webkit-column-rule: 1px solid #eee;
   -moz-column-rule: 1px solid #eee;
   column-rule: 1px solid #eee;
-  
 }
 
 
@@ -54,8 +63,9 @@ h1, footer, input, textarea {
   font-family:Inconsolata;
 }
 
-label, p, .p {
+label, p, .p, h5, li, address {
   font-size:1.25em;
+  font-weight:400;
 }
 
 label, cite, em, p, li {
@@ -68,14 +78,21 @@ input, textarea, legend {
 
 /* Layout ------------------- */
 
-ul, ol {
+address span {
+  display:block;
+}
+
+ul, ol, body, form {
   margin:0;
+}
+
+ul, ol {
   padding:0 0 0 2em;
 }
 
-label {
+label, p, h5 {
   display:block;
-  margin:0.25em 0;
+  margin:0.5em 0;
 }
 
 hr {
@@ -100,6 +117,19 @@ input, textarea, fieldset {
 }
 
 .tertiary {
+}
+
+.content {
+  margin-left:10%;
+}
+
+body, footer {
+  margin-top:10%;
+}
+footer {
+  background-color:#333;
+  color:#eee;
+  padding:2.5%;
 }
 
 
@@ -127,4 +157,12 @@ legend {
   padding:1em 10%;
   box-shadow:0 0 0.5em rgba(0,0,0,0.1);
   background-color:rgba(255,255,255,1);
+}
+
+
+/* Specifics ------------------- */
+
+footer .group {
+  width:45%;
+  padding:2.5%;
 }

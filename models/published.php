@@ -28,7 +28,7 @@ namespace models;
           ]
         ],
         'spectra' => [
-          'CDATA' => 'F=0&S=50&M=50&G=50&R=50&P=50&T=50&A=50'
+          'CDATA' => 'F=50&S=50&M=50&G=50&R=50&P=50&T=50&A=50'
         ]
       ]
     ];

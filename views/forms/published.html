@@ -4,7 +4,7 @@
   
   <fieldset>
     <legend>Edit</legend>
-
+    <h5 class="[$item:status:type ragleft]"><em>[$item:status:text]</em></h5>
     <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text"/>
     <label for="title">Title</label>  
 
@@ -45,16 +45,14 @@
   
   <!--iterate references -->
   <fieldset class="tertiary">
-    <legend>[$pointer:@type]</legend>
+    <legend class="capitalize">[$pointer:@type]</legend>
         <h2><a href="[/explore/edit/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
-      <a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a>
-      <hr/>
-
-
+      <h5><a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a></h5>
   </fieldset>
   
-  <a href="/manage/pointer/add/">Add Reference</a>
+  
+  <a href="[/manage/pointer/add/producer/$item:@id]">Add Reference</a>
   
   <script type="text/javascript">
   // <![CDATA[

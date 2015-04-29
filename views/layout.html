@@ -32,48 +32,51 @@
     </script>
   </head>
   <body class="unloaded">
-    <header>
+    <header class="content container">
       <!-- replace helper -->
       <h1>Third Coast International Audio Festival</h1>
     </header>
-    
-    <!-- replace content nextSibling -->
-    <section>
-      <div id="test">
-        <p class="pretty">Welcome to the Third Coast International Audio Festival Homepage</p>
-      </div>
 
-      <script type="text/javascript">
-      // <![CDATA[
-        bloc.prepare(function () {
-          var myRequest = new XMLHttpRequest();
-              myRequest.open("GET", "/");
-              myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-              myRequest.send();
+    <div class="content container">
+      
+      <!-- replace content nextSibling -->
+      <section>
+        <div id="test">
+          <p class="pretty">Welcome to the Third Coast International Audio Festival Homepage</p>
+        </div>
+
+        <script type="text/javascript">
+        // <![CDATA[
+          bloc.prepare(function () {
+            var myRequest = new XMLHttpRequest();
+                myRequest.open("GET", "/");
+                myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                myRequest.send();
               
-              myRequest.onreadystatechange = function () {
-                if (myRequest.readyState === 4) {
-                  if (myRequest.status === 200) {
-                    console.log(myRequest.responseXML);          
-                  } else {
-                    console.log('boop');
+                myRequest.onreadystatechange = function () {
+                  if (myRequest.readyState === 4) {
+                    if (myRequest.status === 200) {
+                      console.log(myRequest.responseXML);          
+                    } else {
+                      console.log('boop');
+                    }
                   }
-                }
-              };
+                };
               
-          var s = new SVG(document.getElementById('test'), {height:500,width:500,viewbox:'100 100 0 0'});
-          s.createElement('path', {
-            d: 'M50,50A25,25,0,1,1,100,100',
-            //rx ry x-axis-rotation large-arc-flag sweep-flag x y)+
-            stroke:'#000',
-            'stroke-width':10,
-            fill: 'none'
+            var s = new SVG(document.getElementById('test'), {height:500,width:500,viewbox:'100 100 0 0'});
+            s.createElement('path', {
+              d: 'M50,50A25,25,0,1,1,100,100',
+              //rx ry x-axis-rotation large-arc-flag sweep-flag x y)+
+              stroke:'#000',
+              'stroke-width':10,
+              fill: 'none'
+            });
           });
-        });
-      // ]]>
-      </script>
-      <style type="text/css">.pretty {font-size:4em;}</style>
-    </section>
+        // ]]>
+        </script>
+        <style type="text/css">.pretty {font-size:4em;}</style>
+      </section>
+    </div>
     
     <!-- insert views/footer.html -->
     

@@ -20,12 +20,12 @@ namespace models;
   
     public function addToIndex($id, $value)
     {
-      
       $parts = preg_split('/\s+/', $value);
+      $level = 1;
       foreach ($parts as $part) {
         $idx = substr(strtolower($part), 0, 1);
-        $key = preg_replace('/[^a-z0-9]/i', '', $part);
-        $this->index[$idx][$key] = [$id, $value];
+        $key = strtolower(preg_replace('/[^a-z0-9]/i', '', $part));
+        $this->index[$idx][$id] = [$level++, $value];
       }
     }
   
@@ -34,7 +34,24 @@ namespace models;
       if (empty($this->index)) {
         $this->execute();
       }
-      return $subset ? $this->index[strtolower($subset)] : $this->index;
+      
+      if ($subset) {
+        $subset = $this->index[strtolower($subset)];
+
+        uasort($subset, function($a, $b) {
+          if ($a[0] == $b[0]) {
+            return $a[1] > $b[1];
+          }
+          return $a[0] - $b[0];
+        });
+        
+        
+        return array_map(function($k, $v) {
+          return [$k, $v[1]];
+        }, array_keys($subset), $subset);
+      }
+      
+      return $this->index;
     }
     
     private function execute()
@@ -47,12 +64,12 @@ namespace models;
     }
   
   
-    public function asJSON($subset = false)
+    public function asJSON($subset = false, $cache = false)
     {
       $json = json_encode($this->getIndex($subset));
-      if ($subset) {
+      if ($subset && $cache) {
         $subset = strtoupper($subset);
-        $path = sprintf('%sdata/cache/search/people', PATH);
+        $path = sprintf('%sdata/cache/search/%s', PATH, $cache);
         if (! file_exists($path)) {
           mkdir($path, 0777, true);
         }

@@ -95,7 +95,7 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETpointer($action, $type, $pointer, $reference)
+  protected function GETpointer($action, $type, $reference, $pointer = null)
   {
     return 'not yet';
     /*

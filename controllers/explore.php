@@ -17,9 +17,10 @@ class Explore extends Manage
     $view->content   = 'views/lists/features.html';
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
+    $this->search = ['topic' => 'features'];
     $this->features = Token::storage()->find("/tciaf/group[@type='published']/token")->map(function($feature) {
       return [
-        'feature'   => $feature,
+        'feature'   => new \models\Published($feature),
         'producers' => Token::storage()->find("/tciaf/group[@type='person']/token[pointer[@token='{$feature['@id']}']]"),
       ];
     })->limit($index, $per, $this->setProperty('paginate', ['prefix' => 'explore/features']));
@@ -73,18 +74,9 @@ class Explore extends Manage
   {
     $model = Token::factory(Token::ID($id));
     
-    echo "<pre>";
-    print_r($_POST);
-    /*
-      TODO proper redirect
-    */
-    
-    /*
-      TODO retrieve validation errors and output
-    */
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
-        \bloc\application::instance()->log($instance);
+        \bloc\router::redirect($request->redirect);
       }
     } else {
       \bloc\application::instance()->log($model->errors);
