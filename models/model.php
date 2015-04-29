@@ -21,7 +21,8 @@ abstract class Model extends \bloc\Model
           'content' => 'description'
         ]
       ],
-      'pointer' => []
+      'media'   => [],
+      'pointer' => [],
     ]
   ];
   

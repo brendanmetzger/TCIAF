@@ -61,9 +61,7 @@ class Explore extends Manage
     $this->pointers = $this->item->pointer->map(function($point) use($storage) {
       $token = $storage->getElementById($point['@token']);
       return [ 'token' => $token, 'pointer' => $point, 'index' => \bloc\registry::index()];
-    });
-    
-    
+    });    
 
     $this->references = $storage->find("/tciaf/group/token[pointer[@token='{$id}']]");
     

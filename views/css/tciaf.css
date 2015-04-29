@@ -62,6 +62,13 @@ a:hover {color:#5B9B98;}
 h1, footer, input, textarea {
   font-family:Inconsolata;
 }
+h1, .h1 {
+  font-size:2.75em;
+}
+
+h2, legend {
+  font-size:1.75em;
+}
 
 label, p, .p, h5, li, address {
   font-size:1.25em;
@@ -72,7 +79,7 @@ label, cite, em, p, li {
   font-weight:400;
 }
 
-input, textarea, legend {
+input, textarea {
  font-size:1.5em;
 }
 
@@ -157,6 +164,6 @@ legend {
 /* Specifics ------------------- */
 
 footer .group {
-  width:45%;
+  width:50%;
   padding:2.5%;
 }

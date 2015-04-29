@@ -42,9 +42,10 @@ bloc.prepare(function () {
   autoGrow(document.getElementById('description'));
 });
 
-function Upload(url) {
+function Upload(element) {
+  this.input = element;
   this.xhr = new XMLHttpRequest();
-  this.xhr.open('POST', url);
+  this.xhr.open('POST', this.input.dataset.url);
   
   this.xhr.onload = function (evt) {
     console.log('request complete!', evt, this.xhr.response);
@@ -59,9 +60,26 @@ function Upload(url) {
   this.xhr.upload.onload = function (evt) {
     console.log('finished upload', evt);
   };
+  
+  this.input.addEventListener('change', function (evt) {
+    var type = this.input.files[0].type.split('/')[0] || null;
+    if (this.rules[type]) {
+      this.rules[type].call(this, this.input.files[0]);
+    }
+    try {
+      var fd = new FormData();
+          fd.append("upload", this.input.files[0]);
+      this.attach(fd);
+    } catch (e) {
+      window.alert(e);
+    }
+    
+  }.bind(this), false);
 }
 
 Upload.prototype = {
+  rules: {},
+  allowed: ['audio', 'image'],
   states: [
     'unsent',
     'opened',
@@ -69,6 +87,9 @@ Upload.prototype = {
     'loading',
     'complete'
   ],
+  addRoutine: function (type, callback) {
+    this.rules[type] = callback;
+  },
   attach: function (blob) {
     this.xhr.send(blob); 
   }

@@ -34,6 +34,10 @@ form.editor .text:focus + label {
 textarea {
   height:5em;
 }
+
+input[type='file'] {
+  border:none;
+}
 form.editor .text {
   margin-top:1em;
   line-height:1.5em;

@@ -118,10 +118,13 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    print_r($_FILES);
-    print_r($_POST);
+    if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . 'data/media/' . $_FILES['upload']['name'])) {
+      echo "got it";
+    } else {
+      Application::instance()->getExchange('response')->addHeader("HTTP/1.0 400 Bad Request");
+    }
     /*
-      TODO post uploaded file somewhere
+      TODO post uploaded file somewhere... amazon prolly
     */
   }
 }
