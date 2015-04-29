@@ -131,9 +131,9 @@
           
           if (this.value.length < 1) return;
           
-          var term = this.value;
+          var term = this.value.replace(/\s(?=[a-z0-9]{2})/ig, '|');
           var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[\s.,"':?#\[\]\(\)\-]*/g, ''), 'i');
-          var item_re = new RegExp("("+term+")", 'i');
+          var item_re = new RegExp("("+term+")", 'ig');
           var count = 0;
           for (var key in catalog) {
             
