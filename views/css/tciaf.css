@@ -24,6 +24,7 @@ a:hover {color:#5B9B98;}
 .capitalize:first-letter{
   text-transform: capitalize;
 }
+.caps-lock {text-transform:uppercase;}
 
 .inline  {display:inline;}
 .margins {margin:1em;}
@@ -55,6 +56,10 @@ a:hover {color:#5B9B98;}
   -moz-column-rule: 1px solid #eee;
   column-rule: 1px solid #eee;
 }
+.listed {
+  border-left:1em solid #eee;
+  margin:0.125em;
+}
 
 
 /* Typography ------------------- */
@@ -72,11 +77,14 @@ h2, legend {
 
 label, p, .p, h5, li, address {
   font-size:1.25em;
+}
+
+label, cite, em, p, .p, li, h5, address, legend {
   font-weight:400;
 }
 
-label, cite, em, p, li {
-  font-weight:400;
+h4 {
+  font-weight:600;
 }
 
 input, textarea {
@@ -135,17 +143,13 @@ footer {
 
 
 fieldset {
-  margin:0 0 1em 0;
+  margin:0 0 5em 0;
 }
 
 legend {
   padding:0 0.5em;
-}
-
-.text:focus {
-  outline:none;
-  box-shadow:0 -0.075em 0.25em rgba(0,0,0,0.25);
-  border-width:1px;
+  top:-0.25em;
+  position:relative;
 }
 
 .dashboard {

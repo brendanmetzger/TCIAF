@@ -8,7 +8,7 @@
   <input type="hidden" name="token[@][created]" value="[$item:@created]" />
   
   <fieldset>
-    <legend>Edit</legend>
+    <legend class="caps-lock">Edit</legend>
     <h5 class="[$item:status:type ragleft]"><em>[$item:status:text]</em></h5>
     <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text"/>
     <label for="title">Title</label>  
@@ -45,12 +45,12 @@
   </fieldset>
   
   <fieldset class="secondary spectra">
-    <legend>Spectra</legend>
+    <legend class="caps-lock">Spectra</legend>
     <!-- iterate item:spectra -->
     <label class="range container">
       <h4>[$title]</h4>
       <span>[$item:@from]</span>
-      <input type="range" min="0" max="100" name="[token[spectra][CDATA][$item:@id]]" value="[$value]" />
+      <input type="range" min="0" max="100" name="[token[spectra][CDATA][$item:@id]]" value="[$value]" data-index="0"/>
       <span>[$item:@to]</span>
     </label>
     
@@ -61,10 +61,10 @@
   
   
   <fieldset>
-    <legend class="capitalize">References</legend>
+    <legend class="caps-lock">References</legend>
     <!--iterate references -->
-    <div class="padded">
-      <h2><a href="[/explore/edit/$@id]">[$@title]</a> <em>[$pointer:@type]</em></h2>
+    <div class="listed padded">
+      <h2><sup>[$pointer:@type]</sup><a href="[/explore/edit/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
       <h5><a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a></h5>      
     </div>
@@ -79,8 +79,8 @@
     function Spectra(labels) {
       var total = labels.length;
       for (var i = 0; i < total; i++) {
+        labels[i].dataset.index = (i / total);
         this.color.call(labels[i]);
-        
         labels[i].addEventListener('input', this.color);
       }
     }
@@ -89,11 +89,11 @@
       var value = parseInt(this.value, 10);
       var intensity = (value / 100 );
       var color = {
-        h: Math.round(intensity * 255), 
-        s: value + '%',
-        l: (100 - value) + '%'
+        h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
+        s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
+        l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
       };
-      console.log(color);
+
       this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
     }
     
