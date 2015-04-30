@@ -22,5 +22,18 @@ class Search extends Manage
     $search = new \models\search("//group[@type='published']/token");
     return $search->asJSON($subset, 'features');
   }
+  
+  public function GETorganizations($subset = null)
+  {
+    $search = new \models\search("//group[@type='organization']/token");
+    return $search->asJSON($subset, 'people');
+  }
+  
+  public function GETcompetitions($subset = null)
+  {
+    $search = new \models\search("//group[@type='competition']/token");
+    return $search->asJSON($subset, 'features');
+  }
+  
 
 }

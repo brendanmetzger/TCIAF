@@ -42,12 +42,40 @@ class Explore extends Manage
     return $view->render($this());
   }
   
+  public function GETcompetitions($index = 1, $per = 100)
+  {
+    $view = new View($this->partials->layout);
+    $view->content = 'views/lists/competitions.html';
+    $this->search = ['topic' => 'competitions'];
+    $this->competitions = Token::storage()
+                    ->find("//group[@type='competition']/token[pointer[@type='issue']]")
+                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/competitions"]));
+
+    foreach (Token::storage()->find("//group[@type='competition']/token[pointer[@type='issue']]") as $token) {
+      print_r($token['@title']);
+    }
+    return $view->render($this());
+  }
+  
+  
+  public function GETorganizations($index = 1, $per = 100)
+  {
+    $view = new View($this->partials->layout);
+    $view->content = 'views/lists/organizations.html';
+    $this->search = ['topic' => 'organizations'];
+    $this->organizations = Token::storage()
+                    ->find("//group[@type='organization']/token")
+                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/organizations"]));
+
+
+
+    return $view->render($this());
+  }
+  
 
   protected function GETedit($id)
   {
-    $view = new View($this->partials->layout);
-    
-
+    $view    = new View($this->partials->layout);
     $storage = Token::storage();
 
     $this->s3_url  = $storage->getElementById('k:s3');

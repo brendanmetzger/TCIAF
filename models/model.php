@@ -121,12 +121,12 @@ abstract class Model extends \bloc\Model
   
   public function setAbstract(\DOMElement $context, $value)
   {
-    $context->setNodeValue(preg_replace("/\s?\n\s*/", "¶", $value));
+    $context->setNodeValue(str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $value)));
   }
   
   public function getAbstract(\DOMElement $context)
   {
-    return str_replace("¶", "\n\n", $context->getFirst('abstract')->nodeValue);
+    return str_replace(["↩", "¶"], ["\n", "\n\n"], $context->getFirst('abstract')->nodeValue);
   }
   
   public function getStatus($context)

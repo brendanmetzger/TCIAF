@@ -9,7 +9,7 @@
   
   <fieldset>
     <legend class="caps-lock">Edit</legend>
-    <h5 class="[$item:status:type ragleft]"><em>[$item:status:text]</em></h5>
+    <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
     <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text"/>
     <label for="title">Title</label>  
 
@@ -33,7 +33,7 @@
   </fieldset>
   
   <fieldset>
-    <legend>Media</legend>
+    <legend class="caps-lock">Media</legend>
     
     <input type="text" readonly="readonly" name="[token[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
     <input type="hidden" name="[token[media][$item:audio:index][@][type]]" value="[$item:audio:type]" class="file"/>
@@ -41,11 +41,11 @@
 
     <hr/>
     
-    <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, audio/mp3, audio/m4a, image/jpg"/>
+    <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, audio/mp3, audio/m4a, image/jpg" class="margins"/>
   </fieldset>
   
   <fieldset class="secondary spectra">
-    <legend class="caps-lock">Spectra</legend>
+    <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
     <!-- iterate item:spectra -->
     <label class="range container">
       <h4>[$title]</h4>

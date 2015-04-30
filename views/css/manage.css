@@ -90,7 +90,7 @@ label.range span {
   width:20%;
 }
 
-.spectra:hover {
+.spectra.open {
   background:transparent url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1' ><path d='M0,0l1,1' stroke='#EEE' fill='none'/></svg>") repeat-y 50% 0;
 }
 
@@ -101,7 +101,7 @@ label.range span {
   transition:height 0.125s;
 }
 
-.spectra:hover label {
+.spectra.open label {
   height:6em;
 }
 label.range h4 {
@@ -109,7 +109,7 @@ label.range h4 {
   width:50%;
   transition:margin 0.125s;
 }
-.spectra:hover label.range h4 {
+.spectra.open label.range h4 {
   margin:1em 25%;
   text-align:center;
 }

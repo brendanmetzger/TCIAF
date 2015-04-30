@@ -34,7 +34,7 @@ class Manage extends \bloc\controller
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
-      $this->tasks = (new Dictionary(['people', 'features']))->map(function($task) {
+      $this->tasks = (new Dictionary(['people', 'features', 'competitions', 'organizations']))->map(function($task) {
         return ['url' => "/explore/{$task}", 'name' => $task];
       });
       $this->partials->helper = 'views/partials/admin.html';
