@@ -58,17 +58,18 @@
   
   <button type="submit" class="margins">Submit</button>
   
-  
+  <hr/>
   
   <fieldset>
     <legend class="caps-lock">References</legend>
     <!--iterate references -->
     <div class="listed padded">
-      <h2><sup>[$pointer:@type]</sup><a href="[/explore/edit/$@id]">[$@title]</a></h2>
+      <sup class="normal capitalize small">[$pointer:@type]</sup>
+      <h2><a href="[/explore/edit/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
-      <h5><a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a></h5>      
+      <a class="button margins ghost" href="[#/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Unlink $@title]</a>
     </div>
-    <a href="[/manage/pointer/add/producer/$item:@id]">Add Reference</a>
+    <a class="button margins" href="[#/manage/pointer/add/producer/$item:@id]">Add Reference</a>
   </fieldset>
   
   

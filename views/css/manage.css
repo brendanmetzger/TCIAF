@@ -98,7 +98,7 @@ label.range span {
   height:2em;
   margin:0;
   overflow:hidden;
-  transition:height 0.25s;
+  transition:height 0.125s;
 }
 
 .spectra:hover label {
@@ -107,7 +107,7 @@ label.range span {
 label.range h4 {
   margin:0.5em 1%;
   width:50%;
-  transition:margin 0.25s;
+  transition:margin 0.125s;
 }
 .spectra:hover label.range h4 {
   margin:1em 25%;

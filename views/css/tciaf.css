@@ -21,11 +21,12 @@ a:hover {color:#5B9B98;}
 
 /* Generic Classes ------------------- */
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
-.capitalize:first-letter{
+.capitalize {
   text-transform: capitalize;
 }
 .caps-lock {text-transform:uppercase;}
-
+.ghost {opacity:0.5;}
+.ghost:hover {opacity:1;}
 .inline  {display:inline;}
 .margins {margin:1em;}
 .padded  {padding:1em;}
@@ -64,6 +65,10 @@ a:hover {color:#5B9B98;}
 
 /* Typography ------------------- */
 
+strong, .strong {font-weight:600;}
+em, .em {font-style:italic;}
+.small {letter-spacing:0.075em;font-size:1.125em;}
+
 h1, footer, input, textarea {
   font-family:Inconsolata;
 }
@@ -75,11 +80,11 @@ h2, legend {
   font-size:1.75em;
 }
 
-label, p, .p, h5, li, address {
+label, p, .p, h5, li, address, button, .button {
   font-size:1.25em;
 }
 
-label, cite, em, p, .p, li, h5, address, legend {
+label, cite, em, p, .p, li, h5, address, legend, .normal, button, .button {
   font-weight:400;
 }
 
@@ -142,8 +147,8 @@ footer {
 }
 
 
-fieldset {
-  margin:0 0 5em 0;
+fieldset + fieldset {
+  margin:5em 0 0 0;
 }
 
 legend {
@@ -169,4 +174,22 @@ legend {
 footer .group {
   width:50%;
   padding:2.5%;
+}
+
+button, .button {
+  border:1px solid #AAA;
+  background-color:#EEE;
+  cursor:pointer;
+  box-shadow:0em 0em 0.125em 0.125em rgba(0,0,0,0.1);
+  color:#333;
+  text-decoration:none;
+  padding:0.5em;
+  border-radius:0.25em;
+  transition:box-shadow 0.25s, background-color 0.25s;
+  display:inline-block;
+}
+button:hover, .button:hover {
+  background-color:#fff;
+  color:#000;
+  box-shadow: 0 0 0.125em 0 rgba(0,0,0,0.25);
 }
