@@ -16,13 +16,16 @@
 
   <hr />
   
-  <!-- iterate pointers -->
+  
   <fieldset>
-    <legend class="capitalize">[$pointer:@type of..]</legend>
-    <input type="hidden" name="[token[pointer][$index][type]]" value="[$pointer:@type]" />
-    <input type="hidden" name="[token[pointer][$index][token]]" value="[$pointer:@token]" />
-    <h3><a href="[/explore/edit/$token:@id]">[$token:@title]</a></h3>
-    <p>[$token:abstract]</p>
+    <legend class="capitalize">Also</legend>
+    <!-- iterate pointers -->
+    <div class="padded">
+      <input type="hidden" name="[token[pointer][$index][type]]" value="[$pointer:@type]" />
+      <input type="hidden" name="[token[pointer][$index][token]]" value="[$pointer:@token]" />
+      <h3><em>[$pointer:@type of]</em> <a href="[/explore/edit/$token:@id]">[$token:@title]</a></h3>
+      <p>[$token:abstract]</p>
+    </div>
   </fieldset>
 
 </form>

@@ -1,3 +1,16 @@
+/* A format method to string objects. Will replace all {key}
+ * with the corresponding arguments. If key is an integer, then String.format
+ * becomes variadic. If the key is text, then the function can use an object
+ * provided the first argument is an object
+ */
+String.prototype.format = function() {
+  var args = typeof arguments[0] === 'object' ? arguments[0] : arguments;
+  return this.replace(/{((?:\d+)|(?:[a-z]+))}/g, function(match, key) {
+    return typeof args[key] != 'undefined' ? args[key] : match;
+  });
+};
+
+
 /* Quick way to create an SVG element with and a prototypal method
  * to create children elements. Used in Progress and Player.Button
  */ 

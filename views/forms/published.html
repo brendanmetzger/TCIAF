@@ -35,8 +35,8 @@
   <fieldset>
     <legend>Media</legend>
     
-    <input type="text" readonly="readonly" name="token[media][$item:audio:index][@][src]" value="[$item:audio:src]" />
-    <input type="hidden" name="token[media][$item:audio:index][@][type]" value="[$item:audio:type]" class="file"/>
+    <input type="text" readonly="readonly" name="[token[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
+    <input type="hidden" name="[token[media][$item:audio:index][@][type]]" value="[$item:audio:type]" class="file"/>
     <audio src="[$s3_url/$item:audio:src]" controls="controls" preload="none">[$item:audio:src]</audio>
 
     <hr/>
@@ -59,19 +59,46 @@
   <button type="submit" class="margins">Submit</button>
   
   
-  <!--iterate references -->
-  <fieldset class="tertiary">
-    <legend class="capitalize">[$pointer:@type]</legend>
-    <h2><a href="[/explore/edit/$@id]">[$@title]</a></h2>
-    <p>[$abstract]</p>
-    <h5><a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a></h5>
+  
+  <fieldset>
+    <legend class="capitalize">References</legend>
+    <!--iterate references -->
+    <div class="padded">
+      <h2><a href="[/explore/edit/$@id]">[$@title]</a> <em>[$pointer:@type]</em></h2>
+      <p>[$abstract]</p>
+      <h5><a href="[/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Remove $@title as a $pointer:@type]</a></h5>      
+    </div>
+    <a href="[/manage/pointer/add/producer/$item:@id]">Add Reference</a>
   </fieldset>
   
   
-  <a href="[/manage/pointer/add/producer/$item:@id]">Add Reference</a>
+  
   
   <script type="text/javascript">
   // <![CDATA[
+    function Spectra(labels) {
+      var total = labels.length;
+      for (var i = 0; i < total; i++) {
+        this.color.call(labels[i]);
+        
+        labels[i].addEventListener('input', this.color);
+      }
+    }
+    
+    Spectra.prototype.color = function () {
+      var value = parseInt(this.value, 10);
+      var intensity = (value / 100 );
+      var color = {
+        h: Math.round(intensity * 255), 
+        s: value + '%',
+        l: (100 - value) + '%'
+      };
+      console.log(color);
+      this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
+    }
+    
+    
+    
     bloc.prepare(function () {
       var uploader = new Upload(document.getElementById('uploader'));
       
@@ -98,6 +125,7 @@
         reader.readAsDataURL(this.input.files[0]);
       });
       
+      new Spectra(document.querySelectorAll('fieldset.spectra label input'));
     });
   //]]>
   </script>

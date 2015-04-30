@@ -8,7 +8,7 @@
         position:absolute;
         padding:0;
         margin:0;
-        width:95%;
+        width:100%;
         color:#fff;
         background-color:rgba(255,255,255,0.95);
         border:1px solid #EEE;
@@ -20,7 +20,7 @@
         box-shadow:0 0.25em 0.25em 0.125em rgba(0,0,0,0.2);
       }
       form#search ul li a{
-        padding:0.5em 1em;
+        padding:0.75em 1em;
         display:block;
       }
       form#search ul li:hover a, form#search ul li.hover a{
@@ -37,7 +37,7 @@
   <a href="[/$paginate:prefix/$paginate:next]">Next</a>
   <input type="range" min="1" max="[$paginate:total]" value="[$paginate:index]" step="1" onchange="[window.location.href = '/$paginate:prefix/'+this.value;]" oninput="this.parentNode.querySelector('em').innerHTML = 'Go to page ' + this.value"/>
   <form action="" id="search" data-redirect="/explore/edit/" data-topic="[$search:topic]" method="GET">
-    <input type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off"/>
+    <input type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
   </form>
   <script type="text/javascript">
     // <![CDATA[
