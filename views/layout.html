@@ -44,37 +44,78 @@
         <div id="test">
           <p class="pretty">Welcome to the Third Coast International Audio Festival Homepage</p>
         </div>
-
+        <input type="range" name="space" min="1" max="100" value="1" id="space" oninput="update(document.getElementById('widget'), this.value);"/>
         <script type="text/javascript">
         // <![CDATA[
           bloc.prepare(function () {
             var myRequest = new XMLHttpRequest();
-                myRequest.open("GET", "/");
+                myRequest.open("GET", "/.xml");
                 myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 myRequest.send();
               
                 myRequest.onreadystatechange = function () {
                   if (myRequest.readyState === 4) {
                     if (myRequest.status === 200) {
-                      console.log(myRequest.responseXML);          
+                      // console.log(myRequest.responseXML);
                     } else {
                       console.log('boop');
                     }
                   }
                 };
               
-            var s = new SVG(document.getElementById('test'), {height:500,width:500,viewbox:'100 100 0 0'});
+            var s = new SVG(document.getElementById('test'), {height:500,width:500, viewBox:'0 0 100 100'});
+            
+            
             s.createElement('path', {
-              d: 'M50,50A25,25,0,1,1,100,100',
+              d: getPath(10),
               //rx ry x-axis-rotation large-arc-flag sweep-flag x y)+
               stroke:'#000',
-              'stroke-width':10,
-              fill: 'none'
+              'stroke-width':2,
+              fill: 'none',
+              id: 'widget'
             });
+            
+            
           });
+          
+          function update(elem, divs) {
+            elem.setAttribute('d', getPath(parseInt(divs, 10)));
+          }
+          
+          function getPath(divs) {
+            
+            var complete = parseFloat((2 * Math.PI).toFixed(3));
+            var third = parseFloat((((100/3)/100) * complete).toFixed(3));
+            var space = ((100/divs)/100);
+            
+            var dims = {
+              length: 100,
+              slug: 'M{sx},{sy}A{radius},{radius},0,0,1,{x},{y}'
+            };
+            var radian = third;
+          
+            dims.radius = dims.length / 4;
+            dims.center = dims.length / 2;
+          
+            dims.sx = dims.center + Math.cos(space) * dims.radius;
+            dims.sy = dims.center + dims.radius * Math.sin(space);
+          
+            var path = '';
+            for (var radian = third; radian <= complete; radian += third) {
+            
+              dims.x = dims.center + (Math.cos(radian - space) * dims.radius);
+              dims.y = dims.center + (Math.sin(radian - space) * dims.radius);
+            
+              path += dims.slug.format(dims);
+            
+              dims.sx = dims.center + (Math.cos(radian + space) * dims.radius);
+              dims.sy = dims.center + (Math.sin(radian + space) * dims.radius);
+            }
+            return path;
+          }
         // ]]>
         </script>
-        <style type="text/css">.pretty {font-size:4em;}</style>
+        <style type="text/css">.pretty {font-size:4em;}svg {border:1px solid #000;}</style>
       </section>
     </div>
     
