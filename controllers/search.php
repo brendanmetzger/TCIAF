@@ -11,28 +11,28 @@ use \models\Token;
 
 class Search extends Manage
 {
-  public function GETpeople($subset = null)
+  public function GETperson($subset = null)
   {
     $search = new \models\search("//group[@type='person']/token");
-    return $search->asJSON($subset, 'people');
+    return $search->asJSON($subset, 'person');
   }
   
-  public function GETfeatures($subset = null)
+  public function GETpublished($subset = null)
   {
     $search = new \models\search("//group[@type='published']/token");
-    return $search->asJSON($subset, 'features');
+    return $search->asJSON($subset, 'published');
   }
   
-  public function GETorganizations($subset = null)
+  public function GETorganization($subset = null)
   {
     $search = new \models\search("//group[@type='organization']/token");
-    return $search->asJSON($subset, 'people');
+    return $search->asJSON($subset, 'organization');
   }
   
-  public function GETcompetitions($subset = null)
+  public function GETcompetition($subset = null)
   {
     $search = new \models\search("//group[@type='competition']/token");
-    return $search->asJSON($subset, 'features');
+    return $search->asJSON($subset, 'competition');
   }
   
 

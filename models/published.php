@@ -7,9 +7,7 @@ namespace models;
   *
   */
   class Published extends Model
-  {
-    const NAME = 'published';
-    
+  {    
     static public $fixture = [
       'token' => [
         'location' => [

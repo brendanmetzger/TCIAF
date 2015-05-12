@@ -6,9 +6,7 @@ namespace models;
  */
 
 class Person extends Model
-{
-  const NAME = 'person';
-  
+{  
   static public $fixture = [
     'token' => [
       'abstract' => [
@@ -18,7 +16,6 @@ class Person extends Model
       ]
     ]
   ];
-  
   
   public function authenticate($password)
   {
@@ -33,5 +30,21 @@ class Person extends Model
     /*
       TODO need a system to check for role of staff or contributor.
     */
+  }
+  
+  public function setIdAttribute(\DOMElement $context, $value)
+  {
+      
+    if (empty($value)) {
+      $value = 'p:' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['token']['@']['title']);
+    }
+    
+    if (empty($value)) {
+      $this->errors[] = "Name Invalid, either doesn't exist, or is not unique enough.";
+      throw new \RuntimeException($message, 1);
+    }
+
+    $context->setAttribute('id', $value);
+    
   }
 }

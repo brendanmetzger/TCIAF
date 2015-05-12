@@ -94,12 +94,17 @@ label.range span {
   background:transparent url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1' ><path d='M0,0l1,1' stroke='#EEE' fill='none'/></svg>") repeat-y 50% 0;
 }
 
+
+
 .spectra label {
+  display:list-item;
   height:2em;
   margin:0;
   overflow:hidden;
   transition:height 0.125s;
+  bottom:0;
 }
+
 
 .spectra.open label {
   height:6em;

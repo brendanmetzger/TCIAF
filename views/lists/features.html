@@ -2,11 +2,11 @@
   <!-- insert views/partials/navigator.html -->
   <!-- iterate features -->
   <div data-created-at="[$feature:@created]" data-updated-at="[$feature:@age]">
-    <h2><a href="[/explore/edit/$feature:@id]">[$feature:@title]</a></h2>
+    <h2><a href="[/manage/edit/published/$feature:@id]">[$feature:@title]</a></h2>
     
     <!-- iterate producers -->
     <cite>
-      <a href="[/explore/edit/$@id]">[by $@title]</a>
+      <a href="[/manage/edit/$@id]">[by $@title]</a>
     </cite>
     
     <p>[$feature:abstract]</p>

@@ -33,6 +33,8 @@ abstract class Model extends \bloc\Model
       } else {
         $this->context = Token::ID($id);
       }
+    } else {
+      self::create($this);
     }
   }
   
@@ -48,7 +50,13 @@ abstract class Model extends \bloc\Model
     
       if (substr($method, -9) == 'attribute') {
         $key = substr($method, 3, -9);
-        $context->setAttribute($key, $value);
+        if ($accessor === 'set') {
+          $context->setAttribute($key, $value);
+        } else {
+
+          $context->getAttribute($key);
+        }
+        
       } else {
         $context->setNodeValue($value);
       }
@@ -60,22 +68,21 @@ abstract class Model extends \bloc\Model
     return $this->{"get{$property}"}($this->context);
   }
   
-  static public function create($instance, $data)
+  static public function create($instance, $data = [])
   {
     if ($instance->context === null) {
       $instance->context = Token::storage()->createElement('token', null);
-      Token::storage()->pick('//group[@type="'.static::NAME.'"]')->appendChild($instance->context);
+      $instance['@created'] = (new \DateTime())->format('Y-m-d H:i:s');
+      Token::storage()->pick('//group[@type="'.$instance->get_model().'"]')->appendChild($instance->context);
     }
+    
 
-    $data = array_replace_recursive(self::$fixture, static::$fixture, $data);
-
-    $instance->mergeInput($data);
-    if (Token::storage()->validate()) {
-      return $instance;
-    } else {
-      $instance->errors = libxml_get_errors();
-      return false;
+    static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
+    
+    if (!empty($data)) {
+      $instance->mergeInput(static::$fixture, $instance->context);
     }
+    return $instance;
   }
   
   public function save()
@@ -83,15 +90,16 @@ abstract class Model extends \bloc\Model
     if (Token::storage()->validate()) {
       return Token::storage()->save(PATH . Token::DB . '.xml');
     } else {
+      
       $this->errors = libxml_get_errors();
+
       return false;
     }
   }
   
-  public function mergeInput($input, \DOMElement $decendant = null)
+  public function mergeInput($input, \DOMElement $context)
   {
     $key = key($input);
-    $context = $decendant ?: $this->context;
     
     foreach ($input[$key] as $node => $value) {
       if (empty($value)) continue;
@@ -131,6 +139,11 @@ abstract class Model extends \bloc\Model
   
   public function getStatus($context)
   {
+    static $status = null;
+    /*
+      TODO Errors shall go here.
+    */
+        
     $updated = strtotime($context['@updated']);
     $message = (time() - $updated) < 5 ? "Just Saved" : "Last Edited " . date('m/d/y g:ia', $updated);
     return new \bloc\types\Dictionary(['text' => $message, 'type' => 'success']);

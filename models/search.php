@@ -12,6 +12,22 @@ namespace models;
     private $index = [],
             $query = null;
   
+  
+    
+    static public function clear($directory = '/')
+    {
+      $path = PATH . 'data/cache/search';
+      $files = array_diff(scandir($path . $directory), array('.','..')); 
+      foreach ($files as $file) {
+        $filepath = $directory . $file;      
+        if (is_dir($path . $filepath)) {
+          self::clear($filepath . '/');
+        } else {
+          unlink($path.$filepath);
+        }
+      }
+    }
+    
     public function __construct($query)
     {
       
@@ -62,6 +78,7 @@ namespace models;
       }
       return $this->index;
     }
+    
   
   
     public function asJSON($subset = false, $cache = false)
@@ -71,7 +88,9 @@ namespace models;
         $subset = strtoupper($subset);
         $path = sprintf('%sdata/cache/search/%s', PATH, $cache);
         if (! file_exists($path)) {
-          mkdir($path, 0777, true);
+          if (!mkdir($path, 0777, true)) {
+            echo "NO";
+          };
         }
         file_put_contents($path . "/{$subset}.json", $json);
       }

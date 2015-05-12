@@ -63,7 +63,7 @@
                   }
                 };
               
-            var s = new SVG(document.getElementById('test'), {height:500,width:500, viewBox:'0 0 100 100'});
+            var s = new SVG(document.getElementById('test'), {height:50,width:50, viewBox:'0 0 100 100'});
             
             
             s.createElement('path', {
@@ -94,10 +94,10 @@
             };
             var radian = third;
           
-            dims.radius = dims.length / 4;
+            dims.radius = dims.length / Math.sqrt(divs);
             dims.center = dims.length / 2;
-          
-            dims.sx = dims.center + Math.cos(space) * dims.radius;
+            
+            dims.sx = dims.center + dims.radius * Math.cos(space);
             dims.sy = dims.center + dims.radius * Math.sin(space);
           
             var path = '';

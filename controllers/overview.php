@@ -9,14 +9,14 @@ use \bloc\View;
 
   class Overview extends Manage
   {
-    protected function GETpolicy()
+    public function GETpolicy()
     {
       $view = new View($this->partials->layout);
       $view->content   = 'views/pages/policy.html';
       return $view->render($this());
     }
     
-    protected function GETtciaf()
+    public function GETtciaf()
     {
       /*
         TODO show staff

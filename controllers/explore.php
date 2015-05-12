@@ -17,7 +17,7 @@ class Explore extends Manage
     $view->content   = 'views/lists/features.html';
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
-    $this->search = ['topic' => 'features'];
+    $this->search = ['topic' => 'published'];
     $this->features = Token::storage()->find("/tciaf/group[@type='published']/token")->map(function($feature) {
       return [
         'feature'   => new \models\Published($feature),
@@ -28,13 +28,17 @@ class Explore extends Manage
     return $view->render($this());
   }
 
-  public function GETpeople($type = 'producer', $index = 1, $per = 100)
+  public function GETpeople($type = 'all', $index = 1, $per = 100)
   {
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/people.html';
-    $this->search = ['topic' => 'people'];
+    $this->search = ['topic' => 'person'];
+    $predicate = $type === 'all' ? '' : "[pointer[@type='{$type}']]";
     $this->people = Token::storage()
-                    ->find("//group[@type='person']/token[pointer[@type='{$type}']]")
+                    ->find("//group[@type='person']/token{$predicate}")
+                    ->sort(function($a, $b) {
+                      return $a['@title'] > $b['@title'];
+                    })
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
 
 
@@ -46,14 +50,11 @@ class Explore extends Manage
   {
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/competitions.html';
-    $this->search = ['topic' => 'competitions'];
+    $this->search = ['topic' => 'competition'];
     $this->competitions = Token::storage()
                     ->find("//group[@type='competition']/token[pointer[@type='issue']]")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/competitions"]));
 
-    foreach (Token::storage()->find("//group[@type='competition']/token[pointer[@type='issue']]") as $token) {
-      print_r($token['@title']);
-    }
     return $view->render($this());
   }
   
@@ -62,7 +63,7 @@ class Explore extends Manage
   {
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/organizations.html';
-    $this->search = ['topic' => 'organizations'];
+    $this->search = ['topic' => 'organization'];
     $this->organizations = Token::storage()
                     ->find("//group[@type='organization']/token")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/organizations"]));
@@ -73,43 +74,5 @@ class Explore extends Manage
   }
   
 
-  protected function GETedit($id)
-  {
-    $view    = new View($this->partials->layout);
-    $storage = Token::storage();
 
-    $this->s3_url  = $storage->getElementById('k:s3');
-    
-    $this->item = Token::factory(Token::ID($id));
-
-    $view->content = sprintf("views/forms/%s.html", $this->item->name());
-        
-    
-    
-    $this->pointers = $this->item->pointer->map(function($point) use($storage) {
-      $token = $storage->getElementById($point['@token']);
-      return [ 'token' => $token, 'pointer' => $point, 'index' => \bloc\registry::index()];
-    });    
-
-    $this->references = $storage->find("/tciaf/group/token[pointer[@token='{$id}']]")->map(function($item) {
-      return $item;
-    });
-    
-    return $view->render($this());
-  }
-
-  protected function POSTedit($request, $id = null)
-  {
-    $model = Token::factory(Token::ID($id));
-    
-    if ($instance = $model::create($model, $_POST)) {
-      if ($instance->save()) {
-        \bloc\router::redirect($request->redirect);
-      }
-    } else {
-      \bloc\application::instance()->log($model->errors);
-    }
-    
-    
-  }
 }

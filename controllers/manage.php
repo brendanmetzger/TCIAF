@@ -6,6 +6,7 @@ use \bloc\Types\String;
 use \bloc\Application;
 use \bloc\types\xml;
 use \bloc\types\Dictionary;
+use \models\Token;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -114,6 +115,64 @@ class Manage extends \bloc\controller
     }
     
     print_r($item);
+  }
+  
+  public function GETcreate($model)
+  {
+    $view    = new View($this->partials->layout);
+    $view->content = sprintf("views/forms/%s.html", $model);
+    $this->item = Token::factory($model);
+    return $view->render($this()); 
+  }
+  
+  protected function GETedit($model, $id)
+  {
+    $view    = new View($this->partials->layout);
+    $view->content = sprintf("views/forms/%s.html", $model);
+    
+    $storage = Token::storage();
+
+    // this will be placed into media model.
+    $this->s3_url  = $storage->getElementById('k:s3');
+    
+    $this->item = Token::factory($model, Token::ID($id));
+
+    
+    
+    $this->pointers = $this->item->pointer->map(function($point) use($storage) {
+      $token = $storage->getElementById($point['@token']);
+      return [ 'token' => $token, 'pointer' => $point, 'index' => \bloc\registry::index()];
+    });    
+
+    $this->references = $storage->find("/tciaf/group/token[pointer[@token='{$id}']]")->map(function($item) {
+      return $item;
+    });
+    
+    return $view->render($this());
+  }
+  
+  protected function POSTedit($request, $model, $id = null)
+  {
+    $model = Token::factory($model, Token::ID($id));
+    
+    if ($instance = $model::create($model, $_POST)) {
+      if ($instance->save()) {
+        // clear caches
+        \models\Search::clear();
+        
+        if ($id === null) {
+          $request->redirect .= $instance['@id'];
+        }
+        
+        \bloc\router::redirect($request->redirect);
+      } else {
+
+      
+      \bloc\application::instance()->log($model->errors);
+      }
+    } 
+    
+    
   }
   
   protected function POSTupload($request)

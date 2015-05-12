@@ -36,7 +36,7 @@
   <em>[$paginate:index of $paginate:total]</em>
   <a href="[/$paginate:prefix/$paginate:next]">Next</a>
   <input type="range" min="1" max="[$paginate:total]" value="[$paginate:index]" step="1" onchange="[window.location.href = '/$paginate:prefix/'+this.value;]" oninput="this.parentNode.querySelector('em').innerHTML = 'Go to page ' + this.value"/>
-  <form action="" id="search" data-redirect="/explore/edit/" data-topic="[$search:topic]" method="GET">
+  <form action="" id="search" data-redirect="[/manage/edit/$search:topic/]" data-topic="[$search:topic]" method="GET">
     <input type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
   </form>
   <script type="text/javascript">

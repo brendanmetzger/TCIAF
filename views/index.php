@@ -56,7 +56,7 @@ $app->prepare('debug', function ($app, $response) {
       $elem = (new DOM\Element('script'))->insert($output->dom->documentElement->lastChild);
       $elem->setAttribute('type', 'text/javascript');
       $elem->appendChild($elem->ownerDocument->createTextNode("console.group('Backend notes');"));
-      foreach (array_reverse($app::instance()->log()) as $message) {
+      foreach ($app::instance()->log() as $message) {
         $elem->appendChild($elem->ownerDocument->createTextNode(sprintf("console.log(%s);", json_encode($message))));
       }
       $elem->appendChild($elem->ownerDocument->createTextNode("console.groupEnd();"));

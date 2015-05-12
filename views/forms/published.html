@@ -1,4 +1,4 @@
-<form name="uploadData" method="POST" action="[/explore/edit/$item:@id]" class="editor">
+<form name="uploadData" method="POST" action="[/manage/edit/$item:@id]" class="editor">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     fieldset div.group {width:33%;}
@@ -65,7 +65,7 @@
     <!--iterate references -->
     <div class="listed padded">
       <sup class="normal capitalize small">[$pointer:@type]</sup>
-      <h2><a href="[/explore/edit/$@id]">[$@title]</a></h2>
+      <h2><a href="[/manage/edit/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
       <a class="button margins ghost" href="[#/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Unlink $@title]</a>
     </div>
@@ -121,12 +121,10 @@
           this.parentNode.insertBefore(img, this);
         }.bind(this.input);
       
-      
-      
         reader.readAsDataURL(this.input.files[0]);
       });
       
-      new Spectra(document.querySelectorAll('fieldset.spectra label input'));
+      var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));
     });
   //]]>
   </script>

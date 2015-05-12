@@ -9,5 +9,4 @@ namespace models;
 
   class Competition extends Model
   {
-    const NAME = 'competition';
   }
