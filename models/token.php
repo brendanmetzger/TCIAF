@@ -26,7 +26,7 @@ use \bloc\DOM\Document;
     
     static public function ID($id)
     {
-      if ($id === null) return null;
+      if ($id === null || strtolower($id) === 'pending') return null;
       if (! $element = Token::storage()->getElementById($id)) {
         throw new \InvalidArgumentException("{$id}... Doesn't ring a bell.", 1);
       }

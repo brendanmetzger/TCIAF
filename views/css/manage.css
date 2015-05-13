@@ -55,7 +55,7 @@ form.editor .text {
   background-attachment:fixed;
   padding:0.25em 2% 0.25em 3%;
   width:95%;
-  border-width:0 0 1px 0;
+  border-width:1px;
 }
 
 form.editor .text:focus {

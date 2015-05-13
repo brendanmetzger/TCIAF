@@ -77,14 +77,14 @@ class Manage extends \bloc\controller
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
      
-    $username = $request->post(String::rotate('username', $token));
+    $username = 'p:' . preg_replace('/\s/', '', $request->post(String::rotate('username', $token)));
     $password = $request->post(String::rotate('password', $token));
     $redirect = $request->post(String::rotate('redirect', $token));
     
     if ($key) {
       try {
         $user = (new \models\person($username))->authenticate($password);
-        Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('id')]);
+        Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect);
       } catch (\InvalidArgumentException $e) {
         $message = $e->getMessage();
@@ -117,7 +117,7 @@ class Manage extends \bloc\controller
     print_r($item);
   }
   
-  public function GETcreate($model)
+  protected function GETcreate($model)
   {
     $view    = new View($this->partials->layout);
     $view->content = sprintf("views/forms/%s.html", $model);
@@ -136,8 +136,6 @@ class Manage extends \bloc\controller
     $this->s3_url  = $storage->getElementById('k:s3');
     
     $this->item = Token::factory($model, Token::ID($id));
-
-    
     
     $this->pointers = $this->item->pointer->map(function($point) use($storage) {
       $token = $storage->getElementById($point['@token']);
@@ -154,14 +152,13 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     $model = Token::factory($model, Token::ID($id));
-    
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
         // clear caches
         \models\Search::clear();
         
-        if ($id === null) {
-          $request->redirect .= $instance['@id'];
+        if ($id === 'pending') {
+          $request->redirect = str_replace('pending', $instance['@id'], $request->redirect);
         }
         
         \bloc\router::redirect($request->redirect);

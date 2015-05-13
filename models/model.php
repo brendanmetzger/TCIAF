@@ -44,20 +44,19 @@ abstract class Model extends \bloc\Model
     $context = $arguments[0];
    
     if ($accessor == 'get') {
+
       return $context[substr($method,3)];
     } else {
       $value   = $arguments[1];
-    
-      if (substr($method, -9) == 'attribute') {
-        $key = substr($method, 3, -9);
-        if ($accessor === 'set') {
-          $context->setAttribute($key, $value);
-        } else {
 
-          $context->getAttribute($key);
-        }
+      if (strtolower(substr($method, -9)) == 'attribute') {
+        $key = substr($method, 3, -9);
+
+        $context->setAttribute($key, $value);
+
         
       } else {
+        
         $context->setNodeValue($value);
       }
     }
@@ -72,16 +71,15 @@ abstract class Model extends \bloc\Model
   {
     if ($instance->context === null) {
       $instance->context = Token::storage()->createElement('token', null);
-      $instance['@created'] = (new \DateTime())->format('Y-m-d H:i:s');
+      $data['token']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
       Token::storage()->pick('//group[@type="'.$instance->get_model().'"]')->appendChild($instance->context);
     }
     
 
     static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
     
-    if (!empty($data)) {
-      $instance->mergeInput(static::$fixture, $instance->context);
-    }
+    $instance->mergeInput(static::$fixture, $instance->context);
+
     return $instance;
   }
   
@@ -90,7 +88,7 @@ abstract class Model extends \bloc\Model
     if (Token::storage()->validate()) {
       return Token::storage()->save(PATH . Token::DB . '.xml');
     } else {
-      
+      echo htmlentities(Token::storage()->saveXML($this->context));
       $this->errors = libxml_get_errors();
 
       return false;
@@ -106,8 +104,10 @@ abstract class Model extends \bloc\Model
       if ($node === '@') {
         $this->setAttributes($value, $context);
       } else if ($node === 'CDATA') {
+
         $this->{"set{$key}"}($context, $value);
       } else if (is_int($node)) {
+        $this->{"set{$key}"}($context, $input[$key]);
         echo "deal with array of {$key} elements";
       } else {
         $this->mergeInput([$node => $value], $context->getFirst($node));
@@ -118,9 +118,23 @@ abstract class Model extends \bloc\Model
   public function setAttributes(array $attributes, \DOMElement $context)
   {
     foreach ($attributes as $property => $value) {
-      $this->{"set{$property}attribute"}($context, $value);
+      $this->{"set{$property}Attribute"}($context, $value);
     }
-  }  
+  }
+  
+  public function setIdAttribute(\DOMElement $context, $value)
+  {
+      
+    if (empty($value)) {
+      $value = 'pending';
+    } else if (strtolower($value) === 'pending') {
+
+      $value = substr($this->get_model(), 0, 1) . ':' . uniqid();
+    }
+
+    $context->setAttribute('id', $value);
+  }
+    
   
   public function setUpdatedAttribute(\DOMElement $context, $value)
   {

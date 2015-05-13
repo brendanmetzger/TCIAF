@@ -16,7 +16,7 @@ namespace models;
         'premier' => [
           'CDATA' => '',
           '@' => [
-            'date' => 0
+            'date' => null
           ]
         ],
         'spectra' => [
@@ -25,16 +25,19 @@ namespace models;
       ]
     ];
     
-    public function setSpectra(\DOMElement $context, array $spectrum)
+    public function setSpectra(\DOMElement $context, $spectrum)
     {
+      if (is_array($spectrum)) {
+        $spectrum = http_build_query($spectrum);
+      }
       // input comes in as an array from all the slider elements
-      $context->setNodeValue(http_build_query($spectrum));      
+      $context->setNodeValue($spectrum);      
     }
     
     public function getSpectra(\DOMElement $context)
     {
       parse_str($context->getFirst('spectra')->nodeValue ?: $this::$fixture['token']['spectra']['CDATA'], $spectra);
-     return Token::storage()->find('/tciaf/config/spectra')->map(function($item) use($spectra) {
+      return Token::storage()->find('/tciaf/config/spectra')->map(function($item) use($spectra) {
         return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];
       });
     }
@@ -43,14 +46,35 @@ namespace models;
     {
       static $audio = null;
       if ($audio === null) {
+        $audio = new \bloc\types\Dictionary(['index' => \bloc\registry::index()]);
         $media = $context['media'];
         foreach ($media as $item) {
           if ($item['@type'] === 'audio') {
-            $audio = new \bloc\types\Dictionary(['src' => $item['@src'], 'type' => 'audio', 'index' => \bloc\registry::index()]);
+            $audio['src'] = $item['@src'];
+            $audio['type'] = 'audio';
             break;
           }
         }
       }
       return $audio;
     }
+    
+    public function setMedia(\DOMElement $context, array $media)
+    {
+      $container = $context->parentNode; 
+      $cloneable = $container->removeChild($context);
+      
+      foreach ($media as $item) {
+        if (empty($item['@']['src'])) {
+          continue;
+        }
+        
+        $clone = $container->appendChild($clonable->cloneNode());
+        $clone->setAttribute('src', $item['@']['src']);
+        $clone->setAttribute('type', $item['@']['type']);
+        
+        
+      }
+    }
+    
   }
