@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
-use \bloc\Application;
+
+use \bloc\application;
 
 /**
  * Third Coast International Audio Festival Defaults

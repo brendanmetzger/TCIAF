@@ -69,7 +69,7 @@ namespace models;
           continue;
         }
         
-        $clone = $container->appendChild($clonable->cloneNode());
+        $clone = $container->appendChild($cloneable->cloneNode());
         $clone->setAttribute('src', $item['@']['src']);
         $clone->setAttribute('type', $item['@']['type']);
         

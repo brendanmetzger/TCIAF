@@ -1,4 +1,5 @@
 .DS_Store
 current
+tmp
 config
 data/*

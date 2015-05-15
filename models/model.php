@@ -89,7 +89,7 @@ abstract class Model extends \bloc\Model
       return Token::storage()->save(PATH . Token::DB . '.xml');
     } else {
       echo htmlentities(Token::storage()->saveXML($this->context));
-      $this->errors = libxml_get_errors();
+      $this->errors = Token::storage()->errors();
 
       return false;
     }

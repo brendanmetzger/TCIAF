@@ -1,7 +1,9 @@
 <?php
 namespace controllers;
-use \bloc\View;
-use \models\Token;
+
+use \bloc\view;
+
+use \models\token;
 
 
 /**

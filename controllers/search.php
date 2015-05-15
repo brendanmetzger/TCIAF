@@ -1,8 +1,10 @@
 <?php
 namespace controllers;
-use \bloc\View;
-use \bloc\DOM\Document;
-use \bloc\types\Dictionary;
+
+use \bloc\view;
+use \bloc\dom\document;
+use \bloc\types\dictionary;
+
 use \models\Token;
 
 /**

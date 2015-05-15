@@ -1,7 +1,7 @@
 <?php
-
 namespace models;
-use \bloc\DOM\Document;
+
+use \bloc\dom\document;
 
 /**
   * Token
@@ -28,7 +28,7 @@ use \bloc\DOM\Document;
     {
       if ($id === null || strtolower($id) === 'pending') return null;
       if (! $element = Token::storage()->getElementById($id)) {
-        throw new \InvalidArgumentException("{$id}... Doesn't ring a bell.", 1);
+        throw new \InvalidArgumentException("%s... Doesn't ring a bell.", 1);
       }
       return $element;
     }

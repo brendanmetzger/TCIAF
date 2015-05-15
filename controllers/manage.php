@@ -1,12 +1,14 @@
 <?php
 namespace controllers;
-use \bloc\View;
-use \bloc\View\Renderer;
-use \bloc\Types\String;
-use \bloc\Application;
+
+use \bloc\application;
+use \bloc\view;
+use \bloc\view\renderer;
+use \bloc\types\string;
 use \bloc\types\xml;
-use \bloc\types\Dictionary;
-use \models\Token;
+use \bloc\types\dictionary;
+
+use \models\token;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -24,14 +26,13 @@ class Manage extends \bloc\controller
 
     View::addRenderer('before', Renderer::addPartials($this));
     View::addRenderer('after', Renderer::HTML());
-    
+        
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
 		$this->year = date('Y');
     $this->title = "Third Coast";
     
     $this->supporters = $this->features = \models\Token::storage()->find("/tciaf/group/token[pointer[@type='sponsor' and @token='TCIAF']]");
-    // $this->supporters = xml::load(\models\Token::DB)->find();
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
@@ -49,6 +50,8 @@ class Manage extends \bloc\controller
   
   public function GETlogin($redirect = '/', $username = null, $message = null)
   {
+    if ($this->authenticated) \bloc\router::redirect($redirect);
+    
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
     $view = new View($this->partials->layout);
@@ -77,17 +80,17 @@ class Manage extends \bloc\controller
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
      
-    $username = 'p:' . preg_replace('/\s/', '', $request->post(String::rotate('username', $token)));
+    $username = $request->post(String::rotate('username', $token));
     $password = $request->post(String::rotate('password', $token));
     $redirect = $request->post(String::rotate('redirect', $token));
     
     if ($key) {
       try {
-        $user = (new \models\person($username))->authenticate($password);
+        $user = (new \models\person('p:' . preg_replace('/\W/', '', $username)))->authenticate($password);
         Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect);
       } catch (\InvalidArgumentException $e) {
-        $message = $e->getMessage();
+        $message = sprintf($e->getMessage(), $username);
       }
     } else {
       $message = "This form has expired - it can happen.. try again!";
@@ -128,6 +131,11 @@ class Manage extends \bloc\controller
   protected function GETedit($model, $id)
   {
     $view    = new View($this->partials->layout);
+    
+    if ($model == 'find') {
+      $model = Token::ID($id)->parentNode->getAttribute('type');
+    }
+    
     $view->content = sprintf("views/forms/%s.html", $model);
     
     $storage = Token::storage();
