@@ -35,7 +35,7 @@ use \models\token;
       $view->content = 'views/pages/staff.html';
       
       
-      $this->staff = Token::storage()->find("//group[@type='person']/token[pointer[@type='staff' and @token='TCIAF']]");
+      $this->staff = Token::storage()->find("//group[@type='person']/token[edge[@type='staff' and @token='TCIAF']]");
       
       return $view->render($this());
       

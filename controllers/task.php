@@ -72,17 +72,17 @@ class Task extends \bloc\controller
     }
   }
   
-  public function CLIpointerproducer()
+  public function CLIedgeproducer()
   {
     $doc  = new \bloc\DOM\Document('data/db5');
     $xml  = new \DomXpath($doc);
     
-    $pointers = $xml->query('//group[@type="published" or @type="unpublished"]/token/pointer');
+    $edges = $xml->query('//group[@type="published" or @type="unpublished"]/token/edge');
     
-    foreach ($pointers as $pointer) {
-      $token = $doc->getElementById($pointer->getAttribute('token'));
-      $pointer->setAttribute('token', $pointer->parentNode->getAttribute('id'));
-      $token->appendChild($pointer);
+    foreach ($edges as $edge) {
+      $token = $doc->getElementById($edge->getAttribute('token'));
+      $edge->setAttribute('token', $edge->parentNode->getAttribute('id'));
+      $token->appendChild($edge);
     }
     
     if ($doc->validate()) {

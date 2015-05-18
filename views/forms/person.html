@@ -2,13 +2,13 @@
   <fieldset>
     <legend class="caps-lock">Edit</legend>
     <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
-    <input type="hidden" name="token[@][id]" value="[$item:@id]" />
-    <input type="hidden" name="token[@][created]" value="[$item:@created]" />
+    <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
+    <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   
-    <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text" autocomplete="off"/>
+    <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text" autocomplete="off"/>
     <label for="title">Name</label>
   
-    <textarea id="abstract" name="token[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
+    <textarea id="abstract" name="vertex[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
     <label for="abstract">Bio</label>
   </fieldset>
   
@@ -19,14 +19,14 @@
   
   <fieldset>
     <legend class="caps-lock">Also</legend>
-    <!-- iterate pointers -->
+    <!-- iterate edges -->
     <div class="listed padded">
-      <input type="hidden" name="[token[pointer][$index][type]]" value="[$pointer:@type]" />
-      <input type="hidden" name="[token[pointer][$index][token]]" value="[$pointer:@token]" />
+      <input type="hidden" name="[vertex[edge][$index][type]]" value="[$edge:@type]" />
+      <input type="hidden" name="[vertex[edge][$index][vertex]]" value="[$edge:@vertex]" />
       
-      <sup class="normal capitalize small">[$pointer:@type]</sup>
-      <h2><a href="[/manage/edit/published/$token:@id]">[$token:@title]</a></h2>
-      <p>[$token:abstract]</p>
+      <sup class="normal capitalize small">[$edge:@type]</sup>
+      <h2><a href="[/manage/edit/published/$vertex:@id]">[$vertex:@title]</a></h2>
+      <p>[$vertex:abstract]</p>
     </div>
     
   </fieldset>

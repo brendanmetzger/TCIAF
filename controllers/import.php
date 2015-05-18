@@ -150,10 +150,10 @@ class Import extends Task
       $producer = $doc->getElementById($pid);
       
       if ($producer) {
-        $pointer = $doc->createElement("pointer");
-        $pointer->setAttribute('token', $pid);
-        $pointer->setAttribute('type', 'producer');
-        $feature->appendChild($pointer);
+        $edge = $doc->createElement("edge");
+        $edge->setAttribute('token', $pid);
+        $edge->setAttribute('type', 'producer');
+        $feature->appendChild($edge);
       } 
     }
     
@@ -180,18 +180,18 @@ class Import extends Task
       foreach ($producers as $producer) {
 
         $p = $doc->getElementById('p:'.$producer['id']);
-        $exp = "pointer[@token='s:{$feature}']";
+        $exp = "edge[@token='s:{$feature}']";
 
-        $pointer = $xml->query($exp, $p);
-                echo $pointer->length . "\n";
-        if ($p && $pointer->length === 0) {
+        $edge = $xml->query($exp, $p);
+                echo $edge->length . "\n";
+        if ($p && $edge->length === 0) {
           
-          $pointer = $doc->createElement("pointer");
-          $pointer->setAttribute('token', 's:'.$feature);
-          $pointer->setAttribute('type', 'producer');
-          $p->appendChild($pointer);
+          $edge = $doc->createElement("edge");
+          $edge->setAttribute('token', 's:'.$feature);
+          $edge->setAttribute('type', 'producer');
+          $p->appendChild($edge);
           
-           echo $producer['id'] . " has no pointer \n";
+           echo $producer['id'] . " has no edge \n";
         }
       }
     }
@@ -211,6 +211,8 @@ class Import extends Task
   {
     # implement
   }
+  
+
   
   public function CLImapAwardsToProducer()
   {
@@ -232,7 +234,7 @@ class Import extends Task
     
     foreach ($years as $key => $awards) {
       echo "Create token for $key\n";
-      echo "Create pointer to token in {$driehaus->getAttribute('title')}\n\n";
+      echo "Create edge to token in {$driehaus->getAttribute('title')}\n\n";
 
       
       $cid = 'd:'.$key;
@@ -243,16 +245,16 @@ class Import extends Task
       $group->appendChild($competition);
 
       
-      $pointer = $doc->createElement("pointer");
-      $pointer->setAttribute('rel', $cid);
-      $pointer->setAttribute('type', 'issue');
-      $driehaus->appendChild($pointer);
+      $edge = $doc->createElement("edge");
+      $edge->setAttribute('rel', $cid);
+      $edge->setAttribute('type', 'issue');
+      $driehaus->appendChild($edge);
       
       foreach ($awards as $award) {
-        $subpointer = $doc->createElement('pointer', trim($award['award']));
-        $subpointer->setAttribute('rel', 's:'.$award['feature_id']);
-        $subpointer->setAttribute('type', 'winner');
-        $competition->appendChild($subpointer);
+        $subedge = $doc->createElement('edge', trim($award['award']));
+        $subedge->setAttribute('rel', 's:'.$award['feature_id']);
+        $subedge->setAttribute('type', 'winner');
+        $competition->appendChild($subedge);
       }
     }
     

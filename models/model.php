@@ -7,7 +7,7 @@ abstract class Model extends \bloc\Model
          $errors  = [];
   
   static public $fixture = [
-    'token' => [
+    'vertex' => [
       '@' => [
         'id'      => null,
         'title'    => '',
@@ -21,7 +21,7 @@ abstract class Model extends \bloc\Model
         ]
       ],
       'media'   => [],
-      'pointer' => [],
+      'edge' => [],
     ]
   ];
   
@@ -70,8 +70,8 @@ abstract class Model extends \bloc\Model
   static public function create($instance, $data = [])
   {
     if ($instance->context === null) {
-      $instance->context = Token::storage()->createElement('token', null);
-      $data['token']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
+      $instance->context = Token::storage()->createElement('vertex', null);
+      $data['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
       Token::storage()->pick('//group[@type="'.$instance->get_model().'"]')->appendChild($instance->context);
     }
     

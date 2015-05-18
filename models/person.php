@@ -8,7 +8,7 @@ namespace models;
 class Person extends Model
 {  
   static public $fixture = [
-    'token' => [
+    'vertex' => [
       'abstract' => [
         '@' => [
           'content' => 'bio'
@@ -38,7 +38,7 @@ class Person extends Model
     if (empty($value)) {
       $value = 'pending';
     } else if (strtolower($value) === 'pending') {
-      $value = 'p:' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['token']['@']['title']);
+      $value = 'p:' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
     }
     
     if (empty($value)) {

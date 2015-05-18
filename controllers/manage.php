@@ -32,12 +32,12 @@ class Manage extends \bloc\controller
 		$this->year = date('Y');
     $this->title = "Third Coast";
     
-    $this->supporters = $this->features = \models\Token::storage()->find("/tciaf/group/token[pointer[@type='sponsor' and @token='TCIAF']]");
+    $this->supporters = $this->features = \models\Token::storage()->find("/tciaf/group/vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['people', 'features', 'competitions', 'organizations']))->map(function($task) {
-        return ['url' => "/explore/{$task}", 'name' => $task];
+        return ['url' => "/explore/{$task}/all", 'name' => $task];
       });
       $this->partials->helper = 'views/partials/admin.html';
     }
@@ -99,7 +99,7 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETpointer($action, $type, $reference, $pointer = null)
+  protected function GETedge($action, $type, $reference, $edge = null)
   {
     return 'not yet';
     /*
@@ -107,13 +107,13 @@ class Manage extends \bloc\controller
     */
     // $action will be add|remove
     if ($action == 'remove') {
-      $item = \models\Token::storage()->find("/tciaf/group/token[@id='{$reference}']/pointer[@type='{$type}' and @token='{$pointer}']")->pick(0);
+      $item = \models\Token::storage()->find("/tciaf/group/vertex[@id='{$reference}']/edge[@type='{$type}' and @vertex='{$edge}']")->pick(0);
       $item->parentNode->removeChild($item);
     } else if ($action == 'add') {
       $container = \models\Token::storage()->getElementById($reference);
-      $item = \models\Token::storage()->createElement('pointer');
+      $item = \models\Token::storage()->createElement('edge');
       $item->setAttribute('type', $type);
-      $item->setAttribute('token', $pointer);
+      $item->setAttribute('vertex', $edge);
       $container->appendChild($item);
     }
     
@@ -145,12 +145,12 @@ class Manage extends \bloc\controller
     
     $this->item = Token::factory($model, Token::ID($id));
     
-    $this->pointers = $this->item->pointer->map(function($point) use($storage) {
-      $token = $storage->getElementById($point['@token']);
-      return [ 'token' => $token, 'pointer' => $point, 'index' => \bloc\registry::index()];
+    $this->edges = $this->item->edge->map(function($point) use($storage) {
+      $token = $storage->getElementById($point['@vertex']);
+      return [ 'vertex' => $token, 'edge' => $point, 'index' => \bloc\registry::index()];
     });    
 
-    $this->references = $storage->find("/tciaf/group/token[pointer[@token='{$id}']]")->map(function($item) {
+    $this->references = $storage->find("/tciaf/group/vertex[edge[@vertex='{$id}']]")->map(function($item) {
       return $item;
     });
     

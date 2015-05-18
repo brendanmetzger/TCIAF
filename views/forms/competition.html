@@ -16,28 +16,28 @@
   
   <fieldset>
     <legend class="caps-lock">Has</legend>
-    <!-- iterate pointers -->
+    <!-- iterate edges -->
     <div class="listed padded">
-      <input type="hidden" name="[token[pointer][$index][type]]" value="[$pointer:@type]" />
-      <input type="hidden" name="[token[pointer][$index][token]]" value="[$pointer:@token]" />
-      <sup class="normal capitalize small">[$pointer:@type $pointer]</sup>
+      <input type="hidden" name="[token[edge][$index][type]]" value="[$edge:@type]" />
+      <input type="hidden" name="[token[edge][$index][token]]" value="[$edge:@token]" />
+      <sup class="normal capitalize small">[$edge:@type $edge]</sup>
       <h2><a href="[/manage/edit/find/$token:@id]">[$token:@title]</a></h2>
       <p>[$token:abstract]</p>
     </div>
-    <a class="button margins" href="[#/manage/pointer/add/winner/$item:@id]">Add Winner</a>
-    <a class="button margins" href="[#/manage/pointer/add/participant/$item:@id]">Add Participant</a>
+    <a class="button margins" href="[#/manage/edge/add/winner/$item:@id]">Add Winner</a>
+    <a class="button margins" href="[#/manage/edge/add/participant/$item:@id]">Add Participant</a>
   </fieldset>
   
   <fieldset>
     <legend class="caps-lock">Belongs To</legend>
     <!--iterate references -->
     <div class="listed padded">
-      <sup class="normal capitalize small">[$pointer:@type]</sup>
+      <sup class="normal capitalize small">[$edge:@type]</sup>
       <h2><a href="[/manage/edit/find/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
-      <a class="button margins ghost" href="[#/manage/pointer/remove/$pointer:@type/$pointer:@token/$@id]">[Unlink $@title]</a>
+      <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@token/$@id]">[Unlink $@title]</a>
     </div>
-    <a class="button margins" href="[#/manage/pointer/add/producer/$item:@id]">Add Reference</a>
+    <a class="button margins" href="[#/manage/edge/add/producer/$item:@id]">Add Reference</a>
   </fieldset>
   
 </form>
