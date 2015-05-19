@@ -10,12 +10,13 @@ abstract class Model extends \bloc\Model
     'vertex' => [
       '@' => [
         'id'      => null,
-        'title'    => '',
+        'title'   => '',
         'created' => '',
         'updated' => '',
+        'weight'  => 0,
       ],
       'abstract' => [
-        'CDATA'   => '',
+        'CDATA'  => '',
         '@' => [
           'content' => 'description'
         ]

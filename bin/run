@@ -24,7 +24,7 @@ $app->prepare('command', function ($app) {
   
   // request expects array of this form [controller=>string,action=>string,params=[]]
   Request::$HTTP = false;
-  $request = new Request(array_merge($delegate, ['params' => $params]), false);
+  $request = new Request(array_merge($delegate, ['params' => $params, 'content-type' => 'text/plain']), false);
   
   // Provide a namespace (also a directory) to load objects that can respond to controller->action
   $router  = new Router('controllers', $request);

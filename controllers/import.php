@@ -212,7 +212,33 @@ class Import extends Task
     # implement
   }
   
-
+  public function CLImoveUnToPub()
+  {
+    $doc  = new \bloc\DOM\Document('data/db8');
+    $xml  = new \DomXpath($doc);
+    
+    $unpubs = $xml->query('//group[@type="unpublished"]/vertex');
+    $pubgroup = $xml->query('//group[@type="published"]')->item(0);
+    
+    print_r($pubgroup->getAttribute('type'));
+    $in_70_years = time() + (60 * 60 * 24 * 365 * 70); 
+    foreach ($unpubs as $unpub) {
+      $unpub->setAttribute('weight', $in_70_years);
+      $pubgroup->appendChild($unpub);
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db9.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    } else {
+      print_r(libxml_get_errors());
+    } 
+    
+    
+  }
   
   public function CLImapAwardsToProducer()
   {

@@ -4,7 +4,7 @@
 
 ### Vertex
 
-A vertex is just a type of node tracked in the xml file. They have identical structure but the particulars and differences are provided through context and use, not through additional record keeping. Context and use are defined in application data Models, which are primarily responsible for keeping tags and figuring out what edges-vertex relationships ought to mean.
+A vertex is just a type of node tracked in the xml file. They have identical structure but meaning takes shape around particular use of a vertex and its edges. This is largely defined in application data Models that are responsible for figuring out what edges-vertex relationships ought to mean.
 
 #### Types of vertices
 
@@ -38,7 +38,7 @@ Edges for TCIAF have a specified type and with this, they provide the necessary 
 - issue
 - participant
 
-The above list of edges represents a relationship between two vertices. A 'person' vertex can have a child edge pointing to a 'published' vertex, using the edge type 'producer'. Confusion could arise, because a 'published' vertex could have a child edge pointing to a 'person' vertex as well (and that might even be warranted sometimes). However, to keep things generally organized, try to follow tho protocol '**type** of edge' *of* '**vertex** identity'. IE. *Curator of event*, *Staff of Organization*, *Winner of Competition*. Could sometimes be easier to think of as 'belongs to', but any label as such will not apply to all edge cases.
+The above list of edges represents a relationship between two vertices. A 'person' vertex can have a child edge pointing to a 'published' vertex, using the edge type 'producer'. Confusion could arise, because a 'published' vertex could have a child edge pointing to a 'person' vertex as well (and that might even be warranted sometimes). However, to keep things generally organized, try to follow the protocol '**type** of edge' *of* '**vertex** identity'. IE. *Curator of event*, *Staff of Organization*, *Winner of Competition*. Could sometimes be easier to think of as 'belongs to', but any label as such will not apply to all edge cases.
 
 From the previous example, you can describe a great deal based on context, without the cumbersome schema of a database. The role of sponsorship is broad, and further
 

@@ -19,10 +19,10 @@ class Explore extends Manage
     $view->content   = 'views/lists/features.html';
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
-    $this->search = ['topic' => 'published'];
-    $this->features = Graph::group('published')->find('vertex')->map(function($feature) {
+    $this->search = ['topic' => 'feature'];
+    $this->features = Graph::group('feature')->find('vertex')->map(function($feature) {
       return [
-        'feature'   => new \models\Published($feature),
+        'feature'   => new \models\Feature($feature),
         'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
       ];
     })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/features/{$type}"]));

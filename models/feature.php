@@ -3,10 +3,10 @@
 namespace models;
 
 /**
-  * Published
+  * Feature
   *
   */
-  class Published extends Model
+  class Feature extends Model
   {    
     static public $fixture = [
       'vertex' => [
@@ -72,9 +72,6 @@ namespace models;
         $clone = $container->appendChild($cloneable->cloneNode());
         $clone->setAttribute('src', $item['@']['src']);
         $clone->setAttribute('type', $item['@']['type']);
-        
-        
       }
-    }
-    
+    }    
   }

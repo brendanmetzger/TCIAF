@@ -77,7 +77,7 @@ class Task extends \bloc\controller
     $doc  = new \bloc\DOM\Document('data/db5');
     $xml  = new \DomXpath($doc);
     
-    $edges = $xml->query('//group[@type="published" or @type="unpublished"]/token/edge');
+    $edges = $xml->query('//group[@type="feature"]/token/edge');
     
     foreach ($edges as $edge) {
       $token = $doc->getElementById($edge->getAttribute('token'));
