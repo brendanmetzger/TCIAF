@@ -5,7 +5,7 @@ use \bloc\view;
 use \bloc\dom\document;
 use \bloc\types\dictionary;
 
-use \models\token;
+use \models\graph;
 
 /**
  * Explore Represents the user's interest.
@@ -20,10 +20,10 @@ class Explore extends Manage
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
     $this->search = ['topic' => 'published'];
-    $this->features = Token::storage()->find("/tciaf/group[@type='published']/vertex")->map(function($feature) {
+    $this->features = Graph::group('published')->find('vertex')->map(function($feature) {
       return [
         'feature'   => new \models\Published($feature),
-        'producers' => Token::storage()->find("/tciaf/group[@type='person']/vertex[edge[@token='{$feature['@id']}']]"),
+        'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
       ];
     })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/features/{$type}"]));
 
@@ -35,9 +35,7 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/people.html';
     $this->search = ['topic' => 'person'];
-    $predicate = $type === 'all' ? '' : "[edge[@type='{$type}']]";
-    $this->people = Token::storage()
-                    ->find("/tciaf/group[@type='person']/vertex{$predicate}")
+    $this->people = Graph::group('person')->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
                     ->sort(function($a, $b) {
                       return $a['@title'] > $b['@title'];
                     })
@@ -53,8 +51,7 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/competitions.html';
     $this->search = ['topic' => 'competition'];
-    $this->competitions = Token::storage()
-                    ->find("//group[@type='competition']/vertex[edge[@type='issue']]")
+    $this->competitions = Graph::group('competition')->find("vertex[edge[@type='issue']]")
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/competitions/{$type}"]));
 
     return $view->render($this());
@@ -66,8 +63,7 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/organizations.html';
     $this->search = ['topic' => 'organization'];
-    $this->organizations = Token::storage()
-                    ->find("//group[@type='organization']/vertex")
+    $this->organizations = Graph::group('organization')->find('vertex')
                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/organizations/{$type}"]));
     
     return $view->render($this());

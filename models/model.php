@@ -31,7 +31,7 @@ abstract class Model extends \bloc\Model
       if ($id instanceof \DOMElement) {
         $this->context = $id;
       } else {
-        $this->context = Token::ID($id);
+        $this->context = Graph::ID($id);
       }
     } else {
       self::create($this);
@@ -70,11 +70,10 @@ abstract class Model extends \bloc\Model
   static public function create($instance, $data = [])
   {
     if ($instance->context === null) {
-      $instance->context = Token::storage()->createElement('vertex', null);
+      $instance->context = Graph::instance()->storage->createElement('vertex', null);
       $data['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
-      Token::storage()->pick('//group[@type="'.$instance->get_model().'"]')->appendChild($instance->context);
+      Graph::group($instance->get_model())->current()->appendChild($instance->context);
     }
-    
 
     static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
     
@@ -85,11 +84,11 @@ abstract class Model extends \bloc\Model
   
   public function save()
   {
-    if (Token::storage()->validate()) {
-      return Token::storage()->save(PATH . Token::DB . '.xml');
+    if (Graph::instance()->storage->validate()) {
+      return Graph::instance()->storage->save(PATH . Graph::DB . '.xml');
     } else {
-      echo htmlentities(Token::storage()->saveXML($this->context));
-      $this->errors = Token::storage()->errors();
+      echo htmlentities(Graph::instance()->storage->saveXML($this->context));
+      $this->errors = Graph::instance()->storage->errors();
 
       return false;
     }

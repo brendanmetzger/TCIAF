@@ -8,7 +8,7 @@ use \bloc\types\string;
 use \bloc\types\xml;
 use \bloc\types\dictionary;
 
-use \models\token;
+use \models\graph;
 
 /**
  * Third Coast International Audio Festival Defaults
@@ -32,7 +32,7 @@ class Manage extends \bloc\controller
 		$this->year = date('Y');
     $this->title = "Third Coast";
     
-    $this->supporters = $this->features = \models\Token::storage()->find("/tciaf/group/vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
+    $this->supporters = $this->features = Graph::group('organization')->find("vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
@@ -107,7 +107,7 @@ class Manage extends \bloc\controller
     */
     // $action will be add|remove
     if ($action == 'remove') {
-      $item = \models\Token::storage()->find("/tciaf/group/vertex[@id='{$reference}']/edge[@type='{$type}' and @vertex='{$edge}']")->pick(0);
+      $item = \models\Token::storage()->find("/graph/group/vertex[@id='{$reference}']/edge[@type='{$type}' and @vertex='{$edge}']")->pick(0);
       $item->parentNode->removeChild($item);
     } else if ($action == 'add') {
       $container = \models\Token::storage()->getElementById($reference);
@@ -124,7 +124,7 @@ class Manage extends \bloc\controller
   {
     $view    = new View($this->partials->layout);
     $view->content = sprintf("views/forms/%s.html", $model);
-    $this->item = Token::factory($model);
+    $this->item = Graph::factory($model);
     return $view->render($this()); 
   }
   
@@ -133,24 +133,24 @@ class Manage extends \bloc\controller
     $view    = new View($this->partials->layout);
     
     if ($model == 'find') {
-      $model = Token::ID($id)->parentNode->getAttribute('type');
+      $model = Graph::ID($id)->parentNode->getAttribute('type');
     }
     
     $view->content = sprintf("views/forms/%s.html", $model);
     
-    $storage = Token::storage();
+    $graph = Graph::instance();
 
     // this will be placed into media model.
-    $this->s3_url  = $storage->getElementById('k:s3');
+    $this->s3_url  = Graph::ID('k:s3');
     
-    $this->item = Token::factory($model, Token::ID($id));
+    $this->item = Graph::factory($model, Graph::ID($id));
     
-    $this->edges = $this->item->edge->map(function($point) use($storage) {
-      $token = $storage->getElementById($point['@vertex']);
-      return [ 'vertex' => $token, 'edge' => $point, 'index' => \bloc\registry::index()];
+    $this->edges = $this->item->edge->map(function($point) {
+      $vertex = Graph::ID($point['@vertex']);
+      return [ 'vertex' => $vertex, 'edge' => $point, 'index' => \bloc\registry::index()];
     });    
 
-    $this->references = $storage->find("/tciaf/group/vertex[edge[@vertex='{$id}']]")->map(function($item) {
+    $this->references = $graph->query('graph/group/vertex')->find("[edge[@vertex='{$id}']]")->map(function($item) {
       return $item;
     });
     
@@ -159,7 +159,7 @@ class Manage extends \bloc\controller
   
   protected function POSTedit($request, $model, $id = null)
   {
-    $model = Token::factory($model, Token::ID($id));
+    $model = Graph::factory($model, Graph::ID($id));
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
         // clear caches

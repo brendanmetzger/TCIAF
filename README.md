@@ -1,24 +1,30 @@
 # Third Coast International Audio Festival
 
-### Tokens
+## Data will persist in a graph-like structure
 
-A token is just a type of node tracked in the xml file. They have identical structure but the particulars and differences are provided through context and use, not through additional record keeping. Context and use are defined in application data Models, which are primarily responsible for organizing pointers/token associations, which again, control context to a large degree.
+### Vertex
 
-#### Types of tokens
+A vertex is just a type of node tracked in the xml file. They have identical structure but the particulars and differences are provided through context and use, not through additional record keeping. Context and use are defined in application data Models, which are primarily responsible for keeping tags and figuring out what edges-vertex relationships ought to mean.
+
+#### Types of vertices
+
+Despite all being of the same type, a vertex can be grouped for faster data retrieval and generally keeping things a bit more organized. The groups are thus:
+
 - person
 - published
-- unpublished
 - organization
 - event
 - conference
 - festival
 - competition
 
-### Pointers
+### Edges
 
-#### Types of pointers.
+Edges represent a connection from one vertex to another. A edge is a child node of a vertex that references another (hopefully different) vertex. In this way it is directed, as the parent node becomes the 'from' and the referenced node becomes the 'to'.
 
-A pointer is a child node of a token that references another (hopefully different) token.
+#### Types of edges.
+
+Edges for TCIAF have a specified type and with this, they provide the necessary context to create a full-featured page based on several independent vertices via their edge connections. Types of edges are thus:
 
 - winner
 - presenter
@@ -32,14 +38,13 @@ A pointer is a child node of a token that references another (hopefully differen
 - issue
 - participant
 
-The above list of pointers represents a relationship between two tokens. A 'person' token can point to a 'published' token, using the pointer type 'producer'. Confusion could arise, because a 'published' token could point to a 'person' token under the same criteria - and the document parser would validate that. However, to keep things organized, try to follow tho protocol '**type** of pointer' *of* '**token** identity'. IE. *Curator of event*, *Staff of Organization*, *Winner of Competition*.
+The above list of edges represents a relationship between two vertices. A 'person' vertex can have a child edge pointing to a 'published' vertex, using the edge type 'producer'. Confusion could arise, because a 'published' vertex could have a child edge pointing to a 'person' vertex as well (and that might even be warranted sometimes). However, to keep things generally organized, try to follow tho protocol '**type** of edge' *of* '**vertex** identity'. IE. *Curator of event*, *Staff of Organization*, *Winner of Competition*. Could sometimes be easier to think of as 'belongs to', but any label as such will not apply to all edge cases.
 
 From the previous example, you can describe a great deal based on context, without the cumbersome schema of a database. The role of sponsorship is broad, and further
 
-- Sponsor of *Competition*
-- Sponsor of *Event*
-- Sponsor of *Conference*
-- Sponsor of *Organization* (a sponsor could be a person depending on context!)
+- Sponsor (organization) of *Competition*
+- Sponsor (organization) of *Event*
+- Sponsor (person) of *Organization*
 
 
 
