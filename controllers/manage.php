@@ -107,11 +107,11 @@ class Manage extends \bloc\controller
     */
     // $action will be add|remove
     if ($action == 'remove') {
-      $item = \models\Token::storage()->find("/graph/group/vertex[@id='{$reference}']/edge[@type='{$type}' and @vertex='{$edge}']")->pick(0);
+      $item = Graph::instance()->storage->find("/graph/group/vertex[@id='{$reference}']/edge[@type='{$type}' and @vertex='{$edge}']")->pick(0);
       $item->parentNode->removeChild($item);
     } else if ($action == 'add') {
-      $container = \models\Token::storage()->getElementById($reference);
-      $item = \models\Token::storage()->createElement('edge');
+      $container = Graph::ID($reference);
+      $item = Graph::instance()->storage->createElement('edge');
       $item->setAttribute('type', $type);
       $item->setAttribute('vertex', $edge);
       $container->appendChild($item);

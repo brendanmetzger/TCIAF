@@ -2,13 +2,13 @@
   <fieldset>
     <legend class="caps-lock">Edit</legend>
     <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
-    <input type="hidden" name="token[@][id]" value="[$item:@id]" />
-    <input type="hidden" name="token[@][created]" value="[$item:@created]" />
+    <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
+    <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   
-    <input type="text" name="token[@][title]" value="[$item:@title]" id="title" class="required text"/>
+    <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text"/>
     <label for="title">Name</label>
   
-    <textarea id="abstract" name="token[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
+    <textarea id="abstract" name="vertex[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
     <label for="abstract">Abstract</label>
   </fieldset>
   
@@ -18,11 +18,11 @@
     <legend class="caps-lock">Has</legend>
     <!-- iterate edges -->
     <div class="listed padded">
-      <input type="hidden" name="[token[edge][$index][type]]" value="[$edge:@type]" />
-      <input type="hidden" name="[token[edge][$index][token]]" value="[$edge:@token]" />
+      <input type="hidden" name="[vertex[edge][$index][type]]" value="[$edge:@type]" />
+      <input type="hidden" name="[vertex[edge][$index][vertex]]" value="[$edge:@vertex]" />
       <sup class="normal capitalize small">[$edge:@type $edge]</sup>
-      <h2><a href="[/manage/edit/find/$token:@id]">[$token:@title]</a></h2>
-      <p>[$token:abstract]</p>
+      <h2><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+      <p>[$vertex:abstract]</p>
     </div>
     <a class="button margins" href="[#/manage/edge/add/winner/$item:@id]">Add Winner</a>
     <a class="button margins" href="[#/manage/edge/add/participant/$item:@id]">Add Participant</a>
@@ -35,7 +35,7 @@
       <sup class="normal capitalize small">[$edge:@type]</sup>
       <h2><a href="[/manage/edit/find/$@id]">[$@title]</a></h2>
       <p>[$abstract]</p>
-      <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@token/$@id]">[Unlink $@title]</a>
+      <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@vertex/$@id]">[Unlink $@title]</a>
     </div>
     <a class="button margins" href="[#/manage/edge/add/producer/$item:@id]">Add Reference</a>
   </fieldset>
