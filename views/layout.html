@@ -40,81 +40,87 @@
       
       <!-- replace content nextSibling -->
       <section>
-        <div id="test">
-          <p class="pretty">Welcome to the Third Coast International Audio Festival Homepage</p>
+        <style type="text/css" media="screen">
+          /* <![CDATA[ */
+          
+          #Library {
+            width:65%;
+          }
+          #Viewer {
+            width:35%;
+          }
+          #Library span {
+            font-size:0.25em;
+            display:inline-block;
+            width:2em;
+            height:2em;
+            padding:0.5em 0;
+            box-sizing:border-box;
+            text-align:center;
+            margin:0.125em;
+            color:#fff;
+            transition:background-color 1s;
+          }
+          #Library span.color {
+            background-color:#333;
+          }
+          /* ]]> */
+        </style>
+        <div id="Viewer" class="group left">
+          <p>Library</p>
+          <ul>
+            <li>Sort by Created</li>
+            <li>Sort by Short Docs</li>
+            <li>Sort by Re:Sound</li>
+            <li>Sort by Alphabetical</li>
+            <li>Sort by TCF Winners</li>
+            <li>Sort by Conference Audio</li>
+            <li>Rando</li>
+          </ul>
         </div>
-        <input type="range" name="space" min="1" max="100" value="1" id="space" oninput="update(document.getElementById('widget'), this.value);"/>
+        <div id="Library" class="group left" data-tokens="[$tokens]">
+          loading...
+        </div>
         <script type="text/javascript">
         // <![CDATA[
-          bloc.prepare(function () {
-            var myRequest = new XMLHttpRequest();
-                myRequest.open("GET", "/.xml");
-                myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                myRequest.send();
-              
-                myRequest.onreadystatechange = function () {
-                  if (myRequest.readyState === 4) {
-                    if (myRequest.status === 200) {
-                      // console.log(myRequest.responseXML);
-                    } else {
-                      console.log('boop');
-                    }
-                  }
-                };
-              
-            var s = new SVG(document.getElementById('test'), {height:50,width:50, viewBox:'0 0 100 100'});
-            
-            
-            s.createElement('path', {
-              d: getPath(10),
-              //rx ry x-axis-rotation large-arc-flag sweep-flag x y)+
-              stroke:'#000',
-              'stroke-width':2,
-              fill: 'none',
-              id: 'widget'
-            });
-            
-            
+          
+        function shuffle(array) {
+          var currentIndex   = array.length,
+              temporaryValue = 0,
+              randomIndex    = 0;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue      = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex]  = temporaryValue;
+          }
+          return array;
+        }
+
+        bloc.prepare(function () {
+          var library = document.getElementById('Library');
+              library.innerHTML = '';
+
+          library.dataset.tokens.split(' ').forEach(function (token, idx) {
+            var s = library.appendChild(document.createElement('span'));
+            s.textContent = token.substring(2);
+
+            setTimeout(function () {
+              s.className = 'color';
+            }, Math.random() * 1000);
           });
-          
-          function update(elem, divs) {
-            elem.setAttribute('d', getPath(parseInt(divs, 10)));
-          }
-          
-          function getPath(divs) {
-            
-            var complete = parseFloat((2 * Math.PI).toFixed(3));
-            var third = parseFloat((((100/3)/100) * complete).toFixed(3));
-            var space = ((100/divs)/100);
-            
-            var dims = {
-              length: 100,
-              slug: 'M{sx},{sy}A{radius},{radius},0,0,1,{x},{y}'
-            };
-            var radian = third;
-          
-            dims.radius = dims.length / Math.sqrt(divs);
-            dims.center = dims.length / 2;
-            
-            dims.sx = dims.center + dims.radius * Math.cos(space);
-            dims.sy = dims.center + dims.radius * Math.sin(space);
-          
-            var path = '';
-            for (var radian = third; radian <= complete; radian += third) {
-            
-              dims.x = dims.center + (Math.cos(radian - space) * dims.radius);
-              dims.y = dims.center + (Math.sin(radian - space) * dims.radius);
-            
-              path += dims.slug.format(dims);
-            
-              dims.sx = dims.center + (Math.cos(radian + space) * dims.radius);
-              dims.sy = dims.center + (Math.sin(radian + space) * dims.radius);
-            }
-            return path;
-          }
+          console.log();
+        });
         // ]]>
         </script>
-        <style type="text/css">.pretty {font-size:4em;}svg {border:1px solid #000;}</style>
+        
       </section>
     </div>
     

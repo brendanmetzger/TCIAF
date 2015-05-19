@@ -236,8 +236,34 @@ class Import extends Task
     } else {
       print_r(libxml_get_errors());
     } 
+  }
+  
+  public function CLIsetWeights()
+  {
+    $doc  = new \bloc\DOM\Document('data/db9');
+    $xml  = new \DomXpath($doc);
     
+    $features = $xml->query('//group[@type="feature"]/vertex');
     
+    foreach ($features as $feature) {
+      
+      if ($feature->getAttribute('weight')) {
+        echo 'skip ' . $feature->getAttribute('title');
+      } else {
+        echo "no...";
+        $feature->setAttribute('weight', 0);
+      }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db10.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    } else {
+      print_r(libxml_get_errors());
+    }
   }
   
   public function CLImapAwardsToProducer()

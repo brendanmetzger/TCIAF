@@ -13,6 +13,24 @@ use \models\graph;
 
 class Explore extends Manage
 {
+  public function GETindex()
+  {
+    $view = new View($this->partials->layout);
+
+    $tokens = [];
+    
+    foreach (Graph::group('feature')->find('vertex[@weight < '.time().']') as $feature) {
+      $tokens[] = $feature['@id'];
+    }
+    
+
+    $this->tokens = implode(' ', $tokens);
+    
+    return $view->render($this());
+  }
+  
+  
+  
   protected function GETfeatures($type = 'all', $index = 1, $per = 25)
   {
     $view = new View($this->partials->layout);
