@@ -3,7 +3,7 @@ namespace controllers;
 
 use \bloc\view;
 
-use \models\token;
+use \models\graph;
 
 
 /**
@@ -21,9 +21,6 @@ use \models\token;
     
     public function GETtciaf()
     {
-      /*
-        TODO show staff
-      */
       $view = new View($this->partials->layout);
       $view->content   = 'views/pages/about.html';
       return $view->render($this());
@@ -34,8 +31,7 @@ use \models\token;
       $view = new View($this->partials->layout);
       $view->content = 'views/pages/staff.html';
       
-      
-      $this->staff = Token::storage()->find("//group[@type='person']/token[edge[@type='staff' and @token='TCIAF']]");
+      $this->staff = Graph::group('person')->find("vertex[edge[@type='staff' and @vertex='TCIAF']]");
       
       return $view->render($this());
       

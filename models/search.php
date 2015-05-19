@@ -10,7 +10,7 @@ namespace models;
   class Search
   {
     private $index = [],
-            $query = null;
+            $list = null;
   
   
     
@@ -28,10 +28,9 @@ namespace models;
       }
     }
     
-    public function __construct($query)
+    public function __construct($list)
     {
-      
-      $this->query = $query;
+      $this->list = $list;
     }
   
     public function addToIndex($id, $value)
@@ -73,7 +72,7 @@ namespace models;
     private function execute()
     {
       $this->index = array_fill_keys(array_merge(range('a', 'z'), range(0, 9)), []);
-      foreach (Token::storage()->find($this->query) as $result) {
+      foreach ($this->list as $result) {
         $this->addToIndex($result['@id'], $result['@title']);
       }
       return $this->index;

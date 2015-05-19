@@ -112,7 +112,7 @@
           
           if (alphanumeric.test(letter) && this.value.length === 0) {
             halt = true;
-            request.open('GET', '/search/' + search.dataset.topic + '/' + letter + '.json');
+            request.open('GET', '/search/group/' + search.dataset.topic + '/' + letter + '.json');
             request.send();
           }
         });

@@ -5,7 +5,7 @@ use \bloc\view;
 use \bloc\dom\document;
 use \bloc\types\dictionary;
 
-use \models\Token;
+use \models\Graph;
 
 /**
  * Search various things
@@ -13,29 +13,10 @@ use \models\Token;
 
 class Search extends Manage
 {
-  public function GETperson($subset = null)
+  public function GETgroup($type, $subset = null)
   {
-    $search = new \models\search("//group[@type='person']/token");
-    return $search->asJSON($subset, 'person');
+    $list   = Graph::group($type)->find('vertex');
+    $search = new \models\search($list);
+    return $search->asJSON($subset, $type);
   }
-  
-  public function GETfeature($subset = null)
-  {
-    $search = new \models\search("//group[@type='feature']/token");
-    return $search->asJSON($subset, 'feature');
-  }
-  
-  public function GETorganization($subset = null)
-  {
-    $search = new \models\search("//group[@type='organization']/token");
-    return $search->asJSON($subset, 'organization');
-  }
-  
-  public function GETcompetition($subset = null)
-  {
-    $search = new \models\search("//group[@type='competition']/token");
-    return $search->asJSON($subset, 'competition');
-  }
-  
-
 }
