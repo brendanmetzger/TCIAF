@@ -1,16 +1,4 @@
-function Editor() {
-  document.body.addEventListener('dblclick', function (evt) {
-    var elem = evt.srcElement;
-    var button = document.createElement('button');
-    button.textContent = "try to save";
-    elem.parentNode.insertBefore(button, elem);
-    elem.setAttribute('contentEditable', true);
-    elem.addEventListener('blur', function (evt) {
-      console.log(this);
-    }, false);
-    elem.focus();
-  }, false);
-}
+
 
 function autoGrow () {
   if (this.scrollHeight > this.clientHeight) {
@@ -29,6 +17,8 @@ bloc.prepare(function () {
     stylesheet--;
   }
   
+  var markdown_editor = new Markdown();
+  
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
   var size = Math.ceil(parseFloat(elem.getPropertyValue("line-height"), 10));  
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
@@ -38,9 +28,71 @@ bloc.prepare(function () {
   for (var i = textareas.length - 1; i >= 0; i--) {
     autoGrow.call(textareas[i]);
     textareas[i].addEventListener('keyup', autoGrow.bind(textareas[i]));
+    textareas[i].addEventListener('select', markdown_editor.watch());
+    textareas[i].addEventListener('focus', markdown_editor.show());
+    textareas[i].addEventListener('blur', markdown_editor.hide());
   }
   autoGrow(document.getElementById('description'));
 });
+
+function Markdown() {
+  this.hud = document.body.appendChild(document.createElement('nav'));
+  this.hud.className = 'hud';
+
+  var list = this.hud.appendChild(document.createElement('ul'));
+  list.className = 'inline';
+
+
+
+  this.commands.forEach(function (command) {
+    var li = list.appendChild(document.createElement('li'));
+    li.innerHTML = command.text;
+    li.id = command.name;
+    li.addEventListener('click', function (evt) {
+      console.log(this.id);
+    }, false);
+  });
+  
+}
+
+Markdown.prototype = {
+  buffer: null,
+  position: 0,
+  commands: [
+    {name: 'bold',   text: '<var>**</var><strong>bold</strong><var>**</var>'},
+    {name: 'italic', text: '<var>*</var><em>italic</em><var>*</var>'},
+    {name: 'list',   text: '<var>-</var> list'},
+    {name: 'link',   text: '<var>[</var>Link Text<var>](</var>url<var>)</var>'},
+    {name: 'exclaim',text: '<var>***</var><em><strong>highlight</strong></em><var>***</var>'},
+    {name: 'quote',  text: '<var>></var> quote'}
+  ],
+  selection: function (evt) {
+    this.buffer = {element: evt.target, offsets: [evt.target.selectionStart, evt.target.selectionEnd]};
+  },
+  watch: function () {
+    return this.selection.bind(this);
+  },
+  show: function (evt) {
+    if (! evt) {
+      return this.show.bind(this);
+    }
+    evt.target.parentNode.insertBefore(this.hud, evt.target);
+    setTimeout(function () {
+      this.hud.classList.add('visible');  
+    }.bind(this), 10);
+    
+  },
+  hide: function (evt) {
+    if (! evt) {
+      return this.hide.bind(this);
+    }
+    setTimeout(function () {
+      this.hud.classList.remove('visible');
+    }.bind(this), 10);
+    
+  }
+  
+};
 
 function Upload(element) {
   this.input = element;

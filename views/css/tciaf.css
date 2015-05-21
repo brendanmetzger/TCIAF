@@ -27,8 +27,8 @@ a:hover {color:#5B9B98;}
 .caps-lock {text-transform:uppercase;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
-.inline:not(ul), .inline li  {display:inline;}
-ul.inline {padding:0;}
+.inline:not(ul), .inline li  {display:inline-block;}
+ul.inline {padding:0; }
 .margins {margin:1em;}
 .padded  {padding:1em;}
 .ragleft {text-align:right;}
@@ -138,7 +138,7 @@ input, textarea, fieldset {
   width:100%;
   padding:0;
   border: 1px solid #eee;
-  transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s;
+  transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s, margin 0.25s;
 }
 
 .primary   {}
