@@ -29,6 +29,11 @@ class Explore extends Manage
     return $view->render($this());
   }
   
+  public function GETfeature($id)
+  {
+    return Graph::id($id)->write();
+  }
+  
   
   
   protected function GETfeatures($type = 'all', $index = 1, $per = 25)

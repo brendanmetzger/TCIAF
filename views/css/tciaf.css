@@ -3,7 +3,7 @@ html{
 }
 body {
   min-height:100%;
-  background:#fff url(/images/pidgey.svg) no-repeat 1.5% 5%;
+  background:#fff url(/images/pidgey.svg) no-repeat 1.5% 2.5% fixed;
   background-size:7.5% auto;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
 }
@@ -27,7 +27,8 @@ a:hover {color:#5B9B98;}
 .caps-lock {text-transform:uppercase;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
-.inline  {display:inline;}
+.inline:not(ul), .inline li  {display:inline;}
+ul.inline {padding:0;}
 .margins {margin:1em;}
 .padded  {padding:1em;}
 .ragleft {text-align:right;}
@@ -149,7 +150,7 @@ input, textarea, fieldset {
 }
 
 body, footer {
-  margin-top:10%;
+  margin-top:5%;
 }
 footer {
   background-color:#333;
@@ -167,19 +168,6 @@ legend {
   top:-0.25em;
   position:relative;
 }
-
-.dashboard {
-  position:fixed;
-
-  top:0;
-  left:0;
-  margin:0;
-  width:95%;
-  padding:1em 2.5%;
-  box-shadow:0 0 0.5em rgba(0,0,0,0.1);
-  background-color:#333;
-}
-
 
 /* Specifics ------------------- */
 

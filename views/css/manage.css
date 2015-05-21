@@ -120,3 +120,23 @@ label.range h4 {
 }
 
 
+.dashboard {
+  position:fixed;
+  top:1em;
+  right:1em;
+  margin:0;
+  width:25%;
+  padding:1em;
+  box-shadow: -0.25em 0.25em 0.125em rgba(0,0,0,0.1);
+  border-radius:0.5em;
+  background-color:#333;
+  z-index:1000;
+  opacity:0.9;
+}
+.dashboard ul.inline li {
+  color:#fff;
+  padding:0 0.5em;
+}
+
+
+
