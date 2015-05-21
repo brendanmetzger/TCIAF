@@ -20,7 +20,7 @@ namespace models;
           ]
         ],
         'spectra' => [
-          'CDATA' => 'F=50&S=50&M=50&G=50&R=50&P=50&T=50&A=50'
+          '@' => ['F'=>50,'S'=>50,'M'=>50,'G'=>50,'R'=>50,'P'=>50,'T'=>50,'A'=>50]
         ]
       ]
     ];
@@ -28,15 +28,23 @@ namespace models;
     public function setSpectra(\DOMElement $context, $spectrum)
     {
       if (is_array($spectrum)) {
-        $spectrum = http_build_query($spectrum);
+        foreach ($spectrum as $key => $value) {
+          $context->setAttribute($key, $value);
+        }
       }
-      // input comes in as an array from all the slider elements
-      $context->setNodeValue($spectrum);      
     }
     
     public function getSpectra(\DOMElement $context)
     {
-      parse_str($context->getFirst('spectra')->nodeValue ?: $this::$fixture['vertex']['spectra']['CDATA'], $spectra);
+      
+      $spectra = $this::$fixture['vertex']['spectra']['@'];
+      
+      if ($spectrum = $context->getFirst('spectra')) {
+        foreach ($spectrum->attributes as $attr) {
+          $spectra[$attr->name] = $attr->value;
+        }
+      }
+      
       return Graph::instance()->query('graph/config')->find('/spectra')->map(function($item) use($spectra) {
         return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];
       });

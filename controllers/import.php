@@ -360,6 +360,32 @@ class Import extends Task
    # implement
   }
   
+  public function CLIRenameSpectra()
+  {
+    $doc  = new \bloc\DOM\Document('data/db10');
+    $xml  = new \DomXpath($doc);
+    
+    foreach ($xml->query("//group/vertex/spectra") as $spectra) {
+      parse_str($spectra->nodeValue, $parsed);
+      $newspectra = $doc->createElement('spectra');
+      foreach ($parsed as $key => $value) {
+        $newspectra->setAttribute($key, $value);
+      }
+      
+      $spectra->parentNode->replaceChild($newspectra, $spectra);
+      
+      $spectra->nodeValue = null;
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db11.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+  }
+  
   public function CLISync()
   {
     for ($i=10; $i < 150; $i++) { 
