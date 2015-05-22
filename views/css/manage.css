@@ -30,6 +30,10 @@ form.editor .text:focus + label {
   color:#00A4E4;
 }
 
+textarea.text::selection {
+  background: #ffcf01;
+}
+
 
 textarea {
   height:5em;
@@ -53,12 +57,12 @@ form.editor .text {
   border-width:1px;
 }
 
-form.editor .text:focus {
-  padding:0.25em 5% 0.25em 5%;
+form.editor .text:focus, .hud + .text {
+  padding:0.25em 5% 0.25em 5% !important;
   outline:none;
   box-shadow:0 0.125em 0.125em #9DD1EF;
   margin:1em 0  0 !important;
-  border-width:1px 0;
+  border-width:1px 0 !important;
   width:100% !important;
   
 }

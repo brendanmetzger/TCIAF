@@ -1,10 +1,5 @@
 
 
-function autoGrow () {
-  if (this.scrollHeight > this.clientHeight) {
-    this.style.height = this.scrollHeight + "px";
-  }
-}
 
 bloc.prepare(function () {
   var stylesheet  = document.styleSheets.length - 1;
@@ -17,22 +12,24 @@ bloc.prepare(function () {
     stylesheet--;
   }
   
-  var markdown_editor = new Markdown();
+  
   
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
-  var size = Math.ceil(parseFloat(elem.getPropertyValue("line-height"), 10));  
+  var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));  
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', 0);
   
+
   var textareas = document.querySelectorAll('textarea.text');
-  for (var i = textareas.length - 1; i >= 0; i--) {
-    autoGrow.call(textareas[i]);
-    textareas[i].addEventListener('keyup', autoGrow.bind(textareas[i]));
-    textareas[i].addEventListener('select', markdown_editor.watch());
-    textareas[i].addEventListener('focus', markdown_editor.show());
-    textareas[i].addEventListener('blur', markdown_editor.hide());
+  if (textareas.length > 0) {
+    var markdown_editor = new Markdown();
+    for (var i = textareas.length - 1; i >= 0; i--) {
+      textareas[i].addEventListener('keyup', markdown_editor.autoGrow(textareas[i]));
+      textareas[i].addEventListener('select', markdown_editor.watch());
+      textareas[i].addEventListener('focus', markdown_editor.show());
+      textareas[i].addEventListener('blur', markdown_editor.hide());
+    }
   }
-  autoGrow(document.getElementById('description'));
 });
 
 function Markdown() {
@@ -40,34 +37,106 @@ function Markdown() {
   this.hud.className = 'hud';
 
   var list = this.hud.appendChild(document.createElement('ul'));
-  list.className = 'inline';
+      list.className = 'inline';
 
 
-
-  this.commands.forEach(function (command) {
+  for (var command in this.commands) {
     var li = list.appendChild(document.createElement('li'));
-    li.innerHTML = command.text;
-    li.id = command.name;
-    li.addEventListener('click', function (evt) {
-      console.log(this.id);
-    }, false);
-  });
-  
+        li.innerHTML = this.commands[command].format;
+        li.addEventListener('click', this.command.bind(this, command), false);
+  }
 }
 
 Markdown.prototype = {
-  buffer: null,
+  timeout: 0,
+  element: null,
   position: 0,
-  commands: [
-    {name: 'bold',   text: '<var>**</var><strong>bold</strong><var>**</var>'},
-    {name: 'italic', text: '<var>*</var><em>italic</em><var>*</var>'},
-    {name: 'list',   text: '<var>-</var> list'},
-    {name: 'link',   text: '<var>[</var>Link Text<var>](</var>url<var>)</var>'},
-    {name: 'exclaim',text: '<var>***</var><em><strong>highlight</strong></em><var>***</var>'},
-    {name: 'quote',  text: '<var>></var> quote'}
-  ],
+  commands: {
+    bold : {
+      format: '<var>**</var><strong>bold</strong><var>**</var>',
+      insert: function (message, begin, end) {
+        return Markdown.prototype.wrap('**', message, begin, end);
+      }
+    },
+    italic : {
+      format: '<var>*</var><em>italic</em><var>*</var>',
+      insert: function (message, begin, end) {
+        return Markdown.prototype.wrap('*', message, begin, end);
+      }
+    },
+    list   : {
+      format: '<var>-</var> list',
+      insert: function (message, begin, end) {
+        var output = message.substring(0, begin);
+        if (message.charCodeAt(begin-1) !== 13 && message.charCodeAt(begin-1) !== 10) {
+          output += "\n";
+        }
+        
+        output += '- ' + message.substring(begin, end) + "\n" + message.substring(end);
+        
+        return {value: output};
+      }
+    },
+    link   : {
+      format: '<var>[</var>Link Text<var>](</var>url<var>)</var>',
+      insert: function (message, begin, end) {
+        var url = window.prompt("Please insert a link", "http://");
+        
+        if (url === null) {
+          return string;
+        }
+        
+        return {value: message.substring(0, begin) + '[' + message.substring(begin, end) + '](' + url + ')' + message.substring(end)}; 
+      }
+    },
+    exclaim: {
+      format: '<var>***</var><em><strong>highlight</strong></em><var>***</var>',
+      insert: function (message, begin, end) {
+        return {value: Markdown.prototype.wrap('***', message, begin, end)};
+      }
+    },
+    quote  : {
+      format: '<var>></var> <q>quote</q>',
+      insert: function (message, begin, end) {
+        return {value: '> ' + string + "\n"};
+      }
+    }
+  },
+  wrap: function (delimiter, message, begin, end) {
+    return message.substring(0, begin) + delimiter + message.substring(begin, end) +  delimiter + message.substring(end);
+  },
+  autoGrow: function (textarea) {
+    var func = function () {
+      if (textarea.scrollHeight > textarea.clientHeight) {
+        textarea.style.height = textarea.scrollHeight + "px";
+      }
+    };
+    func.call(textarea);
+    return func;
+  },
   selection: function (evt) {
-    this.buffer = {element: evt.target, offsets: [evt.target.selectionStart, evt.target.selectionEnd]};
+    console.log('selecting');
+  },
+  command: function (command, evt) {
+    clearTimeout(this.timeout);
+    this.element.focus();
+
+    var message = this.element.value;
+    var begin   = this.element.selectionStart;
+    var end     = this.element.selectionEnd;
+    var cursor  = message.substring(begin, end);
+    var swap    = null;
+
+    if (cursor) {
+      swap = this.commands[command].insert(message, begin, end);
+      this.element.value = swap.value;
+      this.element.setSelectionRange(begin, begin);
+    } else {
+      message = message.substring(0, begin) + command + message.substring(end);
+      swap = this.commands[command].insert(message, begin, end + command.length);
+      this.element.value = swap.value;
+      this.element.setSelectionRange(begin + 1, end + command.length + 1);
+    }
   },
   watch: function () {
     return this.selection.bind(this);
@@ -76,6 +145,7 @@ Markdown.prototype = {
     if (! evt) {
       return this.show.bind(this);
     }
+    this.element = evt.target;
     evt.target.parentNode.insertBefore(this.hud, evt.target);
     setTimeout(function () {
       this.hud.classList.add('visible');  
@@ -86,9 +156,9 @@ Markdown.prototype = {
     if (! evt) {
       return this.hide.bind(this);
     }
-    setTimeout(function () {
+    this.timeout = setTimeout(function () {
       this.hud.classList.remove('visible');
-    }.bind(this), 10);
+    }.bind(this), 250);
     
   }
   
