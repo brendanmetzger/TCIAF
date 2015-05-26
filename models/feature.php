@@ -66,6 +66,27 @@ namespace models;
       }
       return $audio;
     }
+
+    public function getThumbnails(\DOMElement $context)
+    {
+      static $images = null;
+      if ($images === null) {
+        $audio = new \bloc\types\Dictionary();
+        $media = $context['media'];
+        $images = [];
+        foreach ($media as $item) {
+          
+          if ($item['@type'] === 'image') {
+            $images[] = [
+              'index' => \bloc\registry::index(),
+              'src'   => preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $item['@src']),
+              'type'  => 'image',
+            ];
+          }
+        }
+      }
+      return new \bloc\types\Dictionary($images);
+    }
     
     public function setMedia(\DOMElement $context, array $media)
     {

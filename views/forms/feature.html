@@ -37,9 +37,15 @@
     
     <input type="text" readonly="readonly" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
     <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" class="file"/>
-    <audio src="[$s3_url/$item:audio:src]" controls="controls" preload="none">[$item:audio:src]</audio>
+    <audio src="[http://s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]" controls="controls" preload="none">[$item:audio:src]</audio>
 
     <hr/>
+    
+    
+    <!-- iterate item:thumbnails -->
+    <a href="#">
+      <img src="[http://s3.amazonaws.com/$src]"/>
+    </a>
     
     <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, audio/mp3, audio/m4a, image/jpg" class="margins"/>
   </fieldset>

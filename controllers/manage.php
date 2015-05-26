@@ -139,9 +139,6 @@ class Manage extends \bloc\controller
     $view->content = sprintf("views/forms/%s.html", $model);
     
     $graph = Graph::instance();
-
-    // this will be placed into media model.
-    $this->s3_url  = Graph::ID('k:s3');
     
     $this->item = Graph::factory($model, Graph::ID($id));
     

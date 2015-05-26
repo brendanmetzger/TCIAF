@@ -160,26 +160,60 @@ class Import extends Task
   
   public function CLImapAudiotoFeatures()
   {
-    $doc = new \bloc\DOM\Document('data/db');
+    $doc = new \bloc\DOM\Document('data/db12');
     $xml  = new \DomXpath($doc);
 
 
-    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
+    $features = $xml->query("//group[@type='feature']/vertex[not(media)]");
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
     
     foreach ($features as $feature) {
+      echo $feature->getAttribute('title');
       $id = substr($feature->getAttribute('id'), 2);
       $audio = $sql->query("SELECT CONCAT(id, '/', mp3_file_name) as file FROM audio_files  WHERE feature_id = '{$id}'")->fetch_assoc();
       $media = $doc->createElement("media");
       $media->setAttribute('src', $audio['file']);
       $media->setAttribute('type', 'audio');
       $feature->appendChild($media);
-      if (!$doc->validate()) {
-        echo "There was a problem regarding:\n";
-        print_r($feature);
-        exit();
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db12.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+    }
+    
+  }
+  
+  public function CLImapImagestoFeatures()
+  {
+    $doc = new \bloc\DOM\Document('data/db12');
+    $xml  = new \DomXpath($doc);
+
+
+    $features = $xml->query("//group[@type='feature']/vertex");
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    foreach ($features as $feature) {
+
+      $id = substr($feature->getAttribute('id'), 2);
+      
+      $images = $sql->query("SELECT CONCAT('feature-photos/photos/', id, '/', photo_file_name) as file, caption FROM feature_photos  WHERE feature_id = '{$id}'")->fetch_all(MYSQLI_ASSOC);
+      foreach ($images as $image) {
+       
+        $media = $doc->createElement("media", $image['caption'] ?: null);
+        $media->setAttribute('src', $image['file']);
+        $media->setAttribute('type', 'image');
+        $feature->appendChild($media);
       }
     }
+    
+    if ($doc->validate()) {
+      $file = 'data/db12.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+    }
+    
   }
   
   public function CLIremap()
@@ -247,36 +281,7 @@ class Import extends Task
     } 
   }
   
-  public function CLImapPhotostoFeatures()
-  {
-    # implement
-  }
-  
-  public function CLImoveUnToPub()
-  {
-    $doc  = new \bloc\DOM\Document('data/db8');
-    $xml  = new \DomXpath($doc);
-    
-    $unpubs = $xml->query('//group[@type="unpublished"]/vertex');
-    $pubgroup = $xml->query('//group[@type="published"]')->item(0);
-    
-    print_r($pubgroup->getAttribute('type'));
-    $in_70_years = time() + (60 * 60 * 24 * 365 * 70); 
-    foreach ($unpubs as $unpub) {
-      $unpub->setAttribute('weight', $in_70_years);
-      $pubgroup->appendChild($unpub);
-    }
-    
-    if ($doc->validate()) {
-      $file = 'data/db9.xml';
-      echo "New File: {$file}\n";
-      $doc->save(PATH . $file);
-      
-      $this->CLIcompress($file);
-    } else {
-      print_r(libxml_get_errors());
-    } 
-  }
+
   
   public function CLIsetWeights()
   {
