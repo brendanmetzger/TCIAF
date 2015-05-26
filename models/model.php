@@ -13,7 +13,7 @@ abstract class Model extends \bloc\Model
         'title'   => '',
         'created' => '',
         'updated' => '',
-        'weight'  => 0,
+        'mark'  => 0,
       ],
       'abstract' => [
         'CDATA'  => '',

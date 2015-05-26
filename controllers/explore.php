@@ -19,7 +19,7 @@ class Explore extends Manage
 
     $tokens = [];
     
-    foreach (Graph::group('feature')->find('vertex[@weight < '.time().']') as $feature) {
+    foreach (Graph::group('feature')->find('vertex[@mark < '.time().']') as $feature) {
       $tokens[] = $feature['@id'];
     }
     

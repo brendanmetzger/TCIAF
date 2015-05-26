@@ -58,8 +58,9 @@ namespace models;
         $media = $context['media'];
         foreach ($media as $item) {
           if ($item['@type'] === 'audio') {
-            $audio['src'] = $item['@src'];
-            $audio['type'] = 'audio';
+            $audio['preload'] = $item['@mark'] ? 'none' : 'metadata';
+            $audio['src']     = $item['@src'];
+            $audio['type']    = 'audio';
             break;
           }
         }

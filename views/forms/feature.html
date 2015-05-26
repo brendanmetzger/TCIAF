@@ -37,7 +37,9 @@
     
     <input type="text" readonly="readonly" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
     <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" class="file"/>
-    <audio src="[http://s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]" controls="controls" preload="none">[$item:audio:src]</audio>
+    <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:type]" class="file"/>
+    
+    <audio data-src="[http://s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]" controls="controls" preload="[$item:audio:preload]">[$item:audio:src]</audio>
 
     <hr/>
     
