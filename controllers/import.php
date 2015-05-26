@@ -281,6 +281,49 @@ class Import extends Task
     } 
   }
   
+  public function CLIevents()
+  {
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $events = $sql->query("SELECT * from events")->fetch_all(MYSQLI_ASSOC);
+    $doc  = new \bloc\DOM\Document('data/db12');
+    $xml  = new \DomXpath($doc);
+    
+    $event_group = $xml->query("//group[@type='event']")->item(0);
+    
+    foreach ($events as $event) {
+      $vertex = $doc->createElement('vertex');
+      
+      print_r($event). "\n";
+      
+      $id = 'e:' . $event['id'];
+      
+      // location / host
+      
+      $element = $event_group->appendChild($doc->createElement('vertex'));
+      $element->setAttribute('id', $id);
+      $element->setAttribute('title', $event['name']);
+      $element->setAttribute('created', $event['created_at']);
+      $element->setAttribute('updated', $event['updated_at']);
+      $abstract_text = str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], trim(strip_tags($event['short_description']), "\n\r\t"));
+            $abstract_text .= "¶HOST: {$event['host']} (this should be a seperate object)";
+      $abstract = $element->appendChild($doc->createElement('abstract', $abstract_text));
+      $abstract->setAttribute('content', 'desription');
+      $location = $element->appendChild($doc->createElement('location', $event['location']));
+      
+
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db13.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    } else {
+      print_r(libxml_get_errors());
+    } 
+  }
 
   
   public function CLIsetWeights()
