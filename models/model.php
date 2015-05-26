@@ -45,19 +45,14 @@ abstract class Model extends \bloc\Model
     $context = $arguments[0];
    
     if ($accessor == 'get') {
-
       return $context[substr($method,3)];
     } else {
       $value   = $arguments[1];
 
       if (strtolower(substr($method, -9)) == 'attribute') {
         $key = substr($method, 3, -9);
-
-        $context->setAttribute($key, $value);
-
-        
+        $context->setAttribute($key, $value);        
       } else {
-        
         $context->setNodeValue($value);
       }
     }
@@ -73,7 +68,7 @@ abstract class Model extends \bloc\Model
     if ($instance->context === null) {
       $instance->context = Graph::instance()->storage->createElement('vertex', null);
       $data['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
-      Graph::group($instance->get_model())->current()->appendChild($instance->context);
+      Graph::group($instance->get_model())->pick('.')->appendChild($instance->context);
     }
 
     static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
@@ -88,7 +83,6 @@ abstract class Model extends \bloc\Model
     if (Graph::instance()->storage->validate()) {
       return Graph::instance()->storage->save(PATH . Graph::DB . '.xml');
     } else {
-      echo htmlentities(Graph::instance()->storage->saveXML($this->context));
       $this->errors = Graph::instance()->storage->errors();
 
       return false;

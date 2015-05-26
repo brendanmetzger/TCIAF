@@ -11,82 +11,151 @@ class Import extends Task
 {
   public function CLIproducers()
   {
-    $xml = simplexml_load_file(PATH.'data/producers.xml');
-    $admin = [186, 260, 1222];
-    foreach ($xml->producers->row as $person) {
-      $data = [
-        'attributes' => [
-          'id' => ':' . (int)$person->id,
-          'level' => in_array((int)$person->id, $admin) ? 1 : 4,
-          'name' => (string)$person->name,
-          'created' => (string)$person->created_at,
-          'updated' => (string)$person->updated_at,
-        ],
-        'abstract' => [
-          'content' => 'bio',
-          'CDATA' => htmlentities(trim(str_replace(['&nbsp;', "\n\n"], [' ', '¶'], html_entity_decode(strip_tags((string)$person->bio), ENT_XML1, 'UTF-8'))), ENT_COMPAT|ENT_XML1, 'UTF-8', false)
-        ]
-      ];
-      if ($data['attributes']['level'] < 4) {
-        $id = explode(' ', $data['attributes']['name'])[0];
-        // $data['attributes']['id'] = $id;
-        $data['attributes']['hash'] = password_hash($id, PASSWORD_DEFAULT);
+    $doc = new \bloc\DOM\Document('data/db12');
+    $xml  = new \DomXpath($doc);
+
+
+    $people_group = $xml->query("//group[@type='person']")->item(0);
+    
+
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $new_people = $sql->query("SELECT * FROM producers WHERE created_at > '2014-12-02 17:16:09'")->fetch_all(MYSQLI_ASSOC);
+    
+    
+    foreach ($new_people as $person) {
+
+      $id = 'p:'.$person['id'];
+      if (! $doc->getElementById($id)) {
+        $element = $people_group->appendChild($doc->createElement('vertex'));
+        $element->setAttribute('id', $id);
+        $element->setAttribute('title', $person['name']);
+        $element->setAttribute('created', $person['created_at']);
+        $element->setAttribute('updated', $person['updated_at']);
+        $abstract = $element->appendChild($doc->createElement('abstract', html_entity_decode(strip_tags(trim($person['bio'])))));
+        $abstract->setAttribute('content', 'bio');
+        
       }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db12.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
       
-      if ($modeled = \models\person::create(new \models\person, $data)) {
-        print_r($modeled->save());
+      $this->CLIcompress($file);
+    } else {
+      print_r(libxml_get_errors());
+    } 
+    
+  }
+  
+  public function CLImapFeaturestoProducers()
+  {
+    $doc  = new \bloc\DOM\Document('data/db12');
+    $xml  = new \DomXpath($doc);
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    
+    $pairs = $sql->query("SELECT * FROM features_producers")->fetch_all(MYSQLI_ASSOC);
+
+
+    foreach ($pairs as $pair) {
+     
+      $fid      = 'f:'. $pair['feature_id'];
+      $pid      = 'p:'. $pair['producer_id'];
+
+      if ($pid == 'p:1291') {
+        $pid = 'p:MayaGoldbergSafir';
+      }
+      $producer = $doc->getElementById($pid);
+
+      if ($producer) {
+        $edges = $xml->query($producer->getNodePath()."/edge[@vertex = '$fid']");
+        if ($edges->length > 0) {
+        
+          continue;
+        }
+        
+        echo "create edge $pid -> $fid\n";
+
+        $edge = $doc->createElement("edge");
+        $edge->setAttribute('vertex', $fid);
+        $edge->setAttribute('type', 'producer');
+        $producer->appendChild($edge);
       } else {
-        echo "something happended!";
-        exit();
-      }      
+        echo "no producer for $fid\n";
+      }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db12.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    } else {
+      print_r(libxml_get_errors());
     }
   }
   
   public function CLIfeatures()
   {
-    $word_chars = array(
-      "\xe2\x80\x98" => "'", // left single quote
-      "\xe2\x80\x99" => "'", // right single quote
-      "\xe2\x80\x9c" => '"', // left double quote
-      "\xe2\x80\x9d" => '"', // right double quote
-      "\xe2\x80\x94" => '-', // em dash
-      "\xe2\x80\xa6" => '..'  // elipses
-    );
+
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
     
-    
-    
-    $xml = simplexml_load_file(PATH.'data/features.xml');
-    foreach ($xml->features->row as $feature) {
-      $created =  strtotime((string)$feature->created_at);
-      $updated =  strtotime((string)$feature->updated_at);
-      $data = [
-        'attributes' => [
-          'id' => ':' . (int)$feature->id,
-          'title' => trim((string)$feature->title),
-          'created' => (string)$feature->created_at,
-          'age' => round((($updated - $created) / 60 / 60 / 24 / 365), 2),
-          'published' => (int)$feature->published,
-        ],
-        'abstract' => [
-          'CDATA' =>  str_replace(array_keys($word_chars), array_values($word_chars), trim(htmlentities(preg_replace(['/&nbsp;/', "/\n+\s*/"], [' ', '¶'], html_entity_decode(strip_tags(trim((string)$feature->description)), ENT_XML1, 'UTF-8')), ENT_COMPAT|ENT_XML1, 'UTF-8', false), '¶')) 
-        ],
-        'premier' => [
-          'date' => (string)$feature->premier_date,
-          'CDATA' => htmlentities((string)$feature->premier_locaction, ENT_COMPAT|ENT_XML1, 'UTF-8', false),
-        ],
-        'location' => [
-          'CDATA' => (string)$feature->origin_country,
-        ]        
-      ];
+    $new_features = $sql->query("SELECT * FROM features WHERE created_at > '2014-12-02 17:16:09'")->fetch_all(MYSQLI_ASSOC);
+
+    foreach ($new_features as $feature) {
+      $id = trim('f:' . $feature['id']);
       
-      if ($modeled = \models\feature::create(new \models\feature, $data)) {
-        print_r($modeled->save());
-      } else {
-        echo "something happended!";
-        exit();
+      if ($id == 'p:1291') {
+        $id = 'p:MayaGoldbergSafir';
+      }
+      
+      try {
+        \models\Graph::id($id);
+        continue;
+      } catch (\Exception $e) {
+      
+        $data = ['vertex' =>
+          [
+            '@' => [
+              'id'      => $id,
+              'title'   => $feature['title'],
+              'created' => $feature['created_at'],
+              'updated' => $feature['updated_at'],
+            ],
+            'abstract' => [
+              'CDATA' => str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], trim(strip_tags($feature['description']), "\n\r\t"))
+            ],
+            'premier' => [
+              '@' => [
+                'date' => $feature['premier_date'],
+              ],
+              'CDATA' => $feature['premier_locaction'],
+            ],
+            'location' => [
+              'CDATA' => $feature['origin_country'],
+              ]     
+          ]
+        ];
+            
+        if ($modeled = \models\feature::create(new \models\feature, $data)) {
+          if ($modeled->save()) {
+            echo "Added {$id} \n";
+          } else {
+            print_r($modeled->errors);
+          }
+        } else {
+          echo "something happended!";
+          exit();
+        }
       }
     }
   }
+  
+  
   
   
   public function CLImapAudiotoFeatures()
@@ -135,36 +204,7 @@ class Import extends Task
     }
   }
   
-  public function CLImapFeaturestoProducers()
-  {
-    $doc  = new \bloc\DOM\Document('data/db2');
-    $xml  = new \DomXpath($doc);
-    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
-    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
 
-    foreach ($features as $feature) {
-      $id       = substr($feature->getAttribute('id'), 2);
-      $join     = $sql->query("SELECT * FROM features_producers  WHERE feature_id = '{$id}'")->fetch_assoc();
-      $pid      = ':'.$join['producer_id'];
-      $producer = $doc->getElementById($pid);
-      
-      if ($producer) {
-        $edge = $doc->createElement("edge");
-        $edge->setAttribute('token', $pid);
-        $edge->setAttribute('type', 'producer');
-        $feature->appendChild($edge);
-      } 
-    }
-    
-    if ($doc->validate()) {
-      $file = 'data/db3.xml';
-      echo "New File: {$file}\n";
-      // $doc->save(PATH . $file);
-      
-      $this->CLIcompress($file);
-    }
-  }
   
   public function CLImapAllFeaturesToProducers()
   {

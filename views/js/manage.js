@@ -55,13 +55,13 @@ Markdown.prototype = {
     bold : {
       format: '<var>**</var><strong>bold</strong><var>**</var>',
       insert: function (message, begin, end) {
-        return Markdown.prototype.wrap('**', message, begin, end);
+        return {value: Markdown.prototype.wrap('**', message, begin, end)};
       }
     },
     italic : {
       format: '<var>*</var><em>italic</em><var>*</var>',
       insert: function (message, begin, end) {
-        return Markdown.prototype.wrap('*', message, begin, end);
+        return {value: Markdown.prototype.wrap('*', message, begin, end)};
       }
     },
     list   : {
