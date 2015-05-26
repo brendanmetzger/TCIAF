@@ -85,7 +85,7 @@ namespace models;
       $json = json_encode($this->getIndex($subset));
       if ($subset && $cache) {
         $subset = strtoupper($subset);
-        $path = sprintf('%sdata/cache/search/%s', PATH, $cache);
+        $path = sprintf('%sdata/cache/search/group/%s', PATH, $cache);
         if (! file_exists($path)) {
           if (!mkdir($path, 0777, true)) {
             echo "NO";
