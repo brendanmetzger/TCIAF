@@ -73,8 +73,8 @@ abstract class Model extends \bloc\Model
 
     static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
     
+    
     $instance->mergeInput(static::$fixture, $instance->context);
-
     return $instance;
   }
   
@@ -92,20 +92,27 @@ abstract class Model extends \bloc\Model
   public function mergeInput($input, \DOMElement $context)
   {
     $key = key($input);
-    
+    $pending_removal = [];
     foreach ($input[$key] as $node => $value) {
+      
       if (empty($value)) continue;
       if ($node === '@') {
         $this->setAttributes($value, $context);
       } else if ($node === 'CDATA') {
-
         $this->{"set{$key}"}($context, $value);
       } else if (is_int($node)) {
-        $this->{"set{$key}"}($context, $input[$key]);
-        echo "deal with array of {$key} elements";
+        
+        $subcontext = $context->parentNode->getElementsByTagName($key)->item($node);
+
+        if ($this->{"set{$key}"}($subcontext, $input[$key][$node]) === false) {
+          $pending_removal[] = $subcontext;
+       }
       } else {
         $this->mergeInput([$node => $value], $context->getFirst($node));
       }
+    }
+    foreach ($pending_removal as $element) {
+      $element->parentNode->removeChild($element);
     }
   }
   

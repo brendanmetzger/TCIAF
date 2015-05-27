@@ -54,18 +54,19 @@ namespace models;
     {
       static $audio = null;
       if ($audio === null) {
-        $audio = new \bloc\types\Dictionary(['index' => \bloc\registry::index()]);
+        $audio = [];
         $media = $context['media'];
         foreach ($media as $item) {
           if ($item['@type'] === 'audio') {
             $audio['preload'] = $item['@mark'] ? 'none' : 'metadata';
             $audio['src']     = $item['@src'];
             $audio['type']    = 'audio';
+            $audio['index'] = $item->getIndex();
             break;
           }
         }
       }
-      return $audio;
+      return new \bloc\types\Dictionary($audio);
     }
 
     public function getThumbnails(\DOMElement $context)
@@ -78,10 +79,13 @@ namespace models;
         foreach ($media as $item) {
           
           if ($item['@type'] === 'image') {
+            
             $images[] = [
-              'index' => \bloc\registry::index(),
+              'index' => $item->getIndex(),
               'src'   => preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $item['@src']),
               'type'  => 'image',
+              'mark'  => 0,
+              'caption' => $item->nodeValue,
             ];
           }
         }
@@ -89,20 +93,19 @@ namespace models;
       return new \bloc\types\Dictionary($images);
     }
     
-    public function setMedia(\DOMElement $context, array $media)
+    public function setMedia(\DOMElement $context, $media)
     {
-      $container = $context->parentNode; 
-      $cloneable = $container->removeChild($context);
-      
-      foreach ($media as $item) {
-        if (empty($item['@']['src'])) {
-          continue;
-        }
-        
-        $clone = $container->appendChild($cloneable->cloneNode());
-        $clone->setAttribute('src', $item['@']['src']);
-        $clone->setAttribute('type', $item['@']['type']);
-        $clone->setAttribute('mark', $item['@']['mark']);
+      if (empty($media['@']['src'])) {
+        return false;
       }
+
+      $context->setAttribute('src',  $media['@']['src']);
+      $context->setAttribute('type', $media['@']['type']);
+      $context->setAttribute('mark', $media['@']['mark']);
+      if (array_key_exists('CDATA', $media)) {
+        $context->nodeValue = $media['CDATA'];
+      }
+        
+
     }    
   }

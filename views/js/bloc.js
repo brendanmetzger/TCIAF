@@ -69,6 +69,9 @@ var Player = function (element) {
     this.button.getDOMButton().addEventListener('touchend', button_activate, false);
     this.button.getDOMButton().addEventListener('click', button_activate, false);
   }
+  
+  // need a title, artist, description
+  // need a scrubber
 };
 
 Player.attach = function (audio_element) {
@@ -187,4 +190,87 @@ var Button = function (button, state) {
     }));
   };
   this.setState(this.state);
+};
+
+
+var Meter = function (audio, meter_element) {
+  this.audio   = audio;
+  this.element = meter_element;
+  
+  this.element.querySelectorAll('button').forEach(function (button) {
+    button.addEventListener('click', function (evt) {
+      this.input.focus();
+      var seektime = Math.ceil(parseFloat(this.input.value) + (this.audio.duration * parseFloat(button.value, 10)));
+      this.input.value = seektime;
+      this.audio.currentTime = seektime;
+      this.input.blur();
+    }.bind(this), false);
+  }, this);
+  
+  this.input = document.getElementById('scrubber');
+
+  this.input.addEventListener('change', function (evt) {
+    this.audio.currentTime = parseInt(this.input.value, 10);    
+    this.input.blur();
+  }.bind(this), false);
+  
+  this.input.addEventListener('input', function (evt) {
+    this.elapsed.text("{h}:{m}:{s}".format(this.timecode(this.input.value)));
+    this.duration.text("{h}:{m}:{s}".format(this.timecode(this.audio.duration - this.input.value)));
+  }.bind(this));
+      
+  this.input.addEventListener('mousedown', function (evt) {
+    this.dispatchEvent(new Event('focus'));
+  }, false);
+  
+  this.input.addEventListener('touchstart', function (evt) {
+    this.dispatchEvent(new Event('focus'));
+  }, false);
+ 
+  this.input.addEventListener('mouseup', function (evt) {
+    this.dispatchEvent(new Event('blur'));
+  }, false);
+  
+  this.input.addEventListener('touchend', function (evt) {
+    this.dispatchEvent(new Event('blur'));
+  }, false);
+  
+  this.input.addEventListener('focus', function (evt) {
+    this.updating = true;
+  }.bind(this), false);
+  
+  this.input.addEventListener('blur', function (evt) {
+    this.updating = false;
+  }.bind(this), false);
+
+  var container = this.element.querySelector('div');
+  
+  this.elapsed  = new Elem('span').insert(container).text('0:00');
+  this.duration = new Elem('span').insert(container).text('0:00');
+};
+
+
+
+Meter.prototype = {
+  updating:false,
+  shown: false,
+  timecode: function (time) {
+    var date = new Date(time * 1000);
+    return {
+      h: ('00'+date.getUTCHours()).slice(-2),
+      m: ('00'+date.getUTCMinutes()).slice(-2),
+      s: ('00'+date.getSeconds()).slice(-2)
+    };
+  },
+  update: function () {
+    this.input.value = this.audio.currentTime;
+
+    var deplete = 100 - Math.ceil((this.audio.currentTime / this.audio.duration) * 100);
+
+    this.input.style.backgroundImage ='linear-gradient(to left, rgba(0,0,0,0.75) '+deplete+'%, rgba(0,0,0,0) '+(deplete + 5)+'%)';
+
+    this.elapsed.text("{h}:{m}:{s}".format(this.timecode(this.audio.currentTime)));
+    this.duration.text("{h}:{m}:{s}".format(this.timecode(this.audio.duration - this.audio.currentTime)));
+    
+  }
 };

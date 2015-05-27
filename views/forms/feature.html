@@ -3,9 +3,11 @@
     /* <![CDATA[ */
     audio {display:none;}
     fieldset div.group {width:33%;}
-    fieldset.media ul.inline li {width:20%;}
+    fieldset.media ul.inline li label {margin:0;}
+    fieldset.media ul.inline li {width:20%;background-color:#eee;}
     fieldset.media ul.inline li img {width:100%;opacity:0.5;}
     fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
+    fieldset.media input[type=checkbox]:not(:checked):after {content:'Detached';font-size:0.65em;line-height:0;top:-0.5em;left:1.75em;position:relative;}
     /* ]]> */
   </style>
   <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
@@ -39,26 +41,32 @@
   <fieldset class="media">
     <legend class="caps-lock">Media</legend>
     
-    <input type="text" readonly="readonly" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
-    <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" class="file"/>
-    <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:type]" class="file"/>
+    <div>
+      <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
+      <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
+      <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" id="duration"/>
     
-    <audio src="[http://tmp.s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]"  onloadedmetadata="Player.attach(this);" controls="controls" preload="[$item:audio:preload]">[$item:audio:src]</audio>
-
-    <hr/>
+      <audio src="[http://tmp.s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" loadstart="console.log('hi');" controls="controls" preload="metadata">[$item:audio:src]</audio>
+    </div>
+    
+    
 
     <ul class="inline">
       <!-- iterate item:thumbnails -->
       <li>
         <input type="checkbox" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
+        <input type="hidden" name="[vertex[media][$index][@][type]]" value="[$type]" />
+        <input type="hidden" name="[vertex[media][$index][@][mark]]" value="[$mark]" id="duration"/>
+        <input type="hidden" name="[vertex[media][$index][CDATA]]" value="[$caption]" />
+        
         <label for="[:$index]">
-          <img src="[http://tmp.s3.amazonaws.com/$src]"/>
+          <img src="[http://tmp.s3.amazonaws.com/$src]" alt="[$caption]"/>
         </label>
       </li>
     </ul>
-    
-    
+
     <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, image/jpg, audio/mp3, audio/m4a" class="margins"/>
+
   </fieldset>
   
   <fieldset class="secondary spectra">
@@ -67,7 +75,7 @@
     <label class="range container">
       <h4>[$title]</h4>
       <span>[$item:@from]</span>
-      <input type="range" min="0" max="100" name="[vertex[spectra][CDATA][$item:@id]]" value="[$value]" data-index="0"/>
+      <input type="range" min="0" max="100" name="[vertex[spectra][@][$item:@id]]" value="[$value]" data-index="0"/>
       <span>[$item:@to]</span>
     </label>
     
@@ -94,6 +102,11 @@
   
   <script type="text/javascript">
   // <![CDATA[
+    function startFormPlayer(audio_element) {
+      Player.attach(audio_element);
+      document.getElementById('duration').value = audio_element.duration;
+    }
+    
     function Spectra(labels) {
       var total = labels.length;
       for (var i = 0; i < total; i++) {
