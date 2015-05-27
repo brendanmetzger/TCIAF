@@ -1,13 +1,12 @@
 <section class="features">
   <!-- insert views/partials/navigator.html -->
-  <a href="/manage/create/feature/" class="button margins">Create New Feature</a>
+
   <!-- iterate features -->
-  <div data-created-at="[$feature:@created]" data-updated-at="[$feature:@age]">
-    <h2><a href="[/manage/edit/feature/$feature:@id]">[$feature:@title]</a></h2>
-    
-    <!-- iterate producers -->
+  <div data-created="[$feature:@created]" data-updated="[$feature:@age]">
+    <h2><a href="[/explore/feature/$feature:@id]" data-id="[feature/$feature:@id]">[$feature:@title]</a></h2>
     <cite>
-      <a href="[/manage/edit/person/$@id]">[$@title]</a>
+      <!-- iterate producers -->
+      <a href="[/explore/person/$@id]" data-id="[person/$@id]">[$@title]</a>
     </cite>
     
     <p>[$feature:abstract]</p>

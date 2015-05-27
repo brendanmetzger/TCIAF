@@ -53,12 +53,15 @@ namespace models;
     public function getAudio(\DOMElement $context)
     {
       static $audio = null;
-      if ($audio === null) {
 
+      if ($audio === null) {
+        $audio = new \bloc\types\Dictionary([]);
+        
         $media = $context['media'];
         foreach ($media as $item) {
+
           if ($item['@type'] === 'audio') {
-            $audio = new \bloc\types\Dictionary([
+            $audio->append([
               'src'     => $item['@src'],
               'type'    => 'audio',
               'index'   => $item->getIndex(),

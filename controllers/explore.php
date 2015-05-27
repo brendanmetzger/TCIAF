@@ -34,6 +34,11 @@ class Explore extends Manage
     return Graph::id($id)->write();
   }
   
+  public function GETPerson($id)
+  {
+    return Graph::id($id)->write();
+  }
+  
   
   
   protected function GETfeatures($type = 'all', $index = 1, $per = 25)

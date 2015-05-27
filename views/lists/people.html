@@ -12,11 +12,11 @@
     }
     /* ]]> */
   </style>
+
   <!-- insert views/partials/navigator.html -->
 
-  <a href="/manage/create/person/" class="button margins">Create New Person</a>
   <ul class="people columns three ruled">
     <!-- iterate people -->
-    <li><a href="[/manage/edit/person/$@id]">[$@title]</a></li>
+    <li><a href="[/explore/person/$@id]" data-id="[person/$@id]">[$@title]</a></li>
   </ul>
 </section>

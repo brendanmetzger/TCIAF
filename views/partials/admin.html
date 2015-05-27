@@ -11,6 +11,13 @@
       </select>
     </li>
     <li>
+      <select onchange="window.location.href = this.value;">
+        <option>Create new...</option>
+        <option value="/manage/create/feature/">Feature</option>
+        <option value="/manage/create/person/">Person</option>
+      </select>
+    </li>
+    <li>
       <a href="/manage/logout">Logout.</a>
     </li>
   </ul>

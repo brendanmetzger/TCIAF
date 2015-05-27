@@ -30,6 +30,19 @@ bloc.prepare(function () {
       textareas[i].addEventListener('blur', markdown_editor.hide());
     }
   }
+  
+  // show an indicator next to all editable elements
+  function goto(url, evt) {
+    evt.preventDefault();
+    window.location.href = url;
+  }
+  var edits = document.querySelectorAll('*[data-id]');
+  for (var j = 0; j < edits.length; j++) {
+    var url = '/manage/edit/' + edits[j].dataset.id;
+    var button = edits[j].appendChild(document.createElement('button'));
+        button.textContent = '⚙';
+        button.addEventListener('click', goto.bind(button, url), false);
+  }
 });
 
 function Markdown() {
