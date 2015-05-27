@@ -179,13 +179,23 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . 'data/media/' . $_FILES['upload']['name'])) {
-      echo "got it";
+    $name = $_FILES['upload']['name'];
+    $src  = 'data/media/' . $name;
+    $mime = $_FILES['upload']['type'];
+
+    if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
+      
+      /*
+        TODO post uploaded file somewhere... amazon prolly
+      */
+      
+      $media = Graph::instance()->storage->createElement('media', 'upload was cool.');
+      $media->setAttribute('src',  $src);
+      $media->setAttribute('name',  $_FILES['upload']['name']);
+      $media->setAttribute('type', substr($mime, 0, strpos($mime, '/')));
+      return $media->write();
     } else {
       Application::instance()->getExchange('response')->addHeader("HTTP/1.0 400 Bad Request");
     }
-    /*
-      TODO post uploaded file somewhere... amazon prolly
-    */
   }
 }

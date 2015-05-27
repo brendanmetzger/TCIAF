@@ -45,27 +45,23 @@
       <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" id="duration"/>
-    
-      <audio src="[http://tmp.s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" loadstart="console.log('hi');" controls="controls" preload="metadata">[$item:audio:src]</audio>
+      <audio src="[http://tmp.s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">[$item:audio:src]</audio>
     </div>
-    
-    
 
     <ul class="inline">
       <!-- iterate item:thumbnails -->
       <li>
+        <input type="hidden" name="[vertex[media][$index][@][type]]" value="[$type]" class="file"/>
+        <input type="hidden" name="[vertex[media][$index][@][mark]]" value="[$mark]" />
+        <input type="hidden" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
         <input type="checkbox" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
-        <input type="hidden" name="[vertex[media][$index][@][type]]" value="[$type]" />
-        <input type="hidden" name="[vertex[media][$index][@][mark]]" value="[$mark]" id="duration"/>
-        <input type="hidden" name="[vertex[media][$index][CDATA]]" value="[$caption]" />
-        
         <label for="[:$index]">
           <img src="[http://tmp.s3.amazonaws.com/$src]" alt="[$caption]"/>
         </label>
       </li>
     </ul>
 
-    <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, image/jpg, audio/mp3, audio/m4a" class="margins"/>
+    <input type="file" name="uploader" id="uploader" data-url="/manage/upload.xml"  accept="image/jpeg, image/jpg, audio/mp3, audio/m4a" class="margins"/>
 
   </fieldset>
   
@@ -86,7 +82,7 @@
   <hr/>
   
   <fieldset>
-    <legend class="caps-lock">References</legend>
+    <legend class="caps-lock">Edges</legend>
     <!--iterate references -->
     <div class="listed padded">
       <sup class="normal capitalize small">[$edge:@type]</sup>
@@ -145,14 +141,50 @@
         var reader = new FileReader();
       
         reader.onload = function (evt) {
-          console.log(evt);
-          var img = document.createElement('img');
-              img.src = evt.target.result;
-
-          this.parentNode.insertBefore(img, this);
-        }.bind(this.input);
+          var li = document.querySelector('fieldset.media ul').appendChild(document.createElement('li'));
+              li.title = file.name;
+          
+          var label = li.appendChild(document.createElement('label'));
+          
+          var img = label.appendChild(document.createElement('img'));
+              img.src   = evt.target.result;    
+        };
+        
+        reader.readAsDataURL(file);
+      });
       
-        reader.readAsDataURL(this.input.files[0]);
+      uploader.addEvent('load', function (evt) {
+        var media = this.responseXML.querySelector('media');
+        var index = document.querySelectorAll('fieldset.media li').length;
+
+        if (media.getAttribute('type') == 'image') {
+          var li = document.querySelector('li[title="'+media.getAttribute('name')+'"]');
+          li.querySelector('label').setAttribute('for', ':' + index);
+          
+          var check      = li.insertBefore(document.createElement('input'), li.lastChild);
+              check.type = 'checkbox';
+              check.checked = true;
+              check.name = 'vertex[media]['+index+'][@][src]';
+              check.value = media.getAttribute('src');
+              check.id = ':' + index;
+
+          var mark     = li.insertBefore(document.createElement('input'), li.firstChild);
+              mark.type = 'hidden';
+              mark.name = 'vertex[media]['+index+'][@][mark]';
+            
+          var type       = li.insertBefore(document.createElement('input'), li.firstChild);
+              type.type  = 'hidden';
+              type.name  = 'vertex[media]['+index+'][@][type]';
+              type.value = media.getAttribute('type');
+
+          var caption = li.insertBefore(document.createElement('input'), li.firstChild);
+              caption.type = "hidden";
+              caption.name = 'vertex[media]['+index+'][CDATA]';
+          
+          
+        }
+        
+
       });
       
       var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));

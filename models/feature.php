@@ -54,19 +54,20 @@ namespace models;
     {
       static $audio = null;
       if ($audio === null) {
-        $audio = [];
+
         $media = $context['media'];
         foreach ($media as $item) {
           if ($item['@type'] === 'audio') {
-            $audio['preload'] = $item['@mark'] ? 'none' : 'metadata';
-            $audio['src']     = $item['@src'];
-            $audio['type']    = 'audio';
-            $audio['index'] = $item->getIndex();
+            $audio = new \bloc\types\Dictionary([
+              'src'     => $item['@src'],
+              'type'    => 'audio',
+              'index'   => $item->getIndex(),
+            ]);
             break;
           }
         }
       }
-      return new \bloc\types\Dictionary($audio);
+      return $audio;
     }
 
     public function getThumbnails(\DOMElement $context)
@@ -105,7 +106,5 @@ namespace models;
       if (array_key_exists('CDATA', $media)) {
         $context->nodeValue = $media['CDATA'];
       }
-        
-
     }    
   }

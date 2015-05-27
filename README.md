@@ -46,5 +46,3 @@ From the previous example, you can describe a great deal based on context, witho
 - Sponsor (organization) of *Event*
 - Sponsor (person) of *Organization*
 
-
-

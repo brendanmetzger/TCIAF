@@ -169,18 +169,14 @@ function Upload(element) {
   this.xhr = new XMLHttpRequest();
   this.xhr.open('POST', this.input.dataset.url);
   
-  this.xhr.onload = function (evt) {
-    console.log('request complete!', evt, this.xhr.response);
-  }.bind(this);
-  
   this.xhr.upload.onprogress = function (evt) {
     if (evt.lengthComputable) {
-      console.log(evt.loaded, 'of', evt.total);
+      console.log(Math.ceil((evt.loaded/evt.total) * 100), '%');
     }
   };
   
   this.xhr.upload.onload = function (evt) {
-    console.log('finished upload', evt);
+    console.log('remove progress');
   };
   
   this.input.addEventListener('change', function (evt) {
@@ -193,7 +189,7 @@ function Upload(element) {
           fd.append("upload", this.input.files[0]);
       this.attach(fd);
     } catch (e) {
-      window.alert(e);
+      console.error(e);
     }
     
   }.bind(this), false);
@@ -209,6 +205,9 @@ Upload.prototype = {
     'loading',
     'complete'
   ],
+  addEvent: function (type, callback) {
+    this.xhr.addEventListener(type, callback, false);
+  },
   addRoutine: function (type, callback) {
     this.rules[type] = callback;
   },

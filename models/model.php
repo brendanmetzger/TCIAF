@@ -75,6 +75,7 @@ abstract class Model extends \bloc\Model
     
     
     $instance->mergeInput(static::$fixture, $instance->context);
+
     return $instance;
   }
   
@@ -93,21 +94,31 @@ abstract class Model extends \bloc\Model
   {
     $key = key($input);
     $pending_removal = [];
+    
     foreach ($input[$key] as $node => $value) {
       
-      if (empty($value)) continue;
-      if ($node === '@') {
+      if (empty($value)) {
+        /*
+          TODO consider if this is a good case of when we should be deleting a node. Could work for vertex or children.
+        */
+        continue;
+      } else if ($node === '@') {
+        
         $this->setAttributes($value, $context);
+        
       } else if ($node === 'CDATA') {
+        
         $this->{"set{$key}"}($context, $value);
+        
       } else if (is_int($node)) {
         
-        $subcontext = $context->parentNode->getElementsByTagName($key)->item($node);
+        $subcontext = $context->parentNode->getFirst($key, $node);
 
         if ($this->{"set{$key}"}($subcontext, $input[$key][$node]) === false) {
           $pending_removal[] = $subcontext;
        }
       } else {
+        // we have an entire element, that can have elements, attributes, etc, so merge that
         $this->mergeInput([$node => $value], $context->getFirst($node));
       }
     }
