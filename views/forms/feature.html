@@ -42,18 +42,18 @@
     <legend class="caps-lock">Media</legend>
     
     <div>
-      <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
+      <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]" />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" id="duration"/>
-      <audio src="[http://tmp.s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">[$item:audio:src]</audio>
+      <audio src="[http://tmp.s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">[$item:audio:src]</audio>
     </div>
 
     <ul class="inline">
       <!-- iterate item:thumbnails -->
       <li>
-        <input type="hidden" name="[vertex[media][$index][@][type]]" value="[$type]" class="file"/>
-        <input type="hidden" name="[vertex[media][$index][@][mark]]" value="[$mark]" />
-        <input type="hidden" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
+        <input type="hidden" name="[vertex[media][$index][@][type]]"  value="[$type]" class="file"/>
+        <input type="hidden" name="[vertex[media][$index][@][mark]]"  value="[$mark]" />
+        <input type="hidden" name="[vertex[media][$index][CDATA]]"    value="[$caption]" />
         <input type="checkbox" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
         <label for="[:$index]">
           <img src="[http://tmp.s3.amazonaws.com/$src]" alt="[$caption]"/>

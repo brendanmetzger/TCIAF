@@ -179,23 +179,43 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    $name = $_FILES['upload']['name'];
-    $src  = 'data/media/' . $name;
-    $mime = $_FILES['upload']['type'];
+    $name   = $_FILES['upload']['name'];
+    $src    = 'data/media/' . $name;
+    $mime   = $_FILES['upload']['type'];
+    $bucket = 'tciaf-media';
+    $type = substr($mime, 0, strpos($mime, '/'));
 
     if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
       
-      /*
-        TODO post uploaded file somewhere... amazon prolly
-      */
+      $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+      $result = $client->putObject(array(
+          'Bucket'     => $bucket,
+          'Key'        => $type . '/' . $name,
+          'SourceFile' => PATH . $src
+      ));
+      
       
       $media = Graph::instance()->storage->createElement('media', 'upload was cool.');
-      $media->setAttribute('src',  $src);
-      $media->setAttribute('name',  $_FILES['upload']['name']);
-      $media->setAttribute('type', substr($mime, 0, strpos($mime, '/')));
+      $media->setAttribute('src',  "{$bucket}/{$type}/{$name}");
+      $media->setAttribute('name',  $name);
+      $media->setAttribute('type', $type);
       return $media->write();
     } else {
       Application::instance()->getExchange('response')->addHeader("HTTP/1.0 400 Bad Request");
     }
+  }
+  
+  protected function GETbucket()
+  {
+    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+    $result = $client->putObject(array(
+        'Bucket'     => 'tciaf-media',
+        'Key'        => 'image/triangle.jpg',
+        'SourceFile' => PATH .  'data/media/triangle.jpg'
+    ));
+    
+    
+    
+    return '<pre>'.  print_r($result, true) . "</pre>";
   }
 }
