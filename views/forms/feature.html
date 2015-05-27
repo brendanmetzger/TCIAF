@@ -1,7 +1,11 @@
 <form name="uploadData" method="POST" action="[/manage/edit/$item::_model/$item:@id]" class="editor" autocomplete="off">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
+    audio {display:none;}
     fieldset div.group {width:33%;}
+    fieldset.media ul.inline li {width:20%;}
+    fieldset.media ul.inline li img {width:100%;opacity:0.5;}
+    fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
     /* ]]> */
   </style>
   <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
@@ -32,24 +36,29 @@
     </div>
   </fieldset>
   
-  <fieldset>
+  <fieldset class="media">
     <legend class="caps-lock">Media</legend>
     
     <input type="text" readonly="readonly" name="[vertex[media][$item:audio:index][@][src]]" value="[$item:audio:src]" />
     <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" class="file"/>
     <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:type]" class="file"/>
     
-    <audio data-src="[http://s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]" controls="controls" preload="[$item:audio:preload]">[$item:audio:src]</audio>
+    <audio src="[http://tmp.s3.amazonaws.com/3rdcoast-features/mp3s/$item:audio:src]"  onloadedmetadata="Player.attach(this);" controls="controls" preload="[$item:audio:preload]">[$item:audio:src]</audio>
 
     <hr/>
+
+    <ul class="inline">
+      <!-- iterate item:thumbnails -->
+      <li>
+        <input type="checkbox" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
+        <label for="[:$index]">
+          <img src="[http://tmp.s3.amazonaws.com/$src]"/>
+        </label>
+      </li>
+    </ul>
     
     
-    <!-- iterate item:thumbnails -->
-    <a href="#">
-      <img src="[http://s3.amazonaws.com/$src]"/>
-    </a>
-    
-    <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, audio/mp3, audio/m4a, image/jpg" class="margins"/>
+    <input type="file" name="uploader" id="uploader" data-url="/manage/upload"  accept="image/jpeg, image/jpg, audio/mp3, audio/m4a" class="margins"/>
   </fieldset>
   
   <fieldset class="secondary spectra">
@@ -106,9 +115,10 @@
       this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
     }
     
-    
+    var player = null;
     
     bloc.prepare(function () {
+      
       var uploader = new Upload(document.getElementById('uploader'));
       
       uploader.addRoutine('audio', function (file) {

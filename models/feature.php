@@ -102,6 +102,7 @@ namespace models;
         $clone = $container->appendChild($cloneable->cloneNode());
         $clone->setAttribute('src', $item['@']['src']);
         $clone->setAttribute('type', $item['@']['type']);
+        $clone->setAttribute('mark', $item['@']['mark']);
       }
     }    
   }

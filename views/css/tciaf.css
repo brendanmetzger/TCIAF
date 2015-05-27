@@ -197,3 +197,16 @@ button:hover, .button:hover {
   padding:0 1em 1em 0;
   border-bottom:1px solid #AAA;
 }
+
+
+#player button {width:5em; height:5em;padding:0;display:block;border-radius:0;margin:0.25em;border-color:#5B9B98;}
+#player button:focus {outline:none;}
+#player button svg{width:60%;height:60%;fill:#fff;margin:20%;}
+#player button svg path {stroke:none;}
+
+
+button path.indicator{fill:#5b9b98;stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
+button path.wait{fill:transparent;stroke-opacity:1;transition:stroke-opacity 0.25s;}
+button:not(.wait) path.wait{stroke-opacity:0;}
+button.wait svg path.indicator{fill-opacity:0;fill:#AAA;}
+button.error{background-color:#ED1C24;}
