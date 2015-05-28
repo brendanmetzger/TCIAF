@@ -182,7 +182,7 @@ label.range h4 {
  color:#333;
 }
 
-*[data-id] {position:relative;z-index:1;}
+*[data-id] {position:relative;}
 
 *[data-id]:hover button{
   opacity:1;
@@ -206,7 +206,6 @@ label.range h4 {
   right:-1.5em;
   top:0;
   position:absolute;
-  z-index:2000;
   opacity:0;
   transition:opacity 0.25s;
   

@@ -19,4 +19,11 @@ class Search extends Manage
     $search = new \models\search($list);
     return $search->asJSON($subset, $type);
   }
+  
+  public function GETform($type)
+  {
+    $view = new View('views/forms/partials/search.html');
+    $this->search = ['topic' => $type];
+    return $view->render($this());
+  }
 }

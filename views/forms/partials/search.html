@@ -1,0 +1,123 @@
+<div id="search">
+  <input id="FILTER" data-redirect="[/manage/edit/$search:topic/]" data-topic="[$search:topic]" type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
+  <script type="text/javascript">
+    // <![CDATA[
+      bloc.prepare(function () {
+      
+        var request       = new XMLHttpRequest();
+        var alphanumeric  = /[a-z0-9]{1}/i;
+        var catalog       = false;
+        var halt          = false;
+        var index         = 0;
+        var searchbox = document.getElementById('FILTER');
+        var results = searchbox.parentNode.appendChild(document.createElement('ul'));
+      
+        request.onreadystatechange = function (response) {
+          if (request.readyState === 1) {
+            catalog = false;
+          }
+          if (request.readyState === 4 && request.status === 200) {
+            var response = JSON.parse(request.responseText) || [];
+            catalog = {};
+            response.forEach(function (item) {
+              var key = item[1].toLowerCase().replace(/[^a-z0-9]/g, '');
+              catalog[key] = {
+                href: searchbox.dataset.redirect + item[0],
+                name: item[1]
+              };
+            });
+            halt = false;
+
+          }
+        };
+      
+        var Clock = function () {
+          this.index = -1;
+          this.rev   = 0;
+          this.limit = 10;
+          this.tick = function (direction) {
+            direction = direction < 1 ? (this.rev - 1) : 1;
+            this.index = Math.abs((this.index + direction) % this.rev);
+            console.log(this.index);
+            return this.index;
+          }.bind(this);
+        
+          this.cycle = function (direction, input, list) {
+            var stack = list.querySelectorAll('li');
+            if (this.rev > 0) {
+              if (this.index >= 0) {
+                stack[this.index].classList.remove('hover');
+              }
+              var current = stack[this.tick(direction)];
+                  current.classList.add('hover');
+              input.value = current.textContent;
+              input.dataset.url = current.querySelector('a').href;
+            }
+          }.bind(this);
+        };
+      
+      
+        var menu = new Clock;
+        
+        searchbox.addEventListener('keydown', function (evt) {
+        
+          var letter = String.fromCharCode(evt.keyCode);
+        
+          var meta = evt.keyIdentifier.toLowerCase();
+          if (catalog && (meta === 'down' || meta == 'up')) {            
+            evt.preventDefault();
+
+            menu.cycle(meta == 'down' ? 1 : -1, this, results);
+            return;
+          }
+        
+          if (alphanumeric.test(letter) && this.value.length === 0) {
+            halt = true;
+            request.open('GET', '/search/group/' + searchbox.dataset.topic + '/' + letter + '.json');
+            request.send();
+          }
+        });
+      
+        searchbox.addEventListener('keyup', function (evt) {
+          var meta = evt.keyIdentifier.toLowerCase();
+          console.log(meta);
+          if (halt === null || (meta === 'down' || meta == 'up')) return;
+          if (meta === 'enter') window.location.href = this.dataset.url;
+        
+        
+        
+          var new_element = results.cloneNode();    
+          results.parentNode.replaceChild(new_element, results);
+          results = new_element;
+        
+          menu.rev = 0;
+        
+          if (this.value.length < 1) return;
+        
+          // var term = this.value.replace(/\s(?=[a-z0-9]{2})/ig, '|');
+          var term = this.value;
+          var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[\s.,"':?#\[\]\(\)\-]*/g, ''), 'i');
+          var item_re = new RegExp("("+term+")", 'ig');
+          var count = 0;
+          for (var key in catalog) {
+          
+            if (match_re.test(key)) {
+              var li = document.createElement('li');
+              var a = document.createElement('a');
+              li.appendChild(a);
+              results.appendChild(li);
+              a.href = catalog[key].href;
+              a.innerHTML = catalog[key].name.replace(item_re, "<strong>$1</strong>");
+            
+              if (++menu.rev >= 10) break;
+            }
+          }
+          return;
+          for (var i = 0; i < this.items.length; i++) {
+            var key = this.indices[i];
+          }
+        });
+      });
+    // ]]>
+  </script>
+</div>

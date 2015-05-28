@@ -210,3 +210,37 @@ button path.wait{fill:transparent;stroke-opacity:1;transition:stroke-opacity 0.2
 button:not(.wait) path.wait{stroke-opacity:0;}
 button.wait svg path.indicator{fill-opacity:0;fill:#AAA;}
 button.error{background-color:#ED1C24;}
+
+
+/* components  */
+
+#search {
+  position:relative;
+}
+#search ul {
+  position:absolute;
+  padding:0;
+  margin:0;
+  width:100%;
+  color:#fff;
+  z-index:2000;
+  background-color:rgba(255,255,255,0.95);
+  border:1px solid #EEE;
+  border-width:0 1px 1px;
+  box-sizing:border-box;
+  list-style:none;
+}
+#search ul:not(:empty) {
+  box-shadow:0 0.25em 0.25em 0.125em rgba(0,0,0,0.2);
+}
+#search ul li a{
+  padding:0.75em 1em;
+  display:block;
+}
+#search ul li:hover a, #search ul li.hover a{
+  background-color:#88746A;
+  color:#fff;
+}
+#search ul li + li {
+  border-top:1px solid #eee;
+}

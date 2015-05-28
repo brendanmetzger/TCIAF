@@ -51,12 +51,12 @@
     <ul class="inline">
       <!-- iterate item:thumbnails -->
       <li>
-        <input type="hidden"   class="type"  name="[vertex[media][$index][@][type]]"  value="[$type]" />
-        <input type="hidden"   class="mark"  name="[vertex[media][$index][@][mark]]"  value="[$mark]" />
-        <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"    value="[$caption]" />
-        <input type="checkbox" class="src" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
+        <input type="hidden"   class="type"    name="[vertex[media][$index][@][type]]" value="[$type]" />
+        <input type="hidden"   class="mark"    name="[vertex[media][$index][@][mark]]" value="[$mark]" />
+        <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
+        <input type="checkbox" class="src"     name="[vertex[media][$index][@][src]]"  value="[$src]" checked="true" id="[:$index]"/>
         <label for="[:$index]">
-          <img src="[http://s3.amazonaws.com/$src]" alt="[$caption]"/>
+          <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
         </label>
       </li>
     </ul>
@@ -90,17 +90,46 @@
       <p>[$abstract]</p>
       <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@vertex/$@id]">[Unlink $@title]</a>
     </div>
-    <a class="button margins" href="[#/manage/edge/add/producer/$item:@id]">Add Reference</a>
+    <button class="reference">Add an External Reference</button>
   </fieldset>
+  
+  <div class="reference" style="display:none;background-color:#EEE;">
+    <div style="font-size:1.5em;padding:2em">
+      <span>In regards to this <strong>Feature</strong>:</span>
+      <select onchange="findVertex(this);">
+        <option>this...</option>
+        <!-- iterate item:grouptypes -->
+        <option value="[$name]" disabled="[$disabled]">[$name]</option>
+      </select>
+      <em>was a</em>
+      <select>
+        <option>...something</option>
+        <!-- iterate item:edgetypes -->
+        <option value="[$name]">[$name]</option>
+      </select>
+    </div>
+  </div>
   
   
   
   
   <script type="text/javascript">
-  // <![CDATA[
+    // <![CDATA[
+
+    function findVertex(select) {
+      var search_form_request = new XMLHttpRequest();
+          search_form_request.open('GET', '/search/form/'+select.options[select.selectedIndex].value + '.xml');
+          search_form_request.addEventListener('load', function (evt) {
+            var form = evt.target.responseXML.documentElement;
+            document.importNode(form);
+            select.parentNode.appendChild(form);
+          }, false);
+          
+          search_form_request.send();
+    }
+      
     function startFormPlayer(audio_element) {
       Player.attach(audio_element);
-      console.log(audio_element);
       audio_element.querySelector('input[name*="mark"]').value = audio_element.duration;
     }
     
@@ -121,15 +150,21 @@
         s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
         l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
       };
-
       this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
-    }
+    };
     
     var player = null;
     
     bloc.prepare(function () {
       
       var uploader = new Upload(document.getElementById('uploader'));
+      
+      document.querySelector('button.reference').addEventListener('click', function (evt) {
+        evt.preventDefault();
+        document.querySelector('div.reference').style.display = 'block';
+        
+      });
+      
       
       uploader.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
@@ -163,7 +198,7 @@
         var media = this.responseXML.querySelector('media');
         // the li is previously inserted, so our index should be decremented to match the array enumeration
         
-        var index = document.querySelectorAll('fieldset.media input.src').length - 1;
+        var index = document.querySelectorAll('fieldset.media input[name*="src"]').length;
         
         if (media.getAttribute('type') == 'image') {
           
@@ -192,14 +227,15 @@
           
           
         } else if (media.getAttribute('type') == 'audio') {
+          
           document.querySelectorAll('fieldset.media audio input').forEach(function (input) {
             var key = input.className;
               input.name = 'vertex[media]['+index+'][@]['+key+']';
               input.value = media.getAttribute(key);
           });
+          
           document.querySelector('fieldset.media audio').src = "http://s3.amazonaws.com/" + media.getAttribute('src');
         }
-        
 
       });
       

@@ -31,7 +31,6 @@ use \bloc\dom\query;
       return self::instance()->query("graph/group[@type='{$type}']/");
     }
     
-    
     static public function ID($id)
     {
       if ($id === null || strtolower($id) === 'pending') return null;
@@ -50,6 +49,11 @@ use \bloc\dom\query;
     private function __construct()
     {
       $this->storage = new Document(self::DB, ['validateOnParse' => true]);
+    }
+    
+    public function getDTD()
+    {
+      return file_get_contents(PATH . 'data/graph.dtd');
     }
     
     public function query($expression)
