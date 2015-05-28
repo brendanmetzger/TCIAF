@@ -41,7 +41,7 @@
   <fieldset class="media">
     <legend class="caps-lock">Media</legend>
 
-    <audio src="[http://tmp.s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">
+    <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">
       <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]"  />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" />
@@ -56,7 +56,7 @@
         <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"    value="[$caption]" />
         <input type="checkbox" class="src" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
         <label for="[:$index]">
-          <img src="[http://tmp.s3.amazonaws.com/$src]" alt="[$caption]"/>
+          <img src="[http://s3.amazonaws.com/$src]" alt="[$caption]"/>
         </label>
       </li>
     </ul>
@@ -197,7 +197,7 @@
               input.name = 'vertex[media]['+index+'][@]['+key+']';
               input.value = media.getAttribute(key);
           });
-          document.querySelector('fieldset.media audio').src = "http://tmp.s3.amazonaws.com/" + media.getAttribute('src');
+          document.querySelector('fieldset.media audio').src = "http://s3.amazonaws.com/" + media.getAttribute('src');
         }
         
 

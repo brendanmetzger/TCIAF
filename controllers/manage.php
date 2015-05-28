@@ -191,7 +191,8 @@ class Manage extends \bloc\controller
       $result = $client->putObject(array(
           'Bucket'     => $bucket,
           'Key'        => $type . '/' . $name,
-          'SourceFile' => PATH . $src
+          'SourceFile' => PATH . $src,
+          'ACL'        => 'public-read',
       ));
       
       
@@ -205,17 +206,5 @@ class Manage extends \bloc\controller
     }
   }
   
-  protected function GETbucket()
-  {
-    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
-    $result = $client->putObject(array(
-        'Bucket'     => 'tciaf-media',
-        'Key'        => 'image/triangle.jpg',
-        'SourceFile' => PATH .  'data/media/triangle.jpg'
-    ));
-    
-    
-    
-    return '<pre>'.  print_r($result, true) . "</pre>";
-  }
+  
 }
