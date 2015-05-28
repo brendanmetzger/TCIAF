@@ -40,28 +40,28 @@
   
   <fieldset class="media">
     <legend class="caps-lock">Media</legend>
-    
-    <div>
-      <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]" />
+
+    <audio src="[http://tmp.s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">
+      <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]"  />
       <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
-      <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" id="duration"/>
-      <audio src="[http://tmp.s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">[$item:audio:src]</audio>
-    </div>
+      <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" />
+    </audio>
+    
 
     <ul class="inline">
       <!-- iterate item:thumbnails -->
       <li>
-        <input type="hidden" name="[vertex[media][$index][@][type]]"  value="[$type]" class="file"/>
-        <input type="hidden" name="[vertex[media][$index][@][mark]]"  value="[$mark]" />
-        <input type="hidden" name="[vertex[media][$index][CDATA]]"    value="[$caption]" />
-        <input type="checkbox" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
+        <input type="hidden"   class="type"  name="[vertex[media][$index][@][type]]"  value="[$type]" />
+        <input type="hidden"   class="mark"  name="[vertex[media][$index][@][mark]]"  value="[$mark]" />
+        <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"    value="[$caption]" />
+        <input type="checkbox" class="src" name="[vertex[media][$index][@][src]]" value="[$src]" checked="true" id="[:$index]"/>
         <label for="[:$index]">
           <img src="[http://tmp.s3.amazonaws.com/$src]" alt="[$caption]"/>
         </label>
       </li>
     </ul>
 
-    <input type="file" name="uploader" id="uploader" data-url="/manage/upload.xml"  accept="image/jpeg, image/jpg, audio/mp3, audio/m4a" class="margins"/>
+    <input type="file" name="uploader" id="uploader" data-url="/manage/upload.xml"  accept="image/jpeg, image/jpg, audio/mp3, audio/mp4" class="margins"/>
 
   </fieldset>
   
@@ -100,7 +100,8 @@
   // <![CDATA[
     function startFormPlayer(audio_element) {
       Player.attach(audio_element);
-      document.getElementById('duration').value = audio_element.duration;
+      console.log(audio_element);
+      audio_element.querySelector('input[name*="mark"]').value = audio_element.duration;
     }
     
     function Spectra(labels) {
@@ -132,8 +133,13 @@
       
       uploader.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
-        if (document.querySelectorAll('input.file[value="audio"]').length > 0) {
+        if (document.querySelectorAll('input.src[value="audio"]').length > 0) {
           throw new Error('Only one audio file allowed. Unlink the one you are using now.');
+        } else {
+          var inputs = document.querySelectorAll('fieldset.media audio input');
+          ['src', 'type', 'mark'].forEach(function (name, index) {
+            inputs.item(index).className = name;
+          });
         }
       });
       
@@ -155,11 +161,14 @@
       
       uploader.addEvent('load', function (evt) {
         var media = this.responseXML.querySelector('media');
-        var index = document.querySelectorAll('fieldset.media li').length;
-
+        // the li is previously inserted, so our index should be decremented to match the array enumeration
+        
+        var index = document.querySelectorAll('fieldset.media input.src').length - 1;
+        
         if (media.getAttribute('type') == 'image') {
+          
           var li = document.querySelector('li[title="'+media.getAttribute('name')+'"]');
-          li.querySelector('label').setAttribute('for', ':' + index);
+              li.querySelector('label').setAttribute('for', ':' + index);
           
           var check      = li.insertBefore(document.createElement('input'), li.lastChild);
               check.type = 'checkbox';
@@ -182,6 +191,13 @@
               caption.name = 'vertex[media]['+index+'][CDATA]';
           
           
+        } else if (media.getAttribute('type') == 'audio') {
+          document.querySelectorAll('fieldset.media audio input').forEach(function (input) {
+            var key = input.className;
+              input.name = 'vertex[media]['+index+'][@]['+key+']';
+              input.value = media.getAttribute(key);
+          });
+          document.querySelector('fieldset.media audio').src = "http://tmp.s3.amazonaws.com/" + media.getAttribute('src');
         }
         
 

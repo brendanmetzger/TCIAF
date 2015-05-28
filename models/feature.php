@@ -56,12 +56,12 @@ namespace models;
 
       if ($audio === null) {
         $audio = new \bloc\types\Dictionary([]);
-        
         $media = $context['media'];
         foreach ($media as $item) {
 
+
           if ($item['@type'] === 'audio') {
-            $audio->append([
+            $audio = new \bloc\types\Dictionary([
               'src'     => $item['@src'],
               'type'    => 'audio',
               'index'   => $item->getIndex(),

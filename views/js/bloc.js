@@ -17,6 +17,11 @@ var transition = function (begin, callback) {
   }
 };
 
+/* Allow looping through NodeLists akin to arrays.
+ * (Nodelists are returned from querySelectorAll and other DOM stuff)
+ */
+NodeList.prototype.forEach = Array.prototype.forEach;
+
 
 /* Quick way to create an SVG element with and a prototypal method
  * to create children elements. Used in Progress and Player.Button

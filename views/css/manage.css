@@ -130,7 +130,7 @@ label.range h4 {
   top:1em;
   right:1em;
   margin:0;
-  width:25%;
+  width:35%;
   padding:1em;
   box-shadow: -0.25em 0.25em 0.125em rgba(0,0,0,0.1);
   border-radius:0.5em;
@@ -138,6 +138,7 @@ label.range h4 {
   z-index:1000;
   opacity:0.9;
 }
+
 .dashboard ul.inline li {
   color:#fff;
   padding:0 0.5em;
@@ -185,6 +186,10 @@ label.range h4 {
 
 *[data-id]:hover button{
   opacity:1;
+}
+
+*[data-id] > button:focus {
+  outline:none;
 }
 *[data-id] > button {
   font-style:normal;

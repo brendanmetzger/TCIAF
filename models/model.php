@@ -111,14 +111,16 @@ abstract class Model extends \bloc\Model
         $this->{"set{$key}"}($context, $value);
         
       } else if (is_int($node)) {
-        
-        $subcontext = $context->parentNode->getFirst($key, $node);
-
+        $subcontext = $context->parentNode->getFirst($key, $node);        
         if ($this->{"set{$key}"}($subcontext, $input[$key][$node]) === false) {
           $pending_removal[] = $subcontext;
        }
       } else {
-        // we have an entire element, that can have elements, attributes, etc, so merge that
+        // we have an entire element, that can have elements, attributes, etc, so merge that.
+        // Be extremely careful here - this will create an element and add to the document. it's up to
+        // you to ensure that if you are going to be inserting an array of elems (see is_int($node) above)
+        // that you make sure your array index starts at zero. If you don't, you will probably have an 
+        // empty node inserted into the document, and this will likely cause a validation error.
         $this->mergeInput([$node => $value], $context->getFirst($node));
       }
     }

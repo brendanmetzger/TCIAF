@@ -169,7 +169,7 @@ class Manage extends \bloc\controller
         \bloc\router::redirect($request->redirect);
       } else {
 
-      
+        echo $model->context->write(true);
       \bloc\application::instance()->log($model->errors);
       }
     } 
@@ -196,7 +196,7 @@ class Manage extends \bloc\controller
       
       
       $media = Graph::instance()->storage->createElement('media', 'upload was cool.');
-      $media->setAttribute('src',  "{$bucket}/{$type}/{$name}");
+      $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
       $media->setAttribute('name',  $name);
       $media->setAttribute('type', $type);
       return $media->write();

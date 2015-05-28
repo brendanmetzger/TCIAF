@@ -180,7 +180,6 @@ Markdown.prototype = {
 function Upload(element) {
   this.input = element;
   this.xhr = new XMLHttpRequest();
-  this.xhr.open('POST', this.input.dataset.url);
   
   this.xhr.upload.onprogress = function (evt) {
     if (evt.lengthComputable) {
@@ -225,6 +224,7 @@ Upload.prototype = {
     this.rules[type] = callback;
   },
   attach: function (blob) {
+    this.xhr.open('POST', this.input.dataset.url);
     this.xhr.send(blob); 
   }
 };
