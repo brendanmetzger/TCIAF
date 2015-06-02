@@ -350,7 +350,7 @@ Search.prototype = {
   
     if (this.input.value.length < 1) return;
     
-    var term = this.input.value.replace(/\s(?=[a-z0-9]+)/ig, '|').replace(/\s/g, '');
+    var term = this.input.value.replace(/\s(?=[a-z0-9]{2,})/ig, '|').replace(/\s/g, '');
 
     // var term     = this.input.value;
     var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[\s.,"':?#\[\]\(\)\-]*/g, ''), 'i');
@@ -363,6 +363,7 @@ Search.prototype = {
             link.href = '/' + this.input.dataset.area + '/' + this.input.dataset.topic + '/' + this.indices[key].href;
             link.innerHTML = this.indices[key].name.replace(item_re, "<strong>$1</strong>");
             
+            console.log(this.indices[key].name.match(item_re));
         this.menu.addItem(link, this.indices[key].name.match(item_re).length);
         
         if (++this.menu.position >= 25) break;
@@ -415,14 +416,17 @@ Menu.prototype = {
   addItem: function (link, weight) {
     var li = this.list.appendChild(document.createElement('li'));
         li.appendChild(link);
-        li.dataset.weight = weight;
+        li.weight = weight;
   },
   sort: function () {
-    this.items = Array.prototype.slice.call(this.list.querySelectorAll('li'), 0);
     
-    this.items.sort(function (a, b) {
-      return parseInt(a.dataset.weight, 10) > parseInt(b.dataset.weight, 10);
+    this.items = Array.prototype.slice.call(this.list.querySelectorAll('li'), 0).sort(function (a, b) {
+      return b.weight - a.weight;
     });
+    
+    this.items.forEach(function (item) {
+      this.list.appendChild(item);
+    }, this);
   },
   tick: function (direction) {
     direction = direction < 1 ? (this.position - 1) : 1;
