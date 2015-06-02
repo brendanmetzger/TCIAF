@@ -4,8 +4,8 @@
     // <![CDATA[
       bloc.prepare(function () {
         var search = new Search(document.getElementById('FILTER'));
-        search.subscribers.select.push(function (input) {
-          window.location.href = input.dataset.url;
+        search.subscribers.select.push(function (dataset) {
+          window.location.href = '/' + dataset.area + '/' + dataset.topic + '/' + dataset.id;
         });
       });
     // ]]>

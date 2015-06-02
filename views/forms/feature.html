@@ -1,98 +1,89 @@
-<form name="uploadData" method="POST" action="[/manage/edit/$item::_model/$item:@id]" class="editor" autocomplete="off">
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-    audio {display:none;}
-    fieldset div.group {width:33%;}
-    fieldset.media ul.inline li label {margin:0;}
-    fieldset.media ul.inline li {width:20%;background-color:#eee;}
-    fieldset.media ul.inline li img {width:100%;opacity:0.5;}
-    fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
-    fieldset.media input[type=checkbox]:not(:checked):after {content:'Detached';font-size:0.65em;line-height:0;top:-0.5em;left:1.75em;position:relative;}
-    /* ]]> */
-  </style>
-  <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
-  <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
+<div>
+  <form name="uploadData" method="POST" action="[/manage/edit/$item::_model/$item:@id]" class="editor" autocomplete="off">
+    
+    <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
+    <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   
-  <fieldset>
-    <legend class="caps-lock">Edit</legend>
-    <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
-    <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text"/>
-    <label for="title">Title</label>  
+    <fieldset>
+      <legend class="caps-lock">Edit</legend>
+      <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
+      <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text"/>
+      <label for="title">Title</label>  
 
-    <textarea name="vertex[abstract][CDATA]" rows="8" cols="40" id="description" class="required text">[$item:abstract]</textarea>
-    <label for="description">Description</label>  
+      <textarea name="vertex[abstract][CDATA]" rows="8" cols="40" id="description" class="required text">[$item:abstract]</textarea>
+      <label for="description">Description</label>  
     
-    <div class="group left">
-      <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
-      <label for="location">Origin Country</label>  
-    </div>
+      <div class="group left">
+        <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
+        <label for="location">Origin Country</label>  
+      </div>
     
-    <div class="group left">
-      <input type="text" name="vertex[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
-      <label for="premier">Premier Location</label>
-    </div>
+      <div class="group left">
+        <input type="text" name="vertex[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
+        <label for="premier">Premier Location</label>
+      </div>
     
-    <div class="group left">
-      <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
-      <label for="premier_date">Premier Date</label>
-    </div>
-  </fieldset>
+      <div class="group left">
+        <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
+        <label for="premier_date">Premier Date</label>
+      </div>
+    </fieldset>
   
-  <fieldset class="media">
-    <legend class="caps-lock">Media</legend>
+    <fieldset class="media">
+      <legend class="caps-lock">Media</legend>
 
-    <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">
-      <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]"  />
-      <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
-      <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" />
-    </audio>
+      <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">
+        <input type="hidden" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]"  />
+        <input type="hidden" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
+        <input type="hidden" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" />
+      </audio>
     
 
-    <ul class="inline">
-      <!-- iterate item:thumbnails -->
-      <li>
-        <input type="hidden"   class="type"    name="[vertex[media][$index][@][type]]" value="[$type]" />
-        <input type="hidden"   class="mark"    name="[vertex[media][$index][@][mark]]" value="[$mark]" />
-        <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
-        <input type="checkbox" class="src"     name="[vertex[media][$index][@][src]]"  value="[$src]" checked="true" id="[:$index]"/>
-        <label for="[:$index]">
-          <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
-        </label>
-      </li>
-    </ul>
+      <ul class="inline">
+        <!-- iterate item:thumbnails -->
+        <li>
+          <input type="hidden"   class="type"    name="[vertex[media][$index][@][type]]" value="[$type]" />
+          <input type="hidden"   class="mark"    name="[vertex[media][$index][@][mark]]" value="[$mark]" />
+          <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
+          <input type="checkbox" class="src"     name="[vertex[media][$index][@][src]]"  value="[$src]" checked="true" id="[:$index]"/>
+          <label for="[:$index]">
+            <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
+          </label>
+        </li>
+      </ul>
 
-    <input type="file" name="uploader" id="uploader" data-url="/manage/upload.xml"  accept="image/jpeg, image/jpg, audio/mp3, audio/mp4" class="margins"/>
+      <input type="file" name="uploader" id="uploader" data-url="/manage/upload.xml"  accept="image/jpeg, image/jpg, audio/mp3, audio/mp4" class="margins"/>
 
-  </fieldset>
+    </fieldset>
   
-  <fieldset class="secondary spectra">
-    <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
-    <!-- iterate item:spectra -->
-    <label class="range container">
-      <h4>[$title]</h4>
-      <span>[$item:@from]</span>
-      <input type="range" min="0" max="100" name="[vertex[spectra][@][$item:@id]]" value="[$value]" data-index="0"/>
-      <span>[$item:@to]</span>
-    </label>
+    <fieldset class="secondary spectra">
+      <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
+      <!-- iterate item:spectra -->
+      <label class="range container">
+        <h4>[$title]</h4>
+        <span>[$item:@from]</span>
+        <input type="range" min="0" max="100" name="[vertex[spectra][@][$item:@id]]" value="[$value]" data-index="0"/>
+        <span>[$item:@to]</span>
+      </label>
     
-  </fieldset>
+    </fieldset>
   
-  <button type="submit" class="margins">Submit</button>
+    <button type="submit" class="margins">Submit</button>
   
-  <hr/>
+    <hr/>
   
-  <fieldset>
-    <legend class="caps-lock">Edges</legend>
-    <!--iterate references -->
-    <div class="listed padded">
-      <sup class="normal capitalize small">[$edge:@type]</sup>
-      <h2><a href="[/manage/edit/find/$@id]">[$@title]</a></h2>
-      <p>[$abstract]</p>
-      <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@vertex/$@id]">[Unlink $@title]</a>
-    </div>
-    <button class="reference">Add an External Reference</button>
-  </fieldset>
-  
+    <fieldset>
+      <legend class="caps-lock">Edges</legend>
+      <!--iterate references -->
+      <div class="listed padded">
+        <sup class="normal capitalize small">[$edge:@type]</sup>
+        <h2><a href="[/manage/edit/find/$@id]">[$@title]</a></h2>
+        <p>[$abstract]</p>
+        <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@vertex/$@id]">[Unlink $@title]</a>
+      </div>
+      <button class="reference">Add an External Reference</button>
+    </fieldset>
+  </form>
   <div class="reference" style="display:none;background-color:#EEE;">
     <div style="font-size:1.5em;padding:2em">
       <span>In regards to this <strong>Feature</strong>:</span>
@@ -110,26 +101,32 @@
     </div>
   </div>
   
-  
-  
-  
   <script type="text/javascript">
     // <![CDATA[
 
     function findVertex(select) {
       var input = Search.INPUT('manage/edit', select.options[select.selectedIndex].value);
       select.parentNode.appendChild(input);
+      
       select.parentNode.classList.add('search');
       var search = new Search(input);
-      
-      
+    
+      search.subscribers.select.push(function (dataset) {
+        if (dataset.id) {
+          console.log('add an edge on vertex:', dataset.id);
+        } else {
+          console.log('create a vertex for', this.input.value);
+        }
+      });
+    
+      input.focus();
     }
-      
+    
     function startFormPlayer(audio_element) {
       Player.attach(audio_element);
       audio_element.querySelector('input[name*="mark"]').value = audio_element.duration;
     }
-    
+  
     function Spectra(labels) {
       var total = labels.length;
       for (var i = 0; i < total; i++) {
@@ -138,7 +135,7 @@
         labels[i].addEventListener('input', this.color);
       }
     }
-    
+  
     Spectra.prototype.color = function () {
       var value = parseInt(this.value, 10);
       var intensity = (value / 100 );
@@ -149,20 +146,20 @@
       };
       this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
     };
-    
+  
     var player = null;
-    
+  
     bloc.prepare(function () {
-      
+    
       var uploader = new Upload(document.getElementById('uploader'));
-      
+    
       document.querySelector('button.reference').addEventListener('click', function (evt) {
         evt.preventDefault();
         document.querySelector('div.reference').style.display = 'block';
-        
+      
       });
-      
-      
+    
+    
       uploader.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
         if (document.querySelectorAll('input.src[value="audio"]').length > 0) {
@@ -174,34 +171,34 @@
           });
         }
       });
-      
+    
       uploader.addRoutine('image', function (file) {
         var reader = new FileReader();
-      
+    
         reader.onload = function (evt) {
           var li = document.querySelector('fieldset.media ul').appendChild(document.createElement('li'));
               li.title = file.name;
-          
+        
           var label = li.appendChild(document.createElement('label'));
-          
+        
           var img = label.appendChild(document.createElement('img'));
               img.src   = evt.target.result;    
         };
-        
+      
         reader.readAsDataURL(file);
       });
-      
+    
       uploader.addEvent('load', function (evt) {
         var media = this.responseXML.querySelector('media');
         // the li is previously inserted, so our index should be decremented to match the array enumeration
-        
+      
         var index = document.querySelectorAll('fieldset.media input[name*="src"]').length;
-        
+      
         if (media.getAttribute('type') == 'image') {
-          
+        
           var li = document.querySelector('li[title="'+media.getAttribute('name')+'"]');
               li.querySelector('label').setAttribute('for', ':' + index);
-          
+        
           var check      = li.insertBefore(document.createElement('input'), li.lastChild);
               check.type = 'checkbox';
               check.checked = true;
@@ -212,7 +209,7 @@
           var mark     = li.insertBefore(document.createElement('input'), li.firstChild);
               mark.type = 'hidden';
               mark.name = 'vertex[media]['+index+'][@][mark]';
-            
+          
           var type       = li.insertBefore(document.createElement('input'), li.firstChild);
               type.type  = 'hidden';
               type.name  = 'vertex[media]['+index+'][@][type]';
@@ -221,24 +218,35 @@
           var caption = li.insertBefore(document.createElement('input'), li.firstChild);
               caption.type = "hidden";
               caption.name = 'vertex[media]['+index+'][CDATA]';
-          
-          
+        
+        
         } else if (media.getAttribute('type') == 'audio') {
-          
+        
           document.querySelectorAll('fieldset.media audio input').forEach(function (input) {
             var key = input.className;
               input.name = 'vertex[media]['+index+'][@]['+key+']';
               input.value = media.getAttribute(key);
           });
-          
+        
           document.querySelector('fieldset.media audio').src = "http://s3.amazonaws.com/" + media.getAttribute('src');
         }
 
       });
-      
+    
       var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));
     });
   //]]>
   </script>
   
-</form>
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    audio {display:none;}
+    fieldset div.group {width:33%;}
+    fieldset.media ul.inline li label {margin:0;}
+    fieldset.media ul.inline li {width:20%;background-color:#eee;}
+    fieldset.media ul.inline li img {width:100%;opacity:0.5;}
+    fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
+    fieldset.media input[type=checkbox]:not(:checked):after {content:'Detached';font-size:0.65em;line-height:0;top:-0.5em;left:1.75em;position:relative;}
+    /* ]]> */
+  </style>
+</div>

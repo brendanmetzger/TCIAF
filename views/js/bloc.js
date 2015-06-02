@@ -288,14 +288,20 @@ var Search = function (input) {
   this.ajax = new XMLHttpRequest();
   this.ajax.addEventListener('load', this.processIndices.bind(this), false);
   this.ajax.addEventListener('loadstart', this.reset.bind(this), false);
-  
+
   this.menu = new Menu(this.input.parentNode.appendChild(document.createElement('ul')));
+  this.menu.list.addEventListener('click', function (evt) {
+    this.input.value       = evt.target.textContent;
+    this.input.dataset.id  = evt.target.id;
+    this.select(evt);
+  }.bind(this), false);
 };
 
 Search.INPUT = function (area, topic) {
   var input = document.createElement('input');
   input.dataset.topic = topic;
   input.dataset.area = area;
+  input.dataset.id = null;
   input.className = 'text';
   input.placeholder = 'Search for ' + topic;
   input.name = 'Search';
@@ -320,51 +326,57 @@ Search.prototype = {
     this.indices = {};
     this.menu.reset();
   },
+  select: function (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    
+    this.subscribers.select.forEach(function (item) {
+      item.call(this, this.input.dataset);
+    }, this);
+  },
   processIndices: function (evt) {
 
     (JSON.parse(evt.target.responseText) || []).forEach(function (item) {
       var key = item[1].toLowerCase().replace(/[^a-z0-9]/g, '');
       this[key] = {
-        href: item[0],
+        id: item[0],
         name: item[1]
       };
     }, this.indices);
 
 
   },
-  
-  select: function (input) {
-    this.subscribers.select.forEach(function (item) {
-      item.call(this, input);
-    }, this);
-  },
   checkUp: function (evt) {
   
 
     var meta = evt.keyIdentifier.toLowerCase();
 
-    if ((meta === 'down' || meta == 'up')) return;
-    if (meta === 'enter') this.select(this.input);
+    if (meta === 'down' || meta == 'up') return;
+
+    if (meta === 'enter') {
+      this.select(evt);
+      return;
+    }
   
     this.menu.reset();
+    this.input.dataset.id = '';
   
     if (this.input.value.length < 1) return;
     
-    var term = this.input.value.replace(/\s(?=[a-z0-9]{2,})/ig, '|').replace(/\s/g, '');
-
+    var term = this.input.value.replace(/\s(?=[a-z0-9]{1,})/ig, '|\\b').replace(/\s[a-z0-9]?/ig, '');
     // var term     = this.input.value;
-    var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[\s.,"':?#\[\]\(\)\-]*/g, ''), 'i');
+    var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[.,"':?#\[\]\(\)\-]*/g, ''), 'i');
     var item_re  = new RegExp("("+term+")", 'ig');
 
     for (var key in this.indices) {
     
       if (match_re.test(key)) {
-        var link = document.createElement('a');
-            link.href = '/' + this.input.dataset.area + '/' + this.input.dataset.topic + '/' + this.indices[key].href;
-            link.innerHTML = this.indices[key].name.replace(item_re, "<strong>$1</strong>");
-            
-            console.log(this.indices[key].name.match(item_re));
-        this.menu.addItem(link, this.indices[key].name.match(item_re).length);
+        var matches = this.indices[key].name.match(item_re);
+        this.menu.addItem(
+          this.indices[key].id, 
+          this.indices[key].name.replace(item_re, "<strong>$1</strong>"),
+          matches ? matches.length : 0
+        );
         
         if (++this.menu.position >= 25) break;
       }
@@ -378,12 +390,9 @@ Search.prototype = {
           
     if (this.menu.items.length > 0 && (meta === 'down' || meta == 'up')) {            
       evt.preventDefault();
-
       var current = this.menu.cycle(meta == 'down' ? 1 : -1);
-      
-      this.input.value = current.textContent;
-      this.input.dataset.url = current.querySelector('a').href;
-      
+      this.input.value       = current.textContent;
+      this.input.dataset.id  = current.id;
       return;
     }
 
@@ -404,19 +413,17 @@ Menu.prototype = {
   index: -1,
   position: 0,
   reset: function () {
-    var new_element = this.list.cloneNode();    
-    
-    this.list.parentNode.replaceChild(new_element, this.list);
-    this.list = new_element;
-    
+    while (this.list.firstChild) {
+      this.list.removeChild(this.list.firstChild);
+    }    
     this.items = [];
-  
     this.position = 0;
   },
-  addItem: function (link, weight) {
+  addItem: function (id, html, weight) {
     var li = this.list.appendChild(document.createElement('li'));
-        li.appendChild(link);
+        li.innerHTML = html;
         li.weight = weight;
+        li.id     = id;
   },
   sort: function () {
     
@@ -437,13 +444,13 @@ Menu.prototype = {
     if (this.position > 0) {    
 
       if (this.index >= 0) {
-        this.items[this.index].classList.remove('hover');
+        this.items[this.index].classList.remove('highlight');
       }
     
       var current = this.items[this.tick(direction)];
-          current.classList.add('hover');
+          current.classList.add('highlight');
       
-    return current;
+      return current;
     }
   }
 };
