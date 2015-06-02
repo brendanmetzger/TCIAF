@@ -214,10 +214,10 @@ button.error{background-color:#ED1C24;}
 
 /* components  */
 
-#search {
+.search {
   position:relative;
 }
-#search ul {
+.search ul {
   position:absolute;
   padding:0;
   margin:0;
@@ -230,17 +230,17 @@ button.error{background-color:#ED1C24;}
   box-sizing:border-box;
   list-style:none;
 }
-#search ul:not(:empty) {
+.search ul:not(:empty) {
   box-shadow:0 0.25em 0.25em 0.125em rgba(0,0,0,0.2);
 }
-#search ul li a{
+.search ul li a{
   padding:0.75em 1em;
   display:block;
 }
-#search ul li:hover a, #search ul li.hover a{
+.search ul li:hover a, .search ul li.hover a{
   background-color:#88746A;
   color:#fff;
 }
-#search ul li + li {
+.search ul li + li {
   border-top:1px solid #eee;
 }

@@ -117,15 +117,12 @@
     // <![CDATA[
 
     function findVertex(select) {
-      var search_form_request = new XMLHttpRequest();
-          search_form_request.open('GET', '/search/form/'+select.options[select.selectedIndex].value + '.xml');
-          search_form_request.addEventListener('load', function (evt) {
-            var form = evt.target.responseXML.documentElement;
-            document.importNode(form);
-            select.parentNode.appendChild(form);
-          }, false);
-          
-          search_form_request.send();
+      var input = Search.INPUT('manage/edit', select.options[select.selectedIndex].value);
+      select.parentNode.appendChild(input);
+      select.parentNode.classList.add('search');
+      var search = new Search(input);
+      
+      
     }
       
     function startFormPlayer(audio_element) {

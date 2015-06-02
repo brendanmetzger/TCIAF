@@ -115,10 +115,11 @@
 
               
           http.addEventListener('load', function (evt) {
+            if (evt.target.status >= 400) return
             var vertex = evt.target.responseXML.documentElement;
-
             titles.innerHTML = '<h2>' + vertex.getAttribute('title') + '</h2><p><em>' + vertex.querySelector('abstract').innerHTML.replace(/(¶)/g, '<span>$1</span>') + '</em></p>' + titles.innerHTML;
           }, false);
+          
 
               
           library.addEventListener('mouseover', function (evt) {

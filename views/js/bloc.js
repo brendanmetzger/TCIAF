@@ -22,7 +22,6 @@ var transition = function (begin, callback) {
  */
 NodeList.prototype.forEach = Array.prototype.forEach;
 
-
 /* Quick way to create an SVG element with and a prototypal method
  * to create children elements. Used in Progress and Player.Button
  */ 
@@ -277,5 +276,170 @@ Meter.prototype = {
     this.elapsed.text("{h}:{m}:{s}".format(this.timecode(this.audio.currentTime)));
     this.duration.text("{h}:{m}:{s}".format(this.timecode(this.audio.duration - this.audio.currentTime)));
     
+  }
+};
+
+
+var Search = function (input) {
+  this.input = input;
+  this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
+  this.input.addEventListener('keydown', this.checkDown.bind(this), false);
+  
+  this.ajax = new XMLHttpRequest();
+  this.ajax.addEventListener('load', this.processIndices.bind(this), false);
+  this.ajax.addEventListener('loadstart', this.reset.bind(this), false);
+  
+  this.menu = new Menu(this.input.parentNode.appendChild(document.createElement('ul')));
+};
+
+Search.INPUT = function (area, topic) {
+  var input = document.createElement('input');
+  input.dataset.topic = topic;
+  input.dataset.area = area;
+  input.className = 'text';
+  input.placeholder = 'Search for ' + topic;
+  input.name = 'Search';
+  input.autocomplete = 'off';
+  
+  return input;  
+};
+
+Search.prototype = {
+  ajax: null,
+  input: null,
+  results: null,
+  indices: {},
+  subscribers: {
+    'select': []
+  },
+  find: function (topic, letter) {
+    this.ajax.open('GET', '/search/group/' + topic + '/' + letter + '.json');
+    this.ajax.send();
+  },
+  reset: function () {
+    this.indices = {};
+    this.menu.reset();
+  },
+  processIndices: function (evt) {
+
+    (JSON.parse(evt.target.responseText) || []).forEach(function (item) {
+      var key = item[1].toLowerCase().replace(/[^a-z0-9]/g, '');
+      this[key] = {
+        href: item[0],
+        name: item[1]
+      };
+    }, this.indices);
+
+
+  },
+  
+  select: function (input) {
+    this.subscribers.select.forEach(function (item) {
+      item.call(this, input);
+    }, this);
+  },
+  checkUp: function (evt) {
+  
+
+    var meta = evt.keyIdentifier.toLowerCase();
+
+    if ((meta === 'down' || meta == 'up')) return;
+    if (meta === 'enter') this.select(this.input);
+  
+    this.menu.reset();
+  
+    if (this.input.value.length < 1) return;
+    
+    var term = this.input.value.replace(/\s(?=[a-z0-9]+)/ig, '|').replace(/\s/g, '');
+
+    // var term     = this.input.value;
+    var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[\s.,"':?#\[\]\(\)\-]*/g, ''), 'i');
+    var item_re  = new RegExp("("+term+")", 'ig');
+
+    for (var key in this.indices) {
+    
+      if (match_re.test(key)) {
+        var link = document.createElement('a');
+            link.href = '/' + this.input.dataset.area + '/' + this.input.dataset.topic + '/' + this.indices[key].href;
+            link.innerHTML = this.indices[key].name.replace(item_re, "<strong>$1</strong>");
+            
+        this.menu.addItem(link, this.indices[key].name.match(item_re).length);
+        
+        if (++this.menu.position >= 25) break;
+      }
+      
+      this.menu.sort();
+    }
+  },
+  checkDown: function (evt) {
+    var letter = String.fromCharCode(evt.keyCode);
+    var meta   = evt.keyIdentifier.toLowerCase();
+          
+    if (this.menu.items.length > 0 && (meta === 'down' || meta == 'up')) {            
+      evt.preventDefault();
+
+      var current = this.menu.cycle(meta == 'down' ? 1 : -1);
+      
+      this.input.value = current.textContent;
+      this.input.dataset.url = current.querySelector('a').href;
+      
+      return;
+    }
+
+    if (this.input.value.length === 0 && /[a-z0-9]{1}/i.test(letter)) {
+      this.find(this.input.dataset.topic, letter);
+    }
+  }
+};
+
+
+var Menu = function (list) {
+  this.list = list;
+};
+
+Menu.prototype = {
+  list: null,
+  items: [],
+  index: -1,
+  position: 0,
+  reset: function () {
+    var new_element = this.list.cloneNode();    
+    
+    this.list.parentNode.replaceChild(new_element, this.list);
+    this.list = new_element;
+    
+    this.items = [];
+  
+    this.position = 0;
+  },
+  addItem: function (link, weight) {
+    var li = this.list.appendChild(document.createElement('li'));
+        li.appendChild(link);
+        li.dataset.weight = weight;
+  },
+  sort: function () {
+    this.items = Array.prototype.slice.call(this.list.querySelectorAll('li'), 0);
+    
+    this.items.sort(function (a, b) {
+      return parseInt(a.dataset.weight, 10) > parseInt(b.dataset.weight, 10);
+    });
+  },
+  tick: function (direction) {
+    direction = direction < 1 ? (this.position - 1) : 1;
+    this.index = Math.abs((this.index + direction) % this.position);
+    return this.index;
+  },
+  cycle: function (direction) {
+    if (this.position > 0) {    
+
+      if (this.index >= 0) {
+        this.items[this.index].classList.remove('hover');
+      }
+    
+      var current = this.items[this.tick(direction)];
+          current.classList.add('hover');
+      
+    return current;
+    }
   }
 };
