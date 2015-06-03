@@ -319,7 +319,7 @@ Search.prototype = {
     'select': []
   },
   find: function (topic, letter) {
-    this.ajax.open('GET', '/search/group/' + topic + '/' + letter + '.json');
+    this.ajax.open('GET', '/search/group/' + topic + '/' + letter + '.json?ask=' + (new Date()).getTime() );
     this.ajax.send();
   },
   reset: function () {

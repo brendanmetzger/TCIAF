@@ -229,3 +229,51 @@ Upload.prototype = {
   }
 };
 
+
+var Form = function (url, opts, callback) {
+  this.modal = document.body.appendChild(document.createElement('dialog'));
+  this.options = opts;
+  this.ajax = new XMLHttpRequest();
+  this.ajax.overrideMimeType('text/xml');
+  this.ajax.addEventListener('load', this.processForm.bind(this));
+  this.ajax.open('GET', url);
+  this.ajax.send();
+  // the callback is what is called when the form completes the entire dialog
+  this.callback = callback;
+};
+
+Form.prototype = {
+  options: {},
+  modal: null,
+  form: null,
+  ajax: null,
+  processForm: function (evt) {
+    var form_element = evt.target.responseXML.documentElement.querySelector('form');
+
+    if (this.form === null) {
+      this.form = form_element;
+      
+      
+      this.form.addEventListener('submit', function (evt) {
+        evt.preventDefault();
+
+        this.ajax.open("POST", this.form.action);
+        this.ajax.send(new FormData(this.form));
+      
+      }.bind(this));
+      
+      this.modal.appendChild(this.form);
+      this.modal.showModal();
+      
+      console.log(this.options);
+      for (var option in this.options) {
+        this.form.querySelector('input[name*='+option+']').value = this.options[option];
+      }
+
+      
+    } else if (this.callback){
+      this.callback.call(this, this.form);
+    }
+  }
+};
+

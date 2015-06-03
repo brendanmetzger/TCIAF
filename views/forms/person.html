@@ -1,34 +1,37 @@
-<form action="[/manage/edit/$item::_model/$item:@id]" method="POST" class="editor">
-  <fieldset>
-    <legend class="caps-lock">Edit</legend>
-    <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
-    <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
-    <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
+<section class="form">
+  <form action="[/manage/edit/$item::_model/$item:@id]" method="POST" class="editor">
+    <fieldset>
+      <legend class="capitalize">[$action]</legend>
+      <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
+      <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
+      <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   
-    <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text" autocomplete="off"/>
-    <label for="title">Name</label>
+      <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text" autocomplete="off"/>
+      <label for="title">Name</label>
   
-    <textarea id="abstract" name="vertex[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
-    <label for="abstract">Bio</label>
-  </fieldset>
+      <textarea id="abstract" name="vertex[abstract][CDATA]" class="required text">[$item:abstract]</textarea>
+      <label for="abstract">Bio</label>
+    </fieldset>
   
-  <button type="submit" class="margins">Submit</button>
+    <button type="submit" class="margins">Submit</button>
 
-  <hr />
+    <hr />
   
   
-  <fieldset>
+
+  </form>
+  <div>
     <legend class="caps-lock">Also</legend>
     <!-- iterate edges -->
     <div class="listed padded">
       <input type="hidden" name="[vertex[edge][$index][type]]" value="[$edge:@type]" />
       <input type="hidden" name="[vertex[edge][$index][vertex]]" value="[$edge:@vertex]" />
-      
+    
       <sup class="normal capitalize small">[$edge:@type]</sup>
       <h2><a href="[/manage/edit/feature/$vertex:@id]">[$vertex:@title]</a></h2>
       <p>[$vertex:abstract]</p>
     </div>
-    
-  </fieldset>
-
-</form>
+  
+  </div>
+  
+</section>

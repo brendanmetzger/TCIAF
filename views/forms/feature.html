@@ -5,7 +5,7 @@
     <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   
     <fieldset>
-      <legend class="caps-lock">Edit</legend>
+      <legend class="capitalize">[$action]</legend>
       <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
       <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text"/>
       <label for="title">Title</label>  
@@ -84,28 +84,33 @@
       <button class="reference">Add an External Reference</button>
     </fieldset>
   </form>
-  <div class="reference" style="display:none;background-color:#EEE;">
+  
+  <dialog class="reference" style="background-color:#EEE;">
     <div style="font-size:1.5em;padding:2em">
-      <span>In regards to this <strong>Feature</strong>:</span>
+      <p>In regards to this <strong>Feature</strong>:</p>
+      
       <select onchange="findVertex(this);">
-        <option>this...</option>
+        <option>This...</option>
         <!-- iterate item:grouptypes -->
         <option value="[$name]" disabled="[$disabled]">[$name]</option>
       </select>
       <em>was a</em>
-      <select>
+      <select disabled="disabled">
         <option>...something</option>
         <!-- iterate item:edgetypes -->
         <option value="[$name]">[$name]</option>
       </select>
     </div>
-  </div>
+  </dialog>
   
   <script type="text/javascript">
     // <![CDATA[
+      
+
 
     function findVertex(select) {
-      var input = Search.INPUT('manage/edit', select.options[select.selectedIndex].value);
+      var type = select.options[select.selectedIndex].value;
+      var input = Search.INPUT('manage/edit', type);
       select.parentNode.appendChild(input);
       
       select.parentNode.classList.add('search');
@@ -115,7 +120,13 @@
         if (dataset.id) {
           console.log('add an edge on vertex:', dataset.id);
         } else {
-          console.log('create a vertex for', this.input.value);
+          
+          var form = new Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
+            console.log(form.querySelector('name*=title'), 'now exists');
+            console.log('check scope', dataset);
+            this.modal.close();
+          });
+
         }
       });
     
@@ -155,7 +166,7 @@
     
       document.querySelector('button.reference').addEventListener('click', function (evt) {
         evt.preventDefault();
-        document.querySelector('div.reference').style.display = 'block';
+        document.querySelector('dialog.reference').showModal();
       
       });
     

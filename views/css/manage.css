@@ -212,3 +212,13 @@ label.range h4 {
 }
 
 
+dialog {
+  border-width: 1em 1px 1px;
+  border-color: #8EBEEA;
+  min-width:50%;
+}
+
+dialog::backdrop {
+
+  background-color: rgba(0, 0, 0, 0.35);
+}

@@ -217,6 +217,14 @@ button.error{background-color:#ED1C24;}
 .search {
   position:relative;
 }
+.search input {
+  padding:2.5%;
+  position:relative;
+  z-index:2001;
+}
+.search input:focus {
+  box-shadow:0 1em 10em 0em rgba(0,0,0,0.125);
+}
 .search ul {
   position:absolute;
   padding:0;

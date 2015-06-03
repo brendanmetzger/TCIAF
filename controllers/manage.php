@@ -125,6 +125,7 @@ class Manage extends \bloc\controller
     $view    = new View($this->partials->layout);
     $view->content = sprintf("views/forms/%s.html", $model);
     $this->item = Graph::factory($model);
+    $this->action = "Create New {$model}";
     return $view->render($this()); 
   }
   
@@ -140,6 +141,7 @@ class Manage extends \bloc\controller
     
     $graph = Graph::instance();
     
+    $this->action = "Edit {$model}";
     $this->item = Graph::factory($model, Graph::ID($id));
     
     $this->edges = $this->item->edge->map(function($point) {
