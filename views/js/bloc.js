@@ -330,6 +330,8 @@ Search.prototype = {
     evt.preventDefault();
     evt.stopPropagation();
     
+    this.reset();
+    
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset);
     }, this);

@@ -11,14 +11,14 @@ bloc.prepare(function () {
     }
     stylesheet--;
   }
-  
-  
-  
+
+
+
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
-  var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));  
+  var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
-  stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', 0);
-  
+  stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
+
 
   var textareas = document.querySelectorAll('textarea.text');
   if (textareas.length > 0) {
@@ -253,6 +253,10 @@ Form.prototype = {
     if (this.form === null) {
       this.form = form_element;
       
+      makeCloseable(this.form, function (container) {
+        this.modal.close();
+        this.modal.parentNode.removeChild(this.modal);
+      }.bind(this));
       
       this.form.addEventListener('submit', function (evt) {
         evt.preventDefault();
@@ -263,11 +267,13 @@ Form.prototype = {
       }.bind(this));
       
       this.modal.appendChild(this.form);
+
       this.modal.showModal();
       
-      console.log(this.options);
       for (var option in this.options) {
-        this.form.querySelector('input[name*='+option+']').value = this.options[option];
+        var input = this.form.querySelector('input[name*='+option+']');
+            input.value = this.options[option];
+            input.focus();
       }
 
       
@@ -276,4 +282,17 @@ Form.prototype = {
     }
   }
 };
+
+function makeCloseable(container, callback) {
+  var button = document.createElement('button');
+      button.className = 'close action';
+      button.textContent = '⨉';
+      button.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.parentNode.removeChild(this);
+        callback(container);
+      });
+      
+  container.insertBefore(button, container.firstChild);
+}
 

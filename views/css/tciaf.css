@@ -33,6 +33,7 @@ ul.inline {padding:0; }
 .padded  {padding:1em;}
 .ragleft {text-align:right;}
 .clear {clear:left;}
+.close {height:2em;width:2em;line-height:0;padding:0.5em;}
 .group {
   display:block;
   box-sizing:border-box;
@@ -40,7 +41,7 @@ ul.inline {padding:0; }
 .group.left {
   float:left;
 }
-.group.right {
+.group.right, .action {
   float:right;
 }
 .columns {

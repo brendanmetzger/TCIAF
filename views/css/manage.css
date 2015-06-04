@@ -1,3 +1,6 @@
+
+
+
 .success {color:#758C5E;}
 .error   {color:#BC6365;}
 
@@ -212,13 +215,15 @@ label.range h4 {
 }
 
 
-dialog {
-  border-width: 1em 1px 1px;
-  border-color: #8EBEEA;
-  min-width:50%;
+
+fieldset.modal {
+  border-color:#8EBEEA;
+  padding: 1em;
+  margin:2em 0;
+  background-color: #eee;
+  display: none;
 }
 
-dialog::backdrop {
-
-  background-color: rgba(0, 0, 0, 0.35);
+fieldset.modal.viewing {
+  display: block;
 }

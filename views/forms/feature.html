@@ -76,32 +76,33 @@
       <legend class="caps-lock">Edges</legend>
       <!--iterate references -->
       <div class="listed padded">
+        <h1>[$index]</h1>
         <sup class="normal capitalize small">[$edge:@type]</sup>
         <h2><a href="[/manage/edit/find/$@id]">[$@title]</a></h2>
         <p>[$abstract]</p>
         <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@vertex/$@id]">[Unlink $@title]</a>
       </div>
-      <button class="reference">Add an External Reference</button>
+      <button class="modal">Add an External Reference</button>
     </fieldset>
   </form>
   
-  <dialog class="reference" style="background-color:#EEE;">
-    <div style="font-size:1.5em;padding:2em">
-      <p>In regards to this <strong>Feature</strong>:</p>
+
+    <fieldset class="modal">
+      <legend>In regards to this <strong>Feature</strong></legend>
       
-      <select onchange="findVertex(this);">
+      <select onchange="findVertex(this);" name="edges[0][vertex]">
         <option>This...</option>
         <!-- iterate item:grouptypes -->
         <option value="[$name]" disabled="[$disabled]">[$name]</option>
       </select>
       <em>was a</em>
-      <select disabled="disabled">
+      <select name="edges[0][type]">
         <option>...something</option>
         <!-- iterate item:edgetypes -->
         <option value="[$name]">[$name]</option>
       </select>
-    </div>
-  </dialog>
+    </fieldset>
+
   
   <script type="text/javascript">
     // <![CDATA[
@@ -109,16 +110,23 @@
 
 
     function findVertex(select) {
-      var type = select.options[select.selectedIndex].value;
+      var type = select.item(select.selectedIndex).value;
       var input = Search.INPUT('manage/edit', type);
       select.parentNode.appendChild(input);
       
       select.parentNode.classList.add('search');
+      
       var search = new Search(input);
     
       search.subscribers.select.push(function (dataset) {
         if (dataset.id) {
-          console.log('add an edge on vertex:', dataset.id);
+          select.item(0).value = dataset.id;
+          select.item(0).textContent = input.value
+          select.selectedIndex = 0;
+          
+          input.parentNode.removeChild(input);
+          delete search;
+          
         } else {
           
           var form = new Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
@@ -137,6 +145,8 @@
       Player.attach(audio_element);
       audio_element.querySelector('input[name*="mark"]').value = audio_element.duration;
     }
+    
+
   
     function Spectra(labels) {
       var total = labels.length;
@@ -160,13 +170,41 @@
   
     var player = null;
   
+    var Modal = function (element, close_callback) {
+      this.element = element;
+      // make closeable
+      var button = document.createElement('button');
+          button.className = 'close action';
+          button.textContent = '⨉';
+          button.addEventListener('click', close_callback || this.close.bind(this));
+      
+      element.insertBefore(button, element.firstChild);
+    };
+    
+    
+    Modal.prototype = {
+      show: function () {
+        this.element.classList.add('viewing');
+      },
+      close: function (evt) {
+        evt.preventDefault();
+        this.element.classList.remove('viewing');
+        // if backdrop is clicked, perform close too.
+      }
+    }
+    
     bloc.prepare(function () {
     
       var uploader = new Upload(document.getElementById('uploader'));
     
-      document.querySelector('button.reference').addEventListener('click', function (evt) {
+      document.querySelector('button.modal').addEventListener('click', function (evt) {
         evt.preventDefault();
-        document.querySelector('dialog.reference').showModal();
+        console.dir(this);
+        if (! this.reference) {
+          this.reference = new Modal(document.querySelector('fieldset.modal'));
+        }
+        this.blur();
+        this.reference.show();
       
       });
     

@@ -150,6 +150,7 @@ class Manage extends \bloc\controller
     });    
 
     $this->references = $graph->query('graph/group/vertex')->find("[edge[@vertex='{$id}']]")->map(function($item) {
+      \bloc\application::instance()->log($item->getIndex());
       return $item;
     });
     
