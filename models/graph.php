@@ -33,7 +33,7 @@ use \bloc\dom\query;
     
     static public function ID($id)
     {
-      if ($id === null || strtolower($id) === 'pending') return null;
+      if ($id === null || strpos(strtolower($id), 'pending') === 0) return null;
       if (! $element = Graph::instance()->storage->getElementById($id)) {
         throw new \InvalidArgumentException("%s... Doesn't ring a bell.", 1);
       }

@@ -17,7 +17,7 @@ bloc.prepare(function () {
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
-  stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
+  stylesheet.insertRule('form.editor .text {background: inherit url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
 
 
   var textareas = document.querySelectorAll('textarea.text');
@@ -229,8 +229,32 @@ Upload.prototype = {
   }
 };
 
+var Modal = function (element, close_callback) {
+  this.element = element;
+  // make closeable
+  var button = document.createElement('button');
+      button.className = 'close action';
+      button.textContent = '⨉';
+      button.addEventListener('click', close_callback || this.close.bind(this));
+  
+  element.insertBefore(button, element.firstChild);
+};
 
-var Form = function (url, opts, callback) {
+
+Modal.prototype = {
+  show: function () {
+    this.element.classList.add('viewing');
+  },
+  close: function (evt) {
+    evt.preventDefault();
+    this.element.classList.remove('viewing');
+    console.log(this);
+    // if backdrop is clicked, perform close too.
+  }
+};
+
+
+Modal.Form = function (url, opts, callback) {
   this.modal = document.body.appendChild(document.createElement('dialog'));
   this.options = opts;
   this.ajax = new XMLHttpRequest();
@@ -238,11 +262,12 @@ var Form = function (url, opts, callback) {
   this.ajax.addEventListener('load', this.processForm.bind(this));
   this.ajax.open('GET', url);
   this.ajax.send();
+  
   // the callback is what is called when the form completes the entire dialog
   this.callback = callback;
 };
 
-Form.prototype = {
+Modal.Form.prototype = {
   options: {},
   modal: null,
   form: null,
@@ -296,3 +321,23 @@ function makeCloseable(container, callback) {
   container.insertBefore(button, container.firstChild);
 }
 
+
+var Spectra = function(labels) {
+  var total = labels.length;
+  for (var i = 0; i < total; i++) {
+    labels[i].dataset.index = (i / total);
+    this.color.call(labels[i]);
+    labels[i].addEventListener('input', this.color);
+  }
+};
+
+Spectra.prototype.color = function () {
+  var value = parseInt(this.value, 10);
+  var intensity = (value / 100 );
+  var color = {
+    h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
+    s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
+    l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
+  };
+  this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
+};

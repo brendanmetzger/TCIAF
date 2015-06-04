@@ -1,5 +1,5 @@
 <div>
-  <form name="uploadData" method="POST" action="[/manage/edit/$item::_model/$item:@id]" class="editor" autocomplete="off">
+  <form name="uploadData" method="POST" action="[/manage/edit/$item:_model/$item:@id]" class="editor" autocomplete="off">
     
     <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
     <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
@@ -68,40 +68,44 @@
     
     </fieldset>
   
-    <button type="submit" class="margins">Submit</button>
   
-    <hr/>
-  
-    <fieldset>
+    <fieldset class="edges">
       <legend class="caps-lock">Edges</legend>
+      <p class="info padded margins">Edges are conceptual lines that connect one discrete element to another. This list contains 'Referenced' edges, meaning that the items shown below reference (or claim a certain amount of responsibility for) this feature. Another way to visualize the direction of responsibility, if you were creating a collection, 'who collects what?' If features are responsible for producers, then a feature has a collection of producers. If producers are responsible for features, then a producer has a collection of features (preferred).</p>
+      
       <!--iterate references -->
-      <div class="listed padded">
-        <h1>[$index]</h1>
-        <sup class="normal capitalize small">[$edge:@type]</sup>
-        <h2><a href="[/manage/edit/find/$@id]">[$@title]</a></h2>
-        <p>[$abstract]</p>
-        <a class="button margins ghost" href="[#/manage/edge/remove/$edge:@type/$edge:@vertex/$@id]">[Unlink $@title]</a>
+      <div class="listed padded container">
+        <h2 class="inline"><em>[$edge:@type]</em><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+        <span class="warn action">
+          <input type="checkbox" name="[edge[remove][$edge:@vertex][$index]]" value="[$edge:@type]" id="[$edge:@vertex]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';"/>
+          <label for="[$edge:@vertex]" class="inline">Remove</label>
+        </span>
       </div>
-      <button class="modal">Add an External Reference</button>
+      
+      <button class="modal margins">+ Add Referenced Edge</button>
     </fieldset>
-  </form>
-  
-
+    
     <fieldset class="modal">
       <legend>In regards to this <strong>Feature</strong></legend>
       
-      <select onchange="findVertex(this);" name="edges[0][vertex]">
-        <option>This...</option>
+      <select onchange="createEdge(this, 'vertex');">
+        <option value="void">This...</option>
         <!-- iterate item:grouptypes -->
         <option value="[$name]" disabled="[$disabled]">[$name]</option>
       </select>
       <em>was a</em>
-      <select name="edges[0][type]">
-        <option>...something</option>
+      <select onchange="createEdge(this);">
+        <option value="void">...something</option>
         <!-- iterate item:edgetypes -->
         <option value="[$name]">[$name]</option>
       </select>
+      <button onclick="addEdge(event);" disabled="true">Add as Edge</button>
     </fieldset>
+
+    <button type="submit" class="margins">Submit</button>
+    
+  </form>
+    
 
   
   <script type="text/javascript">
@@ -109,36 +113,94 @@
       
 
 
-    function findVertex(select) {
-      var type = select.item(select.selectedIndex).value;
-      var input = Search.INPUT('manage/edit', type);
-      select.parentNode.appendChild(input);
+    function createEdge(select, action) {
+      var type = select.value;
       
-      select.parentNode.classList.add('search');
+      if (action === 'vertex') {
+        
+        var input = Search.INPUT('manage/edit', type);
+        select.parentNode.appendChild(input);
       
-      var search = new Search(input);
+        select.parentNode.classList.add('search');
+      
+        var search = new Search(input);
     
-      search.subscribers.select.push(function (dataset) {
-        if (dataset.id) {
-          select.item(0).value = dataset.id;
-          select.item(0).textContent = input.value
-          select.selectedIndex = 0;
-          
-          input.parentNode.removeChild(input);
-          delete search;
-          
-        } else {
-          
-          var form = new Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
-            console.log(form.querySelector('name*=title'), 'now exists');
-            console.log('check scope', dataset);
-            this.modal.close();
-          });
+        search.subscribers.select.push(function (dataset) {
 
-        }
-      });
+          if (dataset.id) {
+            select.item(0).value = dataset.id;
+            select.item(0).textContent = input.value
+            select.selectedIndex = 0;
+          
+            input.parentNode.removeChild(input);
+            delete search;
+            
+            select.parentNode.querySelectorAll('select')[1].focus();
+          
+          } else {
+          
+            // modal
+            var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
+              input.value = form.querySelector('input[name*=title]').value;
+              input.dataset.id = form.querySelector('input[name*=id]').value;
+              search.select();
+              this.modal.close();
+            });
+
+          }
+        });
     
-      input.focus();
+        input.focus();
+      }
+      
+      // check complete
+      var complete = true;
+        
+      select.parentNode.querySelectorAll('select').forEach(function (item) {
+        complete = complete && (item.value !== 'void');
+      });
+      
+      select.parentNode.querySelector('button[disabled]').disabled = ! complete;
+      
+      
+    }
+    
+    function addEdge(evt) {
+      evt.preventDefault();
+
+      var edge_container = document.querySelector('fieldset.edges');
+      var edges = edge_container.querySelectorAll('div.container');
+      var selects = evt.target.parentNode.querySelectorAll('select');
+      var idx = (edges.length * (-1)) - 1;
+      var div = edge_container.insertBefore(document.createElement('div'), edges[edges.length-1].nextSibling);
+          div.className = 'listed padded container';
+          
+      var h2   = div.appendChild(document.createElement('h2'));
+          h2.className = 'inline';
+      var em = h2.appendChild(document.createElement('em'));
+          em.textContent = selects[1].value;
+      var link = h2.appendChild(document.createElement('a'));
+          link.textContent = selects[0].options[selects[0].selectedIndex].textContent;
+          link.href = '/manage/edit/find/' + selects[0].value;
+      
+      var span = div.appendChild(document.createElement('span'));
+          span.className = 'success action';
+          
+      var input = span.appendChild(document.createElement('input'));
+          input.type = 'checkbox';
+          input.name = 'edge[add][id]['+idx+']';
+          input.value = selects[1].value;
+          input.id = selects[0].value;
+          input.checked = true;
+      var label = span.appendChild(document.createElement('label'));
+          label.className = 'inline';
+          label.textContent = 'Adding';
+          label.for = selects[0].value;
+          
+      // close the modal
+      evt.target.parentNode.querySelector('button.close').dispatchEvent(new Event('click', {
+        cancelable: true
+      }));
     }
     
     function startFormPlayer(audio_element) {
@@ -148,50 +210,11 @@
     
 
   
-    function Spectra(labels) {
-      var total = labels.length;
-      for (var i = 0; i < total; i++) {
-        labels[i].dataset.index = (i / total);
-        this.color.call(labels[i]);
-        labels[i].addEventListener('input', this.color);
-      }
-    }
-  
-    Spectra.prototype.color = function () {
-      var value = parseInt(this.value, 10);
-      var intensity = (value / 100 );
-      var color = {
-        h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
-        s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
-        l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
-      };
-      this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
-    };
+
   
     var player = null;
   
-    var Modal = function (element, close_callback) {
-      this.element = element;
-      // make closeable
-      var button = document.createElement('button');
-          button.className = 'close action';
-          button.textContent = '⨉';
-          button.addEventListener('click', close_callback || this.close.bind(this));
-      
-      element.insertBefore(button, element.firstChild);
-    };
     
-    
-    Modal.prototype = {
-      show: function () {
-        this.element.classList.add('viewing');
-      },
-      close: function (evt) {
-        evt.preventDefault();
-        this.element.classList.remove('viewing');
-        // if backdrop is clicked, perform close too.
-      }
-    }
     
     bloc.prepare(function () {
     
@@ -199,7 +222,6 @@
     
       document.querySelector('button.modal').addEventListener('click', function (evt) {
         evt.preventDefault();
-        console.dir(this);
         if (! this.reference) {
           this.reference = new Modal(document.querySelector('fieldset.modal'));
         }

@@ -144,14 +144,13 @@ class Manage extends \bloc\controller
     $this->action = "Edit {$model}";
     $this->item = Graph::factory($model, Graph::ID($id));
     
-    $this->edges = $this->item->edge->map(function($point) {
-      $vertex = Graph::ID($point['@vertex']);
-      return [ 'vertex' => $vertex, 'edge' => $point, 'index' => \bloc\registry::index()];
+    $this->edges = $this->item->edge->map(function($edge) {
+      $vertex = Graph::ID($edge['@vertex']);
+      return [ 'vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex()];
     });    
 
-    $this->references = $graph->query('graph/group/vertex')->find("[edge[@vertex='{$id}']]")->map(function($item) {
-      \bloc\application::instance()->log($item->getIndex());
-      return $item;
+    $this->references = $graph->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
+      return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex()];
     });
     
     return $view->render($this());
@@ -160,6 +159,10 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     $model = Graph::factory($model, Graph::ID($id));
+    echo "<pre>";
+    print_r($_POST);
+    
+    exit();
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
         // clear caches

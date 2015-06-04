@@ -140,17 +140,17 @@ abstract class Model extends \bloc\Model
   
   // Here are some specific setter/getters that are universal
   
-  public function setIdAttribute(\DOMElement $context, $value)
+  public function setIdAttribute(\DOMElement $context, $id)
   {
       
-    if (empty($value)) {
-      $value = 'pending';
-    } else if (strtolower($value) === 'pending') {
+    if (empty($id)) {
+      $id = 'pending:' . uniqid();
+    } else if (strpos(strtolower($id), 'pending') === 0) {
 
-      $value = substr($this->get_model(), 0, 1) . ':' . uniqid();
+      $id = str_replace('pending', substr($this->get_model(), 0, 1), $id);
     }
 
-    $context->setAttribute('id', $value);
+    $context->setAttribute('id', $id);
   }
     
   

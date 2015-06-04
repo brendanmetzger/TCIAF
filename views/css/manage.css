@@ -1,7 +1,6 @@
 
 
 
-.success {color:#758C5E;}
 .error   {color:#BC6365;}
 
 .console {
@@ -220,7 +219,7 @@ fieldset.modal {
   border-color:#8EBEEA;
   padding: 1em;
   margin:2em 0;
-  background-color: #eee;
+  background-color: #f8f8f8;
   display: none;
 }
 

@@ -18,6 +18,16 @@ svg .blue  {fill:#5B9B98;}
 a {color:#88746A;}
 a:hover {color:#5B9B98;}
 
+.success {background-color:#F3F5ED;border-radius:0.65em;}
+.info {background-color:#CEE3EB;border-radius:0.5em;}
+.warn {background-color:#F3EECC;border-radius:0.35em;}
+.alert {background-color:#E9CCCB;border-radius:0;}
+.warn, .info, .alert, .success {
+  padding:0.5em;
+  border:1px solid rgba(0,0,0,0.25);
+  transition:border-radius 0.25s;
+}
+
 
 /* Generic Classes ------------------- */
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
@@ -60,8 +70,10 @@ ul.inline {padding:0; }
   column-rule: 1px solid #eee;
 }
 .listed {
-  border-left:1em solid #eee;
-  margin:0.125em;
+  margin:0 1em;
+  padding:1.5em;
+  background-color:#f8f8f8;
+  border-bottom:1px solid #fff;
 }
 
 .interactive:before {
@@ -91,6 +103,7 @@ h1, .h1 {
 
 h2, legend {
   font-size:1.75em;
+  line-height:175%;
 }
 
 label, p, .p, h5, li, address, button, .button {
@@ -105,8 +118,12 @@ h4 {
   font-weight:600;
 }
 
-input, textarea {
+input, textarea, select {
  font-size:1.5em;
+}
+
+select:focus {
+  border-color:#EC008C;
 }
 
 /* Layout ------------------- */
@@ -139,8 +156,11 @@ input, textarea, fieldset {
   width:100%;
   padding:0;
   border: 1px solid #eee;
+  background-color:#fff;
   transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s, margin 0.25s;
 }
+input[type=checkbox] {width:auto;}
+input[type=checkbox] + label {margin:0 0.25em 0 0 !important;}
 
 .primary   {}
 .secondary {}
@@ -188,15 +208,21 @@ button, .button {
   transition:box-shadow 0.25s, background-color 0.25s;
   display:inline-block;
 }
-button:hover, .button:hover {
+button:hover, .button:hover, input[type=checkbox]:hover {
   background-color:#fff;
   color:#000;
   box-shadow: 0 0 0.125em 0 rgba(0,0,0,0.25);
 }
 
+button[disabled], button[disabled]:hover {
+  opacity:0.5;
+  box-shadow:none;
+  background-color:#fff;
+  color:#888;
+}
+
 .status {
-  padding:0 1em 1em 0;
-  border-bottom:1px solid #AAA;
+  margin:auto 2em 0 65%;
 }
 
 
