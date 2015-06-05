@@ -71,16 +71,19 @@
   
     <fieldset class="edges">
       <legend class="caps-lock">Edges</legend>
-      <p class="info padded margins">Edges are conceptual lines that connect one discrete element to another. This list contains 'Referenced' edges, meaning that the items shown below reference (or claim a certain amount of responsibility for) this feature. Another way to visualize the direction of responsibility, if you were creating a collection, 'who collects what?' If features are responsible for producers, then a feature has a collection of producers. If producers are responsible for features, then a producer has a collection of features (preferred).</p>
+      <p class="info padded margins">Edges are links between two discrete elements. This list contains 'Referenced' edges, meaning that the items shown below reference (or claim a certain amount of responsibility for) this feature. Another way to visualize the direction of responsibility, if you were creating a collection, 'who collects what?' If features are responsible for producers, then a feature has a collection of producers as the terminal point. If producers are responsible for features, then a producer has a collection of features at the terminus (preferred).</p>
       
       <!--iterate references -->
-      <div class="listed padded container">
-        <h2 class="inline"><em>[$edge:@type]</em><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
-        <span class="warn action">
-          <input type="checkbox" name="[edge[remove][$edge:@vertex][$index]]" value="[$edge:@type]" id="[$edge:@vertex]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';"/>
-          <label for="[$edge:@vertex]" class="inline">Remove</label>
-        </span>
-      </div>
+      <dl class="listed container">
+        <dt>[$edge:@type]</dt>
+        <dd>
+          <h2 class="inline"><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+          <span class="warn action">
+            <input type="checkbox" name="[edge[remove][$vertex:@id][$index]]" value="[$edge:@type]" id="[$edge:@vertex]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';"/>
+            <label for="[$edge:@vertex]" class="inline">Remove</label>
+          </span>
+        </dd>
+      </dl>
       
       <button class="modal margins">+ Add Referenced Edge</button>
     </fieldset>
@@ -139,10 +142,11 @@
           
           } else {
           
-            // modal
+            // TODO this should not be a dialog - switch to my modal type in future.
             var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
               input.value = form.querySelector('input[name*=title]').value;
               input.dataset.id = form.querySelector('input[name*=id]').value;
+
               search.select();
               this.modal.close();
             });
@@ -169,26 +173,28 @@
       evt.preventDefault();
 
       var edge_container = document.querySelector('fieldset.edges');
-      var edges = edge_container.querySelectorAll('div.container');
+      var edges = edge_container.querySelectorAll('dl.container');
       var selects = evt.target.parentNode.querySelectorAll('select');
       var idx = (edges.length * (-1)) - 1;
-      var div = edge_container.insertBefore(document.createElement('div'), edges[edges.length-1].nextSibling);
-          div.className = 'listed padded container';
-          
-      var h2   = div.appendChild(document.createElement('h2'));
+      var dl = edge_container.insertBefore(document.createElement('dl'), edge_container.querySelector('button'));
+          dl.className = 'listed container';
+      
+      var dt = dl.appendChild(document.createElement('dt'));
+          dt.textContent = selects[1].value;
+      
+      var dd = dl.appendChild(document.createElement('dd'));
+      var h2   = dd.appendChild(document.createElement('h2'));
           h2.className = 'inline';
-      var em = h2.appendChild(document.createElement('em'));
-          em.textContent = selects[1].value;
       var link = h2.appendChild(document.createElement('a'));
           link.textContent = selects[0].options[selects[0].selectedIndex].textContent;
           link.href = '/manage/edit/find/' + selects[0].value;
       
-      var span = div.appendChild(document.createElement('span'));
+      var span = dd.appendChild(document.createElement('span'));
           span.className = 'success action';
           
       var input = span.appendChild(document.createElement('input'));
           input.type = 'checkbox';
-          input.name = 'edge[add][id]['+idx+']';
+          input.name = 'edge[add]['+selects[0].value+']['+idx+']';
           input.value = selects[1].value;
           input.id = selects[0].value;
           input.checked = true;
@@ -318,6 +324,22 @@
     fieldset.media ul.inline li img {width:100%;opacity:0.5;}
     fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
     fieldset.media input[type=checkbox]:not(:checked):after {content:'Detached';font-size:0.65em;line-height:0;top:-0.5em;left:1.75em;position:relative;}
+    fieldset.edges dt {
+      font-size:1em;
+      position:relative;
+      top:-0.25em;
+      left:-0.25em;
+      background-color:#888;
+      box-shadow:-0.25em 0.25em 0 #AAA;
+      display:inline-block;
+      color:#fff;
+      letter-spacing:0.125em;
+      padding:0.25em 0.75em;
+      text-transform:Capitalize;
+    }
+    dd {
+      margin:0 0 0 2em;
+    }
     /* ]]> */
   </style>
 </div>

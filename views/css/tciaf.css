@@ -71,7 +71,7 @@ ul.inline {padding:0; }
 }
 .listed {
   margin:0 1em;
-  padding:1.5em;
+  padding:0 1.5em 1.5em 0;
   background-color:#f8f8f8;
   border-bottom:1px solid #fff;
 }
@@ -110,7 +110,7 @@ label, p, .p, h5, li, address, button, .button {
   font-size:1.25em;
 }
 
-label, cite, em, p, .p, li, h5, address, legend, .normal, button, .button {
+label, cite, em, p, .p, li, h2, h5, address, legend, .normal, button, .button {
   font-weight:400;
 }
 
@@ -123,7 +123,7 @@ input, textarea, select {
 }
 
 select:focus {
-  border-color:#EC008C;
+  outline:1px solid #EC008C;
 }
 
 /* Layout ------------------- */

@@ -39,6 +39,13 @@ use \bloc\dom\query;
       }
       return $element;
     }
+    
+    static public function EDGE($id, $type) {
+      $edge = self::instance()->storage->createElement('edge');
+      $edge->setAttribute('vertex', $id);
+      $edge->setAttribute('type', $type);
+      return $edge;
+    }
   
     static public function factory($model, $element = null)
     {

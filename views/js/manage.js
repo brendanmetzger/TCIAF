@@ -17,7 +17,7 @@ bloc.prepare(function () {
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
-  stylesheet.insertRule('form.editor .text {background: inherit url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
+  stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
 
 
   var textareas = document.querySelectorAll('textarea.text');
@@ -303,7 +303,7 @@ Modal.Form.prototype = {
 
       
     } else if (this.callback){
-      this.callback.call(this, this.form);
+      this.callback.call(this, form_element);
     }
   }
 };

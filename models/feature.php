@@ -25,15 +25,6 @@ namespace models;
       ]
     ];
     
-    public function setSpectra(\DOMElement $context, $spectrum)
-    {
-      if (is_array($spectrum)) {
-        foreach ($spectrum as $key => $value) {
-          $context->setAttribute($key, $value);
-        }
-      }
-    }
-    
     public function getSpectra(\DOMElement $context)
     {
       

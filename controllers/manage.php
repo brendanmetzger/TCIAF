@@ -159,23 +159,23 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     $model = Graph::factory($model, Graph::ID($id));
-    echo "<pre>";
-    print_r($_POST);
-    
-    exit();
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
         // clear caches
         \models\Search::clear();
+                    print_r($_POST);
+        if (isset($_POST['edge'])) {
+          $instance->setReferencedEdges($_POST['edge']);
+        }
         
-        if ($id === 'pending') {
-          $request->redirect = str_replace('pending', $instance['@id'], $request->redirect);
+        if (strpos(strtolower($id), 'pending') === 0) {
+          $request->redirect = preg_replace('/pending.*/', $instance['@id'] , $request->redirect);
         }
         
         \bloc\router::redirect($request->redirect);
       } else {
 
-        echo $model->context->write(true);
+      // echo $model->context->write(true);
       \bloc\application::instance()->log($model->errors);
       }
     } 

@@ -34,7 +34,6 @@ class Person extends Model
   
   public function setIdAttribute(\DOMElement $context, $value)
   {
-      
     if (empty($value)) {
       $value = 'pending';
     } else if (strtolower($value) === 'pending') {
