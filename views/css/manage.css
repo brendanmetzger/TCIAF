@@ -27,6 +27,7 @@ form.editor .text + label {
   font-weight:400;
   transition:color 0.25s;
   letter-spacing:0.075em;
+  text-transform:capitalize;
 }
 form.editor .text:focus + label {
   color:#00A4E4;
@@ -129,16 +130,16 @@ label.range h4 {
 
 .dashboard {
   position:fixed;
-  top:1em;
+  bottom:1em;
   right:1em;
   margin:0;
-  width:35%;
+  width:50%;
   padding:1em;
   box-shadow: -0.25em 0.25em 0.125em rgba(0,0,0,0.1);
-  border-radius:0.5em;
   background-color:#333;
   z-index:1000;
   opacity:0.9;
+  border:1px solid rgba(255,255,255,0.1);
 }
 
 .dashboard ul.inline li {
@@ -186,31 +187,39 @@ label.range h4 {
 
 *[data-id] {position:relative;}
 
+*[data-id]:hover {
+  padding-left:1em;
+  transition:padding 0.25s 0.25s;
+}
 *[data-id]:hover button{
   opacity:1;
+  left:-0.5em;
+  transition:opacity 0.25s 0.25s, left 0.25s 0.25s;
 }
 
 *[data-id] > button:focus {
   outline:none;
 }
+*[data-id] > button:hover {
+  color:#333 !important;
+}
 *[data-id] > button {
   font-style:normal;
   display:block;
-  background-color:rgba(255,255,255,0.75);
-  border:1px solid #fff;
-  font-size:1.25em;
+  border:none;
+  background-color:transparent;
+  box-shadow:none;
+  font-size:1.5em;
   border-radius:50%;
   padding:0 0.25em 0.075em;
   line-height:1em;
   text-align:center;
   text-decoration:none;
   color:#EE3124 !important;
-  right:-1.5em;
+  left:-0.75em;
   top:0;
   position:absolute;
-  opacity:0;
-  transition:opacity 0.25s;
-  
+  opacity:0.1;
 }
 
 
@@ -225,4 +234,21 @@ fieldset.modal {
 
 fieldset.modal.viewing {
   display: block;
+}
+
+dt[class] {
+  font-size:1em;
+  position:relative;
+  top:-0.25em;
+  left:-0.25em;
+  background-color:#888;
+  box-shadow:-0.25em 0.25em 0 0 #AAA;
+  display:inline-block;
+  color:#fff;
+  letter-spacing:0.125em;
+  padding:0.25em 0.75em;
+  text-transform:Capitalize;
+}
+dd {
+  margin:0 0 0 2em;
 }

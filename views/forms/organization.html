@@ -1,3 +1,31 @@
-<div>
-  <p>Not Yet</p>
-</div>
+<section class="form">
+
+  <form action="[/manage/edit/$item:_model/$item:@id]" method="POST" class="editor">
+    
+    <!-- insert  views/forms/partials/title-description.html -->
+    
+    
+    <fieldset class="edges">
+      <legend class="caps-lock">Edges</legend>
+      <p class="info padded margins">Edges are links between two discrete elements. This list contains 'Referenced' edges, meaning that the items shown below reference (or claim a certain amount of responsibility for) this feature. Another way to visualize the direction of responsibility, if you were creating a collection, 'who collects what?' If features are responsible for producers, then a feature has a collection of producers as the terminal point. If producers are responsible for features, then a producer has a collection of features at the terminus (preferred).</p>
+      
+      <!--iterate references -->
+      <dl class="listed container">
+        <dt class="[$edge:@type]">[$edge:@type]</dt>
+        <dd>
+          <h2 class="inline"><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+          <span class="warn action">
+            <input type="checkbox" name="[edge[remove][$vertex:@id][$index]]" value="[$edge:@type]" id="[$edge:@vertex_$index]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';"/>
+            <label for="[$edge:@vertex_$index]" class="inline">Remove</label>
+          </span>
+        </dd>
+      </dl>
+      
+      <button class="modal margins">+ Add Referenced Edge</button>
+    </fieldset>
+  
+    <button type="submit" class="margins">Save</button>
+
+
+  </form>
+</section>

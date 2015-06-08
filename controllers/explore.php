@@ -31,12 +31,18 @@ class Explore extends Manage
   
   public function GETfeature($id)
   {
-    return Graph::id($id)->write();
+    $view = new View($this->partials->layout);
+    $view->content = 'views/digests/feature.html';
+    $this->feature = new \models\Feature($id);
+    return $view->render($this());
   }
   
   public function GETPerson($id)
   {
-    return Graph::id($id)->write();
+    $view = new View($this->partials->layout);
+    $view->content = 'views/digests/person.html';
+    $this->person = new \models\Person($id);
+    return $view->render($this());
   }
   
   

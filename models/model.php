@@ -69,6 +69,9 @@ abstract class Model extends \bloc\Model
         continue;
       } else if ($key === '@') {
         
+        /*
+          TODO consider what happens when value is empty
+        */
         $this->setAttributes($value, $context);
         
       } else if ($key === 'CDATA') {
@@ -134,7 +137,13 @@ abstract class Model extends \bloc\Model
   
   public function getAbstract(\DOMElement $context)
   {
-    return str_replace(["↩", "¶"], ["\n", "\n\n"], $context->getFirst('abstract')->nodeValue);
+    static $abstract = null;
+    
+    if ($abstract === null) {
+      $abstract = $context->getFirst('abstract');
+      $abstract->setNodeValue(str_replace(["↩", "¶"], ["\n", "\n\n"], $abstract->nodeValue));
+    }
+    return $abstract;
   }
   
   public function setEdge(\DOMElement $context, $value)
@@ -154,7 +163,7 @@ abstract class Model extends \bloc\Model
       $updated = strtotime($context['@updated']);
       if ($created != $updated) {
         $recent = (time() - $updated) < 5;
-        $message =  $recent ? "Just Saved" : "Last Edited " . date('m/d/y g:ia', $updated);
+        $message =  $recent ? "Just Saved" : "Last Edited " . round((time() - $updated) / (24 * 60 * 60), 3) . " days ago.";
         $type = $recent ? 'success' : 'info';
       } else {
         $message = "Creating new {$this->get_model()}";
@@ -229,6 +238,14 @@ abstract class Model extends \bloc\Model
   
   public function setReferencedEdges($edges)
   {
+    
+    /*
+    TODO
+    
+    ultimately this will be simplified a great deal. The form data, after being set, can just
+    be the proxy for the actual vertex's setEdge method. If the edge is new, it is created/appended. If it is missing
+    data (return false from the setEdge method) it will be deleted from the vertex.
+    */
     foreach ($edges as $action => $group) {
       foreach ($group as $ref_id => $types) {
         foreach ($types as $type) {

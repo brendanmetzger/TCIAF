@@ -347,7 +347,8 @@ Search.prototype = {
         name: item[1]
       };
     }, this.indices);
-
+    
+    console.log(input);
 
   },
   checkUp: function (evt) {
@@ -458,3 +459,6 @@ Menu.prototype = {
     }
   }
 };
+
+
+// Progress/Patience

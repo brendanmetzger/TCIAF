@@ -1,18 +1,11 @@
 <div>
   <form name="uploadData" method="POST" action="[/manage/edit/$item:_model/$item:@id]" class="editor" autocomplete="off">
     
-    <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
-    <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   
-    <fieldset>
-      <legend class="capitalize">[$action]</legend>
-      <h5 class="[status $item:status:type ragleft]"><em>[$item:status:text]</em></h5>
-      <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text"/>
-      <label for="title">Title</label>  
-
-      <textarea name="vertex[abstract][CDATA]" rows="8" cols="40" id="description" class="required text">[$item:abstract]</textarea>
-      <label for="description">Description</label>  
+    <!-- insert  views/forms/partials/title-description.html -->
     
+    <fieldset>
+      <legend>Additional Details</legend>
       <div class="group left">
         <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
         <label for="location">Origin Country</label>  
@@ -75,12 +68,12 @@
       
       <!--iterate references -->
       <dl class="listed container">
-        <dt>[$edge:@type]</dt>
+        <dt class="[$edge:@type]">[$edge:@type]</dt>
         <dd>
           <h2 class="inline"><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
           <span class="warn action">
-            <input type="checkbox" name="[edge[remove][$vertex:@id][$index]]" value="[$edge:@type]" id="[$edge:@vertex]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';"/>
-            <label for="[$edge:@vertex]" class="inline">Remove</label>
+            <input type="checkbox" name="[edge[remove][$vertex:@id][$index]]" value="[$edge:@type]" id="[$edge:@vertex_$index]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';"/>
+            <label for="[$edge:@vertex_$index]" class="inline">Remove</label>
           </span>
         </dd>
       </dl>
@@ -105,7 +98,7 @@
       <button onclick="addEdge(event);" disabled="true">Add as Edge</button>
     </fieldset>
 
-    <button type="submit" class="margins">Submit</button>
+    <button type="submit" class="margins">Save your Work</button>
     
   </form>
     
@@ -181,6 +174,7 @@
       
       var dt = dl.appendChild(document.createElement('dt'));
           dt.textContent = selects[1].value;
+          dt.className = selects[1].value;
       
       var dd = dl.appendChild(document.createElement('dd'));
       var h2   = dd.appendChild(document.createElement('h2'));
@@ -324,22 +318,7 @@
     fieldset.media ul.inline li img {width:100%;opacity:0.5;}
     fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
     fieldset.media input[type=checkbox]:not(:checked):after {content:'Detached';font-size:0.65em;line-height:0;top:-0.5em;left:1.75em;position:relative;}
-    fieldset.edges dt {
-      font-size:1em;
-      position:relative;
-      top:-0.25em;
-      left:-0.25em;
-      background-color:#888;
-      box-shadow:-0.25em 0.25em 0 #AAA;
-      display:inline-block;
-      color:#fff;
-      letter-spacing:0.125em;
-      padding:0.25em 0.75em;
-      text-transform:Capitalize;
-    }
-    dd {
-      margin:0 0 0 2em;
-    }
+    
     /* ]]> */
   </style>
 </div>
