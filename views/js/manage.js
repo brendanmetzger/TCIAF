@@ -19,7 +19,6 @@ bloc.prepare(function () {
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
 
-
   var textareas = document.querySelectorAll('textarea.text');
   if (textareas.length > 0) {
     var markdown_editor = new Markdown();
@@ -230,7 +229,11 @@ Upload.prototype = {
 };
 
 var Modal = function (element, close_callback) {
+  this.backdrop = document.body.appendChild(document.createElement('div'));
+  this.backdrop.className = 'backdrop';
+
   this.element = element;
+  this.backdrop.appendChild(this.element);
   // make closeable
   var button = document.createElement('button');
       button.className = 'close action';
@@ -243,12 +246,15 @@ var Modal = function (element, close_callback) {
 
 Modal.prototype = {
   show: function () {
-    this.element.classList.add('viewing');
+    document.body.classList.add('locked');
+    this.backdrop.style.height = document.body.scrollHeight + 'px';
+    // this.element.style.top = document.body.scrollTop + (window.innerHeight / 4) + 'px';
+    this.backdrop.classList.add('viewing');
   },
   close: function (evt) {
     evt.preventDefault();
-    this.element.classList.remove('viewing');
-    console.log(this);
+    document.body.classList.remove('locked');
+    this.backdrop.classList.remove('viewing');
     // if backdrop is clicked, perform close too.
   }
 };

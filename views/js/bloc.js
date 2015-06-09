@@ -327,6 +327,7 @@ Search.prototype = {
     this.menu.reset();
   },
   select: function (evt) {
+    console.log(evt);
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();
@@ -348,8 +349,6 @@ Search.prototype = {
       };
     }, this.indices);
     
-    console.log(input);
-
   },
   checkUp: function (evt) {
   
@@ -392,7 +391,10 @@ Search.prototype = {
   checkDown: function (evt) {
     var letter = String.fromCharCode(evt.keyCode);
     var meta   = evt.keyIdentifier.toLowerCase();
-          
+    if (meta == 'enter') {
+      evt.preventDefault();
+      return;
+    }
     if (this.menu.items.length > 0 && (meta === 'down' || meta == 'up')) {            
       evt.preventDefault();
       var current = this.menu.cycle(meta == 'down' ? 1 : -1);

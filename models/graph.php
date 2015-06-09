@@ -46,6 +46,28 @@ use \bloc\dom\query;
       $edge->setAttribute('type', $type);
       return $edge;
     }
+    
+    static public function GROUPS($model)
+    {
+      $dtd = Graph::instance()->getDTD('groups');
+      preg_match('/ATTLIST group type \(([a-z\s|]+)\)/i', $dtd, $result);
+      return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) use($model){
+        $ret = ['name' => $item];
+        if ($model == $item) {
+          $ret['disabled'] = true;
+        }
+        return $ret;
+      });
+    }
+    
+    static public function RELATIONSHIPS()
+    {
+      $dtd = Graph::instance()->getDTD('groups');
+      preg_match('/ATTLIST edge type \(([a-z\s|]+)\)/i', $dtd, $result);
+      return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) {
+        return ['name' => $item];
+      });
+    }
   
     static public function factory($model, $element = null)
     {

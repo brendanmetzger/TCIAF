@@ -3,6 +3,7 @@ html{
 }
 body {
   min-height:100%;
+  width:100%;
   background:#fff url(/images/pidgey.svg) no-repeat 1.5% 2.5% fixed;
   background-size:7.5% auto;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
@@ -55,7 +56,7 @@ ul.inline {padding:0; }
 .group.left {
   float:left;
 }
-.group.right, .action {
+.group.right, .action, .status {
   float:right;
 }
 .columns {
@@ -122,12 +123,18 @@ h4 {
   font-weight:600;
 }
 
-input, textarea, select {
+input, textarea {
  font-size:1.5em;
 }
 
+select {
+  font-size:1.25em;
+  -webkit-appearance: menulist-button;
+}
 select:focus {
-  outline:1px solid #EC008C;
+  background-color:#85959C;
+  color:#fff;
+  outline:none;
 }
 
 /* Layout ------------------- */
@@ -226,7 +233,7 @@ button[disabled], button[disabled]:hover {
 }
 
 .status {
-  margin:auto 2em 0 65%;
+  margin:auto 2em;
 }
 
 

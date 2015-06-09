@@ -99,25 +99,32 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETedge($action, $type, $reference, $edge = null)
+  protected function GETedge($model)
   {
-    return 'not yet';
-    /*
-      TODO this should all be in a factory, and the 'type' would handle add/removes of whatever.
-    */
-    // $action will be add|remove
-    if ($action == 'remove') {
-      $item = Graph::instance()->storage->find("/graph/group/vertex[@id='{$reference}']/edge[@type='{$type}' and @vertex='{$edge}']")->pick(0);
-      $item->parentNode->removeChild($item);
-    } else if ($action == 'add') {
-      $container = Graph::ID($reference);
-      $item = Graph::instance()->storage->createElement('edge');
-      $item->setAttribute('type', $type);
-      $item->setAttribute('vertex', $edge);
-      $container->appendChild($item);
-    }
+    $view = new View($this->partials->layout);
+    $view->content = 'views/forms/edge.html';
+
+    $this->model         = $model;
+    $this->groups        = Graph::GROUPS($model);
+    $this->relationships = Graph::RELATIONSHIPS();
     
-    print_r($item);
+    return $view->render($this());
+  }
+  
+  protected function POSTedge($request)
+  {
+        
+    $view = new View($this->partials->layout);
+    $view->content = 'views/forms/partials/edge.html';
+
+    $this->vertex = Graph::ID($_POST['id']);
+    $this->edge   = Graph::EDGE(null, $_POST['type']);
+    
+    $this->action = 'add';
+    $this->checked = 'checked';
+    $this->index = $this->vertex['edge']->count() * -1;
+    
+    return $view->render($this());
   }
   
   protected function GETcreate($model)
@@ -144,13 +151,16 @@ class Manage extends \bloc\controller
     $this->action = "Edit {$model}";
     $this->item = Graph::factory($model, Graph::ID($id));
     
+    $this->groups        = Graph::GROUPS($model);
+    $this->relationships = Graph::RELATIONSHIPS();
+    
     $this->edges = $this->item->edge->map(function($edge) {
       $vertex = Graph::ID($edge['@vertex']);
       return [ 'vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex()];
     });    
 
     $this->references = $graph->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
-      return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex()];
+      return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'action' => 'remove'];
     });
     
     return $view->render($this());

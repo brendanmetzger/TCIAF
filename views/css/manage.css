@@ -133,7 +133,7 @@ label.range h4 {
   bottom:1em;
   right:1em;
   margin:0;
-  width:50%;
+  width:65%;
   padding:1em;
   box-shadow: -0.25em 0.25em 0.125em rgba(0,0,0,0.1);
   background-color:#333;
@@ -223,16 +223,43 @@ label.range h4 {
 }
 
 
+.backdrop {
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0;
+  width:100%;
+  visibility:hidden;
+  overflow:hidden;
+  z-index:100000;
+  background-color:rgba(0,0,0, 0.5);
+  transition:opacity 0.5s;
+}
 
-fieldset.modal {
-  border-color:#8EBEEA;
-  padding: 1em;
+.locked {
+  overflow:hidden;
+}
+
+.modal {
+  position:fixed;
+  left:25%;
+  top:15%;
+  width:50%;
+  
+  border-color:#CEE3EB;
+  border-width:1em 0 0 0;
+  border-style:solid;
+  box-shadow:0 0 0.25em 0.25em rgba(0,0,0,0.25);
+  padding: 1.5em;
   margin:2em 0;
   background-color: #f8f8f8;
   display: none;
 }
-
-fieldset.modal.viewing {
+.backdrop.viewing {
+  opacity:1;
+  visibility:visible;
+}
+.backdrop.viewing > .modal {
   display: block;
 }
 

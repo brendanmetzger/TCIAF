@@ -85,8 +85,9 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/competitions.html';
     $this->search = ['topic' => 'competition'];
-    $this->competitions = Graph::group('competition')->find("vertex[edge[@type='issue']]")
-                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/competitions/{$type}"]));
+    $this->competitions = Graph::group('competition')
+                         ->find("vertex[edge[@type='issue']]")
+                         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/competitions/{$type}"]));
 
     return $view->render($this());
   }
@@ -97,8 +98,9 @@ class Explore extends Manage
     $view = new View($this->partials->layout);
     $view->content = 'views/lists/organizations.html';
     $this->search = ['topic' => 'organization'];
-    $this->organizations = Graph::group('organization')->find('vertex')
-                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/organizations/{$type}"]));
+    $this->organizations = Graph::group('organization')
+                           ->find('vertex')
+                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/organizations/{$type}"]));
     
     return $view->render($this());
   }

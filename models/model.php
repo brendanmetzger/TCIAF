@@ -176,29 +176,6 @@ abstract class Model extends \bloc\Model
     return $status;
   }
   
-  public function getGroupTypes()
-  {
-    $dtd = Graph::instance()->getDTD('groups');
-    $name = $this->get_model();
-    preg_match('/ATTLIST group type \(([a-z\s|]+)\)/i', $dtd, $result);
-    return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) use($name){
-      $ret = ['name' => $item];
-      if ($name == $item) {
-        $ret['disabled'] = true;
-      }
-      return $ret;
-    });
-  }
-  
-  public function getEdgeTypes()
-  {
-    $dtd = Graph::instance()->getDTD('groups');
-    preg_match('/ATTLIST edge type \(([a-z\s|]+)\)/i', $dtd, $result);
-    return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) {
-      return ['name' => $item];
-    });
-  }
-  
   public function __construct($id = null)
   {
     if ($id !== null) {

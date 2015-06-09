@@ -1,0 +1,81 @@
+<form method="POST" action="/manage/edge" class="modal editor">
+  <h2>In regards to this <strong>[$model]</strong></h2>
+  
+  <select onchange="createEdge(this, 'vertex');"  name="id">
+    <option value="void">This...</option>
+    <!-- iterate groups -->
+    <option value="[$name]" disabled="[$disabled]">[$name]</option>
+  </select>
+  <em>was a</em>
+  <select onchange="createEdge(this);" name="type">
+    <option value="void">...something</option>
+    <!-- iterate relationships -->
+    <option value="[$name]">[$name]</option>
+  </select>
+  
+  <button disabled="true">Add as Edge</button>
+  
+  
+  <script type="text/javascript">
+    // <![CDATA[
+      function createEdge(select, action) {
+        var type = select.value;
+      
+        if (action === 'vertex') {
+        
+          var input = Search.INPUT('manage/edit', type);
+          select.parentNode.appendChild(input);
+      
+          select.parentNode.classList.add('search');
+      
+          var search = new Search(input);
+    
+          search.subscribers.select.push(function (dataset) {
+            if (dataset.id) {
+              select.item(0).value = dataset.id;
+              select.item(0).textContent = input.value
+              select.selectedIndex = 0;
+          
+              input.parentNode.removeChild(input);
+              delete search;
+            
+              select.parentNode.querySelectorAll('select')[1].focus();
+          
+            } else {
+          
+              // TODO this should not be a dialog - switch to my modal type in future.
+              var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
+                input.value = form.querySelector('input[name*=title]').value;
+                input.dataset.id = form.querySelector('input[name*=id]').value;
+
+                search.select();
+                this.modal.close();
+              });
+
+            }
+          });
+    
+          input.focus();
+        }
+      
+        // check complete
+        var complete = true;
+        
+        select.parentNode.querySelectorAll('select').forEach(function (item) {
+          complete = complete && (item.value !== 'void' && item.value);
+        });
+      
+        if (complete) {
+          var done_button = select.parentNode.querySelector('button[disabled]');
+              done_button.disabled = false;
+              done_button.focus();
+        }
+      
+      
+      
+      }
+    
+      
+    // ]]>
+  </script>
+</form>
