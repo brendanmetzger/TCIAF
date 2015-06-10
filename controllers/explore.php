@@ -15,7 +15,7 @@ class Explore extends Manage
 {
   public function GETindex()
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
 
     $tokens = [];
     
@@ -31,7 +31,7 @@ class Explore extends Manage
   
   public function GETfeature($id)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/digests/feature.html';
     $this->feature = new \models\Feature($id);
     return $view->render($this());
@@ -39,7 +39,7 @@ class Explore extends Manage
   
   public function GETPerson($id)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/digests/person.html';
     $this->person = new \models\Person($id);
     return $view->render($this());
@@ -49,7 +49,7 @@ class Explore extends Manage
   
   protected function GETfeatures($type = 'all', $index = 1, $per = 25)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content   = 'views/lists/features.html';
     $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
@@ -66,7 +66,7 @@ class Explore extends Manage
 
   public function GETpeople($type = 'all', $index = 1, $per = 100)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/lists/people.html';
     $this->search = ['topic' => 'person'];
     $this->people = Graph::group('person')->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
@@ -82,7 +82,7 @@ class Explore extends Manage
   
   public function GETcompetitions($type = 'all', $index = 1, $per = 100)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/lists/competitions.html';
     $this->search = ['topic' => 'competition'];
     $this->competitions = Graph::group('competition')
@@ -95,7 +95,7 @@ class Explore extends Manage
   
   public function GETorganizations($type = 'all', $index = 1, $per = 100)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/lists/organizations.html';
     $this->search = ['topic' => 'organization'];
     $this->organizations = Graph::group('organization')

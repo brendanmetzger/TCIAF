@@ -32,9 +32,10 @@
       </audio>
     
 
-      <ul class="inline">
+      <dl class="inline">
+        <dt>Images</dt>
         <!-- iterate item:thumbnails -->
-        <li>
+        <dd>
           <input type="hidden"   class="type"    name="[vertex[media][$index][@][type]]" value="[$type]" />
           <input type="hidden"   class="mark"    name="[vertex[media][$index][@][mark]]" value="[$mark]" />
           <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
@@ -42,8 +43,8 @@
           <label for="[:$index]">
             <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
           </label>
-        </li>
-      </ul>
+        </dd>
+      </dl>
 
       <input type="file" name="uploader" id="uploader" data-url="/manage/upload.xml"  accept="image/jpeg, image/jpg, audio/mp3, audio/mp4" class="margins"/>
     </fieldset>
@@ -69,7 +70,7 @@
       <!-- iterate references -->
       <!-- insert views/forms/partials/edge.html -->
       
-      <button class="showmodal margins">+ Add Referenced Edge</button>
+      <button class="showmodal margins">+ Add Referenced Edge (make this xhr)</button>
     </fieldset>
 
     <button type="submit" class="margins">Save your Work</button>

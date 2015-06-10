@@ -22,7 +22,6 @@ class Manage extends \bloc\controller
   public function __construct($request)
   {
     $this->partials = new \StdClass();
-    $this->partials->layout = 'views/layout.html';
 
     View::addRenderer('before', Renderer::addPartials($this));
     View::addRenderer('after', Renderer::HTML());
@@ -32,7 +31,7 @@ class Manage extends \bloc\controller
 		$this->year = date('Y');
     $this->title = "Third Coast";
     
-    $this->supporters = $this->features = Graph::group('organization')->find("vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
+    $this->supporters = Graph::group('organization')->find("vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
     
     if ($this->authenticated) {
       $this->user = Application::instance()->session('TCIAF')['user'];
@@ -54,7 +53,7 @@ class Manage extends \bloc\controller
     
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/forms/credentials.html';
 
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
@@ -101,7 +100,7 @@ class Manage extends \bloc\controller
   
   protected function GETedge($model)
   {
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/forms/edge.html';
 
     $this->model         = $model;
@@ -114,7 +113,7 @@ class Manage extends \bloc\controller
   protected function POSTedge($request)
   {
         
-    $view = new View($this->partials->layout);
+    $view = new view('views/layout.html');
     $view->content = 'views/forms/partials/edge.html';
 
     $this->vertex = Graph::ID($_POST['id']);
@@ -129,7 +128,7 @@ class Manage extends \bloc\controller
   
   protected function GETcreate($model)
   {
-    $view    = new View($this->partials->layout);
+    $view    = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $model);
     $this->item = Graph::factory($model);
     $this->action = "Create New {$model}";
@@ -138,7 +137,7 @@ class Manage extends \bloc\controller
   
   protected function GETedit($model, $id)
   {
-    $view    = new View($this->partials->layout);
+    $view    = new view('views/layout.html');
     
     if ($model == 'find') {
       $model = Graph::ID($id)->parentNode->getAttribute('type');

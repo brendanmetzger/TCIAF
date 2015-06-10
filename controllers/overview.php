@@ -14,21 +14,21 @@ use \models\graph;
   {
     public function GETpolicy()
     {
-      $view = new View($this->partials->layout);
+      $view = new view('views/layout.html');
       $view->content   = 'views/pages/policy.html';
       return $view->render($this());
     }
     
     public function GETtciaf()
     {
-      $view = new View($this->partials->layout);
+      $view = new view('views/layout.html');
       $view->content   = 'views/pages/about.html';
       return $view->render($this());
     }
     
     public function GETpeople()
     {
-      $view = new View($this->partials->layout);
+      $view = new view('views/layout.html');
       $view->content = 'views/pages/staff.html';
       
       $this->staff = Graph::group('person')->find("vertex[edge[@type='staff' and @vertex='TCIAF']]");
