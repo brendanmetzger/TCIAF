@@ -31,6 +31,7 @@
           var search = new Search(input);
     
           search.subscribers.select.push(function (dataset) {
+            
             if (dataset.id) {
               select.item(0).value = dataset.id;
               select.item(0).textContent = input.value

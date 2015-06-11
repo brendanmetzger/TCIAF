@@ -163,7 +163,7 @@ abstract class Model extends \bloc\Model
       $updated = strtotime($context['@updated']);
       if ($created != $updated) {
         $recent = (time() - $updated) < 5;
-        $message =  $recent ? "Just Saved" : "Last Edited " . round((time() - $updated) / (24 * 60 * 60), 3) . " days ago.";
+        $message =  $recent ? "Just Saved" : "Last Edited " . round((time() - $updated) / (24 * 60 * 60), 1) . " days ago.";
         $type = $recent ? 'success' : 'info';
       } else {
         $message = "Creating new {$this->get_model()}";

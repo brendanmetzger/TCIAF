@@ -46,19 +46,16 @@ namespace models;
       static $audio = null;
 
       if ($audio === null) {
-        $audio = new \bloc\types\Dictionary([]);
         $media = $context['media'];
         foreach ($media as $item) {
-
-
           if ($item['@type'] === 'audio') {
-            $audio = new \bloc\types\Dictionary([
-              'src'     => $item['@src'],
-              'type'    => 'audio',
-              'index'   => $item->getIndex(),
-            ]);
+            $audio = new Media($item);
             break;
           }
+        }
+        
+        if ($audio === null) {
+          $audio = new \bloc\types\Dictionary(['message' => "No Track Added"]);
         }
       }
       return $audio;
@@ -71,16 +68,8 @@ namespace models;
         $media = $context['media'];
         $images = [];
         foreach ($media as $item) {
-          if ($item['@type'] === 'image') {
-            
-            $images[] = [
-              'index' => $item->getIndex(),
-              'url'   => preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $item['@src']),
-              'src'   => $item['@src'],
-              'type'  => 'image',
-              'mark'  => 0,
-              'caption' => $item->nodeValue,
-            ];
+          if ($item['@type'] === 'image') {            
+            $images[] = new Media($item);
           }
         }
       }

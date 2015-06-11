@@ -279,3 +279,16 @@ dt[class] {
 dd {
   margin:0 0 0 2em;
 }
+
+dd.image {
+  width:20%;
+}
+
+dd.image img {
+  width:100%;
+}
+
+
+fieldset.media dl {
+  width:100%;
+}

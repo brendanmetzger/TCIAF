@@ -126,6 +126,24 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
   
+  protected function GETMedia($vertex, $type, $index = null)
+  {
+    $view = new view('views/layout.html');
+    
+    $this->media = \models\Media::COLLECT(Graph::ID($vertex)['media'], $type);
+    $index -= 1;
+    
+    if ($index >= 0) {
+      $view->content = 'views/forms/partials/media.html';
+      foreach ($this->media[$index] as $key => $value) {
+        $this->{$key} = $value;
+      }
+    } else {
+      $view->content = 'views/forms/media.html';
+    }
+    return $view->render($this());
+  }
+  
   protected function GETcreate($model)
   {
     $view    = new view('views/layout.html');
@@ -139,16 +157,16 @@ class Manage extends \bloc\controller
   {
     $view    = new view('views/layout.html');
     
+    $vertex = Graph::ID($id);
+    
     if ($model == 'find') {
-      $model = Graph::ID($id)->parentNode->getAttribute('type');
+      $model = $vertex->parentNode->getAttribute('type');
     }
     
     $view->content = sprintf("views/forms/%s.html", $model);
-    
-    $graph = Graph::instance();
-    
+        
     $this->action = "Edit {$model}";
-    $this->item = Graph::factory($model, Graph::ID($id));
+    $this->item = Graph::factory($model, $vertex);
     
     $this->groups        = Graph::GROUPS($model);
     $this->relationships = Graph::RELATIONSHIPS();
@@ -158,7 +176,7 @@ class Manage extends \bloc\controller
       return [ 'vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex()];
     });    
 
-    $this->references = $graph->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
+    $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
       return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'action' => 'remove'];
     });
     
@@ -201,7 +219,8 @@ class Manage extends \bloc\controller
     $type = substr($mime, 0, strpos($mime, '/'));
 
     if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
-      
+      $view = new view('views/layout.html');
+      $view->content = 'views/forms/partials/media.html';
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
       $result = $client->putObject(array(
           'Bucket'     => $bucket,
@@ -211,11 +230,18 @@ class Manage extends \bloc\controller
       ));
       
       
-      $media = Graph::instance()->storage->createElement('media', 'upload was cool.');
+      $media = Graph::instance()->storage->createElement('media', 'A caption');
       $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
       $media->setAttribute('name',  $name);
       $media->setAttribute('type', $type);
-      return $media->write();
+      
+      $model = new \models\Media($media, (time() * -1));
+      
+      foreach ($model as $key => $value) {
+        $this->{$key} = $value;
+      }
+      
+      return $view->render($this());
     } else {
       Application::instance()->getExchange('response')->addHeader("HTTP/1.0 400 Bad Request");
     }

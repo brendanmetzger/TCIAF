@@ -192,15 +192,16 @@ function Upload(element) {
   
   this.input.addEventListener('change', function (evt) {
     var type = this.input.files[0].type.split('/')[0] || null;
-    if (this.rules[type]) {
-      this.rules[type].call(this, this.input.files[0]);
-    }
+    
     try {
+      if (this.rules[type]) {
+        this.rules[type].call(this, this.input.files[0]);
+      }
       var fd = new FormData();
           fd.append("upload", this.input.files[0]);
       this.attach(fd);
     } catch (e) {
-      console.error(e);
+      alert(e.message);
     }
     
   }.bind(this), false);

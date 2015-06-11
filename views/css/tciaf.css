@@ -9,6 +9,8 @@ body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
 }
 
+audio {display:none;}
+
 
 /* Color ------------------- */
 
@@ -42,7 +44,7 @@ a:hover {color:#5B9B98;}
 .caps-lock {text-transform:uppercase;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
-.inline:not(ul), .inline li  {display:inline-block;}
+.inline:not(ul), .inline li, .inline dd  {display:inline-block;}
 ul.inline {padding:0; }
 .margins {margin:1em;}
 .padded  {padding:1em;}
