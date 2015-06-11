@@ -117,7 +117,7 @@ class Manage extends \bloc\controller
     $view->content = 'views/forms/partials/edge.html';
 
     $this->vertex = Graph::ID($_POST['id']);
-    $this->edge   = Graph::EDGE(null, $_POST['type']);
+    $this->edge   = Graph::EDGE(null, $_POST['type'], $_POST['caption']);
     
     $this->action = 'add';
     $this->checked = 'checked';
@@ -190,7 +190,6 @@ class Manage extends \bloc\controller
       if ($instance->save()) {
         // clear caches
         \models\Search::clear();
-                    print_r($_POST);
         if (isset($_POST['edge'])) {
           $instance->setReferencedEdges($_POST['edge']);
         }

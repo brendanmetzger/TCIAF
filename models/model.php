@@ -224,9 +224,13 @@ abstract class Model extends \bloc\Model
     data (return false from the setEdge method) it will be deleted from the vertex.
     */
     foreach ($edges as $action => $group) {
-      foreach ($group as $ref_id => $types) {
-        foreach ($types as $type) {
-          $this->{"{$action}ReferenceEdge"}($ref_id, $this['@id'], $type);
+      foreach ($group as $ref_id => $edge) {
+        foreach ($edge as $parts) {
+          echo "<pre>";
+          print_r($parts);
+          if (array_key_exists('type', $parts)) {
+            $this->{"{$action}ReferenceEdge"}($ref_id, $this['@id'], $parts['type'], $parts['caption']);
+          }
         }
       } 
     }
@@ -239,10 +243,8 @@ abstract class Model extends \bloc\Model
     $elem->parentNode->removeChild($elem);
   }
   
-  private function addReferenceEdge($vertex_id, $edge_id, $edge_type)
+  private function addReferenceEdge($vertex_id, $edge_id, $edge_type, $caption)
   {
-    // print_r($vertex_id);
-    
-    Graph::ID($vertex_id)->appendChild(Graph::EDGE($edge_id, $edge_type));
+    Graph::ID($vertex_id)->appendChild(Graph::EDGE($edge_id, $edge_type, $caption));
   }
 }

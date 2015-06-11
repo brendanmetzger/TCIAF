@@ -40,10 +40,11 @@ use \bloc\dom\query;
       return $element;
     }
     
-    static public function EDGE($id, $type) {
+    static public function EDGE($id, $type, $caption = null) {
       $edge = self::instance()->storage->createElement('edge');
       $edge->setAttribute('vertex', $id);
       $edge->setAttribute('type', $type);
+      $edge->setNodeValue($caption);
       return $edge;
     }
     
@@ -52,11 +53,7 @@ use \bloc\dom\query;
       $dtd = Graph::instance()->getDTD('groups');
       preg_match('/ATTLIST group type \(([a-z\s|]+)\)/i', $dtd, $result);
       return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) use($model){
-        $ret = ['name' => $item];
-        if ($model == $item) {
-          $ret['disabled'] = true;
-        }
-        return $ret;
+        return ['name' => $item];
       });
     }
     
