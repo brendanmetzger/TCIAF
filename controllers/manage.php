@@ -152,6 +152,12 @@ class Manage extends \bloc\controller
     $this->action = "Create New {$model}";
     $this->references = null;
     $this->edges = null;
+    
+    /*
+      TODO this can go when ajax form in place for adding edges
+    */
+    $this->groups        = Graph::GROUPS($model);
+    $this->relationships = Graph::RELATIONSHIPS();
     return $view->render($this()); 
   }
   
@@ -169,6 +175,10 @@ class Manage extends \bloc\controller
         
     $this->action = "Edit {$model}";
     $this->item = Graph::factory($model, $vertex);
+    
+    /*
+      TODO this can go when ajax form in place for adding edges
+    */
     
     $this->groups        = Graph::GROUPS($model);
     $this->relationships = Graph::RELATIONSHIPS();
