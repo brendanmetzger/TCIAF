@@ -119,7 +119,7 @@ class Manage extends \bloc\controller
     $this->vertex = Graph::ID($_POST['id']);
     $this->edge   = Graph::EDGE(null, $_POST['type'], $_POST['caption']);
     
-    $this->action = 'add';
+    $this->process = 'add';
     $this->checked = 'checked';
     $this->index = $this->vertex['edge']->count() * -1;
     
@@ -150,6 +150,8 @@ class Manage extends \bloc\controller
     $view->content = sprintf("views/forms/%s.html", $model);
     $this->item = Graph::factory($model);
     $this->action = "Create New {$model}";
+    $this->references = null;
+    $this->edges = null;
     return $view->render($this()); 
   }
   
@@ -174,10 +176,10 @@ class Manage extends \bloc\controller
     $this->edges = $this->item->edge->map(function($edge) {
       $vertex = Graph::ID($edge['@vertex']);
       return [ 'vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex()];
-    });    
+    });
 
     $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
-      return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'action' => 'remove'];
+      return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
     });
     
     return $view->render($this());
