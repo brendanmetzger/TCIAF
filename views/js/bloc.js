@@ -289,7 +289,7 @@ var Search = function (input) {
   this.ajax.addEventListener('load', this.processIndices.bind(this), false);
   this.ajax.addEventListener('loadstart', this.reset.bind(this), false);
 
-  this.menu = new Menu(this.input.parentNode.appendChild(document.createElement('ul')));
+  this.menu = new Menu(this.input.parentNode.insertBefore(document.createElement('ul'), this.input.nextSibling));
   this.menu.list.addEventListener('click', function (evt) {
     this.input.value       = evt.target.textContent;
     this.input.dataset.id  = evt.target.id;

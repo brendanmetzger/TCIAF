@@ -267,16 +267,15 @@ button.error{background-color:#ED1C24;}
   box-shadow:0 1em 10em 0em rgba(0,0,0,0.125);
 }
 .search ul {
-  position:absolute;
-  padding:0;
-  margin:0;
-  width:95%;
-  color:#fff;
-  z-index:2000;
-  background-color:rgba(255,255,255,0.95);
-  
-  box-sizing:border-box;
-  list-style:none;
+  position: absolute;
+  padding: 0;
+  margin: -0.5em 0 0;
+  width: 95%;
+  color: #fff;
+  z-index: 5000;
+  background-color: rgba(255,255,255,0.95);
+  box-sizing: border-box;
+  list-style: none;
 }
 .search ul:not(:empty) {
   box-shadow:0 0.25em 0.25em 0.125em rgba(0,0,0,0.2);

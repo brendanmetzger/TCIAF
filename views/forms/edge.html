@@ -13,7 +13,7 @@
     <!-- iterate relationships -->
     <option value="[$name]">[$name]</option>
   </select>
-  <input class="inline" type="text" name="caption" value="" placeholder="Title (optional)"  style="width:30%;padding:0.125em 1.5%;"/>  
+  <input class="inline" type="text" name="caption" value="" placeholder="Title (if any)"  style="width:30%;padding:0.125em 1.5%;"/>  
   
   <button disabled="true" class="margins">Add Edge</button>
   
@@ -27,7 +27,6 @@
         
           var input = Search.INPUT('manage/edit', type);
           select.parentNode.insertBefore(input, select);
-      
           select.parentNode.classList.add('search');
       
           var search = new Search(input);
@@ -71,7 +70,6 @@
         if (complete) {
           var done_button = select.parentNode.querySelector('button[disabled]');
               done_button.disabled = false;
-              done_button.focus();
         }
       
       
