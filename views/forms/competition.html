@@ -2,32 +2,37 @@
   <form action="[/manage/edit/$item:@id]" method="POST" class="editor">
   
     <!-- insert  views/forms/partials/title-description.html -->
+    
+    <fieldset class="edges container">
+      <legend class="caps-lock">Edges</legend>
+      <p class="info padded margins">Edges are links between two discrete elements. 'Inside Edges' mean that this item is responsible for the relationship. 'Outside Edges' mean that the item listed is responsible.</p>
+    
+      <div style="width:50%;" class="group left outside">
+        <h3 class="margins">Outside Edges</h3>
+        <!-- iterate references -->
+        <!-- insert views/forms/partials/edge.html -->
+        <button class="showmodal margins">+ Add Outside Edge</button>  
+      </div>
+    
+      <div style="width:50%;" class="group left">
+        <h3 class="margins">Inside Edges</h3>
+        <!-- iterate edges -->
+        <dl class="listed padded">
+          <input type="hidden" disabled="true" name="[vertex[edge][$index][type]]" value="[$edge:@type]" />
+          <input type="hidden" disabled="true" name="[vertex[edge][$index][vertex]]" value="[$edge:@vertex]" />    
+          <dt class="[$edge:@type]">[$edge:@type]</dt>
+          <dd>
+            <h2><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+          </dd>
+        </dl>
+        <button class="showmodal margins" onclick="alert('this will be added soon'); return false;">+ Add Inside Edge</button>  
+      </div>
+    </fieldset>
 
     <button type="submit" class="margins">Submit</button>
-  
-    <fieldset>
 
-      <legend class="caps-lock">Has</legend>
-      <!-- iterate edges -->
-      <div class="listed padded">
-        <input type="hidden" name="[vertex[edge][$index][type]]" value="[$edge:@type]" />
-        <input type="hidden" name="[vertex[edge][$index][vertex]]" value="[$edge:@vertex]" />
-        <sup class="normal capitalize small">[$edge:@type $edge]</sup>
-        <h2><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
-        <p>[$vertex:abstract]</p>
-      </div>
-
-    </fieldset>
-  
-    <fieldset class="edges">
-      <legend class="caps-lock">Belongs To</legend>
-    
-      <!-- iterate references -->
-      <!-- insert views/forms/partials/edge.html -->
-    
-      <button class="showmodal margins">+ Add Referenced Edge (make this xhr)</button>
-    </fieldset>
-  
   </form>
+
   <!-- insert views/forms/edge.html -->
+
 </section>
