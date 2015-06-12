@@ -3,11 +3,11 @@
   
   <!-- iterate features -->
   <div data-created="[$feature:@created]" data-updated="[$feature:@age]">
-    <h2><a href="[/explore/feature/$feature:@id]" data-id="[feature/$feature:@id]">[$feature:@title]</a></h2>
+    <h2><a href="[/explore/feature/$feature:@id]" data-id="[$feature:@id]">[$feature:@title]</a></h2>
   
     <cite>    
       <!-- iterate producers -->
-      <a href="[/explore/person/$@id]" data-id="[person/$@id]">[$@title]</a>
+      <a href="[/explore/person/$@id]" data-id="[$@id]">[$@title]</a>
     </cite>
     
     <p>[$feature:abstract]</p>
