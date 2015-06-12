@@ -4,9 +4,13 @@ html{
 body {
   min-height:100%;
   width:100%;
-  background:#fff url(/images/pidgey.svg) no-repeat 1.5% 2.5% fixed;
-  background-size:7.5% auto;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
+}
+
+header {
+  background: #fff url(/images/pidgey.svg) no-repeat 0 0 scroll;
+  background-size: auto 100%;
+  padding-left: 5%;
 }
 
 audio {display:none;}
@@ -113,7 +117,7 @@ h2, legend {
   line-height:175%;
 }
 
-label, p, .p, h5, li, address, button, .button {
+label, p, .p, h3,h4,h5, li, address, button, .button {
   font-size:1.25em;
 }
 
@@ -145,10 +149,10 @@ address span {
   display:block;
 }
 
-ul, ol, body, form, h2 {
+ul, ol, body, form, h2, h3 {
   margin:0;
 }
-
+ul { list-style-type: square; }
 ul, ol {
   padding:0 0 0 2em;
 }
@@ -158,10 +162,10 @@ label, p, h5 {
   margin:0.5em 0;
 }
 
-hr {
+hr, .hr {
   border:none;
-  border-top:1px solid #eee;
-  margin:1em 0;
+  border-bottom:1px solid #eee;
+  margin:0.5em 0;
   clear:both;
 }
 
@@ -169,7 +173,7 @@ input, textarea, fieldset {
   box-sizing:border-box;
   width:100%;
   padding:0;
-  border: 1px solid #eee;
+  border: 1px solid #ccc;
   background-color:#fff;
   transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s, margin 0.25s;
 }
@@ -190,7 +194,6 @@ body, footer {
 footer {
   background-color:#333;
   color:#eee;
-  padding:2.5%;
 }
 
 
@@ -234,11 +237,6 @@ button[disabled], button[disabled]:hover {
   background-color:#fff;
   color:#888;
 }
-
-.status {
-  margin:auto 2em;
-}
-
 
 #player button {width:5em; height:5em;padding:0;display:block;border-radius:0;margin:0.25em;border-color:#5B9B98;}
 #player button:focus {outline:none;}

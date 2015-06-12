@@ -1,25 +1,28 @@
 <nav class="management dashboard">
   <link rel="stylesheet" href="/css/manage.css" type="text/css" media="screen" charset="utf-8" title="administrator"/>
   <script type="text/javascript">bloc.embed('/js/manage.js');</script>
-  <ul class="inline">
-    <li><strong>[$user]</strong></li>
+  <ul>
+    <li class="hr"><strong>[$user]</strong></li>
     <li>
-      <select onchange="window.location.href = this.value;">
-        <option>Areas of interest</option>
+      <h3>Index Pages</h3>
+      <ul>
         <!-- iterate tasks -->
-        <option value="[$url]">[$name]</option>
-      </select>
+        <li><a href="[$url]">[$name]</a></li>
+      </ul>
     </li>
     <li>
-      <select onchange="window.location.href = this.value;">
-        <option>Create new...</option>
-        <option value="/manage/create/feature/">Feature</option>
-        <option value="/manage/create/person/">Person</option>
-        <option value="/manage/create/organization/">Organization</option>
-      </select>
+      <h3>Create new...</h3>
+      <ul>
+        <li><a href="/manage/create/feature/">Feature</a></li>
+        <li><a href="/manage/create/person/">Person</a></li>
+        <li><a href="/manage/create/organization/">Organization</a></li>
+      </ul>
     </li>
     <li>
-      <a href="/manage/logout">Logout.</a>
+      <h3>More</h3>
+      <ul>
+        <li><a href="/manage/logout">Logout.</a></li>
+      </ul>
     </li>
   </ul>
 </nav>

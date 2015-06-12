@@ -1,24 +1,26 @@
-<form method="POST" action="/manage/edge" class="modal editor">
+<form method="POST" action="/manage/edge" class="editor">
   <h2>In regards to this <strong>[$item:_model]</strong></h2>
-  
 
   <select onchange="createEdge(this, 'vertex');"  name="id" style="width:25%">
     <option value="void">This...</option>
     <!-- iterate groups -->
     <option value="[$name]">[$name]</option>
   </select>
+  
   <em style="display:inline-block;width:12%;text-align:center;font-size:1.25em">is a /has as</em>
+  
   <select onchange="createEdge(this);" name="type" style="width:25%">
     <option value="void">...something</option>
     <!-- iterate relationships -->
     <option value="[$name]">[$name]</option>
   </select>
+  
   <input class="inline" type="text" name="caption" value="" placeholder="Title (if any)"  style="width:30%;padding:0.125em 1.5%;"/>  
   
   <button disabled="true" class="margins">Add Edge</button>
   
   
-  <script type="text/javascript">
+  <script type="text/javascript" async="async">
     // <![CDATA[
       function createEdge(select, action) {
         var type = select.value;
@@ -75,42 +77,6 @@
       
       
       }
-      
-
-    bloc.prepare(function () {
-      document.querySelector('button.showmodal').addEventListener('click', function (evt) {
-        evt.preventDefault();
-        if (! this.reference) {
-          var form_modal = document.querySelector('form.modal');
-          form_modal.addEventListener('submit', function (evt) {
-            evt.preventDefault();
-            var xhr = new XMLHttpRequest();
-                xhr.overrideMimeType('text/xml');
-                xhr.addEventListener('load', function (evt) {
-                  var edge_container = document.querySelector('fieldset.edges div.outside');
-                  var new_edge = evt.target.responseXML.querySelector("dl.listed.container");
-
-                  edge_container.insertBefore(new_edge, edge_container.querySelector('button'));
-                
-                  // close the modal
-                  form_modal.querySelector('button.close').dispatchEvent(new Event('click', {
-                    cancelable: true
-                  }));
-                });
-                xhr.open("POST", this.action);
-                xhr.send(new FormData(this));
-          })
-          this.reference = new Modal(form_modal);
-        }
-        this.blur();
-        this.reference.show();
-      
-        this.reference.element.querySelector('select').focus();
-
-    
-      });
-    });
-  
       
     // ]]>
   </script>

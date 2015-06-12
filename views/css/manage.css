@@ -1,4 +1,6 @@
-
+.status {
+  margin:-2em -2em 0 0;
+}
 
 
 .error   {color:#BC6365;}
@@ -22,15 +24,13 @@
   white-space: pre;
 }
 
-form.editor .text + label {
-  color:#aaa;
+form.editor label {
+  color:#888;
   font-weight:400;
   transition:color 0.25s;
   letter-spacing:0.075em;
   text-transform:capitalize;
-}
-form.editor .text:focus + label {
-  color:#00A4E4;
+  margin:0.5em 0 0;
 }
 
 textarea.text::selection {
@@ -45,13 +45,10 @@ textarea {
 input[type='file'] {
   border:none;
 }
-form.editor label {
-  margin:0.25em 1em 1em;
-}
 
 
 form.editor .text {
-  margin:0.5em 2%;
+  margin:0.25em 2%;
   line-height:1.5em;
   background-attachment:fixed;
   padding:0.25em 2% 0.25em 3%;
@@ -69,8 +66,13 @@ form.editor .text:focus, .hud + .text {
   
 }
 
-label + label.range {
+label.range {
   display:block;
+  font-weight:400;
+  color:#333 !important;
+  margin:0;
+}
+label + label.range {
   border-top:1px solid #fff;
   margin-top:0;
 }
@@ -117,7 +119,7 @@ label.range span {
   height:6em;
 }
 label.range h4 {
-  margin:0.5em 1%;
+  margin:0.25em 1%;
   width:50%;
   transition:margin 0.125s;
 }
@@ -126,24 +128,34 @@ label.range h4 {
   text-align:center;
 }
 
+body[data-user] {
+  margin-left:15%;
+  width:85%;
+}
+
 
 .dashboard {
   position:fixed;
-  bottom:1em;
-  right:1em;
+  top:0;
+  left:0;
   margin:0;
-  width:65%;
-  padding:1em;
-  box-shadow: -0.25em 0.25em 0.125em rgba(0,0,0,0.1);
+  width:15%;
+  height:100%;
+  padding:0;
+  box-shadow: inset 0.25em 0 0.125em rgba(0,0,0,0.5);
   background-color:#333;
   z-index:1000;
   opacity:0.9;
   border:1px solid rgba(255,255,255,0.1);
 }
-
-.dashboard ul.inline li {
+.dashboard ul {
+  list-style:none;
+  padding:0;
+}
+.dashboard ul li {
   color:#fff;
-  padding:0 0.5em;
+  text-transform:capitalize;
+  padding:0.125em 0.5em;
 }
 
 .hud {
@@ -239,12 +251,11 @@ label.range h4 {
   overflow:hidden;
 }
 
-.modal {
+.backdrop > form {
   position:fixed;
   left:25%;
   top:15%;
-  width:50%;
-  
+  width:65%;
   border-color:#CEE3EB;
   border-width:1em 0 0 0;
   border-style:solid;
@@ -258,7 +269,7 @@ label.range h4 {
   opacity:1;
   visibility:visible;
 }
-.backdrop.viewing > .modal {
+.backdrop.viewing > form {
   display: block;
 }
 
@@ -287,7 +298,21 @@ dd.image img {
   width:100%;
 }
 
+fieldset {
+  padding:0 1em 1em;
+}
 
 fieldset.media dl {
   width:100%;
+}
+
+.outside, .inside {
+  width:50%;
+}
+.outside {
+  border-right:1px solid #eee;
+}
+
+.inside {
+  border-left:1px solid #eee;
 }

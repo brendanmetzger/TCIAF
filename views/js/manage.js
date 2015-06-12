@@ -30,6 +30,8 @@ bloc.prepare(function () {
     }
   }
   
+  
+  
   // show an indicator next to all editable elements
   function goto(url, evt) {
     evt.preventDefault();
@@ -229,23 +231,28 @@ Upload.prototype = {
   }
 };
 
-var Modal = function (element, close_callback) {
+var Modal = function (element) {
   this.backdrop = document.body.appendChild(document.createElement('div'));
   this.backdrop.className = 'backdrop';
-
-  this.element = element;
-  this.backdrop.appendChild(this.element);
-  // make closeable
-  var button = document.createElement('button');
-      button.className = 'close action';
-      button.textContent = '⨉';
-      button.addEventListener('click', close_callback || this.close.bind(this));
-  
-  element.insertBefore(button, element.firstChild);
+  if (element) {
+    this.addElement(element);
+  }
 };
 
 
 Modal.prototype = {
+  addElement: function (element) {
+    this.element = element;
+    this.backdrop.appendChild(this.element);
+    // make closeable
+    var button = document.createElement('button');
+        button.className = 'close action';
+        button.textContent = '⨉';
+        button.addEventListener('click', this.close.bind(this));
+  
+    this.element.insertBefore(button, this.element.firstChild);
+    
+  },
   show: function () {
     document.body.classList.add('locked');
     this.backdrop.style.height = document.body.scrollHeight + 'px';
@@ -253,17 +260,23 @@ Modal.prototype = {
     this.backdrop.classList.add('viewing');
   },
   close: function (evt) {
-    evt.preventDefault();
+    if (evt instanceof Event) {
+      evt.preventDefault();
+    }
+    
     document.body.classList.remove('locked');
     this.backdrop.classList.remove('viewing');
-    // if backdrop is clicked, perform close too.
+
+    if (evt instanceof Function) {
+      evt.call(this);
+    }
   }
 };
 
 
 Modal.Form = function (url, opts, callback) {
-  this.modal = document.body.appendChild(document.createElement('dialog'));
   this.options = opts;
+  this.modal = new Modal(null);
   this.ajax = new XMLHttpRequest();
   this.ajax.overrideMimeType('text/xml');
   this.ajax.addEventListener('load', this.processForm.bind(this));
@@ -272,6 +285,7 @@ Modal.Form = function (url, opts, callback) {
   
   // the callback is what is called when the form completes the entire dialog
   this.callback = callback;
+  this.modal.show();
 };
 
 Modal.Form.prototype = {
@@ -280,15 +294,15 @@ Modal.Form.prototype = {
   form: null,
   ajax: null,
   processForm: function (evt) {
-    var form_element = evt.target.responseXML.documentElement.querySelector('form');
-
+    
+    
+    evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+      document.head.appendChild(window.bloc.tag(false)).text = script.text;
+    });
+    
     if (this.form === null) {
-      this.form = form_element;
-      
-      makeCloseable(this.form, function (container) {
-        this.modal.close();
-        this.modal.parentNode.removeChild(this.modal);
-      }.bind(this));
+      this.form  = evt.target.responseXML.documentElement.querySelector('form.editor');
+      this.modal.addElement(this.form);
       
       this.form.addEventListener('submit', function (evt) {
         evt.preventDefault();
@@ -298,10 +312,6 @@ Modal.Form.prototype = {
       
       }.bind(this));
       
-      this.modal.appendChild(this.form);
-
-      this.modal.showModal();
-      
       for (var option in this.options) {
         var input = this.form.querySelector('input[name*='+option+']');
             input.value = this.options[option];
@@ -310,23 +320,11 @@ Modal.Form.prototype = {
 
       
     } else if (this.callback){
-      this.callback.call(this, form_element);
+      this.callback.call(this, evt.target.responseXML.documentElement);
     }
   }
 };
 
-function makeCloseable(container, callback) {
-  var button = document.createElement('button');
-      button.className = 'close action';
-      button.textContent = '⨉';
-      button.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        this.parentNode.removeChild(this);
-        callback(container);
-      });
-      
-  container.insertBefore(button, container.firstChild);
-}
 
 
 var Spectra = function(labels) {

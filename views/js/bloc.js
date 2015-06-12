@@ -327,7 +327,6 @@ Search.prototype = {
     this.menu.reset();
   },
   select: function (evt) {
-    console.log(evt);
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();

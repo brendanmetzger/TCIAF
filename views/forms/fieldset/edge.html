@@ -1,0 +1,48 @@
+<fieldset class="edges container">
+  <legend class="caps-lock">Edges</legend>
+  <p class="info padded">Edges are links between two discrete elements. 'Inside Edges' mean that this item is responsible for the relationship. 'Outside Edges' mean that the item listed is responsible.</p>
+  
+  <div class="group left outside">
+    <h3 class="margins">Outside Edges</h3>
+    <!-- iterate references -->
+    <!-- insert views/forms/partials/edge.html -->
+    <a class="showmodal button margins" href="[/manage/edge/$item:_model]" data-type="outside">+ Add Outside Edge</a>  
+  </div>
+  
+  <div class="group left inside">
+    <h3 class="margins">Inside Edges</h3>
+    <!-- iterate edges -->
+    <dl class="listed padded">
+      <input type="hidden" disabled="true" name="[vertex[edge][$index][type]]" value="[$edge:@type]" />
+      <input type="hidden" disabled="true" name="[vertex[edge][$index][vertex]]" value="[$edge:@vertex]" />    
+      <dt class="[$edge:@type]">[$edge:@type]</dt>
+      <dd>
+        <h2><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+      </dd>
+    </dl>
+    <a class="showmodal button margins" data-type="inside">+ Add Inside Edge</a>  
+  </div>
+  
+  <script type="text/javascript">
+    // <![CDATA[
+      bloc.prepare(function () {
+        document.querySelectorAll('a.showmodal.button').forEach(function (button) {
+          button.addEventListener('click', function (evt) {
+            evt.preventDefault();
+            
+            if (this.dataset.type == 'inside') return;
+
+              var button = this;
+              new Modal.Form(this.href + '.xml', {}, function (response) {
+                button.parentNode.insertBefore(response.querySelector("dl.listed.container"), button);
+                // close modal
+                this.modal.close(function () {
+                  // destroy the object if we need more closure;
+                });
+              });
+          });
+        });
+      });
+    // ]]>
+  </script>
+</fieldset>
