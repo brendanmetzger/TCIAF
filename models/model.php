@@ -4,7 +4,10 @@ namespace models;
 abstract class Model extends \bloc\Model
 {
   public $context = null,
-         $errors  = [];
+         $errors  = [],
+         $form    = null;
+         
+    
   
   static public $fixture = [
     'vertex' => [
@@ -211,6 +214,11 @@ abstract class Model extends \bloc\Model
   public function __get($property)
   {
     return $this->{"get{$property}"}($this->context);
+  }
+  
+  public function getForm()
+  {
+    return $this->form ?: $this->get_model();
   }
   
   public function setReferencedEdges($edges)

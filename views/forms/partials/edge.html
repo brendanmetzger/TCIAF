@@ -2,7 +2,7 @@
   <input type="hidden" name="[edge[$process][$vertex:@id][$index][caption]]" value="[$edge]" />
   <dt class="[$edge:@type]">[$edge:@type - $edge]</dt>
   <dd>
-    <h2 class="inline"><a href="[/manage/edit/find/$vertex:@id]">[$vertex:@title]</a></h2>
+    <h2 class="inline"><a href="[/manage/edit/$vertex:@id]">[$vertex:@title]</a></h2>
     <span class="warn action">
       <input type="checkbox" name="[edge[$process][$vertex:@id][$index][type]]" value="[$edge:@type]" id="[$vertex:@id$index]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';" checked="[$checked]"/>
       <label for="[$vertex:@id$index]" class="inline">[$process]</label>

@@ -9,4 +9,5 @@ namespace models;
 
   class Competition extends Model
   {
+    public $form = 'vertex';
   }

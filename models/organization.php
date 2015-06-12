@@ -9,6 +9,7 @@ namespace models;
 
   class Organization extends Model
   {
+    public $form = 'vertex';
     static public $fixture = [
       'vertex' => [
         'abstract' => [

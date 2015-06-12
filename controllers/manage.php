@@ -147,9 +147,9 @@ class Manage extends \bloc\controller
   protected function GETcreate($model)
   {
     $view    = new view('views/layout.html');
-    $view->content = sprintf("views/forms/%s.html", $model);
     $this->item = Graph::factory($model);
     $this->action = "Create New {$model}";
+    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
     $this->references = null;
     $this->edges = null;
     
@@ -161,20 +161,15 @@ class Manage extends \bloc\controller
     return $view->render($this()); 
   }
   
-  protected function GETedit($model, $id)
+  protected function GETedit($id)
   {
     $view    = new view('views/layout.html');
     
-    $vertex = Graph::ID($id);
+    $this->item = Graph::factory(null, Graph::ID($id));
     
-    if ($model == 'find') {
-      $model = $vertex->parentNode->getAttribute('type');
-    }
+    $this->action = "Edit {$this->item->get_model()}";
     
-    $view->content = sprintf("views/forms/%s.html", $model);
-        
-    $this->action = "Edit {$model}";
-    $this->item = Graph::factory($model, $vertex);
+    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
     
     $this->edges = $this->item->edge->map(function($edge) {
       $vertex = Graph::ID($edge['@vertex']);

@@ -7,6 +7,8 @@ namespace models;
 
 class Person extends Model
 {  
+  public $form = 'vertex';
+  
   static public $fixture = [
     'vertex' => [
       'abstract' => [
@@ -16,7 +18,7 @@ class Person extends Model
       ]
     ]
   ];
-  
+    
   public function authenticate($password)
   {
     if (! password_verify($password, $this->context->getAttribute('hash'))) {
