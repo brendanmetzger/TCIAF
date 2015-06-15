@@ -144,40 +144,37 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
   
+  // Create a new vertex model from scratch
+  // output: HTML Form
   protected function GETcreate($model)
   {
-    $view    = new view('views/layout.html');
-    $this->item = Graph::factory($model);
-    $this->action = "Create New {$model}";
-    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
+    $this->item       = Graph::factory($model);
+    $this->action     = "Create New {$model}";
     $this->references = null;
-    $this->edges = null;
+    $this->edges      = null;
     
-    /*
-      TODO this can go when ajax form in place for adding edges
-    */
-    $this->groups        = Graph::GROUPS($model);
-    $this->relationships = Graph::RELATIONSHIPS();
+    
+    $view = new view('views/layout.html');    
+    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
+
     return $view->render($this()); 
   }
   
+  // Fetch a vertex and create a model.
+  // output: HTML Form
   protected function GETedit($id)
   {
-    $view    = new view('views/layout.html');
-    
-    $this->item = Graph::factory(Graph::ID($id));
-    
+    $this->item   = Graph::factory(Graph::ID($id));
     $this->action = "Edit {$this->item->get_model()}";
-    
-    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
-    
-    $this->edges = $this->item->edge->map(function($edge) {
+    $this->edges  = $this->item->edge->map(function($edge) {
       return [ 'vertex' => Graph::ID($edge['@vertex']), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
     });
-
     $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
       return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
     });
+
+    $view = new view('views/layout.html');
+    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
     
     return $view->render($this());
   }
@@ -185,6 +182,7 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $id = null)
   {
     $model = Graph::factory(Graph::ID($id));
+    
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
         // clear caches
@@ -199,8 +197,8 @@ class Manage extends \bloc\controller
         
         \bloc\router::redirect($request->redirect);
       } else {
-      echo $model->context->write(true);
-      \bloc\application::instance()->log($model->errors);
+        echo $model->context->write(true);
+        \bloc\application::instance()->log($model->errors);
       }
     } 
     
@@ -219,28 +217,35 @@ class Manage extends \bloc\controller
       $view = new view('views/layout.html');
       $view->content = 'views/forms/partials/media.html';
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
-      $result = $client->putObject(array(
-          'Bucket'     => $bucket,
-          'Key'        => $type . '/' . $name,
-          'SourceFile' => PATH . $src,
-          'ACL'        => 'public-read',
-      ));
       
+      try {
+        $result = $client->putObject(array(
+            'Bucket'     => $bucket,
+            'Key'        => $type . '/' . $name,
+            'SourceFile' => PATH . $src,
+            'ACL'        => 'public-read',
+        ));
+        $media = Graph::instance()->storage->createElement('media', 'A caption');
+        $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
+        $media->setAttribute('name',  $name);
+        $media->setAttribute('type', $type);
       
-      $media = Graph::instance()->storage->createElement('media', 'A caption');
-      $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
-      $media->setAttribute('name',  $name);
-      $media->setAttribute('type', $type);
+        $model = new \models\Media($media, (time() * -1));
       
-      $model = new \models\Media($media, (time() * -1));
+        foreach ($model as $key => $value) {
+          $this->{$key} = $value;
+        }
       
-      foreach ($model as $key => $value) {
-        $this->{$key} = $value;
+        return $view->render($this());
+      } catch (\Exception $e) {
+        return $this->GETerror("The Upload Was Unsuccessful", 500);
+        exit();
       }
       
-      return $view->render($this());
+      
+     
     } else {
-      Application::instance()->getExchange('response')->addHeader("HTTP/1.0 400 Bad Request");
+      return $this->GETerror("The Server has refused this file", 400);
     }
   }
   
