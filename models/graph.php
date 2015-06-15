@@ -66,11 +66,15 @@ use \bloc\dom\query;
       });
     }
   
-    static public function factory($model = null, \DOMElement $element = null)
+    static public function factory($model)
     {
-      if ($model === null && $element !== null) {
+      if ($model instanceof \DOMElement) {
+        $element = $model;
         $model = $element->parentNode->getAttribute('type');
+      } else {
+        $element = null;
       }
+      
       $classname = NS . __NAMESPACE__ . NS . $model;
       return  new $classname($element);
     }

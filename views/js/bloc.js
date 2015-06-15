@@ -79,7 +79,7 @@ var Player = function (element) {
 };
 
 Player.attach = function (audio_element) {
-  window.player = new this(audio_element);
+  return new this(audio_element);
 };
 
 Player.prototype = {

@@ -1,6 +1,3 @@
-
-
-
 bloc.prepare(function () {
   var stylesheet  = document.styleSheets.length - 1;
 
@@ -178,8 +175,13 @@ Markdown.prototype = {
   
 };
 
-function Upload(element) {
-  this.input = element;
+function Upload(destination_url) {
+  this.action = destination_url;  
+  this.input = document.body.appendChild(document.createElement('input'));
+  this.input.accept = 'image/jpeg, image/jpg, audio/mp3, audio/mp4';
+  this.input.name = 'uploader';
+  this.input.type = 'file';
+
   this.xhr = new XMLHttpRequest();
   
   this.xhr.upload.onprogress = function (evt) {
@@ -219,6 +221,14 @@ Upload.prototype = {
     'loading',
     'complete'
   ],
+  addTrigger: function (element, callback) {
+    element.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      if ((callback || function () { return true;}).call(evt.target, this)) {
+        this.input.dispatchEvent(new Event('click'));
+      }
+    }.bind(this), false);
+  },
   addEvent: function (type, callback) {
     this.xhr.addEventListener(type, callback, false);
   },
@@ -226,7 +236,7 @@ Upload.prototype = {
     this.rules[type] = callback;
   },
   attach: function (blob) {
-    this.xhr.open('POST', this.input.dataset.url);
+    this.xhr.open('POST', this.action);
     this.xhr.send(blob); 
   }
 };

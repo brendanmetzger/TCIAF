@@ -165,15 +165,14 @@ class Manage extends \bloc\controller
   {
     $view    = new view('views/layout.html');
     
-    $this->item = Graph::factory(null, Graph::ID($id));
+    $this->item = Graph::factory(Graph::ID($id));
     
     $this->action = "Edit {$this->item->get_model()}";
     
     $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
     
     $this->edges = $this->item->edge->map(function($edge) {
-      $vertex = Graph::ID($edge['@vertex']);
-      return [ 'vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex()];
+      return [ 'vertex' => Graph::ID($edge['@vertex']), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
     });
 
     $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
@@ -183,9 +182,9 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
   
-  protected function POSTedit($request, $model, $id = null)
+  protected function POSTedit($request, $id = null)
   {
-    $model = Graph::factory($model, Graph::ID($id));
+    $model = Graph::factory(Graph::ID($id));
     if ($instance = $model::create($model, $_POST)) {
       if ($instance->save()) {
         // clear caches
@@ -200,8 +199,7 @@ class Manage extends \bloc\controller
         
         \bloc\router::redirect($request->redirect);
       } else {
-
-      // echo $model->context->write(true);
+      echo $model->context->write(true);
       \bloc\application::instance()->log($model->errors);
       }
     } 

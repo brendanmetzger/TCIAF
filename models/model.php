@@ -85,7 +85,9 @@ abstract class Model extends \bloc\Model
         // if the key is an integer, we have an array of elements to add/update. If the set(Element)
         // method returns false, we add add the found/created element to a list of nodes to remove at the
         // completion of this routine -- ie. return false to delete the context node.
-        $subcontext = $context->parentNode->getFirst($element, $key);        
+        $subcontext = $context->parentNode->getFirst($element, $key);
+        echo $context->write(true);
+        
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
        }
@@ -98,6 +100,11 @@ abstract class Model extends \bloc\Model
         $this->mergeInput([$key => $value], $context->getFirst($key));
       }
     }
+    
+    if (! $context->hasAttributes() && ! $context->hasChildNodes()) {
+      $pending_removal[] = $context;
+    }
+    
     foreach ($pending_removal as $element) {
       $element->parentNode->removeChild($element);
     }
