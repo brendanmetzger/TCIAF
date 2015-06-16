@@ -316,3 +316,5 @@ fieldset.media dl {
 .inside {
   border-left:1px solid #eee;
 }
+
+.progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}

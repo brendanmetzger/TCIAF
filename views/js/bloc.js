@@ -491,7 +491,7 @@ var Progress = function() {
     var x = (Math.cos(radian) * 25) + 50;
     var y = (Math.sin(radian) * 25) + 50;
 
-    return path.setAttribute('d', "M50,50L75,50A25,25 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y + 'z');
+    return path.setAttribute('d', "M75,50A25,25 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y);
   };
   
 

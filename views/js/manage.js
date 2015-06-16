@@ -184,17 +184,21 @@ function Upload(destination_url) {
 
   this.xhr = new XMLHttpRequest();
   
+  this.xhr.addEventListener('loadstart', function (evt) {
+    this.status = 'Uploading';
+  }.bind(this));
   this.xhr.addEventListener('load', this.invoke.bind(this), false);
   
   this.xhr.upload.onprogress = function (evt) {
     if (evt.lengthComputable && this.progress) {
-      this.progress.update(evt.loaded/evt.total);
+      this.progress.update(evt.loaded/evt.total, 'Uploading');
     }
   }.bind(this);
   
   this.xhr.upload.onload = function (evt) {
-    console.log('remove progress');
-  };
+    this.progress.update(0.9, 'Compressing');
+    this.progress.element.classList.add('spin');
+  }.bind(this);
   
   
   this.input.addEventListener('change', function (evt) {
