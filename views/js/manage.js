@@ -213,7 +213,7 @@ function Upload(destination_url) {
           fd.append("upload", this.input.files[0]);
       this.attach(fd);
     } catch (e) {
-      alert(e.message);
+      console.error(e);
     }
     
   }.bind(this), false);
