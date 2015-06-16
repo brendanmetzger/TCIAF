@@ -39,7 +39,7 @@ textarea.text::selection {
 
 
 textarea {
-  height:5em;
+  min-height:5em;
 }
 
 input[type='file'] {

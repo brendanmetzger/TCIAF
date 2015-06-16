@@ -74,9 +74,10 @@
       audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
     }
   
+    var p;
     bloc.prepare(function () {
       
-      
+    
       var uploader = new Upload('/manage/upload.xml');
     
       uploader.addTrigger(document.querySelector('button.upload.image'));
@@ -100,6 +101,11 @@
         if (document.querySelector('dd.audio input.src[value]').value) {
           throw new Error('Only one audio file allowed. Unlink the one you are using now.');
         }
+        
+        this.progress = new Progress();
+        document.querySelector('dd.audio').appendChild(this.progress.element);
+        
+        
       });
     
       uploader.addRoutine('image', function (file) {
@@ -107,26 +113,23 @@
     
         reader.onload = function (evt) {
           // this is the progress default holder thing.
-          
+          this.progress = new Progress();
+          this.progress.element.backgroundImage = 'url('+evt.target.result+')';
+
           var dd = document.querySelector('fieldset.media dl').appendChild(document.createElement('dd'));
-              dd.title = file.name;
-        
-          var label = dd.appendChild(document.createElement('label'));
-        
-          var img = label.appendChild(document.createElement('img'));
-              img.src   = evt.target.result;    
-        };
+              dd.appendChild(this.progress.element);
+        }.bind(this);
       
         reader.readAsDataURL(file);
       });
     
-      uploader.addEvent('load', function (evt) {
-        var media = this.responseXML.documentElement.querySelector('dd.media');
+      uploader.addEvent('success', function (xhr) {
+        var media = xhr.responseXML.documentElement.querySelector('dd.media');
         if (media.getAttribute('data-type') == 'image') {
-          document.querySelector('fieldset.media dl').appendChild(media);
+          this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
         
         } else if (media.getAttribute('data-type') == 'audio') {
-        
+          this.progress.element.parentNode.removeChild(this.progress.element);
           document.querySelectorAll('fieldset.media dd.audio input').forEach(function (input) {
             var stub =  media.querySelector('input.'+input.className)
             input.value = stub.getAttribute('value');
@@ -139,6 +142,13 @@
           document.querySelector('fieldset.media audio').src = "http://s3.amazonaws.com/" + media.querySelector('input.src').value;
         }
 
+      });
+      
+      uploader.addEvent('failure', function (xhr) {
+        console.error(xhr.responseText, 'undo some stuff');
+        window.alert(xhr.responseText);
+        this.progress.element.parentNode.removeChild(this.progress.element);
+        
       });
     
       var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));
@@ -158,6 +168,32 @@
       font-size:1.25em;
     }
     fieldset.media p.info + label {display:none;}
+    .progress {
+      width:10em;
+      height:10em;
+      border:1px solid #fafafa;
+      position:relative;
+      background-image: url(http://s3.amazonaws.com//tciaf-media/image/Tina.jpg);
+      background-size:cover;
+      border-radius:0.5em;
+      
+    }
+    .progress strong {
+      position:absolute;
+      padding:0.5em 0;
+      width:100%;
+      text-align:center;
+    }
+    .progress svg {
+      width:100%;
+      height:100%;
+      fill-opacity:0.5;
+      fill:#fff;
+      stroke:#000;
+      stroke-width:2;
+      stroke-opacity:0.1;
+      background-color:rgba(255,255,255,0.5);
+    }
     /* ]]> */
   </style>
 </div>

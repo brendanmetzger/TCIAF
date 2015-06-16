@@ -184,17 +184,21 @@ function Upload(destination_url) {
 
   this.xhr = new XMLHttpRequest();
   
+  this.xhr.addEventListener('load', this.invoke.bind(this), false);
+  
   this.xhr.upload.onprogress = function (evt) {
-    if (evt.lengthComputable) {
-      console.log(Math.ceil((evt.loaded/evt.total) * 100), '%');
+    if (evt.lengthComputable && this.progress) {
+      this.progress.update(evt.loaded/evt.total);
     }
-  };
+  }.bind(this);
   
   this.xhr.upload.onload = function (evt) {
     console.log('remove progress');
   };
   
+  
   this.input.addEventListener('change', function (evt) {
+    if (this.input.files.length < 1) return;
     var type = this.input.files[0].type.split('/')[0] || null;
     
     try {
@@ -212,15 +216,13 @@ function Upload(destination_url) {
 }
 
 Upload.prototype = {
+  progress: null,
   rules: {},
   allowed: ['audio', 'image'],
-  states: [
-    'unsent',
-    'opened',
-    'headers',
-    'loading',
-    'complete'
-  ],
+  callbacks: {
+    'success': [],
+    'failure': []
+  },
   addTrigger: function (element, callback) {
     element.addEventListener('click', function (evt) {
       evt.preventDefault();
@@ -229,8 +231,15 @@ Upload.prototype = {
       }
     }.bind(this), false);
   },
+  invoke: function (evt) {
+    var status = (evt.target.status < 300) ? 'success' : 'failure';
+    this.callbacks[status].forEach(function (callback) {
+      callback.call(this, evt.target);
+    }, this);
+    
+  },
   addEvent: function (type, callback) {
-    this.xhr.addEventListener(type, callback, false);
+    this.callbacks[type].push(callback);
   },
   addRoutine: function (type, callback) {
     this.rules[type] = callback;
@@ -356,3 +365,72 @@ Spectra.prototype.color = function () {
   };
   this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+function sortable(rootEl, onUpdate) {
+   var dragEl;
+
+   // Making all siblings movable
+   [].slice.call(rootEl.children).forEach(function (itemEl) {
+       itemEl.draggable = true;
+   });
+
+   // Function responsible for sorting
+   function _onDragOver(evt) {
+       evt.preventDefault();
+       evt.dataTransfer.dropEffect = 'move';
+
+       var target = evt.target;
+       
+       if( target && target !== dragEl && target.nodeName == 'DL' ){
+         // Sorting         
+         var rect = target.getBoundingClientRect();
+         var next = (evt.clientY - rect.top)/(rect.bottom - rect.top) > 0.5;
+         rootEl.insertBefore(dragEl, next && target.nextSibling || target);
+       }
+   }
+
+   // End of sorting
+   function _onDragEnd(evt){
+       evt.preventDefault();
+
+       dragEl.classList.remove('ghost');
+       rootEl.removeEventListener('dragover', _onDragOver, false);
+       rootEl.removeEventListener('dragend', _onDragEnd, false);
+
+
+       // Notification about the end of sorting
+       onUpdate(dragEl);
+   }
+
+   // Sorting starts
+   rootEl.addEventListener('dragstart', function (evt){
+       dragEl = evt.target; // Remembering an element that will be moved
+
+       // Limiting the movement type
+       evt.dataTransfer.effectAllowed = 'move';
+       evt.dataTransfer.setData('Text', dragEl.textContent);
+
+
+       // Subscribing to the events at dnd
+       rootEl.addEventListener('dragover', _onDragOver, false);
+       rootEl.addEventListener('dragend', _onDragEnd, false);
+
+
+       setTimeout(function () {
+           // If this action is performed without setTimeout, then
+           // the moved object will be of this class.
+           dragEl.classList.add('ghost');
+       }, 0);
+   }, false);
+}

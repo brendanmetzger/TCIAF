@@ -463,3 +463,37 @@ Menu.prototype = {
 
 
 // Progress/Patience
+
+var Progress = function() {
+  
+  var svg, path, message;
+  this.element = document.createElement('div');
+  this.element.className = 'progress';
+  
+  message = this.element.appendChild(document.createElement('strong'));
+  
+
+  svg = new SVG(this.element, {
+    height: 50,
+    width: 50,
+    viewBox: '0 0 100 100'
+  });
+
+  path = svg.createElement('path', {
+    'd': 'M50,50',
+    'transform': 'rotate(-90 50 50)'
+  });
+  
+  this.update = function(percentage, text) {
+    message.innerHTML = text || '';
+    
+    var radian = (2 * Math.PI) * percentage;
+    var x = (Math.cos(radian) * 25) + 50;
+    var y = (Math.sin(radian) * 25) + 50;
+
+    return path.setAttribute('d', "M50,50L75,50A25,25 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y + 'z');
+  };
+  
+
+  return this;
+};

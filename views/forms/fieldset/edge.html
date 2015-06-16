@@ -9,7 +9,7 @@
     <a class="showmodal button margins" href="[/manage/edge/$item:_model]" data-type="outside">+ Add Outside Edge</a>  
   </div>
   
-  <div class="group left inside">
+  <div class="group left inside dnd">
     <h3 class="margins">Inside Edges</h3>
     <!-- iterate edges -->
     <dl class="listed padded">
@@ -42,6 +42,13 @@
               });
           });
         });
+        
+        // Sorts
+        sortable(document.querySelector('div.inside.dnd'), function (item) {
+           console.log('sorted', item);
+        });
+                
+        
       });
     // ]]>
   </script>

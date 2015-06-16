@@ -238,7 +238,7 @@ class Manage extends \bloc\controller
       
         return $view->render($this());
       } catch (\Exception $e) {
-        return $this->GETerror("The Upload Was Unsuccessful", 500);
+        return $this->GETerror("The file was unable to be uploaded to amazon.", 500);
         exit();
       }
       
