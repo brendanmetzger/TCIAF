@@ -371,13 +371,12 @@ var Spectra = function(labels) {
 
 Spectra.prototype.color = function () {
   var value = parseInt(this.value, 10);
-  var intensity = (value / 100 );
   var color = {
     h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
     s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
     l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
   };
-  this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.25)'.format(color);
+  this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.35)'.format(color);
 };
 
 

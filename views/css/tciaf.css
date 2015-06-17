@@ -156,7 +156,7 @@ address span {
   display:block;
 }
 
-ul, ol, body, form, h2, h3 {
+ul, ol, body, form, h2, h3, figure {
   margin:0;
 }
 ul { list-style-type: square; }

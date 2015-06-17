@@ -41,6 +41,21 @@ namespace models;
       });
     }
     
+    public function getGradient(\DOMElement $context)
+    {
+      $color = '-webkit-linear-gradient(left, %s);';
+      $count = 0;
+      
+      foreach ($this->getSpectra($context) as $spectra) {
+        $h = round($count++ * 255);
+        $s = round((abs(50 - $spectra['value']) / 100) * 200) . '%';
+        $l = round(((abs(100 - $spectra['value']) / 100) * 50) + 40) . '%';
+        $colors[] = sprintf('hsla(%s, %s, %s, 0.35)', $h, $s, $l);
+      }
+
+      return sprintf($color, implode(',', $colors));
+    }
+    
     public function getAudio(\DOMElement $context)
     {
       static $audio = null;
