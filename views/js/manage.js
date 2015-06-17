@@ -8,6 +8,10 @@ bloc.prepare(function () {
     }
     stylesheet--;
   }
+  
+  document.querySelectorAll('form').forEach(function (form) {
+    form.addEventListener('change', imploreSave, false);
+  });
 
 
 
@@ -38,10 +42,16 @@ bloc.prepare(function () {
   for (var j = 0; j < edits.length; j++) {
     var url = '/manage/edit/' + edits[j].dataset.id;
     var button = edits[j].appendChild(document.createElement('button'));
-        button.textContent = '⚙';
+        button.textContent = 'Edit';
+        button.title = "Edit";        
         button.addEventListener('click', goto.bind(button, url), false);
   }
 });
+
+function imploreSave(evt) {
+  document.body.querySelector('nav.dashboard').style.backgroundColor = '#5B9B98';
+  console.log(evt);
+}
 
 function Markdown() {
   this.hud = document.body.appendChild(document.createElement('nav'));

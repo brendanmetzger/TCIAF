@@ -46,8 +46,6 @@
               select.parentNode.querySelectorAll('select')[1].focus();
           
             } else {
-          
-              // TODO this should not be a dialog - switch to my modal type in future.
               var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
                 input.value = form.querySelector('input[name*=title]').value;
                 input.dataset.id = form.querySelector('input[name*=id]').value;

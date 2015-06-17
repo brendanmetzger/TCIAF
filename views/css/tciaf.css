@@ -8,10 +8,17 @@ body {
 }
 
 header {
-  background: #fff url(/images/pidgey.svg) no-repeat 0 0 scroll;
-  background-size: auto 100%;
-  padding-left: 5%;
+  background: transparent url(/images/pidgey.svg) no-repeat 0 -0.5em scroll;
+  background-size: auto 85%;
+  padding-left: 3em;
+  position:absolute;
+  height:9em;
+  width:10em;
+  top:1em;
+  right:1em;
 }
+header h1 {width:5em;margi}
+header h1 span{background-color:#88746a;color:#fff;display:block;float:right;clear:left;font-size:0.5em;margin:0 0 1px 0.5em;line-height:1em;padding:0 0.125em;}
 
 audio {display:none;}
 
@@ -189,7 +196,7 @@ input[type=checkbox] + label {margin:0 0.25em 0 0 !important;}
 }
 
 body, footer {
-  margin-top:5%;
+  margin-top:7.5em;
 }
 footer {
   background-color:#333;
