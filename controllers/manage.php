@@ -208,7 +208,7 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    $name   = preg_replace('/[^a-zA-Z0-9\-\:\/\_\.]/', '', $_FILES['upload']['name']);
+    $name   = preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']);
     $src    = 'data/media/' . $name;
     $mime   = $_FILES['upload']['type'];
     $bucket = 'tciaf-media';

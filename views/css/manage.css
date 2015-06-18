@@ -296,13 +296,14 @@ dd {
 
 dd.image {
   width:20%;
-  height:15em;
+  height:20em;
   margin:0;
   background-size:cover;
   background-position:50% 50%;
   border-radius:0.5em;
   display:block;
   float:left;
+  overflow:hidden;
 }
 dd.image label {
   background:rgba(255,255,255,0.5);
@@ -344,7 +345,7 @@ fieldset.media dl {
 
 .progress {
   position:relative;
-  
+  background-size:cover;
 }
 .progress strong {
   position:absolute;
@@ -353,11 +354,14 @@ fieldset.media dl {
   height:100%;
   text-align:center;
   background-color:rgba(255,255,255,0.5);
+
+
 }
 .progress svg {
-  width:100%;
-  height:100%;
+  width:80%;
+  height:80%;
   fill:none;
+  margin:10%;
   stroke:#000;
   stroke-width:5;
   stroke-opacity:0.75;
