@@ -34,6 +34,7 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     $view->content = 'views/digests/feature.html';
     $this->feature = new \models\Feature($id);
+    
     return $view->render($this());
   }
   

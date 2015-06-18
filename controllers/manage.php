@@ -34,6 +34,7 @@ class Manage extends \bloc\controller
     $this->supporters = Graph::group('organization')->find("vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
     
     if ($this->authenticated) {
+
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['people', 'features', 'competitions', 'organizations']))->map(function($task) {
         return ['url' => "/explore/{$task}/all", 'name' => $task];
@@ -207,7 +208,7 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    $name   = $_FILES['upload']['name'];
+    $name   = preg_replace('/[^a-zA-Z0-9\-\:\/\_\.]/', '', $_FILES['upload']['name']);
     $src    = 'data/media/' . $name;
     $mime   = $_FILES['upload']['type'];
     $bucket = 'tciaf-media';
@@ -219,12 +220,20 @@ class Manage extends \bloc\controller
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
       
       try {
-        $result = $client->putObject(array(
-            'Bucket'     => $bucket,
-            'Key'        => $type . '/' . $name,
-            'SourceFile' => PATH . $src,
-            'ACL'        => 'public-read',
-        ));
+        $config = [
+          'Bucket' => $bucket,
+          'Key'    => $type . '/' . $name,
+          'ACL'    => 'public-read',
+        ];
+        
+        if ($type === 'image') {
+          $config['Body'] =  file_get_contents("http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}");
+        } else {
+          $config['SourceFile'] = PATH . $src;
+        }
+        
+        $result = $client->putObject($config);
+        
         $media = Graph::instance()->storage->createElement('media', 'A caption');
         $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
         $media->setAttribute('name',  $name);

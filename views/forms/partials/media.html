@@ -1,9 +1,9 @@
-<dd class="[media $type]" data-type="[$type]">
+<dd class="[media $type]" data-type="[$type]" style="[background-image:url(http://s3.amazonaws.com/$url);]">
   <input type="hidden"   class="type"    name="[vertex[media][$index][@][type]]" value="[$type]" />
   <input type="hidden"   class="mark"    name="[vertex[media][$index][@][mark]]" value="[$mark]" />
   <input type="hidden"   class="caption" name="[vertex[media][$index][CDATA]]"   value="[$caption]" />
-  <input type="checkbox" class="src"     name="[vertex[media][$index][@][src]]"  value="[$src]" checked="checked" id="[:$index]"/>
-  <label for="[:$index]">
-    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
+  <label>
+    <input type="checkbox" class="src"     name="[vertex[media][$index][@][src]]"  value="[$src]" checked="checked"/>
+    <strong>Keep</strong>
   </label>  
 </dd>

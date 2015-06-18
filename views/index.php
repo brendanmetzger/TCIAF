@@ -19,9 +19,9 @@ $app->prepare('session-start', function ($app) {
 
 
 # main page deal
-$app->prepare('http-request', function ($app) {
+$app->prepare('http-request', function ($app, $params) {
 
-  $request  = new Request($_REQUEST);
+  $request  = new Request($params);
   $response = new Response($request);
 
   $app->setExchanges($request, $response);
@@ -38,6 +38,7 @@ $app->prepare('http-request', function ($app) {
   
   echo $response;
 });
+
 
 
 $app->prepare('clean-up', function ($app) {
@@ -72,5 +73,5 @@ $app->prepare('debug', function ($app, $response) {
 
 #4. Run the app. Nothing happens w/o this. Can call different stuff from the queue.
 $app->execute('session-start');
-$app->execute('http-request');
+$app->execute('http-request', $_REQUEST);
 $app->execute('clean-up');

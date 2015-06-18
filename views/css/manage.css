@@ -296,6 +296,26 @@ dd {
 
 dd.image {
   width:20%;
+  height:15em;
+  margin:0;
+  background-size:cover;
+  background-position:50% 50%;
+  border-radius:0.5em;
+  display:block;
+  float:left;
+}
+dd.image label {
+  background:rgba(255,255,255,0.5);
+  display:block;
+  color:#333;
+  margin:0;
+  padding:0.5em;
+  text-align:center;
+  text-shadow:1px 1px 1px rgba(255,255,255,0.5);
+}
+
+dd.audio .progress {
+  height: 10em;
 }
 
 dd.image img {
@@ -323,12 +343,7 @@ fieldset.media dl {
 
 
 .progress {
-  width:10em;
-  height:10em;
-  border:1px solid #fafafa;
   position:relative;
-  background-size:cover;
-  border-radius:0.5em;
   
 }
 .progress strong {

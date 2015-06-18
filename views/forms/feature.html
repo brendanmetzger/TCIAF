@@ -23,7 +23,7 @@
   
     <fieldset class="media">
       <legend class="caps-lock">Media</legend>
-      <dl class="inline">
+      <dl class="container">
         <dt>Audio</dt>
         <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">Audio</audio>
         <dd class="audio">
@@ -118,6 +118,7 @@
 
           var dd = document.querySelector('fieldset.media dl').appendChild(document.createElement('dd'));
               dd.appendChild(this.progress.element);
+              dd.className = "image";
         }.bind(this);
       
         reader.readAsDataURL(file);
@@ -159,8 +160,6 @@
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     fieldset.extra div.group {width:33%;}
-    fieldset.media input[type=checkbox]:checked + label img{opacity:1;}
-    fieldset.media dd.image input[type=checkbox]:not(:checked):after {content:'Detached';font-size:0.65em;line-height:0;top:-0.5em;left:1.75em;position:relative;}
     fieldset.media dt {
       padding:0.5em 1em;
       margin:0 0 0.5em;
