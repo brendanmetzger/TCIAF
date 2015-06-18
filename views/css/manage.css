@@ -324,6 +324,7 @@ dd.image img {
 }
 
 fieldset {
+  transition: opacity 0.75s 0.25s;
   padding:0 1em 1em;
 }
 
@@ -367,3 +368,8 @@ fieldset.media dl {
   stroke-opacity:0.75;
 }
 .progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
+
+
+fieldset[disabled] {
+  opacity:0.25;
+}
