@@ -280,7 +280,7 @@ Modal.prototype = {
     // make closeable
     var button = document.createElement('button');
         button.className = 'close action';
-        button.textContent = '⨉';
+        button.innerHTML = '&times;';
         button.addEventListener('click', this.close.bind(this));
   
     this.element.insertBefore(button, this.element.firstChild);
