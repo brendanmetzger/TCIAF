@@ -145,6 +145,11 @@ abstract class Model extends \bloc\Model
     $context->setNodeValue(str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $value)));
   }
   
+  public function getAbstract(\DOMElement $context)
+  {
+    return $context;
+  }
+  
   
   public function setEdge(\DOMElement $context, $value)
   {

@@ -10,4 +10,13 @@ namespace models;
   class Competition extends Model
   {
     public $form = 'vertex';
+    static public $fixture = [
+      'vertex' => [
+        'abstract' => [
+          '@' => [
+            'content' => 'about'
+          ]
+        ]
+      ]
+    ];
   }
