@@ -99,11 +99,11 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETedge($model)
+  protected function GETedge($model, $direction)
   {
     $view = new view('views/layout.html');
-    $view->content = 'views/forms/edge.html';
-
+    $view->content = "views/forms/edge-{$direction}.html";
+    $this->direction     = $direction;
     $this->model         = $model;
     $this->groups        = Graph::GROUPS($model);
     $this->relationships = Graph::RELATIONSHIPS();
@@ -111,11 +111,11 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
   
-  protected function POSTedge($request)
+  protected function POSTedge($request, $direction)
   {
         
     $view = new view('views/layout.html');
-    $view->content = 'views/forms/partials/edge.html';
+    $view->content = "views/forms/partials/edge-{$direction}.html";
 
     $this->vertex = Graph::ID($_POST['id']);
     $this->edge   = Graph::EDGE(null, $_POST['type'], $_POST['caption']);
@@ -168,7 +168,7 @@ class Manage extends \bloc\controller
     $this->item   = Graph::factory(Graph::ID($id));
     $this->action = "Edit {$this->item->get_model()}";
     $this->edges  = $this->item->edge->map(function($edge) {
-      return [ 'vertex' => Graph::ID($edge['@vertex']), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
+      return [ 'vertex' => Graph::ID($edge['@vertex']), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
     });
     $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
       return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];

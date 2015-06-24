@@ -16,7 +16,7 @@ abstract class Model extends \bloc\Model
         'title'   => '',
         'created' => '',
         'updated' => '',
-        'mark'  => 0,
+        'mark'    => 0,
       ],
       'abstract' => [
         'CDATA'  => '',
@@ -24,8 +24,8 @@ abstract class Model extends \bloc\Model
           'content' => 'description'
         ]
       ],
-      'media'   => [],
-      'edge' => [],
+      'media' => [],
+      'edge'  => [],
     ]
   ];
   
@@ -82,14 +82,17 @@ abstract class Model extends \bloc\Model
         $this->{"set{$element}"}($context, $value);
         
       } else if (is_int($key)) {
+        $container = $context->parentNode;
         // if the key is an integer, we have an array of elements to add/update. If the set(Element)
         // method returns false, we add add the found/created element to a list of nodes to remove at the
         // completion of this routine -- ie. return false to delete the context node.
-        $subcontext = $context->parentNode->getFirst($element, $key);
-        echo $context->write(true);
+        $subcontext = $container->getFirst($element, $key);
         
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
+       } else {
+         // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
+         $container->appendChild($subcontext);
        }
       } else {
         // we have an entire element, that can have elements, attributes, etc, so merge that.
@@ -153,8 +156,16 @@ abstract class Model extends \bloc\Model
   
   public function setEdge(\DOMElement $context, $value)
   {
-    // return false if the edge has no id
-  }
+    if (empty($value['@']['type'])) {
+      return false;
+    }
+
+    $context->setAttribute('type',  $value['@']['type']);
+    $context->setAttribute('vertex', $value['@']['vertex']);
+    if (array_key_exists('CDATA', $value)) {
+      $context->nodeValue = $value['CDATA'];
+    }
+  }  
   
   public function getStatus($context)
   {
@@ -180,6 +191,8 @@ abstract class Model extends \bloc\Model
     }
     return $status;
   }
+  
+  
   
   public function __construct($id = null)
   {
