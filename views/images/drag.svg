@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" style="fill:#fff;fill-opacity:0.75;shape-rendering:crisp-edges">
-  <rect width="40" height="40"/>
-  <rect x="50" width="35" height="35"/>
-  <rect y="50" width="35" height="35"/>
-  <rect x="50" y="50" width="35" height="35"/>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="150px" viewBox="0 0 100 100" style="fill:#fff;fill-opacity:0.75;shape-rendering:crisp-edges">
+  <rect width="30" height="30"/>
+  <rect x="50" width="30" height="30"/>
+  <rect y="50" width="30" height="30"/>
+  <rect y="100" width="30" height="30"/>
+  <rect x="50" y="50" width="30" height="30"/>
+  <rect x="50" y="50" width="30" height="30"/>
+  <rect x="50" y="100" width="30" height="30"/>
 </svg>
 
