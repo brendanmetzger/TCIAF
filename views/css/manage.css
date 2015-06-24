@@ -259,7 +259,8 @@ body[data-user] {
   position:fixed;
   left:25%;
   top:15%;
-  width:65%;
+  max-width:65%;
+  width:50%;
   border-color:#CEE3EB;
   border-width:1em 0 0 0;
   border-style:solid;
@@ -372,4 +373,13 @@ fieldset.media dl {
 
 fieldset[disabled] {
   opacity:0.25;
+}
+
+.dnd dt {
+  cursor:move;
+  background-image:url(/images/drag.svg);
+  background-repeat: no-repeat;
+  background-size: auto 50%;
+  background-position: 0.5em 50%;
+  padding-left:2em;
 }

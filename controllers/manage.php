@@ -99,14 +99,15 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETedge($model, $direction)
+  protected function GETedge($model, $direction, $id = null)
   {
     $view = new view('views/layout.html');
     $view->content = "views/forms/edge-{$direction}.html";
-    $this->direction     = $direction;
-    $this->model         = $model;
-    $this->groups        = Graph::GROUPS($model);
-    $this->relationships = Graph::RELATIONSHIPS();
+    $this->direction = $direction;
+    $this->model     = $model;
+    $this->vertex    = Graph::ID($id);
+    $this->groups    = Graph::GROUPS($model);
+    $this->types     = Graph::RELATIONSHIPS();
     
     return $view->render($this());
   }
@@ -122,7 +123,9 @@ class Manage extends \bloc\controller
     
     $this->process = 'add';
     $this->checked = 'checked';
-    $this->index = $this->vertex['edge']->count() * -1;
+    
+    
+    $this->index = time() * -1;
     
     return $view->render($this());
   }
