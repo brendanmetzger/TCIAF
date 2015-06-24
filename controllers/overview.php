@@ -32,6 +32,7 @@ use \models\graph;
       $view->content = 'views/pages/staff.html';
       
       $this->staff = Graph::group('organization')->find("vertex[@id='TCIAF']/edge[@type='staff']")->map(function($staff) {
+        \bloc\application::instance()->log($staff['@vertex']);
         return Graph::ID($staff['@vertex']);
       });
       

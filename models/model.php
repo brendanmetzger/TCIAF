@@ -41,9 +41,7 @@ abstract class Model extends \bloc\Model
 
     static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
     
-    
     $instance->mergeInput(static::$fixture, $instance->context);
-
     return $instance;
   }
   
@@ -86,10 +84,11 @@ abstract class Model extends \bloc\Model
         // method returns false, we add add the found/created element to a list of nodes to remove at the
         // completion of this routine -- ie. return false to delete the context node.
         $subcontext = $context->parentNode->getFirst($element, $key);
-        
+
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
        } else {
+
          // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
          $pending_reorder[] = $subcontext;
        }
@@ -111,8 +110,10 @@ abstract class Model extends \bloc\Model
       $element->parentNode->removeChild($element);
     }
     
+
+
     foreach ($pending_reorder as $element) {
-      $element->parentNode->appendChild($subcontext);
+      $element->parentNode->appendChild($element);
     }
   }
   
