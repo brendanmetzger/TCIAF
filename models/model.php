@@ -61,7 +61,7 @@ abstract class Model extends \bloc\Model
   public function mergeInput($input, \DOMElement $context)
   {
     $element = key($input);
-    $pending_removal = [];
+    $pending_removal = $pending_reorder = [];
     
     foreach ($input[$element] as $key => $value) {
       
@@ -82,17 +82,16 @@ abstract class Model extends \bloc\Model
         $this->{"set{$element}"}($context, $value);
         
       } else if (is_int($key)) {
-        $container = $context->parentNode;
         // if the key is an integer, we have an array of elements to add/update. If the set(Element)
         // method returns false, we add add the found/created element to a list of nodes to remove at the
         // completion of this routine -- ie. return false to delete the context node.
-        $subcontext = $container->getFirst($element, $key);
+        $subcontext = $context->parentNode->getFirst($element, $key);
         
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
        } else {
          // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
-         $container->appendChild($subcontext);
+         $pending_reorder[] = $subcontext;
        }
       } else {
         // we have an entire element, that can have elements, attributes, etc, so merge that.
@@ -110,6 +109,10 @@ abstract class Model extends \bloc\Model
     
     foreach ($pending_removal as $element) {
       $element->parentNode->removeChild($element);
+    }
+    
+    foreach ($pending_reorder as $element) {
+      $element->parentNode->appendChild($subcontext);
     }
   }
   
@@ -150,7 +153,7 @@ abstract class Model extends \bloc\Model
   
   public function getAbstract(\DOMElement $context)
   {
-    return $context;
+    return $context->getFirst('abstract');
   }
   
   
@@ -159,7 +162,7 @@ abstract class Model extends \bloc\Model
     if (empty($value['@']['type'])) {
       return false;
     }
-
+    
     $context->setAttribute('type',  $value['@']['type']);
     $context->setAttribute('vertex', $value['@']['vertex']);
     if (array_key_exists('CDATA', $value)) {
@@ -249,8 +252,6 @@ abstract class Model extends \bloc\Model
     foreach ($edges as $action => $group) {
       foreach ($group as $ref_id => $edge) {
         foreach ($edge as $parts) {
-          echo "<pre>";
-          print_r($parts);
           if (array_key_exists('type', $parts)) {
             $this->{"{$action}ReferenceEdge"}($ref_id, $this['@id'], $parts['type'], $parts['caption']);
           }
