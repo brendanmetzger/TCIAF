@@ -157,6 +157,11 @@ abstract class Model extends \bloc\Model
     return $context->getFirst('abstract');
   }
   
+  public function getSummary(\DOMElement $context)
+  {
+    return substr($this->getAbstract($context)->nodeValue, 0, 100) . '...';
+  }
+  
   
   public function setEdge(\DOMElement $context, $value)
   {

@@ -52,7 +52,7 @@ class Explore extends Manage
   {
     $view = new view('views/layout.html');
     $view->content   = 'views/lists/features.html';
-    $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
+    // $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
     $this->search = ['topic' => 'feature'];
     $this->features = Graph::group('feature')->find('vertex')->map(function($feature) {
