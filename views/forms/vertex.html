@@ -2,10 +2,63 @@
   <form action="[/manage/edit/$item:_model/$item:@id]" method="POST" class="editor">
     
     <!-- insert  views/forms/fieldset/title-description.html -->
+    
+    <fieldset class="responsive media">
+      <legend class="caps-lock">Media</legend>
+      <dl class="images dnd container">
+        <dt>Images</dt>
+        <!-- iterate item:thumbnails -->
+        <!-- insert views/forms/partials/media.html -->
+      </dl>
+      <button class="image upload">Upload Image</button>
+    </fieldset>
 
     <!-- insert views/forms/fieldset/edge.html -->
     
     <button type="submit" class="margins">Save</button>
     
   </form>
+  
+  
+  <script type="text/javascript">
+    // <![CDATA[
+    bloc.prepare(function () {
+      var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg');
+    
+      uploader.addTrigger(document.querySelector('button.upload.image'));
+      
+    
+      uploader.addRoutine('image', function (file) {
+        var reader = new FileReader();
+    
+        reader.onload = function (evt) {
+          // this is the progress default holder thing.
+          this.progress = new Progress();
+          this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
+
+          var dd = document.querySelector('fieldset.media dl').appendChild(document.createElement('dd'));
+              dd.appendChild(this.progress.element);
+              dd.className = "image";
+        }.bind(this);
+      
+        reader.readAsDataURL(file);
+      });
+    
+      uploader.addEvent('success', function (xhr) {
+        var media = xhr.responseXML.documentElement.querySelector('dd.media');
+        console.log(media);
+        this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
+      });
+      
+      uploader.addEvent('failure', function (xhr) {
+        console.error(xhr.responseText, 'undo some stuff');
+        window.alert(xhr.responseText);
+        this.progress.element.parentNode.removeChild(this.progress.element);
+        
+      });
+      
+      sortable('dl.images.dnd > dd', 'dd');
+    });
+    // ]]>
+  </script>
 </section>

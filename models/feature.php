@@ -75,33 +75,4 @@ namespace models;
       }
       return $audio;
     }
-
-    public function getThumbnails(\DOMElement $context)
-    {
-      static $images = null;
-      if ($images === null) {
-        $media = $context['media'];
-        $images = [];
-        foreach ($media as $item) {
-          if ($item['@type'] === 'image') {            
-            $images[] = new Media($item);
-          }
-        }
-      }
-      return new \bloc\types\Dictionary($images);
-    }
-    
-    public function setMedia(\DOMElement $context, $media)
-    {
-      if (empty($media['@']['src'])) {
-        return false;
-      }
-
-      $context->setAttribute('src',  $media['@']['src']);
-      $context->setAttribute('type', $media['@']['type']);
-      $context->setAttribute('mark', $media['@']['mark']);
-      if (array_key_exists('CDATA', $media)) {
-        $context->nodeValue = $media['CDATA'];
-      }
-    }    
   }

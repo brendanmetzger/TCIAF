@@ -185,10 +185,10 @@ Markdown.prototype = {
   
 };
 
-function Upload(destination_url) {
+function Upload(destination_url, accept) {
   this.action = destination_url;  
   this.input = document.body.appendChild(document.createElement('input'));
-  this.input.accept = 'image/jpeg, image/jpg, audio/mp3, audio/mp4';
+  this.input.accept = accept;
   this.input.name = 'uploader';
   this.input.type = 'file';
 
@@ -390,11 +390,11 @@ Spectra.prototype.color = function () {
 
 
 
-function sortable(rootEl, onUpdate) {
+function sortable(selector, targetname, onUpdate) {
    var dragEl;
-
+   var rootEl = document.querySelector(selector).parentNode;
    // Making all siblings movable
-   [].slice.call(rootEl.children).forEach(function (itemEl) {
+   [].slice.call(document.querySelectorAll(selector)).forEach(function (itemEl) {
        itemEl.draggable = true;
    });
 
@@ -405,11 +405,12 @@ function sortable(rootEl, onUpdate) {
 
        var target = evt.target;
        
-       if( target && target !== dragEl && target.nodeName == 'DL' ){
+       if( target && target !== dragEl && target.nodeName == targetname.toUpperCase() ){
          // Sorting         
          var rect = target.getBoundingClientRect();
-         var next = (evt.clientY - rect.top)/(rect.bottom - rect.top) > 0.5;
-         rootEl.insertBefore(dragEl, next && target.nextSibling || target);
+         var topnext = (evt.clientY - rect.top)/(rect.bottom - rect.top) > 0.5;
+         var leftnext = (evt.clientX - rect.left)/(rect.right - rect.left) > 0.5;
+         rootEl.insertBefore(dragEl, (topnext && target.nextSibling) || (leftnext && target.nextSibling) || target);
        }
    }
 
@@ -423,7 +424,7 @@ function sortable(rootEl, onUpdate) {
 
 
        // Notification about the end of sorting
-       onUpdate(dragEl);
+       (onUpdate || function () {}).call(this, dragEl);
    }
 
    // Sorting starts

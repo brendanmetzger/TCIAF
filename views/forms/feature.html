@@ -23,7 +23,7 @@
   
     <fieldset class="responsive media">
       <legend class="caps-lock">Media</legend>
-      <dl class="container">
+      <dl class="audio container">
         <dt>Audio</dt>
         <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">Audio</audio>
         <dd class="audio">
@@ -35,10 +35,13 @@
             <span>Keep Audio</span>
           </label>
         </dd>
+      </dl>
+      <dl class="images dnd container">
         <dt>Images</dt>
         <!-- iterate item:thumbnails -->
         <!-- insert views/forms/partials/media.html -->
       </dl>
+      <hr class="clear"/>
       <button class="audio upload">Upload Audio</button>
       <button class="image upload">Upload Image</button>
     </fieldset>
@@ -78,7 +81,7 @@
     bloc.prepare(function () {
       
     
-      var uploader = new Upload('/manage/upload.xml');
+      var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg, audio/mp3, audio/mp4');
     
       uploader.addTrigger(document.querySelector('button.upload.image'));
       uploader.addTrigger(document.querySelector('button.upload.audio'), function (uploader) {
@@ -153,20 +156,10 @@
       });
     
       var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));
+      
+      sortable('dl.images.dnd > dd', 'dd');
     });
   //]]>
   </script>
   
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-    fieldset.extra div.group {width:33%;}
-    fieldset.media dt {
-      padding:0.5em 1em;
-      margin:0 0 0.5em;
-      border-bottom:1px solid #eee;
-      font-size:1.25em;
-    }
-    fieldset.media p.info + label {display:none;}
-    /* ]]> */
-  </style>
 </div>
