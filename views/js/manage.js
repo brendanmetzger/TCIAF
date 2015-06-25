@@ -392,9 +392,9 @@ Spectra.prototype.color = function () {
 
 function sortable(selector, targetname, onUpdate) {
    var dragEl;
-   var rootEl = document.querySelector(selector).parentNode;
+   var rootEl = document.querySelector(selector);
    // Making all siblings movable
-   [].slice.call(document.querySelectorAll(selector)).forEach(function (itemEl) {
+   [].slice.call(document.querySelectorAll(selector + ' > ' + targetname)).forEach(function (itemEl) {
        itemEl.draggable = true;
    });
 
