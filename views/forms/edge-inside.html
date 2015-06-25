@@ -31,8 +31,6 @@
           
           fieldset.disabled = true;
           var search   = new Search(input);
-
-          
       
           search.subscribers.select.push(function (dataset) {            
             if (dataset.id) {
@@ -48,6 +46,7 @@
           
             } else {
               var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
+                console.log(form);
                 input.value = form.querySelector('input[name*=title]').value;
                 input.dataset.id = form.querySelector('input[name*=id]').value;
 

@@ -260,7 +260,10 @@ body[data-user] {
   left:25%;
   top:15%;
   max-width:65%;
+  height:auto;
   width:50%;
+  max-height:65%;
+  overflow:scroll-y;
   border-color:#CEE3EB;
   border-width:1em 0 0 0;
   border-style:solid;
@@ -268,16 +271,15 @@ body[data-user] {
   padding: 1.5em;
   margin:2em 0;
   background-color: #f8f8f8;
-  display: none;
 }
 .backdrop.viewing {
   opacity:1;
   visibility:visible;
 }
-.backdrop.viewing > form {
-  display: block;
-}
 
+.backdrop > form .responsive {
+  display:none;
+}
 dt[class] {
   font-size:1em;
   position:relative;

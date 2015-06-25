@@ -183,26 +183,19 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
   
-  protected function POSTedit($request, $id = null)
+  protected function POSTedit($request, $model, $id = null)
   {
-    $model = Graph::factory(Graph::ID($id));
-    
-    if ($instance = $model::create($model, $_POST)) {
+    if ($instance = \models\model::create(Graph::factory(Graph::ID($id) ?: $model), $_POST)) {
       if ($instance->save()) {
         // clear caches
         \models\Search::clear();
         if (isset($_POST['edge'])) {
           $instance->setReferencedEdges($_POST['edge']);
         }
-        
-        if (strpos(strtolower($id), 'pending') === 0) {
-          $request->redirect = preg_replace('/pending.*/', $instance['@id'] , $request->redirect);
-        }
-        
-        \bloc\router::redirect($request->redirect);
+        \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
-        echo $model->context->write(true);
-        \bloc\application::instance()->log($model->errors);
+        echo $instance->context->write(true);
+        \bloc\application::instance()->log($instance->errors);
       }
     } 
     

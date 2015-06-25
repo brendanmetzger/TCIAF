@@ -1,5 +1,5 @@
 <div>
-  <form name="uploadData" method="POST" action="[/manage/edit/$item:@id]" class="editor" autocomplete="off">
+  <form name="uploadData" method="POST" action="[/manage/edit/feature/$item:@id]" class="editor" autocomplete="off">
   
     <!-- insert  views/forms/fieldset/title-description.html -->
     
@@ -21,7 +21,7 @@
       </div>
     </fieldset>
   
-    <fieldset class="media">
+    <fieldset class="responsive media">
       <legend class="caps-lock">Media</legend>
       <dl class="container">
         <dt>Audio</dt>
@@ -43,7 +43,7 @@
       <button class="image upload">Upload Image</button>
     </fieldset>
   
-    <fieldset class="secondary spectra">
+    <fieldset class="responsive secondary spectra">
       <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
       
       <!-- iterate item:spectra -->
