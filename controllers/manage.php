@@ -185,7 +185,7 @@ class Manage extends \bloc\controller
   
   protected function POSTedit($request, $model, $id = null)
   {
-    if ($instance = \models\model::create(Graph::factory(Graph::ID($id) ?: $model), $_POST)) {
+    if ($instance = Graph::factory( (Graph::ID($id) ?: $model), $_POST)) {
       if ($instance->save()) {
         // clear caches
         \models\Search::clear();

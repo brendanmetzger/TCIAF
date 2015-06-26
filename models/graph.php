@@ -66,7 +66,7 @@ use \bloc\dom\query;
       });
     }
   
-    static public function factory($model)
+    static public function factory($model, $data = [])
     {
       if ($model instanceof \DOMElement) {
         $element = $model;
@@ -76,7 +76,7 @@ use \bloc\dom\query;
       }
       
       $classname = NS . __NAMESPACE__ . NS . $model;
-      return  new $classname($element);
+      return  new $classname($element, $data);
     }
   
     private function __construct()

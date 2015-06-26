@@ -33,14 +33,14 @@ abstract class Model extends \bloc\Model
   
   static public function create($instance, $data = [])
   {
+    static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
+    
     if ($instance->context === null) {
       $instance->context = Graph::instance()->storage->createElement('vertex', null);
       $data['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
       Graph::group($instance->get_model())->pick('.')->appendChild($instance->context);
     }
-
-    static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
-    
+        
     $instance->mergeInput(static::$fixture, $instance->context);
     return $instance;
   }
@@ -232,7 +232,7 @@ abstract class Model extends \bloc\Model
   
   
   
-  public function __construct($id = null)
+  public function __construct($id = null, $data = [])
   {
     if ($id !== null) {
       if ($id instanceof \DOMElement) {
@@ -241,7 +241,7 @@ abstract class Model extends \bloc\Model
         $this->context = Graph::ID($id);
       }
     } else {
-      self::create($this);
+      self::create($this, $data);
     }
   }
   

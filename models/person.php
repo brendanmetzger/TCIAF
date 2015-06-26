@@ -39,8 +39,11 @@ class Person extends Model
     if (empty($value)) {
       $value = 'pending';
     } else if (strtolower($value) === 'pending') {
+      echo "<pre>now";
+            
       $value = 'p:' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
     }
+    
     
     if (empty($value)) {
       $this->errors[] = "Name Invalid, either doesn't exist, or is not unique enough.";
