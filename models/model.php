@@ -29,15 +29,6 @@ abstract class Model extends \bloc\Model
     ]
   ];
   
-
-  
-  static public function create($instance, $data = [])
-  {
-    
-    
-
-  }
-  
   public function save()
   {
     if (Graph::instance()->storage->validate()) {

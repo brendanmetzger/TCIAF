@@ -409,6 +409,141 @@ class Import extends Task
     
   }
   
+  public function CLIextras()
+  {
+    require_once(PATH . 'vendor/markdown/HTML_To_Markdown.php');
+    
+    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+    $extras = $sql->query('SELECT extras.*, extra_audio_files.mp3_file_name, extra_audio_files.description as audio_description FROM extras LEFT JOIN extra_audio_files on (extras.id = extra_audio_files.extra_id);')->fetch_all(MYSQLI_ASSOC);
+    
+    $grouped_extras = [];
+    
+    foreach ($extras as $extra) {
+      if (! array_key_exists($extra['id'], $grouped_extras)) {
+        $grouped_extras[$extra['id']] = [
+          'extra' => $extra,
+          'media' => [],
+        ];
+      };
+      
+      if (isset($extra["mp3_file_name"])) {
+        $grouped_extras[$extra['id']]['media'][] = [
+            'CDATA'  => trim(strip_tags(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;', '&quot;'], ["'", '–', "'", ' ', '"'], $extra["audio_description"])), "\n\r\t"),
+            '@' => [
+              'src' => $extra["mp3_file_name"],
+              'type' => 'audio',
+              'mark' => 0,
+            ]
+          ];
+      }
+    }
+
+    foreach ($grouped_extras as $group) {
+      $extra = $group['extra'];
+      $fid = 'f:' . $extra['feature_id'];
+      $eid = $fid . 'e' . $extra['id'];
+      
+      
+      $markdown = trim((new \HTML_To_Markdown(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], $extra['behind_the_scene_text']), ['strip_tags' => true]))->output(), "\n\r\t");
+      preg_match('/\**behind\s+the\s+scenes\**\s+.*/im', $markdown, $result, PREG_OFFSET_CAPTURE);
+      $interview = false;
+      if (empty($result)) {
+        if (empty($extra['links_block'])) continue;
+        $title       = 'Extra';
+        $description = $markdown;
+      } else {
+        $title       =  $result[0][0];
+        $interview = true;
+        $description = substr_replace($markdown, '', $result[0][1], strlen($result[0][0]));
+      }
+
+      
+      
+      
+      $links_block = trim((new \HTML_To_Markdown(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], $extra['links_block']), ['strip_tags' => true]))->output(), "\n\r\t");
+      
+      $external_vertex = \models\Graph::ID($fid);
+      
+      // Add this to the feature in $fid
+      if (!empty($links_block)) {
+
+        
+        $abstract = $external_vertex->insertBefore(\models\Graph::instance()->storage->createElement('abstract'), $external_vertex->getElementsByTagName('abstract')->item(0)->nextSibling);
+        $abstract->setAttribute('content', 'extras');
+        
+        $abstract->nodeValue = str_replace('↩↩' , '¶', preg_replace(["/\r\n/", "/\n{2,}/"], ['↩', '↩↩'], $links_block));
+      }
+      
+      // if there is no description, then we are basically done here.
+      if (empty($description)) {
+        continue;
+      }
+      
+      echo "{$fid} \n";
+        
+      $external_vertex->appendChild(\models\Graph::EDGE($eid, 'extra', $interview ? 'interview' : null));
+      
+      
+      $description = preg_replace('/\*{2}\s*(.*)\*{2}/i', '### $1', trim($description));
+            
+      $data = ['vertex' =>
+        [
+          '@' => [
+            'id'      => $eid,
+            'title'   => $title,
+            'created' => $extra['created_at'],
+            'updated' => $extra['updated_at'],
+          ],
+          'abstract' => [
+            'CDATA'  => str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $description)),
+            '@' => [
+              'content' => 'description'
+            ]
+          ],
+          'media'    => [],
+        ]
+      ];
+      
+        
+      
+      // if (!empty($group['media'])) {
+//         $data['vertex']['media'] = $group['media'];
+//       }
+//
+//       print_r($data);
+//
+//
+//
+//       if ($modeled = new \models\feature(null, $data)) {
+//         if ($modeled->save()) {
+//           echo "Added {$id} \n";
+//         } else {
+//           print_r($modeled->errors);
+//         }
+//       } else {
+//         echo "something happended!";
+//         exit();
+//       }
+    }
+    
+    // \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+  }
+  
+  public function CLIempties()
+  {
+    foreach (\models\Graph::group('feature')->find('vertex') as $vertex) {
+      foreach ($vertex->getElementsByTagName('media') as $abstract) {
+        if (empty($abstract->getAttribute('src'))) {
+          echo "double node on " . $vertex->getAttribute('title') . "\n";
+          $abstract->parentNode->removeChild($abstract);
+          continue 2;
+        }
+      }
+    }
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+  }
+  
   public function CLIdonors()
   {
     $doc  = new \bloc\DOM\Document('data/db4');
