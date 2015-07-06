@@ -1,0 +1,48 @@
+<!ELEMENT graph (config,group+)*>
+<!ELEMENT config (key*,spectra*)*>
+
+<!ELEMENT key (#PCDATA)>
+<!ATTLIST key id ID #REQUIRED>
+
+<!ELEMENT spectra (#PCDATA)>
+<!ATTLIST spectra id ID #IMPLIED>
+<!ATTLIST spectra from CDATA #IMPLIED>
+<!ATTLIST spectra to CDATA #IMPLIED>
+<!ATTLIST spectra F CDATA #IMPLIED>
+<!ATTLIST spectra S CDATA #IMPLIED>
+<!ATTLIST spectra M CDATA #IMPLIED>
+<!ATTLIST spectra G CDATA #IMPLIED>
+<!ATTLIST spectra R CDATA #IMPLIED>
+<!ATTLIST spectra P CDATA #IMPLIED>
+<!ATTLIST spectra T CDATA #IMPLIED>
+<!ATTLIST spectra A CDATA #IMPLIED>
+
+<!ELEMENT group (vertex)*>
+<!ATTLIST group type (feature|person|organization|event|conference|festival|competition) #REQUIRED>
+
+<!ELEMENT vertex (abstract*,edge*,media*,location?,premier?,spectra?)*>
+<!ATTLIST vertex id ID #REQUIRED>
+<!ATTLIST vertex hash CDATA #IMPLIED>
+<!ATTLIST vertex created CDATA #IMPLIED>
+<!ATTLIST vertex updated CDATA #IMPLIED>
+<!ATTLIST vertex title CDATA #REQUIRED>
+<!ATTLIST vertex mark CDATA #IMPLIED>
+
+<!ELEMENT abstract (#PCDATA)>
+<!ATTLIST abstract content CDATA #IMPLIED>
+
+<!ELEMENT edge (#PCDATA)>
+<!ATTLIST edge type (producer|winner|issue|extra|presenter|curator|judge|staff|friend|board|sponsor|participant|host) #REQUIRED>
+<!ATTLIST edge vertex IDREF #REQUIRED>
+<!ATTLIST edge mark CDATA #IMPLIED>
+
+<!ELEMENT location (#PCDATA)>
+<!ATTLIST location geo CDATA #IMPLIED>
+
+<!ELEMENT premier (#PCDATA)>
+<!ATTLIST premier date CDATA #IMPLIED>
+
+<!ELEMENT media (#PCDATA)>
+<!ATTLIST media type (image|audio|markup) #IMPLIED>
+<!ATTLIST media src CDATA #REQUIRED>
+<!ATTLIST media mark CDATA #IMPLIED>

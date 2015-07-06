@@ -138,7 +138,12 @@ abstract class Model extends \bloc\Model
   
   public function getAbstract(\DOMElement $context)
   {
-    return $context->getFirst('abstract');
+    $clone = $context->getFirst('abstract')->cloneNode(true);
+
+    $clone->setNodeValue(str_replace(['¶', '↩'], ["\n\n", "\n"], $clone->nodeValue));
+
+    
+    return $clone;
   }
   
   public function getSummary(\DOMElement $context)

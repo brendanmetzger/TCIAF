@@ -293,6 +293,11 @@ dt[class] {
   padding:0.25em 0.75em;
   text-transform:Capitalize;
 }
+
+.outside dt[class] {
+  right:5em ;
+}
+
 dd {
   margin:0 0 0 2em;
 }

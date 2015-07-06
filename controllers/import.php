@@ -546,9 +546,9 @@ class Import extends Task
   
   public function CLIdonors()
   {
-    $doc  = new \bloc\DOM\Document('data/db4');
-    $xml  = new \DomXpath($doc);
-    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    $doc = new \bloc\DOM\Document('data/db4');
+    $xml = new \DomXpath($doc);
+    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
     
     $group = $xml->query("//group[@type='organization']")->item(0);
     $driehaus  = $doc->getElementById('c:1');
