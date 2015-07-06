@@ -1,5 +1,4 @@
 <?php
-namespace Vendor;
 #
 #
 # Parsedown

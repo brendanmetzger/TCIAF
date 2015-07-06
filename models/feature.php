@@ -75,4 +75,16 @@ namespace models;
       }
       return $audio;
     }
+    
+    public function getDescription(\DOMElement $context)
+    {
+      $this->parseText($context);
+      return $this->description;
+    }
+    
+    public function getExtra()
+    {
+      $this->parseText($context);
+      return $this->extra;
+    }
   }

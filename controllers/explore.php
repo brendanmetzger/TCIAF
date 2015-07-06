@@ -46,6 +46,14 @@ class Explore extends Manage
     return $view->render($this());
   }
   
+  public function GETCompetition($id)
+  {
+    $view = new view('views/layout.html');
+    $view->content = 'views/digests/competition.html';
+    $this->competition = new \models\Competition($id);
+    return $view->render($this());
+  }
+  
   
   
   protected function GETfeatures($type = 'all', $index = 1, $per = 25)

@@ -12,8 +12,11 @@ class Person extends Model
   static public $fixture = [
     'vertex' => [
       'abstract' => [
-        '@' => [
-          'content' => 'bio'
+        [ 
+          'CDATA'  => '',
+          '@' => [
+            'content' => 'bio'
+           ]
         ]
       ]
     ]
@@ -51,4 +54,11 @@ class Person extends Model
     $context->setAttribute('id', $value);
     
   }
+  
+  public function getBio($context)
+  {
+    $this->parseText($context);
+    return $this->bio;
+  }
+  
 }

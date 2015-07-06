@@ -128,7 +128,7 @@ label, p, .p, h3,h4,h5, li, address, button, .button {
   font-size:1.25em;
 }
 
-label, cite, em, p, .p, li, h2, h5, address, legend, .normal, button, .button {
+label, cite, p, .p, li, h2, h5, address, legend, .normal, button, .button {
   font-weight:400;
 }
 

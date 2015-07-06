@@ -13,10 +13,20 @@ namespace models;
     static public $fixture = [
       'vertex' => [
         'abstract' => [
-          '@' => [
-            'content' => 'about'
+          [
+            'CDATA' => '',
+            '@' => [
+              'content' => 'about'
+            ]
           ]
         ]
       ]
     ];
+    
+    public function getAbout($context)
+    {
+      $this->parseText($context);
+      return $this->about;
+    }
+    
   }

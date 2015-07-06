@@ -19,9 +19,11 @@ abstract class Model extends \bloc\Model
         'mark'    => 0,
       ],
       'abstract' => [
-        'CDATA'  => '',
-        '@' => [
-          'content' => 'description'
+        [
+          'CDATA'  => '',
+          '@' => [
+            'content' => 'description'
+          ]
         ]
       ],
       'media' => [],
@@ -131,24 +133,28 @@ abstract class Model extends \bloc\Model
     $context->setAttribute('updated',  (new \DateTime())->format('Y-m-d H:i:s'));
   }
   
-  public function setAbstract(\DOMElement $context, $value)
+  public function setAbstract(\DOMElement $context, array $abstract)
   {
-    $context->setNodeValue(str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $value)));
+    if (empty($abstract['CDATA'])) return false;
+    
+    $context->setAttribute('content', $abstract['@']['content']);
+    $context->setNodeValue(str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $abstract['CDATA'])));
   }
   
   public function getAbstract(\DOMElement $context)
   {
-    $clone = $context->getFirst('abstract')->cloneNode(true);
-
-    $clone->setNodeValue(str_replace(['¶', '↩'], ["\n\n", "\n"], $clone->nodeValue));
-
-    
-    return $clone;
+    return $context['abstract']->map(function($abstract) {
+      return [
+       'type' => $abstract->getAttribute('content'),
+       'index' => $abstract->getIndex(),
+       'text' => str_replace(['¶', '↩'], ["\n\n", "\n"], $abstract->nodeValue), 
+      ];
+    });
   }
   
   public function getSummary(\DOMElement $context)
   {
-    return substr($this->getAbstract($context)->nodeValue, 0, 100) . '...';
+    return substr($this->getAbstract($context)->current()['text'], 0, 100) . '...';
   }
   
   
@@ -301,5 +307,13 @@ abstract class Model extends \bloc\Model
   private function addReferenceEdge($vertex_id, $edge_id, $edge_type, $caption)
   {
     Graph::ID($vertex_id)->appendChild(Graph::EDGE($edge_id, $edge_type, $caption));
+  }
+  
+  protected function parseText($context)
+  {
+    $markdown = new \Parsedown();
+    foreach ($context->getElementsByTagName('abstract') as $abstract) {
+      $this->{$abstract->getAttribute('content')} = $markdown->text($abstract->nodeValue);
+    }
   }
 }
