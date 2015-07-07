@@ -86,7 +86,7 @@ class Manage extends \bloc\controller
     
     if ($key) {
       try {
-        $user = (new \models\person('p:' . preg_replace('/\W/', '', $username)))->authenticate($password);
+        $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
         Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect);
       } catch (\InvalidArgumentException $e) {
