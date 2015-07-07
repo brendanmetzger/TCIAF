@@ -20,7 +20,7 @@ namespace models;
           ]
         ],
         'spectra' => [
-          '@' => ['F'=>50,'S'=>50,'M'=>50,'G'=>50,'R'=>50,'P'=>50,'T'=>50,'A'=>50]
+          '@' => ['F'=>50,'S'=>50,'M'=>50,'R'=>50,'P'=>50,'T'=>50,'A'=>50]
         ]
       ]
     ];
@@ -87,4 +87,10 @@ namespace models;
       $this->parseText($context);
       return $this->extra;
     }
+    
+    public function getSummary(\DOMElement $context)
+    {
+      return substr(strip_tags($this->description), 0, 100) . '...';
+    }
+    
   }

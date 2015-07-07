@@ -42,7 +42,7 @@ class Person extends Model
     if (empty($value)) {
       $value = 'pending';
     } else if (strtolower($value) === 'pending') {
-      $value = 'p:' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
+      $value = 'p-' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
     }
     
     

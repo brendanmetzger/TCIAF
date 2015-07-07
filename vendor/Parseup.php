@@ -10,7 +10,7 @@
  * @link http://twitter.com/nickcernis Nick on twitter.
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  */
-class HTML_To_Markdown
+class Parseup
 {
     /**
      * @var DOMDocument The root of the document tree that holds our HTML.

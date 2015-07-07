@@ -569,6 +569,30 @@ class Import extends Task
     }
   }
   
+  public function CLImoveAbstracts()
+  {
+    $doc = new \bloc\DOM\Document('data/db15');
+    $markdown = new \Parsedown();
+    foreach ($doc->getElementsByTagName('abstract') as $abstract) {
+      $uri = $abstract->parentNode->getAttribute('id') . '-' .$abstract->getIndex() . '.html';
+      $text = $markdown->text(str_replace(['¶', '↩'], ["\n\n", "\n"], $abstract->nodeValue));
+      $new_abs = $doc->createElement('abstract');
+      $new_abs->setAttribute('src', $uri);
+      $new_abs->setAttribute('content', $abstract->getAttribute('content'));
+      
+      $abstract->parentNode->replaceChild($new_abs, $abstract);
+      echo $uri . "\n";
+      
+      file_put_contents(PATH . 'data/abstracts/'.$uri, $text);
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db15.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+    }    
+  }
+  
   
   /*
     TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.

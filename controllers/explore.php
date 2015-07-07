@@ -56,20 +56,35 @@ class Explore extends Manage
   
   
   
-  protected function GETfeatures($type = 'all', $index = 1, $per = 25)
+  protected function GETfeatures($sort = 'year-produced', $index = 1, $per = 25)
   {
+    $sorters = [
+      'newest' => function($a, $b) {
+        return strtotime($a->getAttribute('created')) < strtotime($b->getAttribute('created'));
+      },
+      'updated' => function($a, $b) {
+        return strtotime($a->getAttribute('updated')) < strtotime($b->getAttribute('updated'));
+      },
+      'title' => function($a, $b) {
+        return ucfirst(ltrim($a->getAttribute('title'), "\x00..\x2F")) > ucfirst(ltrim($b->getAttribute('title'), "\x00..\x2F"));
+      },
+      'year-produced' => function($a, $b) {
+        return strtotime($a->getFirst('premier')->getAttribute('date')) < strtotime($b->getFirst('premier')->getAttribute('date'));
+      }
+    ];
+    
     $view = new view('views/layout.html');
     $view->content   = 'views/lists/features.html';
-    // $view->fieldlist = (new Document('<ul><li>[$feature:location]</li><li>[$feature:premier:@date]</li><li>[$feature:premier]</li></ul>', [], Document::TEXT))->documentElement;
     
     $this->search = ['topic' => 'feature'];
-    $this->features = Graph::group('feature')->find('vertex')->map(function($feature) {
+    $this->features = $f = Graph::group('feature')->find('vertex')->sort($sorters[$sort])->map(function($feature) {
       return [
         'feature'   => new \models\Feature($feature),
         'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
       ];
-    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/features/{$type}"]));
+    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/features/{$sort}"]));
 
+    
     return $view->render($this());
   }
 

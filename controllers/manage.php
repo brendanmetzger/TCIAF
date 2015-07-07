@@ -37,7 +37,7 @@ class Manage extends \bloc\controller
 
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['people', 'features', 'competitions', 'organizations']))->map(function($task) {
-        return ['url' => "/explore/{$task}/all", 'name' => $task];
+        return ['url' => "/explore/{$task}", 'name' => $task];
       });
       $this->partials->helper = 'views/partials/admin.html';
     }
@@ -171,10 +171,11 @@ class Manage extends \bloc\controller
     $this->item   = Graph::factory(Graph::ID($id));
     $this->action = "Edit {$this->item->get_model()}";
     $this->edges  = $this->item->edge->map(function($edge) {
-      return [ 'vertex' => Graph::ID($edge['@vertex']), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+      return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
     });
+    
     $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
-      return ['vertex' => $edge->parentNode, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
+      return ['vertex' => Graph::factory($edge->parentNode), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
     });
 
     $view = new view('views/layout.html');

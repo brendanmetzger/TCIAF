@@ -1,11 +1,18 @@
 <section class="features">
   <!-- insert views/partials/navigator.html -->
   
-  <!-- iterate features -->
-  <div data-created="[$feature:@created]" data-updated="[$feature:@age]">
-    <figure style="[background:$feature:gradient]">Spectra</figure>
-    <h2><a href="[/explore/feature/$feature:@id]" data-id="[$feature:@id]">[$feature:@title]</a></h2>
+  <ul class="inline margins">
+    <li>Sort By:</li>
+    <li class="padded"><a href="/explore/features/newest">Recently Created</a></li>
+    <li class="padded"><a href="/explore/features/updated">Recently Updated</a></li>
+    <li class="padded"><a href="/explore/features/title">Alphabetic on Title</a></li>
+    <li class="padded"><a href="/explore/features/year-produced">Year Produced</a></li>
+  </ul>
   
+  <!-- iterate features -->
+  <div data-created="[$feature:@created]" data-updated="[$feature:@updated]">
+    <figure style="[background:$feature:gradient]">Spectra</figure>
+    <h2><a href="[/explore/feature/$feature:@id]" data-id="[$feature:@id]">[$feature:title]</a> <em>[($feature:premier:@date)]</em></h2>
     <cite>    
       <!-- iterate producers -->
       <a href="[/explore/person/$@id]" data-id="[$@id]">[$@title]</a>

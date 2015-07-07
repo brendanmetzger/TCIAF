@@ -93,7 +93,10 @@ abstract class Model extends \bloc\Model
     }
     
     foreach ($pending_removal as $element) {
-      $element->parentNode->removeChild($element);
+      if ($element->parentNode) {
+              $element->parentNode->removeChild($element);
+      }
+
     }
     
 
@@ -118,13 +121,18 @@ abstract class Model extends \bloc\Model
   {
       
     if (empty($id)) {
-      $id = 'pending:' . uniqid();
+      $id = 'pending-' . uniqid();
     } else if (strpos(strtolower($id), 'pending') === 0) {
 
       $id = str_replace('pending', substr($this->get_model(), 0, 1), $id);
     }
 
     $context->setAttribute('id', $id);
+  }
+  
+  public function getTitle(\DOMNode $context)
+  {
+    return strip_tags((new \Parsedown())->text($context->getAttribute('title')) , '<em><strong>');
   }
     
   
@@ -137,25 +145,30 @@ abstract class Model extends \bloc\Model
   {
     if (empty($abstract['CDATA'])) return false;
     
+    $src = 'data/abstracts/' .$context->parentNode->getAttribute('id') . '-' . $context->getIndex() . '.html';
+    $url = Graph::instance()->storage->createAttribute('src');
+    $url->appendChild(Graph::instance()->storage->createTextNode($src));
+    $context->setAttributeNode($url);
+      
     $context->setAttribute('content', $abstract['@']['content']);
-    $context->setNodeValue(str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $abstract['CDATA'])));
+
+    $markdown = new \Parsedown();
+    
+    file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
   }
   
   public function getAbstract(\DOMElement $context)
   {
     return $context['abstract']->map(function($abstract) {
+      $content = file_get_contents(PATH . $abstract->getAttribute('src'));
       return [
        'type' => $abstract->getAttribute('content'),
        'index' => $abstract->getIndex(),
-       'text' => str_replace(['¶', '↩'], ["\n\n", "\n"], $abstract->nodeValue), 
+       'text' => (new \Parseup($content))->output(), 
       ];
     });
   }
   
-  public function getSummary(\DOMElement $context)
-  {
-    return substr($this->getAbstract($context)->current()['text'], 0, 100) . '...';
-  }
   
   
   public function setEdge(\DOMElement $context, $value)
@@ -187,17 +200,15 @@ abstract class Model extends \bloc\Model
   
   public function getThumbnails(\DOMElement $context)
   {
-    static $images = null;
-    if ($images === null) {
-      $media = $context['media'];
-      $images = [];
-      foreach ($media as $item) {
-        if ($item['@type'] === 'image') {            
-          $images[] = new Media($item);
-        }
+    $media = $context['media'];
+    $images = new \bloc\types\Dictionary([]);
+    foreach ($media as $item) {
+      if ($item['@type'] === 'image') {            
+        $images->append(new Media($item));
       }
     }
-    return new \bloc\types\Dictionary($images);
+    
+    return $images;
   }
   
   public function getStatus($context)
@@ -311,9 +322,9 @@ abstract class Model extends \bloc\Model
   
   protected function parseText($context)
   {
-    $markdown = new \Parsedown();
     foreach ($context->getElementsByTagName('abstract') as $abstract) {
-      $this->{$abstract->getAttribute('content')} = $markdown->text($abstract->nodeValue);
+      $this->{$abstract->getAttribute('content')} = file_get_contents(PATH . $abstract->getAttribute('src')) ?: null;
     }
   }
+  
 }
