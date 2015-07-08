@@ -159,6 +159,7 @@ abstract class Model extends \bloc\Model
   
   public function getAbstract(\DOMElement $context)
   {
+    \bloc\application::instance()->log('tried');
     if ($context['abstract']->count() < 1) {
       return [[
        'type' => static::$fixture['vertex']['abstract'][0]['@']['content'],
@@ -167,7 +168,7 @@ abstract class Model extends \bloc\Model
       ]];
     }
     return $context['abstract']->map(function($abstract) {
-      \bloc\application::instance()->log('inside');
+
       $content = file_get_contents(PATH . $abstract->getAttribute('src'));
       return [
        'type' => $abstract->getAttribute('content'),

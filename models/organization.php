@@ -22,4 +22,10 @@ namespace models;
         ]
       ]
     ];
+    
+    public function getSummary(\DOMElement $context)
+    {
+      $this->parseText($context);
+      return substr(strip_tags($this->about), 0, 100) . '...';
+    }
   }

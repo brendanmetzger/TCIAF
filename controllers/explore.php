@@ -29,30 +29,15 @@ class Explore extends Manage
     return $view->render($this());
   }
   
-  public function GETfeature($id)
+  public function GETdetail($id)
   {
     $view = new view('views/layout.html');
-    $view->content = 'views/digests/feature.html';
-    $this->feature = new \models\Feature($id);
-    
+    $this->item   = Graph::factory(Graph::ID($id));
+    $view->content = "views/digests/{$this->item->get_model()}.html";
+    \bloc\application::instance()->log($this->item->title);
     return $view->render($this());
   }
   
-  public function GETPerson($id)
-  {
-    $view = new view('views/layout.html');
-    $view->content = 'views/digests/person.html';
-    $this->person = new \models\Person($id);
-    return $view->render($this());
-  }
-  
-  public function GETCompetition($id)
-  {
-    $view = new view('views/layout.html');
-    $view->content = 'views/digests/competition.html';
-    $this->competition = new \models\Competition($id);
-    return $view->render($this());
-  }
   
   protected function GETcenterpiece($group, $sort = 'year-produced', $index = 1, $per = 25)
   {
@@ -66,7 +51,6 @@ class Explore extends Manage
         'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
       ];
     })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/features/{$sort}"]));
-
     
     return $view->render($this());
   }
@@ -104,41 +88,42 @@ class Explore extends Manage
     return $view->render($this());
   }
   
-  public function GETcompetitions($type = 'all', $index = 1, $per = 100)
+  
+  public function GETcollection($group, $type, $index, $per, $query = '')
   {
     $view = new view('views/layout.html');
-    $view->content = 'views/lists/competitions.html';
-    $this->search = ['topic' => 'competition'];
-    $this->competitions = Graph::group('competition')
-                         ->find("vertex[edge[@type='issue']]")
-                         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/competitions/{$type}"]));
-
+    $view->content = 'views/lists/collection.html';
+    $this->search = ['topic' => $group];
+    $this->collection = Graph::group($group)
+                           ->find('vertex'.$query)
+                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}s/{$type}"]));
+    
     return $view->render($this());
   }
   
+  
+  public function GETcompetitions($type = 'all', $index = 1, $per = 100)
+  {
+    return $this->GETcollection('competition', $type, $index, $per, "[edge[@type='issue']]");
+  }
   
   public function GETorganizations($type = 'all', $index = 1, $per = 100)
   {
-    $view = new view('views/layout.html');
-    $view->content = 'views/lists/organizations.html';
-    $this->search = ['topic' => 'organization'];
-    $this->organizations = Graph::group('organization')
-                           ->find('vertex')
-                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/organizations/{$type}"]));
-    
-    return $view->render($this());
+    return $this->GETcollection('organization', $type, $index, $per);
   }
   
-  public function GETevents($index = 1, $per = 100)
+  public function GETevents($type = 'all', $index = 1, $per = 100)
   {
-    $view = new view('views/layout.html');
-    $view->content = 'views/lists/organizations.html';
-    $this->search = ['topic' => 'event'];
-    $this->organizations = Graph::group('event')
-                           ->find('vertex')
-                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/event/{$type}"]));
-    
-    return $view->render($this());
-    
+    return $this->GETcollection('event',$type, $index, $per);
+  }
+  
+  public function GETconferences($type = 'all', $index = 1, $per = 100)
+  {
+    return $this->GETcollection('conferences',$type, $index, $per);
+  }
+  
+  public function GETfestivals($type = 'all', $index = 1, $per = 100)
+  {
+    return $this->GETcollection('festivals',$type, $index, $per);
   }
 }
