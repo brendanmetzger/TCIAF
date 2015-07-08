@@ -118,7 +118,7 @@ class Manage extends \bloc\controller
     $view = new view('views/layout.html');
     $view->content = "views/forms/partials/edge-{$direction}.html";
 
-    $this->vertex = Graph::ID($_POST['id']);
+    $this->vertex = Graph::factory(Graph::ID($_POST['id']));
     $this->edge   = Graph::EDGE(null, $_POST['type'], $_POST['caption']);
     
     $this->process = 'add';
