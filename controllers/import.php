@@ -593,6 +593,37 @@ class Import extends Task
     }    
   }
   
+  public function CLIbroadcasts()
+  {
+    $features = \models\Graph::group('feature')->find('vertex');
+
+    $broadcast = \models\Graph::group('broadcast')->pick('.');
+    $article = \models\Graph::group('article')->pick('.');
+    
+
+
+    foreach ($features as $feature) {
+      $title = $feature->getAttribute('title');
+      $start = strtolower(substr(ltrim($title, "\x00..\x2F"), 0, 5));
+      // move to broadcasts
+      if ($start === 're:so') {
+        echo "Move {$title} to broadcast group\n";
+        $broadcast->appendChild($feature);
+      }
+      
+      // move to article
+      if ($start === 'extra' || $start === 'behin') {
+        // echo "Move {$title} to article group\n";
+        $article->appendChild($feature);
+      }
+    }
+    
+    echo "There are " . $broadcast->childNodes->length . " broadcasts\n";
+    echo "There are " . $article->childNodes->length . " articles\n";
+    
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+  }
+  
   
   /*
     TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.

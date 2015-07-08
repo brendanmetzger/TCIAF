@@ -40,6 +40,24 @@ use \bloc\dom\query;
       return $element;
     }
     
+    static public function SORT($type)
+    {
+      return [
+        'newest' => function($a, $b) {
+          return strtotime($a->getAttribute('created')) < strtotime($b->getAttribute('created'));
+        },
+        'updated' => function($a, $b) {
+          return strtotime($a->getAttribute('updated')) < strtotime($b->getAttribute('updated'));
+        },
+        'title' => function($a, $b) {
+          return ucfirst(ltrim($a->getAttribute('title'), "\x00..\x2F")) > ucfirst(ltrim($b->getAttribute('title'), "\x00..\x2F"));
+        },
+        'year-produced' => function($a, $b) {
+          return strtotime($a->getFirst('premier')->getAttribute('date')) < strtotime($b->getFirst('premier')->getAttribute('date'));
+        }
+      ][$type];
+    }
+    
     static public function EDGE($id, $type, $caption = null) {
       $edge = self::instance()->storage->createElement('edge');
       $edge->setAttribute('vertex', $id);
@@ -52,7 +70,7 @@ use \bloc\dom\query;
     {
       $dtd = Graph::instance()->getDTD('groups');
       preg_match('/ATTLIST group type \(([a-z\s|]+)\)/i', $dtd, $result);
-      return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) use($model){
+      return (new \bloc\types\Dictionary(preg_split('/\s?\|\s?/i', $result[1])))->map(function($item) use($model){
         return ['name' => $item];
       });
     }
@@ -61,7 +79,7 @@ use \bloc\dom\query;
     {
       $dtd = Graph::instance()->getDTD('groups');
       preg_match('/ATTLIST edge type \(([a-z\s|]+)\)/i', $dtd, $result);
-      return (new \bloc\types\Dictionary(preg_split('/\s\|\s/i', $result[1])))->map(function($item) {
+      return (new \bloc\types\Dictionary(preg_split('/\s?\|\s?/i', $result[1])))->map(function($item) {
         return ['name' => $item];
       });
     }
@@ -86,7 +104,7 @@ use \bloc\dom\query;
     
     public function getDTD()
     {
-      return file_get_contents(PATH . 'data/graph.dtd');
+      return file_get_contents(PATH . 'models/graph.dtd');
     }
     
     public function query($expression)

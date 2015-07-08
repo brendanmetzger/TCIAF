@@ -18,7 +18,7 @@
 <!ATTLIST spectra A CDATA #IMPLIED>
 
 <!ELEMENT group (vertex)*>
-<!ATTLIST group type (feature|person|organization|event|conference|festival|competition|broadcast) #REQUIRED>
+<!ATTLIST group type (feature|person|organization|event|conference|festival|competition|broadcast|article) #REQUIRED>
 
 <!ELEMENT vertex (abstract*,edge*,media*,location?,premier?,spectra?)*>
 <!ATTLIST vertex id ID #REQUIRED>
@@ -44,7 +44,7 @@
 <!ATTLIST premier date CDATA #IMPLIED>
 
 <!ELEMENT media (#PCDATA)>
-<!ATTLIST media type (image|audio|markup) #IMPLIED>
+<!ATTLIST media type (image|audio|document) #IMPLIED>
 <!ATTLIST media src CDATA #REQUIRED>
 <!ATTLIST media mark CDATA #IMPLIED>
 

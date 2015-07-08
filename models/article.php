@@ -5,7 +5,7 @@
  * Broadcast
  */
 
-class Broadcast extends Feature
+class Article extends Feature
 {
   public $form = 'feature';
 }
