@@ -1,16 +1,14 @@
 <fieldset class="responsive edges container">
   <legend class="caps-lock">Edges</legend>
-  <p class="info padded">Edges are links between two discrete elements. 'Inside Edges' mean that this item is responsible for the relationship. 'Outside Edges' mean that the item listed is responsible.</p>
-  
   <div class="group left outside">
-    <h3 class="margins">Managed By</h3>
+    <h2 class="margins">Tracked via</h2>
     <!-- iterate references -->
     <!-- insert views/forms/partials/edge-outside.html -->
     <a class="showmodal button margins" href="[/manage/edge/$item:_model/outside/$item:@id]">+ Add Outside Edge</a>  
   </div>
   
   <div class="group left inside dnd">
-    <h3 class="margins">Responsible For</h3>
+    <h2 class="margins">Responsible For</h2>
     <!-- iterate edges -->
     <!-- insert views/forms/partials/edge-inside.html -->
     <a class="showmodal button margins" href="[/manage/edge/$item:_model/inside/$item:@id]">+ Add Inside Edge</a>  

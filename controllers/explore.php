@@ -50,7 +50,7 @@ class Explore extends Manage
         'feature'   => new \models\Feature($feature),
         'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
       ];
-    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/features/{$sort}"]));
+    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}s/{$sort}"]));
     
     return $view->render($this());
   }
@@ -81,7 +81,7 @@ class Explore extends Manage
                     ->sort(function($a, $b) {
                       return $a['@title'] > $b['@title'];
                     })
-                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
+                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/detail/{$type}"]));
 
 
 
@@ -104,7 +104,7 @@ class Explore extends Manage
   
   public function GETcompetitions($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('competition', $type, $index, $per, "[edge[@type='issue']]");
+    return $this->GETcollection('competition', $type, $index, $per, "[edge[@type='edition']]");
   }
   
   public function GETorganizations($type = 'all', $index = 1, $per = 100)
@@ -119,11 +119,11 @@ class Explore extends Manage
   
   public function GETconferences($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('conferences',$type, $index, $per);
+    return $this->GETcollection('conference',$type, $index, $per);
   }
   
   public function GETfestivals($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('festivals',$type, $index, $per);
+    return $this->GETcollection('festival',$type, $index, $per);
   }
 }

@@ -33,7 +33,7 @@
 <!ATTLIST abstract src CDATA #IMPLIED>
 
 <!ELEMENT edge (#PCDATA)>
-<!ATTLIST edge type (producer|winner|issue|extra|presenter|curator|judge|staff|friend|board|sponsor|participant|host) #REQUIRED>
+<!ATTLIST edge type (producer|winner|edition|extra|presenter|curator|judge|staff|friend|board|sponsor|participant|host|page) #REQUIRED>
 <!ATTLIST edge vertex IDREF #REQUIRED>
 <!ATTLIST edge mark CDATA #IMPLIED>
 

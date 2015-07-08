@@ -624,13 +624,28 @@ class Import extends Task
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
   
-  
-  /*
-    TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.
-  */
-  public function Categories()
+  public function CLIshortdocs()
   {
-    # implement
+    $doc = new \bloc\DOM\Document('data/db15');
+    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    $query = "SELECT CONCAT('f-', features.id) as id, CONCAT('sd-', features.premier_date) as sid from features LEFT JOIN collections_features ON collections_features.feature_id = features.id WHERE collections_features.collection_id = 4;";
+    foreach ($sql->query($query)->fetch_all(MYSQLI_ASSOC) as $shortdoc) {
+      if ($elem = $doc->getElementById(trim($shortdoc['sid']))) {
+        $edge = $elem->appendChild($doc->createElement('edge'));
+        $edge->setAttribute('vertex', $shortdoc['id']);
+        $edge->setAttribute('type', 'participant');
+        echo "Adding to {$shortdoc['sid']}\n";
+      } else {
+        echo "{$shortdoc['sid']} is unavailable\n";
+        exit();
+      }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db16.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+    }
   }
   
   public function Tags($value='')

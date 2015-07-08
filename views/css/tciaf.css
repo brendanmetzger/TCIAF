@@ -42,10 +42,6 @@ a:hover {color:#5B9B98;}
   transition:border-radius 0.25s;
 }
 
-*[class].producer {
-  background-color:#84B3B1;
-}
-
 
 /* Generic Classes ------------------- */
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
@@ -128,7 +124,7 @@ label, p, .p, h3,h4,h5, li, address, button, .button {
   font-size:1.25em;
 }
 
-label, cite, p, .p, li, h2, h5, address, legend, .normal, button, .button {
+label, cite, p, .p, li, h2, h3, h4, h5, address, legend, .normal, button, .button {
   font-weight:400;
 }
 

@@ -5,7 +5,7 @@
       bloc.prepare(function () {
         var search = new Search(document.getElementById('FILTER'));
         search.subscribers.select.push(function (dataset) {
-          window.location.href = '/' + dataset.area + '/' + dataset.topic + '/' + dataset.id;
+          window.location.href = '/' + dataset.area + '/detail/' + dataset.id;
         });
       });
     // ]]>
