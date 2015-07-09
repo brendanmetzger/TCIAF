@@ -156,9 +156,10 @@ abstract class Model extends \bloc\Model
   
   public function getAbstract(\DOMElement $context)
   {
+    
     if ($context['abstract']->count() < 1) {
       return [[
-       'type' => static::$fixture['vertex']['abstract'][0]['@']['content'],
+       'type' => self::$fixture['vertex']['abstract'][0]['@']['content'],
        'index' => 0,
        'text' => '', 
       ]];

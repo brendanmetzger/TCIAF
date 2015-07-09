@@ -295,6 +295,10 @@ var Search = function (input) {
     this.input.dataset.id  = evt.target.id;
     this.select(evt);
   }.bind(this), false);
+  
+  this.subscribers = {
+    'select': []
+  };
 };
 
 Search.INPUT = function (area, topic) {
@@ -315,9 +319,6 @@ Search.prototype = {
   input: null,
   results: null,
   indices: {},
-  subscribers: {
-    'select': []
-  },
   find: function (topic, letter) {
     this.ajax.open('GET', '/search/group/' + topic + '/' + letter + '.json?ask=' + (new Date()).getTime() );
     this.ajax.send();

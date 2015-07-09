@@ -448,3 +448,56 @@ function sortable(selector, targetname, onUpdate) {
        }, 0);
    }, false);
 }
+
+
+
+
+
+
+
+
+function createEdge(select, action) {
+  var type = select.value;
+
+  if (action === 'vertex') {
+    var input    = Search.INPUT('manage/edit', type);
+    var fieldset = select.form.querySelector('fieldset');
+    select.form.insertBefore(input, fieldset);
+    select.form.classList.add('search');
+    
+    fieldset.disabled = true;
+    var search   = new Search(input);
+    search.subscribers.select.push(function (dataset) {            
+      if (dataset.id) {
+        select.item(0).value = dataset.id;
+        select.item(0).textContent = input.value;
+        select.selectedIndex = 0;
+        input.parentNode.removeChild(input);
+      
+        fieldset.disabled = false;
+        select.parentNode.querySelectorAll('select')[1].focus();
+    
+      } else {
+        var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
+          input.value = form.querySelector('input[name*=title]').value;
+          input.dataset.id = form.querySelector('input[name*=id]').value;
+
+          search.select();
+          this.modal.close();
+        });
+      }
+    });    
+    input.focus();
+  }
+  
+  // check complete
+  var complete = true;
+  select.form.querySelectorAll('select').forEach(function (item) {
+    complete = complete && (item.value !== 'void' && item.value);
+  });
+
+  if (complete) {
+    var done_button = select.form.querySelector('button[disabled]');
+        done_button.disabled = false;
+  }
+}

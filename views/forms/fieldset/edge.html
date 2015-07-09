@@ -25,7 +25,8 @@
             new Modal.Form(this.href + '.xml', {}, function (response) {
               button.parentNode.insertBefore(response.querySelector("dl.listed.container"), button);
               // close modal
-              this.modal.close(function () {
+              this.modal.close(function (arg) {
+                this.backdrop.parentNode.removeChild(this.backdrop);
                 // destroy the object if we need more closure;
               });
             });
