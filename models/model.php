@@ -260,6 +260,8 @@ abstract class Model extends \bloc\Model
       Graph::group($this->get_model())->pick('.')->appendChild($this->context);
     }
     
+    
+    
     if (!empty($data)) {
       static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
       $this->mergeInput(static::$fixture, $this->context);

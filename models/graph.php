@@ -53,7 +53,7 @@ use \bloc\dom\query;
           return ucfirst(ltrim($a->getAttribute('title'), "\x00..\x2F")) > ucfirst(ltrim($b->getAttribute('title'), "\x00..\x2F"));
         },
         'year-produced' => function($a, $b) {
-          return strtotime($a->getFirst('premier')->getAttribute('date')) < strtotime($b->getFirst('premier')->getAttribute('date'));
+          return strtotime($a->getFirst('premier', 0, false)->getAttribute('date')) < strtotime($b->getFirst('premier', 0, false)->getAttribute('date'));
         }
       ][$type];
     }
