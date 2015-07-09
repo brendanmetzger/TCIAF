@@ -648,11 +648,34 @@ class Import extends Task
     }
   }
   
-  public function Tags($value='')
+  public function CLIlowerdocs()
   {
-   # implement
+    foreach (\models\Graph::group('competition')->find('vertex[@id="comp-2"]/edge') as $edge) {
+      $exp = "vertex[@id='{$edge->getAttribute('vertex')}']/edge";
+      foreach (\models\Graph::group('competition')->find($exp) as $ref) {
+        $vertex = \models\Graph::id($ref->getAttribute('vertex'));
+        $spectra = $vertex->getElementsByTagName('spectra');
+        
+        if ($spectra->length > 0) {
+          $f = $spectra->item(0)->getAttribute('F');
+          if ($f == '50') {
+            $spectra->item(0)->setAttribute('F', '0');
+          }
+
+        } else {
+          $spectra = \models\Graph::instance()->storage->createElement('spectra');
+          foreach (['F'=>0,'S'=>50,'M'=>50,'R'=>50,'P'=>50,'T'=>50,'A'=>50] as $key => $value) {
+            $spectra->setAttribute($key, $value);
+          }
+          $vertex->appendChild($spectra);
+        }
+        
+      }
+    }
+    \models\Graph::instance()->storage->save(PATH .  'data/db17.xml');
   }
   
+
   public function CLIRenameSpectra()
   {
     $doc  = new \bloc\DOM\Document('data/db10');
