@@ -46,13 +46,8 @@ abstract class Model extends \bloc\Model
   {
     $element = key($input);
     $pending_removal = $pending_reorder = [];
-    
     foreach ($input[$element] as $key => $value) {
-      
       if (empty($value)) {
-        /*
-          TODO consider if this is a good case of when we should be deleting a node. Could work for vertex or children.
-        */
         continue;
       } else if ($key === '@') {
         
@@ -79,6 +74,8 @@ abstract class Model extends \bloc\Model
          $pending_reorder[] = $subcontext;
        }
       } else {
+        if (array_sum($value) < 1) continue;
+                
         // we have an entire element, that can have elements, attributes, etc, so merge that.
         // Be extremely careful here - this will create an element and add to the document. it's up to
         // you to ensure that if you are going to be inserting an array of elems (see is_int($key) above)
