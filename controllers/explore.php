@@ -81,7 +81,7 @@ class Explore extends Manage
                     ->sort(function($a, $b) {
                       return $a['@title'] > $b['@title'];
                     })
-                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/detail/{$type}"]));
+                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
 
 
 
