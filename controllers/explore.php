@@ -43,45 +43,45 @@ class Explore extends Manage
   {
     $view = new view('views/layout.html');
     $view->content   = 'views/lists/features.html';
-    
+    $this->group = $group;
     $this->search = ['topic' => $group];
     $this->features = Graph::group($group)->find('vertex')->sort(Graph::sort($sort))->map(function($feature) {
       return [
         'feature'   => new \models\Feature($feature),
         'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
       ];
-    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}s/{$sort}"]));
+    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$sort}"]));
     
     return $view->render($this());
   }
   
-  protected function GETfeatures($sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETfeature($sort = 'year-produced', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('feature', $sort, $index, $per);
   }
   
-  protected function GETbroadcasts($sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETbroadcast($sort = 'year-produced', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('broadcast', $sort, $index, $per);
   }
 
-  protected function GETarticles($sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETarticle($sort = 'year-produced', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('article', $sort, $index, $per);
   }
   
   
 
-  public function GETpeople($type = 'all', $index = 1, $per = 100)
+  public function GETperson($type = 'all', $index = 1, $per = 100)
   {
     $view = new view('views/layout.html');
-    $view->content = 'views/lists/people.html';
+    $view->content = 'views/lists/person.html';
     $this->search = ['topic' => 'person'];
     $this->people = Graph::group('person')->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
                     ->sort(function($a, $b) {
                       return $a['@title'] > $b['@title'];
                     })
-                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/people/{$type}"]));
+                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/person/{$type}"]));
 
 
 
@@ -96,34 +96,39 @@ class Explore extends Manage
     $this->search = ['topic' => $group];
     $this->collection = Graph::group($group)
                            ->find('vertex'.$query)
-                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}s/{$type}"]));
+                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$type}"]));
     
     return $view->render($this());
   }
   
   
-  public function GETcompetitions($type = 'all', $index = 1, $per = 100)
+  public function GETcompetition($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETcollection('competition', $type, $index, $per, "[edge[@type='edition']]");
   }
   
-  public function GETorganizations($type = 'all', $index = 1, $per = 100)
+  public function GETorganization($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETcollection('organization', $type, $index, $per);
   }
   
-  public function GETevents($type = 'all', $index = 1, $per = 100)
+  public function GETevent($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETcollection('event',$type, $index, $per);
   }
   
-  public function GETconferences($type = 'all', $index = 1, $per = 100)
+  public function GETconference($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETcollection('conference',$type, $index, $per);
   }
   
-  public function GETfestivals($type = 'all', $index = 1, $per = 100)
+  public function GETfestival($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETcollection('festival',$type, $index, $per);
+  }
+  
+  public function GETpage($type = 'all', $index = 1, $per = 100)
+  {
+    return $this->GETcollection('page',$type, $index, $per);
   }
 }

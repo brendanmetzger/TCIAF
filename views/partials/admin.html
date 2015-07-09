@@ -5,30 +5,38 @@
     <li style="background-color:#fff;color:#333;padding:0.5em;margin:0 0 0.5em 0"><strong>[$user]</strong></li>
     <li>
       <h3>Index Pages</h3>
-      <ul>
+      <ul class="vertical">
         <!-- iterate tasks -->
-        <li><a href="[$url]">[$name]</a></li>
-      </ul>
-    </li>
-    <li>
-      <h3>Create new...</h3>
-      <ul>
-        <li><a href="/manage/create/person/">Person</a></li>
-        <li><a href="/manage/create/feature/">Feature</a></li>
-        <li><a href="/manage/create/broadcast/">Broadcast</a></li>
-        <li><a href="/manage/create/article/">Article/Interview</a></li>
-        <li><a href="/manage/create/organization/">Organization</a></li>
-        <li><a href="/manage/create/competition/">Competition</a></li>
-        <li><a href="/manage/create/conference/">Conference</a></li>
-        <li><a href="/manage/create/event/">Event</a></li>
-        <li><a href="/manage/create/festival/">Festival</a></li>
+        <li class="container"><a href="[/explore/$name]">[$name]</a><a title="[create new $name]" href="[/manage/create/$name]">(+)</a></li>
       </ul>
     </li>
     <li>
       <h3>More</h3>
-      <ul>
+      <ul class="vertical">
         <li><a href="/manage/logout">Logout.</a></li>
       </ul>
     </li>
   </ul>
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    nav li h3 {
+      margin:1em;
+    }
+    nav ul.vertical li a {
+      text-decoration:none;
+      display:block;
+      padding:0.5em;
+      float:left;
+    }
+    
+    nav ul.vertical li a + a {
+      float:right;
+      text-transform:none;
+    }
+
+    nav ul.vertical li {
+      border-top:1px solid #888;
+    }
+    /* ]]> */
+  </style>
 </nav>
