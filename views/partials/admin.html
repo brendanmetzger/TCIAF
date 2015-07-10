@@ -7,7 +7,7 @@
       <h3>Index Pages</h3>
       <ul class="vertical">
         <!-- iterate tasks -->
-        <li class="container"><a href="[/explore/$name]">[$name]</a><a title="[create new $name]" href="[/manage/create/$name]">(+)</a></li>
+        <li class="container"><a href="[/explore/$name]"><strong>[$name]</strong><sup>[$count]</sup></a><a title="[create new $name]" href="[/manage/create/$name]">(+)</a></li>
       </ul>
     </li>
     <li>
@@ -27,6 +27,11 @@
       display:block;
       padding:0.5em;
       float:left;
+    }
+    
+    nav a sup {
+      color:#777;
+      font-size:0.5em;
     }
     
     nav ul.vertical li a + a {
