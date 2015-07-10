@@ -23,10 +23,18 @@ namespace models;
       ]
     ];
     
+    
+    public function getIssues(\DOMElement $context)
+    {
+      return $context['edge']->map(function($edge) {
+        return Graph::ID($edge['@vertex']);
+      });
+    }
+    
     public function getAbout($context)
     {
       $this->parseText($context);
-      return $this->about;
+      return isset($this->about) ? $this->about : null;
     }
     
   }

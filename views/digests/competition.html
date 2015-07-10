@@ -1,5 +1,8 @@
 <article class="competition">
-  <h2 data-id="[$item:@id]">[$item:@title]</h2>
+  <h2 data-id="[$item:@id]">[$item:title]</h2>
   <section>[$item:about]</section>
-  <hr />
+  <ul>
+    <!-- iterate item:issues -->
+    <li><a href="[/explore/detail/$@id]">[$@title]</a></li>
+  </ul>
 </article>
