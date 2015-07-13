@@ -202,18 +202,43 @@ abstract class Model extends \bloc\Model
     }
   }
   
-  public function getThumbnails(\DOMElement $context)
+  public function getMedia(\DomElement $context)
   {
-    $media = $context['media'];
-    $images = new \bloc\types\Dictionary([]);
-    foreach ($media as $item) {
-      if ($item['@type'] === 'image') {            
-        $images->append(new Media($item));
-      }
+
+    $media = [
+      'audio' => [],
+      'image' => [],
+    ];
+    
+    foreach ($context['media'] as $item) {
+      \bloc\application::instance()->log($item['@src']);
+      $media[$item['@type']][] = new Media($item);
     }
     
-    return $images;
+    $this->media = new \bloc\types\Dictionary($media);
+        
+    return $this->media;
   }
+  
+  public function getAudio(\DOMElement $context)
+  {
+    static $audio = null;
+
+    if ($audio === null) {
+      $media = $context['media'];
+      foreach ($media as $item) {
+        if ($item['@type'] === 'audio') {
+          $audio = new Media($item);
+        }
+      }
+      
+      if ($audio === null) {
+        $audio = new \bloc\types\Dictionary(['message' => "No Track Added"]);
+      }
+    }
+    return $audio;
+  }
+  
   
   public function getStatus($context)
   {

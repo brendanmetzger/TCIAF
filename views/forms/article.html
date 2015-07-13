@@ -8,6 +8,10 @@
       <legend class="caps-lock">Media</legend>
       <dl class="audio container">
         <dt>Audio</dt>
+        
+        <!-- iterate item:media:audio -->
+        <dd>[$src $index $type $mark $caption]</dd>
+        
         <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">Audio</audio>
         <dd class="audio">
           <input type="hidden" class="type" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
@@ -21,7 +25,7 @@
       </dl>
       <dl class="images dnd container">
         <dt>Images</dt>
-        <!-- iterate item:thumbnails -->
+        <!-- iterate item:media:image -->
         <!-- insert views/forms/partials/media.html -->
       </dl>
       <hr class="clear"/>

@@ -56,26 +56,6 @@ namespace models;
       return sprintf($color, implode(',', $colors));
     }
     
-    public function getAudio(\DOMElement $context)
-    {
-      static $audio = null;
-
-      if ($audio === null) {
-        $media = $context['media'];
-        foreach ($media as $item) {
-          if ($item['@type'] === 'audio') {
-            $audio = new Media($item);
-            break;
-          }
-        }
-        
-        if ($audio === null) {
-          $audio = new \bloc\types\Dictionary(['message' => "No Track Added"]);
-        }
-      }
-      return $audio;
-    }
-    
     public function getDescription(\DOMElement $context)
     {
       $this->parseText($context);

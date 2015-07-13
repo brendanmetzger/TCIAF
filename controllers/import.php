@@ -735,4 +735,27 @@ class Import extends Task
       echo "\n\n\n";
     }
   }
+  
+  public function CLIcorrectsrc()
+  {
+    $doc  = new \bloc\DOM\Document('data/db18');
+    $xml  = new \DomXpath($doc);
+    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    
+        
+    
+    foreach ($xml->query("//group[@type='article']/vertex/media") as $media) {
+      $src = $media->getAttribute('src');
+      $id = $sql->query("SELECT id FROM extra_audio_files WHERE mp3_file_name = '{$src}';")->fetch_object()->id;
+      $media->setAttribute('src', "features-extra-audio/mp3s/{$id}/$src");
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db19.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+  }
 }

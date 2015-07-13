@@ -28,8 +28,10 @@ class Manage extends \bloc\controller
         
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
-		$this->year = date('Y');
-    $this->title = "Third Coast";
+		$this->year        = date('Y');
+    $this->title       = "Third Coast";
+    $this->_controller = $request->controller;
+    $this->_action     = $request->action;
     
     $this->supporters = Graph::group('organization')->find("vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
     

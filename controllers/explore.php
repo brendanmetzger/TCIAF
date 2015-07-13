@@ -34,7 +34,6 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     $this->item   = Graph::factory(Graph::ID($id));
     $view->content = "views/digests/{$this->item->get_model()}.html";
-    \bloc\application::instance()->log($this->item->title);
     return $view->render($this());
   }
   
