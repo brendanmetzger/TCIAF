@@ -18,7 +18,7 @@
 <!ATTLIST spectra A CDATA #IMPLIED>
 
 <!ELEMENT group (vertex)*>
-<!ATTLIST group type (feature|person|organization|event|conference|festival|competition|broadcast|article|collection) #REQUIRED>
+<!ATTLIST group type (feature|person|organization|happening|competition|broadcast|article|ensemble) #REQUIRED>
 
 <!ELEMENT vertex (abstract*,edge*,media*,location?,premier?,spectra?)*>
 <!ATTLIST vertex id ID #REQUIRED>
@@ -33,7 +33,7 @@
 <!ATTLIST abstract src CDATA #IMPLIED>
 
 <!ELEMENT edge (#PCDATA)>
-<!ATTLIST edge type (producer|winner|edition|extra|presenter|curator|judge|staff|friend|board|sponsor|participant|host|page) #REQUIRED>
+<!ATTLIST edge type (producer|winner|edition|extra|presenter|curator|judge|staff|track|friend|board|sponsor|participant|host|page) #REQUIRED>
 <!ATTLIST edge vertex IDREF #REQUIRED>
 <!ATTLIST edge mark CDATA #IMPLIED>
 

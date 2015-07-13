@@ -7,5 +7,16 @@
 
 class Article extends Feature
 {
-  public $form = 'feature';
+  static public $fixture = [
+    'vertex' => [
+      'abstract' => [
+        [
+          'CDATA' => '',
+          '@' => [
+            'content' => 'body'
+          ]
+        ]
+      ]
+    ]
+  ];
 }

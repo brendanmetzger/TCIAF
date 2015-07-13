@@ -2,11 +2,11 @@
 namespace models;
 
 /**
-  * Event
+  * Ensemble
   *
   */
 
-  class Event extends Model
+  class Ensemble extends Model
   {
     public $form = 'vertex';
     static public $fixture = [

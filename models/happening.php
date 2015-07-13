@@ -2,11 +2,11 @@
 namespace models;
 
 /**
-  * Conference
+  * Happening
   *
   */
 
-  class Conference extends Model
+  class Happening extends Model
   {
     public $form = 'vertex';
     static public $fixture = [

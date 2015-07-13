@@ -1,0 +1,136 @@
+<div>
+  <form name="uploadData" method="POST" action="[/manage/edit/feature/$item:@id]" class="editor" autocomplete="off">
+  
+    <!-- insert  views/forms/fieldset/title-description.html -->
+    
+  
+    <fieldset class="responsive media">
+      <legend class="caps-lock">Media</legend>
+      <dl class="audio container">
+        <dt>Audio</dt>
+        <audio src="[http://s3.amazonaws.com/$item:audio:src]"  onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">Audio</audio>
+        <dd class="audio">
+          <input type="hidden" class="type" name="[vertex[media][$item:audio:index][@][type]]" value="[$item:audio:type]" />
+          <input type="hidden" class="mark" name="[vertex[media][$item:audio:index][@][mark]]" value="[$item:audio:mark]" />
+          <p class="info">[$item:audio:message]</p>
+          <label>
+            <input type="checkbox" class="src" name="[vertex[media][$item:audio:index][@][src]]"  value="[$item:audio:src]" checked="checked" />
+            <span>Keep Audio</span>
+          </label>
+        </dd>
+      </dl>
+      <dl class="images dnd container">
+        <dt>Images</dt>
+        <!-- iterate item:thumbnails -->
+        <!-- insert views/forms/partials/media.html -->
+      </dl>
+      <hr class="clear"/>
+      <button class="audio upload">Upload Audio</button>
+      <button class="image upload">Upload Image</button>
+    </fieldset>
+  
+  
+    <!-- insert views/forms/fieldset/edge.html -->
+
+    <button type="submit" class="margins">Save your Work</button>
+    
+  </form> 
+  
+  <script type="text/javascript">
+    // <![CDATA[
+    
+    
+    function startFormPlayer(audio_element) {
+      if (!window.player) {
+        window.player = Player.attach(audio_element);
+      }
+      
+      audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
+    }
+  
+    var p;
+    bloc.prepare(function () {
+      
+    
+      var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg, audio/mp3, audio/mp4');
+    
+      uploader.addTrigger(document.querySelector('button.upload.image'));
+      uploader.addTrigger(document.querySelector('button.upload.audio'), function (uploader) {
+        var input = document.querySelector('dd.audio input.src[value]');
+        if (input) {
+          if (window.confirm('You already have an audio track, would you like to remove it and upload a new one?')) {
+            input.value = "";
+            return true;
+          }
+          return false;
+        } else {
+          return true;
+        }
+      });
+      
+      
+      uploader.addRoutine('audio', function (file) {
+        // make sure there is not a file currently associated with the feature
+        
+        if (document.querySelector('dd.audio input.src[value]')) {
+          throw new Error('Only one audio file allowed. Unlink the one you are using now.');
+        }
+        
+        this.progress = new Progress();
+        document.querySelector('dd.audio').appendChild(this.progress.element);
+        
+        
+      });
+    
+      uploader.addRoutine('image', function (file) {
+        var reader = new FileReader();
+    
+        reader.onload = function (evt) {
+          // this is the progress default holder thing.
+          this.progress = new Progress();
+          this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
+
+          var dd = document.querySelector('fieldset.media dl').appendChild(document.createElement('dd'));
+              dd.appendChild(this.progress.element);
+              dd.className = "image";
+        }.bind(this);
+      
+        reader.readAsDataURL(file);
+      });
+    
+      uploader.addEvent('success', function (xhr) {
+        var media = xhr.responseXML.documentElement.querySelector('dd.media');
+        if (media.getAttribute('data-type') == 'image') {
+          this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
+        
+        } else if (media.getAttribute('data-type') == 'audio') {
+          this.progress.element.parentNode.removeChild(this.progress.element);
+          document.querySelectorAll('fieldset.media dd.audio input').forEach(function (input) {
+            var stub =  media.querySelector('input.'+input.className)
+            input.value = stub.getAttribute('value');
+            input.name  = stub.getAttribute('name');
+          });
+          var message = document.querySelector('dd.audio p');
+          if (message) {
+            message.parentNode.removeChild(message);
+          }
+          document.querySelector('fieldset.media audio').src = "http://s3.amazonaws.com/" + media.querySelector('input.src').value;
+        }
+
+      });
+      
+      uploader.addEvent('failure', function (xhr) {
+        console.error(xhr.responseText, 'undo some stuff');
+        window.alert(xhr.responseText);
+        this.progress.element.parentNode.removeChild(this.progress.element);
+        
+      });
+    
+      var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));
+      
+      sortable('dl.images.dnd', 'dd');
+    });
+  //]]>
+  </script>
+  
+</div>

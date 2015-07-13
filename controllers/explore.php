@@ -112,23 +112,14 @@ class Explore extends Manage
     return $this->GETcollection('organization', $type, $index, $per);
   }
   
-  public function GETevent($type = 'all', $index = 1, $per = 100)
+  public function GETensemble($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('event',$type, $index, $per);
+    return $this->GETcollection('ensemble',$type, $index, $per);
   }
   
-  public function GETconference($type = 'all', $index = 1, $per = 100)
+  public function GEThappening($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('conference',$type, $index, $per);
+    return $this->GETcollection('happening',$type, $index, $per);
   }
   
-  public function GETfestival($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETcollection('festival',$type, $index, $per);
-  }
-  
-  public function GETpage($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETcollection('page',$type, $index, $per);
-  }
 }

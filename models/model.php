@@ -73,9 +73,7 @@ abstract class Model extends \bloc\Model
          // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
          $pending_reorder[] = $subcontext;
        }
-      } else {
-        if (array_sum($value) < 1) continue;
-                
+      } else {                
         // we have an entire element, that can have elements, attributes, etc, so merge that.
         // Be extremely careful here - this will create an element and add to the document. it's up to
         // you to ensure that if you are going to be inserting an array of elems (see is_int($key) above)
