@@ -43,6 +43,7 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     $view->content   = 'views/lists/features.html';
     $this->group = $group;
+    $this->{$sort} = "selected";
     $this->search = ['topic' => $group];
     $this->features = Graph::group($group)->find('vertex')->sort(Graph::sort($sort))->map(function($feature) {
       return [
@@ -54,17 +55,17 @@ class Explore extends Manage
     return $view->render($this());
   }
   
-  protected function GETfeature($sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETfeature($sort = 'newest', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('feature', $sort, $index, $per);
   }
   
-  protected function GETbroadcast($sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETbroadcast($sort = 'newest', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('broadcast', $sort, $index, $per);
   }
 
-  protected function GETarticle($sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETarticle($sort = 'newest', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('article', $sort, $index, $per);
   }

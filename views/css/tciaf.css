@@ -31,7 +31,10 @@ svg .blue  {fill:#5B9B98;}
 
 a {color:#88746A;}
 a:hover {color:#5B9B98;}
-
+a.selected {
+  text-decoration:none;
+  cursor:pointer;
+}
 .success {background-color:#F3F5ED;border-radius:0.65em;}
 .info {background-color:#CEE3EB;border-radius:0.5em;}
 .warn {background-color:#F3EECC;border-radius:0.35em;}
@@ -104,7 +107,7 @@ ul.inline {padding:0; }
 
 /* Typography ------------------- */
 
-strong, .strong {font-weight:600;}
+strong, .strong, .selected, h4{font-weight:600;}
 em, .em {font-style:italic;}
 .small {letter-spacing:0.075em;font-size:1.125em;}
 
@@ -128,9 +131,6 @@ label, cite, p, .p, li, h2, h3, h4, h5, address, legend, .normal, button, .butto
   font-weight:400;
 }
 
-h4 {
-  font-weight:600;
-}
 
 input, textarea {
  font-size:1.5em;

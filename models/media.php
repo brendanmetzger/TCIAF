@@ -19,7 +19,7 @@ namespace models;
         'src'     => $media['@src'],
         'type'    => $media['@type'],
         'mark'    => 0,
-        'caption' => $media->nodeValue,
+        'caption' => $media->nodeValue ?: substr($media['@src'], strrpos($media['@src'], '/') + 1, -4),
       ];
     }
     

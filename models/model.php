@@ -204,14 +204,12 @@ abstract class Model extends \bloc\Model
   
   public function getMedia(\DomElement $context)
   {
-
     $media = [
       'audio' => [],
       'image' => [],
     ];
     
     foreach ($context['media'] as $item) {
-      \bloc\application::instance()->log($item['@src']);
       $media[$item['@type']][] = new Media($item);
     }
     

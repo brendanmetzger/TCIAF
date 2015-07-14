@@ -53,15 +53,13 @@ SVG.prototype.b64url = function (styles) {
 
 
 
-var Player = function (element) {
-  if (element.nodeName === "AUDIO") {
-    this.element = element;
-    this.element.removeAttribute('controls');
+var Player = function (container) {
 
-    var container = this.element.parentNode.insertBefore(document.createElement('div'), this.element);
-        container.id = "player";
+    container.id = "player";
+    
     var button = container.appendChild(document.createElement('button'));
         button.setAttribute('type', 'button');
+    
     this.button = new Button(button, 'play');
     
     var button_activate = function (evt) {
@@ -72,26 +70,37 @@ var Player = function (element) {
 
     this.button.getDOMButton().addEventListener('touchend', button_activate, false);
     this.button.getDOMButton().addEventListener('click', button_activate, false);
-  }
   
   // need a title, artist, description
   // need a scrubber
 };
 
-Player.attach = function (audio_element) {
-  return new this(audio_element);
-};
 
 Player.prototype = {
-  element: null,
+  elements: [],
+  index: 0,
   button: null,
   play: function () {
     this.button.setState('pause');
-    this.element.play();
+    this.elements[this.index].play();
   },
   pause: function () {
     this.button.setState('play');
-    this.element.pause();
+    this.elements[this.index].pause();
+  },
+  playTrack: function (index) {
+    this.pause();
+    this.index = index;
+    this.play();
+  },
+  attach: function (audio_element) {
+    if (audio_element.nodeName === "AUDIO") {
+      audio_element.dataset.index = this.elements.push(audio_element) - 1;
+      audio_element.removeAttribute('controls');
+    }
+  },
+  detach: function (audio_element) {
+    delete this.elements[audio_element.dataset.index];
   }
 };
 

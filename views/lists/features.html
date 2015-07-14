@@ -2,11 +2,23 @@
   <!-- insert views/partials/navigator.html -->
   
   <ul class="inline margins">
-    <li>Sort By:</li>
-    <li class="padded"><a href="[/explore/$group/newest]">Recently Created</a></li>
-    <li class="padded"><a href="[/explore/$group/updated]">Recently Updated</a></li>
-    <li class="padded"><a href="[/explore/$group/title]">Alphabetic on Title</a></li>
-    <li class="padded"><a href="[/explore/$group/year-produced]">Year Produced</a></li>
+    <li>Sorted By:</li>
+    <li class="padded"><a class="[$newest]" href="[/explore/$group/newest]">Recently Created</a></li>
+    <li class="padded"><a class="[$updated]" href="[/explore/$group/updated]">Recently Updated</a></li>
+    <li class="padded"><a class="[$title]" href="[/explore/$group/title]">Alphabetic on Title</a></li>
+    <li class="padded"><a class="[$yearproduced]" href="[/explore/$group/year-produced]">Year Produced</a></li>
+    <li>
+      <select onchange="window.location.href = this.value">
+        <option>Spectra</option>
+        <option selected="[$recommendedF]" value="[/explore/$group/recommended:F]">Recommend (High to Low)</option>
+        <option selected="[$recommendedS]" value="[/explore/$group/recommended:S]">Fiction to Fact</option>
+        <option selected="[$recommendedM]" value="[/explore/$group/recommended:M]">Heavy to Light</option>
+        <option selected="[$recommendedR]" value="[/explore/$group/recommended:R]">Social Relevance (High to Low)</option>
+        <option selected="[$recommendedP]" value="[/explore/$group/recommended:P]">Rich Sound to Print-Worthy</option>
+        <option selected="[$recommendedT]" value="[/explore/$group/recommended:T]">Experimental to Traditional</option>
+        <option selected="[$recommendedA]" value="[/explore/$group/recommended:A]">Energetic to Cozy</option>
+      </select>
+    </li>
   </ul>
   
   <!-- iterate features -->
@@ -15,7 +27,7 @@
     <h2><a href="[/explore/detail/$feature:@id]" data-id="[$feature:@id]">[$feature:title]</a> <em>[($feature:premier:@date)]</em></h2>
     <cite>    
       <!-- iterate producers -->
-      <a href="[/explore/person/$@id]" data-id="[$@id]">[$@title]</a>
+      <a href="[/explore/detail/$@id]" data-id="[$@id]">[$@title]</a>
     </cite>
     
     <p>[$feature:summary]</p>

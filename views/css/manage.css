@@ -409,7 +409,7 @@ fieldset[disabled] {
   cursor:move;
   background-image:url(/images/drag.svg);
   background-repeat: no-repeat;
-  background-size: auto 50%;
+  background-size: contain;
   background-position: 0.5em 40%;
   padding-left:0.5em;
 }

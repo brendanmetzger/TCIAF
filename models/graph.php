@@ -40,8 +40,13 @@ use \bloc\dom\query;
       return $element;
     }
     
-    static public function SORT($type)
+    static public function SORT($type, $key = null)
     {
+      if ($mark = strpos($type, ':')) {
+        $key  = strtoupper(substr($type, $mark + 1));
+        $type = substr($type, 0, $mark);
+      }
+      
       return [
         'newest' => function($a, $b) {
           return strtotime($a->getAttribute('created')) < strtotime($b->getAttribute('created'));
@@ -54,6 +59,9 @@ use \bloc\dom\query;
         },
         'year-produced' => function($a, $b) {
           return strtotime($a->getFirst('premier', 0, false)->getAttribute('date')) < strtotime($b->getFirst('premier', 0, false)->getAttribute('date'));
+        },
+        'recommended' => function($a, $b) use($key){
+          return $a->getFirst('spectra', 0, false)->getAttribute($key) < $b->getFirst('spectra', 0, false)->getAttribute($key);
         }
       ][$type];
     }
