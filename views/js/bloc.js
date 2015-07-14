@@ -93,10 +93,21 @@ Player.prototype = {
     this.index = index;
     this.play();
   },
+  proxyEvent: function (evt) {
+    // evt.type will tell you what happened
+    if (evt.type == 'ended') {
+      var next = this.index+1;
+      if (next < this.elements.length) {
+        this.playTrack(next);
+      }
+    }
+    
+  },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
       audio_element.removeAttribute('controls');
+      audio_element.addEventListener('ended', this.proxyEvent.bind(this));
     }
   },
   detach: function (audio_element) {
