@@ -33,11 +33,10 @@ abstract class Model extends \bloc\Model
   
   public function save()
   {
-    if (Graph::instance()->storage->validate()) {
+    if (empty($this->errors) && Graph::instance()->storage->validate()) {
       return Graph::instance()->storage->save(PATH . Graph::DB . '.xml');
     } else {
-      $this->errors = Graph::instance()->storage->errors();
-
+      $this->errors = array_merge($this->errors, Graph::instance()->storage->errors());
       return false;
     }
   }
@@ -50,9 +49,8 @@ abstract class Model extends \bloc\Model
       if (empty($value)) {
         continue;
       } else if ($key === '@') {
-        
         /*
-          TODO consider what happens when value is empty
+          TODO consider about empty values
         */
         $this->setAttributes($value, $context);
         
@@ -69,7 +67,6 @@ abstract class Model extends \bloc\Model
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
        } else {
-
          // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
          $pending_reorder[] = $subcontext;
        }
@@ -89,13 +86,10 @@ abstract class Model extends \bloc\Model
     
     foreach ($pending_removal as $element) {
       if ($element->parentNode) {
-              $element->parentNode->removeChild($element);
+        $element->parentNode->removeChild($element);
       }
-
     }
     
-
-
     foreach ($pending_reorder as $element) {
       $element->parentNode->appendChild($element);
     }
@@ -106,9 +100,7 @@ abstract class Model extends \bloc\Model
     foreach ($attributes as $property => $value) {
       $this->{"set{$property}Attribute"}($context, $value);
     }
-  }
-  
-  
+  }  
   
   // Here are some specific setter/getters that are universal
   
@@ -162,6 +154,7 @@ abstract class Model extends \bloc\Model
        'text' => '', 
       ]];
     }
+    
     return $context['abstract']->map(function($abstract) {
 
       $content = file_get_contents(PATH . $abstract->getAttribute('src'));
@@ -212,61 +205,39 @@ abstract class Model extends \bloc\Model
     foreach ($context['media'] as $item) {
       $media[$item['@type']][] = new Media($item);
     }
-    
-    $this->media = new \bloc\types\Dictionary($media);
         
-    return $this->media;
-  }
-  
-  public function getAudio(\DOMElement $context)
-  {
-    static $audio = null;
-
-    if ($audio === null) {
-      $media = $context['media'];
-      foreach ($media as $item) {
-        if ($item['@type'] === 'audio') {
-          $audio = new Media($item);
-        }
-      }
-      
-      if ($audio === null) {
-        $audio = new \bloc\types\Dictionary(['message' => "No Track Added"]);
-      }
-    }
-    return $audio;
+    return new \bloc\types\Dictionary($media);
   }
   
   
   public function getStatus($context)
   {
-    static $status = null;
-    /*
-      TODO Errors shall go here.
-    */
-    
-    if ($status === null) {
-      $created = strtotime($context['@created']);
-      $updated = strtotime($context['@updated']);
-      if ($created != $updated) {
-        $recent = (time() - $updated) < 5;
-        $message =  $recent ? "Just Saved" : "Last Edited " . round((time() - $updated) / (24 * 60 * 60), 1) . " days ago.";
-        $type = $recent ? 'success' : 'info';
-      } else {
-        $message = "Creating new {$this->get_model()}";
-        $type = 'info';
-      }
-      
-      $status = new \bloc\types\Dictionary(['text' => $message, 'type' => $type]);
-      
+    $created  = strtotime($context['@created']);
+    $updated  = strtotime($context['@updated']);
+    $response = [];
+
+    if (!empty($this->errors)) {
+      $response['text'] = "Did not save";
+      $response['type']    = 'alert';
+      $response['errors']  = array_map(function($error) {
+        return ['message' => $error];
+      }, $this->errors);
+    } else if ($created != $updated) {
+      $recent  = (time() - $updated) < 5;
+      $response['text'] =  $recent ? "Just Saved" : "Last Edited " . round((time() - $updated) / (24 * 60 * 60), 1) . " days ago.";
+      $response['type']    = $recent ? 'success' : 'info';
+    } else {
+      $response['text'] = "Creating new {$this->get_model()}";
+      $response['type']    = 'info';
     }
-    return $status;
+    return new \bloc\types\Dictionary($response);
   }
   
   
   
   public function __construct($id = null, $data = [])
   {
+    $slugs = [];
     if ($id !== null) {
       if ($id instanceof \DOMElement) {
         $this->context = $id;
@@ -275,15 +246,18 @@ abstract class Model extends \bloc\Model
       }
     } else {
       $this->context = Graph::instance()->storage->createElement('vertex', null);
-      $data['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
+      $slugs['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
       Graph::group($this->get_model())->pick('.')->appendChild($this->context);
     }
     
-    
-    
     if (!empty($data)) {
-      static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data);
-      $this->mergeInput(static::$fixture, $this->context);
+      try {
+        static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data, $slugs);
+        $this->mergeInput(static::$fixture, $this->context);
+        
+      } catch (\UnexpectedValueException $e) {
+        $this->errors[] = $e->getMessage();
+      }
     }
   }
   
@@ -308,7 +282,8 @@ abstract class Model extends \bloc\Model
   
   public function __get($property)
   {
-    return $this->{"get{$property}"}($this->context);
+    $this->{$property} = $this->{"get{$property}"}($this->context);
+    return $this->{$property};
   }
   
   public function getForm()
@@ -355,5 +330,4 @@ abstract class Model extends \bloc\Model
       $this->{$abstract->getAttribute('content')} = file_get_contents(PATH . $abstract->getAttribute('src')) ?: null;
     }
   }
-  
 }

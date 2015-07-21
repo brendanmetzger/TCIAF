@@ -56,6 +56,16 @@ namespace models;
       return sprintf($color, implode(',', $colors));
     }
     
+    public function setAbstract(\DOMElement $context, array $abstract)
+    {
+      if ($abstract['@']['content'] == 'description' && empty($abstract['CDATA'])) {
+        $context->setAttribute('content', 'description');
+        throw new \UnexpectedValueException("Please add a description", 400);
+      }
+      
+      parent::setAbstract($context, $abstract);
+    }
+    
     public function getDescription(\DOMElement $context)
     {
       $this->parseText($context);

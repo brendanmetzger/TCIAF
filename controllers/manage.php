@@ -168,15 +168,15 @@ class Manage extends \bloc\controller
   
   // Fetch a vertex and create a model.
   // output: HTML Form
-  protected function GETedit($id)
+  protected function GETedit($vertex)
   {
-    $this->item   = Graph::factory(Graph::ID($id));
+    $this->item   = $vertex instanceof \models\model ? $vertex : Graph::factory(Graph::ID($vertex));
     $this->action = "Edit {$this->item->get_model()}";
     $this->edges  = $this->item->edge->map(function($edge) {
       return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
     });
     
-    $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$id}']")->map(function($edge) {
+    $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$this->item['@id']}']")->map(function($edge) {
       return ['vertex' => Graph::factory($edge->parentNode), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
     });
 
@@ -189,16 +189,19 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     if ($instance = Graph::factory( (Graph::ID($id) ?: $model), $_POST)) {
+
+      if (isset($_POST['edge'])) {
+        $instance->setReferencedEdges($_POST['edge']);
+      }
+
       if ($instance->save()) {
         // clear caches
         \models\Search::clear();
-        if (isset($_POST['edge'])) {
-          $instance->setReferencedEdges($_POST['edge']);
-        }
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
-        echo $instance->context->write(true);
         \bloc\application::instance()->log($instance->errors);
+        return $this->GETedit($instance);
+
       }
     } 
     
