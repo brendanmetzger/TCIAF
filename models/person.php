@@ -14,9 +14,7 @@ class Person extends Model
       'abstract' => [
         [ 
           'CDATA'  => '',
-          '@' => [
-            'content' => 'bio'
-           ]
+          '@' => ['content' => 'bio']
         ]
       ]
     ]
@@ -39,11 +37,11 @@ class Person extends Model
   
   public function setIdAttribute(\DOMElement $context, $value)
   {
+    
     if (empty($value)) {
-      $value = 'pending';
-    } else if (strtolower($value) === 'pending') {
       $value = 'p-' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
     }
+    
     
     
     if (empty($value)) {
@@ -55,10 +53,15 @@ class Person extends Model
     
   }
   
+  public function getHash($string)
+  {
+    return password_hash($string, PASSWORD_DEFAULT);
+  }
+  
   public function getBio($context)
   {
     $this->parseText($context);
-    return $this->bio;
+    return isset($this->bio) ? $this->bio : null;
   }
   
 }

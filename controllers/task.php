@@ -11,6 +11,8 @@ class Task extends \bloc\controller
 {
   public function __construct($request)
   {
+    $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
+    $this->authenticated = file_exists($this->sessionfile);
   }
 
   public function CLIindex()
@@ -21,7 +23,6 @@ class Task extends \bloc\controller
     $instance_class_name = get_class($this);
     $parent_class_name = $reflection_class->getParentClass()->name;
     $methods = ['instance' => [], 'parent' => []];
-    
     foreach ($reflection_class->getMethods() as $method) {
       if (substr($method->name, 0, 3) == 'CLI') {
         $name = $method->getDeclaringClass()->name;
@@ -39,37 +40,6 @@ class Task extends \bloc\controller
     
     print_r($methods);
     
-  }
-
-  public function CLIsort()
-  {
-    $doc  = new \bloc\DOM\Document('data/db5');
-    $xml  = new \DomXpath($doc);
-    
-    $order = [];
-    foreach ($xml->query('//group[@type="person"]/token') as $person) {
-      $key = strtolower(preg_replace('/\W/', '', $person->getAttribute('title')));
-      $order[$key] = $person;
-    }
-    
-    $group = $xml->query('//group[@type="person"]')->item(0);
-    
-    $placement = $group->firstChild;
-    
-    ksort($order);    
-        
-    foreach (array_reverse($order) as $node) {
-      $group->insertBefore($node, $placement);
-      $placement = $node;
-    }
-    
-    if ($doc->validate()) {
-      $file = 'data/db5.xml';
-      echo "New File: {$file}\n";
-      // $doc->save(PATH . $file);
-      
-      $this->CLIcompress($file);
-    }
   }
   
   public function CLIedgeproducer()
@@ -126,7 +96,7 @@ class Task extends \bloc\controller
     
   }
   
-  public function CLILogin($xml)
+  public function CLILoginBak($xml)
   {
     $postdata = [];
     
@@ -173,6 +143,52 @@ class Task extends \bloc\controller
     }
     
     return $result;
+  }
+  
+  public function CLILogin($value='')
+  {
+    try {
+      echo "\nPlease Enter your username: ";
+      $username = trim(fgets(STDIN));
+      
+      echo "\nPlease Enter your password: ";
+      $password = trim(fgets(STDIN));
+
+      $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
+      
+      touch($this->sessionfile);
+      
+      echo "-- Session Created, you may now run restricted commands --";
+       
+    } catch (\InvalidArgumentException $e) {
+      echo sprintf($e->getMessage(), $username);
+    }
+    
+  }
+  
+  protected function CLIpassword($username = false)
+  {
+    if (!$username) return "Provide a username as the first argument";
+    
+    
+    echo "\nPlease Enter new password for '{$username}': ";
+    $password = trim(fgets(STDIN));
+
+    echo "\nPlease Confirm password: ";
+    $confirm = trim(fgets(STDIN));
+      
+    if ($password !== $confirm) {
+      return "\n\nPasswords DO NOT MATCH...";
+    }
+
+    $user = new \models\person('p-' . preg_replace('/\W/', '', $username));
+    $user->context->setAttribute('hash', $user->getHash($password));
+    
+    if ($user->save()) {
+      return "Saved new password";
+    } else {
+      print_r($user->errors);
+    }
   }
   
   public function CLIaws()

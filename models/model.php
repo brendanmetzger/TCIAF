@@ -11,19 +11,11 @@ abstract class Model extends \bloc\Model
   
   static public $fixture = [
     'vertex' => [
-      '@' => [
-        'id'      => null,
-        'title'   => '',
-        'created' => '',
-        'updated' => '',
-        'mark'    => 0,
-      ],
+      '@' => ['id' => null, 'title' => '', 'created' => '', 'updated' => '', 'mark' => 0],
       'abstract' => [
         [
           'CDATA'  => '',
-          '@' => [
-            'content' => 'description'
-          ]
+          '@' => ['content' => 'description']
         ]
       ],
       'media' => [],
@@ -109,12 +101,9 @@ abstract class Model extends \bloc\Model
   {
       
     if (empty($id)) {
-      $id = 'pending-' . uniqid();
-    } else if (strpos(strtolower($id), 'pending') === 0) {
-
-      $id = str_replace('pending', substr($this->get_model(), 0, 1), $id);
+      $id = uniqid();
     }
-
+    
     $context->setAttribute('id', $id);
   }
   
@@ -149,7 +138,7 @@ abstract class Model extends \bloc\Model
     
     if ($context['abstract']->count() < 1) {
       return [[
-       'type' => self::$fixture['vertex']['abstract'][0]['@']['content'],
+       'type' => static::$fixture['vertex']['abstract'][0]['@']['content'],
        'index' => 0,
        'text' => '', 
       ]];

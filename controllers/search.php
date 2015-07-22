@@ -20,6 +20,11 @@ class Search extends Manage
     return $search->asJSON($subset, $type);
   }
   
+  public function GETmedia($subset)
+  {
+    # code...
+  }
+  
   public function GETform($type)
   {
     $view = new View('views/forms/partials/search.html');

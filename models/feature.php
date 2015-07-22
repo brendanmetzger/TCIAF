@@ -105,4 +105,11 @@ namespace models;
         
     }
     
+    public function getProducers(\DOMElement $context)
+    {
+      return Graph::group('person')->find("vertex[edge[@vertex='{$context['@id']}']]")->map(function($person) {
+        return ['producer' => new Person($person)];
+      });
+    }
+    
   }

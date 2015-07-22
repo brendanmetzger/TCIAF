@@ -9,10 +9,6 @@ bloc.prepare(function () {
     stylesheet--;
   }
   
-  document.querySelectorAll('form').forEach(function (form) {
-    form.addEventListener('change', imploreSave, false);
-  });
-
 
 
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
