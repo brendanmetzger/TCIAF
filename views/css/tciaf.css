@@ -17,8 +17,8 @@ header {
   top:1em;
   right:1em;
 }
-header h1 {width:5em;margi}
-header h1 span{background-color:#88746a;color:#fff;display:block;float:right;clear:left;font-size:0.5em;margin:0 0 1px 0.5em;line-height:1em;padding:0 0.125em;}
+header h2 {width:5em;margi}
+header h2 span{background-color:#88746a;color:#fff;display:block;float:right;clear:left;font-size:0.5em;margin:0 0 1px 0.5em;line-height:1em;padding:0 0.125em;}
 
 audio {display:none;}
 
@@ -35,7 +35,7 @@ a.selected {
   text-decoration:none;
   cursor:pointer;
 }
-.success {background-color:#F3F5ED;border-radius:0.65em;}
+.success {background-color:#D7F4CB;border-radius:0.65em;}
 .info {background-color:#CEE3EB;border-radius:0.5em;}
 .warn {background-color:#F3EECC;border-radius:0.35em;}
 .alert {background-color:#E9CCCB;border-radius:0;}
@@ -167,7 +167,7 @@ label, p, h5 {
 
 hr, .hr {
   border:none;
-  border-bottom:1px solid #eee;
+  border-top:1px solid #eee;
   margin:0.5em 0;
   clear:both;
 }
@@ -177,11 +177,11 @@ input, textarea, fieldset {
   width:100%;
   padding:0;
   border: 1px solid #ccc;
-  background-color:#fff;
+  background-color:rgba(255,255,255,0.5);
   transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s, margin 0.25s;
 }
-input[type=checkbox] {width:auto;}
-input[type=checkbox] + label {margin:0 0.25em 0 0 !important;}
+input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
+input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}
 
 .primary   {}
 .secondary {}

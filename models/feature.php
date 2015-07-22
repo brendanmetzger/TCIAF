@@ -83,4 +83,26 @@ namespace models;
       return substr(strip_tags($this->description), 0, 100) . '...';
     }
     
+    public function getBackground()
+    {
+      if ($image = $this->media['image'][0]) {
+        
+        if ($im = @imagecreatefromjpeg('http://s3.amazonaws.com/'.$image->url)) {
+          imagefilter($im, IMG_FILTER_PIXELATE, 10);
+          imagefilter($im, IMG_FILTER_CONTRAST, 25);
+          imagefilter($im, IMG_FILTER_COLORIZE, 255, 255, 255, 25);
+          imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
+          ob_start();
+          imagejpeg($im, null, 100);
+          $i = ob_get_clean();
+          $background = "data:image/jpg;base64," . base64_encode($i);
+        } else {
+          return null;
+        }
+        imagedestroy($im);
+        return $background;
+      }
+        
+    }
+    
   }

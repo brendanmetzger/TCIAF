@@ -101,11 +101,10 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETedge($model, $direction, $id = null)
+  protected function GETedge($model, $id = null)
   {
     $view = new view('views/layout.html');
-    $view->content = "views/forms/edge-{$direction}.html";
-    $this->direction = $direction;
+    $view->content = "views/forms/edge.html";
     $this->model     = $model;
     $this->vertex    = Graph::ID($id);
     $this->groups    = Graph::GROUPS($model);
@@ -114,14 +113,14 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
   
-  protected function POSTedge($request, $direction)
+  protected function POSTedge($request)
   {
         
     $view = new view('views/layout.html');
-    $view->content = "views/forms/partials/edge-{$direction}.html";
+    $view->content = "views/forms/partials/edge-{$_POST['direction']}.html";
 
     $this->vertex = Graph::factory(Graph::ID($_POST['id']));
-    $this->edge   = Graph::EDGE(null, $_POST['type'], $_POST['caption']);
+    $this->edge   = Graph::EDGE(null, $_POST['keyword'], $_POST['caption']);
     
     $this->process = 'add';
     $this->checked = 'checked';
@@ -172,6 +171,7 @@ class Manage extends \bloc\controller
   {
     $this->item   = $vertex instanceof \models\model ? $vertex : Graph::factory(Graph::ID($vertex));
     $this->action = "Edit {$this->item->get_model()}";
+    
     $this->edges  = $this->item->edge->map(function($edge) {
       return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
     });
@@ -199,7 +199,6 @@ class Manage extends \bloc\controller
         \models\Search::clear();
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
-        \bloc\application::instance()->log($instance->errors);
         return $this->GETedit($instance);
 
       }

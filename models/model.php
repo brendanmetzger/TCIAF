@@ -33,10 +33,11 @@ abstract class Model extends \bloc\Model
   
   public function save()
   {
-    if (empty($this->errors) && Graph::instance()->storage->validate()) {
-      return Graph::instance()->storage->save(PATH . Graph::DB . '.xml');
+    $filepath = PATH . Graph::DB . '.xml';
+    if (empty($this->errors) && Graph::instance()->storage->validate() && is_writable($filepath)) {
+      return Graph::instance()->storage->save($filepath);
     } else {
-      $this->errors = array_merge($this->errors, Graph::instance()->storage->errors());
+      $this->errors = array_merge(["Did not save"], $this->errors, Graph::instance()->storage->errors());
       return false;
     }
   }
@@ -136,7 +137,6 @@ abstract class Model extends \bloc\Model
     $url = Graph::instance()->storage->createAttribute('src');
     $url->appendChild(Graph::instance()->storage->createTextNode($src));
     $context->setAttributeNode($url);
-      
     $context->setAttribute('content', $abstract['@']['content']);
 
     $markdown = new \Parsedown();
@@ -217,7 +217,7 @@ abstract class Model extends \bloc\Model
     $response = [];
 
     if (!empty($this->errors)) {
-      $response['text'] = "Did not save";
+      $response['text']    = "Did not save";
       $response['type']    = 'alert';
       $response['errors']  = array_map(function($error) {
         return ['message' => $error];
@@ -225,10 +225,10 @@ abstract class Model extends \bloc\Model
     } else if ($created != $updated) {
       $recent  = (time() - $updated) < 5;
       $response['text'] =  $recent ? "Just Saved" : "Last Edited " . round((time() - $updated) / (24 * 60 * 60), 1) . " days ago.";
-      $response['type']    = $recent ? 'success' : 'info';
+      $response['type']  = $recent ? 'success' : 'info';
     } else {
       $response['text'] = "Creating new {$this->get_model()}";
-      $response['type']    = 'info';
+      $response['type'] = 'info';
     }
     return new \bloc\types\Dictionary($response);
   }
@@ -310,7 +310,6 @@ abstract class Model extends \bloc\Model
         }
       } 
     }
-    $this->save();
   }
   
   private function removeReferenceEdge($vertex_id, $edge_id, $edge_type)

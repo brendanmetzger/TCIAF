@@ -758,4 +758,33 @@ class Import extends Task
       $this->CLIcompress($file);
     }
   }
+  
+  public function CLIrenameJPG()
+  {
+    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+    $doc  = new \bloc\DOM\Document('data/db19');
+    $xml  = new \DomXpath($doc);
+    
+
+    foreach ($sql->query("SELECT photo_file_name as src FROM feature_photos")->fetch_all(MYSQLI_ASSOC) as $photo) {
+      $pos = strrpos($photo['src'], '.');
+      $ext = substr($photo['src'], $pos + 1);
+      if ($ext === 'JPG' || $ext === 'JPEG') {
+        // contains(., '$')
+        $photo['src'] = str_replace($ext, strtolower($ext), $photo['src']);
+        // echo $photo['src'];
+        foreach ($xml->query("//group/vertex/media[contains(@src, '{$photo['src']}')]") as $media) {
+          $media->setAttribute('src', str_replace(strtolower($ext), $ext, $media->getAttribute('src')));
+        }
+      }
+    }
+    
+    if ($doc->validate()) {
+      $file = 'data/db20.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+      
+      $this->CLIcompress($file);
+    }
+  }
 }

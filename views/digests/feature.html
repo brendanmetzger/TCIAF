@@ -1,6 +1,18 @@
 <article class="feature">
-  <h2 data-id="[$item:@id]">[$item:title]</h2>
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    article.feature {
+      width:50%;
+    }
+    /* ]]> */
+  </style>
+  
+  <h1 data-id="[$item:@id]">[$item:title]</h1>
   <section>[$item:description]</section>
+  <section>
+    <!-- iterate item:media:image -->
+    <img src="[http://s3.amazonaws.com/$url]"/>
+  </section>
   <hr />
   <h2><em>This should be playable, and have a solid link to the producer(s). It should have collections and other adjacent entry points, and perhaps a 'you might also like' thing going on from the spectra.</em></h2>
 </article>

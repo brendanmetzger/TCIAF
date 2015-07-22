@@ -1,0 +1,41 @@
+<form method="POST" action="/manage/edge" class="editor">
+
+  <fieldset class="edge" style="background-color:transparent;border:none;margin:1em 0;">
+    <input type="hidden" name="model" value="[$model]" />
+    <input type="hidden" name="title" value="[$vertex:@title]" />
+    <legend>Choose a group to search in ⤵</legend>
+    
+    <select class="focus step" onchange="createEdge(this, 1);" name="id" tabindex="1001">
+      <option value="void">Select Type</option>
+      <!-- iterate groups -->
+      <option value="[$name]">[$name]</option>
+    </select>
+    
+    <select class="step" onchange="createEdge(this, 2);" name="keyword" tabindex="1002" title="[Relationship between %id% and this $model]">
+      <option value="void">choose keyword</option>
+      <!-- iterate types -->
+      <option value="[$name]">[$name]</option>
+    </select>
+    
+    <div class="step" title="Define hierarchy *">
+      <input type="radio" name="direction" value="inside" id="inside_radio"/>
+      <label for="inside_radio" class="inline">[$model ⟶ %keyword% ⟹ %id%]</label>
+      <hr/>
+      <input type="radio" name="direction" value="outside" id="outside_radio"/>
+      <label for="outside_radio" class="inline">[%id% ⟶ %keyword% ⟹ $model]</label>
+      <hr/>
+      <p class="info margins">* The item on the left could <em>potentially</em> have multiple items on the right.</p>
+    </div>    
+
+    <div class="step">
+      <label>Add (optional) details or click 'Add Edge' to finish.</label>
+      <input type="text" name="caption" value="" placeholder="Any specific type of %keyword%?" tabindex="1003"/>
+    </div>
+    
+    
+    
+  </fieldset>
+
+  <button disabled="true" class="margins">Add Edge</button>
+
+</form>

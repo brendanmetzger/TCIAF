@@ -13,7 +13,7 @@
         <span>Keep Audio</span>
       </label>
       <input type="text" name="[vertex[media][$index][CDATA]]" value="[$caption]"/>
-      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="startFormPlayer(this);" controls="controls" preload="metadata">Audio</audio>
+      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="Player.queue(this, startFormPlayer)" controls="controls" preload="metadata">Audio</audio>
     </dd>
   </dl>
   
@@ -34,13 +34,6 @@
     
     
     function startFormPlayer(audio_element) {
-      if (!window.player) {
-        var player_elem = document.querySelector('fieldset.media').insertBefore(document.createElement('div'), document.querySelector('dl.audio'));
-
-        window.player = new Player(player_elem);
-      }
-      
-      window.player.attach(audio_element);
       var a = audio_element.parentNode.querySelector('a.button');
       a.style.display = 'inline-block';
       a.href = '#' + audio_element.dataset.index;

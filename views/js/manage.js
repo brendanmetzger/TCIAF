@@ -38,6 +38,7 @@ bloc.prepare(function () {
     evt.preventDefault();
     window.location.href = url;
   }
+  
   var edits = document.querySelectorAll('*[data-id]');
   for (var j = 0; j < edits.length; j++) {
     var url = '/manage/edit/' + edits[j].dataset.id;
@@ -92,9 +93,7 @@ Markdown.prototype = {
         if (message.charCodeAt(begin-1) !== 13 && message.charCodeAt(begin-1) !== 10) {
           output += "\n";
         }
-        
-        output += '- ' + message.substring(begin, end) + "\n" + message.substring(end);
-        
+        output += '- ' + message.substring(begin, end) + "\n" + message.substring(end);        
         return {value: output};
       }
     },
@@ -456,16 +455,18 @@ function sortable(selector, targetname, onUpdate) {
 
 
 
-function createEdge(select, action) {
+function createEdge(select, step) {
   var type = select.value;
 
-  if (action === 'vertex') {
+  switch (step) {
+  case 1:
     var input    = Search.INPUT('manage/edit', type);
     var fieldset = select.form.querySelector('fieldset');
-    select.form.insertBefore(input, fieldset);
+
     select.form.classList.add('search');
-    
-    fieldset.disabled = true;
+    select.parentNode.insertBefore(input, select);
+    select.classList.remove('focus');
+    // fieldset.disabled = true;
     var search   = new Search(input);
     search.subscribers.select.push(function (dataset) {            
       if (dataset.id) {
@@ -475,7 +476,12 @@ function createEdge(select, action) {
         input.parentNode.removeChild(input);
       
         fieldset.disabled = false;
-        select.parentNode.querySelectorAll('select')[1].focus();
+
+        var next = select.nextElementSibling;
+
+        next.classList.add('focus');
+        next.focus();
+        select.form.querySelector('legend').textContent = next.title.replace(/\%[a-z]+\%/i, input.value);
     
       } else {
         var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
@@ -487,17 +493,42 @@ function createEdge(select, action) {
         });
       }
     });    
-    input.focus();
-  }
-  
-  // check complete
-  var complete = true;
-  select.form.querySelectorAll('select').forEach(function (item) {
-    complete = complete && (item.value !== 'void' && item.value);
-  });
+    input.focus();    
+    break;
+  case 2:
+    select.classList.remove('focus');
+    var next = select.nextElementSibling;
+    var form = select.form;
+    
+    next.addEventListener('click', function (evt) {
+      if (evt.target.nodeName.toLowerCase() === "input") {
+        var next = this.nextElementSibling;
+        next.classList.add('focus');
+        evt.target.placeholder = evt.target.placeholder.replace(/\%([a-z]+)\%/i, function (match, key) {
+          var select = form[key];
+          console.log(match, key);
+          return select.options[select.selectedIndex].textContent;
+        });
+        form.querySelector('button[disabled]').disabled = false;
+        
+        
+      }
+    }, false);
+    
+    select.form.querySelector('legend').textContent = next.title;
+    next.removeAttribute('title');
+    
+    
+    next.classList.add('focus');
+    next.querySelectorAll('label').forEach(function (label) {
+      label.textContent = label.textContent.replace(/\%([a-z]+)\%/ig, function (match, key) {
+        var select = form[key];
+        return select.options[select.selectedIndex].textContent;
+      });
 
-  if (complete) {
-    var done_button = select.form.querySelector('button[disabled]');
-        done_button.disabled = false;
+    });
+    break;
+  default:
+    console.error('This is moot.');
   }
 }

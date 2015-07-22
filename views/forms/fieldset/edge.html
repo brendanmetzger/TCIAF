@@ -1,18 +1,19 @@
 <fieldset class="responsive edges container">
   <legend class="caps-lock">Edges</legend>
   <div class="group left outside">
-    <h2 class="margins">Tracked via</h2>
+    <h2 class="margins">Outside</h2>
     <!-- iterate references -->
     <!-- insert views/forms/partials/edge-outside.html -->
-    <a class="showmodal button margins" href="[/manage/edge/$item:_model/outside/$item:@id]">+ Add Outside Edge</a>  
   </div>
   
   <div class="group left inside dnd">
-    <h2 class="margins">Responsible For</h2>
+    <h2 class="margins">Inside</h2>
     <!-- iterate edges -->
     <!-- insert views/forms/partials/edge-inside.html -->
-    <a class="showmodal button margins" href="[/manage/edge/$item:_model/inside/$item:@id]">+ Add Inside Edge</a>  
   </div>
+  
+  <hr class="container"/>
+  <a class="showmodal button margins" href="[/manage/edge/$item:_model/$item:@id]">+ Add Edge</a>
   
   <script type="text/javascript">
     // <![CDATA[
@@ -23,7 +24,10 @@
             var button = this;
             
             new Modal.Form(this.href + '.xml', {}, function (response) {
-              button.parentNode.insertBefore(response.querySelector("dl.listed.container"), button);
+              var elem = response.querySelector("dl.listed.container");
+              
+              button.parentNode.querySelector('div.'+elem.dataset.type).appendChild(elem);
+              
               // close modal
               this.modal.close(function (arg) {
                 this.backdrop.parentNode.removeChild(this.backdrop);

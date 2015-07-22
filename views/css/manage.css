@@ -24,6 +24,7 @@
   white-space: pre;
 }
 
+
 form.editor label {
   color:#888;
   font-weight:400;
@@ -297,7 +298,7 @@ fieldset.edges dl:hover dt {
 fieldset.edges dl:hover h2 {
   opacity:0.25;
 }
-dt[class] {
+dl.listed dt[class] {
   font-size:1em;
   font-weight:400;
   position:absolute;
@@ -325,15 +326,29 @@ dd {
 
 dd.image {
   width:19.5%;
+  padding:0 !important;
   margin:0.25%;
   cursor:move;
   height:20em;
-  background-size:cover;
-  background-position:50% 50%;
+  background-size:cover !important;
   border-radius:0.5em;
   display:block;
   float:left;
   overflow:hidden;
+}
+
+dd.image textarea {
+  min-height:0;
+  height:1.5em;
+  margin:0 0.25em;
+  padding:0.25em;
+  background-color:rgba(0,0,0,0.25);
+  color:#fff;
+}
+dd.image textarea:focus {
+  height:5em;
+  background-color:rgba(255,255,255,0.85);
+  color:#333;
 }
 dd.image label {
   background:rgba(255,255,255,0.5);
@@ -422,3 +437,12 @@ fieldset.media dt {
   font-size:1.25em;
 }
 fieldset.media p.info + label {display:none;}
+
+fieldset.edge .step {
+  display:none;
+  width:100%;
+}
+
+fieldset.edge .step.focus {
+  display:block;
+}

@@ -75,6 +75,15 @@ var Player = function (container) {
   // need a scrubber
 };
 
+Player.queue = function (audio_element, callback) {
+  if (!window.player) {
+    window.player = new Player(document.body.appendChild(document.createElement('div')));
+  }
+  
+  window.player.attach(audio_element);
+  callback.call(window.player, audio_element);
+};
+
 
 Player.prototype = {
   elements: [],
