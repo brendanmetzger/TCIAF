@@ -504,7 +504,8 @@ function createEdge(select, step) {
       if (evt.target.nodeName.toLowerCase() === "input") {
         var next = this.nextElementSibling;
         next.classList.add('focus');
-        evt.target.placeholder = evt.target.placeholder.replace(/\%([a-z]+)\%/i, function (match, key) {
+        var input = next.querySelector('input');    
+        input.placeholder = input.placeholder.replace(/\%([a-z]+)\%/i, function (match, key) {
           var select = form[key];
           console.log(match, key);
           return select.options[select.selectedIndex].textContent;
