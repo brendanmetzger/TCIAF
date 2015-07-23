@@ -44,7 +44,7 @@ class Explore extends Manage
     $view->content   = 'views/lists/features.html';
     $this->group = $group;
     $this->{$sort} = "selected";
-    $this->search = ['topic' => $group];
+    $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->features = Graph::group($group)->find('vertex')->sort(Graph::sort($sort))->map(function($feature) {
       return [
         'feature'   => new \models\Feature($feature),
@@ -76,7 +76,7 @@ class Explore extends Manage
   {
     $view = new view('views/layout.html');
     $view->content = 'views/lists/person.html';
-    $this->search = ['topic' => 'person'];
+    $this->search = ['topic' => 'person', 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->people = Graph::group('person')->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
                     ->sort(function($a, $b) {
                       return $a['@title'] > $b['@title'];
@@ -91,9 +91,9 @@ class Explore extends Manage
   
   public function GETcollection($group, $type, $index, $per, $query = '')
   {
-    $view = new view('views/layout.html');
+    $view = new View('views/layout.html');
     $view->content = 'views/lists/collection.html';
-    $this->search = ['topic' => $group];
+    $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->collection = Graph::group($group)
                            ->find('vertex'.$query)
                            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$type}"]));
@@ -120,6 +120,30 @@ class Explore extends Manage
   public function GEThappening($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETcollection('happening',$type, $index, $per);
+  }
+  
+  public function GETmedia($type = 'image', $index = 1, $per = 25)
+  {
+    $view = new View('views/layout.html');
+    $view->content = 'views/lists/media.html';
+    $this->search = ['topic' => 'image', 'path' => 'search/media', 'area' => 'explore/resource'];
+    $this->media = Graph::instance()->query('/graph/group/vertex/')
+                                    ->find("media[@type='{$type}']")
+                                    ->map(function($item) {
+                                      return new \models\Media($item);
+                                    })
+                                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/media/{$type}"]));
+    return $view->render($this());
+  }
+  
+  public function GETresource($type, $context, $index = 0)
+  {
+    $view = new view('views/layout.html');
+    $view->content = 'views/forms/partials/media.html';
+    
+    $media = new \models\Media(Graph::ID($context)->getElementsByTagName('media')->item($index));
+    
+    return $view->render($this($media->slug));
   }
   
 }

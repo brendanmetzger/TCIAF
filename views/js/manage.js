@@ -456,7 +456,7 @@ function createEdge(select, step) {
 
   switch (step) {
   case 1:
-    var input    = Search.INPUT('manage/edit', type);
+    var input    = Search.INPUT('search/group', 'manage/edit', type);
     var fieldset = select.form.querySelector('fieldset');
 
     select.form.classList.add('search');

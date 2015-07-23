@@ -11,6 +11,8 @@ namespace models;
   {
     use \bloc\types\Map;
     
+    public $slug = [];
+    
     public function __construct(\DOMNode $media, $index = null)
     {
       $this->slug = [
@@ -19,7 +21,8 @@ namespace models;
         'src'     => $media['@src'],
         'type'    => $media['@type'],
         'mark'    => 0,
-        'caption' => $media->nodeValue ?: substr($media['@src'], strrpos($media['@src'], '/') + 1, -4),
+        'caption' => $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4)),
+        'context' => $index ?: $media['@type'] . '/' . $media->parentNode['@id'] . '/' . $media->getIndex(),
       ];
     }
     

@@ -195,11 +195,12 @@ input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !im
 body, footer {
   margin-top:7.5em;
 }
+
 footer {
   background-color:#333;
   color:#eee;
+  padding-bottom:10em;
 }
-
 
 fieldset + fieldset {
   margin:5em 0 0 0;
@@ -311,4 +312,17 @@ button.error{background-color:#ED1C24;}
 @keyframes spin{
   from{transform:rotate(0deg);}
   to{transform:rotate(360deg);}
+}
+
+
+/* COMPONENTS */
+#player {
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  box-sizing:border-box;
+  padding:1em;
+  z-index:1000;
+  background-color:rgba(255,255,255,0.95);
 }

@@ -10,7 +10,11 @@
         <!-- iterate item:media:image -->
         <!-- insert views/forms/partials/media.html -->
       </dl>
-      <button class="image upload">Upload Image</button>
+      <div class="search">
+        <button class="image upload">Upload Image</button>
+        <input id="FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" style="padding:0.5em;display:inline-block;width:50%"/>
+      </div>
+      
     </fieldset>
 
     <!-- insert views/forms/fieldset/edge.html -->
@@ -24,8 +28,38 @@
     // <![CDATA[
     bloc.prepare(function () {
       var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg');
-    
-      uploader.addTrigger(document.querySelector('button.upload.image'));
+      
+      var upload_button = document.querySelector('button.upload.image');
+
+      uploader.addTrigger(upload_button);
+      
+      
+      
+      
+      
+      
+      
+      
+      var search = new Search(document.getElementById('FILTER'));
+      search.subscribers.select.push(function (dataset) {
+        this.input.value = '';
+        console.log(dataset);
+        var ajax = new XMLHttpRequest();
+        ajax.addEventListener('load', function (evt) {
+          var elem  = evt.target.responseXML.documentElement.querySelector('dd.media.image');
+          document.querySelector('dl.images').appendChild(elem);
+        }, false);
+        ajax.open('GET', '/' + dataset.area + '/' + dataset.id + '.xml');
+        ajax.send();
+      });
+
+      
+      
+      
+      
+      
+      
+      
       
     
       uploader.addRoutine('image', function (file) {

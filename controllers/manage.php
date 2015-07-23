@@ -242,11 +242,7 @@ class Manage extends \bloc\controller
       
         $model = new \models\Media($media, (time() * -1));
       
-        foreach ($model as $key => $value) {
-          $this->{$key} = $value;
-        }
-      
-        return $view->render($this());
+        return $view->render($this($model->slug));
       } catch (\Exception $e) {
         return $this->GETerror("The file was unable to be uploaded to amazon.", 500);
         exit();

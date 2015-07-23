@@ -1,11 +1,11 @@
 <div class="search">
-  <input id="FILTER" data-topic="[$search:topic]" data-area="explore" type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
+  <input id="FILTER" data-path="[$search:path]" data-topic="[$search:topic]" data-area="[$search:area]" type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
   <script type="text/javascript">
     // <![CDATA[
       bloc.prepare(function () {
         var search = new Search(document.getElementById('FILTER'));
         search.subscribers.select.push(function (dataset) {
-          window.location.href = '/' + dataset.area + '/detail/' + dataset.id;
+          window.location.href = '/' + dataset.area + '/' + dataset.id;
         });
       });
     // ]]>

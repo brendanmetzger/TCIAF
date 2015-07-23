@@ -11,6 +11,9 @@ namespace models;
   {
     private $index = [],
             $list = null;
+            
+    public $key = '@id',
+           $tag = '@title';
   
   
     
@@ -73,19 +76,19 @@ namespace models;
     {
       $this->index = array_fill_keys(array_merge(range('a', 'z'), range(0, 9)), []);
       foreach ($this->list as $result) {
-        $this->addToIndex($result['@id'], $result['@title']);
+        $this->addToIndex($result[$this->key], $result[$this->tag]);
       }
       return $this->index;
     }
     
   
   
-    public function asJSON($subset = false, $cache = false)
+    public function asJSON($bucket, $subset = false, $cache = false)
     {
       $json = json_encode($this->getIndex($subset));
       if ($subset && $cache) {
         $subset = strtoupper($subset);
-        $path = sprintf('%sdata/cache/search/group/%s', PATH, $cache);
+        $path = sprintf('%sdata/cache/search/%s/%s', PATH, $bucket, $cache);
         if (! file_exists($path)) {
           if (!mkdir($path, 0777, true)) {
             echo "NO";

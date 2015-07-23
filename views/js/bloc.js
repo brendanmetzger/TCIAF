@@ -330,8 +330,9 @@ var Search = function (input) {
   };
 };
 
-Search.INPUT = function (area, topic) {
+Search.INPUT = function (path, area, topic) {
   var input = document.createElement('input');
+  input.dataset.path = path;
   input.dataset.topic = topic;
   input.dataset.area = area;
   input.dataset.id = null;
@@ -348,8 +349,8 @@ Search.prototype = {
   input: null,
   results: null,
   indices: {},
-  find: function (topic, letter) {
-    this.ajax.open('GET', '/search/group/' + topic + '/' + letter + '.json?ask=' + (new Date()).getTime() );
+  find: function (path, topic, letter) {
+    this.ajax.open('GET', '/' + path +'/' + topic + '/' + letter + '.json?ask=' + (new Date()).getTime() );
     this.ajax.send();
   },
   reset: function () {
@@ -433,7 +434,7 @@ Search.prototype = {
     }
 
     if (this.input.value.length === 0 && /[a-z0-9]{1}/i.test(letter)) {
-      this.find(this.input.dataset.topic, letter);
+      this.find(this.input.dataset.path, this.input.dataset.topic, letter);
     }
   }
 };
