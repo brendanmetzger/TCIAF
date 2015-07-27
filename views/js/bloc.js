@@ -71,7 +71,12 @@ var Player = function (container) {
     this.button.getDOMButton().addEventListener('touchend', button_activate, false);
     this.button.getDOMButton().addEventListener('click', button_activate, false);
   
-  // need a title, artist, description
+    var display = container.appendChild(document.createElement('div'));
+        display.className = "display";
+
+    this.display.title  = display.appendChild(document.createElement('h2'));
+    this.display.byline = display.appendChild(document.createElement('p'));
+    
   // need a scrubber
 };
 
@@ -87,8 +92,15 @@ Player.queue = function (audio_element, callback) {
 
 Player.prototype = {
   elements: [],
+  display: {},
   index: 0,
   button: null,
+  setDisplay: function (item, value) {
+    this.display[item].innerHTML = value;
+  },
+  load: function (element) {
+    console.log(element);
+  },
   play: function () {
     this.button.setState('pause');
     this.elements[this.index].play();
@@ -320,9 +332,12 @@ var Search = function (input) {
 
   this.menu = new Menu(this.input.parentNode.insertBefore(document.createElement('ul'), this.input.nextSibling));
   this.menu.list.addEventListener('click', function (evt) {
-    this.input.value       = evt.target.textContent;
-    this.input.dataset.id  = evt.target.id;
-    this.select(evt);
+    if (evt.srcElement.nodeName === 'LI') {
+      this.input.value       = evt.target.textContent;
+      this.input.dataset.id  = evt.target.id;
+      this.select(evt);
+      
+    }
   }.bind(this), false);
   
   this.subscribers = {

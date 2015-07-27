@@ -77,4 +77,11 @@ class Person extends Model
     return isset($this->bio) ? $this->bio : null;
   }
   
+  public function getPhoto($context)
+  {
+    if ($photo = $this->media['image']->current()) {
+      return $photo;
+    }
+  }
+  
 }

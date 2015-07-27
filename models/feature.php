@@ -82,10 +82,10 @@ namespace models;
       return $this->description;
     }
     
-    public function getExtra()
+    public function getExtras()
     {
       $this->parseText($context);
-      return $this->extra;
+      return $this->extras;
     }
     
     public function getSummary(\DOMElement $context)

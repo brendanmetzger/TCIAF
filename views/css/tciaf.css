@@ -165,6 +165,7 @@ label, p, h5 {
   margin:0.5em 0;
 }
 
+
 hr, .hr {
   border:none;
   border-top:1px solid #eee;
@@ -243,10 +244,16 @@ button[disabled], button[disabled]:hover {
   color:#888;
 }
 
-#player button {width:5em; height:5em;padding:0;display:block;border-radius:0;margin:0.25em;border-color:#5B9B98;}
+#player button {width:5em; height:5em;padding:0;display:block;border-radius:0;margin:0.25em;border-color:#5B9B98;display:inline-block;}
 #player button:focus {outline:none;}
 #player button svg{width:60%;height:60%;fill:#fff;margin:20%;}
 #player button svg path {stroke:none;}
+
+#player div {
+  display:inline-block;
+  width:50%;
+  vertical-align:top;
+}
 
 
 button path.indicator{fill:#5b9b98;stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
@@ -275,7 +282,7 @@ button.error{background-color:#ED1C24;}
   margin: -0.5em 0 0;
   width: 95%;
   color: #fff;
-  z-index: 5000;
+  z-index: 1000;
   background-color: rgba(255,255,255,0.95);
   box-sizing: border-box;
   list-style: none;
@@ -290,6 +297,7 @@ button.error{background-color:#ED1C24;}
   cursor:pointer;
   color:#333;
   display:block;
+  position:relative;
 }
 .search ul li:hover, .search ul li.highlight {
   background-color:#88746A;

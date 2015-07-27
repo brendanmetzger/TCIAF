@@ -159,22 +159,31 @@ abstract class Model extends \bloc\Model
   
   public function setEdge(\DOMElement $context, $value)
   {
-    
-    
-    if (empty($value['@']['type'])) {
-      /*
-        TODO need to remove referenced edge
-      */
-      // $reference = Graph::factory(Graph::ID($value['@']['vertex']));
+    $atts  = $value['@'];
+    $eid   = $context->parentNode['@id'];
+    $ref   = Graph::ID($atts['vertex']);
+    $edges = $ref->find("edge[@vertex='{$eid}' and @type='{$atts['type']}']");
+
+    $connect = $edges->count() > 0 ? $edges->pick(0) : $ref->appendChild(Graph::instance()->storage->createElement('edge'));
+
+    if (empty($atts['type'])) {
+      $ref->removeChild($connect);
       return false;
     }
     
     
     
-    $context->setAttribute('type',  $value['@']['type']);
-    $context->setAttribute('vertex', $value['@']['vertex']);
+
+    
+    $context->setAttribute('type',  $atts['type']);
+    $connect->setAttribute('type', $atts['type']);
+    
+    $context->setAttribute('vertex', $atts['vertex']);
+    $connect->setAttribute('vertex', $eid);
+      
     if (array_key_exists('CDATA', $value)) {
       $context->nodeValue = $value['CDATA'];
+      $connect->nodeValue = $value['CDATA'];
     }
   }
   
@@ -323,7 +332,8 @@ abstract class Model extends \bloc\Model
   protected function parseText($context)
   {
     foreach ($context->getElementsByTagName('abstract') as $abstract) {
-      $this->{$abstract->getAttribute('content')} = file_get_contents(PATH . $abstract->getAttribute('src')) ?: null;
+      $this->{$abstract->getAttribute('content')} = $stuff = file_get_contents(PATH . $abstract->getAttribute('src')) ?: null;
     }
   }
+  
 }

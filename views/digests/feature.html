@@ -2,17 +2,44 @@
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     article.feature {
-      width:50%;
+      width:75%;
+    }
+    div.producer img {
+      float:left;
+      width:10%;
+      display:block;
     }
     /* ]]> */
   </style>
   
   <h1 data-id="[$item:@id]">[$item:title]</h1>
+  <!-- iterate item:media:audio -->
+  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="Player.queue(this, loadPlayer)" controls="controls" preload="metadata">Audio</audio>
+
   <section>[$item:description]</section>
   <section>
     <!-- iterate item:media:image -->
-    <img src="[http://s3.amazonaws.com/$url]"/>
+    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
   </section>
   <hr />
-  <h2><em>This should be playable, and have a solid link to the producer(s). It should have collections and other adjacent entry points, and perhaps a 'you might also like' thing going on from the spectra.</em></h2>
+  
+  <h2>Production Credits</h2>
+  <!-- iterate item:producers -->
+  <div class="producer container">
+    <img src="[http://s3.amazonaws.com/$producer:photo:url]" />
+    <h2><a href="[/explore/detail/$producer:@id]">[$producer:@title]</a></h2>
+    <section>[$producer:bio]</section>
+  </div>
+  
+  <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:extras]</section>
+  
+  
+  <h2><em>It should have collections and other adjacent entry points, and perhaps a 'you might also like' thing going on from the spectra.</em></h2>
+  <script type="text/javascript">
+    // <![CDATA[
+    function loadPlayer(audio) {
+      this.setDisplay('title', 'Play <em>' + audio.title + '</em>');
+    }
+    // ]]>
+  </script>
 </article>
