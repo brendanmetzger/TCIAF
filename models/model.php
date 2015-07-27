@@ -159,9 +159,17 @@ abstract class Model extends \bloc\Model
   
   public function setEdge(\DOMElement $context, $value)
   {
+    
+    
     if (empty($value['@']['type'])) {
+      /*
+        TODO need to remove referenced edge
+      */
+      // $reference = Graph::factory(Graph::ID($value['@']['vertex']));
       return false;
     }
+    
+    
     
     $context->setAttribute('type',  $value['@']['type']);
     $context->setAttribute('vertex', $value['@']['vertex']);
@@ -274,7 +282,7 @@ abstract class Model extends \bloc\Model
     $this->{$property} = $this->{"get{$property}"}($this->context);
     return $this->{$property};
   }
-  
+    
   public function getForm()
   {
     return $this->form ?: $this->get_model();

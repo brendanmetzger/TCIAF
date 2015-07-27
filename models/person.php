@@ -19,6 +19,19 @@ class Person extends Model
       ]
     ]
   ];
+  
+  private $references = [
+    'has' => [
+      'extra'    => ['article'],
+    ],
+    'acts'    => [
+      'host'     => ['happening', 'competition'],
+      'producer' => ['feature', 'broadcast'],
+      'judge'    => ['competition'],
+      'sponsor'  => ['happening', 'competition'],
+      'curator'  => ['collection'],
+    ]
+  ];
     
   public function authenticate($password)
   {

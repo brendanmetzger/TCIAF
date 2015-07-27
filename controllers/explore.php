@@ -15,18 +15,13 @@ class Explore extends Manage
 {
   public function GETindex()
   {
-    $view = new view('views/layout.html');
-
-    $tokens = [];
-    
+    $tokens = [];    
     foreach (Graph::group('feature')->find('vertex[@mark < '.time().']') as $feature) {
       $tokens[] = $feature['@id'];
     }
-    
-
     $this->tokens = implode(' ', $tokens);
     
-    return $view->render($this());
+    return (new view('views/layout.html'))->render($this());
   }
   
   public function GETdetail($id)
@@ -41,10 +36,10 @@ class Explore extends Manage
   protected function GETcenterpiece($group, $sort = 'year-produced', $index = 1, $per = 25)
   {
     $view = new view('views/layout.html');
-    $view->content   = 'views/lists/features.html';
-    $this->group = $group;
-    $this->{$sort} = "selected";
-    $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+    $view->content  = 'views/lists/features.html';
+    $this->group    = $group;
+    $this->{$sort}  = "selected";
+    $this->search   = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->features = Graph::group($group)->find('vertex')->sort(Graph::sort($sort))->map(function($feature) {
       return [
         'feature'   => new \models\Feature($feature),
@@ -76,12 +71,13 @@ class Explore extends Manage
   {
     $view = new view('views/layout.html');
     $view->content = 'views/lists/person.html';
-    $this->search = ['topic' => 'person', 'path' => 'search/group', 'area' => 'explore/detail'];
-    $this->people = Graph::group('person')->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
-                    ->sort(function($a, $b) {
-                      return $a['@title'] > $b['@title'];
-                    })
-                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/person/{$type}"]));
+    $this->search  = ['topic' => 'person', 'path' => 'search/group', 'area' => 'explore/detail'];
+    $this->people  = Graph::group('person')
+                     ->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
+                     ->sort(function($a, $b) {
+                       return $a['@title'] > $b['@title'];
+                     })
+                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/person/{$type}"]));
 
 
 
@@ -89,50 +85,55 @@ class Explore extends Manage
   }
   
   
-  public function GETcollection($group, $type, $index, $per, $query = '')
+  public function GETgroup($group, $type, $index, $per, $query = '')
   {
     $view = new View('views/layout.html');
     $view->content = 'views/lists/collection.html';
     $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->collection = Graph::group($group)
-                           ->find('vertex'.$query)
-                           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$type}"]));
+                        ->find('vertex'.$query)
+                        ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$type}"]));
     
     return $view->render($this());
+  }
+  
+  public function GETcollection($type = 'all', $index = 1, $per = 100)
+  {
+    return $this->GETgroup('collection', $type, $index, $per);
   }
   
   
   public function GETcompetition($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('competition', $type, $index, $per, "[edge[@type='edition']]");
+    return $this->GETgroup('competition', $type, $index, $per, "[edge[@type='edition']]");
   }
   
   public function GETorganization($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('organization', $type, $index, $per);
+    return $this->GETgroup('organization', $type, $index, $per);
   }
   
   public function GETensemble($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('ensemble',$type, $index, $per);
+    return $this->GETgroup('ensemble',$type, $index, $per);
   }
   
   public function GEThappening($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETcollection('happening',$type, $index, $per);
+    return $this->GETgroup('happening',$type, $index, $per);
   }
   
   public function GETmedia($type = 'image', $index = 1, $per = 25)
   {
     $view = new View('views/layout.html');
     $view->content = 'views/lists/media.html';
-    $this->search = ['topic' => 'image', 'path' => 'search/media', 'area' => 'explore/resource'];
-    $this->media = Graph::instance()->query('/graph/group/vertex/')
-                                    ->find("media[@type='{$type}']")
-                                    ->map(function($item) {
-                                      return new \models\Media($item);
-                                    })
-                                    ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/media/{$type}"]));
+    $this->search  = ['topic' => 'image', 'path' => 'search/media', 'area' => 'explore/resource'];
+    $this->media   = Graph::instance()->query('/graph/group/vertex/')
+                     ->find("media[@type='{$type}']")
+                     ->map(function($item) {
+                        return new \models\Media($item);
+                      })
+                      ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/media/{$type}"]));
     return $view->render($this());
   }
   

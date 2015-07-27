@@ -6,7 +6,7 @@ namespace models;
   *
   */
 
-  class Ensemble extends Model
+  class Collection extends Model
   {
     public $form = 'vertex';
     static public $fixture = [
@@ -20,5 +20,13 @@ namespace models;
           ]
         ]
       ]
+    ];
+    
+    private $references = [
+      'has' => [
+        'track'   => ['feature', 'broadcast'],
+        'curator' => ['person', 'organization'],
+      ],
+      'acts' => []
     ];
   }

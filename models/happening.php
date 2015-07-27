@@ -21,4 +21,13 @@ namespace models;
         ]
       ]
     ];
+    
+    private $references = [
+      'has' => [
+        'host'        => ['person'],
+        'participant' => ['person'],
+        'extra'       => ['article'],
+      ],
+      'acts' => []
+    ];
   }

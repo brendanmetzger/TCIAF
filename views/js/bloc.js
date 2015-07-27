@@ -362,15 +362,14 @@ Search.prototype = {
       evt.preventDefault();
       evt.stopPropagation();
     }
-    
+
     this.reset();
-    
+  
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset);
     }, this);
   },
   processIndices: function (evt) {
-
     (JSON.parse(evt.target.responseText) || []).forEach(function (item) {
       var key = item[1].toLowerCase().replace(/[^a-z0-9]/g, '');
       this[key] = {
@@ -381,8 +380,6 @@ Search.prototype = {
     
   },
   checkUp: function (evt) {
-  
-
     var meta = evt.keyIdentifier.toLowerCase();
 
     if (meta === 'down' || meta == 'up') return;

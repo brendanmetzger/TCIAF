@@ -787,4 +787,38 @@ class Import extends Task
       $this->CLIcompress($file);
     }
   }
+  
+  public function CLIDoubleEdgeNodes()
+  {
+    $doc  = \models\Graph::instance()->storage;
+    
+    $edges = $doc->getElementsByTagName('edge');
+    $append = [];
+    foreach ($edges as $edge) {
+      $vertex = \models\Graph::ID($edge->getAttribute('vertex'));
+      $new_edge = $doc->createElement('edge');
+      $new_edge->setAttribute('vertex', $edge->parentNode->getAttribute('id'));
+      $new_edge->setAttribute('type', $edge->getAttribute('type'));
+      if (!empty($edge->nodeValue)) {
+        $new_edge->nodeValue = $edge->nodeValue;
+      }
+      $append[] = [
+        'vertex' => $vertex,
+        'edge' => $new_edge,
+      ];
+      
+      echo $new_edge->getAttribute('vertex') . "\n";
+    }
+    
+    foreach ($append as $group) {
+      $group['vertex']->appendChild($group['edge']);
+    }
+    
+    
+    if ($doc->validate()) {
+      $file = 'data/db21.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+    }
+  }
 }

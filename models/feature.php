@@ -25,9 +25,19 @@ namespace models;
       ]
     ];
     
+    private $references = [
+      'has' => [
+        'producer' => ['person'],
+        'extra'    => ['article', 'feature'],
+        'award'    => ['competition'],
+      ],
+      'acts'    => [
+        'track'    => ['collection'],
+      ]
+    ];
+    
     public function getSpectra(\DOMElement $context)
     {
-      
       $spectra = $this::$fixture['vertex']['spectra']['@'];
       
       if ($spectrum = $context->getFirst('spectra')) {

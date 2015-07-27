@@ -19,4 +19,11 @@ class Article extends Feature
       ]
     ]
   ];
+  
+  private $references = [
+    'has' => [],
+    'acts'  => [
+      'extra'  => ['feature', 'collection', 'broadcast', 'competition']
+    ],
+  ];
 }

@@ -331,6 +331,7 @@ dd.image {
   cursor:move;
   height:20em;
   background-size:cover !important;
+  background-position:50% 50%;
   border-radius:0.5em;
   display:block;
   float:left;
@@ -380,6 +381,7 @@ fieldset.media dl {
 .outside, .inside {
   width:50%;
 }
+
 .outside {
   border-right:1px solid #eee;
 }

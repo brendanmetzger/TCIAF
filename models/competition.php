@@ -23,6 +23,18 @@ namespace models;
       ]
     ];
     
+    private $references = [
+      'has'  => [
+        'judge'       => ['person'],
+        'sponsor'     => ['organization', 'person'],
+        'extra'       => ['article'],
+        'participant' => ['feature'],
+      ],
+      'acts' => [
+        'award'       => ['feature'],
+      ]
+    ];
+    
     
     public function getIssues(\DOMElement $context)
     {

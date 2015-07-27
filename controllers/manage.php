@@ -38,7 +38,7 @@ class Manage extends \bloc\controller
     if ($this->authenticated) {
 
       $this->user = Application::instance()->session('TCIAF')['user'];
-      $this->tasks = (new Dictionary(['person', 'feature', 'broadcast', 'article', 'competition', 'organization', 'happening', 'ensemble']))->map(function($task) {
+      $this->tasks = (new Dictionary(['person', 'feature', 'broadcast', 'article', 'competition', 'organization', 'happening', 'collection']))->map(function($task) {
         return ['name' => $task, 'count' => Graph::group($task)->find('vertex')->count()];
       });
       $this->partials->helper = 'views/partials/admin.html';

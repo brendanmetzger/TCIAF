@@ -23,6 +23,15 @@ namespace models;
       ]
     ];
     
+    private $references = [
+      'has' => [
+        'staff' => ['person'],
+      ],
+      'acts'    => [
+        'sponsor'    => ['organization', 'competition', 'happening'],
+      ]
+    ];
+    
     public function getSummary(\DOMElement $context)
     {
       $this->parseText($context);
