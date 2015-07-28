@@ -23,7 +23,7 @@ namespace models;
       ]
     ];
     
-    private $references = [
+    protected $references = [
       'has'  => [
         'judge'       => ['person'],
         'sponsor'     => ['organization', 'person'],

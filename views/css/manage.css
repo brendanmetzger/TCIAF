@@ -289,7 +289,7 @@ fieldset.edges dl {
 
 fieldset.edges h3 {
   max-width:80%;
-  margin:1em 0 0;
+  margin:0.5em 0 0;
 }
 fieldset.edges dl:hover dt {
   color:#333;
@@ -378,18 +378,6 @@ fieldset.media dl {
   width:100%;
 }
 
-.outside, .inside {
-  width:50%;
-}
-
-.outside {
-  border-right:1px solid #eee;
-}
-
-.inside {
-  border-left:1px solid #eee;
-}
-
 
 .progress {
   position:relative;
@@ -447,4 +435,8 @@ fieldset.edge .step {
 
 fieldset.edge .step.focus {
   display:block;
+}
+
+div.edge {
+  border-left:0.5em solid #aaa;padding:0.5em 0 0.5em 1em;
 }

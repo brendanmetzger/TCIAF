@@ -1,0 +1,14 @@
+<div class="edge">
+  
+  <input type="hidden" name="[vertex[edge][$index][@][vertex]]" value="[$vertex:@id]" /> 
+
+  <h3 class="inline"><strong>[$vertex:title]</strong> - <a href="[/manage/edit/$vertex:@id]">[Edit $vertex:_model]</a></h3>
+    
+  <span class="warn action">
+    <input type="checkbox" name="[vertex[edge][$index][@][type]]" value="[$edge:@type]" id="[$vertex:@id$index]" onchange="this.parentNode.className = this.checked ? 'alert action' : 'warn action';" checked="checked"/>
+    <label for="[$vertex:@id$index]" class="inline">[$process]</label>
+  </span>
+
+  <input type="text" name="[vertex[edge][$index][CDATA]]" value="[$edge]" placeholder="[optional $edge:@type type]" style="display:block;padding:0.25em;border-width:0 0 1px"/>
+
+</div>

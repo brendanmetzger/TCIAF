@@ -101,14 +101,16 @@ class Manage extends \bloc\controller
     return $this->GETLogin($redirect, $username, $message);
   }
   
-  protected function GETedge($model, $id = null)
+  protected function GETedge($model, $type, $id = null)
   {
     $view = new view('views/layout.html');
     $view->content = "views/forms/edge.html";
-    $this->model     = $model;
-    $this->vertex    = Graph::ID($id);
-    $this->groups    = Graph::GROUPS($model);
-    $this->types     = Graph::RELATIONSHIPS();
+    
+    $this->model  = $model;
+    $this->type   = $type; 
+    $this->vertex = Graph::ID($id);
+    // $this->groups    = Graph::GROUPS($model);
+    // $this->types     = Graph::RELATIONSHIPS();
     
     return $view->render($this());
   }
@@ -117,10 +119,10 @@ class Manage extends \bloc\controller
   {
         
     $view = new view('views/layout.html');
-    $view->content = "views/forms/partials/edge-{$_POST['direction']}.html";
+    $view->content = "views/forms/partials/edge.html";
 
     $this->vertex = Graph::factory(Graph::ID($_POST['id']));
-    $this->edge   = Graph::EDGE(null, $_POST['keyword'], $_POST['caption']);
+    $this->edge   = Graph::EDGE(null, $_POST['keyword'], null);
     
     $this->process = 'add';
     $this->checked = 'checked';
@@ -171,14 +173,6 @@ class Manage extends \bloc\controller
   {
     $this->item   = $vertex instanceof \models\model ? $vertex : Graph::factory(Graph::ID($vertex));
     $this->action = "Edit {$this->item->get_model()}";
-    
-    $this->edges  = $this->item->edge->map(function($edge) {
-      return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
-    });
-    
-    $this->references = Graph::instance()->query('graph/group/vertex')->find("/edge[@vertex='{$this->item['@id']}']")->map(function($edge) {
-      return ['vertex' => Graph::factory($edge->parentNode), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'remove'];
-    });
 
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->getForm());

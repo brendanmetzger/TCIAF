@@ -1,14 +1,76 @@
 <fieldset class="responsive edges container">
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    fieldset.edges dl {
+      clear:both;
+    }
+    fieldset.edges dl dt {
+      width:15%;
+      text-transform:uppercase;
+      text-align:right;
+      padding:2.5%;
+    }
+    
+    fieldset.edges dl dd {
+      width:85%;
+      margin:0;
+      float:right;
+      padding:0 0 1em;
+      border-bottom:1px dashed #eee;
+    }
+    
+    fieldset.edges dl dd a {
+      text-transform:uppercase;
+      margin:0.75em 0;
+    }
+    /* ]]> */
+  </style>
+  
+  
   <legend class="caps-lock">Edges</legend>
+  <h2 class="inline">Associated Items</h2>
+    
+  <!-- iterate item:structure:has -->
+  <dl>
+    <dt class="group left">[$name]</dt>
+
+    <!-- iterate items -->
+    <dd class="group container">
+      <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add $name]</a>
   
-  <div class="group left inside dnd">
-    <h2 class="margins">Inside</h2>
-    <!-- iterate edges -->
-    <!-- insert views/forms/partials/edge-inside.html -->
-  </div>
+      <!-- iterate items -->
+      <!-- insert views/forms/partials/edge.html -->
   
-  <hr class="container"/>
-  <a class="showmodal button margins" href="[/manage/edge/$item:_model/$item:@id]">+ Add Edge</a>
+    </dd>
+  </dl>
+  
+  <hr/>
+  
+  <h2 class="inline">[This $item:_model is]</h2>
+  
+  <!-- iterate item:structure:acts -->
+  <dl>
+    <dt class="group left">[$name]</dt>
+
+    <!-- iterate items -->
+    <dd class="group container">
+      <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add to $name]</a>
+  
+      <!-- iterate items -->
+      <!-- insert views/forms/partials/edge.html -->
+  
+    </dd>
+  </dl>
+
+  
+
+
+
+
+  
+  
+  
+  
   
   <script type="text/javascript">
     // <![CDATA[
@@ -16,18 +78,25 @@
         document.querySelectorAll('a.showmodal.button').forEach(function (button) {
           button.addEventListener('click', function (evt) {
             evt.preventDefault();
+            
             var button = this;
             
-            new Modal.Form(this.href + '.xml', {}, function (response) {
-              var elem = response.querySelector("dl.listed.container");
+            new Modal.Form(
+              this.href + '.xml',
+              {},
+              function (response) {
+              var elem = response.querySelector("div.edge");
               
-              button.parentNode.querySelector('div.'+elem.dataset.type).appendChild(elem);
+              button.parentNode.appendChild(elem);
               
               // close modal
               this.modal.close(function (arg) {
                 this.backdrop.parentNode.removeChild(this.backdrop);
                 // destroy the object if we need more closure;
               });
+            },
+            function (form) {
+              form.querySelector('input').focus();
             });
             
             
@@ -35,7 +104,7 @@
         });
         
         // Sorts
-        sortable('div.inside.dnd', 'dl');
+        // sortable('div.inside.dnd', 'dl');
                 
         
       });

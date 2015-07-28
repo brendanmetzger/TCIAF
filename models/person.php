@@ -20,7 +20,7 @@ class Person extends Model
     ]
   ];
   
-  private $references = [
+  protected $references = [
     'has' => [
       'extra'    => ['article'],
     ],

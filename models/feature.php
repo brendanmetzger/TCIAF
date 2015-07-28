@@ -25,14 +25,14 @@ namespace models;
       ]
     ];
     
-    private $references = [
+    protected $references = [
       'has' => [
         'producer' => ['person'],
         'extra'    => ['article', 'feature'],
         'award'    => ['competition'],
       ],
       'acts'    => [
-        'track'    => ['collection'],
+        'item' => ['collection'],
       ]
     ];
     

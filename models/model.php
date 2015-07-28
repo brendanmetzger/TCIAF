@@ -29,7 +29,11 @@ abstract class Model extends \bloc\Model
     if (empty($this->errors) && Graph::instance()->storage->validate() && is_writable($filepath)) {
       return Graph::instance()->storage->save($filepath);
     } else {
-      $this->errors = array_merge(["Did not save"], $this->errors, Graph::instance()->storage->errors());
+      
+      $this->errors = array_merge(["Did not save"], $this->errors, array_map(function($error) {
+        return $error->message;
+      }, Graph::instance()->storage->errors()));
+
       return false;
     }
   }
@@ -334,6 +338,67 @@ abstract class Model extends \bloc\Model
     foreach ($context->getElementsByTagName('abstract') as $abstract) {
       $this->{$abstract->getAttribute('content')} = $stuff = file_get_contents(PATH . $abstract->getAttribute('src')) ?: null;
     }
+  }
+  
+  public function getEdges($context)
+  {
+    return $context['edge']->map(function($edge) {
+      return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+    });
+  }
+  
+  public function getStructure($context)
+  {
+    $has  = array_keys($this->references['has']);
+    $acts = array_keys($this->references['acts']);
+    // item / curator
+    $output = [
+      'has' => [],
+      'acts' => []
+    ];
+    
+  
+    foreach ($this->references as $dir => $types) {
+      foreach ($types as $type => $models) {
+        if (!array_key_exists($type, $output[$dir])) {
+          $output[$dir][$type] = [];
+        }
+        
+        foreach ($models as $model) {
+          if (! array_key_exists($model, $output[$dir][$type])) {
+            $output[$dir][$type][$model] = [];
+          }
+        }
+        
+      }
+    }
+    
+    foreach ($context['edge'] as $edge) {
+      $type = $edge['@type'];
+      $vertex = Graph::factory(Graph::ID($edge['@vertex']));
+      $dir = in_array($type, $has) ? 'has' : 'acts';
+
+      $output[$dir][$type][$vertex->_model][] = ['vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+      
+    }
+    
+    
+    $out = ['has' => [], 'acts' => []];
+    foreach ($output as $dir => $types) {
+      foreach ($types as $type => $models) {
+        $b = ['name' => $type, 'items' => []];
+        
+        foreach ($models as $model => $items) {
+          $b['items'][] = ['name' => $model, 'type' => $type, 'items' => $items];
+        }
+        
+        $out[$dir][] = $b;
+      }
+
+    }
+    
+  
+    return new \bloc\types\Dictionary($out);
   }
   
 }

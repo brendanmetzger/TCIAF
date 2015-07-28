@@ -22,9 +22,9 @@ namespace models;
       ]
     ];
     
-    private $references = [
+    protected $references = [
       'has' => [
-        'track'   => ['feature', 'broadcast'],
+        'item'   => ['feature', 'broadcast'],
         'curator' => ['person', 'organization'],
       ],
       'acts' => []

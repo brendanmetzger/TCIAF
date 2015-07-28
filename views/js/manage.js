@@ -302,7 +302,7 @@ Modal.prototype = {
 };
 
 
-Modal.Form = function (url, opts, callback) {
+Modal.Form = function (url, opts, submit_callback, load_callback) {
   this.options = opts;
   this.modal = new Modal(null);
   this.ajax = new XMLHttpRequest();
@@ -312,7 +312,8 @@ Modal.Form = function (url, opts, callback) {
   this.ajax.send();
   
   // the callback is what is called when the form completes the entire dialog
-  this.callback = callback;
+  this.submit_callback = submit_callback;
+  this.load_callback   = load_callback;
   this.modal.show();
 };
 
@@ -331,7 +332,6 @@ Modal.Form.prototype = {
     if (this.form === null) {
       this.form  = evt.target.responseXML.documentElement.querySelector('form.editor');
       this.modal.addElement(this.form);
-      
       this.form.addEventListener('submit', function (evt) {
         evt.preventDefault();
 
@@ -346,9 +346,12 @@ Modal.Form.prototype = {
             input.focus();
       }
 
+      if (this.load_callback) {
+        this.load_callback.call(this, this.form);
+      }
       
-    } else if (this.callback){
-      this.callback.call(this, evt.target.responseXML.documentElement);
+    } else if (this.submit_callback){
+      this.submit_callback.call(this, evt.target.responseXML.documentElement);
     }
   }
 };
