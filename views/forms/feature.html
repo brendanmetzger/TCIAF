@@ -6,27 +6,20 @@
   
     <!-- insert  views/forms/fieldset/title-description.html -->
     
-    <fieldset class="extra">
+    
+    <fieldset class="extra group left">
       <legend>Additional Details</legend>
-      <div class="group left">
-        <label for="location">Origin Country</label>  
-        <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
-      </div>
-    
-      <div class="group left">
-        <label for="premier">Premier Location</label>
-        <input type="text" name="vertex[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
-      </div>
-    
-      <div class="group left">
-        <label for="premier_date">Premier Date</label>
-        <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
-      </div>
+      <label for="location">Origin Country</label>  
+      <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
+  
+      <label for="premier">Premier Location</label>
+      <input type="text" name="vertex[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
+  
+      <label for="premier_date">Premier Date</label>
+      <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
     </fieldset>
     
-    <!-- insert views/forms/fieldset/media.html -->
-  
-    <fieldset class="responsive secondary spectra">
+    <fieldset class="spectra group left">
       <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
       
       <!-- iterate item:spectra -->
@@ -38,6 +31,12 @@
       </label>
     
     </fieldset>
+    
+    <hr style="clear:both;margin:5em 0;border-color:transparent;"/>
+    
+    <!-- insert views/forms/fieldset/media.html -->
+  
+    
   
     <!-- insert views/forms/fieldset/edge.html -->
 

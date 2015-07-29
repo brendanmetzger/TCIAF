@@ -10,66 +10,98 @@
       width:15%;
       text-transform:uppercase;
       text-align:right;
-      padding:2.5%;
+      color:#5B9B98;
+      font-size:1.125em;
+      font-weight:400;
+      padding:1em 2.5%;
     }
     
     fieldset.edges dl dd {
       width:85%;
-      margin:0;
       float:right;
-      padding:0 0 1em;
-      border-bottom:1px dashed #eee;
+      padding:0 0 0.5em;
+      border-bottom:1px solid #f8f8f8;
+      position:relative;
     }
     
     fieldset.edges dl dd a {
-      text-transform:uppercase;
       margin:0.75em 0;
+      border:none;
+      font-weight:600;
+      text-transform:capitalize;
+      padding:0.25em 0.5em;
+    }
+    
+    a.sort {
+      display:none;
+    }
+    fieldset.edges dl dd div + div + a.sort {
+      position:absolute;
+      display:block;
+      left:-8em;
+      top:5em;
+      display:block !important;
+    }
+    
+    fieldset.edges dl dd:hover a.sort {
+      visibility:visible;
+    }
+    
+    fieldset.edges div.container h2 {
+      margin:1em 0;
+    }
+    dd.sorting div.edge {
+      border-left-width:2em;
+      margin-bottom:1px;
+      cursor:move;
     }
     /* ]]> */
   </style>
   
   
-  <legend class="caps-lock">Edges</legend>
-  <h2 class="inline">Associated Items</h2>
+  <legend class="caps-lock">References</legend>
+  
+  <div class="container">
+    <h2>[Important to this $item:_model]</h2>
     
-  <!-- iterate item:structure:has -->
-  <dl>
-    <dt class="group left">[$name]</dt>
+    <!-- iterate item:structure:has -->
+    <dl>
+      <dt class="group left"><span>[$name]</span>s</dt>
 
-    <!-- iterate items -->
-    <dd class="group container">
-      <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add $name]</a>
-  
       <!-- iterate items -->
-      <!-- insert views/forms/partials/edge.html -->
-  
-    </dd>
-  </dl>
-  
-  <hr/>
-  
-  <h2 class="inline">[This $item:_model is part of]</h2>
-  
-  <!-- iterate item:structure:acts -->
-  <dl>
-    <dt class="group left">[$name]</dt>
+      <dd class="group container">
+        <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add $name]</a>
 
-    <!-- iterate items -->
-    <dd class="group container">
-      <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add to $name]</a>
+        <!-- iterate items -->
+        <!-- insert views/forms/partials/edge.html -->
+        
+        <a href="#" class="sort button">Sort List</a>
   
+      </dd>
+    </dl>
+  </div>
+  
+  <div class="container">
+  
+    <h2>[This $item:_model is:]</h2>
+  
+    <!-- iterate item:structure:acts -->
+    <dl>
+      <dt class="group left">[$name]</dt>
+
       <!-- iterate items -->
-      <!-- insert views/forms/partials/edge.html -->
-  
-    </dd>
-  </dl>
-
-  
-
-
-
-
-  
+      <dd class="group container">
+        <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add to $name]</a>
+        
+        
+        <!-- iterate items -->
+        <!-- insert views/forms/partials/edge.html -->
+        
+        <a href="#" class="sort button">Sort List</a>
+      </dd>
+    </dl>
+    
+  </div>
   
   
   
@@ -77,6 +109,17 @@
   <script type="text/javascript">
     // <![CDATA[
       bloc.prepare(function () {
+        
+        document.querySelectorAll('a.sort').forEach(function (button) {
+          button.addEventListener('click', function (evt) {
+            evt.preventDefault();
+            var list = this.parentNode;
+            list.classList.add('sorting');
+            list.removeChild(this);
+            sortable(list, 'div');
+            
+          }, false);
+        });
         document.querySelectorAll('a.showmodal.button').forEach(function (button) {
           button.addEventListener('click', function (evt) {
             evt.preventDefault();
@@ -114,9 +157,6 @@
             
           });
         });
-        
-        // Sorts
-        // sortable('div.inside.dnd', 'dl');
                 
         
       });

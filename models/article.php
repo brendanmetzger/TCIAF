@@ -21,7 +21,9 @@ class Article extends Feature
   ];
   
   protected $references = [
-    'has' => [],
+    'has' => [
+      'producer' => ['person'],
+    ],
     'acts'  => [
       'extra' => ['feature', 'broadcast'],
       'item' => ['collection', 'competition']

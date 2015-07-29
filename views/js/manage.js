@@ -390,9 +390,9 @@ Spectra.prototype.color = function () {
 
 function sortable(selector, targetname, onUpdate) {
    var dragEl;
-   var rootEl = document.querySelector(selector);
+   var rootEl = selector instanceof Element ? selector : document.querySelector(selector);
    // Making all siblings movable
-   [].slice.call(document.querySelectorAll(selector + ' > ' + targetname)).forEach(function (itemEl) {
+   [].slice.call(rootEl.getElementsByTagName(targetname)).forEach(function (itemEl) {
        itemEl.draggable = true;
    });
 
@@ -445,90 +445,4 @@ function sortable(selector, targetname, onUpdate) {
            dragEl.classList.add('ghost');
        }, 0);
    }, false);
-}
-
-
-
-
-
-
-
-
-function createEdge(select, step) {
-  var type = select.value;
-
-  switch (step) {
-  case 1:
-    var input    = Search.INPUT('search/group', 'manage/edit', type);
-    var fieldset = select.form.querySelector('fieldset');
-
-    select.form.classList.add('search');
-    select.parentNode.insertBefore(input, select);
-    select.classList.remove('focus');
-    // fieldset.disabled = true;
-    var search   = new Search(input);
-    search.subscribers.select.push(function (dataset) {            
-      if (dataset.id) {
-        select.item(0).value = dataset.id;
-        select.item(0).textContent = input.value;
-        select.selectedIndex = 0;
-        input.parentNode.removeChild(input);
-      
-        fieldset.disabled = false;
-
-        var next = select.nextElementSibling;
-
-        next.classList.add('focus');
-        next.focus();
-        select.form.querySelector('legend').textContent = next.title.replace(/\%[a-z]+\%/i, input.value);
-    
-      } else {
-        var form = new Modal.Form('/manage/create/'+ type + '.xml', {title: input.value}, function (form) {
-          input.value = form.querySelector('input[name*=title]').value;
-          input.dataset.id = form.querySelector('input[name*=id]').value;
-
-          search.select();
-          this.modal.close();
-        });
-      }
-    });    
-    input.focus();    
-    break;
-  case 2:
-    select.classList.remove('focus');
-    var next = select.nextElementSibling;
-    var form = select.form;
-    
-    next.addEventListener('click', function (evt) {
-      if (evt.target.nodeName.toLowerCase() === "input") {
-        var next = this.nextElementSibling;
-        next.classList.add('focus');
-        var input = next.querySelector('input');    
-        input.placeholder = input.placeholder.replace(/\%([a-z]+)\%/i, function (match, key) {
-          var select = form[key];
-          console.log(match, key);
-          return select.options[select.selectedIndex].textContent;
-        });
-        form.querySelector('button[disabled]').disabled = false;
-        
-        
-      }
-    }, false);
-    
-    select.form.querySelector('legend').textContent = next.title;
-    next.removeAttribute('title');
-    
-    
-    next.classList.add('focus');
-    next.querySelectorAll('label').forEach(function (label) {
-      label.textContent = label.textContent.replace(/\%([a-z]+)\%/ig, function (match, key) {
-        var select = form[key];
-        return select.options[select.selectedIndex].textContent;
-      });
-
-    });
-    break;
-  default:
-    console.error('This is moot.');
-  }
 }
