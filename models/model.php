@@ -103,9 +103,8 @@ abstract class Model extends \bloc\Model
   
   public function setIdAttribute(\DOMElement $context, $id)
   {
-      
     if (empty($id)) {
-      $id = uniqid();
+      $id = substr($this->_model, 0, 1) . '-' . uniqid();
     }
     
     $context->setAttribute('id', $id);
@@ -260,9 +259,11 @@ abstract class Model extends \bloc\Model
       Graph::group($this->get_model())->pick('.')->appendChild($this->context);
     }
     
+    static::$fixture = array_replace_recursive(self::$fixture, static::$fixture);
+
     if (!empty($data)) {
       try {
-        static::$fixture = array_replace_recursive(self::$fixture, static::$fixture, $data, $slugs);
+        static::$fixture = array_replace_recursive($data, $slugs);
         $this->mergeInput(static::$fixture, $this->context);
         
       } catch (\UnexpectedValueException $e) {

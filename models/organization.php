@@ -27,6 +27,7 @@ namespace models;
       'has' => [
         'staff' => ['person'],
         'friend' => ['person'],
+        'board' => ['person'],
       ],
       'acts'    => [
         'sponsor'    => ['organization', 'competition', 'happening'],

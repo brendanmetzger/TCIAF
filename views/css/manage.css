@@ -255,6 +255,9 @@ body[data-user] {
   overflow:hidden;
 }
 
+.backdrop > form:not(.search) {
+  overflow:scroll;
+}
 .backdrop > form {
   position:fixed;
   left:25%;
@@ -263,7 +266,6 @@ body[data-user] {
   height:auto;
   width:50%;
   max-height:65%;
-  overflow:scroll-y;
   border-color:#CEE3EB;
   border-width:1em 0 0 0;
   border-style:solid;
@@ -428,15 +430,12 @@ fieldset.media dt {
 }
 fieldset.media p.info + label {display:none;}
 
-fieldset.edge .step {
-  display:none;
-  width:100%;
-}
-
-fieldset.edge .step.focus {
-  display:block;
-}
 
 div.edge {
+  transition: background-color 1s;
   border-left:0.5em solid #aaa;padding:0.5em 0 0.5em 1em;
+}
+
+.highlight {
+  background-color: rgba(255, 255,0,0.25);
 }

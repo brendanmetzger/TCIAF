@@ -1,3 +1,5 @@
+
+
 <fieldset class="responsive edges container">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
@@ -46,7 +48,7 @@
   
   <hr/>
   
-  <h2 class="inline">[This $item:_model is]</h2>
+  <h2 class="inline">[This $item:_model is part of]</h2>
   
   <!-- iterate item:structure:acts -->
   <dl>
@@ -86,8 +88,18 @@
               {},
               function (response) {
               var elem = response.querySelector("div.edge");
-              
               button.parentNode.appendChild(elem);
+              
+              setTimeout(function () {
+                elem.classList.add('highlight');
+              }, 10);
+              
+              
+              
+              
+              setTimeout(function () {
+                elem.classList.remove('highlight');
+              }, 1000);
               
               // close modal
               this.modal.close(function (arg) {

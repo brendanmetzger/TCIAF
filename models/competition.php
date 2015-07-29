@@ -26,12 +26,13 @@ namespace models;
     protected $references = [
       'has'  => [
         'judge'       => ['person'],
+        'award'       => ['feature'],
         'sponsor'     => ['organization', 'person'],
-        'extra'       => ['article'],
         'participant' => ['feature'],
+        'extra'       => ['article'],
       ],
       'acts' => [
-        'award'       => ['feature'],
+        'edition'       => ['competition'],
       ]
     ];
     

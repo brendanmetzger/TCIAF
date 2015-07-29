@@ -25,8 +25,8 @@ class Person extends Model
       'extra'    => ['article'],
     ],
     'acts'    => [
-      'host'     => ['happening', 'competition'],
       'producer' => ['feature', 'broadcast'],
+      'host'     => ['happening', 'competition'],
       'judge'    => ['competition'],
       'sponsor'  => ['happening', 'competition'],
       'curator'  => ['collection'],

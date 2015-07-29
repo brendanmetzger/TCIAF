@@ -32,7 +32,8 @@ namespace models;
         'award'    => ['competition'],
       ],
       'acts'    => [
-        'item' => ['collection'],
+        'item'        => ['collection'],
+        'participant' => ['competition'],
       ]
     ];
     
@@ -82,10 +83,10 @@ namespace models;
       return $this->description;
     }
     
-    public function getExtras()
+    public function getExtra(\DOMElement $context)
     {
       $this->parseText($context);
-      return $this->extras;
+      return isset($this->extra) ? $this->extra : null;
     }
     
     public function getSummary(\DOMElement $context)

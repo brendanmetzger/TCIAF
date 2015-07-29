@@ -193,6 +193,7 @@ class Manage extends \bloc\controller
         \models\Search::clear();
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
+        echo $instance->context->write(true);
         return $this->GETedit($instance);
 
       }
