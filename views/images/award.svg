@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="500px" height="500px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
+  <style type="text/css">
+  <![CDATA[
+  	.st0{fill:#FFFFFF;}
+  	.st1{fill:#349E9B;}
+  ]]>
+  </style>
+  <polygon class="st1" points="196.11,423.04 170.23,381.34 126.06,394.3 193.38,230.21 263.43,258.95 "/>
+  <polygon class="st1" points="360,389.76 311.46,376.78 290.14,418.97 217.07,244.23 286.93,215.02 "/>
+  <circle class="st1" cx="243.07" cy="176.01" r="104.01"/>
+  <polygon class="st0" points="240.96,121.43 258.28,156.52 297,162.14 268.98,189.46 275.6,228.02 240.96,209.81 206.33,228.02 212.95,189.46 184.93,162.14 223.65,156.52 "/>
+  </svg>

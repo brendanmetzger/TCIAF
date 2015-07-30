@@ -83,6 +83,16 @@ namespace models;
       return $this->description;
     }
     
+    public function getAward(\DOMElement $context)
+    {
+      $award = $context->find("edge[@type='award']");
+
+      if ($award->count() > 0) {
+        $edge = $award->pick(0);
+        return new \bloc\types\Dictionary(['title' => $edge->nodeValue, 'competition' => new Competition($edge['@vertex'])]);
+      }
+    }
+    
     public function getExtra(\DOMElement $context)
     {
       $this->parseText($context);
@@ -121,6 +131,16 @@ namespace models;
       return Graph::group('person')->find("vertex[edge[@vertex='{$context['@id']}']]")->map(function($person) {
         return ['producer' => new Person($person)];
       });
+    }
+    
+    public function getCollections(\DOMElement $context)
+    {
+      $collections = $context->find("edge[@type='item']");
+      if ($collections->count() > 0) {
+        return $collections->map(function($collection) {
+          return ['collection' => new Collection($collection['@vertex'])];
+        });
+      }
     }
     
   }

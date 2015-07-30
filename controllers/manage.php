@@ -250,5 +250,22 @@ class Manage extends \bloc\controller
     }
   }
   
+  public function POSTcorrelate($request)
+  {
+    Graph::factory(Graph::ID($_POST['vertex']['@']['id']), $_POST);
+    $task = new \controllers\Task($request);
+    $correlation = $task->CLIcorrelate($_POST['vertex']['@']['id'])->best;
+    arsort($correlation);
+
+    $this->picks = (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 10, true))))->map(function($id) {
+      return ['item' => Graph::factory(Graph::ID($id))];
+    });
+    
+    
+    $view = new view('views/layout.html');
+    $view->content = 'views/lists/recommendation.html';
+    
+    return $view->render($this());
+  }
   
 }

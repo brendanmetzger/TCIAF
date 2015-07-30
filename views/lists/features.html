@@ -22,7 +22,7 @@
   </ul>
   
   <!-- iterate features -->
-  <div data-created="[$feature:@created]" data-updated="[$feature:@updated]">
+  <div data-created="[$feature:@created]" data-updated="[$feature:@updated]" data-award="[$feature:award:title]">
     <figure style="[background:$feature:gradient]">Spectra</figure>
     <h2><a href="[/explore/detail/$feature:@id]" data-id="[$feature:@id]">[$feature:title]</a> <em>[($feature:premier:@date)]</em></h2>
     <cite>    
@@ -37,6 +37,10 @@
   
   
   <style type="text/css" media="screen">
+  div[data-award] {
+    background:transparent url(/images/medal.svg) no-repeat right top;
+    background-size:auto 50%;
+  }
     figure {
       height:1em;
       letter-spacing:0.25em;

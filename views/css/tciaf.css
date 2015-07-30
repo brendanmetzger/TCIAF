@@ -92,7 +92,20 @@ ul.inline {padding:0; }
   background-color:#f8f8f8;
   border-bottom:1px solid #fff;
 }
+.collapse {
+  cursor:pointer;
+}
+.collapse:before {
+  padding:0 0.5em;
+  content: '–';
+  color:#ddd;
+}
 
+.collapse.closed:before {
+  content: '+' !important;
+  font-weight:800;
+  color:#EE3124;
+}
 .interactive:before {
   content: '⚙ ';
   transition:color 0.25s;
@@ -209,8 +222,13 @@ fieldset + fieldset {
 
 legend {
   padding:0 0.5em;
-  top:-0.25em;
   position:relative;
+  text-align:right;
+  text-shadow:1px 1px rgba(0,0,0,0.25);
+  font-weight:400;
+  letter-spacing:0.125em;
+  color:#555;
+  
 }
 
 /* Specifics ------------------- */
@@ -244,16 +262,7 @@ button[disabled], button[disabled]:hover {
   color:#888;
 }
 
-#player button {width:5em; height:5em;padding:0;display:block;border-radius:0;margin:0.25em;border-color:#5B9B98;display:inline-block;}
-#player button:focus {outline:none;}
-#player button svg{width:60%;height:60%;fill:#fff;margin:20%;}
-#player button svg path {stroke:none;}
 
-#player div {
-  display:inline-block;
-  width:50%;
-  vertical-align:top;
-}
 
 
 button path.indicator{fill:#5b9b98;stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
@@ -323,6 +332,9 @@ button.error{background-color:#ED1C24;}
 }
 
 
+
+
+
 /* COMPONENTS */
 #player {
   position:fixed;
@@ -330,7 +342,26 @@ button.error{background-color:#ED1C24;}
   left:0;
   width:100%;
   box-sizing:border-box;
-  padding:1em;
+  padding:0;
   z-index:1000;
   background-color:rgba(255,255,255,0.95);
+}
+
+#player button {width:5em; height:5em;padding:0;display:block;display:inline-block;border-radius:0;}
+#player button:focus {outline:none;}
+#player button svg{width:60%;height:60%;fill:#fff;margin:20%;}
+#player button svg path {stroke:none;}
+
+#player div {
+  display:inline-block;
+  width:50%;
+  vertical-align:top;
+}
+
+
+.award {
+  font-size:1.35em;
+  padding: 0.5em 0 0.5em 2.5em;
+  background: transparent url(/images/medal.svg) no-repeat 0 0;
+  background-size:auto 100% ;
 }

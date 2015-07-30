@@ -364,6 +364,7 @@ var Spectra = function(labels) {
     labels[i].dataset.index = (i / total);
     this.color.call(labels[i]);
     labels[i].addEventListener('input', this.color);
+    labels[i].addEventListener('change', this.correlate);
   }
 };
 
@@ -375,6 +376,22 @@ Spectra.prototype.color = function () {
     l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
   };
   this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.35)'.format(color);
+};
+
+Spectra.prototype.correlate = function (evt) {
+  var ajax = new XMLHttpRequest();
+  var replace = this.parentNode.parentNode.querySelector('ul.recommended');
+  
+  ajax.addEventListener('load', function (evt) {
+    var elem = evt.target.responseXML.querySelector('ul.recommended');
+    console.log(elem);
+    replace.parentNode.replaceChild(elem, replace);
+  }, false);
+  
+  ajax.open("POST", '/manage/correlate.xml');
+  
+  ajax.send(new FormData(this.form));
+  
 };
 
 

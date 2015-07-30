@@ -11,8 +11,10 @@ class Task extends \bloc\controller
 {
   public function __construct($request)
   {
-    $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
-    $this->authenticated = file_exists($this->sessionfile);
+    if ($request->type == 'CLI') {
+      $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
+      $this->authenticated = file_exists($this->sessionfile);
+    }
   }
 
   public function CLIindex()
@@ -205,6 +207,88 @@ class Task extends \bloc\controller
     //     // Each Bucket value will contain a Name and CreationDate
     //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
     // }
+  }
+  
+  public function CLIcorrelate($id = null)
+  {
+    
+    $spectrum  = \models\Graph::group('feature')->find('vertex/spectra');
+    $list      = [];
+    
+    $count = 7;
+    foreach ($spectrum as $spectra) {
+      $item = new \stdClass;
+      $item->sum    = 0;
+      $item->sumsq  = 0;
+      $item->values = [];
+      $item->best   = [];
+      $item->id     = $spectra->parentNode['@id'];
+      
+      foreach ($spectra->attributes as $attr) {
+        $value = (int)$attr->nodeValue;
+        $item->sum += $value;
+        $item->sumsq += pow($value, 2);
+        $item->values[] = $value;
+      }
+
+      $item->pow = $item->sumsq - pow($item->sum, 2) / $count;
+      
+      if ($item->pow == 0) continue;
+      $list[$item->id] = $item;
+    }
+    
+    
+    if ($id !== null) {
+      $A = $list[$id];
+      
+      foreach ($list as $bid => $B) {
+        if ($id == $bid) continue;
+      
+        $r = $this->pearson($A, $B, $count);
+
+        if ($r == 1 || $r == -1) continue;
+        if ($r > 0.5 || $r < -0.5) {
+          $A->best[$bid] = $r;
+        }
+      }
+      return $A;
+    } else {
+      $finished = [];
+
+      foreach ($list as $aid => $A) {
+
+        foreach ($list as $bid => $B) {
+          if ($aid == $bid) continue;
+        
+          $r = $this->pearson($A, $B, $count);
+
+          if ($r == 1 || $r == -1) continue;
+          if ($r > 0.5 || $r < -0.5) {
+            $list[$aid]->best[$bid] = $r;
+            $list[$bid]->best[$aid] = $r;
+          }
+        }
+        $finished[] = array_shift($list);
+      }
+    
+      return $finished;
+    }
+    
+
+  }
+
+  private function pearson($v1, $v2, $length)
+  {
+    // sum products
+    $sum_p = array_sum(array_map(function($a, $b) {
+      return $a * $b;
+    }, $v1->values, $v2->values));
+
+    $diff = ( ($v1->sum * $v2->sum) / $length );
+
+    // calculate r (pearson score)
+
+    return ($sum_p - $diff) / sqrt( $v1->pow  * $v2->pow );
   }
 
 }

@@ -26,6 +26,7 @@ abstract class Model extends \bloc\Model
   public function save()
   {
     $filepath = PATH . Graph::DB . '.xml';
+    $this->setUpdatedAttribute($this->context);
     if (empty($this->errors) && Graph::instance()->storage->validate() && is_writable($filepath)) {
       return Graph::instance()->storage->save($filepath);
     } else {
@@ -116,7 +117,7 @@ abstract class Model extends \bloc\Model
   }
     
   
-  public function setUpdatedAttribute(\DOMElement $context, $value)
+  public function setUpdatedAttribute(\DOMElement $context)
   {
     $context->setAttribute('updated',  (new \DateTime())->format('Y-m-d H:i:s'));
   }

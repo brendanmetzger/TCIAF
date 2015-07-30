@@ -2,7 +2,7 @@
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     article.feature {
-      width:75%;
+      width:100%;
     }
     div.producer img {
       float:left;
@@ -12,7 +12,11 @@
     /* ]]> */
   </style>
   
+  <a class="award" href="[/explore/detail/$item:award:competition:@id]">[$item:award:title - $item:award:competition:title]</a>
+  
+  
   <h1 data-id="[$item:@id]">[$item:title]</h1>
+  
   <!-- iterate item:media:audio -->
   <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="Player.queue(this, loadPlayer)" controls="controls" preload="metadata">Audio</audio>
 
@@ -21,9 +25,12 @@
     <!-- iterate item:media:image -->
     <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]"/>
   </section>
+
   <hr />
   
-  <h2>Production Credits</h2>
+  
+  
+  <h2>Produced By:</h2>
   <!-- iterate item:producers -->
   <div class="producer container">
     <img src="[http://s3.amazonaws.com/$producer:photo:url]" />
@@ -34,7 +41,9 @@
   <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:extra]</section>
   
   
-  <h2><em>It should have collections and other adjacent entry points, and perhaps a 'you might also like' thing going on from the spectra.</em></h2>
+  <!-- iterate item:collections -->
+  <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
+
   <script type="text/javascript">
     // <![CDATA[
     function loadPlayer(audio) {

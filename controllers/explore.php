@@ -51,17 +51,17 @@ class Explore extends Manage
     return $view->render($this());
   }
   
-  protected function GETfeature($sort = 'newest', $index = 1, $per = 25)
+  public function GETfeature($sort = 'newest', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('feature', $sort, $index, $per);
   }
   
-  protected function GETbroadcast($sort = 'newest', $index = 1, $per = 25)
+  public function GETbroadcast($sort = 'newest', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('broadcast', $sort, $index, $per);
   }
 
-  protected function GETarticle($sort = 'newest', $index = 1, $per = 25)
+  public function GETarticle($sort = 'newest', $index = 1, $per = 25)
   {
     return $this->GETcenterpiece('article', $sort, $index, $per);
   }

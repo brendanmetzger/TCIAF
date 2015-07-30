@@ -49,5 +49,5 @@ namespace models;
       $this->parseText($context);
       return isset($this->about) ? $this->about : null;
     }
-    
+        
   }

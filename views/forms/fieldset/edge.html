@@ -7,7 +7,7 @@
       clear:both;
     }
     fieldset.edges dl dt {
-      width:15%;
+      width:20%;
       text-transform:uppercase;
       text-align:right;
       color:#5B9B98;
@@ -17,7 +17,7 @@
     }
     
     fieldset.edges dl dd {
-      width:85%;
+      width:80%;
       float:right;
       padding:0 0 0.5em;
       border-bottom:1px solid #f8f8f8;
@@ -48,12 +48,15 @@
     }
     
     fieldset.edges div.container h2 {
-      margin:1em 0;
     }
     dd.sorting div.edge {
+      background-color:#f8f8f8;
       border-left-width:2em;
       margin-bottom:1px;
       cursor:move;
+    }
+    dt.closed ~ dd {
+      display:none;
     }
     /* ]]> */
   </style>
@@ -61,12 +64,12 @@
   
   <legend class="caps-lock">References</legend>
   
-  <div class="container">
-    <h2>[Important to this $item:_model]</h2>
+  <div class="container" style="margin-bottom:2em;">
+    <h2>[About this $item:_model]</h2>
     
     <!-- iterate item:structure:has -->
     <dl>
-      <dt class="group left"><span>[$name]</span>s</dt>
+      <dt class="group left collapse">[$name(s)]</dt>
 
       <!-- iterate items -->
       <dd class="group container">
@@ -80,6 +83,8 @@
       </dd>
     </dl>
   </div>
+
+  <hr />
   
   <div class="container">
   
@@ -87,7 +92,7 @@
   
     <!-- iterate item:structure:acts -->
     <dl>
-      <dt class="group left">[$name]</dt>
+      <dt class="group left collapse">[$name]</dt>
 
       <!-- iterate items -->
       <dd class="group container">
@@ -109,6 +114,11 @@
   <script type="text/javascript">
     // <![CDATA[
       bloc.prepare(function () {
+        document.querySelector('fieldset.edges').addEventListener('click', function (evt) {
+          if (evt.srcElement.nodeName == 'DT') {
+            evt.target.classList.toggle('closed');
+          }
+        }, false);
         
         document.querySelectorAll('a.sort').forEach(function (button) {
           button.addEventListener('click', function (evt) {
