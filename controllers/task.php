@@ -209,13 +209,14 @@ class Task extends \bloc\controller
     // }
   }
   
-  public function CLIcorrelate($id = null)
+  static public function pearson($id = null)
   {
     
     $spectrum  = \models\Graph::group('feature')->find('vertex/spectra');
     $list      = [];
     
     $count = 7;
+    
     foreach ($spectrum as $spectra) {
       $item = new \stdClass;
       $item->sum    = 0;
@@ -244,7 +245,11 @@ class Task extends \bloc\controller
       foreach ($list as $bid => $B) {
         if ($id == $bid) continue;
       
-        $r = $this->pearson($A, $B, $count);
+        $sum_p = array_sum(array_map(function($a, $b) {
+          return $a * $b;
+        }, $A->values, $B->values));
+
+        $r = ($sum_p - (($A->sum * $B->sum) / $count ) ) / sqrt( $A->pow  * $B->pow );
 
         if ($r == 1 || $r == -1) continue;
         if ($r > 0.5 || $r < -0.5) {
@@ -259,8 +264,14 @@ class Task extends \bloc\controller
 
         foreach ($list as $bid => $B) {
           if ($aid == $bid) continue;
-        
-          $r = $this->pearson($A, $B, $count);
+          
+          
+          $sum_p = array_sum(array_map(function($a, $b) {
+            return $a * $b;
+          }, $A->values, $B->values));
+
+          $r = ($sum_p - (($A->sum * $B->sum) / $count ) ) / sqrt( $A->pow  * $B->pow );
+          
 
           if ($r == 1 || $r == -1) continue;
           if ($r > 0.5 || $r < -0.5) {
@@ -277,18 +288,9 @@ class Task extends \bloc\controller
 
   }
 
-  private function pearson($v1, $v2, $length)
+  private function CLIcorrelate($id = null)
   {
-    // sum products
-    $sum_p = array_sum(array_map(function($a, $b) {
-      return $a * $b;
-    }, $v1->values, $v2->values));
-
-    $diff = ( ($v1->sum * $v2->sum) / $length );
-
-    // calculate r (pearson score)
-
-    return ($sum_p - $diff) / sqrt( $v1->pow  * $v2->pow );
+    return self::pearson($id);
   }
 
 }

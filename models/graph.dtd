@@ -16,6 +16,7 @@
 <!ATTLIST spectra P CDATA #IMPLIED>
 <!ATTLIST spectra T CDATA #IMPLIED>
 <!ATTLIST spectra A CDATA #IMPLIED>
+<!ATTLIST spectra picks IDREFS #IMPLIED>
 
 <!ELEMENT group (vertex)*>
 <!ATTLIST group type (feature|person|organization|happening|competition|broadcast|article|collection) #REQUIRED>

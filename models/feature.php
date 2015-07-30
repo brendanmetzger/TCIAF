@@ -54,7 +54,7 @@ namespace models;
     
     public function getGradient(\DOMElement $context)
     {
-      $color = '-webkit-linear-gradient(left, %s);';
+      $color = '-webkit-linear-gradient(left, %s)';
       $count = 0;
       
       foreach ($this->getSpectra($context) as $spectra) {
@@ -142,5 +142,14 @@ namespace models;
         });
       }
     }
-    
+   
+   public function getRecommended(\DOMElement $context)
+   {
+     $correlation = \controllers\Task::pearson($context['@id'])->best;
+     arsort($correlation);
+
+     return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 5, true))))->map(function($id) {
+       return ['item' => Graph::factory(Graph::ID($id))];
+     });
+   } 
   }

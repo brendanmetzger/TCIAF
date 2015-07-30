@@ -380,11 +380,10 @@ Spectra.prototype.color = function () {
 
 Spectra.prototype.correlate = function (evt) {
   var ajax = new XMLHttpRequest();
-  var replace = this.parentNode.parentNode.querySelector('ul.recommended');
+  var replace = document.querySelector('fieldset.recommended .recommended');
   
   ajax.addEventListener('load', function (evt) {
-    var elem = evt.target.responseXML.querySelector('ul.recommended');
-    console.log(elem);
+    var elem = evt.target.responseXML.querySelector('.recommended');
     replace.parentNode.replaceChild(elem, replace);
   }, false);
   

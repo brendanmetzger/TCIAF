@@ -327,7 +327,7 @@ dd {
 }
 
 dd.image {
-  width:19.5%;
+  width:24.5%;
   padding:0 !important;
   margin:0.25%;
   cursor:move;
@@ -421,9 +421,17 @@ fieldset[disabled] {
 }
 
 
-fieldset.extra {width:35%;}
-fieldset.spectra {width:64%;margin-left:1%;}
+fieldset.extra {width:30%;}
+fieldset.extra + fieldset.media {
+  float:left;
+  width:69%;margin-left:1%;
+}
 
+fieldset.spectra {width:64%;margin-right:1%;}
+fieldset.recommended {
+  margin:0;
+  width:34%;
+}
 fieldset.media dt {
   padding:0.5em 1em;
   margin:0 0 0.5em;
