@@ -74,7 +74,7 @@ namespace models;
         throw new \UnexpectedValueException("Please add a description", 400);
       }
       
-      parent::setAbstract($context, $abstract);
+      return parent::setAbstract($context, $abstract);
     }
     
     public function getDescription(\DOMElement $context)

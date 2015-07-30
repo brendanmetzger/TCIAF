@@ -61,10 +61,11 @@ abstract class Model extends \bloc\Model
         // method returns false, we add add the found/created element to a list of nodes to remove at the
         // completion of this routine -- ie. return false to delete the context node.
         $subcontext = $context->parentNode->getFirst($element, $key);
-
+        
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
        } else {
+         
          // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
          $pending_reorder[] = $subcontext;
        }
@@ -126,6 +127,7 @@ abstract class Model extends \bloc\Model
   {
     if (empty($abstract['CDATA'])) return false;
     
+    
     $src = 'data/abstracts/' .$context->parentNode->getAttribute('id') . '-' . $context->getIndex() . '.html';
     $url = Graph::instance()->storage->createAttribute('src');
     $url->appendChild(Graph::instance()->storage->createTextNode($src));
@@ -135,6 +137,7 @@ abstract class Model extends \bloc\Model
     $markdown = new \Parsedown();
     
     file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
+    return true;
   }
   
   public function getAbstract(\DOMElement $context)

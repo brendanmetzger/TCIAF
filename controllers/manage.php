@@ -183,7 +183,6 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     if ($instance = Graph::factory( (Graph::ID($id) ?: $model), $_POST)) {
-
       if (isset($_POST['edge'])) {
         $instance->setReferencedEdges($_POST['edge']);
       }
