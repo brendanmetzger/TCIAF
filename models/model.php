@@ -147,7 +147,8 @@ abstract class Model extends \bloc\Model
       return [[
        'type' => static::$fixture['vertex']['abstract'][0]['@']['content'],
        'index' => 0,
-       'text' => '', 
+       'text' => '',
+       'required' => 'required',
       ]];
     }
     
