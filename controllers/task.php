@@ -240,6 +240,11 @@ class Task extends \bloc\controller
     
     
     if ($id !== null) {
+      
+      if (!array_key_exists($id, $list)) {
+        throw new \RuntimeException("No recommendations will be available", 1);
+        
+      }
       $A = $list[$id];
       
       foreach ($list as $bid => $B) {

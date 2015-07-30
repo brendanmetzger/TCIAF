@@ -38,6 +38,11 @@
     <section>[$producer:bio]</section>
   </div>
   
+  
+  <h2>Next Up</h2>
+  <!-- insert views/lists/recommendation.html -->
+  
+  
   <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:extra]</section>
   
   
@@ -49,6 +54,23 @@
     function loadPlayer(audio) {
       this.setDisplay('title', 'Play <em>' + audio.title + '</em>');
     }
+    
+    bloc.prepare(function () {
+      document.querySelector('ol.recommended').addEventListener('click', function (evt) {
+        if (evt.target.nodeName === "A") {
+          evt.preventDefault();
+          var request = new XMLHttpRequest();
+          request.addEventListener('load', function (evt) {
+            evt.target.responseXML.querySelectorAll('audio').forEach(function (audio) {
+              document.body.appendChild(audio);
+            });
+          });
+          request.open('GET', evt.target.href + ".xml");
+          request.send();
+
+        }
+      });
+    });
     // ]]>
   </script>
 </article>

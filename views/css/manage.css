@@ -363,8 +363,8 @@ dd.image label {
   text-shadow:1px 1px 1px rgba(255,255,255,0.5);
 }
 
-dd.audio .progress {
-  height: 10em;
+dl.audio .progress {
+  height: 5em;
 }
 
 dd.image img {
@@ -378,6 +378,7 @@ fieldset {
 
 fieldset.media dl {
   width:100%;
+  margin:0 0 1em;
 }
 
 
@@ -399,7 +400,7 @@ fieldset.media dl {
   width:80%;
   height:80%;
   fill:none;
-  margin:10%;
+  margin:auto 10%;
   stroke:#000;
   stroke-width:5;
   stroke-opacity:0.75;
@@ -432,9 +433,11 @@ fieldset.recommended {
   margin:0;
   width:34%;
 }
+
 fieldset.media dt {
-  padding:0.5em 1em;
-  margin:0 0 0.5em;
+  margin:0;
+  color:#5B9B98;
+  font-weight:400;
   border-bottom:1px solid #eee;
   font-size:1.25em;
 }

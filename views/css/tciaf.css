@@ -7,17 +7,17 @@ body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
 }
 
-header {
-  background: transparent url(/images/pidgey.svg) no-repeat 0 -0.5em scroll;
-  background-size: auto 85%;
-  padding-left: 3em;
+header h2 {
+  background: transparent url(/images/pidgey.svg) no-repeat 0 0;
+  background-size: auto 80%;
+  padding:1em 0 1em 2em;
   position:absolute;
-  height:9em;
-  width:10em;
+  height:2em;
+  width:2em;
   top:1em;
   right:1em;
 }
-header h2 {width:5em;margi}
+header h2 {width:5em;}
 header h2 span{background-color:#88746a;color:#fff;display:block;float:right;clear:left;font-size:0.5em;margin:0 0 1px 0.5em;line-height:1em;padding:0 0.125em;}
 
 audio {display:none;}

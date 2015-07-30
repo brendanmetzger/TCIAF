@@ -71,16 +71,26 @@ class Person extends Model
     return password_hash($string, PASSWORD_DEFAULT);
   }
   
-  public function getBio($context)
+  public function getBio(\DOMElement $context)
   {
     $this->parseText($context);
     return isset($this->bio) ? $this->bio : null;
   }
   
-  public function getPhoto($context)
+  public function getPhoto(\DOMElement $context)
   {
     if ($photo = $this->media['image']->current()) {
       return $photo;
+    }
+  }
+  
+  public function getFeatures(\DOMElement $context)
+  {
+    $features = $context->find("edge[@type='producer']");
+    if ($features->count() > 0) {
+      return $features->map(function($collection) {
+        return ['feature' => new Feature($collection['@vertex'])];
+      });
     }
   }
   

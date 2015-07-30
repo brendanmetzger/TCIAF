@@ -192,7 +192,7 @@ class Manage extends \bloc\controller
         \models\Search::clear();
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
-        echo $instance->context->write(true);
+        // echo $instance->context->write(true);
         return $this->GETedit($instance);
 
       }
@@ -210,8 +210,7 @@ class Manage extends \bloc\controller
     $type = substr($mime, 0, strpos($mime, '/'));
 
     if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
-      $view = new view('views/layout.html');
-      $view->content = 'views/forms/partials/media.html';
+      
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
       
       try {
@@ -235,6 +234,10 @@ class Manage extends \bloc\controller
         $media->setAttribute('type', $type);
       
         $model = new \models\Media($media, (time() * -1));
+        
+        $view = new view('views/layout.html');
+        $view->content = "views/forms/partials/{$type}.html";
+        
       
         return $view->render($this($model->slug));
       } catch (\Exception $e) {

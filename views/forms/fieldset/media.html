@@ -3,25 +3,17 @@
   
   <dl class="audio container">
     <dt>Audio</dt>  
+    
     <!-- iterate item:media:audio -->
-    <dd class="audio playlist">
-      <a style="display:none;" class="button">▸ Play</a>
-      <input type="hidden" class="type" name="[vertex[media][$index][@][type]]" value="[$type]" />
-      <input type="hidden" class="mark" name="[vertex[media][$index][@][mark]]" value="[$mark]" />
-      <label>
-        <input type="checkbox" class="src" name="[vertex[media][$index][@][src]]"  value="[$src]" checked="checked" />
-        <span>Keep Audio</span>
-      </label>
-      <input type="text" name="[vertex[media][$index][CDATA]]" value="[$caption]"/>
-      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="Player.queue(this, startFormPlayer)" controls="controls" preload="metadata">Audio</audio>
-    </dd>
+    <!-- insert views/forms/partials/audio.html -->
   </dl>
   
+  <hr style="border-color:#5B9B98;opacity:0.5;"/>
   
   <dl class="images dnd container">
     <dt>Images</dt>
     <!-- iterate item:media:image -->
-    <!-- insert views/forms/partials/media.html -->
+    <!-- insert views/forms/partials/image.html -->
   </dl>
   
   <hr class="clear"/>
@@ -56,13 +48,9 @@
       
       uploader.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
-        
-        
-        
         this.progress = new Progress();
-        document.querySelector('dd.audio').appendChild(this.progress.element);
-        
-        
+        var dd = document.querySelector('fieldset.media dl.audio').appendChild(document.createElement('dd'));
+        dd.appendChild(this.progress.element);
       });
     
       uploader.addRoutine('image', function (file) {
@@ -73,7 +61,7 @@
           this.progress = new Progress();
           this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
 
-          var dd = document.querySelector('fieldset.media dl').appendChild(document.createElement('dd'));
+          var dd = document.querySelector('fieldset.media dl.images').appendChild(document.createElement('dd'));
               dd.appendChild(this.progress.element);
               dd.className = "image";
         }.bind(this);
@@ -83,22 +71,8 @@
     
       uploader.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
-        if (media.getAttribute('data-type') == 'image') {
-          this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
         
-        } else if (media.getAttribute('data-type') == 'audio') {
-          this.progress.element.parentNode.removeChild(this.progress.element);
-          document.querySelectorAll('fieldset.media dd.audio input').forEach(function (input) {
-            var stub =  media.querySelector('input.'+input.className)
-            input.value = stub.getAttribute('value');
-            input.name  = stub.getAttribute('name');
-          });
-          var message = document.querySelector('dd.audio p');
-          if (message) {
-            message.parentNode.removeChild(message);
-          }
-          document.querySelector('fieldset.media audio').src = "http://s3.amazonaws.com/" + media.querySelector('input.src').value;
-        }
+        this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
 
       });
       

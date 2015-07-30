@@ -40,4 +40,12 @@ use \models\graph;
       
     }
     
+    public function GETnothing()
+    {
+      $view = new view('views/layout.html');
+
+      $view->content = (new \bloc\DOM\Document('<h1>Not Implemented (yet)</h1>', [], \bloc\DOM\Document::TEXT))->documentElement;
+      return $view->render($this());
+    }
+    
   }
