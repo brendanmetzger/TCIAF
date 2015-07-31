@@ -242,7 +242,7 @@ class Task extends \bloc\controller
     if ($id !== null) {
       
       if (!array_key_exists($id, $list)) {
-        throw new \RuntimeException("No recommendations will be available", 1);
+        throw new \RuntimeException("No recommendations will be available", 25);
         
       }
       $A = $list[$id];

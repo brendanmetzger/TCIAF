@@ -141,7 +141,7 @@ class Explore extends Manage
   public function GETresource($type, $context, $index = 0)
   {
     $view = new view('views/layout.html');
-    $view->content = 'views/forms/partials/media.html';
+    $view->content = 'views/forms/partials/image.html';
     
     $media = new \models\Media(Graph::ID($context)->getElementsByTagName('media')->item($index));
     

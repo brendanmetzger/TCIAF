@@ -110,8 +110,8 @@ namespace models;
         
         if ($im = @imagecreatefromjpeg('http://s3.amazonaws.com/'.$image->url)) {
           imagefilter($im, IMG_FILTER_PIXELATE, 10);
-          imagefilter($im, IMG_FILTER_CONTRAST, 25);
-          imagefilter($im, IMG_FILTER_COLORIZE, 255, 255, 255, 25);
+          imagefilter($im, IMG_FILTER_CONTRAST, 50);
+          imagefilter($im, IMG_FILTER_COLORIZE, 255, 255, 255, 100);
           imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
           ob_start();
           imagejpeg($im, null, 100);

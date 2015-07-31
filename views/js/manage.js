@@ -27,7 +27,51 @@ bloc.prepare(function () {
     }
   }
   
+  var form = document.querySelector('form.editor');
+  if (form) {
+    form.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+      var message = this.message;
+      ajax = new XMLHttpRequest();
+      ajax.addEventListener('load', function (evt) {
+        message.textContent = 'Saved..';
+        message.className = 'success';
+        setTimeout(function () {
+          form.classList.remove('changed');
+          
+          setTimeout(function () {
+            form.appendChild(form.querySelector('button[type=submit]'));
+            form.removeChild(message.parentNode);
+          }, 1000);
+        }, 2000);
+        /*
+          TODO replace all the response nodes so we can see errors or whatever
+        */
+      });
+      
+      ajax.open("POST", this.action);
+      ajax.send(new FormData(this));
+    }, false);
+    
+    var showReceipt = function (evt) {
+      
+      var receipt = this.appendChild(document.createElement('div'));
+      receipt.className = 'receipt';
+      receipt.appendChild(this.querySelector('button[type=submit]'));
+      this.message = receipt.appendChild(document.createElement('p'));
+      this.message.className = 'info';
+      this.message.textContent = 'Remember to save your changes!';
+      
+      setTimeout(function () {
+        this.classList.add('changed');
+      }.bind(this), 10);
+      
+      form.removeEventListener('change', showReceipt , false);
+    };
   
+    form.addEventListener('change', showReceipt , false);
+    
+  }
   
   // show an indicator next to all editable elements
   function goto(url, evt) {

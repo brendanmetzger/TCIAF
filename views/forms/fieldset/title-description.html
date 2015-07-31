@@ -1,14 +1,13 @@
 <fieldset>
-  <a class="h2" href="[/explore/detail/$item:@id]">Visit Page</a>
   <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
   <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
 
-  <h5 class="[status $item:status:type]"><em>[$item:status:text]</em></h5>  
+  <h5 class="[status $item:status:type]"><em>[$item:status:text]</em></h5>
   
-  <legend class="capitalize">[$action]</legend>  
+  <legend class="capitalize">Basic</legend>  
 
   <label for="title">Title</label>
-  <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text" required="required"/>
+  <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text" required="required" />
   
   <!-- iterate item:abstract -->
   <div class="abstract">

@@ -794,6 +794,7 @@ class Import extends Task
     
     $edges = $doc->getElementsByTagName('edge');
     $append = [];
+    
     foreach ($edges as $edge) {
       $vertex = \models\Graph::ID($edge->getAttribute('vertex'));
       $new_edge = $doc->createElement('edge');
@@ -819,6 +820,9 @@ class Import extends Task
       $file = 'data/db21.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
+    } else {
+      print_r(libxml_get_errors());
     }
+    
   }
 }

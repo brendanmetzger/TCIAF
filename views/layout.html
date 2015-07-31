@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>[$title]</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="utf-8" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -9,12 +10,6 @@
     <meta name="apple-mobile-web-app-capable" content="no"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Third Coast International Audio Festival"/>
-    <link rel="shortcut icon" href="/images/favicon.ico"/>
-
-    <link rel="stylesheet" type="text/css" href="/css/tciaf.css" />
-    
-    <title>[$title]</title>
-    
     <script type="text/javascript">
       // <![CDATA[
       window.bloc = (function(d,w,c,q,t) {
@@ -29,10 +24,15 @@
       bloc.embed('/js/bloc.js');
       // ]]>
     </script>
+
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="/css/tciaf.css" />
   </head>
-  <body class="[$_controller $_action unloaded]" data-user="[$user]"  style="[background-image:url($item:background);background-size:cover;]">
+  
+  <body class="[$_controller $_action unloaded]" data-user="[$user]">
     <!-- replace helper -->
-    <header class="content container">
+    <header class="container">
+      <a id="logo" href="/"><span>Third Coast</span><span>International</span> <span>Audio Festival</span></a>
       <nav>
         <ul class="inline">
           <li><a href="/overview/nothing">Conference</a></li>
@@ -42,7 +42,7 @@
           <li><a href="/overview/nothing">Donate</a></li>
         </ul>
       </nav>
-      <h2 class="h1"><span>Third Coast</span><span>International</span> <span>Audio Festival</span></h2>
+      
     </header>
 
     <div class="content container">

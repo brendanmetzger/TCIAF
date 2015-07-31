@@ -1,6 +1,8 @@
 <div class="panel">
   <!-- iterate item:status:errors -->
-  <h1 class="error">[$message]</h1>
+  <h3 class="error">[$message]</h3>
+  
+  <h2><strong>[$action]</strong> <a class="em" href="[/explore/detail/$item:@id]">[$item:title]</a></h2>
   
   <form name="uploadData" method="POST" action="[/manage/edit/feature/$item:@id]" class="editor" autocomplete="off">
   
@@ -48,7 +50,7 @@
   
     <!-- insert views/forms/fieldset/edge.html -->
 
-    <button type="submit" class="margins">Save your Work</button>
+    <button type="submit" class="margins">Save Changes</button>
     
   </form> 
   
