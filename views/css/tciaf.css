@@ -25,7 +25,6 @@ header {
   width:10em;
   top:1em;
   right:0;
-
   box-shadow:-0.5em 0.5em 1em rgba(0,0,0,0.1);
 }
 
@@ -35,6 +34,7 @@ header nav ul li a {padding:0 0.5em;color:#aaa;text-decoration:none;}
 
 audio {display:none;}
 
+img:not([src]) {display:none;}
 
 /* Color ------------------- */
 
@@ -51,11 +51,15 @@ a.selected {
 .success {background-color:#D7F4CB;border-radius:0.65em;}
 .info {background-color:#CEE3EB;border-radius:0.5em;}
 .warn {background-color:#F3EECC;border-radius:0.35em;}
-.alert {background-color:#E9CCCB;border-radius:0;}
+.alert {background-color:#E9CCCB !important;border-radius:0;}
 .warn, .info, .alert, .success {
-  padding:0.5em;
+  padding:0.5em 1em;
   border:1px solid rgba(0,0,0,0.25);
   transition:border-radius 0.25s;
+}
+
+.alert > .warn {
+  font-weight:600;
 }
 
 
@@ -316,7 +320,7 @@ button[disabled], button[disabled]:hover {
 .search input {
   padding:2.5%;
   position:relative;
-  z-index:2001;
+  z-index:750;
 }
 .search input:focus {
   box-shadow:0 1em 10em 0em rgba(0,0,0,0.125);

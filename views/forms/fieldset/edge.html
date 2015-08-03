@@ -156,6 +156,8 @@
                 elem.classList.remove('highlight');
               }, 1000);
               
+              document.querySelector('div.receipt').classList.add('alert');
+              
               // close modal
               this.modal.close(function (arg) {
                 this.backdrop.parentNode.removeChild(this.backdrop);

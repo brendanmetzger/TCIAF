@@ -31,45 +31,35 @@ bloc.prepare(function () {
   if (form) {
     form.addEventListener('submit', function (evt) {
       evt.preventDefault();
-      var message = this.message;
+      var form = this;
       ajax = new XMLHttpRequest();
       ajax.addEventListener('load', function (evt) {
-        message.textContent = 'Saved..';
-        message.className = 'success';
-        setTimeout(function () {
-          form.classList.remove('changed');
-          
-          setTimeout(function () {
-            form.appendChild(form.querySelector('button[type=submit]'));
-            form.removeChild(message.parentNode);
-          }, 1000);
-        }, 2000);
-        /*
-          TODO replace all the response nodes so we can see errors or whatever
-        */
-      });
+        this.addEventListener('input', showReceipt, false);
+        this.querySelector('div.receipt').classList.remove('alert');
+
+        var message = this.querySelector('p.status');
+        message.classList.remove('warn');
+        message.classList.add('success');
+        message.textContent = 'Saved!';
+      }.bind(this));
       
       ajax.open("POST", this.action);
       ajax.send(new FormData(this));
+      
     }, false);
     
     var showReceipt = function (evt) {
-      
-      var receipt = this.appendChild(document.createElement('div'));
-      receipt.className = 'receipt';
-      receipt.appendChild(this.querySelector('button[type=submit]'));
-      this.message = receipt.appendChild(document.createElement('p'));
-      this.message.className = 'info';
-      this.message.textContent = 'Remember to save your changes!';
-      
-      setTimeout(function () {
-        this.classList.add('changed');
-      }.bind(this), 10);
-      
-      form.removeEventListener('change', showReceipt , false);
+      console.log('once');
+      this.querySelector('div.receipt').classList.add('alert');
+      var message = this.querySelector('p.status');
+      message.classList.add('warn');
+      message.classList.remove('info');
+      message.textContent = 'Remember to save your changes!';
+            
+      form.removeEventListener('input', showReceipt , false);
     };
   
-    form.addEventListener('change', showReceipt , false);
+    form.addEventListener('input', showReceipt , false);
     
   }
   

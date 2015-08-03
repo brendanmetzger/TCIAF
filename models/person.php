@@ -25,7 +25,8 @@ class Person extends Model
       'extra'    => ['article'],
     ],
     'acts'    => [
-      'producer' => ['feature', 'broadcast'],
+      'producer' => ['feature', 'broadcast', 'article'],
+      'staff'    => ['organization'],
       'host'     => ['happening', 'competition'],
       'judge'    => ['competition'],
       'sponsor'  => ['happening', 'competition'],
@@ -92,6 +93,23 @@ class Person extends Model
         return ['feature' => new Feature($collection['@vertex'])];
       });
     }
+  }
+  
+  public function getContributions(\DOMElement $context)
+  {
+    $out = [];
+    foreach ($this->references['acts'] as $key => $groups) {
+      $items = $context->find("edge[@type='{$key}']");
+      if ($items->count() > 0) {
+        $out[] = [
+          'name' => $key,
+          'items' => $items->map(function($collection) {
+            return ['item' => Graph::factory(Graph::ID($collection['@vertex']))];
+          }),
+        ];
+      }
+    }
+    return $out;
   }
   
 }
