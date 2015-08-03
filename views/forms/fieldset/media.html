@@ -24,6 +24,7 @@
   <script type="text/javascript">
     // <![CDATA[
     
+    var audio_ready_queue = [];
     
     function startFormPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
@@ -34,10 +35,18 @@
         window.player.playTrack(Number(this.hash.substring(1)));
       });
       
+      
+      
       audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
+      
+      audio_ready_queue.push(audio_element);
     }
   
     bloc.prepare(function () {
+      
+      audio_ready_queue.forEach(function (elem) {
+        Player.queue(elem);
+      });
       
     
       var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg, audio/mp3, audio/mp4');

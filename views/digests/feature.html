@@ -1,7 +1,7 @@
 <article class="feature">
   
   <!-- iterate item:media:audio -->
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="Player.queue(this, loadPlayer)" controls="controls" preload="metadata">Audio</audio>
+  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="loadPlayer(this);" controls="controls" preload="metadata">Audio</audio>
   
   <style type="text/css" media="screen">
     /* <![CDATA[ */
@@ -54,11 +54,25 @@
 
   <script type="text/javascript">
     // <![CDATA[
+    var local_queue = [];
     function loadPlayer(audio) {
-      this.setDisplay('title', 'Play <em>' + audio.title + '</em>');
+      if (Player) {
+        console.log('has a player');
+        Player.queue(audio);
+      } else {
+        local_queue.push(audio);
+      }
+      
     }
     
     bloc.prepare(function () {
+      if (local_queue.length > 0) {
+        local_queue.forEach(function (audio) {
+          console.log(audio);
+          Player.queue(audio);
+        });
+      }
+      
       document.querySelector('ol.recommended').addEventListener('click', function (evt) {
         if (evt.target.nodeName === "A") {
           evt.preventDefault();

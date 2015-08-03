@@ -80,13 +80,13 @@ var Player = function (container) {
   // need a scrubber
 };
 
-Player.queue = function (audio_element, callback) {
+Player.queue = function (audio_element) {
   if (!window.player) {
     window.player = new Player(document.body.appendChild(document.createElement('div')));
   }
   
   window.player.attach(audio_element);
-  callback.call(window.player, audio_element);
+  
 };
 
 
