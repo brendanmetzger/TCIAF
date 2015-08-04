@@ -80,13 +80,14 @@ var Player = function (container) {
   // need a scrubber
 };
 
+
+
 Player.queue = function (audio_element) {
   if (!window.player) {
     window.player = new Player(document.body.appendChild(document.createElement('div')));
   }
   
   window.player.attach(audio_element);
-  
 };
 
 
@@ -169,7 +170,6 @@ var Button = function (button, state) {
     }
     if (state != 'wait') {
       indicator.setAttribute('d', states[this.state]);
-      
 
       animate.setAttribute('from', states[this.state]);
       animate.setAttribute('to', states[state]);

@@ -44,10 +44,17 @@ namespace models;
       });
     }
     
-    public function getAbout($context)
+    public function getAbout(\DOMElement $context)
     {
       $this->parseText($context);
       return isset($this->about) ? $this->about : null;
+    }
+    
+    public function getBanner(\DOMElement $context)
+    {
+      if ($photo = $this->media['image']->current()) {
+        return $photo;
+      }
     }
         
   }

@@ -23,10 +23,8 @@
   
   <script type="text/javascript">
     // <![CDATA[
-    
-    var audio_ready_queue = [];
-    
-    function startFormPlayer(audio_element) {
+        
+    function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
       a.style.display = 'inline-block';
       a.href = '#' + audio_element.dataset.index;
@@ -39,16 +37,12 @@
       
       audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
       
-      audio_ready_queue.push(audio_element);
+      if (window.player) {
+        Player.queue(audio_element);
+      }
     }
   
     bloc.prepare(function () {
-      
-      audio_ready_queue.forEach(function (elem) {
-        Player.queue(elem);
-      });
-      
-    
       var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg, audio/mp3, audio/mp4');
     
       uploader.addTrigger(document.querySelector('button.upload.image'));
