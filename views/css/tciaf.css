@@ -380,7 +380,7 @@ button[disabled], button[disabled]:hover {
   position:fixed;
   top:7.5em;
   right:0;
-  width:20%;
+  width:25%;
   box-sizing:border-box;
   padding:1.25%;
   z-index:1000;
@@ -399,6 +399,16 @@ button[disabled], button[disabled]:hover {
   height:auto;
   text-align:center;
 }
+
+.progress {
+  position:relative;
+  background-size:cover;
+}
+
+
+.progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
+
+
 
 .progress:hover strong {
   display:none;

@@ -134,6 +134,8 @@ body[data-user] {
   width:85%;
 }
 
+#player {width:20%;}
+
 
 .dashboard {
   position:fixed;
@@ -381,14 +383,6 @@ fieldset.media dl {
   margin:0 0 1em;
 }
 
-
-.progress {
-  position:relative;
-  background-size:cover;
-}
-
-
-.progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
 
 
 fieldset[disabled] {
