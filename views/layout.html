@@ -25,7 +25,13 @@
       bloc.embed('/js/bloc.js');
       
       bloc.prepare(function () {
-        window.player = new Player(document.body.appendChild(document.createElement('div')));
+        
+        if (window.player) {
+          Player.queue.apply(null,window.player);
+        } else {
+          window.player = new Player(document.body.appendChild(document.createElement('div')));
+        }
+        
       });
       
       

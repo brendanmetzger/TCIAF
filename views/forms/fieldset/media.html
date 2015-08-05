@@ -39,6 +39,8 @@
       
       if (window.player) {
         Player.queue(audio_element);
+      } else {
+        window.player = [audio_element, notifyPlayer];
       }
     }
   

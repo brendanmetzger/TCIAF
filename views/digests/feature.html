@@ -57,7 +57,7 @@
         Player.queue(audio);
         window.player.setDisplay('title', 'Play this feature.');
       } else {
-        console.log('there is no player to load');
+        window.player = [audio, notifyPlayer];
       }
       
     }

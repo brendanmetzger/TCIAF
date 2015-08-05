@@ -395,6 +395,9 @@ button[disabled], button[disabled]:hover {
 .progress strong {
   position:absolute;
   padding:0.5em 0;
+  height:100%;
+  top:0;
+  left:0;
   width:100%;
   height:auto;
   text-align:center;

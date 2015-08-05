@@ -115,12 +115,16 @@ function getClockPosition(evt) {
 
 
 
-Player.queue = function (audio_element) {
+Player.queue = function (audio_element, callback) {
   if (!window.player) {
     window.player = new Player(document.body.appendChild(document.createElement('div')));
   }
   
   window.player.attach(audio_element);
+  if (callback) {
+    callback.call(this, audio_element);
+  }
+
 };
 
 
