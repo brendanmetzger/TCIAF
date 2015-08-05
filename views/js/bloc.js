@@ -55,30 +55,63 @@ SVG.prototype.b64url = function (styles) {
 
 var Player = function (container) {
 
-    container.id = "player";
-    
-    var button = container.appendChild(document.createElement('button'));
-        button.setAttribute('type', 'button');
-    
-    this.button = new Button(button, 'play');
-    
-    var button_activate = function (evt) {
-      evt.preventDefault();
-      console.log(this.button.state);
-      this[this.button.state].call(this);
-    }.bind(this);
+  container.id = "player";
 
-    this.button.getDOMButton().addEventListener('touchend', button_activate, false);
-    this.button.getDOMButton().addEventListener('click', button_activate, false);
+  var button = container.appendChild(document.createElement('button'));
+      button.setAttribute('type', 'button');
+
+  this.button = new Button(button, 'play');
+
+  var button_activate = function (evt) {
+    evt.preventDefault();
+    console.log(this.button.state);
+    this[this.button.state].call(this);
+  }.bind(this);
+
+  this.button.getDOMButton().addEventListener('touchend', button_activate, false);
+  this.button.getDOMButton().addEventListener('click', button_activate, false);
   
-    var display = container.appendChild(document.createElement('div'));
-        display.className = "display";
+  
+  this.progress = new Progress(container);
 
-    this.display.title  = display.appendChild(document.createElement('h2'));
-    this.display.byline = display.appendChild(document.createElement('p'));
+  var tick = function (evt) {
+    this.update(getClockPosition(evt), '', true);
+  }.bind(this.progress);
+  
+  this.progress.element.addEventListener('mouseover', function () {
+    this.addEventListener('mousemove', tick, false);
+  }.bind(this.progress.element));
+  
+  this.progress.element.addEventListener('mouseout', function () {
+    this.removeEventListener('mousemove', tick, false);
+  }.bind(this.progress.element));
+  
+  
+  
+  this.progress.element.addEventListener('click', function (evt) {
+    var audio = this.elements[this.index];
+    audio.currentTime = audio.duration * getClockPosition(evt);
+    this.progress.element.removeEventListener('mousemove', tick, false);
+  }.bind(this), false);
+  
+  
+  
+  var display = container.appendChild(document.createElement('section'));
+      display.className = "display";
+
+  this.display.title  = display.appendChild(document.createElement('h2'));
+  this.display.byline = display.appendChild(document.createElement('p'));
     
+  
   // need a scrubber
 };
+
+function getClockPosition(evt) {
+  var theta = Math.atan2((evt.offsetX - (evt.target.offsetWidth / 2)), ((evt.target.offsetHeight / 2) - evt.offsetY)) * (180 / Math.PI);
+  return (theta < 0 ? 360 + theta : theta) / 360;
+}
+
+
 
 
 
@@ -125,11 +158,35 @@ Player.prototype = {
     }
     
   },
+  timeUpdate: function (evt) {
+    
+    var elem = evt instanceof Event ? evt.target : evt;
+    var time = Math.ceil(elem.currentTime);
+    var dur = Math.ceil(elem.duration);
+    var now = new Date(time * 1000);
+    var lim = new Date((dur - time) * 1000);
+    var msg = "<span>{m}:{s}</span>".format({
+      h: ('00'+now.getUTCHours()).slice(-2),
+      m: ('00'+now.getUTCMinutes()).slice(-2),
+      s: ('00'+now.getSeconds()).slice(-2)
+    });
+    
+    msg += "<span>{m}:{s}</span>".format({
+      h: ('00'+lim.getUTCHours()).slice(-2),
+      m: ('00'+lim.getUTCMinutes()).slice(-2),
+      s: ('00'+lim.getSeconds()).slice(-2)
+    });
+    
+    this.progress.update(elem.currentTime / elem.duration, msg);
+
+  },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
       audio_element.removeAttribute('controls');
       audio_element.addEventListener('ended', this.proxyEvent.bind(this));
+      audio_element.addEventListener('timeupdate', this.timeUpdate.bind(this));
+      this.timeUpdate(audio_element);
     }
   },
   detach: function (audio_element) {
@@ -507,11 +564,16 @@ Menu.prototype = {
 
 // Progress/Patience
 
-var Progress = function() {
+var Progress = function(container) {
   
-  var svg, path, message;
+  var svg, path, handle, message;
   this.element = document.createElement('div');
   this.element.className = 'progress';
+  
+  if (container) {
+    container.appendChild(this.element);
+  }
+  
   
   message = this.element.appendChild(document.createElement('strong'));
   
@@ -521,20 +583,39 @@ var Progress = function() {
     width: 50,
     viewBox: '0 0 100 100'
   });
+  
+  svg.createElement('circle', {
+    'cx': 50,
+    'cy': 50,
+    'r': 35
+  });
+  
+  handle = svg.createElement('path', {
+    'd': 'M50,50',
+    'class': 'handle',
+    'transform': 'rotate(-90 50 50)'
+  });
+  
 
   path = svg.createElement('path', {
     'd': 'M50,50',
     'transform': 'rotate(-90 50 50)'
   });
   
-  this.update = function(percentage, text) {
+  
+  this.update = function(percentage, text, mouseover) {
     message.innerHTML = text || '';
     
     var radian = (2 * Math.PI) * percentage;
-    var x = (Math.cos(radian) * 25) + 50;
-    var y = (Math.sin(radian) * 25) + 50;
-
-    return path.setAttribute('d', "M75,50A25,25 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y);
+    var x = (Math.cos(radian) * 35) + 50;
+    var y = (Math.sin(radian) * 35) + 50;
+    
+    var data = "M85,50A35,35 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
+    if (mouseover) {
+      handle.setAttribute('d', data);
+    } else {
+      path.setAttribute('d', data);
+    }
   };
   
 

@@ -386,25 +386,8 @@ fieldset.media dl {
   position:relative;
   background-size:cover;
 }
-.progress strong {
-  position:absolute;
-  padding:0.5em 0;
-  width:100%;
-  height:100%;
-  text-align:center;
-  background-color:rgba(255,255,255,0.5);
 
 
-}
-.progress svg {
-  width:80%;
-  height:80%;
-  fill:none;
-  margin:auto 10%;
-  stroke:#000;
-  stroke-width:5;
-  stroke-opacity:0.75;
-}
 .progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
 
 
