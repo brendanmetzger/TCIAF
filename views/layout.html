@@ -22,8 +22,7 @@
           prepare: function(f) {if (typeof f === 'function') c.unshift(f);}
       };}(document, window, [], [], []));
 
-      bloc.embed('/js/bloc.js');
-      
+      bloc.embed('/js/bloc.js');    
       bloc.prepare(function () {
         
         if (window.player) {
@@ -31,11 +30,7 @@
         } else {
           window.player = new Player(document.body.appendChild(document.createElement('div')));
         }
-        
       });
-      
-      
-      
       // ]]>
     </script>
 
@@ -51,7 +46,7 @@
         <ul class="inline">
           <li><a href="/overview/nothing">Conference</a></li>
           <li><a href="/overview/nothing">Events</a></li>
-          <li><a href="/overview/nothing">Competitions</a></li>
+          <li><a href="/explore/competition">Competitions</a></li>
           <li><a href="/overview/nothing">Subscribe</a></li>
           <li><a href="/overview/nothing">Donate</a></li>
         </ul>

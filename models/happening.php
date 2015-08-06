@@ -26,7 +26,7 @@ namespace models;
       'has' => [
         'host'        => ['person'],
         'participant' => ['person'],
-        'extra'       => ['article'],
+        'extra'       => ['article', 'feature'],
       ],
       'acts' => []
     ];

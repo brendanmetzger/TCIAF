@@ -31,6 +31,7 @@ namespace models;
       ],
       'acts'    => [
         'sponsor'    => ['organization', 'competition', 'happening'],
+        'judge' => ['competition']
       ]
     ];
     
