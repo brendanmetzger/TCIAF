@@ -32,7 +32,7 @@ namespace models;
         'award'    => ['competition'],
       ],
       'acts'    => [
-        'item'        => ['collection'],
+        'item'        => ['collection', 'happening'],
         'participant' => ['competition'],
       ]
     ];
