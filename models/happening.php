@@ -28,6 +28,8 @@ namespace models;
         'participant' => ['person'],
         'extra'       => ['article', 'feature'],
       ],
-      'acts' => []
+      'acts' => [
+        'edition'       => ['happening'],
+      ]
     ];
   }
