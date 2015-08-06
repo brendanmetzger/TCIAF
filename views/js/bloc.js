@@ -75,7 +75,7 @@ var Player = function (container) {
   this.progress = new Progress(container);
 
   var tick = function (evt) {
-    this.update(getClockPosition(evt), '', true);
+    this.update(getClockPosition(evt), null, true);
   }.bind(this.progress);
   
   this.progress.element.addEventListener('mouseover', function () {
@@ -609,7 +609,7 @@ var Progress = function(container) {
   
   
   this.update = function(percentage, text, mouseover) {
-    message.innerHTML = text || '';
+    message.innerHTML = text || message.innerHTML;
     
     var radian = (2 * Math.PI) * percentage;
     var x = (Math.cos(radian) * 35) + 50;
