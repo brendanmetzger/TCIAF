@@ -1,0 +1,66 @@
+<article class="competition">
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    section.awards {
+      padding:1em;
+    }
+    section.awards div {
+      padding:1em;
+      border-bottom:1px solid #fff;
+    }
+    
+    section.judges {
+      background-color:rgba(0,0,0,0.1);
+      padding:2em;
+    }
+    
+    .competition .container > h3 {
+      border-bottom:1px solid rgba(0,0,0,0.4);
+      margin:1em 0;
+      font-size:1.85em;
+    }
+    /* ]]> */
+  </style>
+  <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
+  <h2 data-id="[$item:@id]">[$item:title]</h2>
+  <section>[$item:about]</section>
+  <hr />
+  <section class="awards container">
+    <h3>Awards</h3>
+    <!-- iterate item:awards -->
+    <div>
+      <h1>[$award]</h1>
+      <h2 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h2>
+      <!-- iterate feature:producers -->
+      <a href="[/explore/detail/$person:@id]">[$person:title]</a>
+      <aside>[$feature:description]</aside>
+    </div>
+  </section>
+  <hr />
+  <section class="judges container">
+    <h3>Judges</h3>
+    <!-- iterate item:judges -->
+    <!-- insert views/partials/person.html -->
+  </section>
+  
+  <aside class="sponsors container">
+    <h3>Sponsors</h3>
+    <!-- iterate item:sponsors -->
+    <div>
+      <h3 data-id="[$organization:@id]"><a href="[/explore/detail/$organization:@id]">[$organization:title]</a></h3>
+      <p>[$organization:about]</p>
+    </div>
+  </aside>
+  
+  <aside class="participants container">
+    <h3>Browse All Entries</h3>
+    <!-- iterate item:participants -->
+    <div style="padding:1em;float:left;margin:0.25em;background-color:#eee;">
+      <h3><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+      <em>
+        <!-- iterate feature:producers -->
+        <a href="[/explore/detail/$person:@id]">[$person:title]</a>
+      </em>
+    </div>
+  </aside>
+</article>

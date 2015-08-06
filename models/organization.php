@@ -39,4 +39,11 @@ namespace models;
       $this->parseText($context);
       return substr(strip_tags($this->about), 0, 100) . '...';
     }
+    
+    
+    public function getAbout(\DOMElement $context)
+    {
+      $this->parseText($context);
+      return isset($this->about) ? $this->about : null;
+    }
   }

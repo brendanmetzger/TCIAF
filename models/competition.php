@@ -37,10 +37,10 @@ namespace models;
     ];
     
     
-    public function getIssues(\DOMElement $context)
+    public function getEditions(\DOMElement $context)
     {
-      return $context['edge']->map(function($edge) {
-        return Graph::ID($edge['@vertex']);
+      return $context->find("edge[@type='edition']")->map(function($edge) {
+        return ['competition' => new Competition($edge['@vertex'])];
       });
     }
     
@@ -56,5 +56,38 @@ namespace models;
         return $photo;
       }
     }
-        
+    
+    public function getView()
+    {
+      return $this->awards->count() > 0 ? 'competition/edition' : 'competition/brief';
+    }
+    
+    public function getParticipants(\DOMElement $context)
+    {
+      return $context->find("edge[@type='participant']")->map(function($edge) {
+        return ['feature' => new Feature($edge['@vertex'])];
+      });
+    }
+      
+    
+    public function getJudges(\DOMElement $context)
+    {
+      return $context->find("edge[@type='judge']")->map(function($edge) {
+        return ['person' => new Person($edge['@vertex'])];
+      });
+    }
+    
+    public function getAwards(\DOMElement $context)
+    {
+      return $context->find("edge[@type='award']")->map(function($edge) {
+        return ['feature' => new Feature($edge['@vertex']), 'award' => $edge->nodeValue];
+      });
+    }
+    
+    public function getSponsors(\DOMElement $context)
+    {
+      return $context->find("edge[@type='sponsor']")->map(function($edge) {
+        return ['organization' => new Organization($edge['@vertex'])];
+      });
+    }
   }

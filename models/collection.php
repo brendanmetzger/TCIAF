@@ -30,4 +30,13 @@ namespace models;
       'acts' => []
     ];
     
+    public function getFeatures(\DOMElement $context)
+    {
+
+      return $context->find("edge[@type='item']")->map(function($edge) {
+        return ['feature' => new Feature($edge['@vertex'])];
+      });
+      
+    }
+    
   }

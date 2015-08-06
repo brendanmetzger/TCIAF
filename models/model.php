@@ -247,6 +247,11 @@ abstract class Model extends \bloc\Model
     return new \bloc\types\Dictionary($response);
   }
   
+  public function getView()
+  {
+    return $this->get_model();
+  }
+  
   
   
   public function __construct($id = null, $data = [])
@@ -279,12 +284,14 @@ abstract class Model extends \bloc\Model
   
   public function __call($method, $arguments)
   {
+
     $accessor = substr($method, 0, 3); // will be get or set
     $context = $arguments[0];
    
     if ($accessor == 'get') {
       return $context[substr($method,3)];
     } else {
+
       $value   = $arguments[1];
 
       if (strtolower(substr($method, -9)) == 'attribute') {

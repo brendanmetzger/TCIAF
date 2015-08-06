@@ -26,10 +26,11 @@ class Explore extends Manage
   
   public function GETdetail($id)
   {
-    $view = new view('views/layout.html');
+
     $this->item   = Graph::factory(Graph::ID($id));
     $this->title  = $this->item['@title'];
-    $view->content = "views/digests/{$this->item->get_model()}.html";
+    $view = new view('views/layout.html');
+    $view->content = $v = "views/digests/{$this->item->getView()}.html";
     return $view->render($this());
   }
   
@@ -106,7 +107,7 @@ class Explore extends Manage
   
   public function GETcompetition($type = 'all', $index = 1, $per = 100)
   {
-    return $this->GETgroup('competition', $type, $index, $per, "[edge[@type='edition']]");
+    return $this->GETgroup('competition', $type, $index, $per);
   }
   
   public function GETorganization($type = 'all', $index = 1, $per = 100)

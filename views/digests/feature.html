@@ -8,11 +8,8 @@
     article.feature {
       width:100%;
     }
-    div.content {position:relative;}
-    div.producer img {
-      float:left;
-      width:10%;
-    }
+    main.content {position:relative;}
+    
     /* ]]> */
   </style>
   
@@ -34,11 +31,7 @@
   
   <h2>Produced By:</h2>
   <!-- iterate item:producers -->
-  <div class="producer container" style="padding:1em 0">
-    <img src="[http://s3.amazonaws.com/$producer:photo:url]" style="padding:1em 1em 1em 0;margin-right:1em;border-right:1px solid #eee;float:left;"/>
-    <h2><a href="[/explore/detail/$producer:@id]">[$producer:@title]</a></h2>
-    <section>[$producer:bio]</section>
-  </div>
+  <!-- insert views/partials/person.html -->
   
   
   <h2>Next Up (in theory)</h2>
@@ -46,8 +39,16 @@
   
   <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:extra]</section>
   
-  <!-- iterate item:collections -->
-  <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
+  <div>
+    <h2>More</h2>
+    <!-- iterate item:collections -->
+    <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
+    
+    <!-- iterate item:extras -->
+    <a href="[/explore/detail/$article:@id]">[$article:title]</a>
+    
+  </div>
+  
 
   <script type="text/javascript">
     // <![CDATA[
@@ -55,7 +56,7 @@
     function notifyPlayer(audio) {
       if (window.player) {
         Player.queue(audio);
-        window.player.setDisplay('title', 'Play this feature.');
+        window.player.setDisplay('title', 'Play this feature');
       } else {
         window.player = [audio, notifyPlayer];
       }

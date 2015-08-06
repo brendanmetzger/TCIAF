@@ -128,19 +128,23 @@ namespace models;
     
     public function getProducers(\DOMElement $context)
     {
-      return Graph::group('person')->find("vertex[edge[@vertex='{$context['@id']}']]")->map(function($person) {
-        return ['producer' => new Person($person)];
+      return $context->find("edge[@type='producer']")->map(function($edge) {
+        return ['person' => new Person($edge['@vertex'])];
       });
     }
     
     public function getCollections(\DOMElement $context)
     {
-      $collections = $context->find("edge[@type='item']");
-      if ($collections->count() > 0) {
-        return $collections->map(function($collection) {
-          return ['collection' => new Collection($collection['@vertex'])];
-        });
-      }
+      return $context->find("edge[@type='item']")->map(function($collection) {
+        return ['collection' => new Collection($collection['@vertex'])];
+      });
+    }
+    
+    public function getExtras(\DOMElement $context)
+    {
+      return $context->find("edge[@type='extra']")->map(function($extra) {
+        return ['article' => new Article($extra['@vertex'])];
+      });
     }
    
    public function getRecommended(\DOMElement $context)

@@ -438,6 +438,9 @@ button[disabled], button[disabled]:hover {
   width:100%;
   height:auto;
   text-align:center;
+}
+
+.progress strong, .progress .handle {
   pointer-events: none;
 }
 
@@ -474,13 +477,23 @@ button[disabled], button[disabled]:hover {
   color:#AAA;
 }
 
+
+#player .display {
+  border-top:1px solid rgba(255,255,255,0.1);
+  padding:1em 0;
+}
+#player .display h2 {
+  text-align:center;
+  
+}
+
 #player div {
   display:inline-block;
   width:50%;
   vertical-align:top;
 }
 
-button path.indicator{fill:#fff;stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
+button path.indicator{fill:#fdfdfa;stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
 button path.wait{fill:transparent;stroke-opacity:1;transition:stroke-opacity 0.25s;}
 button:not(.wait) path.wait{stroke-opacity:0;}
 button.wait svg path.indicator{fill-opacity:0;fill:#AAA;}
@@ -499,4 +512,20 @@ button.error{background-color:#ED1C24;}
   text-decoration:none;
   background: transparent url(/images/medal.svg) no-repeat top right;
   background-size:auto 100% ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+div.person img {
+  float:left;
+  width:10%;
 }
