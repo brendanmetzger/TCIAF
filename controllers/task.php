@@ -293,7 +293,7 @@ class Task extends \bloc\controller
 
   }
   
-  public function CLItranscode()
+  public function CLItranscode($size = 5)
   {
     
     $pipeline = [
@@ -328,9 +328,11 @@ class Task extends \bloc\controller
           ]
         ]);
         
-        echo "new job created: " . $result['Job']['Id'];  
+        echo "new job created: " . $result['Job']['Id'] . "\n\n";  
         
-        break;
+        if ($size-- < 0) {
+          break;
+        }
       }
     }
     
