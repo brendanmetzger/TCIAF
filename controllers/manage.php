@@ -242,6 +242,7 @@ class Manage extends \bloc\controller
               'PresetId' => '1439308682558-sehqe8',
             ]
           ]);
+            
           $path = "/tciaf-audio/{$key}";
         } else {
           $path = "/{$bucket}/{$type}/{$name}";
