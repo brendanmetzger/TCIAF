@@ -227,12 +227,28 @@ class Manage extends \bloc\controller
         
         $result = $client->putObject($config);
         
-        /*
-          TODO start a job, send that along with the media object
-        */
+        
+        if ($type == 'audio' && $result) {
+          $transcoder = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
+
+          $key = preg_replace('/\.?mp3/i', '', $name) . '.m4a';
+          $job = $transcoder->createJob([
+            'PipelineId' => '1439307152758-prv5fa',
+            'Input' => [
+              'Key' => $type . '/' . $name,
+            ],
+            'Output' => [
+              'Key'      => $key,
+              'PresetId' => '1439308682558-sehqe8',
+            ]
+          ]);
+          $path = "/tciaf-audio/{$key}";
+        } else {
+          $path = "/{$bucket}/{$type}/{$name}";
+        }
         
         $media = Graph::instance()->storage->createElement('media', 'A caption');
-        $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
+        $media->setAttribute('src',  $path);
         $media->setAttribute('name',  $name);
         $media->setAttribute('type', $type);
       
