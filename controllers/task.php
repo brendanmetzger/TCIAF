@@ -292,6 +292,53 @@ class Task extends \bloc\controller
     
 
   }
+  
+  public function CLItranscode()
+  {
+    
+    $pipeline = [
+      'new' => '1439307152758-prv5fa',
+      'old' => '1439307760286-8f5hu5',
+    ];
+
+    $mp4_preset_id = '1439308682558-sehqe8';
+    
+    $client = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
+    
+    $tracks = \models\Graph::group('feature')->find('vertex/media[@type="audio"]');
+    
+    foreach ($tracks as $track) {
+      $path = $track->getAttribute('src');
+      $parts = explode('/', $path);
+      if ($parts[0] == '3rdcoast-features') {
+        $path = substr($path, strlen('3rdcoast-features/'));
+        $new_path = $parts[2] . '_' . preg_replace('/\.?mp3/i', '', array_pop($parts)) . '.m4a';
+        // set new attribute
+        $track->setAttribute('src', 'tciaf-audio/'. $new_path);
+        echo $path . ' - into - ' . $new_path . "\n";
+        
+        $result = $client->createJob([
+          'PipelineId' => $pipeline['old'],
+          'Input' => [
+            'Key' => $path,
+          ],
+          'Output' => [
+            'Key'      => $new_path,
+            'PresetId' => $mp4_preset_id,
+          ]
+        ]);
+        
+        echo "new job created: " . $result['Job']['Id'];  
+        
+        break;
+      }
+    }
+    
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+    
+      
+    
+  }
 
   private function CLIcorrelate($id = null)
   {

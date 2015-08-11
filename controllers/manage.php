@@ -227,6 +227,10 @@ class Manage extends \bloc\controller
         
         $result = $client->putObject($config);
         
+        /*
+          TODO start a job, send that along with the media object
+        */
+        
         $media = Graph::instance()->storage->createElement('media', 'A caption');
         $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}");
         $media->setAttribute('name',  $name);

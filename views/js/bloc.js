@@ -107,7 +107,11 @@ var Player = function (container) {
 };
 
 function getClockPosition(evt) {
-  var theta = Math.atan2((evt.offsetX - (evt.target.offsetWidth / 2)), ((evt.target.offsetHeight / 2) - evt.offsetY)) * (180 / Math.PI);
+  var x = evt.offsetX || evt.layerX;
+  var y = evt.offsetY || evt.layerY;
+  var rect = evt.target.getBoundingClientRect();
+  var theta = Math.atan2((x - (rect.width / 2)), ((rect.height / 2) - y)) * (180 / Math.PI);
+
   return (theta < 0 ? 360 + theta : theta) / 360;
 }
 
