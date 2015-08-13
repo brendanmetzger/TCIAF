@@ -22,14 +22,19 @@
           prepare: function(f) {if (typeof f === 'function') c.unshift(f);}
       };}(document, window, [], [], []));
 
-      bloc.embed('/js/bloc.js');    
+      function Maybe(options) {
+        console.log('here in maybe', options)
+      };
+      bloc.embed('/js/bloc.js');
+      
       bloc.prepare(function () {
-        
-        if (window.player) {
-          Player.queue.apply(null,window.player);
-        } else {
-          window.player = new Player(document.body.appendChild(document.createElement('div')));
-        }
+        document.querySelectorAll('noscript').forEach(function (container) {
+          var replace    = document.createElement('div');
+              replace.id = container.id;
+          window[container.id].instance = new window[container.id](replace, container.dataset);
+
+          container.parentNode.replaceChild(replace, container);
+        });
       });
       // ]]>
     </script>
@@ -55,14 +60,14 @@
     </header>
 
     <main class="content container">
-      
+            
       <!-- replace content nextSibling -->
-      <section>
+      <article>
         <style type="text/css" media="screen">
           /* <![CDATA[ */
           
           #Library {
-            width:65%;
+            width:100%;
           }
           #Viewer {
             width:35%;
@@ -92,7 +97,6 @@
           #titles em span {
             color:#ccc;
             padding:0 0.25em;
-            
           }
           /* ]]> */
         </style>
@@ -101,24 +105,36 @@
           <div id="Viewer" class="group left">
             <div id="titles">Library</div>
           </div>
+          
+          <ul class="inline clear">
+            <li>Sort by Featured</li>
+            <li>Sort by Created</li>
+            <li>Filter Short Docs</li>
+            <li>Filter Re:Sound</li>
+            <li>Sort by Alphabetical</li>
+            <li>Show TCF Winners</li>
+            <li>Show Conference Audio</li>
+            <li>Rando</li>
+          </ul>
+          
           <div id="Library" class="group left" data-tokens="[$tokens]">
           </div>
         </div>
         <script type="text/javascript">
         // <![CDATA[
           
-          /*
-        <ul class="inline clear">
-          <li>Sort by Featured</li>
-          <li>Sort by Created</li>
-          <li>Filter Short Docs</li>
-          <li>Filter Re:Sound</li>
-          <li>Sort by Alphabetical</li>
-          <li>Show TCF Winners</li>
-          <li>Show Conference Audio</li>
-          <li>Rando</li>
-        </ul>
-          */
+          
+          
+          var animate = function (callback) {
+            var loop = function (element, timer) {
+              
+              if (callback.call(timer, element)) {
+                requestAnimationFrame(loop.bind(null, element, timer));
+              }
+            };
+            return loop;
+          }
+          
 
         bloc.prepare(function () {
           var library = document.getElementById('Library');
@@ -139,31 +155,69 @@
             // console.log(request);
             if (evt.target.nodeName == 'SPAN') {
               clearTimeout(timer);
-              http.open('GET', '/explore/feature/' + evt.target.id + '.xml');
+              http.open('GET', '/explore/detail/' + evt.target.id + '.xml');
               timer = setTimeout(function () {
                 http.send();
               }, 200);
             }
           }, false);
+          
+          var svg = new SVG(library, {
+            height: '100%',
+            width: '100%',
+            viewBox: '0 0 400 200'
+          });
+          
 
           library.dataset.tokens.split(' ').forEach(function (token, idx) {
-            var s = library.appendChild(document.createElement('span'));
-                s.id = token;
-                s.textContent = idx;
+            var s = svg.createElement('circle', {
+              'cx': 200,
+              'cy': 100,
+              'r': 2,
+              'id': token,
+            });
             
-            setTimeout(function () {
-              s.className = 'color';
-            }, Math.random() * 1000);
+            // var s = library.appendChild(document.createElement('span'));
+            //     s.id = token;
+            //     s.textContent = idx;
+
+            var from = [200,100];
+            var to   = [(Math.random() * 400), (Math.random() * 200)];
+            var duration = Math.random() * 2000;
+
+
+              
+              var spread = animate(function (element) {
+                var ratio = 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5); // float % animation complete 
+                var x = ratio >= 1 ? to[0] : ( ratio * ( to[0] - from[0] ) ) + from[0];
+                var y = ratio >= 1 ? to[1] : ( ratio * ( to[1] - from[1] ) ) + from[1];
+                
+                element.setAttribute('cx', x);
+                element.setAttribute('cy', y);
+
+                return (ratio < 1);
+              });
+              
+              setTimeout(function () {
+                spread(s, {start: Date.now(), duration: Math.random() * 2000});
+              }, 250);
+              
+              
+              
+              
+            
           });
           
         });
         // ]]>
         </script>
         
-      </section>
+      </article>
     </main>
     
     <!-- insert views/pages/footer.html -->
+    
+    <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
     
     <script type="text/javascript">
       window.bloc.load();

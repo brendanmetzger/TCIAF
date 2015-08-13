@@ -200,6 +200,12 @@ abstract class Model extends \bloc\Model
     if (empty($media['@']['src'])) {
       return false;
     }
+    
+    // Check for a query string - due to latency involved with Elastic Transcoding, we
+    // don't set transcoded url until after a save. It is tacked on as a query parameter until then. 
+    if ($pending = parse_url($media['@']['src'], PHP_URL_QUERY)) {
+      $media['@']['src'] = $pending;
+    }
 
     $context->setAttribute('src',  $media['@']['src']);
     $context->setAttribute('type', $media['@']['type']);

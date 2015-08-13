@@ -1,4 +1,4 @@
-<article class="feature">
+<article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
   
   <!-- iterate item:media:audio -->
   <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="notifyPlayer(this);" controls="controls" preload="metadata">Audio</audio>
@@ -14,25 +14,27 @@
   </style>
   
 
-  <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]">[$item:award:title - $item:award:competition:title]</a>
+  <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:title - $item:award:competition:title]</a>
 
-  <h1 data-id="[$item:@id]" class="marquee">[$item:title]</h1>
+  <h1 data-id="[$item:@id]" class="marquee" property="name">[$item:title]</h1>
   
   <section class="group left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
     <!-- iterate item:media:image -->
-    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:100%;"/>
+    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:100%;" property="image"/>
   </section>
   
-  <section class="intro group left" style="width:75%;margin-left:2.5%">[$item:description]</section>
+  <section class="intro group left" style="width:75%;margin-left:2.5%"  property="description">[$item:description]</section>
   
 
   <hr class="tempo clear"/>
   
   
-  <h2>Produced By:</h2>
-  <!-- iterate item:producers -->
-  <!-- insert views/partials/person.html -->
+  <div property="producer">
+    <h2>Produced By:</h2>
   
+    <!-- iterate item:producers -->
+    <!-- insert views/partials/person.html -->
+  </div>
   
   <h2>Next Up (in theory)</h2>
   <!-- insert views/lists/recommendation.html -->
@@ -54,11 +56,12 @@
     // <![CDATA[
     
     function notifyPlayer(audio) {
-      if (window.player) {
-        Player.queue(audio);
-        window.player.setDisplay('title', 'Play this feature');
+      
+      if (Player.instance) {
+        Player.instance.attach(audio);
+        Player.instance.setDisplay('title', 'Play this feature');
       } else {
-        window.player = [audio, notifyPlayer];
+        document.getElementById('Player').dataset.queue = [audio, notifyPlayer];
       }
       
     }

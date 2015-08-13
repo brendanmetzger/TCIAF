@@ -10,12 +10,13 @@ String.prototype.format = function() {
   });
 };
 
-// this is a simple animation rigamarole;
-var transition = function (begin, callback) {
-  if (callback.call(this, begin)) {
-    requestAnimationFrame(transition.bind(this, begin, callback));
-  }
+Event.prototype.theta = function () {
+  var rect  = this.target.getBoundingClientRect();
+  var theta = Math.atan2((this.offsetX || this.layerX) - (rect.width / 2), (rect.height / 2) - (this.offsetY || this.layerY)) * (180 / Math.PI);
+  return theta < 0 ? 360 + theta : theta;
 };
+
+
 
 /* Allow looping through NodeLists akin to arrays.
  * (Nodelists are returned from querySelectorAll and other DOM stuff)
@@ -53,9 +54,7 @@ SVG.prototype.b64url = function (styles) {
 
 
 
-var Player = function (container) {
-
-  container.id = "player";
+var Player = function (container, data) {
 
   var button = container.appendChild(document.createElement('button'));
       button.setAttribute('type', 'button');
@@ -64,7 +63,6 @@ var Player = function (container) {
 
   var button_activate = function (evt) {
     evt.preventDefault();
-    console.log(this.button.state);
     this[this.button.state].call(this);
   }.bind(this);
 
@@ -75,7 +73,7 @@ var Player = function (container) {
   this.progress = new Progress(container);
 
   var tick = function (evt) {
-    this.update(getClockPosition(evt), null, true);
+    this.update((evt.theta() / 360), null, true);
   }.bind(this.progress);
   
   this.progress.element.addEventListener('mouseover', function () {
@@ -90,8 +88,7 @@ var Player = function (container) {
   
   this.progress.element.addEventListener('click', function (evt) {
     var audio = this.elements[this.index];
-    audio.currentTime = audio.duration * getClockPosition(evt);
-    this.progress.element.removeEventListener('mousemove', tick, false);
+    audio.currentTime = audio.duration * (evt.theta() / 360);
   }.bind(this), false);
   
   
@@ -101,38 +98,11 @@ var Player = function (container) {
 
   this.display.title  = display.appendChild(document.createElement('h2'));
   this.display.byline = display.appendChild(document.createElement('p'));
-    
-  
-  // need a scrubber
-};
-
-function getClockPosition(evt) {
-  var x = evt.offsetX || evt.layerX;
-  var y = evt.offsetY || evt.layerY;
-  var rect = evt.target.getBoundingClientRect();
-  var theta = Math.atan2((x - (rect.width / 2)), ((rect.height / 2) - y)) * (180 / Math.PI);
-
-  return (theta < 0 ? 360 + theta : theta) / 360;
-}
-
-
-
-
-
-Player.queue = function (audio_element, callback) {
-  if (window.player instanceof Player) {
-    window.player.attach(audio_element);
-  
-    if (callback) {
-      callback.call(this, audio_element);
-    }
-    
-  } else {
-    window.player = [audio_element, callback];
-  }
 };
 
 
+
+Player.instance = null;
 Player.prototype = {
   elements: [],
   display: {},
@@ -165,7 +135,6 @@ Player.prototype = {
         this.playTrack(next);
       }
     }
-    
   },
   timeUpdate: function (evt) {
     

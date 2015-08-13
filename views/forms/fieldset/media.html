@@ -30,17 +30,17 @@
       a.href = '#' + audio_element.dataset.index;
       a.addEventListener('click', function (evt) {
         evt.preventDefault();
-        window.player.playTrack(Number(this.hash.substring(1)));
+        Player.instance.playTrack(Number(this.hash.substring(1)));
       });
       
       
       
       audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
       
-      if (window.player) {
-        Player.queue(audio_element);
+      if (Player.instance) {
+        Player.instance.attach(audio_element);
       } else {
-        window.player = [audio_element, notifyPlayer];
+        document.getElementById('Player').dataset.queue = '';
       }
     }
   

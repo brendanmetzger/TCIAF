@@ -29,7 +29,7 @@ class Manage extends \bloc\controller
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
 		$this->year        = date('Y');
-    $this->title       = "Third Coast";
+    $this->title       = "Third Coast International Audio Festival";
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
     
@@ -124,7 +124,7 @@ class Manage extends \bloc\controller
     $this->vertex = Graph::factory(Graph::ID($_POST['id']));
     $this->edge   = Graph::EDGE(null, $_POST['keyword'], null);
     
-    $this->process = 'add';
+    $this->process = 'keep';
     $this->checked = 'checked';
     
     
@@ -243,13 +243,13 @@ class Manage extends \bloc\controller
             ]
           ]);
             
-          $path = "/tciaf-audio/{$key}";
+          $pending = "?/tciaf-audio/{$key}";
         } else {
-          $path = "/{$bucket}/{$type}/{$name}";
+          $pending = "";
         }
         
         $media = Graph::instance()->storage->createElement('media', 'A caption');
-        $media->setAttribute('src',  $path);
+        $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}{$pending}");
         $media->setAttribute('name',  $name);
         $media->setAttribute('type', $type);
       

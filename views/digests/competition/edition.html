@@ -1,4 +1,4 @@
-<article class="competition">
+<article class="competition"  vocab="http://schema.org/" typeof="Event">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     section.awards {
@@ -28,16 +28,18 @@
   <section class="awards container">
     <h3>Awards</h3>
     <!-- iterate item:awards -->
-    <div>
-      <h1>[$award]</h1>
+    <div property="workPerformed" typeof="CreativeWork">
+      <h1 property="award">[$award]</h1>
       <h2 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h2>
       <!-- iterate feature:producers -->
-      <a href="[/explore/detail/$person:@id]">[$person:title]</a>
-      <aside>[$feature:description]</aside>
+      <a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a>
+      <aside property="description">[$feature:description]</aside>
     </div>
   </section>
+  
   <hr />
-  <section class="judges container">
+  
+  <section class="judges container" property="attendees">
     <h3>Judges</h3>
     <!-- iterate item:judges -->
     <!-- insert views/partials/person.html -->
@@ -46,8 +48,8 @@
   <aside class="sponsors container">
     <h3>Sponsors</h3>
     <!-- iterate item:sponsors -->
-    <div>
-      <h3 data-id="[$organization:@id]"><a href="[/explore/detail/$organization:@id]">[$organization:title]</a></h3>
+    <div vocab="http://schema.org/" typeof="Organization">
+      <h3 data-id="[$organization:@id]"><a href="[/explore/detail/$organization:@id]" property="name">[$organization:title]</a></h3>
       <p>[$organization:about]</p>
     </div>
   </aside>

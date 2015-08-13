@@ -28,7 +28,7 @@ class Explore extends Manage
   {
 
     $this->item   = Graph::factory(Graph::ID($id));
-    $this->title  = $this->item['@title'];
+    $this->title  = $this->item['@title'] . ", TCIAF";
     $view = new view('views/layout.html');
     $view->content = $v = "views/digests/{$this->item->getView()}.html";
     return $view->render($this());
