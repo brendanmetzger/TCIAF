@@ -12,7 +12,7 @@ String.prototype.format = function() {
 
 Event.prototype.theta = function () {
   var rect  = this.target.getBoundingClientRect();
-  var theta = Math.atan2((this.offsetX || this.layerX) - (rect.width / 2), (rect.height / 2) - (this.offsetY || this.layerY)) * (180 / Math.PI);
+  var theta = Math.atan2(this.layerX - (rect.width / 2), (rect.height / 2) - this.layerY) * (180 / Math.PI);
   return theta < 0 ? 360 + theta : theta;
 };
 

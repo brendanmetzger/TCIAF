@@ -19,7 +19,7 @@
           track: function (src) { for (var i=0; i < arguments.length; i++) {t.push(this.tag(arguments[i], true));} return this;},
           load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { w.bloc.execute();}},
           execute: function() {c.forEach(function (f) { f.call();}); c=[]; while(t.length > 0) d.body.appendChild(t.shift());},
-          prepare: function(f) {if (typeof f === 'function') c.unshift(f);}
+          prepare: function(f) {if (typeof f === 'function') c.push(f);}
       };}(document, window, [], [], []));
 
       function Maybe(options) {
@@ -69,67 +69,58 @@
           #Library {
             width:100%;
           }
-          #Viewer {
-            width:35%;
+
+
+          #Library rect {
+            fill:#ee3124;
+            transition:fill-opacity 0.5s;      
           }
-          #Library span {
-            font-size:0.25em;
-            display:block;
-            float:left;
-            width:2em;
-            height:2em;
-            padding:0.5em 0;
-            box-sizing:border-box;
-            text-align:center;
-            margin:0;
-            border:0.125em solid #fff;
-            color:#fff;
-            cursor:pointer;
-            transition:background-color 0.5s;
-          }
-          #Library span.color {
-            background-color:#333;
-          }
-          #Library span:hover {
-            background-color:#5b9b98;
-            border-color:#5B9B98;
-          }
-          #titles em span {
-            color:#ccc;
-            padding:0 0.25em;
+          #Library rect:hover {
+            fill-opacity:0.5;
           }
           /* ]]> */
         </style>
+        
+        <!-- insert views/forms/partials/search.html -->
         
         <div class="container">
           <div id="Viewer" class="group left">
             <div id="titles">Library</div>
           </div>
-          
-          <ul class="inline clear">
-            <li>Sort by Featured</li>
-            <li>Sort by Created</li>
-            <li>Filter Short Docs</li>
-            <li>Filter Re:Sound</li>
-            <li>Sort by Alphabetical</li>
-            <li>Show TCF Winners</li>
-            <li>Show Conference Audio</li>
-            <li>Rando</li>
-          </ul>
-          
-          <div id="Library" class="group left" data-tokens="[$tokens]">
+
+          <div id="Library" data-tokens="[$tokens]">
           </div>
         </div>
         <script type="text/javascript">
         // <![CDATA[
           
+          var Request = function (callbacks) {
+            this.request = new XMLHttpRequest();
+            for (var action in callbacks) {
+              this.request.addEventListener(action, callbacks[action].bind(this), false);
+            }
+          }
           
+          Request.prototype = {
+            get: function (url) {
+              this.request.open('GET', url);
+              this.request.send()
+            },
+            post: function (url) {
+              this.request.open('POST', url)
+              this.request.send();
+            }
+          }
           
           var animate = function (callback) {
             var loop = function (element, timer) {
-              
+              timer.start = timer.start || Date.now();
               if (callback.call(timer, element)) {
                 requestAnimationFrame(loop.bind(null, element, timer));
+              } else {
+                if (timer.hasOwnProperty('finish')) {
+                  timer.finish(element);
+                }
               }
             };
             return loop;
@@ -138,70 +129,82 @@
 
         bloc.prepare(function () {
           var library = document.getElementById('Library');
-          var titles = document.getElementById('titles');
-          var http   = new XMLHttpRequest();
+          var titles = document.querySelector('#Player .display p');
+
           var timer = 0;
 
-              
-          http.addEventListener('load', function (evt) {
-            if (evt.target.status >= 400) return
-            var vertex = evt.target.responseXML.documentElement;
-            titles.innerHTML = '<h2>' + vertex.getAttribute('title') + '</h2><p><em>' + vertex.querySelector('abstract').innerHTML.replace(/(¶)/g, '<span>$1</span>') + '</em></p>' + titles.innerHTML;
-          }, false);
+          var http = new Request({
+            load: function (evt) {
+              if (evt.target.status >= 400) return;
+              var title = evt.target.responseXML.documentElement.querySelector('main article h1').innerHTML;
+              titles.innerHTML = '<h2>' + title + '</h2>';;
+            }
+          });
           
+          var width = 600;
+          var height = 400;
+          var svg = new SVG(library, {
+            height: '100%',
+            width: '100%',
+            viewBox: '0 0 {0} {1}'.format(width, height)
+          });
 
               
-          library.addEventListener('mouseover', function (evt) {
-            // console.log(request);
-            if (evt.target.nodeName == 'SPAN') {
+              
+          var spread = animate(function (element) {
+            var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % animation complete 
+            var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
+            var y = ratio >= 1 ? this.to[1] : ( ratio * ( this.to[1] - this.from[1] ) ) + this.from[1];
+            var w = ratio >= 1 ? this.to[2] : ( ratio * ( this.to[2] - this.from[2] ) ) + this.from[2];
+            var h = ratio >= 1 ? this.to[3] : ( ratio * ( this.to[3] - this.from[3] ) ) + this.from[3];
+            
+            element.setAttribute('x', x);
+            element.setAttribute('y', y);
+            element.setAttribute('width', w);
+            element.setAttribute('height', h);
+
+            return (ratio < 1);
+          });
+          
+          
+          svg.element.addEventListener('mouseover', function (evt) {
+            if (evt.target.nodeName.toLowerCase() === 'rect') {
+
               clearTimeout(timer);
-              http.open('GET', '/explore/detail/' + evt.target.id + '.xml');
               timer = setTimeout(function () {
-                http.send();
+                http.get('/explore/detail/' + evt.target.id + '.xml');
               }, 200);
             }
           }, false);
           
-          var svg = new SVG(library, {
-            height: '100%',
-            width: '100%',
-            viewBox: '0 0 400 200'
-          });
           
+          var matrix = {};
+          
+          var tokens = library.dataset.tokens.split(' ');
+          
+          var w = Math.ceil(Math.sqrt(tokens.length));
+          var h = w / 10;
+          var rows = 0;
+          var cols = width / w;
 
-          library.dataset.tokens.split(' ').forEach(function (token, idx) {
-            var s = svg.createElement('circle', {
-              'cx': 200,
-              'cy': 100,
-              'r': 2,
-              'id': token,
+          tokens.forEach(function (token, idx) {
+            var start = [width / 2, height / 2, 0, 0];
+            matrix[token] = svg.createElement('rect', {
+              'width': 0,
+              'height': 0,
+              'id': token
             });
             
-            // var s = library.appendChild(document.createElement('span'));
-            //     s.id = token;
-            //     s.textContent = idx;
-
-            var from = [200,100];
-            var to   = [(Math.random() * 400), (Math.random() * 200)];
-            var duration = Math.random() * 2000;
-
-
+            if (idx % cols === 0) {
+              rows++;
+            }
               
-              var spread = animate(function (element) {
-                var ratio = 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5); // float % animation complete 
-                var x = ratio >= 1 ? to[0] : ( ratio * ( to[0] - from[0] ) ) + from[0];
-                var y = ratio >= 1 ? to[1] : ( ratio * ( to[1] - from[1] ) ) + from[1];
-                
-                element.setAttribute('cx', x);
-                element.setAttribute('cy', y);
-
-                return (ratio < 1);
-              });
-              
-              setTimeout(function () {
-                spread(s, {start: Date.now(), duration: Math.random() * 2000});
-              }, 250);
-              
+            spread(matrix[token], {
+              duration: idx * Math.random() + rows * 25,
+              from: start,
+              to: [((idx % cols) * w), (rows * h), w, h]
+            });
+            
               
               
               

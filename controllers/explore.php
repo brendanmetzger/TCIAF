@@ -16,9 +16,10 @@ class Explore extends Manage
   public function GETindex()
   {
     $tokens = [];    
-    foreach (Graph::group('feature')->find('vertex[@mark < '.time().']') as $feature) {
+    foreach (Graph::group('feature')->find('vertex[@mark < '.time().']')->sort(Graph::sort('recommended:F')) as $feature) {
       $tokens[] = $feature['@id'];
     }
+    $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->tokens = implode(' ', $tokens);
     
     return (new view('views/layout.html'))->render($this());
