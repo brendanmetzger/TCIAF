@@ -182,9 +182,6 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     if ($instance = Graph::factory( (Graph::ID($id) ?: $model), $_POST)) {
-      if (isset($_POST['edge'])) {
-        $instance->setReferencedEdges($_POST['edge']);
-      }
 
       if ($instance->save()) {
         // clear caches
@@ -202,7 +199,7 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    $name   = preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']);
+    $name   = base_convert($_FILES['upload']['size'], 10, 36) . strtolower(preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']));
     $src    = 'data/media/' . $name;
     $mime   = $_FILES['upload']['type'];
     $bucket = 'tciaf-media';

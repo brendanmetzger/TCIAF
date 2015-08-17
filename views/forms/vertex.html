@@ -1,4 +1,4 @@
-<section class="form">
+<article class="form">
   <h2><strong>[$action]</strong> <a href="[/explore/detail/$item:@id]">[$item:title]</a></h2>
   
   <form action="[/manage/edit/$item:_model/$item:@id]" method="POST" class="editor">
@@ -15,9 +15,12 @@
         <!-- insert views/forms/partials/image.html -->
       </dl>
       <div class="search">
-        <button class="image upload">Upload Image</button>
+        <button class="media upload">+ Add Images</button>
+        <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/jpg">Javascript Required For upload</noscript>
+        
         <hr/>
         <input id="FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" />
+        <noscript id="Search" data-id="FILTER">Search Requires Javascript</noscript>
       </div>
       
     </fieldset>
@@ -29,30 +32,17 @@
   </form>
   
   
-  <script type="text/javascript">
+  <script type="text/javascript" async="true">
     // <![CDATA[
-    bloc.prepare(function () {
-      var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg');
-      
-      var upload_button = document.querySelector('button.upload.image');
-
-      uploader.addTrigger(upload_button);
-      
-      
-      
-      
-      
-      
-      
-      
-      var search = new Search(document.getElementById('FILTER'));
-      search.subscribers.select.push(function (dataset) {
+    
+    bloc.prepare('Search', function () {
+      var instance = this instanceof Search ? this : Search.instance;
+      instance.subscribers.select.push(function (dataset) {
 
         var input = this.input;
         var ajax  = new XMLHttpRequest();
 
         var url = '/' + dataset.area + '/' + dataset.id + '.xml';
-        console.log(url, dataset);
         ajax.open('GET', url);
 
         
@@ -66,25 +56,23 @@
         ajax.send();
         this.input.value = '';
       });
-
       
-      
-      
-      
-      
-      
-      
-      
+    });
     
-      uploader.addRoutine('image', function (file) {
+    bloc.prepare('Upload', function () {
+    
+      this.addTrigger(document.querySelector("fieldset.media button.upload"));    
+      this.addRoutine('image', function (file) {
+
         var reader = new FileReader();
     
         reader.onload = function (evt) {
           // this is the progress default holder thing.
           this.progress = new Progress();
+          
           this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
 
-          var dd = document.querySelector('fieldset.media dl').appendChild(document.createElement('dd'));
+          var dd = document.querySelector('fieldset.media dl.images').appendChild(document.createElement('dd'));
               dd.appendChild(this.progress.element);
               dd.className = "image";
         }.bind(this);
@@ -92,20 +80,19 @@
         reader.readAsDataURL(file);
       });
     
-      uploader.addEvent('success', function (xhr) {
+      this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
       });
       
-      uploader.addEvent('failure', function (xhr) {
+      this.addEvent('failure', function (xhr) {
         console.error(xhr.responseText, 'undo some stuff');
         window.alert(xhr.responseText);
         this.progress.element.parentNode.removeChild(this.progress.element);
-        
       });
       
       sortable('dl.images.dnd', 'dd');
     });
     // ]]>
   </script>
-</section>
+</article>

@@ -100,9 +100,7 @@ abstract class Model extends \bloc\Model
       $this->{"set{$property}Attribute"}($context, $value);
     }
   }  
-  
-  // Here are some specific setter/getters that are universal
-  
+    
   public function setIdAttribute(\DOMElement $context, $id)
   {
     if (empty($id)) {
@@ -117,7 +115,6 @@ abstract class Model extends \bloc\Model
     return strip_tags((new \Parsedown())->text($context->getAttribute('title')) , '<em><strong>');
   }
     
-  
   public function setUpdatedAttribute(\DOMElement $context)
   {
     $context->setAttribute('updated',  (new \DateTime())->format('Y-m-d H:i:s'));
@@ -126,8 +123,6 @@ abstract class Model extends \bloc\Model
   public function setAbstract(\DOMElement $context, array $abstract)
   {
     if (empty($abstract['CDATA'])) return false;
-    
-    
     $src = 'data/abstracts/' .$context->parentNode->getAttribute('id') . '-' . $context->getIndex() . '.html';
     $url = Graph::instance()->storage->createAttribute('src');
     $url->appendChild(Graph::instance()->storage->createTextNode($src));
@@ -162,26 +157,22 @@ abstract class Model extends \bloc\Model
       ];
     });
   }
-  
-  
-  
+   
   public function setEdge(\DOMElement $context, $value)
   {
     $atts  = $value['@'];
     $eid   = $context->parentNode['@id'];
     $ref   = Graph::ID($atts['vertex']);
-    $edges = $ref->find("edge[@vertex='{$eid}' and @type='{$atts['type']}']");
-
+    
+    $type =  $atts['type'] ?: $context['@type'];
+    $edges = $ref->find("edge[@vertex='{$eid}' and @type='{$type}']");
+          
     $connect = $edges->count() > 0 ? $edges->pick(0) : $ref->appendChild(Graph::instance()->storage->createElement('edge'));
 
     if (empty($atts['type'])) {
       $ref->removeChild($connect);
       return false;
     }
-    
-    
-    
-
     
     $context->setAttribute('type',  $atts['type']);
     $connect->setAttribute('type', $atts['type']);
@@ -228,8 +219,7 @@ abstract class Model extends \bloc\Model
         
     return new \bloc\types\Dictionary($media);
   }
-  
-  
+    
   public function getStatus($context)
   {
     $created  = strtotime($context['@created']);
@@ -252,14 +242,7 @@ abstract class Model extends \bloc\Model
     }
     return new \bloc\types\Dictionary($response);
   }
-  
-  public function getView()
-  {
-    return $this->get_model();
-  }
-  
-  
-  
+
   public function __construct($id = null, $data = [])
   {
     $slugs = [];
@@ -314,43 +297,17 @@ abstract class Model extends \bloc\Model
     $this->{$property} = $this->{"get{$property}"}($this->context);
     return $this->{$property};
   }
+  
+  public function getView()
+  {
+    return $this->get_model();
+  }
     
   public function getForm()
   {
     return $this->form ?: $this->get_model();
   }
-  
-  public function setReferencedEdges($edges)
-  {
-    
-    /*
-    TODO
-    
-    ultimately this will be simplified a great deal. The form data, after being set, can just
-    be the proxy for the actual vertex's setEdge method. If the edge is new, it is created/appended. If it is missing
-    data (return false from the setEdge method) it will be deleted from the vertex.
-    */
-    foreach ($edges as $action => $group) {
-      foreach ($group as $ref_id => $edge) {
-        foreach ($edge as $parts) {
-          if (array_key_exists('type', $parts)) {
-            $this->{"{$action}ReferenceEdge"}($ref_id, $this['@id'], $parts['type'], $parts['caption']);
-          }
-        }
-      } 
-    }
-  }
-  
-  private function removeReferenceEdge($vertex_id, $edge_id, $edge_type)
-  {
-    $elem = Graph::instance()->query("graph/group/vertex[@id='{$vertex_id}']")->pick("/edge[@vertex='{$edge_id}' and @type = '{$edge_type}']");
-    $elem->parentNode->removeChild($elem);
-  }
-  
-  private function addReferenceEdge($vertex_id, $edge_id, $edge_type, $caption)
-  {
-    Graph::ID($vertex_id)->appendChild(Graph::EDGE($edge_id, $edge_type, $caption));
-  }
+
   
   protected function parseText($context)
   {

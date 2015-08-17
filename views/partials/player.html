@@ -5,7 +5,7 @@
     <input type="range" name="space" min="1" max="100" value="1" id="space" oninput="update(document.getElementById('widget'), this.value);"/>
     <script type="text/javascript">
     // <![CDATA[
-      bloc.prepare(function () {
+      bloc.prepare('tester', function () {
         var myRequest = new XMLHttpRequest();
             myRequest.open("GET", "/.xml");
             myRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");

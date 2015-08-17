@@ -1,6 +1,6 @@
 <div class="edge">
   <input type="hidden" name="[vertex[edge][$index][@][vertex]]" value="[$vertex:@id]" /> 
-  <h3 class="inline"><strong>[$vertex:title]</strong> - <a href="[/manage/edit/$vertex:@id]">[Edit $vertex:_model]</a></h3>
+  <h3 class="inline"><strong>[$vertex:title]</strong> - <a href="[/explore/detail/$vertex:@id]">Go to page</a></h3>
   <span class="padded action">
     <input type="checkbox" name="[vertex[edge][$index][@][type]]" value="[$edge:@type]" id="[$vertex:@id$index]" onchange="this.parentNode.classList.toggle('warn');" checked="checked"/>
     <label for="[$vertex:@id$index]" class="inline">[$process]</label>

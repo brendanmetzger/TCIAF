@@ -1,4 +1,4 @@
-<div class="panel">
+<article>
   
   <h2><strong>[$action]</strong> <a class="em" href="[/explore/detail/$item:@id]">[$item:title]</a></h2>
   
@@ -29,6 +29,8 @@
     <fieldset class="spectra group left">
       <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
       
+      <noscript id="Spectra" data-selector="fieldset.spectra label input">Spectra Requires Javascript!</noscript>
+      
       <!-- iterate item:spectra -->
       <label class="range container">
         <h4>[$title]</h4>
@@ -36,6 +38,8 @@
         <input type="range" min="0" max="100" name="[vertex[spectra][@][$item:@id]]" value="[$value]" data-index="0" />
         <span>[$item:@to]</span>
       </label>
+      
+      
       
     </fieldset>
     
@@ -56,11 +60,10 @@
   
   <script type="text/javascript">
     // <![CDATA[
-    bloc.prepare(function () {
-      var spectra_object = new Spectra(document.querySelectorAll('fieldset.spectra label input'));      
+    bloc.prepare('sort', function () {
       sortable('dl.images.dnd', 'dd');
     });
   //]]>
   </script>
     
-</div>
+</article>

@@ -12,7 +12,7 @@ String.prototype.format = function() {
 
 Event.prototype.theta = function () {
   var rect  = this.target.getBoundingClientRect();
-  var theta = Math.atan2(this.layerX - (rect.width / 2), (rect.height / 2) - this.layerY) * (180 / Math.PI);
+  var theta = Math.atan2((this.offsetX || this.layerX) - (rect.width / 2), (rect.height / 2) - (this.offsetY || this.layerY)) * (180 / Math.PI);
   return theta < 0 ? 360 + theta : theta;
 };
 
@@ -22,6 +22,25 @@ Event.prototype.theta = function () {
  * (Nodelists are returned from querySelectorAll and other DOM stuff)
  */
 NodeList.prototype.forEach = Array.prototype.forEach;
+
+
+/* Animation function
+ */
+
+var animate = function (callback) {
+  var loop = function (element, timer) {
+    timer.start = timer.start || Date.now();
+    if (callback.call(timer, element)) {
+      requestAnimationFrame(loop.bind(null, element, timer));
+    } else {
+      if (timer.hasOwnProperty('finish')) {
+        timer.finish(element);
+      }
+    }
+  };
+  return loop;
+};
+
 
 /* Quick way to create an SVG element with and a prototypal method
  * to create children elements. Used in Progress and Player.Button
@@ -69,24 +88,23 @@ var Player = function (container, data) {
   this.button.getDOMButton().addEventListener('touchend', button_activate, false);
   this.button.getDOMButton().addEventListener('click', button_activate, false);
   
-  
-  this.progress = new Progress(container);
+  this.meter = new Progress(container);
 
   var tick = function (evt) {
     this.update((evt.theta() / 360), null, true);
-  }.bind(this.progress);
+  }.bind(this.meter);
   
-  this.progress.element.addEventListener('mouseover', function () {
+  this.meter.element.addEventListener('mouseover', function () {
     this.addEventListener('mousemove', tick, false);
-  }.bind(this.progress.element));
+  }.bind(this.meter.element));
   
-  this.progress.element.addEventListener('mouseout', function () {
+  this.meter.element.addEventListener('mouseout', function () {
     this.removeEventListener('mousemove', tick, false);
-  }.bind(this.progress.element));
+  }.bind(this.meter.element));
   
   
   
-  this.progress.element.addEventListener('click', function (evt) {
+  this.meter.element.addEventListener('click', function (evt) {
     var audio = this.elements[this.index];
     audio.currentTime = audio.duration * (evt.theta() / 360);
   }.bind(this), false);
@@ -111,8 +129,11 @@ Player.prototype = {
   setDisplay: function (item, value) {
     this.display[item].innerHTML = value;
   },
-  load: function (element) {
-    console.log(element);
+  progress: function (evt) {
+    if (evt.target.paused) {
+      console.log(evt.target.buffered.start(0), evt.target.buffered.end(0), evt.target.duration);
+      this.meter.update(evt.target.buffered.end(0) / evt.target.duration, null, true);
+    }
   },
   play: function () {
     this.button.setState('pause');
@@ -127,16 +148,31 @@ Player.prototype = {
     this.index = index;
     this.play();
   },
-  proxyEvent: function (evt) {
-    // evt.type will tell you what happened
-    if (evt.type == 'ended') {
-      var next = this.index+1;
-      if (next < this.elements.length) {
-        this.playTrack(next);
-      }
+  ended: function (evt) {
+    var next = this.index+1;
+    if (next < this.elements.length) {
+      this.playTrack(next);
     }
   },
-  timeUpdate: function (evt) {
+  playing: function (evt) {
+    console.log('playing');
+  },
+  waiting: function (evt) {
+    console.log('waiting', evt);
+  },
+  seeking: function (evt) {
+    console.log('seeking');
+  },
+  seeked: function (evt) {
+    console.log('seeked');
+  },
+  stalled: function (evt) {
+    console.log('stalled', evt);
+  },
+  error: function (evt) {
+    console.log('error', evt);
+  },
+  timeupdate: function (evt) {
     
     var elem = evt instanceof Event ? evt.target : evt;
     var time = Math.ceil(elem.currentTime);
@@ -154,17 +190,17 @@ Player.prototype = {
       m: ('00'+lim.getUTCMinutes()).slice(-2),
       s: ('00'+lim.getSeconds()).slice(-2)
     });
-    
-    this.progress.update(elem.currentTime / elem.duration, msg);
+    this.meter.update(elem.currentTime / elem.duration, msg);
 
   },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
       audio_element.removeAttribute('controls');
-      audio_element.addEventListener('ended', this.proxyEvent.bind(this));
-      audio_element.addEventListener('timeupdate', this.timeUpdate.bind(this));
-      this.timeUpdate(audio_element);
+      ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {
+        audio_element.addEventListener(trigger, this[trigger].bind(this), false);
+      }.bind(this));
+      this.timeupdate(audio_element);
     }
   },
   detach: function (audio_element) {
@@ -186,10 +222,14 @@ var Button = function (button, state) {
   });
   
   states = {
-    play:  'M11,7.5l0,30l12.5,-8l0-14l-12.5,-8m12.5,8l0,14l12.5,-7l0,0  z',
-    pause: 'M11.5,10 l0,25l10,0   l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z',
+    play:  'M11,7.5 l0,30 l12.5,-8 l0-14 l-12.5,-8 m12.5,8 l0,14 l12.5,-7 l0,0  z',
+    pause: 'M11.5,10 l0,25l10,0 l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z',
     error: 'M16,10 l10,0l-3,20  l-3,0l-3,-20  m3,22  l4,0 l0,4    l-4,0 z',
     wait:  'M521.5,21.5A500,500 0 1 1 427.0084971874736,-271.39262614623664'
+  };
+  
+  st2 = {
+    play: [['m',1,7.5],['l',0,30], ['l', 12.5,-8],['l',0,-14],['l',-12.5,-8],['m', 12.5, 8 ], ['l',0,14 ],['l',12.5,-7], ['l',0,0], ['z']]
   };
   
   this.factor = 1;
@@ -198,6 +238,12 @@ var Button = function (button, state) {
     return button;
   };
   
+  var a2 = window.animate(function (element) {
+    // this.(start|duration|from|to)
+    console.dir(element.pathSegList);
+    return false;
+  });
+  
   // states match the d  
   this.setState = function (state, e) {
     if (state === this.state) {
@@ -205,6 +251,7 @@ var Button = function (button, state) {
     }
     if (state != 'wait') {
       indicator.setAttribute('d', states[this.state]);
+
 
       animate.setAttribute('from', states[this.state]);
       animate.setAttribute('to', states[state]);
@@ -243,6 +290,8 @@ var Button = function (button, state) {
     'stroke-width':35,
     'class': 'wait'
   }, g);
+  
+  
 
   animate = svg.createElement('animate', {
     attributeName: 'd',
@@ -356,8 +405,8 @@ Meter.prototype = {
 };
 
 
-var Search = function (input) {
-  this.input = input;
+var Search = function (container, data) {
+  this.input = document.getElementById(data.id);
   this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
   this.input.addEventListener('keydown', this.checkDown.bind(this), false);
   
@@ -379,7 +428,7 @@ var Search = function (input) {
     'select': []
   };
 };
-
+Search.instance = null;
 Search.INPUT = function (path, area, topic) {
   var input = document.createElement('input');
   input.dataset.path = path;
@@ -550,6 +599,10 @@ var Progress = function(container) {
   
   if (container) {
     container.appendChild(this.element);
+    this.remove = function () {
+      container.removeChild(this.element);
+    };
+    
   }
   
   
@@ -595,6 +648,7 @@ var Progress = function(container) {
       path.setAttribute('d', data);
     }
   };
+  
   
 
   return this;

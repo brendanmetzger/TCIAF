@@ -17,24 +17,30 @@
           tag: function (async) {var s = d.createElement('script');s.type='text/javascript';s.async=async;return s;},
           embed: function() {for (var i=0; i < arguments.length; i++) {var s = this.tag(false);s.src=s.src=arguments[i];s.onload = this.load; q.push(s);} return this;},
           track: function (src) { for (var i=0; i < arguments.length; i++) {t.push(this.tag(arguments[i], true));} return this;},
-          load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { w.bloc.execute();}},
-          execute: function() {c.forEach(function (f) { f.call();}); c=[]; while(t.length > 0) d.body.appendChild(t.shift());},
-          prepare: function(f) {if (typeof f === 'function') c.push(f);}
-      };}(document, window, [], [], []));
+          load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { for (var k in c) {w.bloc.execute(k, true)}; while(t.length > 0) d.body.appendChild(t.shift());}},
+          execute: function(k, s) { if (c[k]) c[k].call(this, Boolean(s));},
+          prepare: function(k, f) {if (typeof f === 'function') c[k] = f;}
+      };}(document, window, {}, [], []));
 
-      function Maybe(options) {
-        console.log('here in maybe', options)
-      };
       bloc.embed('/js/bloc.js');
       
-      bloc.prepare(function () {
+      bloc.prepare('autoload', function (auto) {
         document.querySelectorAll('noscript').forEach(function (container) {
+          var id = container.id;
           var replace    = document.createElement('div');
-              replace.id = container.id;
-          window[container.id].instance = new window[container.id](replace, container.dataset);
-
+              replace.id = id;
+          
+          var instance = new window[id](replace, container.dataset);
+          
+          if (!auto) {
+            window.bloc.execute.call(instance, container.id);
+          } else {
+            window[id].instance = instance;
+          }
           container.parentNode.replaceChild(replace, container);
         });
+
+        return this;
       });
       // ]]>
     </script>
@@ -68,11 +74,13 @@
           
           #Library {
             width:100%;
+            background-color:#46827e;
+            padding:0;
           }
 
 
           #Library rect {
-            fill:#ee3124;
+            fill:#5b9b98;
             transition:fill-opacity 0.5s;      
           }
           #Library rect:hover {
@@ -84,10 +92,6 @@
         <!-- insert views/forms/partials/search.html -->
         
         <div class="container">
-          <div id="Viewer" class="group left">
-            <div id="titles">Library</div>
-          </div>
-
           <div id="Library" data-tokens="[$tokens]">
           </div>
         </div>
@@ -112,22 +116,10 @@
             }
           }
           
-          var animate = function (callback) {
-            var loop = function (element, timer) {
-              timer.start = timer.start || Date.now();
-              if (callback.call(timer, element)) {
-                requestAnimationFrame(loop.bind(null, element, timer));
-              } else {
-                if (timer.hasOwnProperty('finish')) {
-                  timer.finish(element);
-                }
-              }
-            };
-            return loop;
-          }
+          
           
 
-        bloc.prepare(function () {
+        bloc.prepare('splash', function () {
           var library = document.getElementById('Library');
           var titles = document.querySelector('#Player .display p');
 
@@ -153,14 +145,14 @@
               
           var spread = animate(function (element) {
             var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % animation complete 
-            var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
+            // var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
             var y = ratio >= 1 ? this.to[1] : ( ratio * ( this.to[1] - this.from[1] ) ) + this.from[1];
-            var w = ratio >= 1 ? this.to[2] : ( ratio * ( this.to[2] - this.from[2] ) ) + this.from[2];
+            // var w = ratio >= 1 ? this.to[2] : ( ratio * ( this.to[2] - this.from[2] ) ) + this.from[2];
             var h = ratio >= 1 ? this.to[3] : ( ratio * ( this.to[3] - this.from[3] ) ) + this.from[3];
             
-            element.setAttribute('x', x);
+            // element.setAttribute('x', x);
             element.setAttribute('y', y);
-            element.setAttribute('width', w);
+            // element.setAttribute('width', w);
             element.setAttribute('height', h);
 
             return (ratio < 1);
@@ -184,27 +176,41 @@
           
           var w = Math.ceil(Math.sqrt(tokens.length));
           var h = w / 10;
+
           var rows = 0;
           var cols = width / w;
+          
+
 
           tokens.forEach(function (token, idx) {
-            var start = [width / 2, height / 2, 0, 0];
+            var start = [0, 0, 0, 0];
             matrix[token] = svg.createElement('rect', {
-              'width': 0,
               'height': 0,
-              'id': token
+              'id': token,
+              'x': ((idx % cols) * w),
+              'width': w
             });
+              
             
+            if (idx%2) {
+              spread(matrix[token], {
+                duration: idx * Math.random() + rows * 25,
+                from: start,
+                to: [((idx % cols) * w), (rows * h), w, h]
+              });
+            } else {
+              setTimeout(function (idx, cols, rows, w, h) {
+                spread(this, {
+                  duration: idx * Math.random() + rows * 55,
+                  from: start,
+                  to: [((idx % cols) * w), (rows * h), w, h]
+                });
+              }.bind(matrix[token], idx, cols, rows, w, h), 150);
+            }
+              
             if (idx % cols === 0) {
               rows++;
             }
-              
-            spread(matrix[token], {
-              duration: idx * Math.random() + rows * 25,
-              from: start,
-              to: [((idx % cols) * w), (rows * h), w, h]
-            });
-            
               
               
               

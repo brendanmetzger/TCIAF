@@ -18,10 +18,10 @@
   
   <hr class="clear"/>
   
-  <button class="audio upload">Upload Audio</button>
-  <button class="image upload">Upload Image</button>
+  <button class="media upload">+ Add Audio / Images</button>
+  <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/jpg, audio/mp3, audio/mp4">Javascript Required For upload</noscript>
   
-  <script type="text/javascript">
+  <script type="text/javascript" async="true">
     // <![CDATA[
         
     function notifyPlayer(audio_element) {
@@ -31,9 +31,7 @@
       a.addEventListener('click', function (evt) {
         evt.preventDefault();
         Player.instance.playTrack(Number(this.hash.substring(1)));
-      });
-      
-      
+      });      
       
       audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
       
@@ -44,26 +42,24 @@
       }
     }
   
-    bloc.prepare(function () {
-      var uploader = new Upload('/manage/upload.xml', 'image/jpeg, image/jpg, audio/mp3, audio/mp4');
-    
-      uploader.addTrigger(document.querySelector('button.upload.image'));
-      uploader.addTrigger(document.querySelector('button.upload.audio'));
+    bloc.prepare('Upload', function () {
+      this.addTrigger(document.querySelector("fieldset.media button.upload"));
       
-      
-      uploader.addRoutine('audio', function (file) {
+      this.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
         this.progress = new Progress();
         var dd = document.querySelector('fieldset.media dl.audio').appendChild(document.createElement('dd'));
         dd.appendChild(this.progress.element);
       });
     
-      uploader.addRoutine('image', function (file) {
+      this.addRoutine('image', function (file) {
+
         var reader = new FileReader();
     
         reader.onload = function (evt) {
           // this is the progress default holder thing.
           this.progress = new Progress();
+          
           this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
 
           var dd = document.querySelector('fieldset.media dl.images').appendChild(document.createElement('dd'));
@@ -74,18 +70,15 @@
         reader.readAsDataURL(file);
       });
     
-      uploader.addEvent('success', function (xhr) {
+      this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
-        
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
-
       });
       
-      uploader.addEvent('failure', function (xhr) {
+      this.addEvent('failure', function (xhr) {
         console.error(xhr.responseText, 'undo some stuff');
         window.alert(xhr.responseText);
         this.progress.element.parentNode.removeChild(this.progress.element);
-        
       });
       
       sortable('dl.images.dnd', 'dd');

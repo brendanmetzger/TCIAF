@@ -1,7 +1,7 @@
 <article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
   
   <!-- iterate item:media:audio -->
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="notifyPlayer(this);" controls="controls" preload="metadata">Audio</audio>
+  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute.call(this, 'Player');" controls="controls" preload="metadata">Audio</audio>
   
   <style type="text/css" media="screen">
     /* <![CDATA[ */
@@ -54,20 +54,16 @@
 
   <script type="text/javascript">
     // <![CDATA[
-    
-    function notifyPlayer(audio) {
       
-      if (Player.instance) {
-        Player.instance.attach(audio);
+    bloc.prepare('Player', function (auto) {
+      if (! auto && this instanceof Element) {
+        Player.instance.attach(this);
         Player.instance.setDisplay('title', 'Play this feature');
-      } else {
-        document.getElementById('Player').dataset.queue = [audio, notifyPlayer];
       }
-      
-    }
+    });
     
-    bloc.prepare(function () {
-  
+    
+    bloc.prepare('recommend', function () {
       
       document.querySelector('ol.recommended').addEventListener('click', function (evt) {
         if (evt.target.nodeName === "A") {

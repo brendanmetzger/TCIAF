@@ -1,4 +1,4 @@
-bloc.prepare(function () {
+bloc.prepare('admin', function () {
   var stylesheet  = document.styleSheets.length - 1;
 
   while (stylesheet > 0 && typeof stylesheet === 'number') {
@@ -8,8 +8,6 @@ bloc.prepare(function () {
     }
     stylesheet--;
   }
-  
-
 
   var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
@@ -27,49 +25,34 @@ bloc.prepare(function () {
     }
   }
   
-  var form = document.querySelector('form.editor');
-  if (form) {
-    form.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-      var form = this;
-      ajax = new XMLHttpRequest();
-      ajax.addEventListener('load', function (evt) {
-        this.addEventListener('input', showReceipt, false);
-        this.querySelector('div.receipt').classList.remove('alert');
-
-        var message = this.querySelector('p.status');
-        message.classList.remove('warn');
-        message.classList.add('success');
-        message.textContent = 'Saved!';
-      }.bind(this));
-      
-      ajax.open("POST", this.action);
-      ajax.send(new FormData(this));
-      
-    }, false);
-    
-    var showReceipt = function (evt) {
-      console.log('once');
-      this.querySelector('div.receipt').classList.add('alert');
-      var message = this.querySelector('p.status');
-      message.classList.add('warn');
-      message.classList.remove('info');
-      message.textContent = 'Remember to save your changes!';
-            
-      form.removeEventListener('input', showReceipt , false);
-    };
-  
-    form.addEventListener('input', showReceipt , false);
-    
-  }
+ 
   
   // show an indicator next to all editable elements
   function goto(url, evt) {
     evt.preventDefault();
-    window.location.href = url;
+    if (evt.metaKey) {
+      window.location.href = url;
+      return;
+    }
+    
+    new Modal.Form(
+      url + '.xml',
+      {},
+      function (response) {
+        console.log(response);
+      // close modal
+      this.modal.close(function (arg) {
+        console.log(this);
+        // destroy the object if we need more closure;
+      });
+    },
+    function (form) {
+      form.querySelector('input').focus();
+    });
   }
   
   var edits = document.querySelectorAll('*[data-id]');
+
   for (var j = 0; j < edits.length; j++) {
     var url = '/manage/edit/' + edits[j].dataset.id;
     var button = edits[j].appendChild(document.createElement('button'));
@@ -79,10 +62,6 @@ bloc.prepare(function () {
   }
 });
 
-function imploreSave(evt) {
-  document.body.querySelector('nav.dashboard').style.backgroundColor = '#5B9B98';
-  console.log(evt);
-}
 
 function Markdown() {
   this.hud = document.body.appendChild(document.createElement('nav'));
@@ -214,14 +193,22 @@ Markdown.prototype = {
   
 };
 
-function Upload(destination_url, accept) {
-  this.action = destination_url;  
-  this.input = document.body.appendChild(document.createElement('input'));
-  this.input.accept = accept;
-  this.input.name = 'uploader';
-  this.input.type = 'file';
 
+function Upload(container, data) {
+  this.uid = Date.now().toString(36);
+
+  this.action = data.url;  
+  
   this.xhr = new XMLHttpRequest();
+  
+  if (this.input === null) {
+    this.input = document.body.appendChild(document.createElement('input'));
+    this.input.name = 'uploader';
+    this.input.type = 'file';
+    this.input.id = "_"+this.uid;
+  }
+  
+  this.input.accept = data.accept;
   
   this.xhr.addEventListener('loadstart', function (evt) {
     this.status = 'Uploading';
@@ -258,7 +245,11 @@ function Upload(destination_url, accept) {
   }.bind(this), false);
 }
 
+
+Upload.instance = null;
+
 Upload.prototype = {
+  input: null,
   progress: null,
   rules: {},
   allowed: ['audio', 'image'],
@@ -266,12 +257,10 @@ Upload.prototype = {
     'success': [],
     'failure': []
   },
-  addTrigger: function (element, callback) {
+  addTrigger: function (element) {
     element.addEventListener('click', function (evt) {
       evt.preventDefault();
-      if ((callback || function () { return true;}).call(evt.target, this)) {
-        this.input.dispatchEvent(new Event('click'));
-      }
+      this.input.dispatchEvent(new Event('click'));
     }.bind(this), false);
   },
   invoke: function (evt) {
@@ -296,8 +285,13 @@ Upload.prototype = {
 var Modal = function (element) {
   this.backdrop = document.body.appendChild(document.createElement('div'));
   this.backdrop.className = 'backdrop';
+  this.backdrop.addEventListener('dblclick', this.close.bind(this), false);
   if (element) {
     this.addElement(element);
+  } else {
+    this.progress = new Progress(this.backdrop);
+    this.progress.update(0.9, 'One Moment..');
+    this.progress.element.classList.add('spin');
   }
 };
 
@@ -306,6 +300,8 @@ Modal.prototype = {
   addElement: function (element) {
     this.element = element;
     this.backdrop.appendChild(this.element);
+
+    bloc.execute('autoload');
     // make closeable
     var button = document.createElement('button');
         button.className = 'close action';
@@ -314,6 +310,9 @@ Modal.prototype = {
   
     this.element.insertBefore(button, this.element.firstChild);
     
+    if (this.progress) {
+      this.progress.remove();
+    }
   },
   show: function () {
     document.body.classList.add('locked');
@@ -327,7 +326,8 @@ Modal.prototype = {
     }
     
     document.body.classList.remove('locked');
-    this.backdrop.classList.remove('viewing');
+    this.backdrop.parentNode.removeChild(this.backdrop);
+    
 
     if (evt instanceof Function) {
       evt.call(this);
@@ -345,6 +345,7 @@ Modal.Form = function (url, opts, submit_callback, load_callback) {
   this.ajax.open('GET', url);
   this.ajax.send();
   
+  
   // the callback is what is called when the form completes the entire dialog
   this.submit_callback = submit_callback;
   this.load_callback   = load_callback;
@@ -357,14 +358,14 @@ Modal.Form.prototype = {
   form: null,
   ajax: null,
   processForm: function (evt) {
-    
-    
+
     evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
       document.head.appendChild(window.bloc.tag(false)).text = script.text;
     });
     
     if (this.form === null) {
       this.form  = evt.target.responseXML.documentElement.querySelector('form.editor');
+
       this.modal.addElement(this.form);
       this.form.addEventListener('submit', function (evt) {
         evt.preventDefault();
@@ -392,7 +393,8 @@ Modal.Form.prototype = {
 
 
 
-var Spectra = function(labels) {
+var Spectra = function(container, data) {
+  var labels = document.querySelectorAll(data.selector);
   var total = labels.length;
   for (var i = 0; i < total; i++) {
     labels[i].dataset.index = (i / total);
@@ -431,7 +433,66 @@ Spectra.prototype.correlate = function (evt) {
 
 
 
-
+var Edge = function (container, data) {
+  document.querySelectorAll(data.selector).forEach(function (button) {
+    button.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      
+      var button = this;
+      
+      new Modal.Form(
+        this.href + '.xml',
+        {},
+        function (response) {
+        var elem = response.querySelector("div.edge");
+        button.parentNode.appendChild(elem);
+        
+        setTimeout(function () {
+          elem.classList.add('highlight');
+        }, 10);
+        
+        
+        
+        
+        setTimeout(function () {
+          elem.classList.remove('highlight');
+        }, 1000);
+        
+        document.querySelector('div.receipt').classList.add('alert');
+        
+        // close modal
+        this.modal.close(function (arg) {
+          this.backdrop.parentNode.removeChild(this.backdrop);
+          // destroy the object if we need more closure;
+        });
+      },
+      function (form) {
+        form.querySelector('input').focus();
+      });
+      
+      
+    });
+  });
+  
+  document.querySelector('fieldset.edges').addEventListener('click', function (evt) {
+    if (evt.srcElement.nodeName == 'DT') {
+      evt.target.classList.toggle('closed');
+    }
+  }, false);
+  
+  document.querySelectorAll('a.sort').forEach(function (button) {
+    button.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      var list = this.parentNode;
+      list.classList.add('sorting');
+      list.removeChild(this);
+      sortable(list, 'div');
+      
+    }, false);
+  });
+  
+  
+};
 
 
 
