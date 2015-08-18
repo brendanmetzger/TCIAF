@@ -98,26 +98,6 @@
         <script type="text/javascript">
         // <![CDATA[
           
-          var Request = function (callbacks) {
-            this.request = new XMLHttpRequest();
-            for (var action in callbacks) {
-              this.request.addEventListener(action, callbacks[action].bind(this), false);
-            }
-          }
-          
-          Request.prototype = {
-            get: function (url) {
-              this.request.open('GET', url);
-              this.request.send()
-            },
-            post: function (url) {
-              this.request.open('POST', url)
-              this.request.send();
-            }
-          }
-          
-          
-          
 
         bloc.prepare('splash', function () {
           var library = document.getElementById('Library');

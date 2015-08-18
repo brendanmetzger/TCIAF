@@ -193,8 +193,6 @@ class Manage extends \bloc\controller
 
       }
     } 
-    
-    
   }
   
   protected function POSTupload($request)

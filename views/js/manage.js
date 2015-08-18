@@ -9,63 +9,70 @@ bloc.prepare('admin', function () {
     stylesheet--;
   }
 
-  var elem = window.getComputedStyle(document.querySelector('.text') || document.body, null);
+  var elem = window.getComputedStyle(document.querySelector('input') || document.body, null);
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
-
-  var textareas = document.querySelectorAll('textarea.text');
-  if (textareas.length > 0) {
-    var markdown_editor = new Markdown();
-    for (var i = textareas.length - 1; i >= 0; i--) {
-      textareas[i].addEventListener('keyup', markdown_editor.autoGrow(textareas[i]));
-      textareas[i].addEventListener('select', markdown_editor.watch());
-      textareas[i].addEventListener('focus', markdown_editor.show());
-      textareas[i].addEventListener('blur', markdown_editor.hide());
-    }
-  }
-  
- 
   
   // show an indicator next to all editable elements
-  function goto(url, evt) {
-    evt.preventDefault();
-    if (evt.metaKey) {
-      window.location.href = url;
-      return;
-    }
-    
-    new Modal.Form(
-      url + '.xml',
-      {},
-      function (response) {
-        console.log(response);
-      // close modal
-      this.modal.close(function (arg) {
-        console.log(this);
-        // destroy the object if we need more closure;
-      });
-    },
-    function (form) {
-      form.querySelector('input').focus();
-    });
-  }
+
   
   var edits = document.querySelectorAll('*[data-id]');
 
   for (var j = 0; j < edits.length; j++) {
     var url = '/manage/edit/' + edits[j].dataset.id;
+    edits[j].dataset.id = null;
     var button = edits[j].appendChild(document.createElement('button'));
         button.textContent = 'Edit';
         button.title = "Edit";        
         button.addEventListener('click', goto.bind(button, url), false);
+    
   }
 });
 
 
-function Markdown() {
-  this.hud = document.body.appendChild(document.createElement('nav'));
-  this.hud.className = 'hud';
+function goto(url, evt) {
+  evt.preventDefault();
+  if (evt.metaKey) {
+    window.location.href = url;
+    return;
+  }
+  
+  new Modal.Form(
+    url + '.xml',
+    {},
+    function (response) {
+      console.log(response);
+    // close modal
+    this.modal.close();
+    
+    new Request({'load': function (evt) {
+      var exist = document.querySelector('main');
+      exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
+      window.bloc.execute('admin');
+    }}).get(window.location.href + '.xml');
+    
+
+  },
+  function (form) {
+    form.querySelector('input').focus();
+  });
+}
+
+
+function Markdown(container, options) {
+  this.hud = container.appendChild(document.createElement('nav'));
+  this.hud.className = 'hud visible';
+  
+  this.textareas = document.querySelectorAll(options.selector);
+  this.textareas.forEach(function (t) {
+    this.fit(t);
+    t.addEventListener('keyup', this.fit.bind(this, t));
+    t.addEventListener('select', this.watch.bind(this));
+    t.addEventListener('focus', this.show.bind(this));    
+  }, this);
+  
+  this.textareas[0].parentNode.insertBefore(this.hud, this.textareas[0]);
 
   var list = this.hud.appendChild(document.createElement('ul'));
       list.className = 'inline';
@@ -134,14 +141,10 @@ Markdown.prototype = {
   wrap: function (delimiter, message, begin, end) {
     return message.substring(0, begin) + delimiter + message.substring(begin, end) +  delimiter + message.substring(end);
   },
-  autoGrow: function (textarea) {
-    var func = function () {
-      if (textarea.scrollHeight > textarea.clientHeight) {
-        textarea.style.height = textarea.scrollHeight + "px";
-      }
-    };
-    func.call(textarea);
-    return func;
+  fit: function (textarea) {
+    if (textarea.scrollHeight > textarea.clientHeight) {
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
   },
   selection: function (evt) {
     console.log('selecting');
@@ -176,20 +179,8 @@ Markdown.prototype = {
     }
     this.element = evt.target;
     evt.target.parentNode.insertBefore(this.hud, evt.target);
-    setTimeout(function () {
-      this.hud.classList.add('visible');  
-    }.bind(this), 10);
     
   },
-  hide: function (evt) {
-    if (! evt) {
-      return this.hide.bind(this);
-    }
-    this.timeout = setTimeout(function () {
-      this.hud.classList.remove('visible');
-    }.bind(this), 250);
-    
-  }
   
 };
 
@@ -285,7 +276,7 @@ Upload.prototype = {
 var Modal = function (element) {
   this.backdrop = document.body.appendChild(document.createElement('div'));
   this.backdrop.className = 'backdrop';
-  this.backdrop.addEventListener('dblclick', this.close.bind(this), false);
+  // this.backdrop.addEventListener('dblclick', this.close.bind(this), false);
   if (element) {
     this.addElement(element);
   } else {

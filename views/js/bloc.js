@@ -42,6 +42,26 @@ var animate = function (callback) {
 };
 
 
+var Request = function (callbacks) {
+  this.request = new XMLHttpRequest();
+  for (var action in callbacks) {
+    this.request.addEventListener(action, callbacks[action].bind(this), false);
+  }
+  return this;
+}
+
+Request.prototype = {
+  get: function (url) {
+    this.request.open('GET', url);
+    this.request.send()
+  },
+  post: function (url) {
+    this.request.open('POST', url)
+    this.request.send();
+  }
+}
+
+
 /* Quick way to create an SVG element with and a prototypal method
  * to create children elements. Used in Progress and Player.Button
  */ 
@@ -428,6 +448,9 @@ var Search = function (container, data) {
     'select': []
   };
 };
+
+
+
 Search.instance = null;
 Search.INPUT = function (path, area, topic) {
   var input = document.createElement('input');
