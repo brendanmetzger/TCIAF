@@ -5,11 +5,11 @@
   <fieldset class="edge" style="background-color:transparent;border:none;margin:1em 0;">
     <legend>[Search for $model to connect]</legend>
     
-    <input id="FILTER" data-path="search/group" data-topic="[$model]" data-area="manage/edit" type="text" name="search" placeholder="[search $model]" class="text" autocomplete="off" style="padding:0.5em" onfocus="setupEdgeFinder(this);"/>
+    <input id="edge_finder" data-path="search/group" data-topic="[$model]" data-area="manage/edit" type="text" name="search" placeholder="[search $model]" class="text" autocomplete="off" style="padding:0.5em" onfocus="setupEdgeFinder(this);"/>
     <script type="text/javascript" async="true">
       // <![CDATA[
         function setupEdgeFinder(input) {
-
+            
             var search = new Search(null, input);
             
             search.subscribers.select.push(function (dataset) {

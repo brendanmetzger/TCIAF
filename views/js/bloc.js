@@ -48,18 +48,18 @@ var Request = function (callbacks) {
     this.request.addEventListener(action, callbacks[action].bind(this), false);
   }
   return this;
-}
+};
 
 Request.prototype = {
   get: function (url) {
     this.request.open('GET', url);
-    this.request.send()
+    this.request.send();
   },
   post: function (url) {
-    this.request.open('POST', url)
+    this.request.open('POST', url);
     this.request.send();
   }
-}
+};
 
 
 /* Quick way to create an SVG element with and a prototypal method
@@ -429,7 +429,7 @@ var Search = function (container, data) {
   this.input = document.getElementById(data.id);
   this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
   this.input.addEventListener('keydown', this.checkDown.bind(this), false);
-  
+
   this.ajax = new XMLHttpRequest();
   this.ajax.addEventListener('load', this.processIndices.bind(this), false);
   this.ajax.addEventListener('loadstart', this.reset.bind(this), false);
@@ -468,7 +468,6 @@ Search.INPUT = function (path, area, topic) {
 
 Search.prototype = {
   ajax: null,
-  input: null,
   results: null,
   indices: {},
   find: function (path, topic, letter) {
