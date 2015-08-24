@@ -26,19 +26,30 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 /* Animation function
  */
-
-var animate = function (callback) {
-  var loop = function (element, timer) {
-    timer.start = timer.start || Date.now();
-    if (callback.call(timer, element)) {
-      requestAnimationFrame(loop.bind(null, element, timer));
-    } else {
-      if (timer.hasOwnProperty('finish')) {
-        timer.finish(element);
-      }
-    }
-  };
-  return loop;
+var Animate = function (callback) {
+  return {
+		animations: [],
+		tween: function (element, idx) {
+	    if (callback.call(this.animations[idx], element)) {
+				// console.log(this.timer);
+	      requestAnimationFrame(this.tween.bind(this, element, idx));
+	    } else {
+	      if (this.animations[idx].hasOwnProperty('finish')) {
+	        this.animations[idx].finish(element);
+	      }
+	    }
+		},
+		start: function (element, timer) {
+			timer.start = Date.now();
+			var idx = this.animations.push(timer) - 1;
+			this.tween(element, idx);
+			return {
+				stop: function () {
+					this.animations[idx].duration = 0;
+				}.bind(this)
+			};
+		}
+	};
 };
 
 

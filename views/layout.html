@@ -23,7 +23,6 @@
       };}(document, window, {}, [], []));
 
       bloc.embed('/js/bloc.js');
-      
       bloc.prepare('autoload', function (auto) {
         document.querySelectorAll('noscript').forEach(function (container) {
           var id = container.id;
@@ -62,7 +61,6 @@
           <li><a href="/overview/nothing">Donate</a></li>
         </ul>
       </nav>
-      
     </header>
 
     <main class="content container">
@@ -100,6 +98,7 @@
           
 
         bloc.prepare('splash', function () {
+					
           var library = document.getElementById('Library');
           var titles = document.querySelector('#Player .display p');
 
@@ -123,7 +122,7 @@
 
               
               
-          var spread = animate(function (element) {
+          var spread = Animate(function (element) {
             var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % animation complete 
             // var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
             var y = ratio >= 1 ? this.to[1] : ( ratio * ( this.to[1] - this.from[1] ) ) + this.from[1];
@@ -173,18 +172,21 @@
               
             
             if (idx%2) {
-              spread(matrix[token], {
-                duration: idx * Math.random() + rows * 25,
+              spread.start(matrix[token], {
+                duration: Math.floor(idx * Math.random() + rows * 25),
                 from: start,
                 to: [((idx % cols) * w), (rows * h), w, h]
               });
             } else {
               setTimeout(function (idx, cols, rows, w, h) {
-                spread(this, {
-                  duration: idx * Math.random() + rows * 55,
+                var anim = spread.start(this, {
+                  duration: Math.floor(idx * Math.random() + rows * 55),
                   from: start,
                   to: [((idx % cols) * w), (rows * h), w, h]
                 });
+								if (idx % 5 === 0) {
+									anim.stop();
+								}
               }.bind(matrix[token], idx, cols, rows, w, h), 150);
             }
               

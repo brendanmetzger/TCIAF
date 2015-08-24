@@ -41,17 +41,19 @@
       }
     }
   
-    bloc.prepare('Upload', function () {
-      this.addTrigger(document.querySelector("fieldset.media button.upload"));
+    bloc.prepare('Upload', function (auto) {
+      var uploader = auto ? Upload.instance : this;
       
-      this.addRoutine('audio', function (file) {
+      uploader.addTrigger(document.querySelector("fieldset.media button.upload"));
+      
+      uploader.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
         this.progress = new Progress();
         var dd = document.querySelector('fieldset.media dl.audio').appendChild(document.createElement('dd'));
         dd.appendChild(this.progress.element);
       });
     
-      this.addRoutine('image', function (file) {
+      uploader.addRoutine('image', function (file) {
 
         var reader = new FileReader();
     
@@ -69,12 +71,12 @@
         reader.readAsDataURL(file);
       });
     
-      this.addEvent('success', function (xhr) {
+      uploader.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
       });
       
-      this.addEvent('failure', function (xhr) {
+      uploader.addEvent('failure', function (xhr) {
         console.error(xhr.responseText, 'undo some stuff');
         window.alert(xhr.responseText);
         this.progress.element.parentNode.removeChild(this.progress.element);
