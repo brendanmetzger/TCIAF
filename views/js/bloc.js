@@ -16,6 +16,11 @@ Event.prototype.theta = function () {
   return theta < 0 ? 360 + theta : theta;
 };
 
+if (!Element.prototype.matches && Element.prototype.msMatchesSelector) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector;
+}
+
+
 
 
 /* Allow looping through NodeLists akin to arrays.
@@ -28,28 +33,28 @@ NodeList.prototype.forEach = Array.prototype.forEach;
  */
 var Animate = function (callback) {
   return {
-		animations: [],
-		tween: function (element, idx) {
-	    if (callback.call(this.animations[idx], element)) {
-				// console.log(this.timer);
-	      requestAnimationFrame(this.tween.bind(this, element, idx));
-	    } else {
-	      if (this.animations[idx].hasOwnProperty('finish')) {
-	        this.animations[idx].finish(element);
-	      }
-	    }
-		},
-		start: function (element, timer) {
-			timer.start = Date.now();
-			var idx = this.animations.push(timer) - 1;
-			this.tween(element, idx);
-			return {
-				stop: function () {
-					this.animations[idx].duration = 0;
-				}.bind(this)
-			};
-		}
-	};
+    animations: [],
+    tween: function (element, idx) {
+      if (callback.call(this.animations[idx], element)) {
+        // console.log(this.timer);
+        requestAnimationFrame(this.tween.bind(this, element, idx));
+      } else {
+        if (this.animations[idx].hasOwnProperty('finish')) {
+          this.animations[idx].finish(element);
+        }
+      }
+    },
+    start: function (element, timer) {
+      timer.start = Date.now();
+      var idx = this.animations.push(timer) - 1;
+      this.tween(element, idx);
+      return {
+        stop: function () {
+          this.animations[idx].duration = 0;
+        }.bind(this)
+      };
+    }
+  };
 };
 
 
@@ -105,7 +110,6 @@ SVG.prototype.b64url = function (styles) {
 
 
 var Player = function (container, data) {
-
   var button = container.appendChild(document.createElement('button'));
       button.setAttribute('type', 'button');
 
@@ -226,6 +230,7 @@ Player.prototype = {
   },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
+      document.body.appendChild(audio_element);
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
       audio_element.removeAttribute('controls');
       ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {
@@ -260,7 +265,10 @@ var Button = function (button, state) {
   };
   
   st2 = {
-    play: [['m',1,7.5],['l',0,30], ['l', 12.5,-8],['l',0,-14],['l',-12.5,-8],['m', 12.5, 8 ], ['l',0,14 ],['l',12.5,-7], ['l',0,0], ['z']]
+    play: [['m',1,7.5],['l',0,30], ['l', 12.5,-8],['l',0,-14],['l',-12.5,-8],['m', 12.5, 8 ], ['l',0,14 ],['l',12.5,-7], ['l',0,0], ['z']],
+    pause: [],
+    error: [],
+    wait: []
   };
   
   this.factor = 1;
@@ -269,7 +277,7 @@ var Button = function (button, state) {
     return button;
   };
   
-  var a2 = window.animate(function (element) {
+  var a2 = window.Animate(function (element) {
     // this.(start|duration|from|to)
     console.dir(element.pathSegList);
     return false;
@@ -686,3 +694,49 @@ var Progress = function(container) {
 
   return this;
 };
+
+
+if (window.history.pushState) {
+  var Content = new Request({
+    load: function (evt) {
+      var title = evt.target.responseXML.querySelector('head title');
+      var main = evt.target.responseXML.querySelector('main');
+      var old = document.querySelector('main');
+      old.parentNode.replaceChild(main, old);
+    },
+    error: function (evt) {
+      console.log(error);
+    }
+  });
+  
+  var navigateToPage = function (evt) {
+
+    if (evt.type != 'popstate') {
+      history.pushState(null, null, this.href);
+    }
+    
+    Content.get(this.href + '.xml');
+  
+    // var body = document.id(document.body);
+    //     body.addClass('transitioning');
+      
+    // var ammend = body.hasClass('active') ? ' active' : '';
+      
+    // var content = body.getElementById('content');
+  
+    
+  };
+  
+  document.body.addEventListener('click', function (evt) {
+    if (evt.target.nodeName.toLowerCase() === 'a') {
+      evt.preventDefault();
+      if (evt.target.matches("a[href^='/']")) {
+        navigateToPage.call(evt.target, evt);
+      } else {
+        window.open(evt.target.href);
+      }
+    }
+  }, false);
+  
+  window.addEventListener('popstate', navigateToPage.bind(document.location), false);
+}
