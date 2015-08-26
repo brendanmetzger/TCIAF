@@ -57,6 +57,30 @@ var Animate = function (callback) {
   };
 };
 
+window.Adjust = function () {
+  var scroller = Animate(function (element) {
+    var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % anim complete 
+
+    var y = ratio >= 1 ? this.to : ( ratio * ( this.to - this.from ) ) + this.from;
+  
+  
+    // element.setAttribute('x', x);
+    element.scrollTo(0,y);
+    return (ratio < 1);
+  
+  });
+  
+  return {
+    scroll: function (end, seconds) {
+      scroller.start(window, {
+        from: window.pageYOffset,
+        to: end,
+        duration: seconds
+      });
+    }
+  };
+}();
+
 
 var Request = function (callbacks) {
   this.request = new XMLHttpRequest();
@@ -173,6 +197,7 @@ Player.prototype = {
   play: function () {
     this.button.setState('pause');
     this.elements[this.index].play();
+    console.log(this.index);
   },
   pause: function () {
     this.button.setState('play');
@@ -271,13 +296,7 @@ var Button = function (button, state) {
   this.getDOMButton = function () {
     return button;
   };
-  
-  var a2 = window.Animate(function (element) {
-    // this.(start|duration|from|to)
-    console.dir(element.pathSegList);
-    return false;
-  });
-  
+    
   // states match the d  
   this.setState = function (state, e) {
     if (state === this.state) {
@@ -600,7 +619,7 @@ if (window.history.pushState) {
     load: function (evt) {
       var main = document.body.querySelector('main');
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
-      // document.head.parentNode.replaceChild(evt.target.responseXML.querySelector('head'), document.head);
+      document.head.parentNode.replaceChild(evt.target.responseXML.querySelector('head'), document.head);
       
       document.body.classList.remove('fade');
       
@@ -618,10 +637,11 @@ if (window.history.pushState) {
 
   
   var navigateToPage = function (evt) {
-    if (document.location.href == this.href) {
-      window.scrollTo(0, 0);
-      return;
-    };
+    window.Adjust.scroll(0, 500);
+
+    if (document.location.href == this.href) return;
+    
+    
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
     }
