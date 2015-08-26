@@ -60,6 +60,7 @@ svg .red   {fill:#EE3124;}
 svg .blue  {fill:#5B9B98;}
 
 a {color:#88746A;}
+a > *:not(button) {pointer-events: none;}
 a:hover {color:#5B9B98;}
 a.selected {
   text-decoration:none;

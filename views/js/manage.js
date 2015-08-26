@@ -33,6 +33,8 @@ bloc.prepare('admin', function () {
 
 function goto(url, evt) {
   evt.preventDefault();
+  evt.stopPropagation();
+  console.log(evt);
   if (evt.metaKey) {
     window.location.href = url;
     return;

@@ -197,7 +197,6 @@ Player.prototype = {
   play: function () {
     this.button.setState('pause');
     this.elements[this.index].play();
-    console.log(this.index);
   },
   pause: function () {
     this.button.setState('play');
@@ -249,6 +248,7 @@ Player.prototype = {
     };
   },
   attach: function (audio_element) {
+
     if (audio_element.nodeName === "AUDIO") {
       document.body.appendChild(audio_element);
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
@@ -634,17 +634,18 @@ if (window.history.pushState) {
   });
 
   
+  window.navigateToPage = function (evt) {
+    evt.preventDefault();
 
-  
-  var navigateToPage = function (evt) {
-    window.Adjust.scroll(0, 500);
-
-    if (document.location.href == this.href) return;
-    
+    if (document.location.href == this.href) {
+      window.Adjust.scroll(0, 500);
+      return;
+    }
     
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
     }
+    
     Content.get(this.href + '.xml');
     document.body.classList.add('fade');
   };
@@ -657,10 +658,12 @@ if (window.history.pushState) {
       } else {
         window.open(evt.target.href);
       }
-    } else if (evt.target.parentNode){
-      evt.target.parentNode.dispatchEvent(new Event('click', {bubbles: true}));
     }
   }, true);
   
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
+} else {
+  window.navigateToPage = function (evt) {
+    window.location.href = this.href;
+  };
 }
