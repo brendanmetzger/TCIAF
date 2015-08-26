@@ -8,7 +8,7 @@
     <li class="padded"><a class="[$title]" href="[/explore/$group/title]">Alphabetic on Title</a></li>
     <li class="padded"><a class="[$yearproduced]" href="[/explore/$group/year-produced]">Year Produced</a></li>
     <li>
-      <select onchange="window.location.href = this.value">
+      <select onchange="navigateToPage.call({href: this.value}, event);">
         <option>Spectra</option>
         <option selected="[$recommendedF]" value="[/explore/$group/recommended:F]">Recommend (High to Low)</option>
         <option selected="[$recommendedS]" value="[/explore/$group/recommended:S]">Fiction to Fact</option>

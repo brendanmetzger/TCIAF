@@ -208,25 +208,20 @@ Player.prototype = {
     console.log('error', evt);
   },
   timeupdate: function (evt) {
-    
-    var elem = evt instanceof Event ? evt.target : evt;
+    var elem = evt.target;
     var time = Math.ceil(elem.currentTime);
-    var dur = Math.ceil(elem.duration);
-    var now = new Date(time * 1000);
-    var lim = new Date((dur - time) * 1000);
-    var msg = "<span>{m}:{s}</span>".format({
-      h: ('00'+now.getUTCHours()).slice(-2),
-      m: ('00'+now.getUTCMinutes()).slice(-2),
-      s: ('00'+now.getSeconds()).slice(-2)
-    });
+    var dur  = Math.ceil(elem.duration);
+    var msg = "<span>{m}:{s}</span>";
     
-    msg += "<span>{m}:{s}</span>".format({
-      h: ('00'+lim.getUTCHours()).slice(-2),
-      m: ('00'+lim.getUTCMinutes()).slice(-2),
-      s: ('00'+lim.getSeconds()).slice(-2)
-    });
-    this.meter.update(elem.currentTime / elem.duration, msg);
+    this.meter.update(time / dur, msg.format(this.timecode(new Date(time*1e3))) + msg.format(this.timecode(new Date((dur-time)*1e3))));
 
+  },
+  timecode: function (timestamp) {
+    return {
+      h: ('00'+timestamp.getUTCHours()).slice(-2),
+      m: ('00'+timestamp.getUTCMinutes()).slice(-2),
+      s: ('00'+timestamp.getSeconds()).slice(-2)
+    };
   },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
@@ -236,7 +231,7 @@ Player.prototype = {
       ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {
         audio_element.addEventListener(trigger, this[trigger].bind(this), false);
       }.bind(this));
-      this.timeupdate(audio_element);
+      this.timeupdate({target: audio_element});
     }
   },
   detach: function (audio_element) {
@@ -361,89 +356,6 @@ var Button = function (button, state) {
 };
 
 
-var Meter = function (audio, meter_element) {
-  this.audio   = audio;
-  this.element = meter_element;
-  
-  this.element.querySelectorAll('button').forEach(function (button) {
-    button.addEventListener('click', function (evt) {
-      this.input.focus();
-      var seektime = Math.ceil(parseFloat(this.input.value) + (this.audio.duration * parseFloat(button.value, 10)));
-      this.input.value = seektime;
-      this.audio.currentTime = seektime;
-      this.input.blur();
-    }.bind(this), false);
-  }, this);
-  
-  this.input = document.getElementById('scrubber');
-
-  this.input.addEventListener('change', function (evt) {
-    this.audio.currentTime = parseInt(this.input.value, 10);    
-    this.input.blur();
-  }.bind(this), false);
-  
-  this.input.addEventListener('input', function (evt) {
-    this.elapsed.text("{h}:{m}:{s}".format(this.timecode(this.input.value)));
-    this.duration.text("{h}:{m}:{s}".format(this.timecode(this.audio.duration - this.input.value)));
-  }.bind(this));
-      
-  this.input.addEventListener('mousedown', function (evt) {
-    this.dispatchEvent(new Event('focus'));
-  }, false);
-  
-  this.input.addEventListener('touchstart', function (evt) {
-    this.dispatchEvent(new Event('focus'));
-  }, false);
- 
-  this.input.addEventListener('mouseup', function (evt) {
-    this.dispatchEvent(new Event('blur'));
-  }, false);
-  
-  this.input.addEventListener('touchend', function (evt) {
-    this.dispatchEvent(new Event('blur'));
-  }, false);
-  
-  this.input.addEventListener('focus', function (evt) {
-    this.updating = true;
-  }.bind(this), false);
-  
-  this.input.addEventListener('blur', function (evt) {
-    this.updating = false;
-  }.bind(this), false);
-
-  var container = this.element.querySelector('div');
-  
-  this.elapsed  = new Elem('span').insert(container).text('0:00');
-  this.duration = new Elem('span').insert(container).text('0:00');
-};
-
-
-
-Meter.prototype = {
-  updating:false,
-  shown: false,
-  timecode: function (time) {
-    var date = new Date(time * 1000);
-    return {
-      h: ('00'+date.getUTCHours()).slice(-2),
-      m: ('00'+date.getUTCMinutes()).slice(-2),
-      s: ('00'+date.getSeconds()).slice(-2)
-    };
-  },
-  update: function () {
-    this.input.value = this.audio.currentTime;
-
-    var deplete = 100 - Math.ceil((this.audio.currentTime / this.audio.duration) * 100);
-
-    this.input.style.backgroundImage ='linear-gradient(to left, rgba(0,0,0,0.75) '+deplete+'%, rgba(0,0,0,0) '+(deplete + 5)+'%)';
-
-    this.elapsed.text("{h}:{m}:{s}".format(this.timecode(this.audio.currentTime)));
-    this.duration.text("{h}:{m}:{s}".format(this.timecode(this.audio.duration - this.audio.currentTime)));
-    
-  }
-};
-
-
 var Search = function (container, data) {
   this.input = document.getElementById(data.id);
   this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
@@ -471,20 +383,6 @@ var Search = function (container, data) {
 
 
 Search.instance = null;
-Search.INPUT = function (path, area, topic) {
-  var input = document.createElement('input');
-  input.dataset.path = path;
-  input.dataset.topic = topic;
-  input.dataset.area = area;
-  input.dataset.id = null;
-  input.className = 'text';
-  input.placeholder = 'Search for ' + topic;
-  input.name = 'Search';
-  input.autocomplete = 'off';
-  
-  return input;  
-};
-
 Search.prototype = {
   ajax: null,
   results: null,
@@ -697,34 +595,38 @@ var Progress = function(container) {
 
 
 if (window.history.pushState) {
+  
   var Content = new Request({
     load: function (evt) {
-      var title = evt.target.responseXML.querySelector('head title');
-      var main = evt.target.responseXML.querySelector('main');
-      var old = document.querySelector('main');
-      old.parentNode.replaceChild(main, old);
+      var main = document.body.querySelector('main');
+      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
+      // document.head.parentNode.replaceChild(evt.target.responseXML.querySelector('head'), document.head);
+      
+      document.body.classList.remove('fade');
+      
+      evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+        document.head.appendChild(window.bloc.tag(false)).text = script.text;
+      });
     },
     error: function (evt) {
+      // should just redirect
       console.log(error);
     }
   });
+
+  
+
   
   var navigateToPage = function (evt) {
-
+    if (document.location.href == this.href) {
+      window.scrollTo(0, 0);
+      return;
+    };
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
     }
-    
     Content.get(this.href + '.xml');
-  
-    // var body = document.id(document.body);
-    //     body.addClass('transitioning');
-      
-    // var ammend = body.hasClass('active') ? ' active' : '';
-      
-    // var content = body.getElementById('content');
-  
-    
+    document.body.classList.add('fade');
   };
   
   document.body.addEventListener('click', function (evt) {
@@ -735,8 +637,10 @@ if (window.history.pushState) {
       } else {
         window.open(evt.target.href);
       }
+    } else if (evt.target.parentNode){
+      evt.target.parentNode.dispatchEvent(new Event('click', {bubbles: true}));
     }
-  }, false);
+  }, true);
   
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
 }

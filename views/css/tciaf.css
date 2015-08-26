@@ -6,6 +6,7 @@ body {
   width:100%;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
   background-color:#444;
+  transition:opacity 1s;
 }
 
 main {
@@ -94,6 +95,7 @@ a.selected {
 }
 .tempo {margin:5em 10%;border-color:#F0E1CF;}
 .caps-lock {text-transform:uppercase;}
+.fade {opacity:0;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
 .inline:not(ul), .inline li, .inline dd  {display:inline-block;}
@@ -244,14 +246,17 @@ hr, .hr {
   clear:both;
 }
 
+input, textarea {
+  width:100%;
+}
 input, textarea, fieldset {
   box-sizing:border-box;
-  width:100%;
   padding:0;
   border: 1px solid #ccc;
   background-color:rgba(255,255,255,0.5);
   transition:box-shadow 0.25s, padding 0.25s, width 0.25s, height 0.25s 0.125s, margin 0.25s;
 }
+
 input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
 input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}
 
