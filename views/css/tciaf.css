@@ -6,7 +6,6 @@ body {
   width:100%;
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
   background-color:#444;
-  transition:opacity 1s;
 }
 
 main {
@@ -19,6 +18,7 @@ main {
   width:72.25%;
   max-width:100em;
   background-color:#fdfdfa;
+  transition:opacity 1s;
 }
 
 main > article {
@@ -96,7 +96,7 @@ a.selected {
 }
 .tempo {margin:5em 10%;border-color:#F0E1CF;}
 .caps-lock {text-transform:uppercase;}
-.fade {opacity:0;}
+.transition > main {opacity:0;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
 .inline:not(ul), .inline li, .inline dd  {display:inline-block;}

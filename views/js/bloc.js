@@ -617,15 +617,27 @@ if (window.history.pushState) {
   
   var Content = new Request({
     load: function (evt) {
-      var main = document.body.querySelector('main');
-      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
-      document.head.parentNode.replaceChild(evt.target.responseXML.querySelector('head'), document.head);
+
+      while (document.head.querySelector('title, style').length > 0) {
+        document.head.removeChild(document.head.childNodes[0]);
+      }
       
-      document.body.classList.remove('fade');
+      evt.target.responseXML.querySelectorAll('head title, head style').forEach(function (node) {
+        document.head.appendChild(node);
+      });
+      
       
       evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
         document.head.appendChild(window.bloc.tag(false)).text = script.text;
       });
+      
+      var main = document.body.querySelector('main');
+      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
+      
+      
+      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class');
+      // if
+      window.bloc.execute('editables');
     },
     error: function (evt) {
       // should just redirect
@@ -635,25 +647,24 @@ if (window.history.pushState) {
 
   
   window.navigateToPage = function (evt) {
-    evt.preventDefault();
+    window.Adjust.scroll(0, 500);
 
-    if (document.location.href == this.href) {
-      window.Adjust.scroll(0, 500);
-      return;
-    }
+    
+    
     
     if (evt.type != 'popstate') {
+      if (document.location.href == this.href) return;
       history.pushState(null, null, this.href);
     }
     
     Content.get(this.href + '.xml');
-    document.body.classList.add('fade');
+    document.body.classList.add('transition');
   };
   
   document.body.addEventListener('click', function (evt) {
     if (evt.target.nodeName.toLowerCase() === 'a') {
       evt.preventDefault();
-      if (evt.target.matches("a[href^='/']")) {
+      if (evt.target.matches("a:not(.button)[href^='/']")) {
         navigateToPage.call(evt.target, evt);
       } else {
         window.open(evt.target.href);

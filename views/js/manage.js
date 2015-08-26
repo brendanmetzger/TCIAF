@@ -1,4 +1,4 @@
-bloc.prepare('admin', function () {
+bloc.prepare('stylesheets', function () {
   var stylesheet  = document.styleSheets.length - 1;
 
   while (stylesheet > 0 && typeof stylesheet === 'number') {
@@ -15,8 +15,9 @@ bloc.prepare('admin', function () {
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
   
   // show an indicator next to all editable elements
+});
 
-  
+bloc.prepare('editables', function () {
   var edits = document.querySelectorAll('*[data-id]');
 
   for (var j = 0; j < edits.length; j++) {
@@ -28,6 +29,7 @@ bloc.prepare('admin', function () {
         button.addEventListener('click', goto.bind(button, url), false);
     
   }
+  
 });
 
 
@@ -51,12 +53,13 @@ function goto(url, evt) {
     new Request({'load': function (evt) {
       var exist = document.querySelector('main');
       exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-      window.bloc.execute('admin');
+      window.bloc.execute('editables');
     }}).get(window.location.href + '.xml');
     
 
   },
   function (form) {
+    window.bloc.execute('stylesheets');
     form.querySelector('input').focus();
   });
 }
