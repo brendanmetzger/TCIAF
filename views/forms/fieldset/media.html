@@ -25,35 +25,32 @@
         
     function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
+			var player = window.bloc.execute('Player', audio_element);
+
       a.style.display = 'inline-block';
       a.href = '#' + audio_element.dataset.index;
       a.addEventListener('click', function (evt) {
         evt.preventDefault();
-        Player.instance.playTrack(Number(this.hash.substring(1)));
+        player.playTrack(Number(this.hash.substring(1)));
       });      
       
       audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
       
-      if (Player.instance) {
-        Player.instance.attach(audio_element);
-      } else {
-        document.getElementById('Player').dataset.queue = '';
-      }
+			
     }
   
-    bloc.prepare('Upload', function (auto) {
-      var uploader = auto ? Upload.instance : this;
+    bloc.prepare('Upload', function () {
+
+      this.addTrigger(document.querySelector("fieldset.media button.upload"));
       
-      uploader.addTrigger(document.querySelector("fieldset.media button.upload"));
-      
-      uploader.addRoutine('audio', function (file) {
+      this.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
         this.progress = new Progress();
         var dd = document.querySelector('fieldset.media dl.audio').appendChild(document.createElement('dd'));
         dd.appendChild(this.progress.element);
       });
     
-      uploader.addRoutine('image', function (file) {
+      this.addRoutine('image', function (file) {
 
         var reader = new FileReader();
     
@@ -71,12 +68,13 @@
         reader.readAsDataURL(file);
       });
     
-      uploader.addEvent('success', function (xhr) {
+      this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
+				sortable('dl.images.dnd', 'dd');
       });
       
-      uploader.addEvent('failure', function (xhr) {
+      this.addEvent('failure', function (xhr) {
         console.error(xhr.responseText, 'undo some stuff');
         window.alert(xhr.responseText);
         this.progress.element.parentNode.removeChild(this.progress.element);

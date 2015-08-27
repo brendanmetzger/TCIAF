@@ -36,8 +36,7 @@
     // <![CDATA[
     
     bloc.prepare('Search', function () {
-      var instance = this instanceof Search ? this : Search.instance;
-      instance.subscribers.select.push(function (dataset) {
+      this.subscribers.select.push(function (dataset) {
 
         var input = this.input;
         var ajax  = new XMLHttpRequest();
@@ -59,11 +58,9 @@
       
     });
     
-    bloc.prepare('Upload', function (auto) {
-      var uploader = auto ? Upload.instance : this;
-    
-      uploader.addTrigger(document.querySelector("fieldset.media button.upload"));    
-      uploader.addRoutine('image', function (file) {
+    bloc.prepare('Upload', function () {
+      this.addTrigger(document.querySelector("fieldset.media button.upload"));    
+      this.addRoutine('image', function (file) {
 
         var reader = new FileReader();
     
@@ -81,18 +78,19 @@
         reader.readAsDataURL(file);
       });
     
-      uploader.addEvent('success', function (xhr) {
+      this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
+				sortable('dl.images.dnd', 'dd');
       });
       
-      uploader.addEvent('failure', function (xhr) {
+      this.addEvent('failure', function (xhr) {
         console.error(xhr.responseText, 'undo some stuff');
         window.alert(xhr.responseText);
         this.progress.element.parentNode.removeChild(this.progress.element);
       });
       
-      sortable('dl.images.dnd', 'dd');
+      
     });
     // ]]>
   </script>

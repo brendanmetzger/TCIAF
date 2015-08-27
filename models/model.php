@@ -148,8 +148,9 @@ abstract class Model extends \bloc\Model
     }
     
     return $context['abstract']->map(function($abstract) {
+			$path = PATH . $abstract->getAttribute('src');
+			$content = file_exists($path) ? file_get_contents($path) : null;
 
-      $content = file_get_contents(PATH . $abstract->getAttribute('src'));
       return [
        'type' => $abstract->getAttribute('content'),
        'index' => $abstract->getIndex(),
@@ -312,7 +313,8 @@ abstract class Model extends \bloc\Model
   protected function parseText($context)
   {
     foreach ($context->getElementsByTagName('abstract') as $abstract) {
-      $this->{$abstract->getAttribute('content')} = $stuff = file_get_contents(PATH . $abstract->getAttribute('src')) ?: null;
+			$path = PATH . $abstract->getAttribute('src');
+			$this->{$abstract->getAttribute('content')} = file_exists($path) ? file_get_contents($path) : null;
     }
   }
   

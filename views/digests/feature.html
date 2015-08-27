@@ -1,7 +1,7 @@
 <article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
   
   <!-- iterate item:media:audio -->
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute.call(this, 'Player');" controls="controls" preload="metadata">Audio</audio>
+  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute('Player', this);" controls="controls" preload="metadata">Audio</audio>
   
   <style type="text/css" media="screen">
     /* <![CDATA[ */
@@ -55,14 +55,6 @@
 
   <script type="text/javascript" async="true">
     // <![CDATA[
-      
-    bloc.prepare('Player', function (auto) {
-      if (! auto && this instanceof Element) {
-        Player.instance.attach(this);
-        Player.instance.setDisplay('title', 'Play this feature');
-      }
-    });
-    
     
     bloc.prepare('recommend', function () {
       

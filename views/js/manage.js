@@ -35,8 +35,6 @@ bloc.prepare('editables', function () {
 
 function goto(url, evt) {
   evt.preventDefault();
-  evt.stopPropagation();
-  console.log(evt);
   if (evt.metaKey) {
     window.location.href = url;
     return;
@@ -46,8 +44,6 @@ function goto(url, evt) {
     url + '.xml',
     {},
     function (response) {
-      console.log(response);
-    // close modal
     this.modal.close();
     
     new Request({'load': function (evt) {
@@ -458,8 +454,9 @@ var Edge = function (container, data) {
         
         // close modal
         this.modal.close(function (arg) {
-          this.backdrop.parentNode.removeChild(this.backdrop);
-          // destroy the object if we need more closure;
+          if (this.backdrop) {
+            this.backdrop.parentNode.removeChild(this.backdrop);
+          }
         });
       },
       function (form) {

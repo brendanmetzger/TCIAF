@@ -17,9 +17,9 @@
           tag: function (async) {var s = d.createElement('script');s.type='text/javascript';s.async=async;return s;},
           embed: function() {for (var i=0; i < arguments.length; i++) {var s = this.tag(false);s.src=s.src=arguments[i];s.onload = this.load; q.push(s);} return this;},
           track: function (src) { for (var i=0; i < arguments.length; i++) {t.push(this.tag(arguments[i], true));} return this;},
-          load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { for (var k in c) {w.bloc.execute(k, true)}; while(t.length > 0) d.body.appendChild(t.shift());}},
-          execute: function(k, s) { if (c[k]) c[k].call(this, Boolean(s));},
-          prepare: function(k, f) {if (typeof f === 'function') c[k] = f;}
+          load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { for (var k in c) {w.bloc.execute(k, null)}; while(t.length > 0) d.body.appendChild(t.shift());}},
+          execute: function(k, a) { if (c[k]) return c[k].call(this, a);},
+          prepare: function(k, f) {if (typeof f === 'function') c[k] = f; else return c[k] || function() {};}
       };}(document, window, {}, [], []));
 
       bloc.embed('/js/bloc.js');
@@ -30,17 +30,26 @@
               replace.id = id;
           
           var instance = new window[id](replace, container.dataset);
-          
-          if (!auto) {
-            window.bloc.execute.call(instance, container.id);
+
+          if (auto === null) {
+            bloc.prepare(id, bloc.prepare(id).bind(instance));
           } else {
-            window[id].instance = instance;
+						window.bloc.execute.call(instance, id);
           }
+					
           container.parentNode.replaceChild(replace, container);
         });
 
         return this;
       });
+			
+	    bloc.prepare('Player', function (audio) {
+	      if (audio instanceof Element) {
+	        this.attach(audio);
+	        this.setDisplay('title', 'Play this feature');
+	      } 
+				return this;
+	    });
       // ]]>
     </script>
 

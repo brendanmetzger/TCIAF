@@ -1,11 +1,11 @@
 <div class="search">
   <input id="FILTER" data-path="[$search:path]" data-topic="[$search:topic]" data-area="[$search:area]" type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
   <noscript id="Search" data-id="FILTER">Search Requires Javascript</noscript>
-  <script type="text/javascript">
+  <script type="text/javascript" async="true">
     // <![CDATA[
-      bloc.prepare('Search', function () {
-        Search.instance.subscribers.select.push(function (dataset) {
-          window.location.href = '/' + dataset.area + '/' + dataset.id;
+      bloc.prepare('Search', function (auto) {
+        this.subscribers.select.push(function (dataset, evt) {
+          navigateToPage.call({href: '/' + dataset.area + '/' + dataset.id}, evt);
         });
       });
     // ]]>

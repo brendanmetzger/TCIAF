@@ -179,7 +179,6 @@ var Player = function (container, data) {
 
 
 
-Player.instance = null;
 Player.prototype = {
   elements: [],
   display: {},
@@ -190,7 +189,6 @@ Player.prototype = {
   },
   progress: function (evt) {
     if (evt.target.paused) {
-      console.log(evt.target.buffered.start(0), evt.target.buffered.end(0), evt.target.duration);
       this.meter.update(evt.target.buffered.end(0) / evt.target.duration, null, true);
     }
   },
@@ -248,7 +246,6 @@ Player.prototype = {
     };
   },
   attach: function (audio_element) {
-
     if (audio_element.nodeName === "AUDIO") {
       document.body.appendChild(audio_element);
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
@@ -423,7 +420,7 @@ Search.prototype = {
     this.reset();
   
     this.subscribers.select.forEach(function (item) {
-      item.call(this, this.input.dataset);
+      item.call(this, this.input.dataset, evt);
     }, this);
   },
   processIndices: function (evt) {
@@ -618,9 +615,9 @@ if (window.history.pushState) {
   var Content = new Request({
     load: function (evt) {
 
-      while (document.head.querySelector('title, style').length > 0) {
-        document.head.removeChild(document.head.childNodes[0]);
-      }
+      document.querySelectorAll('head title, head style').forEach(function(node) {
+        document.head.removeChild(node);
+      });
       
       evt.target.responseXML.querySelectorAll('head title, head style').forEach(function (node) {
         document.head.appendChild(node);
@@ -637,6 +634,7 @@ if (window.history.pushState) {
       
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class');
       // if
+      window.bloc.execute('autoload');
       window.bloc.execute('editables');
     },
     error: function (evt) {
@@ -648,9 +646,6 @@ if (window.history.pushState) {
   
   window.navigateToPage = function (evt) {
     window.Adjust.scroll(0, 500);
-
-    
-    
     
     if (evt.type != 'popstate') {
       if (document.location.href == this.href) return;
@@ -666,8 +661,6 @@ if (window.history.pushState) {
       evt.preventDefault();
       if (evt.target.matches("a:not(.button)[href^='/']")) {
         navigateToPage.call(evt.target, evt);
-      } else {
-        window.open(evt.target.href);
       }
     }
   }, true);
