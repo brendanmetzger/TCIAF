@@ -33,4 +33,19 @@ namespace models;
         'edition'       => ['happening'],
       ]
     ];
+		
+    public function getFeatures(\DOMElement $context)
+    {
+      return $context->find("edge[@type='item']")->map(function($edge) {
+        return ['feature' => new Feature($edge['@vertex'])];
+      });  
+    }
+		
+    public function getParticipants(\DOMElement $context)
+    {
+      return $context->find("edge[@type='participant']")->map(function($edge) {
+        return ['person' => new Person($edge['@vertex'])];
+      });  
+    }
+		
   }

@@ -24,7 +24,7 @@
     <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:100%;" property="image"/>
   </section>
   
-  <section class="intro group left" style="width:75%;margin-left:2.5%"  property="description">[$item:description]</section>
+  <section class="intro group left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
   
 
   <hr class="tempo clear"/>
@@ -40,15 +40,15 @@
   <h2>Next Up (in theory)</h2>
   <!-- insert views/lists/recommendation.html -->
   
-  <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:extra]</section>
+  <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:content:extra]</section>
   
   <div>
     <h2>More</h2>
-    <!-- iterate item:collections -->
+    <!-- iterate item:playlists -->
     <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
     
     <!-- iterate item:extras -->
-    <a href="[/explore/detail/$article:@id]">[$article:title]</a>
+    <a href="[/explore/detail/$article:@id]">[$article:@title]</a>
     
   </div>
   

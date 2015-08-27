@@ -24,20 +24,15 @@
 
       bloc.embed('/js/bloc.js');
       bloc.prepare('autoload', function (auto) {
-        document.querySelectorAll('noscript').forEach(function (container) {
-          var id = container.id;
-          var replace    = document.createElement('div');
-              replace.id = id;
-          
-          var instance = new window[id](replace, container.dataset);
-
+        document.querySelectorAll('noscript').forEach(function (elem) {
+					var swap = document.createElement('div');
+					elem.parentNode.replaceChild(swap, elem);
+          var obj = new window[elem.id](swap, elem.dataset);
           if (auto === null) {
-            bloc.prepare(id, bloc.prepare(id).bind(instance));
+            bloc.prepare(elem.id, bloc.prepare(elem.id).bind(obj));
           } else {
-						window.bloc.execute.call(instance, id);
+						window.bloc.execute.call(obj, elem.id);
           }
-					
-          container.parentNode.replaceChild(replace, container);
         });
 
         return this;
@@ -63,11 +58,11 @@
       <a id="logo" href="/"><span>Third Coast</span><span>International</span> <span>Audio Festival</span></a>
       <nav>
         <ul class="inline">
-          <li><a href="/overview/nothing">Conference</a></li>
-          <li><a href="/overview/nothing">Events</a></li>
-          <li><a href="/explore/competition">Competitions</a></li>
-          <li><a href="/overview/nothing">Subscribe</a></li>
-          <li><a href="/overview/nothing">Donate</a></li>
+          <li><a href="/explore/index/happening">Conference</a></li>
+          <li><a href="#">Events</a></li>
+          <li><a href="/explore/index/competition">Competitions</a></li>
+          <li><a href="#">Subscribe</a></li>
+          <li><a href="#">Donate</a></li>
         </ul>
       </nav>
     </header>
@@ -102,7 +97,7 @@
           <div id="Library" data-tokens="[$tokens]">
           </div>
         </div>
-        <script type="text/javascript">
+        <script type="text/javascript" async="true">
         // <![CDATA[
           
 

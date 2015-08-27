@@ -11,7 +11,7 @@ use \bloc\dom\query;
 
   class Graph
   {
-    const DB = 'data/db22';
+    const DB = 'data/db23';
   
     public $storage = null;
     
@@ -54,7 +54,7 @@ use \bloc\dom\query;
         'updated' => function($a, $b) {
           return strtotime($a->getAttribute('updated')) < strtotime($b->getAttribute('updated'));
         },
-        'title' => function($a, $b) {
+        'alpha-numeric' => function($a, $b) {
           return ucfirst(ltrim($a->getAttribute('title'), "\x00..\x2F")) > ucfirst(ltrim($b->getAttribute('title'), "\x00..\x2F"));
         },
         'year-produced' => function($a, $b) {

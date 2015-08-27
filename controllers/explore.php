@@ -13,16 +13,32 @@ use \models\graph;
 
 class Explore extends Manage
 {
-  public function GETindex()
+  public function GETindex($group = null, $type = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
   {
-    $tokens = [];    
-    foreach (Graph::group('feature')->find('vertex[@mark < '.time().']')->sort(Graph::sort('recommended:F')) as $feature) {
-      $tokens[] = $feature['@id'];
-    }
-    $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
-    $this->tokens = implode(' ', $tokens);
-    
-    return (new view('views/layout.html'))->render($this());
+    $view = new view('views/layout.html');
+		
+		if ($group !== null) {
+	    $view->content = "views/lists/{$group}.html";
+	    $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+			$this->group = $group;
+			$this->{$sort} = "selected";
+	    $this->list = Graph::group($group)
+	         ->find('vertex'.$query)
+			     ->sort(Graph::sort($sort))
+			     ->map(function($vertex) {
+						 return ['item' => Graph::factory($vertex)];
+					 })
+	         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$type}/{$sort}"]));
+		} else {
+			$tokens = [];    
+	    foreach (Graph::group('feature')->find('vertex[@mark < '.time().']')->sort(Graph::sort('recommended:F')) as $feature) {
+	      $tokens[] = $feature['@id'];
+	    }
+	    $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
+	    $this->tokens = implode(' ', $tokens);
+		}
+
+    return $view->render($this());
   }
   
   public function GETdetail($id)
@@ -31,32 +47,30 @@ class Explore extends Manage
     $this->item   = Graph::factory(Graph::ID($id));
     $this->title  = $this->item['@title'] . ", TCIAF";
     $view = new view('views/layout.html');
-    $view->content = $v = "views/digests/{$this->item->getView()}.html";
+    $view->content = "views/digests/{$this->item->getView()}.html";
     return $view->render($this());
   }
   
   
-  protected function GETcenterpiece($group, $sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETcenterpiece($group = null, $sort = 'year-produced', $index = 1, $per = 25)
   {
     $view = new view('views/layout.html');
-    $view->content  = 'views/lists/features.html';
-    $this->group    = $group;
-    $this->{$sort}  = "selected";
-    $this->search   = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
-    $this->features = Graph::group($group)->find('vertex')->sort(Graph::sort($sort))->map(function($feature) {
-      return [
-        'feature'   => new \models\Feature($feature),
-        'producers' => Graph::group('person')->find("vertex[edge[@vertex='{$feature['@id']}']]"),
-      ];
-    })->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$sort}"]));
+    $view->content = 'views/lists/feature.html';
+    $this->group   = $group;
+    $this->{$sort} = "selected";
+    $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+    $this->list    = Graph::group($group)
+		     ->find('vertex')
+		     ->sort(Graph::sort($sort))
+		     ->map(function($feature) {
+					 return ['item' => Graph::factory($feature)];
+				 })
+				 ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$sort}"]));
     
     return $view->render($this());
   }
   
-  public function GETfeature($sort = 'newest', $index = 1, $per = 25)
-  {
-    return $this->GETcenterpiece('feature', $sort, $index, $per);
-  }
+
   
   public function GETbroadcast($sort = 'newest', $index = 1, $per = 25)
   {
@@ -70,25 +84,9 @@ class Explore extends Manage
   
   
 
-  public function GETperson($type = 'all', $index = 1, $per = 100)
-  {
-    $view = new view('views/layout.html');
-    $view->content = 'views/lists/person.html';
-    $this->search  = ['topic' => 'person', 'path' => 'search/group', 'area' => 'explore/detail'];
-    $this->people  = Graph::group('person')
-                     ->find($type === 'all' ? 'vertex' : "vertex[edge[@type='{$type}']]")
-                     ->sort(function($a, $b) {
-                       return $a['@title'] > $b['@title'];
-                     })
-                     ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/person/{$type}"]));
-
-
-
-    return $view->render($this());
-  }
   
   
-  public function GETgroup($group, $type, $index, $per, $query = '')
+  public function GETgroup($group = null, $type = 'all', $index = 1, $per = 100, $query = '')
   {
     $view = new View('views/layout.html');
     $view->content = 'views/lists/collection.html';
@@ -114,11 +112,6 @@ class Explore extends Manage
   public function GETorganization($type = 'all', $index = 1, $per = 100)
   {
     return $this->GETgroup('organization', $type, $index, $per);
-  }
-  
-  public function GETensemble($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETgroup('ensemble',$type, $index, $per);
   }
   
   public function GEThappening($type = 'all', $index = 1, $per = 100)

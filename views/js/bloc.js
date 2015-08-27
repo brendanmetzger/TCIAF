@@ -134,6 +134,8 @@ SVG.prototype.b64url = function (styles) {
 
 
 var Player = function (container, data) {
+  container.id = 'Player';
+  
   var button = container.appendChild(document.createElement('button'));
       button.setAttribute('type', 'button');
 
@@ -373,9 +375,15 @@ var Button = function (button, state) {
 
 
 var Search = function (container, data) {
+  
   this.input = document.getElementById(data.id);
+  if (!this.input) {
+    console.error("MUST fix the search going blank when reloading content");
+    return;
+  }
   this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
   this.input.addEventListener('keydown', this.checkDown.bind(this), false);
+  
 
   this.ajax = new XMLHttpRequest();
   this.ajax.addEventListener('load', this.processIndices.bind(this), false);
@@ -614,7 +622,11 @@ if (window.history.pushState) {
   
   var Content = new Request({
     load: function (evt) {
-
+      
+      if (! evt.target.responseXML) {
+        evt.target.dispatchEvent(new ProgressEvent('error'));
+      }
+      
       document.querySelectorAll('head title, head style').forEach(function(node) {
         document.head.removeChild(node);
       });
@@ -639,7 +651,10 @@ if (window.history.pushState) {
     },
     error: function (evt) {
       // should just redirect
-      console.log(error);
+      alert('FIX this now! look at console..');
+      console.dir(evt.target);
+      console.log(this);
+      
     }
   });
 

@@ -135,9 +135,8 @@ abstract class Model extends \bloc\Model
     return true;
   }
   
-  public function getAbstract(\DOMElement $context)
+  public function getAbstract(\DOMElement $context, $parse = true)
   {
-    
     if ($context['abstract']->count() < 1) {
       return [[
        'type' => static::$fixture['vertex']['abstract'][0]['@']['content'],
@@ -147,16 +146,22 @@ abstract class Model extends \bloc\Model
       ]];
     }
     
-    return $context['abstract']->map(function($abstract) {
+    return $context['abstract']->map(function($abstract) use($parse){
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
-
       return [
        'type' => $abstract->getAttribute('content'),
        'index' => $abstract->getIndex(),
-       'text' => (new \Parseup($content))->output(), 
+       'text' => $parse ? (new \Parseup($content))->output() : $content, 
       ];
     });
+  }
+	
+  public function getSummary(\DOMElement $context)
+  {
+		$abstract = $this->getAbstract($context, false);
+		if (!is_object($abstract)) return;
+		return \bloc\DOM\Document::TAG('<root>'.$abstract->current()['text'].'</root>')->firstChild->write();
   }
    
   public function setEdge(\DOMElement $context, $value)
@@ -270,6 +275,8 @@ abstract class Model extends \bloc\Model
         $this->errors[] = $e->getMessage();
       }
     }
+		
+		$this->parseText($this->context);
   }
   
   public function __call($method, $arguments)
@@ -312,10 +319,11 @@ abstract class Model extends \bloc\Model
   
   protected function parseText($context)
   {
-    foreach ($context->getElementsByTagName('abstract') as $abstract) {
-			$path = PATH . $abstract->getAttribute('src');
-			$this->{$abstract->getAttribute('content')} = file_exists($path) ? file_get_contents($path) : null;
+		$dict = [];
+		foreach ($this->getAbstract($context, false) as $abstract) {
+			$dict[$abstract['type']] = $abstract['text'];
     }
+		$this->content = new \bloc\types\Dictionary($dict);
   }
   
   public function getEdges($context)

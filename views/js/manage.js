@@ -62,10 +62,11 @@ function goto(url, evt) {
 
 
 function Markdown(container, options) {
+  container.id = "Markdown";
   this.hud = container.appendChild(document.createElement('nav'));
   this.hud.className = 'hud visible';
-  
   this.textareas = document.querySelectorAll(options.selector);
+  
   this.textareas.forEach(function (t) {
     this.fit(t);
     t.addEventListener('keyup', this.fit.bind(this, t));
@@ -73,7 +74,9 @@ function Markdown(container, options) {
     t.addEventListener('focus', this.show.bind(this));    
   }, this);
   
-  this.textareas[0].parentNode.insertBefore(this.hud, this.textareas[0]);
+  if (this.textareas.length > 0) {
+    this.textareas[0].parentNode.insertBefore(this.hud, this.textareas[0]);
+  }
 
   var list = this.hud.appendChild(document.createElement('ul'));
       list.className = 'inline';
@@ -293,14 +296,16 @@ Modal.prototype = {
     this.element = element;
     this.backdrop.appendChild(this.element);
 
-    bloc.execute('autoload');
+    
     // make closeable
     var button = document.createElement('button');
-        button.className = 'close action';
+        button.className = 'close';
         button.innerHTML = '&times;';
         button.addEventListener('click', this.close.bind(this));
-  
+    
     this.element.insertBefore(button, this.element.firstChild);
+    
+    bloc.execute('autoload');
     
     if (this.progress) {
       this.progress.remove();
@@ -319,7 +324,7 @@ Modal.prototype = {
     
     document.body.classList.remove('locked');
     this.backdrop.parentNode.removeChild(this.backdrop);
-    
+    this.backdrop = false;
 
     if (evt instanceof Function) {
       evt.call(this);

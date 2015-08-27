@@ -19,8 +19,8 @@
         <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/jpg">Javascript Required For upload</noscript>
         
         <hr/>
-        <input id="FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" />
-        <noscript id="Search" data-id="FILTER">Search Requires Javascript</noscript>
+        <input id="image-FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" />
+        <noscript id="Search" data-id="image-FILTER">Search Requires Javascript</noscript>
       </div>
       
     </fieldset>
@@ -36,6 +36,10 @@
     // <![CDATA[
     
     bloc.prepare('Search', function () {
+			if (! this.input) {
+				console.error('Related to above.');
+				return;
+			}
       this.subscribers.select.push(function (dataset) {
 
         var input = this.input;

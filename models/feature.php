@@ -76,13 +76,7 @@ namespace models;
       
       return parent::setAbstract($context, $abstract);
     }
-    
-    public function getDescription(\DOMElement $context)
-    {
-      $this->parseText($context);
-      return $this->description;
-    }
-    
+        
     public function getAward(\DOMElement $context)
     {
       $award = $context->find("edge[@type='award']");
@@ -95,13 +89,7 @@ namespace models;
     
     public function getExtra(\DOMElement $context)
     {
-      $this->parseText($context);
       return isset($this->extra) ? $this->extra : null;
-    }
-    
-    public function getSummary(\DOMElement $context)
-    {
-      return substr(strip_tags($this->description), 0, 100) . '...';
     }
     
     public function getBackground()
@@ -133,16 +121,16 @@ namespace models;
       });
     }
     
-    public function getCollections(\DOMElement $context)
+    public function getPlaylists(\DOMElement $context)
     {
-      return $context->find("edge[@type='item']")->map(function($collection) {
+			return $context->find("edge[@type='item']")->map(function($collection) {
         return ['collection' => new Collection($collection['@vertex'])];
       });
     }
     
     public function getExtras(\DOMElement $context)
     {
-      return $context->find("edge[@type='extra']")->map(function($extra) {
+			return $context->find("edge[@type='extra']")->map(function($extra) {
         return ['article' => new Article($extra['@vertex'])];
       });
     }

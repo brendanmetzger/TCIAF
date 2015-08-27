@@ -1,6 +1,6 @@
 <div class="search">
-  <input id="FILTER" data-path="[$search:path]" data-topic="[$search:topic]" data-area="[$search:area]" type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
-  <noscript id="Search" data-id="FILTER">Search Requires Javascript</noscript>
+  <input id="[$search:topic-FILTER]" data-path="[$search:path]" data-topic="[$search:topic]" data-area="[$search:area]" type="text" name="search" placeholder="[search $search:topic]" class="text" autocomplete="off" style="padding:0.5em"/>
+  <noscript id="Search" data-id="[$search:topic-FILTER]">Search Requires Javascript</noscript>
   <script type="text/javascript" async="true">
     // <![CDATA[
       bloc.prepare('Search', function (auto) {

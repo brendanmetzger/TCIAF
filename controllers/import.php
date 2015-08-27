@@ -825,4 +825,47 @@ class Import extends Task
     }
     
   }
+	
+	public function CLIdupes()
+	{
+    $doc  = new \bloc\DOM\Document('data/db22');
+    $xml  = new \DomXpath($doc);
+    
+        
+    
+    foreach ($xml->query("//group[@type='happening']/vertex") as $vertex) {
+
+			$keep = [];
+			$remove = [];
+			$edges = $vertex->getElementsByTagName('edge');
+      foreach ($edges as $edge) {
+				$v = $edge->getAttribute('vertex');
+				$t = $edge->getAttribute('type');
+				if (isset($keep[$v]) && $keep[$v] === $t) {
+					$remove[] = $edge;
+				} else {
+					$keep[$v] = $t;
+				}
+      }
+			
+			foreach ($remove as $edge) {
+				echo "REMOVE\n";
+				$edge->parentNode->removeChild($edge);
+			}
+			
+			// echo $vertex->write();
+			
+			
+			
+    }
+		
+    if ($doc->validate()) {
+      $file = 'data/db23.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+    } else {
+      print_r(libxml_get_errors());
+    }
+
+	}
 }

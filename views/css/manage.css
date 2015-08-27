@@ -239,6 +239,12 @@ body[data-user] {
   background-color:rgba(0,0,0, 0.5);
   transition:opacity 0.5s;
 }
+
+.backdrop .close {
+  position:fixed;
+  top:1em;
+  left:10%;
+}
 .backdrop > .progress circle {
   stroke:none;
   fill:none;

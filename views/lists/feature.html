@@ -5,7 +5,7 @@
     <li>Sorted By:</li>
     <li class="padded"><a class="[$newest]" href="[/explore/$group/newest]">Recently Created</a></li>
     <li class="padded"><a class="[$updated]" href="[/explore/$group/updated]">Recently Updated</a></li>
-    <li class="padded"><a class="[$title]" href="[/explore/$group/title]">Alphabetic on Title</a></li>
+    <li class="padded"><a class="[$title]" href="[/explore/$group/alpha-numeric]">Alphabetic on Title</a></li>
     <li class="padded"><a class="[$yearproduced]" href="[/explore/$group/year-produced]">Year Produced</a></li>
     <li>
       <select onchange="navigateToPage.call({href: this.value}, event);">
@@ -21,16 +21,16 @@
     </li>
   </ul>
   
-  <!-- iterate features -->
-  <div data-created="[$feature:@created]" data-updated="[$feature:@updated]" data-award="[$feature:award:title]">
-    <figure style="[background:$feature:gradient]">Spectra</figure>
-    <h2><a href="[/explore/detail/$feature:@id]" data-id="[$feature:@id]">[$feature:title]</a> <em>[($feature:premier:@date)]</em></h2>
+  <!-- iterate list -->
+  <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]">
+    <figure style="[background:$item:gradient]">Spectra</figure>
+    <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
     <cite>
-      <!-- iterate producers -->
-      <a href="[/explore/detail/$@id]" data-id="[$@id]">[$@title]</a>
+      <!-- iterate item:producers -->
+      <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
     </cite>
     
-    <p>[$feature:summary]</p>
+    <aside>[$item:summary]</aside>
     
     <!-- replace fieldlist -->
   </div>
