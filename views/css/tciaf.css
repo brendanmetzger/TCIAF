@@ -89,7 +89,7 @@ a.selected {
 .marquee {
   font-size:4.25em;
   line-height:100%;
-  margin:1em 4em 1em 1em;
+  margin:1em;
   letter-spacing:0.075em;
   color:#88746a;
   text-shadow:1px 1px rgba(0,0,0,0.2);
