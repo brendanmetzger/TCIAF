@@ -161,7 +161,12 @@ abstract class Model extends \bloc\Model
   {
 		$abstract = $this->getAbstract($context, false);
 		if (!is_object($abstract)) return;
-		return \bloc\DOM\Document::TAG('<root>'.$abstract->current()['text'].'</root>')->firstChild->write();
+    if ($node = \bloc\DOM\Document::TAG("<root>{$abstract->current()['text']}</root>")) {
+      if ($node->childNodes->length > 0) {
+        return $node->firstChild->write();
+      }
+
+    }
   }
    
   public function setEdge(\DOMElement $context, $value)
