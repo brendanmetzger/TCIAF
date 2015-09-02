@@ -65,7 +65,7 @@ class Explore extends Manage
 		     ->map(function($feature) {
 					 return ['item' => Graph::factory($feature)];
 				 })
-				 ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$sort}"]));
+				 ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$sort}"]));
     
     return $view->render($this());
   }

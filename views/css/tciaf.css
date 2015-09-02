@@ -17,6 +17,7 @@ main {
   margin:1.25%;
   width:72.25%;
   max-width:100em;
+  min-height:35em;
   background-color:#fdfdfa;
   transition:opacity 1s;
 }
