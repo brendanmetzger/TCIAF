@@ -8,15 +8,15 @@
     <li class="padded"><a class="[$title]" href="[/explore/index/$group/all/alpha-numeric]">Alphabetic on Title</a></li>
     <li class="padded"><a class="[$yearproduced]" href="[/explore/index/$group/all/year-produced]">Year Produced</a></li>
     <li>
-      <select onchange="navigateToPage.call({href: this.value}, event);">
+      <select onchange="if (this.value != 'Spectra') navigateToPage.call({href: this.value}, event);">
         <option>Spectra</option>
-        <option selected="[$recommendedF]" value="[/explore/$group/all/recommended:F]">Recommend (High to Low)</option>
-        <option selected="[$recommendedS]" value="[/explore/$group/all/recommended:S]">Fiction to Fact</option>
-        <option selected="[$recommendedM]" value="[/explore/$group/all/recommended:M]">Heavy to Light</option>
-        <option selected="[$recommendedR]" value="[/explore/$group/all/recommended:R]">Social Relevance (High to Low)</option>
-        <option selected="[$recommendedP]" value="[/explore/$group/all/recommended:P]">Rich Sound to Print-Worthy</option>
-        <option selected="[$recommendedT]" value="[/explore/$group/all/recommended:T]">Experimental to Traditional</option>
-        <option selected="[$recommendedA]" value="[/explore/$group/all/recommended:A]">Energetic to Cozy</option>
+        <option selected="[$recommendedF]" value="[/explore/index/$group/all/recommended:F]">Recommend (High to Low)</option>
+        <option selected="[$recommendedS]" value="[/explore/index/$group/all/recommended:S]">Fiction to Fact</option>
+        <option selected="[$recommendedM]" value="[/explore/index/$group/all/recommended:M]">Heavy to Light</option>
+        <option selected="[$recommendedR]" value="[/explore/index/$group/all/recommended:R]">Social Relevance (High to Low)</option>
+        <option selected="[$recommendedP]" value="[/explore/index/$group/all/recommended:P]">Rich Sound to Print-Worthy</option>
+        <option selected="[$recommendedT]" value="[/explore/index/$group/all/recommended:T]">Experimental to Traditional</option>
+        <option selected="[$recommendedA]" value="[/explore/index/$group/all/recommended:A]">Energetic to Cozy</option>
       </select>
     </li>
   </ul>
