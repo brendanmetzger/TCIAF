@@ -33,7 +33,7 @@ class Manage extends \bloc\controller
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
     
-    $this->supporters = Graph::group('organization')->find("vertex[edge[@type='sponsor' and @vertex='TCIAF']]");
+    $this->supporters = Graph::factory(Graph::ID('TCIAF'))->supporters;
     
     if ($this->authenticated) {
 
@@ -197,7 +197,7 @@ class Manage extends \bloc\controller
   
   protected function POSTupload($request)
   {
-    $name   = base_convert($_FILES['upload']['size'], 10, 36) . strtolower(preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']));
+    $name   = base_convert($_FILES['upload']['size'], 10, 36) . '_' . strtolower(preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']));
     $src    = 'data/media/' . $name;
     $mime   = $_FILES['upload']['type'];
     $bucket = 'tciaf-media';
@@ -215,7 +215,12 @@ class Manage extends \bloc\controller
         ];
         
         if ($type === 'image') {
-          $config['Body'] =  file_get_contents("http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}");
+          if (substr($name, -3) === 'jpg') {
+            $config['Body'] =  file_get_contents("http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}");
+          } else {
+            $config['Body'] =  file_get_contents(PATH . $src);
+          }
+          
         } else {
           $config['SourceFile'] = PATH . $src;
         }

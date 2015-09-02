@@ -1,42 +1,52 @@
-<section>
-  <h1>THE WHO, WHAT, WHY, HOW</h1>
-
-  <p>Based in Chicago, the Third Coast International Audio Festival (TCIAF) curates sound-rich audio stories from around the world and shares them with as many ears as possible – on the radio, on the Internet, and at public listening events all over the place. Operating year-round, Third Coast offers producers and listeners a multitude of ways to celebrate audio storytelling: </p>
-
-  <h2>Listen up!</h2>
-
-  <h3>IT’S AN AUDIO LIBRARY</h3>
-  <p>This website is packed with more than one thousand audio stories of all stripes, producer interviews, weekly podcasts, archived conference sessions and the latest Festival happenings.</p>
-
-  <h3>IT'S A WEEKLY RADIO SHOW</h3>
-  <p>Re:sound, a remix of audio goodness from around the world, airs Saturdays at 1 pm and Wednesdays at 10 pm on WBEZ 91.5FM Chicago. Tune in for radio you can't hear anywhere else, unless you live everywhere else.</p>
-
-
-  <h3>IT'S A NATIONAL RADIO SHOW</h3>
-  <p>Best of the Best: The Third Coast Festival Broadcast showcases the winners of the Third Coast / Richard H. Driehaus Foundation Competition and airs on stations across the country each fall.</p>
- 
-
-  <h3>IT'S A PODCAST</h3>
-  <p>The weekly Third Coast Podcast, hosted by Re:sound producer Dennis Funk, presents Re:sound episodes and special features from our vast audio library.</p>
-
-  <h2>Participate!</h2>
-
-  <h3>PUBLIC LISTENING EVENTS</h3>
-  <p>TCF listening events present audio work – in Chicago and beyond - in theaters, cafes, bars... anywhere with a good set of speakers. The Third Coast Filmless Festival, a day-long celebration of sound and story, is held in Chicago biennally.</p>
- 
-
-  <h3>SHORTDOCS CHALLENGE</h3>
-  <p>Each spring the TCF ShortDocs Challenge invites producers and listeners alike to make short audio stories based on a specific set of rules. No prior experience is necessary.</p>
- 
-
-  <h3>COMPETITION</h3>
-  <p>The annual Third Coast / Richard H. Driehaus Foundation Competition honors the most creative and compelling audio work being produced worldwide. Look for our call for entries in early May.</p>
-
-  <h3>CONFERENCE</h3>
-  <p>Held biennially in Chicago, the Third Coast Conference gathers producers from all over the world to talk shop and share wisdoms about the art and craft of documentary radio production.</p>
+<article class="about">
+  <div class="group left">
+    <h1 data-id="[$item:@id]">[$item:title]</h1>
+    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:100%;" alt="third coast"/>
   
-  <hr/>
+    <section>[$item:content:description]</section>
+  </div>
 
-  <h2>ABOUT THE PIGEON</h2>
-  <p>AKA "Pidgey"... he's urban, savvy and gregarious, and a natural-born messenger - the perfect mascot fit.</p>
-</section>
+  <aside class="group left container">
+    <h2>Staff</h2>
+    
+    <ul>
+      <!-- iterate item:staff -->
+      <li>
+        <h4 data-id="[$person:@id]"><a href="[/explore/detail/$person:@id]">[$person:title]</a></h4>
+        <em>[$position]</em>
+      </li>
+    </ul>
+
+    
+    <h2>Board of Directors</h2>
+    <ul>
+    <!-- iterate item:board -->
+      <li>
+        <h4 data-id="[$person:@id]">[$person:title]</h4>
+        <em>[$position]</em>
+      </li>
+    </ul>
+  </aside>
+  
+  
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    aside {
+      width:30%;
+      padding:1em;
+    }
+    
+    .about > div {
+      width:70%;
+      padding:1em;
+      margin:0;
+    }
+    
+    div.staff img[src] {
+      float:left;
+      width:15%;
+    }
+    /* ]]> */      
+  </style>
+  
+</article>

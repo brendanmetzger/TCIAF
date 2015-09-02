@@ -663,7 +663,6 @@ if (window.history.pushState) {
     window.Adjust.scroll(0, 500);
     
     if (evt.type != 'popstate') {
-      if (document.location.href == this.href) return;
       history.pushState(null, null, this.href);
     }
     
@@ -679,10 +678,12 @@ if (window.history.pushState) {
       }
     }
   }, true);
-  
-  window.addEventListener('popstate', navigateToPage.bind(document.location), false);
 } else {
   window.navigateToPage = function (evt) {
     window.location.href = this.href;
   };
 }
+
+bloc.prepare('onload', function () {
+  window.addEventListener('popstate', navigateToPage.bind(document.location), false);
+});

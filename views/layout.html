@@ -25,26 +25,26 @@
       bloc.embed('/js/bloc.js');
       bloc.prepare('autoload', function (auto) {
         document.querySelectorAll('noscript').forEach(function (elem) {
-					var swap = document.createElement('div');
-					elem.parentNode.replaceChild(swap, elem);
+          var swap = document.createElement('div');
+          elem.parentNode.replaceChild(swap, elem);
           var obj = new window[elem.id](swap, elem.dataset);
           if (auto === null) {
             bloc.prepare(elem.id, bloc.prepare(elem.id).bind(obj));
           } else {
-						window.bloc.execute.call(obj, elem.id);
+            window.bloc.execute.call(obj, elem.id);
           }
         });
 
         return this;
       });
-			
-	    bloc.prepare('Player', function (audio) {
-	      if (audio instanceof Element) {
-	        this.attach(audio);
-	        this.setDisplay('title', 'Play this feature');
-	      } 
-				return this;
-	    });
+      
+      bloc.prepare('Player', function (audio) {
+        if (audio instanceof Element) {
+          this.attach(audio);
+          this.setDisplay('title', 'Play this feature');
+        } 
+        return this;
+      });
       // ]]>
     </script>
 
@@ -62,7 +62,7 @@
           <li><a href="#">Events</a></li>
           <li><a href="/explore/index/competition">Competitions</a></li>
           <li><a href="#">Subscribe</a></li>
-          <li><a href="#">Donate</a></li>
+          <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
         </ul>
       </nav>
     </header>
@@ -102,7 +102,7 @@
           
 
         bloc.prepare('splash', function () {
-					
+          
           var library = document.getElementById('Library');
           var titles = document.querySelector('#Player .display p');
 
@@ -188,9 +188,9 @@
                   from: start,
                   to: [((idx % cols) * w), (rows * h), w, h]
                 });
-								if (idx % 5 === 0) {
-									anim.stop();
-								}
+                if (idx % 5 === 0) {
+                  anim.stop();
+                }
               }.bind(matrix[token], idx, cols, rows, w, h), 150);
             }
               

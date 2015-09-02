@@ -23,22 +23,13 @@ use \models\graph;
     {
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/about.html';
+      
+      $this->item = Graph::factory(Graph::ID('TCIAF'));
+      
       return $view->render($this());
     }
     
-    public function GETpeople()
-    {
-      $view = new view('views/layout.html');
-      $view->content = 'views/pages/staff.html';
-      
-      $this->staff = Graph::group('organization')->find("vertex[@id='TCIAF']/edge[@type='staff']")->map(function($staff) {
-        $vertex = $staff['@vertex'];
-        return ['person' => new \models\Person(Graph::ID($vertex))];
-      });
-      
-      return $view->render($this());
-      
-    }
+
     
     public function GETnothing()
     {
