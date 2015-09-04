@@ -43,7 +43,7 @@ namespace models;
 		
     public function getParticipants(\DOMElement $context)
     {
-      return $context->find("edge[@type='participant']")->map(function($edge) {
+      return $context->find("edge[@type='participant']")->sort(Graph::sort('alpha-numeric'))->map(function($edge) {
         return ['person' => new Person($edge['@vertex'])];
       });  
     }

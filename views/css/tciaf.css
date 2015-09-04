@@ -537,3 +537,31 @@ div.person img {
   float:left;
   width:10%;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.tile .card {
+  float:left;
+}
+
+.card {
+  padding:2em;
+  background-color:#eee;
+  border-radius:1em;
+}
+
+.card p {
+  max-width:25em;
+}

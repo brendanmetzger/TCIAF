@@ -1,20 +1,19 @@
 <article>
-	<a href="/explore/index/happening">Back to happenings</a>
-	<h1 data-id="[$item:@id]">[$item:title]</h1>
-	<section>[$item:about]</section>
-	
-	<h2>People and Features</h2>
-	<section class="container">
-		<div class="group left" style="width:50%">
-			<h2>Featuring</h2>
-			<!-- iterate item:features -->
-			<h3><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
-		</div>
-		
-		<div class="group left" style="width:50%">
-			<!-- iterate item:participants -->
-			<!-- insert views/partials/person.html -->
-		</div>
-	</section>
+  <a href="/explore/index/happening">Back to happenings</a>
+  <h1 data-id="[$item:@id]">[$item:title]</h1>
+  <section>[$item:about]</section>
+  
+  <section class="container">
+    <div class="group left" style="width:50%">
+      <h2>Featuring</h2>
+      <!-- iterate item:features -->
+      <h3><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+    </div>
+    
+    <div class="group left" style="width:50%">
+      <!-- iterate item:participants -->
+      <!-- insert views/cards/person.html -->
+    </div>
+  </section>
 
 </article>

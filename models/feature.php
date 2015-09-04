@@ -123,25 +123,39 @@ namespace models;
     
     public function getPlaylists(\DOMElement $context)
     {
-			return $context->find("edge[@type='item']")->map(function($collection) {
+      return $context->find("edge[@type='item']")->map(function($collection) {
         return ['collection' => new Collection($collection['@vertex'])];
       });
     }
     
     public function getExtras(\DOMElement $context)
     {
-			return $context->find("edge[@type='extra']")->map(function($extra) {
+      return $context->find("edge[@type='extra']")->map(function($extra) {
         return ['article' => new Article($extra['@vertex'])];
       });
     }
+    
+    public function getCompetitions(\DomElement $context)
+    {
+      return $context->find("edge[@type='participant']")->map(function($extra) {
+        return ['competition' => new Competition($extra['@vertex'])];
+      });
+    }
+    
+    public function getFestivals(\DomElement $context)
+    {
+      return $context->find("edge[@type='item']")->map(function($extra) {
+        return ['happening' => new Happening($extra['@vertex'])];
+      });
+    }
    
-   public function getRecommended(\DOMElement $context)
-   {
-     $correlation = \controllers\Task::pearson($context['@id'])->best;
-     arsort($correlation);
+    public function getRecommended(\DOMElement $context)
+    {
+      $correlation = \controllers\Task::pearson($context['@id'])->best;
+      arsort($correlation);
 
-     return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 5, true))))->map(function($id) {
+      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 5, true))))->map(function($id) {
        return ['item' => Graph::factory(Graph::ID($id))];
-     });
-   } 
+      });
+    } 
   }

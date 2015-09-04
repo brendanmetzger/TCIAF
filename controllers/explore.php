@@ -16,27 +16,26 @@ class Explore extends Manage
   public function GETindex($group = null, $type = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
   {
     $view = new view('views/layout.html');
-		
-		if ($group !== null) {
-	    $view->content = "views/lists/{$group}.html";
-	    $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
-			$this->group = $group;
-			$this->{$sort} = "selected";
-	    $this->list = Graph::group($group)
-	         ->find('vertex'.$query)
-			     ->sort(Graph::sort($sort))
-			     ->map(function($vertex) {
-						 return ['item' => Graph::factory($vertex)];
-					 })
-	         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$type}/{$sort}"]));
-		} else {
-			$tokens = [];    
-	    foreach (Graph::group('feature')->find('vertex[@mark < '.time().']')->sort(Graph::sort('recommended:F')) as $feature) {
-	      $tokens[] = $feature['@id'];
-	    }
-	    $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
-	    $this->tokens = implode(' ', $tokens);
-		}
+    if ($group !== null) {
+      $view->content = "views/lists/{$group}.html";
+      $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->group = $group;
+      $this->{$sort} = "selected";
+      $this->list = Graph::group($group)
+           ->find('vertex'.$query)
+           ->sort(Graph::sort($sort))
+           ->map(function($vertex) {
+             return ['item' => Graph::factory($vertex)];
+           })
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$type}/{$sort}"]));
+    } else {
+      $tokens = [];    
+      foreach (Graph::group('feature')->find('vertex[@mark < '.time().']')->sort(Graph::sort('recommended:F')) as $feature) {
+        $tokens[] = $feature['@id'];
+      }
+      $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->tokens = implode(' ', $tokens);
+    }
 
     return $view->render($this());
   }
@@ -60,12 +59,12 @@ class Explore extends Manage
     $this->{$sort} = "selected";
     $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
     $this->list    = Graph::group($group)
-		     ->find('vertex')
-		     ->sort(Graph::sort($sort))
-		     ->map(function($feature) {
-					 return ['item' => Graph::factory($feature)];
-				 })
-				 ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$sort}"]));
+         ->find('vertex')
+         ->sort(Graph::sort($sort))
+         ->map(function($feature) {
+           return ['item' => Graph::factory($feature)];
+         })
+         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$sort}"]));
     
     return $view->render($this());
   }
