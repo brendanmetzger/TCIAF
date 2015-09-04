@@ -42,10 +42,11 @@
     // <![CDATA[
     
     bloc.prepare('Search', function () {
-			if (! this.input) {
-				console.error('Related to above.');
-				return;
-			}
+      if (! this.input) {
+        console.error('Related to above.');
+        return;
+      }
+      
       this.subscribers.select.push(function (dataset) {
 
         var input = this.input;
@@ -69,18 +70,16 @@
     });
     
     bloc.prepare('Upload', function () {
-      this.addTrigger(document.querySelector("fieldset.media button.upload"));    
+      this.addTrigger(this.container.parentNode.querySelector("button.upload"));    
       this.addRoutine('image', function (file) {
-
+        console.log(this);
         var reader = new FileReader();
     
         reader.onload = function (evt) {
           // this is the progress default holder thing.
           this.progress = new Progress();
-          
           this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
-
-          var dd = document.querySelector('fieldset.media dl.images').appendChild(document.createElement('dd'));
+          var dd = this.container.parentNode.parentNode.querySelector('dl.images').appendChild(document.createElement('dd'));
               dd.appendChild(this.progress.element);
               dd.className = "image";
         }.bind(this);
@@ -91,7 +90,7 @@
       this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
-				sortable('dl.images.dnd', 'dd');
+        sortable('dl.images.dnd', 'dd');
       });
       
       this.addEvent('failure', function (xhr) {

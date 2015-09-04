@@ -190,9 +190,9 @@ Markdown.prototype = {
 
 
 function Upload(container, data) {
+  this.container = container;
+  this.action    = data.url;  
   this.uid = Date.now().toString(36);
-
-  this.action = data.url;  
   
   this.xhr = new XMLHttpRequest();
   
@@ -208,6 +208,7 @@ function Upload(container, data) {
   this.xhr.addEventListener('loadstart', function (evt) {
     this.status = 'Uploading';
   }.bind(this));
+  
   this.xhr.addEventListener('load', this.invoke.bind(this), false);
   
   this.xhr.upload.onprogress = function (evt) {

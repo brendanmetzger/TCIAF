@@ -40,15 +40,14 @@
     }
   
     bloc.prepare('Upload', function () {
-
-      this.addTrigger(document.querySelector("fieldset.media button.upload"));
+      this.addTrigger(this.container.parentNode.querySelector("button.upload"));
       
       this.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
         this.progress = new Progress();
-        var dd = document.querySelector('fieldset.media dl.audio').appendChild(document.createElement('dd'));
+        var dd = this.container.parentNode.parentNode.querySelector('dl.audio').appendChild(document.createElement('dd'));
         dd.appendChild(this.progress.element);
-      });
+      }.bind(this));
     
       this.addRoutine('image', function (file) {
 
@@ -60,7 +59,7 @@
           
           this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
 
-          var dd = document.querySelector('fieldset.media dl.images').appendChild(document.createElement('dd'));
+          var dd = this.container.parentNode.parentNode.querySelector('dl.images').appendChild(document.createElement('dd'));
               dd.appendChild(this.progress.element);
               dd.className = "image";
         }.bind(this);
@@ -71,7 +70,7 @@
       this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
-				sortable('dl.images.dnd', 'dd');
+        sortable('dl.images.dnd', 'dd');
       });
       
       this.addEvent('failure', function (xhr) {
