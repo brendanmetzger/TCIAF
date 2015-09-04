@@ -20,18 +20,15 @@ class Person extends Model
     ]
   ];
   
-  protected $references = [
-    'has' => [
-      'extra'    => ['article'],
-    ],
-    'acts'    => [
-      'producer' => ['feature', 'broadcast', 'article'],
-      'staff'    => ['organization'],
-      'host'     => ['happening', 'competition'],
-      'judge'    => ['competition'],
-      'sponsor'  => ['happening', 'competition'],
-      'curator'  => ['collection'],
-    ]
+
+  protected $edges = [
+    'extra'    => ['article'],
+    'producer' => ['feature', 'broadcast', 'article'],
+    'staff'    => ['organization'],
+    'host'     => ['happening', 'competition', 'feature'],
+    'judge'    => ['competition'],
+    'sponsor'  => ['happening', 'competition'],
+    'curator'  => ['collection'],
   ];
     
   public function authenticate($password)

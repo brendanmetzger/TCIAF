@@ -20,13 +20,9 @@ class Article extends Feature
     ]
   ];
   
-  protected $references = [
-    'has' => [
-      'producer' => ['person'],
-    ],
-    'acts'  => [
-      'extra' => ['feature', 'broadcast'],
-      'item' => ['collection', 'competition']
-    ],
+  protected $edges = [
+    'producer' => ['person'],
+    'extra'    => ['feature', 'broadcast'],
+    'item'     => ['collection', 'competition']
   ];
 }

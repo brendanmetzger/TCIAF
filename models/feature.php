@@ -37,6 +37,15 @@ namespace models;
       ]
     ];
     
+    protected $edges = [
+      'producer'    => ['person'],
+      'host'        => ['person'],
+      'extra'       => ['article', 'feature'],
+      'award'       => ['competition'],
+      'item'        => ['collection', 'happening'],
+      'participant' => ['competition'],
+    ];
+    
     public function getSpectra(\DOMElement $context)
     {
       $spectra = $this::$fixture['vertex']['spectra']['@'];

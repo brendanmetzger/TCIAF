@@ -338,58 +338,45 @@ abstract class Model extends \bloc\Model
     });
   }
   
-  public function getStructure($context)
+  public function getStructure(\DOMElement $context)
   {
-    $has  = array_keys($this->references['has']);
-    $acts = array_keys($this->references['acts']);
-    // item / curator
-    $output = [
-      'has' => [],
-      'acts' => []
-    ];
+    $output = [];
     
-  
-    foreach ($this->references as $dir => $types) {
-      foreach ($types as $type => $models) {
-        if (!array_key_exists($type, $output[$dir])) {
-          $output[$dir][$type] = [];
+    foreach ($this->edges as $type => $models) {
+      if (!array_key_exists($type, $output)) {
+        $output[$type] = [];
+      }
+      
+      foreach ($models as $model) {
+        if (! array_key_exists($model, $output[$type])) {
+          $output[$type][$model] = [];
         }
-        
-        foreach ($models as $model) {
-          if (! array_key_exists($model, $output[$dir][$type])) {
-            $output[$dir][$type][$model] = [];
-          }
-        }
-        
       }
     }
     
     foreach ($context['edge'] as $edge) {
       $type = $edge['@type'];
       $vertex = Graph::factory(Graph::ID($edge['@vertex']));
-      $dir = in_array($type, $has) ? 'has' : 'acts';
 
-      $output[$dir][$type][$vertex->_model][] = ['vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+      $output[$type][$vertex->_model][] = ['vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+    }
+    
+    $out = [];
+    
+    foreach ($output as $type => $models) {
+      $b = ['name' => $type, 'items' => []];
       
-    }
-    
-    
-    $out = ['has' => [], 'acts' => []];
-    foreach ($output as $dir => $types) {
-      foreach ($types as $type => $models) {
-        $b = ['name' => $type, 'items' => []];
-        
-        foreach ($models as $model => $items) {
-          $b['items'][] = ['name' => $model, 'type' => $type, 'items' => $items];
-        }
-        
-        $out[$dir][] = $b;
+      foreach ($models as $model => $items) {
+        $b['items'][] = ['name' => $model, 'type' => $type, 'items' => $items];
       }
-
+      
+      $out[] = $b;
     }
     
-  
-    return new \bloc\types\Dictionary($out);
+    return $out;
+    
   }
+  
+
   
 }

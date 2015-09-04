@@ -1,48 +1,21 @@
 <fieldset class="responsive edges container">
   
-  <legend class="caps-lock">References</legend>
-  
-  <div class="container" style="margin-bottom:2em;">
-    <h2>[About this $item:_model]</h2>
-    
-    <!-- iterate item:structure:has -->
-    <dl>
-      <dt class="group left collapse">[$name(s)]</dt>
+  <legend class="caps-lock">[Associations for this $item:_model]</legend>
+
+  <!-- iterate item:structure -->
+  <dl>
+    <dt class="group left collapse">[$name]</dt>
+
+    <!-- iterate items -->
+    <dd class="group container">
+      <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add $name]</a>
 
       <!-- iterate items -->
-      <dd class="group container">
-        <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add $name]</a>
+      <!-- insert views/forms/partials/edge.html -->
+      
+      <a href="#" class="sort button">Sort List</a>
+    </dd>
+  </dl>
 
-        <!-- iterate items -->
-        <!-- insert views/forms/partials/edge.html -->
-        
-        <a href="#" class="sort button">Sort List</a>
-  
-      </dd>
-    </dl>
-  </div>
-
-  <hr style="border-color:#5B9B98;opacity:0.5;"/>
-  
-  <div class="container">
-  
-    <h2>[This $item:_model is:]</h2>
-  
-    <!-- iterate item:structure:acts -->
-    <dl>
-      <dt class="group left collapse">[$name]</dt>
-
-      <!-- iterate items -->
-      <dd class="group container">
-        <a href="[/manage/edge/$name/$type]" class="showmodal button">[+ Add to $name]</a>
-        
-        
-        <!-- iterate items -->
-        <!-- insert views/forms/partials/edge.html -->
-        
-        <a href="#" class="sort button">Sort List</a>
-      </dd>
-    </dl>
-    <noscript id="Edge" data-selector="a.showmodal.button">Enable Javascript</noscript>
-  </div>
+  <noscript id="Edge" data-selector="a.showmodal.button">Enable Javascript</noscript>
 </fieldset>

@@ -23,16 +23,12 @@ namespace models;
       ]
     ];
     
-    protected $references = [
-      'has' => [
-        'staff' => ['person'],
-        'friend' => ['person'],
-        'board' => ['person'],
-      ],
-      'acts'    => [
-        'sponsor'    => ['organization', 'competition', 'happening'],
-        'judge' => ['competition']
-      ]
+    protected $edges = [
+      'staff'   => ['person'],
+      'friend'  => ['person'],
+      'board'   => ['person'],
+      'sponsor' => ['organization', 'competition', 'happening'],
+      'judge'   => ['competition'],
     ];
     
     public function getSummary(\DOMElement $context)

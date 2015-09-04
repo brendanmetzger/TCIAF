@@ -22,12 +22,9 @@ namespace models;
       ]
     ];
     
-    protected $references = [
-      'has' => [
-        'item'   => ['feature', 'broadcast'],
-        'curator' => ['person', 'organization'],
-      ],
-      'acts' => []
+    protected $edges = [
+      'item'   => ['feature', 'broadcast'],
+      'curator' => ['person', 'organization'],
     ];
     
     public function getFeatures(\DOMElement $context)
