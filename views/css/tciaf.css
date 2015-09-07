@@ -130,6 +130,11 @@ ul.inline {padding:0; }
 .group.right, .action, .status {
   float:right;
 }
+
+.action {
+  position:relative;
+  top:-3em;
+}
 .columns {
   -webkit-column-gap: 2em;
   -moz-column-gap: 1em;
@@ -550,6 +555,19 @@ div.person img {
 
 
 
+.concise .card .summary, .concise .card img {
+  display:none;
+}
+
+
+.concise.cards > a[href="#show"]:before {
+  content: "Show ";
+}
+
+.cards > a[href="#show"]:before {
+  content: "Hide ";
+}
+
 
 
 .tile .card {
@@ -557,7 +575,8 @@ div.person img {
 }
 
 .card {
-  padding:2em;
+  padding:0.25em 1em;
+  margin:0.25em 0;
   background-color:#eee;
   border-radius:1em;
 }

@@ -294,6 +294,7 @@ var Modal = function (element) {
 
 Modal.prototype = {
   addElement: function (element) {
+    
     this.element = element;
     this.backdrop.appendChild(this.element);
 
@@ -338,8 +339,17 @@ Modal.Form = function (url, opts, submit_callback, load_callback) {
   this.options = opts;
   this.modal = new Modal(null);
   this.ajax = new XMLHttpRequest();
+  this.ajax.timeout = 3500;
   this.ajax.overrideMimeType('text/xml');
   this.ajax.addEventListener('load', this.processForm.bind(this));
+  this.ajax.addEventListener('error', function () {
+    alert('Unable to retrieve the form, please send word.');
+    this.modal.close();
+  }.bind(this));
+  this.ajax.addEventListener('timeout', function (evt) {
+    alert('The server is taking too long to respond, if this issue persists, please send word.');
+    this.modal.close();
+  }.bind(this));
   this.ajax.open('GET', url);
   this.ajax.send();
   
@@ -363,6 +373,10 @@ Modal.Form.prototype = {
     
     if (this.form === null) {
       this.form  = evt.target.responseXML.documentElement.querySelector('form.editor');
+      
+      if (! this.form) {
+       evt.target.dispatchEvent(new ProgressEvent('error')); 
+      }
 
       this.modal.addElement(this.form);
       this.form.addEventListener('submit', function (evt) {

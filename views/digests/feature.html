@@ -1,5 +1,5 @@
 <article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
-  
+
   <!-- iterate item:media:audio -->
   <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute('Player', this);" controls="controls" preload="metadata">Audio</audio>
   
@@ -9,7 +9,6 @@
     
     /* ]]> */
   </style>
-  
 
   <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:title - $item:award:competition:title]</a>
 
@@ -22,15 +21,16 @@
   </section>
   
   <section class="intro group left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
-  
 
   <hr class="tempo clear"/>
   
-  
-  <div property="producer">
-    <h2>Produced By:</h2>
-  
+  <div property="contributors">
     <!-- iterate item:producers -->
+    <!-- insert views/cards/person.html -->
+    
+    <hr />
+    
+    <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->
   </div>
   

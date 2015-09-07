@@ -25,21 +25,9 @@ namespace models;
       ]
     ];
     
-    protected $references = [
-      'has' => [
-        'producer' => ['person'],
-        'extra'    => ['article', 'feature'],
-        'award'    => ['competition'],
-      ],
-      'acts'    => [
-        'item'        => ['collection', 'happening'],
-        'participant' => ['competition'],
-      ]
-    ];
-    
     protected $edges = [
       'producer'    => ['person'],
-      'host'        => ['person'],
+      'presenter'   => ['person'],
       'extra'       => ['article', 'feature'],
       'award'       => ['competition'],
       'item'        => ['collection', 'happening'],
@@ -126,7 +114,14 @@ namespace models;
     public function getProducers(\DOMElement $context)
     {
       return $context->find("edge[@type='producer']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex'])];
+        return ['person' => new Person($edge['@vertex']), 'role' => 'Producer'];
+      });
+    }
+    
+    public function getPresenters(\DOMElement $context)
+    {
+      return $context->find("edge[@type='presenter']")->map(function($edge) {
+        return ['person' => new Person($edge['@vertex']), 'role' => 'Presenter'];
       });
     }
     

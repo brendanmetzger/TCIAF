@@ -3,9 +3,11 @@ namespace models;
 
 abstract class Model extends \bloc\Model
 {
-  public $context = null,
-         $errors  = [],
-         $form    = null;
+  public $context  = null,
+         $errors   = [];
+        
+        
+  protected $template = ['form' => null, 'digest' => null, 'card' => null, 'index' => null];
          
     
   
@@ -316,9 +318,9 @@ abstract class Model extends \bloc\Model
     return $this->get_model();
   }
     
-  public function getForm()
+  public function template($name)
   {
-    return $this->form ?: $this->get_model();
+    return $this->template[$name] ?: $this->get_model();
   }
 
   

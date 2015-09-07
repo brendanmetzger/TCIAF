@@ -109,8 +109,6 @@ class Manage extends \bloc\controller
     $this->model  = $model;
     $this->type   = $type; 
     $this->vertex = Graph::ID($id);
-    // $this->groups    = Graph::GROUPS($model);
-    // $this->types     = Graph::RELATIONSHIPS();
     
     return $view->render($this());
   }
@@ -162,7 +160,7 @@ class Manage extends \bloc\controller
     
     
     $view = new view('views/layout.html');    
-    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
+    $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
     return $view->render($this()); 
   }
   
@@ -172,9 +170,8 @@ class Manage extends \bloc\controller
   {
     $this->item   = $vertex instanceof \models\model ? $vertex : Graph::factory(Graph::ID($vertex));
     $this->action = "Edit {$this->item->get_model()}:";
-
     $view = new view('views/layout.html');
-    $view->content = sprintf("views/forms/%s.html", $this->item->getForm());
+    $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
     
     return $view->render($this());
   }

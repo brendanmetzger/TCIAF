@@ -9,7 +9,6 @@ namespace models;
 
   class Competition extends Model
   {
-    public $form = 'vertex';
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -31,6 +30,13 @@ namespace models;
       'extra'       => ['article'],
       'edition'     => ['competition'],
     ];
+    
+    public function __construct($id = null, $data =[])
+    {
+      $this->template['form'] = 'vertex';
+      parent::__construct($id, $data);
+    }
+    
     
     
     public function getEditions(\DOMElement $context)

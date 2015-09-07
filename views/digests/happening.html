@@ -1,17 +1,23 @@
 <article>
   <a href="/explore/index/happening">Back to happenings</a>
   <h1 data-id="[$item:@id]">[$item:title]</h1>
-  <section>[$item:about]</section>
+  <section>[$item:content:about]</section>
   
   <section class="container">
     <div class="group left" style="width:50%">
-      <h2>Featuring</h2>
-      <!-- iterate item:features -->
-      <h3><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+      <h2>Conference Sessions</h2>
+      <!-- iterate item:sessions -->
+      <div>
+        <h3 class="h2"><a href="[/explore/detail/$session:@id]">[$session:title]</a></h3>
+        <section>[$session:summary]</section>
+      </div>
+      
     </div>
     
-    <div class="group left" style="width:50%">
-      <!-- iterate item:participants -->
+    <div class="group left concise cards" style="width:50%">
+      <h2>Presenters</h2>
+      <a class="button action" href="#show" onclick="this.parentNode.classList.toggle('concise');">Summaries</a>
+      <!-- iterate item:participantsAlpha -->
       <!-- insert views/cards/person.html -->
     </div>
   </section>

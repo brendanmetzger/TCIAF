@@ -6,9 +6,7 @@ namespace models;
  */
 
 class Person extends Model
-{  
-  public $form = 'vertex';
-  
+{
   static public $fixture = [
     'vertex' => [
       'abstract' => [
@@ -19,17 +17,24 @@ class Person extends Model
       ]
     ]
   ];
-  
 
   protected $edges = [
-    'extra'    => ['article'],
-    'producer' => ['feature', 'broadcast', 'article'],
-    'staff'    => ['organization'],
-    'host'     => ['happening', 'competition', 'feature'],
-    'judge'    => ['competition'],
-    'sponsor'  => ['happening', 'competition'],
-    'curator'  => ['collection'],
+    'producer'    => ['feature', 'broadcast', 'article'],
+    'presenter'   => ['feature', 'happening'],
+    'extra'       => ['article'],
+    'judge'       => ['competition'],
+    'curator'     => ['collection'],
+    'participant' => ['feature'],
+    'host'        => ['happening', 'competition', 'feature'],
+    'staff'       => ['organization'],
+    'sponsor'     => ['happening', 'competition'],
   ];
+  
+  public function __construct($id = null, $data =[])
+  {
+    $this->template['form'] = 'vertex';
+    parent::__construct($id, $data);
+  }
     
   public function authenticate($password)
   {
@@ -52,8 +57,6 @@ class Person extends Model
     if (empty($value)) {
       $value = 'p-' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
     }
-    
-    
     
     if (empty($value)) {
       $this->errors[] = "Name Invalid, either doesn't exist, or is not unique enough.";
@@ -95,7 +98,7 @@ class Person extends Model
   public function getContributions(\DOMElement $context)
   {
     $out = [];
-    foreach ($this->references['acts'] as $key => $groups) {
+    foreach ($this->edges as $key => $groups) {
       $items = $context->find("edge[@type='{$key}']");
       if ($items->count() > 0) {
         $out[] = [
@@ -108,5 +111,4 @@ class Person extends Model
     }
     return $out;
   }
-  
 }

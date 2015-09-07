@@ -8,7 +8,6 @@ namespace models;
 
   class Happening extends Model
   {
-    public $form = 'vertex';
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -24,24 +23,38 @@ namespace models;
     
     protected $edges = [
       'host'        => ['person'],
+      'presenter'   => ['person'],
       'participant' => ['person'],
       'extra'       => ['article'],
       'item'        => ['feature'],
       'edition'     => ['happening'],
     ];
+    
+    public function __construct($id = null, $data =[])
+    {
+      $this->template['form'] = 'vertex';
+      parent::__construct($id, $data);
+    }
+    
 		
-    public function getFeatures(\DOMElement $context)
+    public function getSessions(\DOMElement $context)
     {
       return $context->find("edge[@type='item']")->map(function($edge) {
-        return ['feature' => new Feature($edge['@vertex'])];
+        return ['session' => new Feature($edge['@vertex'])];
       });  
     }
 		
     public function getParticipants(\DOMElement $context)
     {
-      return $context->find("edge[@type='participant']")->sort(Graph::sort('alpha-numeric'))->map(function($edge) {
+      return $context->find("edge[@type='participant']")->map(function($edge) {
         return ['person' => new Person($edge['@vertex'])];
       });  
     }
-		
+    
+    public function getParticipantsAlpha()
+    {
+      return $this->participants->sort(function($a, $b) {
+        return ucfirst(ltrim($a['person']->title, "\x00..\x2F")) > ucfirst(ltrim($b['person']->title, "\x00..\x2F"));
+      });
+    }
   }
