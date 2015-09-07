@@ -312,12 +312,7 @@ abstract class Model extends \bloc\Model
     $this->{$property} = $this->{"get{$property}"}($this->context);
     return $this->{$property};
   }
-  
-  public function getView()
-  {
-    return $this->get_model();
-  }
-    
+
   public function template($name)
   {
     return $this->template[$name] ?: $this->get_model();

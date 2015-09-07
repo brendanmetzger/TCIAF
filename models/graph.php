@@ -11,7 +11,7 @@ use \bloc\dom\query;
 
   class Graph
   {
-    const DB = 'data/db23';
+    const DB = 'data/db24';
   
     public $storage = null;
     

@@ -1,5 +1,5 @@
-<article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
-
+<article class="session" vocab="http://schema.org/" typeof="CreativeWork">
+  <h1>SESSION</h1>
   <!-- iterate item:media:audio -->
   <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute('Player', this);" controls="controls" preload="metadata">Audio</audio>
   
@@ -25,11 +25,7 @@
   <hr class="tempo clear"/>
   
   <div property="contributors">
-    <!-- iterate item:producers -->
-    <!-- insert views/cards/person.html -->
-    
-    <hr />
-    
+    <h2>Featuring</h2>
     <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->
   </div>
@@ -41,14 +37,15 @@
   
   <div class="tile container">
     <h2>[$item:related]</h2>
+    
     <!-- iterate item:playlists -->
     <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
     
     <!-- iterate item:extras -->
     <a href="[/explore/detail/$article:@id]">[$article:@title]</a>
     
-    <!-- iterate item:competitions -->
-    <!-- insert views/cards/competition.html -->
+    <!-- iterate item:happenings -->
+    <!-- insert views/cards/happening.html -->
     
   </div>
   

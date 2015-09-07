@@ -26,7 +26,7 @@ namespace models;
       'presenter'   => ['person'],
       'participant' => ['person'],
       'extra'       => ['article'],
-      'item'        => ['feature'],
+      'session'     => ['feature'],
       'edition'     => ['happening'],
     ];
     
@@ -36,14 +36,13 @@ namespace models;
       parent::__construct($id, $data);
     }
     
-		
     public function getSessions(\DOMElement $context)
     {
-      return $context->find("edge[@type='item']")->map(function($edge) {
+      return $context->find("edge[@type='session']")->map(function($edge) {
         return ['session' => new Feature($edge['@vertex'])];
       });  
     }
-		
+
     public function getParticipants(\DOMElement $context)
     {
       return $context->find("edge[@type='participant']")->map(function($edge) {

@@ -30,9 +30,20 @@ namespace models;
       'presenter'   => ['person'],
       'extra'       => ['article', 'feature'],
       'award'       => ['competition'],
-      'item'        => ['collection', 'happening'],
+      'item'        => ['collection'],
+      'session'     => ['happening'],
       'participant' => ['competition'],
     ];
+    
+    public function __construct($id = null, $data = [])
+    {
+      parent::__construct($id, $data);
+      
+      if ($this->happenings->count() > 0) {
+        $this->template['digest'] = 'session';
+      }
+      
+    }
     
     public function getSpectra(\DOMElement $context)
     {
@@ -146,9 +157,9 @@ namespace models;
       });
     }
     
-    public function getFestivals(\DomElement $context)
+    public function getHappenings(\DomElement $context)
     {
-      return $context->find("edge[@type='item']")->map(function($extra) {
+      return $context->find("edge[@type='session']")->map(function($extra) {
         return ['happening' => new Happening($extra['@vertex'])];
       });
     }

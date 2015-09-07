@@ -825,42 +825,27 @@ class Import extends Task
     }
     
   }
-	
-	public function CLIdupes()
-	{
-    $doc  = new \bloc\DOM\Document('data/db22');
+
+  public function CLIitemSess()
+  {
+    $doc  = new \bloc\DOM\Document('data/db24');
     $xml  = new \DomXpath($doc);
     
-        
-    
-    foreach ($xml->query("//group[@type='happening']/vertex") as $vertex) {
-
-			$keep = [];
-			$remove = [];
-			$edges = $vertex->getElementsByTagName('edge');
-      foreach ($edges as $edge) {
-				$v = $edge->getAttribute('vertex');
-				$t = $edge->getAttribute('type');
-				if (isset($keep[$v]) && $keep[$v] === $t) {
-					$remove[] = $edge;
-				} else {
-					$keep[$v] = $t;
-				}
-      }
-			
-			foreach ($remove as $edge) {
-				echo "REMOVE\n";
-				$edge->parentNode->removeChild($edge);
-			}
-			
-			// echo $vertex->write();
-			
-			
-			
+    foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='item']") as $edge) {
+      $vertex = $edge->parentNode["@id"];
+      $edge->setAttribute('type', 'session');
+      $ref = $xml->query("//group/vertex[@id='{$edge['@vertex']}']/edge[@vertex='{$vertex}']")->item(0);
+      $ref->setAttribute('type', 'session');
+      echo $edge->write();
+      echo "\n";
+      echo $ref->write();
+      
+      echo "\n\n";
+      
     }
-		
+    
     if ($doc->validate()) {
-      $file = 'data/db23.xml';
+      $file = 'data/db24.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
     } else {
