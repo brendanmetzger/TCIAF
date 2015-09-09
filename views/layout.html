@@ -41,7 +41,7 @@
       bloc.prepare('Player', function (audio) {
         if (audio instanceof Element) {
           this.attach(audio);
-          this.setDisplay('title', 'Play this feature');
+          this.setDisplay(audio.title.replace(/[^a-z0-9]/ig, ''));
         } 
         return this;
       });
@@ -55,7 +55,7 @@
   <body class="[$_controller $_action unloaded]" data-user="[$user]">
     <!-- replace helper -->
     <header class="container">
-      <a id="logo" href="/"><span>Third Coast</span><span>International</span> <span>Audio Festival</span></a>
+      <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
       <nav>
         <ul class="inline">
           <li><a href="/explore/index/happening">Conference</a></li>
@@ -65,6 +65,7 @@
           <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
         </ul>
       </nav>
+      <a id="logo" href="/"><span>Third Coast</span><span>International</span> <span>Audio Festival</span></a>
     </header>
 
     <main class="content container">
@@ -211,8 +212,6 @@
     </main>
     
     <!-- insert views/pages/footer.html -->
-    
-    <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
     
     <script type="text/javascript">
       window.bloc.load();

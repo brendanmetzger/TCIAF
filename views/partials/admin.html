@@ -1,47 +1,17 @@
 <nav class="management dashboard">
   <link rel="stylesheet" href="/css/manage.css" type="text/css" media="screen" charset="utf-8" title="administrator"/>
   <script type="text/javascript">bloc.embed('/js/manage.js');</script>
-  <ul>
-    <li style="background-color:#fff;color:#333;padding:0.5em;margin:0 0 0.5em 0"><strong>[$user]</strong></li>
-    <li>
-      <h3>Index Pages</h3>
-      <ul class="vertical">
-        <!-- iterate tasks -->
-        <li class="container"><a href="[/explore/index/$name]"><strong>[$name]</strong><sup>[$count]</sup></a><a title="[create new $name]" href="[/manage/create/$name]">(+)</a></li>
-      </ul>
-    </li>
-    <li>
-      <h3>More</h3>
-      <ul class="vertical">
-        <li><a href="/manage/logout">Logout.</a></li>
-      </ul>
-    </li>
-  </ul>
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-    nav li h3 {
-      margin:1em;
-    }
-    nav ul.vertical li a {
-      text-decoration:none;
-      display:block;
-      padding:0.5em;
-      float:left;
-    }
-    
-    nav a sup {
-      color:#777;
-      font-size:0.5em;
-    }
-    
-    nav ul.vertical li a + a {
-      float:right;
-      text-transform:none;
-    }
-
-    nav ul.vertical li {
-      border-top:1px solid #888;
-    }
-    /* ]]> */
-  </style>
+  <h3 class="inline" style="margin-right:2em;">Logged in as: <strong>[$user.]</strong> <a href="/manage/logout">Logout.</a></h3>
+  
+  <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-create').selectedIndex = 0;" id="admin-index">
+    <option value="default">Go to...</option>
+    <!-- iterate tasks -->
+    <option value="[/explore/index/$name]">[$name ($count)]</option>
+  </select>
+  
+  <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-index').selectedIndex = 0;" id="admin-create">
+    <option value="default">Create New...</option>
+    <!-- iterate tasks -->
+    <option value="[/manage/create/$name]">[$name]</option>
+  </select>
 </nav>

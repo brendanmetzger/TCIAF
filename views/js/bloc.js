@@ -172,11 +172,11 @@ var Player = function (container, data) {
   
   
   
-  var display = container.appendChild(document.createElement('section'));
-      display.className = "display";
+  this.display = container.appendChild(document.createElement('section'));
+  this.display.className = "display";
 
-  this.display.title  = display.appendChild(document.createElement('h2'));
-  this.display.byline = display.appendChild(document.createElement('p'));
+  // this.display.title  = display.appendChild(document.createElement('h2'));
+  // this.display.byline = display.appendChild(document.createElement('p'));
 };
 
 
@@ -186,8 +186,8 @@ Player.prototype = {
   display: {},
   index: 0,
   button: null,
-  setDisplay: function (item, value) {
-    this.display[item].innerHTML = value;
+  setDisplay: function (value) {
+    this.display.innerHTML = value;
   },
   progress: function (evt) {
     if (evt.target.paused) {

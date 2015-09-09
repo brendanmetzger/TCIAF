@@ -42,7 +42,6 @@ namespace models;
       if ($this->happenings->count() > 0) {
         $this->template['digest'] = 'session';
       }
-      
     }
     
     public function getSpectra(\DOMElement $context)
