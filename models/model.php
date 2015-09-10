@@ -114,7 +114,7 @@ abstract class Model extends \bloc\Model
   
   public function getTitle(\DOMNode $context)
   {
-    return strip_tags((new \Parsedown())->text($context->getAttribute('title')) , '<em><strong>');
+    return strip_tags((new \Parsedown())->text(trim($context->getAttribute('title'))) , '<em><strong>');
   }
     
   public function setUpdatedAttribute(\DOMElement $context)

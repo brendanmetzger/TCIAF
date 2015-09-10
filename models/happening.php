@@ -22,7 +22,7 @@ namespace models;
     ];
     
     protected $edges = [
-      'host'        => ['person'],
+      'host'        => ['person', 'organization'],
       'presenter'   => ['person'],
       'participant' => ['person'],
       'extra'       => ['article'],

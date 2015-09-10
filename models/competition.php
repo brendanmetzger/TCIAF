@@ -33,8 +33,9 @@ namespace models;
     
     public function __construct($id = null, $data =[])
     {
-      $this->template['form'] = 'vertex';
       parent::__construct($id, $data);
+      $this->template['form'] = 'vertex';
+      $this->template['digest'] = $this->awards->count() > 0 ? 'competition/edition' : 'competition/brief';
     }
     
     

@@ -6,14 +6,22 @@
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     main.content {position:relative;}
-    
     /* ]]> */
   </style>
 
-  <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:title - $item:award:competition:title]</a>
-
-  <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
-  <h1 data-id="[$item:@id]" class="marquee" property="name">[$item:title]</h1>
+  
+  <section class="title card">
+    <ul class="inline mono">
+      <!-- iterate item:producers -->
+      <li>[$person:title. ]</li>
+    </ul>
+    <h1 data-id="[$item:@id]" class="serif" style="font-size:5em;font-style:italic;color:#413631" property="name">[$item:title]</h1>
+  </section>
+  
+  <section class="container">
+    <a class="h3 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:html]</a>
+    <span style="padding:1em 0;display:block;font-size:1.5em;">[$item:premier:@date, $item:premier,  $item:location]</span>
+  </section>
   
   <section class="group left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
     <!-- iterate item:media:image -->

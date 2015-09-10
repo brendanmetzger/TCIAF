@@ -1,7 +1,13 @@
 <article class="competition">
+  
+  <section class="borderblock title">
+    <h1 data-id="[$item:@id]" class="mono" style="text-transform:uppercase">[$item:title]</h1>
+  </section>
+  
+  
   <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
   <h2 data-id="[$item:@id]">[$item:title]</h2>
-  <section>[$item:about]</section>
+  <section>[$item:content:about]</section>
   <hr />
   <h2>More Shortdocs</h2>
   <ul>
