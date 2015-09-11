@@ -22,7 +22,7 @@ namespace models;
       ]
     ];
     
-    protected $references = [
+    protected $edges = [
       'judge'       => ['person', 'organization'],
       'award'       => ['feature'],
       'sponsor'     => ['organization', 'person'],
