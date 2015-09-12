@@ -16,6 +16,7 @@ namespace models;
     public function __construct(\DOMNode $media, $index = null)
     {
       $this->slug = [
+        'domain'  => 'http://tmp.s3.amazonaws.com',
         'index'   => $index === null ? $media->getIndex() : $index,
         'url'     => preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $media['@src']),
         'src'     => $media['@src'],
