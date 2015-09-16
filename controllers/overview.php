@@ -29,6 +29,26 @@ use \models\graph;
       return $view->render($this());
     }
     
+    public function GETconference($id = 'tciaf-conference')
+    {
+      $this->item = Graph::factory(Graph::ID($id));
+      $page = (($id === 'tciaf-conference') ? 'overview' : 'edition');
+      $view = new view('views/layout.html');
+      $view->content = "views/conference/{$page}.html";      
+      
+      return $view->render($this());
+    }
+    
+    public function GETcompetition($id = null)
+    {
+      $this->item = Graph::factory(Graph::ID($id));
+      $page = (($id === 'tciaf-conference') ? 'overview' : 'edition');
+      $view = new view('views/layout.html');
+      $view->content = "views/conference/{$page}.html";      
+      
+      return $view->render($this());
+    }
+    
 
     
     public function GETnothing()

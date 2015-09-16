@@ -637,18 +637,23 @@ div.person img {
   margin:2.5% auto;
 }
     
-article.competiton section.title {
+article.competiton header.title {
   margin:10% 0;
 }
 
-section.title {
+header.title {
   padding:1em;
   text-align:center;
 }
 
-section.title.card {
+header.title.card {
   margin:10% 5em 0 20%;
   border-bottom:1px solid rgba(0,0,0,0.1);
+}
+
+.marquee {
+  font-size:5em;
+  color:#413631
 }
 
 .title.card li {

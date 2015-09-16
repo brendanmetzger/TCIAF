@@ -34,14 +34,12 @@
             window.bloc.execute.call(obj, elem.id);
           }
         });
-
         return this;
       });
       
       bloc.prepare('Player', function (audio) {
         if (audio instanceof Element) {
           this.attach(audio);
-          this.setDisplay(audio.title.replace(/[^a-z0-9]/ig, ''));
         } 
         return this;
       });
@@ -58,7 +56,7 @@
       <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
       <nav>
         <ul class="inline">
-          <li><a href="/explore/index/happening">Conference</a></li>
+          <li><a href="/overview/conference">Conference</a></li>
           <li><a href="#">Events</a></li>
           <li><a href="/explore/index/competition">Competitions</a></li>
           <li><a href="#">Subscribe</a></li>
@@ -69,7 +67,7 @@
     </header>
 
     <main class="content container">
-            
+
       <!-- replace content nextSibling -->
       <article>
         <style type="text/css" media="screen">

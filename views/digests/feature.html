@@ -25,16 +25,16 @@
   </style>
 
   
-  <section class="title card">
+  <header class="title card">
     <ul class="inline mono">
       <!-- iterate item:producers -->
       <li>[$person:title. ]</li>
     </ul>
-    <h1 data-id="[$item:@id]" class="serif" style="font-size:5em;font-style:italic;color:#413631" property="name">[$item:title]</h1>
+    <h1 data-id="[$item:@id]" class="serif em marquee"  property="name">[$item:title]</h1>
 
     <!-- iterate item:media:audio -->
     <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="drawButton(this);" controls="controls" preload="metadata">Audio</audio>
-  </section>
+  </header>
   
   <script type="text/javascript">
     // <![CDATA[

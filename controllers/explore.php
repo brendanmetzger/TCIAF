@@ -46,7 +46,7 @@ class Explore extends Manage
     $this->item   = Graph::factory(Graph::ID($id));
     $this->title  = $this->item['@title'] . ", TCIAF";
 
-    $view = new view('views/boxy.html');
+    $view = new view('views/layout.html');
     $view->content = "views/digests/{$this->item->template('digest')}.html";
     return $view->render($this());
   }
