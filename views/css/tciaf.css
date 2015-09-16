@@ -19,7 +19,7 @@ body {
     width:75%;
     margin:0 0 0 12.5%;
   }
-  header nav {
+  body > header nav {
     margin-left:25%;
   }
   footer section:first-of-type {
@@ -38,7 +38,7 @@ main > article {
   padding:1.25%;
 }
 
-#logo, header {
+#logo, body > header {
   font-size:1.30em;
 }
 
@@ -156,6 +156,10 @@ ul.inline {padding:0; }
 }
 .group.right, .action, .status {
   float:right;
+}
+
+.half {
+  width:50%;
 }
 
 .action {
@@ -641,19 +645,18 @@ article.competiton header.title {
   margin:10% 0;
 }
 
-header.title {
+article header.title {
   padding:1em;
   text-align:center;
 }
 
-header.title.card {
+article header.title.card {
   margin:10% 5em 0 20%;
   border-bottom:1px solid rgba(0,0,0,0.1);
 }
 
 .marquee {
-  font-size:5em;
-  color:#413631
+  font-size:5em;font-style:italic;color:#413631
 }
 
 .title.card li {
