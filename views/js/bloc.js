@@ -20,7 +20,13 @@ if (!Element.prototype.matches && Element.prototype.msMatchesSelector) {
   Element.prototype.matches = Element.prototype.msMatchesSelector;
 }
 
-
+Date.prototype.timecode = function () {
+  return {
+    h: ('00'+this.getUTCHours()).slice(-2),
+    m: ('00'+this.getUTCMinutes()).slice(-2),
+    s: ('00'+this.getSeconds()).slice(-2)
+  };
+}
 
 
 /* Allow looping through NodeLists akin to arrays.
@@ -172,8 +178,8 @@ var Player = function (container, data) {
   
   
   
-  this.display = container.appendChild(document.createElement('section'));
-  this.display.className = "display";
+  this.display = container.appendChild(document.createElement('ul'));
+  this.display.className = "playlist display";
 
   // this.display.title  = display.appendChild(document.createElement('h2'));
   // this.display.byline = display.appendChild(document.createElement('p'));

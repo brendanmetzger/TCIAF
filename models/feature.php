@@ -90,7 +90,9 @@ namespace models;
 
       if ($award->count() > 0) {
         $edge = $award->pick(0);
-        return new \bloc\types\Dictionary(['title' => $edge->nodeValue, 'competition' => new Competition($edge['@vertex'])]);
+        $competition = new Competition($edge['@vertex']);
+        $html = "<strong>{$edge->nodeValue}</strong><span>{$competition->title}</span>";
+        return new \bloc\types\Dictionary(['title' => $edge->nodeValue, 'competition' => $competition, 'html' => $html]);
       }
     }
     

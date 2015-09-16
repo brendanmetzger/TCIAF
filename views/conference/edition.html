@@ -1,0 +1,31 @@
+<article>
+  <header>
+    <a href="/overview/conference">Back to Conference Landing</a>
+    <h1 data-id="[$item:@id]">[$item:title]</h1>    
+  </header>
+  <section>[$item:content:about]</section>
+  
+  <section class="container">
+    <div class="group left" style="width:65%">
+      <h3>Conference Sessions</h3>
+      <!-- iterate item:sessions -->
+      <article>
+        <header class="title card">
+          <ul class="inline mono">
+            <!-- iterate session:presenters -->
+            <li>[$person:title. ]</li>
+          </ul>
+        </header>
+
+        <h2 class="h1"><a href="[/explore/detail/$session:@id]">[$session:title]</a></h2>
+        <aside>[$session:summary]</aside>
+      </article>
+    </div>
+    
+    <div class="group left" style="width:35%">
+      more
+    </div>
+    
+  </section>
+
+</article>
