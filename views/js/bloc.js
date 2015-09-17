@@ -243,7 +243,7 @@ Player.prototype = {
     var elem = evt.target;
     var time = Math.ceil(elem.currentTime);
     var dur  = Math.ceil(elem.duration);
-    var msg = "<span>{m}:{s}</span>";
+    var msg = "<pre>{m}:{s}</pre>";
     
     this.meter.update(time / dur, msg.format(this.timecode(new Date(time*1e3))) + msg.format(this.timecode(new Date((dur-time)*1e3))));
 
@@ -282,7 +282,8 @@ var Button = function (button, state) {
   svg = new SVG(button, {
     height: 50,
     width: 50,
-    viewBox: '0 0 45 45'
+    viewBox: '0 0 45 45',
+    preserveAspectRatio: 'xMinYMin meet'
   });
   
   states = {
@@ -509,6 +510,7 @@ Search.prototype = {
 
 
 var Menu = function (list) {
+  list.className = 'plain';
   this.list = list;
 };
 
@@ -574,10 +576,7 @@ var Progress = function(container) {
     this.remove = function () {
       container.removeChild(this.element);
     };
-    
   }
-  
-  
   message = this.element.appendChild(document.createElement('strong'));
   
 

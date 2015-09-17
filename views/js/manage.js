@@ -224,6 +224,7 @@ function Upload(container, data) {
   
   
   this.input.addEventListener('change', function (evt) {
+
     if (this.input.files.length < 1) return;
     var type = this.input.files[0].type.split('/')[0] || null;
     
@@ -233,6 +234,7 @@ function Upload(container, data) {
       }
       var fd = new FormData();
           fd.append("upload", this.input.files[0]);
+
       this.attach(fd);
     } catch (e) {
       console.error(e);

@@ -44,8 +44,11 @@ use \models\graph;
       
       if ($id === null) {
         $this->banner = 'Competitions';
-        $this->driehaus = Graph::factory(Graph::ID('driehaus'));
-        $this->shortdocs = Graph::factory(Graph::ID('shortdocs'));
+        $this->competitions = [
+          ['item' => Graph::factory(Graph::ID('driehaus'))],
+          ['item' => Graph::factory(Graph::ID('shortdocs'))],
+        ];
+
         $page =  'overview';
       } else {
         $this->item = Graph::factory(Graph::ID($id));
