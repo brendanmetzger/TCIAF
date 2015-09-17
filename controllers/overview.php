@@ -41,13 +41,16 @@ use \models\graph;
     
     public function GETcompetition($id = null)
     {
+      
       if ($id === null) {
+        $this->banner = 'Competitions';
         $this->driehaus = Graph::factory(Graph::ID('driehaus'));
         $this->shortdocs = Graph::factory(Graph::ID('shortdocs'));
         $page =  'overview';
       } else {
         $this->item = Graph::factory(Graph::ID($id));
         $page = 'edition';
+        
       }
       
       $view = new view('views/layout.html');

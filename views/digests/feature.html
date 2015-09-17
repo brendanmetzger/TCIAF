@@ -26,15 +26,18 @@
 
   
   <header class="title card">
-    <ul class="inline mono">
-      <!-- iterate item:producers -->
-      <li>[$person:title. ]</li>
-    </ul>
-    <h1 data-id="[$item:@id]" class="serif em marquee"  property="name">[$item:title]</h1>
+    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
+    <h1 data-id="[$item:@id]" class="mono marquee margins"  property="name">[$item:title]</h1>
 
     <!-- iterate item:media:audio -->
     <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="drawButton(this);" controls="controls" preload="metadata">Audio</audio>
   </header>
+  
+  <section class="container">
+    <a class="h3 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:html]</a>
+    
+  </section>
+  
   
   <script type="text/javascript">
     // <![CDATA[
@@ -95,18 +98,11 @@
         
         player.display.appendChild(li);
         
-        // 
-        
-        
       });
     }
     // ]]>
   </script>
   
-  <section class="container">
-    <a class="h3 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-    <span style="padding:1em 0;display:block;font-size:1.5em;">[$item:premier:@date, $item:premier,  $item:location]</span>
-  </section>
   
   <section class="group left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
     <!-- iterate item:media:image -->

@@ -478,13 +478,18 @@ header nav ul li a {padding:0 0.5em;color:#888;text-decoration:none;}
 /* COMPONENTS */
 #Player {
   width:10%;
-  position:absolute;
+  overflow:hidden;
+  transition:height 1s;
+  height:0;
   display:inline-block;
   box-sizing:border-box;
   z-index:1000;
   color:#eee;
   position:fixed;
-  
+}
+
+#Player[class] {
+  height:auto;
 }
 
 #Player div {
@@ -656,7 +661,7 @@ article header.title.card {
 }
 
 .marquee {
-  font-size:5em;font-style:italic;color:#413631
+  font-size:3em;color:#413631
 }
 
 .title.card li {

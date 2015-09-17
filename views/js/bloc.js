@@ -26,7 +26,7 @@ Date.prototype.timecode = function () {
     m: ('00'+this.getUTCMinutes()).slice(-2),
     s: ('00'+this.getSeconds()).slice(-2)
   };
-}
+};
 
 
 /* Allow looping through NodeLists akin to arrays.
@@ -141,6 +141,7 @@ SVG.prototype.b64url = function (styles) {
 
 var Player = function (container, data) {
   container.id = 'Player';
+  this.container = container;
   
   var button = container.appendChild(document.createElement('button'));
       button.setAttribute('type', 'button');
@@ -188,6 +189,7 @@ var Player = function (container, data) {
 
 
 Player.prototype = {
+  container: null,
   elements: [],
   display: {},
   index: 0,
@@ -255,7 +257,8 @@ Player.prototype = {
   },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
-      document.body.appendChild(audio_element);
+      this.container.classList.add('queued');
+      this.container.appendChild(audio_element);
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
       audio_element.removeAttribute('controls');
       ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {

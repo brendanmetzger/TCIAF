@@ -1,4 +1,16 @@
 <article class="competition">
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    svg.banner {
+      display:block;
+      width:50%;
+      margin:5em auto;
+    }
+    /* ]]> */
+  </style>
+
+  <!-- insert views/images/banner.svg -->
+
   <section class="group left half">
     <header class="borderblock title">
       <img style="width:50%" src="[http://s3.amazonaws.com/$driehaus:banner:url]" />
@@ -21,7 +33,6 @@
       <h2 data-id="[$shortdocs:@id]" class="mono" style="text-transform:uppercase">[$shortdocs:title]</h2>
     </header>
     <article>[$driehaus:content:about]</article>
-    
     <nav>
       <ul>
         <!-- iterate shortdocs:competitions -->
@@ -30,5 +41,4 @@
     </nav>
     
   </section>
-
 </article>
