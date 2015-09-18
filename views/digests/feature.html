@@ -30,7 +30,7 @@
     <h1 data-id="[$item:@id]" class="mono marquee margins"  property="name">[$item:title]</h1>
 
     <!-- iterate item:media:audio -->
-    <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="drawButton(this);" controls="controls" preload="metadata">Audio</audio>
+    <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="console.log(this);" controls="controls" preload="metadata">Audio</audio>
   </header>
   
   <section class="container">

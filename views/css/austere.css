@@ -210,38 +210,17 @@ fieldset + fieldset {
 legend {
   padding:0 0.5em;
   position:relative;
-  text-align:right;
+  text-align:center;
   text-shadow:1px 1px rgba(0,0,0,0.25);
   font-weight:400;
   letter-spacing:0.125em;
   color:#555;
-  
 }
 
 /* Specifics ------------------- */
-button, .button {
-  border:1px solid #AAA;
-  background-color:#fdfdfa;
-  box-shadow:0em 0em 0.125em 0.125em rgba(0,0,0,0.1);
-  color:#333;
-  text-decoration:none;
-  padding:0.5em;
-  border-radius:0.25em;
-  transition:box-shadow 0.25s, background-color 0.25s;
-  display:inline-block;
-}
-button:hover, .button:hover, input[type=checkbox]:hover {
-  background-color:#fff;
-  color:#333;
-  box-shadow: 0 0 0.125em 0 rgba(0,0,0,0.25);
-}
-
-button[disabled], button[disabled]:hover {
-  opacity:0.5;
-  box-shadow:none;
-  background-color:#fff;
-  color:#888;
-}
+button,.button{border:1px solid #AAA;background-color:#fdfdfa;box-shadow:0em 0em 0.125em 0.125em rgba(0,0,0,0.1);color:#333;text-decoration:none;padding:0.5em;border-radius:0.25em;transition:box-shadow 0.25s,background-color 0.25s;display:inline-block;}
+button:hover,.button:hover,input[type=checkbox]:hover{background-color:#fff;color:#333;box-shadow:0 0 0.125em 0 rgba(0,0,0,0.25);}
+button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-color:#fff;color:#888;}
 
 
 
@@ -410,7 +389,6 @@ button.error{background-color:#ED1C24;}
   background: transparent url(/images/medal.svg) no-repeat top right;
   background-size:auto 100% ;
 }
-
 .award > * {
   display:block;
 }
