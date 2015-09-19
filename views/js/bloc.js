@@ -410,7 +410,7 @@ var Search = function (container, data) {
   }.bind(this), false);
   
   this.subscribers = {
-    'select': []
+    select: []
   };
 };
 

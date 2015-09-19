@@ -75,7 +75,6 @@
     bloc.prepare('Upload', function () {
       this.addTrigger(this.container.parentNode.querySelector("button.upload"));    
       this.addRoutine('image', function (file) {
-        console.log(this);
         var reader = new FileReader();
     
         reader.onload = function (evt) {
