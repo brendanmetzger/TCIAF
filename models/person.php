@@ -104,7 +104,12 @@ class Person extends Model
         $out[] = [
           'name' => $key,
           'items' => $items->map(function($collection) {
-            return ['item' => Graph::factory(Graph::ID($collection['@vertex']))];
+            if ($collection['@vertex'] === "TCIAF") {
+              $overview = "/overview/tciaf";
+            } else {
+              $overview = "/explore/detail/{$collection['@vertex']}";
+            }
+            return ['item' => Graph::factory(Graph::ID($collection['@vertex'])), 'overview' => $overview];
           }),
         ];
       }

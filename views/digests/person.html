@@ -1,18 +1,20 @@
-<article class="person">
-  <h2 data-id="[$item:@id]">[$item:@title]</h2>
-  <img style="width:25%;float:left;padding:0 1em 1em 0;" src="[http://s3.amazonaws.com/$item:photo:url]" />
+<article class="person page">
+  <header>
+    <h1 data-id="[$item:@id]">[$item:@title]</h1>
+    <img src="[http://s3.amazonaws.com/$item:photo:url]" />
+  </header>
   
   <section>[$item:content:bio]</section>
   <hr />
-  
-  
   <!-- iterate item:contributions -->
-  <div>
-      <h3 class="caps-lock padded">[$name]</h3>
-      <ul>
-        <!-- iterate items -->
-        <li><a href="[/explore/detail/$item:@id]">[$item:title]</a></li>
-      </ul>
-  </div>
-
+  <nav>
+    <h2 class="caps-lock padded">[$name]</h2>
+    <ul class="plain">
+      <!-- iterate items -->
+      <li>
+        <a class="h4" href="[$overview]">[$item:title]</a>
+        <p>[$item:summary]</p>
+      </li>
+    </ul>
+  </nav>
 </article>

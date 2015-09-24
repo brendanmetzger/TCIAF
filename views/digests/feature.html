@@ -1,15 +1,7 @@
-<article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
+<article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     main.content {position:relative;}
-    button.listen {
-      background-image:url(/images/listen.svg);
-      background-size: auto 100%;
-      background-repeat:no-repeat;
-      padding-left:2.5em;
-      color:#5B9B98;
-      letter-spacing:0.075em;
-    }
     
     .shrink {
       transition:all 1s cubic-bezier(0.9,0,0.25,1)  0.125s;
@@ -24,7 +16,7 @@
     /* ]]> */
   </style>
 
-  <header class="title card">
+  <header>
     <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
     <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
     <!-- iterate item:media:audio -->
@@ -33,7 +25,6 @@
   
   <section class="container">
     <a class="h3 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-    
   </section>
   
   
@@ -102,30 +93,39 @@
     <img src="[$domain/$url]" alt="[$caption]" style="width:100%;" property="image"/>
   </section>
   
-  <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
+  <section class="group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
   
-  <section property="contributors" style="margin-left:20%;">
+  <section class="group float-left" property="contributors" style="width:75%;margin-left:2.5%;">
+    <ul>
+      <!-- iterate item:extras -->
+      <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
+    </ul>
+    
+    <h2>Produced By</h2>
     <!-- iterate item:producers -->
     <!-- insert views/cards/person.html -->
   </section>
+
+  <hr  class="clear" />
   
-  <h2>Next Up (in theory)</h2>
-  <!-- insert views/lists/recommendation.html -->
-  
-  <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:content:extra]</section>
-  
-  <div class="tile container">
-    <h2>[$item:related]</h2>
+  <section class="half group float-left">
+    <h2>Related</h2>
+    <!-- insert views/lists/recommendation.html -->
+    
+    <aside>[$item:content:extra]</aside>
+  </section>
+
+  <section class="half group float-left">
+    <h2>Featured In</h2>
+    
+    <ul class="plain">
     <!-- iterate item:playlists -->
-    <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
+    <li><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
     
-    <!-- iterate item:extras -->
-    <a href="[/explore/detail/$article:@id]">[$article:@title]</a>
-    
-    <!-- iterate item:competitions -->
-    <!-- insert views/cards/competition.html -->
-    
-  </div>
+      <!-- iterate item:competitions -->
+      <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
+    </ul>
+  </section>
   
 
   <script type="text/javascript" async="true">

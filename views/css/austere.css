@@ -11,7 +11,7 @@ svg .brown {fill:#88746A;}
 svg .red   {fill:#EE3124;}
 svg .blue  {fill:#5B9B98;}
 
-a {color:#88746A;}
+a {color:#88746A;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
 a:hover {color:#5B9B98;}
 a.selected{text-decoration:none;cursor:pointer;}
@@ -29,7 +29,7 @@ a.selected{text-decoration:none;cursor:pointer;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
 
-.plain {list-style:none;}
+.plain {list-style:none;padding:0;}
 .caps-lock {text-transform:uppercase;}
 .ghost, a[href^='#'] {opacity:0.5;}
 .ghost:hover {opacity:1;}
@@ -41,6 +41,35 @@ ul.inline {padding:0; }
 .group{display:block;box-sizing:border-box;}
 .float-left{float:left;}
 .float-right{float:right;}
+
+.listen {
+  background-image:url(/images/listen.svg);
+  background-size: auto 100%;
+  background-repeat:no-repeat;
+  padding-left:1.5em;
+  color:#5B9B98;
+  letter-spacing:0.075em;
+}
+
+button.listen {
+  padding-left:2.5em;
+}
+
+.page h2 {
+  color:#EE3124;
+  font-family:'Courier New';
+  margin:2em 0 1em;
+}
+
+.page h3 {
+  font-weight:600;
+  margin:1em 0 0;
+}
+
+.page ul.plain li {
+  margin:2em 0;
+}
+
 
 .half{width:50%;}
 .quarter {width:25%;}
@@ -82,14 +111,17 @@ strong, .strong, .selected {font-weight:600;}
 em, .em {font-style:italic;}
 .mono, pre, code, input, textarea {font-family:'Courier New';}
 
-h1, .h1 { font-size:2em; }
+h1, .h1 { font-size:2.5em; margin:0.25em 0; }
 h2, .h2, legend { font-size:1.75em; line-height:175%; }
-h3, .h3, input, textarea { font-size:1.5em; }
-h4, h5, p, .p, li, label, form button { font-size:1.25em;line-height:150%;}
-
+h3, .h3, input, textarea { font-size:1.65em; }
+h4, .h4 {font-size:1.45em;}
+h5, p, .p, li, label, form button { font-size:1.25em;line-height:150%;}
+ul.plain li {font-size:100%;}
 label, cite, p, .p, li, h1, h2, h3, h4, h5, address, legend, .normal, button, .button {
   font-weight:400;
 }
+
+
 
 
 
@@ -106,9 +138,6 @@ address span {
   display:block;
 }
 
-body, ul, ol, form, h1, h2, h3, h4, h5 figure, blockquote {
-  margin:0;
-}
 ul { list-style-type: square; }
 ul, ol {
   padding:0 0 0 2em;
@@ -146,16 +175,16 @@ input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !im
 
 
 footer {
-  background: transparent url(/images/tightrope.svg) no-repeat 30% -5%;
+  background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1)));
+  background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+  background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+  background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+  background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+  
   padding: 15% 0 0;
   margin: 20% 0 0;
   background-size: 125% auto;
-}
-
-
-footer nav ul {
-  padding:0;
-  font-size:1.25em;
 }
 
 .social {
@@ -292,17 +321,18 @@ div.person img {
   margin:2.5% auto;
 }
     
-article.competiton header.title {
-  margin:10% 0;
-}
 
-article header.title {
-  padding:1em;
-  text-align:center;
-}
 
-article header.title.card {
+
+article > header {
   margin:10% 5em 0 20%;
+  font-family:'Courier New';
+  font-weight:400;
+  letter-spacing:0.125em;
   border-bottom:1px solid rgba(0,0,0,0.1);
+}
+
+article > header img {
+  width:20%;float:left;padding:1em;margin:1em;border-right:1px solid #eee;
 }
 
