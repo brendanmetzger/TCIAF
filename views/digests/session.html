@@ -1,24 +1,15 @@
-<article class="session" vocab="http://schema.org/" typeof="CreativeWork">
-  <h1>Conference<br/>Session</h1>
+<article class="session page" vocab="http://schema.org/" typeof="CreativeWork">
+  <h5 class="h1">Conference<br/>Session</h5>
   <!-- iterate item:media:audio -->
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute('Player', this);" controls="controls" preload="metadata">Audio</audio>
-  
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-    main.content {position:relative;}
-    
-    /* ]]> */
-  </style>
-
-  <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:title - $item:award:competition:title]</a>
+  <span>
+    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+  </span>
 
   
   <header>
     <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
     <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
-    <!-- iterate item:happenings -->
-    <a href="[/overview/conference/$happening:@id]">[$happening:title]</a>
-    
   </header>
   
   
@@ -29,52 +20,32 @@
   
   <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
   
-  <div property="contributors">
+  
+  <section class="group float-left" property="contributors" style="width:75%;margin-left:2.5%;">
+    <ul>
+      <!-- iterate item:extras -->
+      <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
+    </ul>
+    
     <h2>Featuring</h2>
     <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->
-  </div>
+  </section>
   
-  <h2>Next Up (in theory)</h2>
-  <!-- insert views/lists/recommendation.html -->
   
-  <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:content:extra]</section>
   
-  <div class="tile container">
-    <h2>[$item:related]</h2>
+  <section class="half group float-left" style="padding-left:1em;">
+    <h2>Part of...</h2>
     
-    <!-- iterate item:playlists -->
-    <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
+    <ul class="plain">
+      <!-- iterate item:playlists -->
+      <li><h4><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></h4></li>
     
-    <!-- iterate item:extras -->
-    <a href="[/explore/detail/$article:@id]">[$article:@title]</a>
-    
-    <!-- iterate item:happenings -->
-    <!-- insert views/cards/happening.html -->
-    
-  </div>
+      <!-- iterate item:happenings -->
+      <li><h4><a href="[/overview/conference/$happening:@id]">[$happening:title]</a></h4></li>
+    </ul>
+  </section>
   
 
-  <script type="text/javascript" async="true">
-    // <![CDATA[
-    
-    bloc.prepare('recommend', function () {
-      
-      document.querySelector('ol.recommended').addEventListener('click', function (evt) {
-        if (evt.target.nodeName === "A") {
-          evt.preventDefault();
-          var request = new XMLHttpRequest();
-          request.addEventListener('load', function (evt) {
-            evt.target.responseXML.querySelectorAll('audio').forEach(function (audio) {
-              document.body.appendChild(audio);
-            });
-          });
-          request.open('GET', evt.target.href + ".xml");
-          request.send();
-
-        }
-      });
-    });
-    // ]]>
-  </script>
+ 
 </article>

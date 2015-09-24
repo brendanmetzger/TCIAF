@@ -23,7 +23,6 @@ body {
 main {
   margin:0 auto;
   width:65%;
-  position:relative;
   top:0;
   transition:opacity 1s, top 1s;
 }
@@ -33,7 +32,7 @@ aside img {
   margin-right:1em;
   border-right:1px solid #eee;
   float:left;
-  width:25%;
+  width:10em;
 }
 
 .transition > main {opacity:0;top:-2em;}
@@ -78,26 +77,56 @@ li.home a {
 }
 
 
+.listen {
+  background-image:url(/images/listen.svg);
+  background-size: auto 100%;
+  background-repeat:no-repeat;
+  padding-left:1.5em;
+  color:#5B9B98;
+  letter-spacing:0.075em;
+}
+
+button.listen {
+  overflow:hidden;
+  height:2.5em;
+/*  transition:height 1s cubic-bezier(0.9,0,0.25,1), opacity 0.875s  0.125s, padding 1s;*/
+  padding-left:2.5em;
+}
+
+.evaporate {
+  opacity:0;
+  margin:0 !important;
+  height:0 !important;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+  line-height:0 !important;
+}
+
+
 
 
 #Player {
   position:fixed;
   transition:height 0.25s 0.125s, width 0.25s 0.125s;
   width:8em;
-  height:4em;
+  height:0;
   top:0;
   right:0;
   overflow:hidden;
   z-index:1000;
 }
 
+body[data-playing] #Player {
+  height:4em;
+}
+
 body.playing #Player {
   background-color:#EE3124;
   height:4em;
 }
-/*body.unloaded #Player {height:0;}*/
+body #Player {height:0;}
 
-#Player:hover {
+body[data-playing] #Player:hover {
   height:8em;
   width:16em;
 }

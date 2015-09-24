@@ -42,19 +42,6 @@ ul.inline {padding:0; }
 .float-left{float:left;}
 .float-right{float:right;}
 
-.listen {
-  background-image:url(/images/listen.svg);
-  background-size: auto 100%;
-  background-repeat:no-repeat;
-  padding-left:1.5em;
-  color:#5B9B98;
-  letter-spacing:0.075em;
-}
-
-button.listen {
-  padding-left:2.5em;
-}
-
 .page h2 {
   color:#EE3124;
   font-family:'Courier New';
@@ -62,12 +49,21 @@ button.listen {
 }
 
 .page h3 {
-  font-weight:600;
+  font-weight:500;
   margin:1em 0 0;
 }
 
 .page ul.plain li {
   margin:2em 0;
+}
+
+article nav ul.inline li {
+  padding:0.25em;
+  margin:0.25em
+}
+
+.trans-blocks {
+  margin:1em 0;padding:1em;background-color:rgba(200,200,180, 0.1);
 }
 
 
@@ -305,22 +301,6 @@ div.person img {
 
 
 
-
-
-
-.borderblock:before, .borderblock:after {
-  width:50%;
-  overflow:visible;
-  height:1px;
-  content: '- - -';
-  color:#F0EEEC;
-  background-color:#888;
-  font-size:2em;
-  line-height:0;
-  display:block;
-  margin:2.5% auto;
-}
-    
 
 
 
