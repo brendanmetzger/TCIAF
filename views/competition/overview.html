@@ -1,34 +1,19 @@
-<article class="competition">
-  <section class="group left half">
-    <header class="borderblock title">
-      <img style="width:50%" src="[http://s3.amazonaws.com/$driehaus:banner:url]" />
-      <h2 data-id="[$driehaus:@id]" class="mono" style="text-transform:uppercase">[$driehaus:title]</h2>
-    </header>
-    <article>[$driehaus:content:about]</article>
-    
-    <nav>
-      <ul>
-        <!-- iterate driehaus:competitions -->
-        <li><a href="[/overview/competition/$competition:@id]">[$competition:@title]</a></li>
-      </ul>
-    </nav>
-    
-  </section>
+<section>
+  <!-- insert views/images/banner.svg -->
   
-  <section class="group left half">
-    <header class="borderblock title">
-      <img style="width:50%" src="[http://s3.amazonaws.com/$shortdocs:banner:url]" />
-      <h2 data-id="[$shortdocs:@id]" class="mono" style="text-transform:uppercase">[$shortdocs:title]</h2>
+  <!-- iterate competitions -->
+  <section>
+    <header>
+      <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
+      <h2 data-id="[$item:@id]">[$item:title]</h2>
     </header>
-    <article>[$driehaus:content:about]</article>
-    
+    <article>[$item:content:about]</article>
     <nav>
       <ul>
-        <!-- iterate shortdocs:competitions -->
+        <!-- iterate item:competitions -->
         <li><a href="[/overview/competition/$competition:@id]">[$competition:@title]</a></li>
       </ul>
     </nav>
-    
   </section>
 
-</article>
+</section>

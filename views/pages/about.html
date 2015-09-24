@@ -1,47 +1,49 @@
-<article class="about">
-  <div class="group left">
+<article class="about page container">
+  
+  <header class="title">
     <h1 data-id="[$item:@id]">[$item:title]</h1>
     <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:100%;" alt="third coast"/>
+  </header>
   
-    <section>[$item:content:description]</section>
-  </div>
+  <section class="group float-left">[$item:content:description]</section>
 
-  <aside class="group left container">
+  <nav class="group float-left">
     <h2>Staff</h2>
     
-    <ul>
+    <ul class="plain">
       <!-- iterate item:staff -->
       <li>
+        <h5>[$position]</h5>
         <h4 data-id="[$person:@id]"><a href="[/explore/detail/$person:@id]">[$person:title]</a></h4>
-        <em>[$position]</em>
       </li>
     </ul>
 
     
     <h2>Board of Directors</h2>
-    <ul>
+    <ul class="plain">
     <!-- iterate item:board -->
       <li>
+        <h5>[$position]</h5>
         <h4 data-id="[$person:@id]">[$person:title]</h4>
-        <em>[$position]</em>
       </li>
     </ul>
-  </aside>
+  </nav>
   
   
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-    aside {
+    .about nav {
       width:30%;
-      padding:1em;
-    }
-    
-    .about > div {
-      width:70%;
-      padding:1em;
       margin:0;
     }
+
     
+
+    .about section {
+      width:70%;
+      padding:0 5em 0 0;
+      margin:0;
+    }
     div.staff img[src] {
       float:left;
       width:15%;

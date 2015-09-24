@@ -82,10 +82,6 @@ class Explore extends Manage
     return $this->GETcenterpiece('article', $sort, $index, $per);
   }
   
-  
-
-  
-  
   public function GETgroup($group = null, $type = 'all', $index = 1, $per = 100, $query = '')
   {
     $view = new View('views/layout.html');

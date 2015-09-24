@@ -305,7 +305,7 @@ class Task extends \bloc\controller
     
     $client = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
     
-    $tracks = \models\Graph::group('feature')->find('vertex/media[@type="audio"]');
+    $tracks = \models\Graph::group('broadcast')->find('vertex/media[@type="audio"]');
     
     foreach ($tracks as $track) {
       $path = $track->getAttribute('src');
@@ -337,14 +337,35 @@ class Task extends \bloc\controller
     }
     
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
-    
-      
-    
   }
 
   private function CLIcorrelate($id = null)
   {
     return self::pearson($id);
+  }
+  
+  public function CLImarkMedia($per = 25)
+  {
+    $unmarked = \models\Graph::group('feature')->find('vertex/media[@type="image" and @mark=0]');
+    if ($unmarked->count() < 1) {
+      echo "None left\n";
+    }
+    
+    foreach ($unmarked as $image) {
+      if ($per-- < 0) {
+        echo "Quitting - run again if you must....\n";
+        break;
+      }
+      $src = preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $image['@src']);
+      $url = "http://s3.amazonaws.com/{$src}";
+      
+      $size = getimagesize($url);
+      $ratio = round($size[0] / $size[1], 1);
+      $image->setAttribute('mark', $ratio);
+      
+      echo $image->write() . "\n";
+    }
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
 
 }
