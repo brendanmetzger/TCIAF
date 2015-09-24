@@ -2,13 +2,11 @@
   <link rel="stylesheet" href="/css/manage.css" type="text/css" media="screen" charset="utf-8" title="administrator"/>
   <script type="text/javascript">bloc.embed('/js/manage.js');</script>
   <h3 class="inline" style="margin-right:2em;">Logged in as: <strong>[$user.]</strong> <a href="/manage/logout">Logout.</a></h3>
-  
   <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-create').selectedIndex = 0;" id="admin-index">
     <option value="default">Go to...</option>
     <!-- iterate tasks -->
     <option value="[/explore/index/$name]">[$name ($count)]</option>
   </select>
-  
   <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-index').selectedIndex = 0;" id="admin-create">
     <option value="default">Create New...</option>
     <!-- iterate tasks -->

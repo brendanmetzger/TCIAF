@@ -35,7 +35,7 @@ namespace models;
     {
       parent::__construct($id, $data);
       $this->template['form'] = 'vertex';
-      $this->template['digest'] = $this->awards->count() > 0 ? 'competition/edition' : 'competition/brief';
+      $this->template['digest'] = $this->awards->count() > 0 ? 'competition/edition' : 'competition/overview';
     }
     
     
@@ -44,6 +44,14 @@ namespace models;
     {
       return $context->find("edge[@type='edition']")->map(function($edge) {
         return ['competition' => new Competition($edge['@vertex'])];
+      });
+    }
+    
+    
+    public function getCompetitions()
+    {
+      return $this->editions->sort(function($a, $b) {
+        return substr($a['competition']['title'], 0, 4) < substr($b['competition']['title'], 0, 4);
       });
     }
     
@@ -59,11 +67,7 @@ namespace models;
         return $photo;
       }
     }
-    
-    public function getView()
-    {
-      return $this->awards->count() > 0 ? 'competition/edition' : 'competition/brief';
-    }
+
     
     public function getParticipants(\DOMElement $context)
     {

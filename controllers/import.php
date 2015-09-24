@@ -828,24 +828,32 @@ class Import extends Task
 
   public function CLIitemSess()
   {
-    $doc  = new \bloc\DOM\Document('data/db24');
+    $doc  = new \bloc\DOM\Document('data/db25');
     $xml  = new \DomXpath($doc);
     
-    foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='item']") as $edge) {
-      $vertex = $edge->parentNode["@id"];
-      $edge->setAttribute('type', 'session');
-      $ref = $xml->query("//group/vertex[@id='{$edge['@vertex']}']/edge[@vertex='{$vertex}']")->item(0);
-      $ref->setAttribute('type', 'session');
-      echo $edge->write();
-      echo "\n";
-      echo $ref->write();
+    foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='session']") as $edge) {
+      $producers = $xml->query("//group[@type='feature']/vertex[@id='{$edge['@vertex']}']/edge[@type='producer']");
+      
+      foreach ($producers as $producer) {
+        $producer->setAttribute('type', 'presenter');
+        $session_id = $producer->parentNode['@id'];
+        $person = $xml->query("//group[@type='person']/vertex[@id='{$producer['@vertex']}']/edge[@type='producer' and @vertex='{$session_id}']");
+        $person->item(0)->setAttribute('type', 'presenter');
+        echo $person->item(0)->write();
+        echo "\n";
+        echo $producer->write();
+        echo "\n";
+      }
+      
+
+      // echo $ref->write();
       
       echo "\n\n";
       
     }
     
     if ($doc->validate()) {
-      $file = 'data/db24.xml';
+      $file = 'data/db26.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
     } else {

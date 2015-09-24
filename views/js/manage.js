@@ -40,24 +40,23 @@ function goto(url, evt) {
     return;
   }
   
-  new Modal.Form(
-    url + '.xml',
-    {},
-    function (response) {
-    this.modal.close();
-    
-    new Request({'load': function (evt) {
-      var exist = document.querySelector('main');
-      exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-      window.bloc.execute('editables');
-    }}).get(window.location.href + '.xml');
-    
-
-  },
-  function (form) {
-    window.bloc.execute('stylesheets');
-    form.querySelector('input').focus();
-  });
+  (new Modal.Form({
+    load: function (form) {
+      window.bloc.execute('stylesheets');
+      form.querySelector('input').focus();
+    },
+    submit: function (evt) {
+      var res = evt.target.responseXML;
+      this.modal.close();
+      new Request({
+        load: function (evt) {
+          var exist = document.querySelector('main');
+          exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
+          window.bloc.execute('editables');
+        }
+      }).get(window.location.href + '.xml');
+    }
+  })).load(url + '.xml');
 }
 
 
@@ -68,7 +67,7 @@ function Markdown(container, options) {
   this.textareas = document.querySelectorAll(options.selector);
   
   this.textareas.forEach(function (t) {
-    this.fit(t);
+    // this.fit(t);
     t.addEventListener('keyup', this.fit.bind(this, t));
     t.addEventListener('select', this.watch.bind(this));
     t.addEventListener('focus', this.show.bind(this));    
@@ -88,7 +87,6 @@ function Markdown(container, options) {
         li.addEventListener('click', this.command.bind(this, command), false);
   }
 }
-
 Markdown.prototype = {
   timeout: 0,
   element: null,
@@ -192,15 +190,13 @@ Markdown.prototype = {
 function Upload(container, data) {
   this.container = container;
   this.action    = data.url;  
-  this.uid = Date.now().toString(36);
   
   this.xhr = new XMLHttpRequest();
   
   if (this.input === null) {
-    this.input = document.body.appendChild(document.createElement('input'));
-    this.input.name = 'uploader';
+    this.input = this.container.appendChild(document.createElement('input'));
     this.input.type = 'file';
-    this.input.id = "_"+this.uid;
+    this.input.id = "_" + Date.now().toString(36);
   }
   
   this.input.accept = data.accept;
@@ -224,6 +220,7 @@ function Upload(container, data) {
   
   
   this.input.addEventListener('change', function (evt) {
+
     if (this.input.files.length < 1) return;
     var type = this.input.files[0].type.split('/')[0] || null;
     
@@ -233,6 +230,7 @@ function Upload(container, data) {
       }
       var fd = new FormData();
           fd.append("upload", this.input.files[0]);
+
       this.attach(fd);
     } catch (e) {
       console.error(e);
@@ -240,10 +238,7 @@ function Upload(container, data) {
     
   }.bind(this), false);
 }
-
-
 Upload.instance = null;
-
 Upload.prototype = {
   input: null,
   progress: null,
@@ -278,8 +273,13 @@ Upload.prototype = {
   }
 };
 
+
+
+
+
 var Modal = function (element) {
   this.backdrop = document.body.appendChild(document.createElement('div'));
+  this.backdrop.id = '_' + Date.now().toString(36);
   this.backdrop.className = 'backdrop';
   // this.backdrop.addEventListener('dblclick', this.close.bind(this), false);
   if (element) {
@@ -289,16 +289,10 @@ var Modal = function (element) {
     this.progress.update(0.9, 'One Moment..');
     this.progress.element.classList.add('spin');
   }
-};
-
-
-Modal.prototype = {
+}; Modal.prototype = {
   addElement: function (element) {
-    
     this.element = element;
     this.backdrop.appendChild(this.element);
-
-    
     // make closeable
     var button = document.createElement('button');
         button.className = 'close';
@@ -306,9 +300,7 @@ Modal.prototype = {
         button.addEventListener('click', this.close.bind(this));
     
     this.element.insertBefore(button, this.element.firstChild);
-    
     bloc.execute('autoload');
-    
     if (this.progress) {
       this.progress.remove();
     }
@@ -335,155 +327,108 @@ Modal.prototype = {
 };
 
 
-Modal.Form = function (url, opts, submit_callback, load_callback) {
-  this.options = opts;
+Modal.Form = function (callbacks) {
   this.modal = new Modal(null);
-  this.ajax = new XMLHttpRequest();
-  this.ajax.timeout = 3500;
+  this.form  = false;
+  this.ajax  = new XMLHttpRequest();
+  this.callbacks = {
+    submit: function(){},
+    load: null
+  };
+  // this.ajax.timeout = 3500;
   this.ajax.overrideMimeType('text/xml');
   this.ajax.addEventListener('load', this.processForm.bind(this));
+  
   this.ajax.addEventListener('error', function () {
     alert('Unable to retrieve the form, please send word.');
     this.modal.close();
   }.bind(this));
+  
   this.ajax.addEventListener('timeout', function (evt) {
     alert('The server is taking too long to respond, if this issue persists, please send word.');
     this.modal.close();
   }.bind(this));
-  this.ajax.open('GET', url);
-  this.ajax.send();
   
-  
-  // the callback is what is called when the form completes the entire dialog
-  this.submit_callback = submit_callback;
-  this.load_callback   = load_callback;
-  this.modal.show();
-};
-
-Modal.Form.prototype = {
-  options: {},
-  modal: null,
-  form: null,
-  ajax: null,
+  for (var key in callbacks) {
+    this.addEvent(key, callbacks[key]);
+  }
+}; Modal.Form.prototype = {
+  load: function (url) {
+    this.ajax.id = "GET " + url;
+    this.modal.show();
+    this.ajax.open('GET', url);
+    this.ajax.send();
+  },
+  addEvent: function (evt, callback) {
+    this.callbacks[evt] = callback;
+  },
   processForm: function (evt) {
-
-    evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+    evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
       document.head.appendChild(window.bloc.tag(false)).text = script.text;
     });
     
-    if (this.form === null) {
-      this.form  = evt.target.responseXML.documentElement.querySelector('form.editor');
+    // No form means we need to load up one via our ajax object
+    if (!this.form) {
+      this.form  = evt.target.responseXML.querySelector('form.editor');
       
       if (! this.form) {
        evt.target.dispatchEvent(new ProgressEvent('error')); 
       }
-
+      
       this.modal.addElement(this.form);
+      
       this.form.addEventListener('submit', function (evt) {
         evt.preventDefault();
-
-        this.ajax.open("POST", this.form.action);
-        this.ajax.send(new FormData(this.form));
-      
+        var submit_request = new XMLHttpRequest();
+        
+       submit_request.timeout = 3500;
+       submit_request.overrideMimeType('text/xml');
+       submit_request.addEventListener('load', this.callbacks.submit.bind(this));
+       submit_request.open("POST", this.form.action);
+       submit_request.send(new FormData(this.form));
+        
       }.bind(this));
-      
-      for (var option in this.options) {
-        var input = this.form.querySelector('input[name*='+option+']');
-            input.value = this.options[option];
-            input.focus();
-      }
 
-      if (this.load_callback) {
-        this.load_callback.call(this, this.form);
+      if (this.callbacks.load) {
+        this.callbacks.load.call(this, this.form);
       }
       
-    } else if (this.submit_callback){
-      this.submit_callback.call(this, evt.target.responseXML.documentElement);
     }
   }
 };
 
 
 
-var Spectra = function(container, data) {
-  var labels = document.querySelectorAll(data.selector);
-  var total = labels.length;
-  for (var i = 0; i < total; i++) {
-    labels[i].dataset.index = (i / total);
-    this.color.call(labels[i]);
-    labels[i].addEventListener('input', this.color);
-    labels[i].addEventListener('change', this.correlate);
-  }
-};
-
-Spectra.prototype.color = function () {
-  var value = parseInt(this.value, 10);
-  var color = {
-    h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
-    s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
-    l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
-  };
-  this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.35)'.format(color);
-};
-
-Spectra.prototype.correlate = function (evt) {
-  var ajax = new XMLHttpRequest();
-  var replace = document.querySelector('fieldset.recommended .recommended');
-  
-  ajax.addEventListener('load', function (evt) {
-    var elem = evt.target.responseXML.querySelector('.recommended');
-    replace.parentNode.replaceChild(elem, replace);
-  }, false);
-  
-  ajax.open("POST", '/manage/correlate.xml');
-  
-  ajax.send(new FormData(this.form));
-  
-};
-
-
-
-
 
 var Edge = function (container, data) {
-  document.querySelectorAll(data.selector).forEach(function (button) {
+  container.parentNode.querySelectorAll(data.selector).forEach(function (button) {
     button.addEventListener('click', function (evt) {
       evt.preventDefault();
-      
       var button = this;
-      
-      new Modal.Form(
-        this.href + '.xml',
-        {},
-        function (response) {
-        var elem = response.querySelector("div.edge");
-        button.parentNode.appendChild(elem);
+      (new Modal.Form({
+        load: function (form) {
+          form.querySelector('input').focus();
+        },
+        submit: function (evt) {
+          var elem = evt.target.responseXML.querySelector("div.edge");
+          button.parentNode.appendChild(elem);
         
-        setTimeout(function () {
-          elem.classList.add('highlight');
-        }, 10);
+          setTimeout(function () {
+            elem.classList.add('highlight');
+          }, 10);
         
-        
-        
-        
-        setTimeout(function () {
-          elem.classList.remove('highlight');
-        }, 1000);
-        
-        document.querySelector('div.receipt').classList.add('alert');
-        
-        // close modal
-        this.modal.close(function (arg) {
-          if (this.backdrop) {
-            this.backdrop.parentNode.removeChild(this.backdrop);
-          }
-        });
-      },
-      function (form) {
-        form.querySelector('input').focus();
-      });
-      
-      
+          setTimeout(function () {
+            elem.classList.remove('highlight');
+          }, 1000);
+                
+          // close modal
+          this.modal.close(function (arg) {
+            if (this.backdrop) {
+              this.backdrop.parentNode.removeChild(this.backdrop);
+            }
+          });
+        }
+      })).load(this.href+'.xml');
     });
   });
   
@@ -503,7 +448,75 @@ var Edge = function (container, data) {
       
     }, false);
   });
+};
+
+Edge.finder = function (input) {
+  input.removeAttribute('onfocus');
+  var search = new Search(null, input);
   
+  search.subscribers.select.push(function (dataset) {
+    
+    if (dataset.id) {
+      this.input.form.id.value = dataset.id;
+      var event = document.createEvent("HTMLEvents");
+          event.initEvent("submit", false, false);
+      this.input.form.dispatchEvent(event);
+    } else {
+      (new Modal.Form({
+        submit: function (evt) {
+          if (evt.target.responseXML.documentElement.querySelector('form')) {
+            search.input.value      = evt.target.responseXML.querySelector('form input[name*=title]').value;
+            search.input.dataset.id = evt.target.responseXML.querySelector('form input[name*=id]').value;
+            search.select();
+            this.modal.close();
+          } else {
+            console.error('still getting submitted twice.');
+          }
+        },
+        load: function (form) {
+          var field = form.querySelector('input[name*=title]');
+          field.value = input.value;
+          field.focus();
+        }
+      })).load('/manage/create/'+ dataset.topic + '.xml');
+    }
+  });
+};
+
+
+
+
+var Spectra = function(container, data) {
+  var labels = document.querySelectorAll(data.selector);
+  var total = labels.length;
+  for (var i = 0; i < total; i++) {
+    labels[i].dataset.index = (i / total);
+    this.color.call(labels[i]);
+    labels[i].addEventListener('input', this.color);
+    labels[i].addEventListener('change', this.correlate);
+  }
+};
+Spectra.prototype.color = function () {
+  var value = parseInt(this.value, 10);
+  var color = {
+    h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
+    s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
+    l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
+  };
+  this.parentNode.style.backgroundColor = 'hsla({h}, {s}, {l}, 0.35)'.format(color);
+};
+Spectra.prototype.correlate = function (evt) {
+  var ajax = new XMLHttpRequest();
+  var replace = document.querySelector('fieldset.recommended .recommended');
+  
+  ajax.addEventListener('load', function (evt) {
+    var elem = evt.target.responseXML.querySelector('.recommended');
+    replace.parentNode.replaceChild(elem, replace);
+  }, false);
+  
+  ajax.open("POST", '/manage/correlate.xml');
+  
+  ajax.send(new FormData(this.form));
   
 };
 

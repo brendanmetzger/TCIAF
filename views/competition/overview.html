@@ -1,0 +1,19 @@
+<section>
+  <!-- insert views/images/banner.svg -->
+  
+  <!-- iterate competitions -->
+  <section>
+    <header>
+      <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
+      <h2 data-id="[$item:@id]">[$item:title]</h2>
+    </header>
+    <article>[$item:content:about]</article>
+    <nav>
+      <ul>
+        <!-- iterate item:competitions -->
+        <li><a href="[/overview/competition/$competition:@id]">[$competition:@title]</a></li>
+      </ul>
+    </nav>
+  </section>
+
+</section>

@@ -114,7 +114,7 @@ abstract class Model extends \bloc\Model
   
   public function getTitle(\DOMNode $context)
   {
-    return strip_tags((new \Parsedown())->text($context->getAttribute('title')) , '<em><strong>');
+    return strip_tags((new \Parsedown())->text(trim($context->getAttribute('title'))) , '<em><strong>');
   }
     
   public function setUpdatedAttribute(\DOMElement $context)
@@ -165,7 +165,7 @@ abstract class Model extends \bloc\Model
 		if (!is_object($abstract)) return;
     if ($node = \bloc\DOM\Document::TAG("<root>{$abstract->current()['text']}</root>")) {
       if ($node->childNodes->length > 0) {
-        return $node->firstChild->write();
+        return substr($node->firstChild->write(), 3, -4);
       }
 
     }

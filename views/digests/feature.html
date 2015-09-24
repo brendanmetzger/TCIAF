@@ -1,56 +1,131 @@
-<article class="feature" vocab="http://schema.org/" typeof="CreativeWork">
-
-  <!-- iterate item:media:audio -->
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute('Player', this);" controls="controls" preload="metadata">Audio</audio>
-  
+<article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     main.content {position:relative;}
     
+    .shrink {
+      transition:all 1s cubic-bezier(0.9,0,0.25,1)  0.125s;
+      font-size:1.5em !important;
+      padding:1em;
+      background-color:#fdfdfa;
+    }
+    .move {
+      width:10% !important;
+      padding:0.5em;
+    }
     /* ]]> */
   </style>
 
-  <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:title - $item:award:competition:title]</a>
-
-  <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
-  <h1 data-id="[$item:@id]" class="marquee" property="name">[$item:title]</h1>
+  <header>
+    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
+    <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
+    <!-- iterate item:media:audio -->
+    <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="drawButton(this);" controls="controls" preload="metadata">Audio</audio>
+  </header>
   
-  <section class="group left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
-    <!-- iterate item:media:image -->
-    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:100%;" property="image"/>
+  <section class="container">
+    <a class="h3 award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
   </section>
   
-  <section class="intro group left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
-
-  <hr class="tempo clear"/>
   
-  <div property="contributors">
+  <script type="text/javascript">
+    // <![CDATA[
+    function drawButton(audio_element) {
+      var butt = document.createElement('button');
+      butt.textContent = "Listen — " + "{m}:{s}".format((new Date(audio_element.duration *1e3)).timecode());
+      butt.className = "listen";
+      audio_element.parentNode.insertBefore(butt, audio_element);
+      
+      
+      butt.addEventListener('click', function (evt) {
+        var spread = Animate(function (element) {
+          var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % animation
+          var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
+          var y = ratio >= 1 ? this.to[1] : ( ratio * ( this.to[1] - this.from[1] ) ) + this.from[1];
+          element.style.top  = y + 'px';
+          element.style.left = x + 'px';
+          return (ratio < 1);
+        });
+      
+        evt.preventDefault();
+        var player = window.bloc.execute('Player', audio_element);
+        var li = document.createElement('li');
+        var h1 = this.parentNode.querySelector('h1');
+        var clone = h1.cloneNode(true);
+        var pos = h1.getBoundingClientRect();
+
+        clone.style.position = 'absolute';
+        window.Adjust.scroll(window.pageYOffset - pos.height, 1500);
+        clone.style.top = pos.top + window.pageYOffset + 'px';
+        clone.style.left = pos.left + 'px';
+        clone.style.width = pos.width + 'px';
+        clone.style.textAlign = 'center';
+        var button = this;
+        button.style.top = '-1em';
+
+        document.body.appendChild(clone);
+        clone.addEventListener('transitionend', function (evt) {
+          console.log(evt);
+        });
+        setTimeout(function () {
+          button.parentNode.removeChild(button);
+          clone.classList.add('shrink');
+          setTimeout(function () {
+            clone.style.left = '0px';
+            clone.style.width = '0px';
+            clone.classList.add('move');
+          }, 500);
+          
+          
+        }, 150);
+        
+        
+        player.display.appendChild(li);
+        
+      });
+    }
+    // ]]>
+  </script>
+  
+  
+  <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
+    <!-- iterate item:media:image -->
+    <img src="[$domain/$url]" alt="[$caption]" style="width:100%;" property="image"/>
+  </section>
+  
+  <section class="group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
+  
+  <section class="group float-left" property="contributors" style="width:75%;margin-left:2.5%;">
+    <ul>
+      <!-- iterate item:extras -->
+      <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
+    </ul>
+    
+    <h2>Produced By</h2>
     <!-- iterate item:producers -->
     <!-- insert views/cards/person.html -->
+  </section>
+
+  <hr  class="clear" />
+  
+  <section class="half group float-left">
+    <h2>Related</h2>
+    <!-- insert views/lists/recommendation.html -->
     
-    <hr />
+    <aside>[$item:content:extra]</aside>
+  </section>
+
+  <section class="half group float-left">
+    <h2>Featured In</h2>
     
-    <!-- iterate item:presenters -->
-    <!-- insert views/cards/person.html -->
-  </div>
-  
-  <h2>Next Up (in theory)</h2>
-  <!-- insert views/lists/recommendation.html -->
-  
-  <section style="margin-top:5em;border-top:1px solid #aaa;padding:1em 0;">[$item:content:extra]</section>
-  
-  <div class="tile container">
-    <h2>[$item:related]</h2>
+    <ul class="plain">
     <!-- iterate item:playlists -->
-    <a href="[/explore/detail/$collection:@id]">[$collection:title]</a>
+    <li><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
     
-    <!-- iterate item:extras -->
-    <a href="[/explore/detail/$article:@id]">[$article:@title]</a>
-    
-    <!-- iterate item:competitions -->
-    <!-- insert views/cards/competition.html -->
-    
-  </div>
+      <!-- iterate item:competitions -->
+      <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
+    </ul>
+  </section>
   
 
   <script type="text/javascript" async="true">

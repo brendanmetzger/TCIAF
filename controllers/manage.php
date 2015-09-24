@@ -130,24 +130,7 @@ class Manage extends \bloc\controller
     
     return $view->render($this());
   }
-  
-  protected function GETMedia($vertex, $type, $index = null)
-  {
-    $view = new view('views/layout.html');
-    
-    $this->media = \models\Media::COLLECT(Graph::ID($vertex)['media'], $type);
-    $index -= 1;
-    
-    if ($index >= 0) {
-      $view->content = 'views/forms/partials/media.html';
-      foreach ($this->media[$index] as $key => $value) {
-        $this->{$key} = $value;
-      }
-    } else {
-      $view->content = 'views/forms/media.html';
-    }
-    return $view->render($this());
-  }
+
   
   // Create a new vertex model from scratch
   // output: HTML Form
@@ -210,7 +193,6 @@ class Manage extends \bloc\controller
           'Key'    => $type . '/' . $name,
           'ACL'    => 'public-read',
         ];
-        
         if ($type === 'image') {
           if (substr($name, -3) === 'jpg') {
             $config['Body'] =  file_get_contents("http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}");
@@ -221,9 +203,8 @@ class Manage extends \bloc\controller
         } else {
           $config['SourceFile'] = PATH . $src;
         }
-        
+
         $result = $client->putObject($config);
-        
         
         if ($type == 'audio' && $result) {
           $transcoder = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
@@ -241,7 +222,10 @@ class Manage extends \bloc\controller
           ]);
             
           $pending = "?/tciaf-audio/{$key}";
+          $mark = 0;
         } else {
+          $size = getimagesize(PATH . $src);
+          $mark = round($size[0] / $size[1], 1);
           $pending = "";
         }
         
@@ -249,12 +233,12 @@ class Manage extends \bloc\controller
         $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}{$pending}");
         $media->setAttribute('name',  $name);
         $media->setAttribute('type', $type);
+        $media->setAttribute('mark', $mark);
       
         $model = new \models\Media($media, (time() * -1));
         
         $view = new view('views/layout.html');
         $view->content = "views/forms/partials/{$type}.html";
-        
       
         return $view->render($this($model->slug));
       } catch (\Exception $e) {

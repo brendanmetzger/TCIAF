@@ -1,5 +1,5 @@
 <article class="session" vocab="http://schema.org/" typeof="CreativeWork">
-  <h1>SESSION</h1>
+  <h1>Conference<br/>Session</h1>
   <!-- iterate item:media:audio -->
   <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="window.bloc.execute('Player', this);" controls="controls" preload="metadata">Audio</audio>
   
@@ -12,17 +12,22 @@
 
   <a class="h2 award" href="[/explore/detail/$item:award:competition:@id]" property="award">[$item:award:title - $item:award:competition:title]</a>
 
-  <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
-  <h1 data-id="[$item:@id]" class="marquee" property="name">[$item:title]</h1>
   
-  <section class="group left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
+  <header>
+    <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
+    <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
+    <!-- iterate item:happenings -->
+    <a href="[/overview/conference/$happening:@id]">[$happening:title]</a>
+    
+  </header>
+  
+  
+  <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
     <!-- iterate item:media:image -->
     <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:100%;" property="image"/>
   </section>
   
-  <section class="intro group left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
-
-  <hr class="tempo clear"/>
+  <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
   
   <div property="contributors">
     <h2>Featuring</h2>

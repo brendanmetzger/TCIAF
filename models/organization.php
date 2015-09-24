@@ -26,6 +26,7 @@ namespace models;
       'staff'   => ['person'],
       'friend'  => ['person'],
       'board'   => ['person'],
+      'host'    => ['happening'],
       'sponsor' => ['organization', 'competition', 'happening'],
       'judge'   => ['competition'],
     ];

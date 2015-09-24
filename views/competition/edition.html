@@ -1,0 +1,55 @@
+<article class="competition"  vocab="http://schema.org/" typeof="Event">
+  
+  <header class="borderblock title">
+    <h1 data-id="[$item:@id]" class="mono">[$item:title]</h1>
+  </header>
+  
+  <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;">
+    <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;background-color:#fdfdfa;padding:5%;"/>
+    
+    <aside class="judges container" property="attendees">
+      <h3>Judges</h3>
+      <!-- iterate item:judges -->
+      <!-- insert views/cards/person.html -->
+    </aside>
+    
+    <aside class="sponsors container">
+      <h3>Sponsors</h3>
+      <!-- iterate item:sponsors -->
+      <div vocab="http://schema.org/" typeof="Organization">
+        <h3 data-id="[$organization:@id]"><a href="[/explore/detail/$organization:@id]" property="name">[$organization:title]</a></h3>
+        <p>[$organization:about]</p>
+      </div>
+    </aside>
+    
+  </section>
+  
+  
+  
+ <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:about]</section>
+  <section class="awards container">
+    <h3>Awards</h3>
+    <!-- iterate item:awards -->
+    <div property="workPerformed" typeof="CreativeWork">
+      <h1 property="award">[$award]</h1>
+      <h2 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h2>
+      <!-- iterate feature:producers -->
+      <a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a>
+      <aside property="description">[$feature:summary]</aside>
+    </div>
+  </section>
+  
+  <hr />
+  
+  <aside class="participants container">
+    <h3>Browse All Entries</h3>
+    <!-- iterate item:participants -->
+    <div style="padding:1em;float:left;margin:0.25em;background-color:#eee;">
+      <h3><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+      <em>
+        <!-- iterate feature:producers -->
+        <a href="[/explore/detail/$person:@id]">[$person:title]</a>
+      </em>
+    </div>
+  </aside>
+</article>

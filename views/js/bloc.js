@@ -20,7 +20,13 @@ if (!Element.prototype.matches && Element.prototype.msMatchesSelector) {
   Element.prototype.matches = Element.prototype.msMatchesSelector;
 }
 
-
+Date.prototype.timecode = function () {
+  return {
+    h: ('00'+this.getUTCHours()).slice(-2),
+    m: ('00'+this.getUTCMinutes()).slice(-2),
+    s: ('00'+this.getSeconds()).slice(-2)
+  };
+};
 
 
 /* Allow looping through NodeLists akin to arrays.
@@ -135,6 +141,7 @@ SVG.prototype.b64url = function (styles) {
 
 var Player = function (container, data) {
   container.id = 'Player';
+  this.container = container;
   
   var button = container.appendChild(document.createElement('button'));
       button.setAttribute('type', 'button');
@@ -172,8 +179,8 @@ var Player = function (container, data) {
   
   
   
-  this.display = container.appendChild(document.createElement('section'));
-  this.display.className = "display";
+  this.display = container.appendChild(document.createElement('ul'));
+  this.display.className = "playlist display";
 
   // this.display.title  = display.appendChild(document.createElement('h2'));
   // this.display.byline = display.appendChild(document.createElement('p'));
@@ -182,6 +189,7 @@ var Player = function (container, data) {
 
 
 Player.prototype = {
+  container: null,
   elements: [],
   display: {},
   index: 0,
@@ -235,7 +243,7 @@ Player.prototype = {
     var elem = evt.target;
     var time = Math.ceil(elem.currentTime);
     var dur  = Math.ceil(elem.duration);
-    var msg = "<span>{m}:{s}</span>";
+    var msg = "<pre>{m}:{s}</pre>";
     
     this.meter.update(time / dur, msg.format(this.timecode(new Date(time*1e3))) + msg.format(this.timecode(new Date((dur-time)*1e3))));
 
@@ -249,7 +257,8 @@ Player.prototype = {
   },
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
-      document.body.appendChild(audio_element);
+      this.container.classList.add('queued');
+      this.container.appendChild(audio_element);
       audio_element.dataset.index = this.elements.push(audio_element) - 1;
       audio_element.removeAttribute('controls');
       ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {
@@ -273,7 +282,8 @@ var Button = function (button, state) {
   svg = new SVG(button, {
     height: 50,
     width: 50,
-    viewBox: '0 0 45 45'
+    viewBox: '0 0 45 45',
+    preserveAspectRatio: 'xMinYMin meet'
   });
   
   states = {
@@ -400,7 +410,7 @@ var Search = function (container, data) {
   }.bind(this), false);
   
   this.subscribers = {
-    'select': []
+    select: []
   };
 };
 
@@ -500,6 +510,7 @@ Search.prototype = {
 
 
 var Menu = function (list) {
+  list.className = 'plain';
   this.list = list;
 };
 
@@ -565,10 +576,7 @@ var Progress = function(container) {
     this.remove = function () {
       container.removeChild(this.element);
     };
-    
   }
-  
-  
   message = this.element.appendChild(document.createElement('strong'));
   
 
@@ -644,7 +652,10 @@ if (window.history.pushState) {
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
       
       
-      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class');
+      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
+      setTimeout(function () {
+        document.body.classList.remove('transition');
+      }, 10);
       // if
       window.bloc.execute('autoload');
       window.bloc.execute('editables');
@@ -668,6 +679,8 @@ if (window.history.pushState) {
     
     Content.get(this.href + '.xml');
     document.body.classList.add('transition');
+    document.body.style.backgroundPosition = '100%' + (Math.random() * 50) + '%';
+    document.body.style.backgroundSize = Math.max(Math.random() * 100, 65) + '%';
   };
   
   document.body.addEventListener('click', function (evt) {

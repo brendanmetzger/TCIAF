@@ -1,0 +1,4140 @@
+commit 4ae3c4724dc2aea386ad9fdcc171a9db14330561
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Sep 16 11:19:34 2015 -0500
+
+    more layout and page configuration
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 047115c..a8c8a75 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -828,24 +828,32 @@ class Import extends Task
+ 
+   public function CLIitemSess()
+   {
+-    $doc  = new \bloc\DOM\Document('data/db24');
++    $doc  = new \bloc\DOM\Document('data/db25');
+     $xml  = new \DomXpath($doc);
+     
+-    foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='item']") as $edge) {
+-      $vertex = $edge->parentNode["@id"];
+-      $edge->setAttribute('type', 'session');
+-      $ref = $xml->query("//group/vertex[@id='{$edge['@vertex']}']/edge[@vertex='{$vertex}']")->item(0);
+-      $ref->setAttribute('type', 'session');
+-      echo $edge->write();
+-      echo "\n";
+-      echo $ref->write();
++    foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='session']") as $edge) {
++      $producers = $xml->query("//group[@type='feature']/vertex[@id='{$edge['@vertex']}']/edge[@type='producer']");
++      
++      foreach ($producers as $producer) {
++        $producer->setAttribute('type', 'presenter');
++        $session_id = $producer->parentNode['@id'];
++        $person = $xml->query("//group[@type='person']/vertex[@id='{$producer['@vertex']}']/edge[@type='producer' and @vertex='{$session_id}']");
++        $person->item(0)->setAttribute('type', 'presenter');
++        echo $person->item(0)->write();
++        echo "\n";
++        echo $producer->write();
++        echo "\n";
++      }
++      
++
++      // echo $ref->write();
+       
+       echo "\n\n";
+       
+     }
+     
+     if ($doc->validate()) {
+-      $file = 'data/db24.xml';
++      $file = 'data/db26.xml';
+       echo "New File: {$file}\n";
+       $doc->save(PATH . $file);
+     } else {
+
+commit 2e1df9f0d1cab64fb5b8f120db69b982bdb57f5c
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Sep 7 15:22:32 2015 -0500
+
+    updating naming conventions and templates to use them
+
+diff --git a/controllers/import.php b/controllers/import.php
+index a737f31..047115c 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -825,42 +825,27 @@ class Import extends Task
+     }
+     
+   }
+-	
+-	public function CLIdupes()
+-	{
+-    $doc  = new \bloc\DOM\Document('data/db22');
++
++  public function CLIitemSess()
++  {
++    $doc  = new \bloc\DOM\Document('data/db24');
+     $xml  = new \DomXpath($doc);
+     
+-        
++    foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='item']") as $edge) {
++      $vertex = $edge->parentNode["@id"];
++      $edge->setAttribute('type', 'session');
++      $ref = $xml->query("//group/vertex[@id='{$edge['@vertex']}']/edge[@vertex='{$vertex}']")->item(0);
++      $ref->setAttribute('type', 'session');
++      echo $edge->write();
++      echo "\n";
++      echo $ref->write();
++      
++      echo "\n\n";
++      
++    }
+     
+-    foreach ($xml->query("//group[@type='happening']/vertex") as $vertex) {
+-
+-			$keep = [];
+-			$remove = [];
+-			$edges = $vertex->getElementsByTagName('edge');
+-      foreach ($edges as $edge) {
+-				$v = $edge->getAttribute('vertex');
+-				$t = $edge->getAttribute('type');
+-				if (isset($keep[$v]) && $keep[$v] === $t) {
+-					$remove[] = $edge;
+-				} else {
+-					$keep[$v] = $t;
+-				}
+-      }
+-			
+-			foreach ($remove as $edge) {
+-				echo "REMOVE\n";
+-				$edge->parentNode->removeChild($edge);
+-			}
+-			
+-			// echo $vertex->write();
+-			
+-			
+-			
+-    }
+-		
+     if ($doc->validate()) {
+-      $file = 'data/db23.xml';
++      $file = 'data/db24.xml';
+       echo "New File: {$file}\n";
+       $doc->save(PATH . $file);
+     } else {
+
+commit 41e1717f6a872bba6d50868b4615cb5055b64693
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Aug 27 13:33:11 2015 -0500
+
+    worknig through all the ajax and template changes
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 91fb8c8..a737f31 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -825,4 +825,47 @@ class Import extends Task
+     }
+     
+   }
++	
++	public function CLIdupes()
++	{
++    $doc  = new \bloc\DOM\Document('data/db22');
++    $xml  = new \DomXpath($doc);
++    
++        
++    
++    foreach ($xml->query("//group[@type='happening']/vertex") as $vertex) {
++
++			$keep = [];
++			$remove = [];
++			$edges = $vertex->getElementsByTagName('edge');
++      foreach ($edges as $edge) {
++				$v = $edge->getAttribute('vertex');
++				$t = $edge->getAttribute('type');
++				if (isset($keep[$v]) && $keep[$v] === $t) {
++					$remove[] = $edge;
++				} else {
++					$keep[$v] = $t;
++				}
++      }
++			
++			foreach ($remove as $edge) {
++				echo "REMOVE\n";
++				$edge->parentNode->removeChild($edge);
++			}
++			
++			// echo $vertex->write();
++			
++			
++			
++    }
++		
++    if ($doc->validate()) {
++      $file = 'data/db23.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++    } else {
++      print_r(libxml_get_errors());
++    }
++
++	}
+ }
+\ No newline at end of file
+
+commit abae4e3d5f3d72678727de0cfe6727e9374ebf18
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri Jul 31 13:33:02 2015 -0500
+
+    design and layout work mostly
+
+diff --git a/controllers/import.php b/controllers/import.php
+index ebf48ff..91fb8c8 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -794,6 +794,7 @@ class Import extends Task
+     
+     $edges = $doc->getElementsByTagName('edge');
+     $append = [];
++    
+     foreach ($edges as $edge) {
+       $vertex = \models\Graph::ID($edge->getAttribute('vertex'));
+       $new_edge = $doc->createElement('edge');
+@@ -819,6 +820,9 @@ class Import extends Task
+       $file = 'data/db21.xml';
+       echo "New File: {$file}\n";
+       $doc->save(PATH . $file);
++    } else {
++      print_r(libxml_get_errors());
+     }
++    
+   }
+ }
+\ No newline at end of file
+
+commit a503cc6d295ae301682b1e0d61504585d73e18e2
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Jul 27 11:22:16 2015 -0500
+
+    adding more to model to track the nature of relationships
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 5a65ea6..ebf48ff 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -787,4 +787,38 @@ class Import extends Task
+       $this->CLIcompress($file);
+     }
+   }
++  
++  public function CLIDoubleEdgeNodes()
++  {
++    $doc  = \models\Graph::instance()->storage;
++    
++    $edges = $doc->getElementsByTagName('edge');
++    $append = [];
++    foreach ($edges as $edge) {
++      $vertex = \models\Graph::ID($edge->getAttribute('vertex'));
++      $new_edge = $doc->createElement('edge');
++      $new_edge->setAttribute('vertex', $edge->parentNode->getAttribute('id'));
++      $new_edge->setAttribute('type', $edge->getAttribute('type'));
++      if (!empty($edge->nodeValue)) {
++        $new_edge->nodeValue = $edge->nodeValue;
++      }
++      $append[] = [
++        'vertex' => $vertex,
++        'edge' => $new_edge,
++      ];
++      
++      echo $new_edge->getAttribute('vertex') . "\n";
++    }
++    
++    foreach ($append as $group) {
++      $group['vertex']->appendChild($group['edge']);
++    }
++    
++    
++    if ($doc->validate()) {
++      $file = 'data/db21.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++    }
++  }
+ }
+\ No newline at end of file
+
+commit 0b57686e6f9b4f0785afe055e80abd806115afed
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Jul 22 12:26:38 2015 -0500
+
+    edge adding is simpler and a little more helpful. less code too
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 9318cb5..5a65ea6 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -758,4 +758,33 @@ class Import extends Task
+       $this->CLIcompress($file);
+     }
+   }
++  
++  public function CLIrenameJPG()
++  {
++    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    $doc  = new \bloc\DOM\Document('data/db19');
++    $xml  = new \DomXpath($doc);
++    
++
++    foreach ($sql->query("SELECT photo_file_name as src FROM feature_photos")->fetch_all(MYSQLI_ASSOC) as $photo) {
++      $pos = strrpos($photo['src'], '.');
++      $ext = substr($photo['src'], $pos + 1);
++      if ($ext === 'JPG' || $ext === 'JPEG') {
++        // contains(., '$')
++        $photo['src'] = str_replace($ext, strtolower($ext), $photo['src']);
++        // echo $photo['src'];
++        foreach ($xml->query("//group/vertex/media[contains(@src, '{$photo['src']}')]") as $media) {
++          $media->setAttribute('src', str_replace(strtolower($ext), $ext, $media->getAttribute('src')));
++        }
++      }
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db20.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++  }
+ }
+\ No newline at end of file
+
+commit f0a0c98ad69b39d497a9c19cf038eb847253d77a
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Jul 13 18:26:29 2015 -0500
+
+    combining media retrieval into one method that optimizes
+
+diff --git a/controllers/import.php b/controllers/import.php
+index c5d16ca..9318cb5 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -735,4 +735,27 @@ class Import extends Task
+       echo "\n\n\n";
+     }
+   }
++  
++  public function CLIcorrectsrc()
++  {
++    $doc  = new \bloc\DOM\Document('data/db18');
++    $xml  = new \DomXpath($doc);
++    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++        
++    
++    foreach ($xml->query("//group[@type='article']/vertex/media") as $media) {
++      $src = $media->getAttribute('src');
++      $id = $sql->query("SELECT id FROM extra_audio_files WHERE mp3_file_name = '{$src}';")->fetch_object()->id;
++      $media->setAttribute('src', "features-extra-audio/mp3s/{$id}/$src");
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db19.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++  }
+ }
+\ No newline at end of file
+
+commit b4b4713cecfc2c54a7680c00a23e1aba1ef7e53c
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Jul 8 19:26:01 2015 -0500
+
+    shortdocs defaulting to 0
+
+diff --git a/controllers/import.php b/controllers/import.php
+index b188b2b..c5d16ca 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -648,11 +648,34 @@ class Import extends Task
+     }
+   }
+   
+-  public function Tags($value='')
++  public function CLIlowerdocs()
+   {
+-   # implement
++    foreach (\models\Graph::group('competition')->find('vertex[@id="comp-2"]/edge') as $edge) {
++      $exp = "vertex[@id='{$edge->getAttribute('vertex')}']/edge";
++      foreach (\models\Graph::group('competition')->find($exp) as $ref) {
++        $vertex = \models\Graph::id($ref->getAttribute('vertex'));
++        $spectra = $vertex->getElementsByTagName('spectra');
++        
++        if ($spectra->length > 0) {
++          $f = $spectra->item(0)->getAttribute('F');
++          if ($f == '50') {
++            $spectra->item(0)->setAttribute('F', '0');
++          }
++
++        } else {
++          $spectra = \models\Graph::instance()->storage->createElement('spectra');
++          foreach (['F'=>0,'S'=>50,'M'=>50,'R'=>50,'P'=>50,'T'=>50,'A'=>50] as $key => $value) {
++            $spectra->setAttribute($key, $value);
++          }
++          $vertex->appendChild($spectra);
++        }
++        
++      }
++    }
++    \models\Graph::instance()->storage->save(PATH .  'data/db17.xml');
+   }
+   
++
+   public function CLIRenameSpectra()
+   {
+     $doc  = new \bloc\DOM\Document('data/db10');
+
+commit b4d9d95b2712f4a89ae03a1e2950c4c640045ec0
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Jul 8 18:48:03 2015 -0500
+
+    adding and configuring all the shortdocs participants
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 6bf188e..b188b2b 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -624,13 +624,28 @@ class Import extends Task
+     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+   }
+   
+-  
+-  /*
+-    TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.
+-  */
+-  public function Categories()
++  public function CLIshortdocs()
+   {
+-    # implement
++    $doc = new \bloc\DOM\Document('data/db15');
++    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    $query = "SELECT CONCAT('f-', features.id) as id, CONCAT('sd-', features.premier_date) as sid from features LEFT JOIN collections_features ON collections_features.feature_id = features.id WHERE collections_features.collection_id = 4;";
++    foreach ($sql->query($query)->fetch_all(MYSQLI_ASSOC) as $shortdoc) {
++      if ($elem = $doc->getElementById(trim($shortdoc['sid']))) {
++        $edge = $elem->appendChild($doc->createElement('edge'));
++        $edge->setAttribute('vertex', $shortdoc['id']);
++        $edge->setAttribute('type', 'participant');
++        echo "Adding to {$shortdoc['sid']}\n";
++      } else {
++        echo "{$shortdoc['sid']} is unavailable\n";
++        exit();
++      }
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db16.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++    }
+   }
+   
+   public function Tags($value='')
+
+commit ee4c5b60eecdd9ec005db47d8089b2b86a5ad6ad
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Jul 8 11:42:51 2015 -0500
+
+    adding all the things, reorganizing the content (broadcast, article), making sure a default abstract shows up
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 6a5e1cd..6bf188e 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -593,6 +593,37 @@ class Import extends Task
+     }    
+   }
+   
++  public function CLIbroadcasts()
++  {
++    $features = \models\Graph::group('feature')->find('vertex');
++
++    $broadcast = \models\Graph::group('broadcast')->pick('.');
++    $article = \models\Graph::group('article')->pick('.');
++    
++
++
++    foreach ($features as $feature) {
++      $title = $feature->getAttribute('title');
++      $start = strtolower(substr(ltrim($title, "\x00..\x2F"), 0, 5));
++      // move to broadcasts
++      if ($start === 're:so') {
++        echo "Move {$title} to broadcast group\n";
++        $broadcast->appendChild($feature);
++      }
++      
++      // move to article
++      if ($start === 'extra' || $start === 'behin') {
++        // echo "Move {$title} to article group\n";
++        $article->appendChild($feature);
++      }
++    }
++    
++    echo "There are " . $broadcast->childNodes->length . " broadcasts\n";
++    echo "There are " . $article->childNodes->length . " articles\n";
++    
++    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
++  }
++  
+   
+   /*
+     TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.
+
+commit a04b477c4d647d466fa2402635f44cc757a8e854
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Jul 7 16:14:16 2015 -0500
+
+    responsible handling of CDATA, sorting added, abstracts are external to speed up parsing
+
+diff --git a/controllers/import.php b/controllers/import.php
+index a720d66..6a5e1cd 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -569,6 +569,30 @@ class Import extends Task
+     }
+   }
+   
++  public function CLImoveAbstracts()
++  {
++    $doc = new \bloc\DOM\Document('data/db15');
++    $markdown = new \Parsedown();
++    foreach ($doc->getElementsByTagName('abstract') as $abstract) {
++      $uri = $abstract->parentNode->getAttribute('id') . '-' .$abstract->getIndex() . '.html';
++      $text = $markdown->text(str_replace(['¶', '↩'], ["\n\n", "\n"], $abstract->nodeValue));
++      $new_abs = $doc->createElement('abstract');
++      $new_abs->setAttribute('src', $uri);
++      $new_abs->setAttribute('content', $abstract->getAttribute('content'));
++      
++      $abstract->parentNode->replaceChild($new_abs, $abstract);
++      echo $uri . "\n";
++      
++      file_put_contents(PATH . 'data/abstracts/'.$uri, $text);
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db15.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++    }    
++  }
++  
+   
+   /*
+     TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.
+
+commit 2d844ec850e5c1b81ef8d950711f5e0d4d8eb3be
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Jul 6 11:42:04 2015 -0500
+
+    adding dtd to repo. formatting main text so it can be edited
+
+diff --git a/controllers/import.php b/controllers/import.php
+index a63bceb..a720d66 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -546,9 +546,9 @@ class Import extends Task
+   
+   public function CLIdonors()
+   {
+-    $doc  = new \bloc\DOM\Document('data/db4');
+-    $xml  = new \DomXpath($doc);
+-    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    $doc = new \bloc\DOM\Document('data/db4');
++    $xml = new \DomXpath($doc);
++    $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+     
+     $group = $xml->query("//group[@type='organization']")->item(0);
+     $driehaus  = $doc->getElementById('c:1');
+
+commit 78c5a7edae157bbf9ad62690dedd19f5ae26a1fd
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri Jul 3 16:33:01 2015 -0500
+
+    updating db, adding all extras..
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 3bf987b..a63bceb 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -409,6 +409,141 @@ class Import extends Task
+     
+   }
+   
++  public function CLIextras()
++  {
++    require_once(PATH . 'vendor/markdown/HTML_To_Markdown.php');
++    
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $extras = $sql->query('SELECT extras.*, extra_audio_files.mp3_file_name, extra_audio_files.description as audio_description FROM extras LEFT JOIN extra_audio_files on (extras.id = extra_audio_files.extra_id);')->fetch_all(MYSQLI_ASSOC);
++    
++    $grouped_extras = [];
++    
++    foreach ($extras as $extra) {
++      if (! array_key_exists($extra['id'], $grouped_extras)) {
++        $grouped_extras[$extra['id']] = [
++          'extra' => $extra,
++          'media' => [],
++        ];
++      };
++      
++      if (isset($extra["mp3_file_name"])) {
++        $grouped_extras[$extra['id']]['media'][] = [
++            'CDATA'  => trim(strip_tags(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;', '&quot;'], ["'", '–', "'", ' ', '"'], $extra["audio_description"])), "\n\r\t"),
++            '@' => [
++              'src' => $extra["mp3_file_name"],
++              'type' => 'audio',
++              'mark' => 0,
++            ]
++          ];
++      }
++    }
++
++    foreach ($grouped_extras as $group) {
++      $extra = $group['extra'];
++      $fid = 'f:' . $extra['feature_id'];
++      $eid = $fid . 'e' . $extra['id'];
++      
++      
++      $markdown = trim((new \HTML_To_Markdown(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], $extra['behind_the_scene_text']), ['strip_tags' => true]))->output(), "\n\r\t");
++      preg_match('/\**behind\s+the\s+scenes\**\s+.*/im', $markdown, $result, PREG_OFFSET_CAPTURE);
++      $interview = false;
++      if (empty($result)) {
++        if (empty($extra['links_block'])) continue;
++        $title       = 'Extra';
++        $description = $markdown;
++      } else {
++        $title       =  $result[0][0];
++        $interview = true;
++        $description = substr_replace($markdown, '', $result[0][1], strlen($result[0][0]));
++      }
++
++      
++      
++      
++      $links_block = trim((new \HTML_To_Markdown(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], $extra['links_block']), ['strip_tags' => true]))->output(), "\n\r\t");
++      
++      $external_vertex = \models\Graph::ID($fid);
++      
++      // Add this to the feature in $fid
++      if (!empty($links_block)) {
++
++        
++        $abstract = $external_vertex->insertBefore(\models\Graph::instance()->storage->createElement('abstract'), $external_vertex->getElementsByTagName('abstract')->item(0)->nextSibling);
++        $abstract->setAttribute('content', 'extras');
++        
++        $abstract->nodeValue = str_replace('↩↩' , '¶', preg_replace(["/\r\n/", "/\n{2,}/"], ['↩', '↩↩'], $links_block));
++      }
++      
++      // if there is no description, then we are basically done here.
++      if (empty($description)) {
++        continue;
++      }
++      
++      echo "{$fid} \n";
++        
++      $external_vertex->appendChild(\models\Graph::EDGE($eid, 'extra', $interview ? 'interview' : null));
++      
++      
++      $description = preg_replace('/\*{2}\s*(.*)\*{2}/i', '### $1', trim($description));
++            
++      $data = ['vertex' =>
++        [
++          '@' => [
++            'id'      => $eid,
++            'title'   => $title,
++            'created' => $extra['created_at'],
++            'updated' => $extra['updated_at'],
++          ],
++          'abstract' => [
++            'CDATA'  => str_replace('↩↩' , '¶', preg_replace("/\r\n/", '↩', $description)),
++            '@' => [
++              'content' => 'description'
++            ]
++          ],
++          'media'    => [],
++        ]
++      ];
++      
++        
++      
++      // if (!empty($group['media'])) {
++//         $data['vertex']['media'] = $group['media'];
++//       }
++//
++//       print_r($data);
++//
++//
++//
++//       if ($modeled = new \models\feature(null, $data)) {
++//         if ($modeled->save()) {
++//           echo "Added {$id} \n";
++//         } else {
++//           print_r($modeled->errors);
++//         }
++//       } else {
++//         echo "something happended!";
++//         exit();
++//       }
++    }
++    
++    // \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
++  }
++  
++  public function CLIempties()
++  {
++    foreach (\models\Graph::group('feature')->find('vertex') as $vertex) {
++      foreach ($vertex->getElementsByTagName('media') as $abstract) {
++        if (empty($abstract->getAttribute('src'))) {
++          echo "double node on " . $vertex->getAttribute('title') . "\n";
++          $abstract->parentNode->removeChild($abstract);
++          continue 2;
++        }
++      }
++    }
++    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
++  }
++  
+   public function CLIdonors()
+   {
+     $doc  = new \bloc\DOM\Document('data/db4');
+
+commit 5d2eb35b3dc8269c8cd90fa73034d0ff2162a486
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue May 26 14:38:22 2015 -0500
+
+    adding events'
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 5ca5b5f..3bf987b 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -281,6 +281,49 @@ class Import extends Task
+     } 
+   }
+   
++  public function CLIevents()
++  {
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $events = $sql->query("SELECT * from events")->fetch_all(MYSQLI_ASSOC);
++    $doc  = new \bloc\DOM\Document('data/db12');
++    $xml  = new \DomXpath($doc);
++    
++    $event_group = $xml->query("//group[@type='event']")->item(0);
++    
++    foreach ($events as $event) {
++      $vertex = $doc->createElement('vertex');
++      
++      print_r($event). "\n";
++      
++      $id = 'e:' . $event['id'];
++      
++      // location / host
++      
++      $element = $event_group->appendChild($doc->createElement('vertex'));
++      $element->setAttribute('id', $id);
++      $element->setAttribute('title', $event['name']);
++      $element->setAttribute('created', $event['created_at']);
++      $element->setAttribute('updated', $event['updated_at']);
++      $abstract_text = str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], trim(strip_tags($event['short_description']), "\n\r\t"));
++            $abstract_text .= "¶HOST: {$event['host']} (this should be a seperate object)";
++      $abstract = $element->appendChild($doc->createElement('abstract', $abstract_text));
++      $abstract->setAttribute('content', 'desription');
++      $location = $element->appendChild($doc->createElement('location', $event['location']));
++      
++
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db13.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    } else {
++      print_r(libxml_get_errors());
++    } 
++  }
+ 
+   
+   public function CLIsetWeights()
+
+commit 04f01045ba9a9f0131bbffc72aa89bb9e574e750
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue May 26 14:14:26 2015 -0500
+
+    adding images
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 0985fcc..5ca5b5f 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -160,26 +160,60 @@ class Import extends Task
+   
+   public function CLImapAudiotoFeatures()
+   {
+-    $doc = new \bloc\DOM\Document('data/db');
++    $doc = new \bloc\DOM\Document('data/db12');
+     $xml  = new \DomXpath($doc);
+ 
+ 
+-    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
++    $features = $xml->query("//group[@type='feature']/vertex[not(media)]");
+     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+     
+     foreach ($features as $feature) {
++      echo $feature->getAttribute('title');
+       $id = substr($feature->getAttribute('id'), 2);
+       $audio = $sql->query("SELECT CONCAT(id, '/', mp3_file_name) as file FROM audio_files  WHERE feature_id = '{$id}'")->fetch_assoc();
+       $media = $doc->createElement("media");
+       $media->setAttribute('src', $audio['file']);
+       $media->setAttribute('type', 'audio');
+       $feature->appendChild($media);
+-      if (!$doc->validate()) {
+-        echo "There was a problem regarding:\n";
+-        print_r($feature);
+-        exit();
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db12.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++    }
++    
++  }
++  
++  public function CLImapImagestoFeatures()
++  {
++    $doc = new \bloc\DOM\Document('data/db12');
++    $xml  = new \DomXpath($doc);
++
++
++    $features = $xml->query("//group[@type='feature']/vertex");
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    foreach ($features as $feature) {
++
++      $id = substr($feature->getAttribute('id'), 2);
++      
++      $images = $sql->query("SELECT CONCAT('feature-photos/photos/', id, '/', photo_file_name) as file, caption FROM feature_photos  WHERE feature_id = '{$id}'")->fetch_all(MYSQLI_ASSOC);
++      foreach ($images as $image) {
++       
++        $media = $doc->createElement("media", $image['caption'] ?: null);
++        $media->setAttribute('src', $image['file']);
++        $media->setAttribute('type', 'image');
++        $feature->appendChild($media);
+       }
+     }
++    
++    if ($doc->validate()) {
++      $file = 'data/db12.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++    }
++    
+   }
+   
+   public function CLIremap()
+@@ -247,36 +281,7 @@ class Import extends Task
+     } 
+   }
+   
+-  public function CLImapPhotostoFeatures()
+-  {
+-    # implement
+-  }
+-  
+-  public function CLImoveUnToPub()
+-  {
+-    $doc  = new \bloc\DOM\Document('data/db8');
+-    $xml  = new \DomXpath($doc);
+-    
+-    $unpubs = $xml->query('//group[@type="unpublished"]/vertex');
+-    $pubgroup = $xml->query('//group[@type="published"]')->item(0);
+-    
+-    print_r($pubgroup->getAttribute('type'));
+-    $in_70_years = time() + (60 * 60 * 24 * 365 * 70); 
+-    foreach ($unpubs as $unpub) {
+-      $unpub->setAttribute('weight', $in_70_years);
+-      $pubgroup->appendChild($unpub);
+-    }
+-    
+-    if ($doc->validate()) {
+-      $file = 'data/db9.xml';
+-      echo "New File: {$file}\n";
+-      $doc->save(PATH . $file);
+-      
+-      $this->CLIcompress($file);
+-    } else {
+-      print_r(libxml_get_errors());
+-    } 
+-  }
++
+   
+   public function CLIsetWeights()
+   {
+
+commit 6a1efa5b9a4044a65cbea5de3dbee06b3601e1bf
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue May 26 12:23:50 2015 -0500
+
+    updating db, lots of importing
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 0240a35..0985fcc 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -11,84 +11,153 @@ class Import extends Task
+ {
+   public function CLIproducers()
+   {
+-    $xml = simplexml_load_file(PATH.'data/producers.xml');
+-    $admin = [186, 260, 1222];
+-    foreach ($xml->producers->row as $person) {
+-      $data = [
+-        'attributes' => [
+-          'id' => ':' . (int)$person->id,
+-          'level' => in_array((int)$person->id, $admin) ? 1 : 4,
+-          'name' => (string)$person->name,
+-          'created' => (string)$person->created_at,
+-          'updated' => (string)$person->updated_at,
+-        ],
+-        'abstract' => [
+-          'content' => 'bio',
+-          'CDATA' => htmlentities(trim(str_replace(['&nbsp;', "\n\n"], [' ', '¶'], html_entity_decode(strip_tags((string)$person->bio), ENT_XML1, 'UTF-8'))), ENT_COMPAT|ENT_XML1, 'UTF-8', false)
+-        ]
+-      ];
+-      if ($data['attributes']['level'] < 4) {
+-        $id = explode(' ', $data['attributes']['name'])[0];
+-        // $data['attributes']['id'] = $id;
+-        $data['attributes']['hash'] = password_hash($id, PASSWORD_DEFAULT);
++    $doc = new \bloc\DOM\Document('data/db12');
++    $xml  = new \DomXpath($doc);
++
++
++    $people_group = $xml->query("//group[@type='person']")->item(0);
++    
++
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $new_people = $sql->query("SELECT * FROM producers WHERE created_at > '2014-12-02 17:16:09'")->fetch_all(MYSQLI_ASSOC);
++    
++    
++    foreach ($new_people as $person) {
++
++      $id = 'p:'.$person['id'];
++      if (! $doc->getElementById($id)) {
++        $element = $people_group->appendChild($doc->createElement('vertex'));
++        $element->setAttribute('id', $id);
++        $element->setAttribute('title', $person['name']);
++        $element->setAttribute('created', $person['created_at']);
++        $element->setAttribute('updated', $person['updated_at']);
++        $abstract = $element->appendChild($doc->createElement('abstract', html_entity_decode(strip_tags(trim($person['bio'])))));
++        $abstract->setAttribute('content', 'bio');
++        
+       }
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db12.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
+       
+-      if ($modeled = \models\person::create(new \models\person, $data)) {
+-        print_r($modeled->save());
++      $this->CLIcompress($file);
++    } else {
++      print_r(libxml_get_errors());
++    } 
++    
++  }
++  
++  public function CLImapFeaturestoProducers()
++  {
++    $doc  = new \bloc\DOM\Document('data/db12');
++    $xml  = new \DomXpath($doc);
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    
++    $pairs = $sql->query("SELECT * FROM features_producers")->fetch_all(MYSQLI_ASSOC);
++
++
++    foreach ($pairs as $pair) {
++     
++      $fid      = 'f:'. $pair['feature_id'];
++      $pid      = 'p:'. $pair['producer_id'];
++
++      if ($pid == 'p:1291') {
++        $pid = 'p:MayaGoldbergSafir';
++      }
++      $producer = $doc->getElementById($pid);
++
++      if ($producer) {
++        $edges = $xml->query($producer->getNodePath()."/edge[@vertex = '$fid']");
++        if ($edges->length > 0) {
++        
++          continue;
++        }
++        
++        echo "create edge $pid -> $fid\n";
++
++        $edge = $doc->createElement("edge");
++        $edge->setAttribute('vertex', $fid);
++        $edge->setAttribute('type', 'producer');
++        $producer->appendChild($edge);
+       } else {
+-        echo "something happended!";
+-        exit();
+-      }      
++        echo "no producer for $fid\n";
++      }
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db12.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    } else {
++      print_r(libxml_get_errors());
+     }
+   }
+   
+   public function CLIfeatures()
+   {
+-    $word_chars = array(
+-      "\xe2\x80\x98" => "'", // left single quote
+-      "\xe2\x80\x99" => "'", // right single quote
+-      "\xe2\x80\x9c" => '"', // left double quote
+-      "\xe2\x80\x9d" => '"', // right double quote
+-      "\xe2\x80\x94" => '-', // em dash
+-      "\xe2\x80\xa6" => '..'  // elipses
+-    );
+-    
+-    
+-    
+-    $xml = simplexml_load_file(PATH.'data/features.xml');
+-    foreach ($xml->features->row as $feature) {
+-      $created =  strtotime((string)$feature->created_at);
+-      $updated =  strtotime((string)$feature->updated_at);
+-      $data = [
+-        'attributes' => [
+-          'id' => ':' . (int)$feature->id,
+-          'title' => trim((string)$feature->title),
+-          'created' => (string)$feature->created_at,
+-          'age' => round((($updated - $created) / 60 / 60 / 24 / 365), 2),
+-          'published' => (int)$feature->published,
+-        ],
+-        'abstract' => [
+-          'CDATA' =>  str_replace(array_keys($word_chars), array_values($word_chars), trim(htmlentities(preg_replace(['/&nbsp;/', "/\n+\s*/"], [' ', '¶'], html_entity_decode(strip_tags(trim((string)$feature->description)), ENT_XML1, 'UTF-8')), ENT_COMPAT|ENT_XML1, 'UTF-8', false), '¶')) 
+-        ],
+-        'premier' => [
+-          'date' => (string)$feature->premier_date,
+-          'CDATA' => htmlentities((string)$feature->premier_locaction, ENT_COMPAT|ENT_XML1, 'UTF-8', false),
+-        ],
+-        'location' => [
+-          'CDATA' => (string)$feature->origin_country,
+-        ]        
+-      ];
++
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $new_features = $sql->query("SELECT * FROM features WHERE created_at > '2014-12-02 17:16:09'")->fetch_all(MYSQLI_ASSOC);
++
++    foreach ($new_features as $feature) {
++      $id = trim('f:' . $feature['id']);
+       
+-      if ($modeled = \models\feature::create(new \models\feature, $data)) {
+-        print_r($modeled->save());
+-      } else {
+-        echo "something happended!";
+-        exit();
++      if ($id == 'p:1291') {
++        $id = 'p:MayaGoldbergSafir';
++      }
++      
++      try {
++        \models\Graph::id($id);
++        continue;
++      } catch (\Exception $e) {
++      
++        $data = ['vertex' =>
++          [
++            '@' => [
++              'id'      => $id,
++              'title'   => $feature['title'],
++              'created' => $feature['created_at'],
++              'updated' => $feature['updated_at'],
++            ],
++            'abstract' => [
++              'CDATA' => str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], trim(strip_tags($feature['description']), "\n\r\t"))
++            ],
++            'premier' => [
++              '@' => [
++                'date' => $feature['premier_date'],
++              ],
++              'CDATA' => $feature['premier_locaction'],
++            ],
++            'location' => [
++              'CDATA' => $feature['origin_country'],
++              ]     
++          ]
++        ];
++            
++        if ($modeled = \models\feature::create(new \models\feature, $data)) {
++          if ($modeled->save()) {
++            echo "Added {$id} \n";
++          } else {
++            print_r($modeled->errors);
++          }
++        } else {
++          echo "something happended!";
++          exit();
++        }
+       }
+     }
+   }
+   
+   
++  
++  
+   public function CLImapAudiotoFeatures()
+   {
+     $doc = new \bloc\DOM\Document('data/db');
+@@ -135,36 +204,7 @@ class Import extends Task
+     }
+   }
+   
+-  public function CLImapFeaturestoProducers()
+-  {
+-    $doc  = new \bloc\DOM\Document('data/db2');
+-    $xml  = new \DomXpath($doc);
+-    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+-    
+-    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
+ 
+-    foreach ($features as $feature) {
+-      $id       = substr($feature->getAttribute('id'), 2);
+-      $join     = $sql->query("SELECT * FROM features_producers  WHERE feature_id = '{$id}'")->fetch_assoc();
+-      $pid      = ':'.$join['producer_id'];
+-      $producer = $doc->getElementById($pid);
+-      
+-      if ($producer) {
+-        $edge = $doc->createElement("edge");
+-        $edge->setAttribute('token', $pid);
+-        $edge->setAttribute('type', 'producer');
+-        $feature->appendChild($edge);
+-      } 
+-    }
+-    
+-    if ($doc->validate()) {
+-      $file = 'data/db3.xml';
+-      echo "New File: {$file}\n";
+-      // $doc->save(PATH . $file);
+-      
+-      $this->CLIcompress($file);
+-    }
+-  }
+   
+   public function CLImapAllFeaturesToProducers()
+   {
+
+commit 0b3f318c6c3f1f0cbb9c24c8f3841d4640f5fcc4
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu May 21 08:18:57 2015 -0500
+
+    spectra format changed to make it query-able
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 3ba60a2..0240a35 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -360,6 +360,32 @@ class Import extends Task
+    # implement
+   }
+   
++  public function CLIRenameSpectra()
++  {
++    $doc  = new \bloc\DOM\Document('data/db10');
++    $xml  = new \DomXpath($doc);
++    
++    foreach ($xml->query("//group/vertex/spectra") as $spectra) {
++      parse_str($spectra->nodeValue, $parsed);
++      $newspectra = $doc->createElement('spectra');
++      foreach ($parsed as $key => $value) {
++        $newspectra->setAttribute($key, $value);
++      }
++      
++      $spectra->parentNode->replaceChild($newspectra, $spectra);
++      
++      $spectra->nodeValue = null;
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db11.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++  }
++  
+   public function CLISync()
+   {
+     for ($i=10; $i < 150; $i++) { 
+
+commit 23fe998124a2a9c2df979af4e155228971a2b6c1
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue May 19 15:33:11 2015 -0500
+
+    showing everything on the home page for now
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 44af63f..3ba60a2 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -236,8 +236,34 @@ class Import extends Task
+     } else {
+       print_r(libxml_get_errors());
+     } 
++  }
++  
++  public function CLIsetWeights()
++  {
++    $doc  = new \bloc\DOM\Document('data/db9');
++    $xml  = new \DomXpath($doc);
++    
++    $features = $xml->query('//group[@type="feature"]/vertex');
+     
++    foreach ($features as $feature) {
++      
++      if ($feature->getAttribute('weight')) {
++        echo 'skip ' . $feature->getAttribute('title');
++      } else {
++        echo "no...";
++        $feature->setAttribute('weight', 0);
++      }
++    }
+     
++    if ($doc->validate()) {
++      $file = 'data/db10.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    } else {
++      print_r(libxml_get_errors());
++    }
+   }
+   
+   public function CLImapAwardsToProducer()
+
+commit a4124fa12c537821ef73ad5a9cb89f692f4d4689
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue May 19 10:07:32 2015 -0500
+
+    published/unpublished no longer a type. added a weight variable to vertices that can be used - unpublished will have a date set to 70 years in the future.
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 7cf69a7..44af63f 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -212,7 +212,33 @@ class Import extends Task
+     # implement
+   }
+   
+-
++  public function CLImoveUnToPub()
++  {
++    $doc  = new \bloc\DOM\Document('data/db8');
++    $xml  = new \DomXpath($doc);
++    
++    $unpubs = $xml->query('//group[@type="unpublished"]/vertex');
++    $pubgroup = $xml->query('//group[@type="published"]')->item(0);
++    
++    print_r($pubgroup->getAttribute('type'));
++    $in_70_years = time() + (60 * 60 * 24 * 365 * 70); 
++    foreach ($unpubs as $unpub) {
++      $unpub->setAttribute('weight', $in_70_years);
++      $pubgroup->appendChild($unpub);
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db9.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    } else {
++      print_r(libxml_get_errors());
++    } 
++    
++    
++  }
+   
+   public function CLImapAwardsToProducer()
+   {
+
+commit 49dd371f14c0a0ae20cda8c6c300fa2241802262
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon May 18 18:29:39 2015 -0500
+
+    adhering more strictly to a graph format
+
+diff --git a/controllers/import.php b/controllers/import.php
+index dc2c8dc..7cf69a7 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -150,10 +150,10 @@ class Import extends Task
+       $producer = $doc->getElementById($pid);
+       
+       if ($producer) {
+-        $pointer = $doc->createElement("pointer");
+-        $pointer->setAttribute('token', $pid);
+-        $pointer->setAttribute('type', 'producer');
+-        $feature->appendChild($pointer);
++        $edge = $doc->createElement("edge");
++        $edge->setAttribute('token', $pid);
++        $edge->setAttribute('type', 'producer');
++        $feature->appendChild($edge);
+       } 
+     }
+     
+@@ -180,18 +180,18 @@ class Import extends Task
+       foreach ($producers as $producer) {
+ 
+         $p = $doc->getElementById('p:'.$producer['id']);
+-        $exp = "pointer[@token='s:{$feature}']";
++        $exp = "edge[@token='s:{$feature}']";
+ 
+-        $pointer = $xml->query($exp, $p);
+-                echo $pointer->length . "\n";
+-        if ($p && $pointer->length === 0) {
++        $edge = $xml->query($exp, $p);
++                echo $edge->length . "\n";
++        if ($p && $edge->length === 0) {
+           
+-          $pointer = $doc->createElement("pointer");
+-          $pointer->setAttribute('token', 's:'.$feature);
+-          $pointer->setAttribute('type', 'producer');
+-          $p->appendChild($pointer);
++          $edge = $doc->createElement("edge");
++          $edge->setAttribute('token', 's:'.$feature);
++          $edge->setAttribute('type', 'producer');
++          $p->appendChild($edge);
+           
+-           echo $producer['id'] . " has no pointer \n";
++           echo $producer['id'] . " has no edge \n";
+         }
+       }
+     }
+@@ -212,6 +212,8 @@ class Import extends Task
+     # implement
+   }
+   
++
++  
+   public function CLImapAwardsToProducer()
+   {
+     $doc  = new \bloc\DOM\Document('data/db3');
+@@ -232,7 +234,7 @@ class Import extends Task
+     
+     foreach ($years as $key => $awards) {
+       echo "Create token for $key\n";
+-      echo "Create pointer to token in {$driehaus->getAttribute('title')}\n\n";
++      echo "Create edge to token in {$driehaus->getAttribute('title')}\n\n";
+ 
+       
+       $cid = 'd:'.$key;
+@@ -243,16 +245,16 @@ class Import extends Task
+       $group->appendChild($competition);
+ 
+       
+-      $pointer = $doc->createElement("pointer");
+-      $pointer->setAttribute('rel', $cid);
+-      $pointer->setAttribute('type', 'issue');
+-      $driehaus->appendChild($pointer);
++      $edge = $doc->createElement("edge");
++      $edge->setAttribute('rel', $cid);
++      $edge->setAttribute('type', 'issue');
++      $driehaus->appendChild($edge);
+       
+       foreach ($awards as $award) {
+-        $subpointer = $doc->createElement('pointer', trim($award['award']));
+-        $subpointer->setAttribute('rel', 's:'.$award['feature_id']);
+-        $subpointer->setAttribute('type', 'winner');
+-        $competition->appendChild($subpointer);
++        $subedge = $doc->createElement('edge', trim($award['award']));
++        $subedge->setAttribute('rel', 's:'.$award['feature_id']);
++        $subedge->setAttribute('type', 'winner');
++        $competition->appendChild($subedge);
+       }
+     }
+     
+
+commit 5b5ad779f2985378e5684099399d5f5c8d3c985b
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri May 15 18:54:34 2015 -0500
+
+    updating site to deal with multiple types of reference. getting ready to put online.
+
+diff --git a/controllers/import.php b/controllers/import.php
+index c6d135a..dc2c8dc 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -1,6 +1,7 @@
+ <?php
+ namespace controllers;
+-use \bloc\Application;
++
++use \bloc\application;
+ 
+ /**
+  * Third Coast International Audio Festival Defaults
+
+commit 5921d8069a0f4ea5ebdfde559a0f06c178310e4a
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Apr 29 16:18:41 2015 -0500
+
+    found several producers missing
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 3953dcb..c6d135a 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -150,7 +150,7 @@ class Import extends Task
+       
+       if ($producer) {
+         $pointer = $doc->createElement("pointer");
+-        $pointer->setAttribute('rel', $pid);
++        $pointer->setAttribute('token', $pid);
+         $pointer->setAttribute('type', 'producer');
+         $feature->appendChild($pointer);
+       } 
+@@ -163,7 +163,47 @@ class Import extends Task
+       
+       $this->CLIcompress($file);
+     }
++  }
++  
++  public function CLImapAllFeaturesToProducers()
++  {
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    $results = $sql->query("SELECT COUNT(feature_id) as c, feature_id FROM features_producers GROUP BY (feature_id) ORDER BY c DESC")->fetch_all(MYSQLI_ASSOC);
++    $doc  = new \bloc\DOM\Document('data/db7');
++    $xml  = new \DomXpath($doc);
+     
++    foreach ($results as $result) {
++      if ($result['c'] <= 1) continue;
++      $feature = $result['feature_id'];
++      $producers = $sql->query("SELECT producer_id as id FROM features_producers WHERE feature_id = '{$feature}'")->fetch_all(MYSQLI_ASSOC);
++      foreach ($producers as $producer) {
++
++        $p = $doc->getElementById('p:'.$producer['id']);
++        $exp = "pointer[@token='s:{$feature}']";
++
++        $pointer = $xml->query($exp, $p);
++                echo $pointer->length . "\n";
++        if ($p && $pointer->length === 0) {
++          
++          $pointer = $doc->createElement("pointer");
++          $pointer->setAttribute('token', 's:'.$feature);
++          $pointer->setAttribute('type', 'producer');
++          $p->appendChild($pointer);
++          
++           echo $producer['id'] . " has no pointer \n";
++        }
++      }
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db8.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    } else {
++      print_r(libxml_get_errors());
++    } 
+   }
+   
+   public function CLImapPhotostoFeatures()
+
+commit 413a27ca0d98da866eaecd66b23302414bf08540
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Apr 8 18:34:32 2015 -0500
+
+    lots of figuring out for editing needs
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 9588efb..3953dcb 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -245,7 +245,7 @@ class Import extends Task
+     if ($doc->validate()) {
+       $file = 'data/db5.xml';
+       echo "New File: {$file}\n";
+-      $doc->save(PATH . $file);
++      // $doc->save(PATH . $file);
+       
+       $this->CLIcompress($file);
+     }
+
+commit b521ec88a93262db26ffa493045e003afc5236fc
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Apr 8 15:29:51 2015 -0500
+
+    lots of data migration
+
+diff --git a/controllers/import.php b/controllers/import.php
+index 6800694..9588efb 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -8,7 +8,7 @@ use \bloc\Application;
+ 
+ class Import extends Task
+ {
+-  public function CLIimportproducers()
++  public function CLIproducers()
+   {
+     $xml = simplexml_load_file(PATH.'data/producers.xml');
+     $admin = [186, 260, 1222];
+@@ -41,7 +41,7 @@ class Import extends Task
+     }
+   }
+   
+-  public function CLIimportfeatures()
++  public function CLIfeatures()
+   {
+     $word_chars = array(
+       "\xe2\x80\x98" => "'", // left single quote
+@@ -87,25 +87,187 @@ class Import extends Task
+     }
+   }
+   
+-  public function CLIaws()
++  
++  public function CLImapAudiotoFeatures()
++  {
++    $doc = new \bloc\DOM\Document('data/db');
++    $xml  = new \DomXpath($doc);
++
++
++    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    foreach ($features as $feature) {
++      $id = substr($feature->getAttribute('id'), 2);
++      $audio = $sql->query("SELECT CONCAT(id, '/', mp3_file_name) as file FROM audio_files  WHERE feature_id = '{$id}'")->fetch_assoc();
++      $media = $doc->createElement("media");
++      $media->setAttribute('src', $audio['file']);
++      $media->setAttribute('type', 'audio');
++      $feature->appendChild($media);
++      if (!$doc->validate()) {
++        echo "There was a problem regarding:\n";
++        print_r($feature);
++        exit();
++      }
++    }
++  }
++  
++  public function CLIremap()
++  {
++    $doc = new \bloc\DOM\Document('data/db');
++    $xml  = new \DomXpath($doc);
++    
++    $groups = [];
++    foreach ($xml->query("//group") as $group) {
++      $groups[$group->getAttribute('type')] = $group;
++    }
++    
++    foreach ($xml->query("//token") as $token) {
++      $group = $token->getAttribute('type');
++      echo "Moving {$token->getAttribute('title')} to {$group} group.\n"; 
++      $token->removeAttribute('type'); 
++      $groups[$group]->appendChild($token);
++    }
++    
++    if ($doc->validate()) {
++      // $doc->save(PATH.'data/db2.xml');
++    }
++  }
++  
++  public function CLImapFeaturestoProducers()
++  {
++    $doc  = new \bloc\DOM\Document('data/db2');
++    $xml  = new \DomXpath($doc);
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $features = $xml->query("//group[@type='published' or @type='unpublished']/token");
++
++    foreach ($features as $feature) {
++      $id       = substr($feature->getAttribute('id'), 2);
++      $join     = $sql->query("SELECT * FROM features_producers  WHERE feature_id = '{$id}'")->fetch_assoc();
++      $pid      = ':'.$join['producer_id'];
++      $producer = $doc->getElementById($pid);
++      
++      if ($producer) {
++        $pointer = $doc->createElement("pointer");
++        $pointer->setAttribute('rel', $pid);
++        $pointer->setAttribute('type', 'producer');
++        $feature->appendChild($pointer);
++      } 
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db3.xml';
++      echo "New File: {$file}\n";
++      // $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++    
++  }
++  
++  public function CLImapPhotostoFeatures()
++  {
++    # implement
++  }
++  
++  public function CLImapAwardsToProducer()
++  {
++    $doc  = new \bloc\DOM\Document('data/db3');
++    $xml  = new \DomXpath($doc);
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $group = $xml->query("//group[@type='competition']")->item(0);
++    $driehaus  = $doc->getElementById('c:1');
++
++    $awards = $sql->query('SELECT competition_awards.feature_id, competition_awards.title as award, competition_editions.title as year_of, competitions.title as competition FROM competition_awards LEFT JOIN competition_editions ON (competition_awards.edition_id = competition_editions.id) LEFT JOIN competitions ON (competition_editions.competition_id = competitions.id)')->fetch_all(MYSQLI_ASSOC);
++    $years = [];
++    foreach ($awards as $award) {
++      if (! array_key_exists($award['year_of'], $years)) {
++        $years[$award['year_of']] = [];
++      }
++      $years[$award['year_of']][] = $award;
++    }
++    
++    foreach ($years as $key => $awards) {
++      echo "Create token for $key\n";
++      echo "Create pointer to token in {$driehaus->getAttribute('title')}\n\n";
++
++      
++      $cid = 'd:'.$key;
++      $competition = $doc->createElement('token');
++      $competition->setAttribute('id', $cid);
++      $competition->setAttribute('title', $key);
++      
++      $group->appendChild($competition);
++
++      
++      $pointer = $doc->createElement("pointer");
++      $pointer->setAttribute('rel', $cid);
++      $pointer->setAttribute('type', 'issue');
++      $driehaus->appendChild($pointer);
++      
++      foreach ($awards as $award) {
++        $subpointer = $doc->createElement('pointer', trim($award['award']));
++        $subpointer->setAttribute('rel', 's:'.$award['feature_id']);
++        $subpointer->setAttribute('type', 'winner');
++        $competition->appendChild($subpointer);
++      }
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db4.xml';
++      echo "New File: {$file}\n";
++      // $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++    
++    
++  }
++  
++  public function CLIdonors()
++  {
++    $doc  = new \bloc\DOM\Document('data/db4');
++    $xml  = new \DomXpath($doc);
++    $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $group = $xml->query("//group[@type='organization']")->item(0);
++    $driehaus  = $doc->getElementById('c:1');
++
++    foreach ($sql->query('SELECT * from donors')->fetch_all(MYSQLI_ASSOC) as $donor) {
++      $token = $doc->createElement('token');
++      $token->setAttribute('id', 'o:'.$donor['id']);
++      $token->setAttribute('title',  $donor['name']);
++      $group->appendChild($token);
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db5.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++  }
++  
++  
++  /*
++    TODO create a new file called taxonomy. This will be an index of sorts, also where categories and tags are saved.
++  */
++  public function Categories()
++  {
++    # implement
++  }
++  
++  public function Tags($value='')
+   {
+-    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+-    $result = $client->listObjects([
+-        'Bucket' => '3rdcoast-features',
+-        'MaxKeys' => 2,
+-        'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
+-    ]);
+-    print($result);
+-    // foreach ($result['Buckets'] as $bucket) {
+-    //   print_r($bucket);
+-    //     // Each Bucket value will contain a Name and CreationDate
+-    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
+-    // }
++   # implement
+   }
+   
+   public function CLISync()
+   {
+-    for ($i=10; $i < 50; $i++) { 
++    for ($i=10; $i < 150; $i++) { 
+       $handle = curl_init();
+     
+       $url = 'http://local.thirdcoastfestival.org/explore/fix/:' . $i;
+
+commit 732c2f2ffcba8e1f9cacae170df308e6b4928791
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Apr 7 19:03:08 2015 -0500
+
+    can now login on CLI using the same login method for HTTP
+
+diff --git a/controllers/import.php b/controllers/import.php
+index fd02431..6800694 100644
+--- a/controllers/import.php
++++ b/controllers/import.php
+@@ -105,27 +105,35 @@ class Import extends Task
+   
+   public function CLISync()
+   {
+-    $handle = curl_init();
++    for ($i=10; $i < 50; $i++) { 
++      $handle = curl_init();
+     
+-    $url = 'http://local.thirdcoastfestival.org/explore/fix/:15';
++      $url = 'http://local.thirdcoastfestival.org/explore/fix/:' . $i;
+ 
+-    curl_setopt($handle, CURLOPT_URL, $url);
+-    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+-    // curl_setopt($handle, CURLOPT_COOKIEFILE, "");
++      curl_setopt($handle, CURLOPT_URL, $url);
++      curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
++      curl_setopt($handle, CURLOPT_COOKIEFILE, "/tmp/curlCookies.txt");
++      curl_setopt($handle, CURLOPT_COOKIEJAR, "/tmp/curlCookies.txt");
+     
+-    $result = curl_exec($handle);
+-    $info   = curl_getinfo($handle);
++      $result = curl_exec($handle);
++      $info   = curl_getinfo($handle);
+     
+-    curl_close($handle);
++      curl_close($handle);
+     
+-    if ($info['http_code'] == 401) {
+-      $result = $this->CLILogin($result);
+-    }
++      if ($info['http_code'] == 401) {
++        $result = $this->CLILogin($result);
++      }
++        
++      if ($xml = simplexml_load_string(html_entity_decode($result, ENT_QUOTES, "utf-8"))) {
++        $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
++        foreach ($xml->xpath('//xmlns:form')[0]->input as $input) {
++          echo $input['name'] . "\n";
++        }
+         
+-    $xml = simplexml_load_string(html_entity_decode($result, ENT_QUOTES, "utf-8"));
+-    $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
+-    foreach ($xml->xpath('//xmlns:form')[0]->input as $input) {
+-      print_r($input);
++      } else {
++        echo $result;
++      }
++      echo "\n\n\n";
+     }
+   }
+ }
+\ No newline at end of file
+
+commit 035194e470d31db72dc5d668be0ce2ca3d61bd71
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Apr 7 18:22:00 2015 -0500
+
+    working on more automations
+
+diff --git a/controllers/manage.php b/controllers/import.php
+similarity index 50%
+copy from controllers/manage.php
+copy to controllers/import.php
+index 0f2050a..fd02431 100644
+--- a/controllers/manage.php
++++ b/controllers/import.php
+@@ -1,105 +1,13 @@
+ <?php
+ namespace controllers;
+-use \bloc\View;
+-use \bloc\View\Renderer;
+-use \bloc\Types\String;
++use \bloc\Application;
+ 
+ /**
+  * Third Coast International Audio Festival Defaults
+  */
+ 
+-class Manage extends \bloc\controller
++class Import extends Task
+ {
+-
+-  protected $partials = [
+-    'layout' => 'views/layout.html',
+-  ];
+-  
+-  public function __construct($request)
+-  {
+-    View::addRenderer('before', Renderer::addPartials($this));
+-    View::addRenderer('after', Renderer::HTML());
+-    
+-    $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+-
+-		$this->year = date('Y');
+-    $this->title = "Third Coast";
+-    $this->supporters = [
+-      ['name' => 'The MacArthur Foundation'],
+-      ['name' => 'The Richard H. Driehaus Foundation'],
+-      ['name' => 'The Boeing Company'],
+-      ['name' => 'Individual Donors']
+-    ];
+-    
+-    if ($this->authenticated) {
+-      $this->user = $_SESSION['user'];
+-      $this->partials['helper'] = 'views/admin.html';
+-    }
+-  }
+-  
+-  public function GETindex()
+-  {
+-    return (new View($this->partials['layout']))->render($this());
+-  }
+-  
+-  public function GETlogin($redirect, $username = null, $message = null)
+-  {
+-    $view = new View($this->partials['layout']);
+-    $view->content = 'views/forms/credentials.html';
+-
+-    $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+-    $key = ip2long(getenv('REMOTE_ADDR')) + ip2long(getenv('SERVER_ADDR'));
+-    $this->input = new \bloc\types\Dictionary([
+-      'token'    => base_convert($key, 10, date('G')+11),
+-      'message'  => $message ?: 'Login',
+-      'username' => $username,
+-      'password' => null, 
+-      'redirect' => $redirect,
+-      'tokens'   => [
+-        'username' => String::rotate('username', $token),
+-        'password' => String::rotate('password', $token),
+-        'redirect' => String::rotate('redirect', $token),
+-      ]
+-      
+-    ]);
+-    
+-    
+-    return $view->render($this());
+-  }
+-  
+-  public function POSTLogin($request, $key)
+-  {
+-    $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+-    $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
+-        
+-    $username = $request->post(String::rotate('username', $token));
+-    $password = $request->post(String::rotate('password', $token));
+-    $redirect = $request->post(String::rotate('redirect', $token));
+-
+-    if ($key) {
+-      if ($user = (new \models\person)->authenticate($username, $password)) {
+-        echo '<pre>'.print_r(\bloc\application::log($user), true).'</pre>';
+-        \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
+-        \bloc\router::redirect($redirect);
+-      } 
+-    } else {
+-      $message = "This form has expired - it happens sometimes.. try again!";
+-    }
+-    
+-    return $this->GETLogin($redirect, $username, $message ?: "Hmm, better try again.");
+-  }
+-  
+-  
+-  
+-  
+-  public function CLIcompress($file)
+-  {
+-    $text = file_get_contents(PATH . $file);
+-    $compressed = gzencode($text, 3);
+-        
+-    file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
+-  }
+-  
+   public function CLIimportproducers()
+   {
+     $xml = simplexml_load_file(PATH.'data/producers.xml');
+@@ -182,11 +90,42 @@ class Manage extends \bloc\controller
+   public function CLIaws()
+   {
+     $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+-    $result = $client->listBuckets();
++    $result = $client->listObjects([
++        'Bucket' => '3rdcoast-features',
++        'MaxKeys' => 2,
++        'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
++    ]);
++    print($result);
++    // foreach ($result['Buckets'] as $bucket) {
++    //   print_r($bucket);
++    //     // Each Bucket value will contain a Name and CreationDate
++    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
++    // }
++  }
++  
++  public function CLISync()
++  {
++    $handle = curl_init();
++    
++    $url = 'http://local.thirdcoastfestival.org/explore/fix/:15';
+ 
+-    foreach ($result['Buckets'] as $bucket) {
+-        // Each Bucket value will contain a Name and CreationDate
+-        echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
++    curl_setopt($handle, CURLOPT_URL, $url);
++    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
++    // curl_setopt($handle, CURLOPT_COOKIEFILE, "");
++    
++    $result = curl_exec($handle);
++    $info   = curl_getinfo($handle);
++    
++    curl_close($handle);
++    
++    if ($info['http_code'] == 401) {
++      $result = $this->CLILogin($result);
++    }
++        
++    $xml = simplexml_load_string(html_entity_decode($result, ENT_QUOTES, "utf-8"));
++    $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
++    foreach ($xml->xpath('//xmlns:form')[0]->input as $input) {
++      print_r($input);
+     }
+   }
+ }
+\ No newline at end of file
+
+commit 0c98be21a052a36e2527a7fffe30a5e53adbc2e0
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Apr 7 12:43:03 2015 -0500
+
+    adding vendor directory, specifically to facilitate what will be vast amazon dealings
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index 0f471da..0f2050a 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -1,6 +1,8 @@
+ <?php
+ namespace controllers;
+-use \bloc\view as View;
++use \bloc\View;
++use \bloc\View\Renderer;
++use \bloc\Types\String;
+ 
+ /**
+  * Third Coast International Audio Festival Defaults
+@@ -15,8 +17,8 @@ class Manage extends \bloc\controller
+   
+   public function __construct($request)
+   {
+-    View::addRenderer('before', view\renderer::addPartials($this));
+-    View::addRenderer('after', view\renderer::HTML());
++    View::addRenderer('before', Renderer::addPartials($this));
++    View::addRenderer('after', Renderer::HTML());
+     
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+ 
+@@ -54,9 +56,9 @@ class Manage extends \bloc\controller
+       'password' => null, 
+       'redirect' => $redirect,
+       'tokens'   => [
+-        'username' => \bloc\types\string::rotate('username', $token),
+-        'password' => \bloc\types\string::rotate('password', $token),
+-        'redirect' => \bloc\types\string::rotate('redirect', $token),
++        'username' => String::rotate('username', $token),
++        'password' => String::rotate('password', $token),
++        'redirect' => String::rotate('redirect', $token),
+       ]
+       
+     ]);
+@@ -70,9 +72,9 @@ class Manage extends \bloc\controller
+     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
+         
+-    $username = $request->post(\bloc\types\string::rotate('username', $token));
+-    $password = $request->post(\bloc\types\string::rotate('password', $token));
+-    $redirect = $request->post(\bloc\types\string::rotate('redirect', $token));
++    $username = $request->post(String::rotate('username', $token));
++    $password = $request->post(String::rotate('password', $token));
++    $redirect = $request->post(String::rotate('redirect', $token));
+ 
+     if ($key) {
+       if ($user = (new \models\person)->authenticate($username, $password)) {
+@@ -133,38 +135,6 @@ class Manage extends \bloc\controller
+   
+   public function CLIimportfeatures()
+   {
+-    /*
+-    
+-	<features>
+-	<row>
+-		<id>1</id>
+-		<title>Road Scholar </title>
+-		<description>&lt;p&gt;
+-	You might recognize Andrei Codrescu&amp;#39;s voice from his insightful commentaries on NPR, but Codrescu has also brought his unique perspective on American culture to the silver screen, via the movie &lt;i&gt;Road Scholar&lt;/i&gt;.&lt;/p&gt;
+-&lt;p&gt;
+-	Released in 1992, the film tells the story of his cross-country road trip in a 1968 cherry-red Cadillac. In this audio excerpt from the film, Codrescu shares his impressions of America through a lyrical blend of scrutiny, criticism, and respect.&lt;/p&gt;</description>
+-		<created_at>2009-10-09 20:37:51</created_at>
+-		<updated_at>2011-04-28 20:47:35</updated_at>
+-		<origin_country>USA</origin_country>
+-		<premier_locaction>PBS</premier_locaction>
+-		<premier_date>2001</premier_date>
+-		<published>1</published>
+-		<permalink>NULL</permalink>
+-		<delta>0</delta>
+-	</row>
+-    
+-<records>
+-  <config/>
+-  <record id="f" date="today" title="s" created="1" updated="2">
+-    <abstract>This is something</abstract>
+-    <premier date="0" location="no"/>
+-    <location geo="0,0">USA</location>
+-    <media id="something" type="image">A Photo</media>
+-  </record>
+-</records>
+-    
+-    */
+-    
+     $word_chars = array(
+       "\xe2\x80\x98" => "'", // left single quote
+       "\xe2\x80\x99" => "'", // right single quote
+@@ -208,4 +178,15 @@ class Manage extends \bloc\controller
+       }
+     }
+   }
++  
++  public function CLIaws()
++  {
++    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
++    $result = $client->listBuckets();
++
++    foreach ($result['Buckets'] as $bucket) {
++        // Each Bucket value will contain a Name and CreationDate
++        echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
++    }
++  }
+ }
+\ No newline at end of file
+
+commit 6d3f1a7cd6b2f73dfb83c91a40c55ed40d4eecda
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Apr 6 19:40:29 2015 -0500
+
+    changing variable swap, adding models, importing data
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index 45a53c0..0f471da 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -67,27 +67,145 @@ class Manage extends \bloc\controller
+   
+   public function POSTLogin($request, $key)
+   {
+-    
+     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
+         
+     $username = $request->post(\bloc\types\string::rotate('username', $token));
+     $password = $request->post(\bloc\types\string::rotate('password', $token));
+     $redirect = $request->post(\bloc\types\string::rotate('redirect', $token));
++
++    if ($key) {
++      if ($user = (new \models\person)->authenticate($username, $password)) {
++        echo '<pre>'.print_r(\bloc\application::log($user), true).'</pre>';
++        \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
++        \bloc\router::redirect($redirect);
++      } 
++    } else {
++      $message = "This form has expired - it happens sometimes.. try again!";
++    }
+     
+-    if ($key && $user = (new \models\person)->authenticate($username, $password)) {
+-      \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
+-      \bloc\router::redirect($redirect);
+-    } 
+-    
+-    return $this->GETLogin($redirect, $username, "Hmm, better try again.");
++    return $this->GETLogin($redirect, $username, $message ?: "Hmm, better try again.");
+   }
+   
+-  public function CLItask($file)
++  
++  
++  
++  public function CLIcompress($file)
+   {
+     $text = file_get_contents(PATH . $file);
+     $compressed = gzencode($text, 3);
+         
+     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
+   }
++  
++  public function CLIimportproducers()
++  {
++    $xml = simplexml_load_file(PATH.'data/producers.xml');
++    $admin = [186, 260, 1222];
++    foreach ($xml->producers->row as $person) {
++      $data = [
++        'attributes' => [
++          'id' => ':' . (int)$person->id,
++          'level' => in_array((int)$person->id, $admin) ? 1 : 4,
++          'name' => (string)$person->name,
++          'created' => (string)$person->created_at,
++          'updated' => (string)$person->updated_at,
++        ],
++        'abstract' => [
++          'content' => 'bio',
++          'CDATA' => htmlentities(trim(str_replace(['&nbsp;', "\n\n"], [' ', '¶'], html_entity_decode(strip_tags((string)$person->bio), ENT_XML1, 'UTF-8'))), ENT_COMPAT|ENT_XML1, 'UTF-8', false)
++        ]
++      ];
++      if ($data['attributes']['level'] < 4) {
++        $id = explode(' ', $data['attributes']['name'])[0];
++        // $data['attributes']['id'] = $id;
++        $data['attributes']['hash'] = password_hash($id, PASSWORD_DEFAULT);
++      }
++      
++      if ($modeled = \models\person::create(new \models\person, $data)) {
++        print_r($modeled->save());
++      } else {
++        echo "something happended!";
++        exit();
++      }      
++    }
++  }
++  
++  public function CLIimportfeatures()
++  {
++    /*
++    
++	<features>
++	<row>
++		<id>1</id>
++		<title>Road Scholar </title>
++		<description>&lt;p&gt;
++	You might recognize Andrei Codrescu&amp;#39;s voice from his insightful commentaries on NPR, but Codrescu has also brought his unique perspective on American culture to the silver screen, via the movie &lt;i&gt;Road Scholar&lt;/i&gt;.&lt;/p&gt;
++&lt;p&gt;
++	Released in 1992, the film tells the story of his cross-country road trip in a 1968 cherry-red Cadillac. In this audio excerpt from the film, Codrescu shares his impressions of America through a lyrical blend of scrutiny, criticism, and respect.&lt;/p&gt;</description>
++		<created_at>2009-10-09 20:37:51</created_at>
++		<updated_at>2011-04-28 20:47:35</updated_at>
++		<origin_country>USA</origin_country>
++		<premier_locaction>PBS</premier_locaction>
++		<premier_date>2001</premier_date>
++		<published>1</published>
++		<permalink>NULL</permalink>
++		<delta>0</delta>
++	</row>
++    
++<records>
++  <config/>
++  <record id="f" date="today" title="s" created="1" updated="2">
++    <abstract>This is something</abstract>
++    <premier date="0" location="no"/>
++    <location geo="0,0">USA</location>
++    <media id="something" type="image">A Photo</media>
++  </record>
++</records>
++    
++    */
++    
++    $word_chars = array(
++      "\xe2\x80\x98" => "'", // left single quote
++      "\xe2\x80\x99" => "'", // right single quote
++      "\xe2\x80\x9c" => '"', // left double quote
++      "\xe2\x80\x9d" => '"', // right double quote
++      "\xe2\x80\x94" => '-', // em dash
++      "\xe2\x80\xa6" => '..'  // elipses
++    );
++    
++    
++    
++    $xml = simplexml_load_file(PATH.'data/features.xml');
++    foreach ($xml->features->row as $feature) {
++      $created =  strtotime((string)$feature->created_at);
++      $updated =  strtotime((string)$feature->updated_at);
++      $data = [
++        'attributes' => [
++          'id' => ':' . (int)$feature->id,
++          'title' => trim((string)$feature->title),
++          'created' => (string)$feature->created_at,
++          'age' => round((($updated - $created) / 60 / 60 / 24 / 365), 2),
++          'published' => (int)$feature->published,
++        ],
++        'abstract' => [
++          'CDATA' =>  str_replace(array_keys($word_chars), array_values($word_chars), trim(htmlentities(preg_replace(['/&nbsp;/', "/\n+\s*/"], [' ', '¶'], html_entity_decode(strip_tags(trim((string)$feature->description)), ENT_XML1, 'UTF-8')), ENT_COMPAT|ENT_XML1, 'UTF-8', false), '¶')) 
++        ],
++        'premier' => [
++          'date' => (string)$feature->premier_date,
++          'CDATA' => htmlentities((string)$feature->premier_locaction, ENT_COMPAT|ENT_XML1, 'UTF-8', false),
++        ],
++        'location' => [
++          'CDATA' => (string)$feature->origin_country,
++        ]        
++      ];
++      
++      if ($modeled = \models\feature::create(new \models\feature, $data)) {
++        print_r($modeled->save());
++      } else {
++        echo "something happended!";
++        exit();
++      }
++    }
++  }
+ }
+\ No newline at end of file
+
+commit 52f7be3949b853d97c5d1ceb7b6434fb254f6ce7
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Sat Apr 4 17:59:42 2015 -0500
+
+    working on xml model
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index bf9e264..45a53c0 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -87,6 +87,7 @@ class Manage extends \bloc\controller
+   {
+     $text = file_get_contents(PATH . $file);
+     $compressed = gzencode($text, 3);
++        
+     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
+   }
+ }
+\ No newline at end of file
+
+commit 782a12b42f6576d9c5c1b13e4c1bd1e448ca67af
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Sat Apr 4 08:53:38 2015 -0500
+
+    implementing a CLI thing, testing validity of compressed files, adding a vector pidgey
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index 22b8738..bf9e264 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -40,26 +40,53 @@ class Manage extends \bloc\controller
+     return (new View($this->partials['layout']))->render($this());
+   }
+   
+-  public function GETlogin($redirect, $username = null)
++  public function GETlogin($redirect, $username = null, $message = null)
+   {
+-    $view = new View($this->partials['layout']);    
++    $view = new View($this->partials['layout']);
+     $view->content = 'views/forms/credentials.html';
++
++    $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
++    $key = ip2long(getenv('REMOTE_ADDR')) + ip2long(getenv('SERVER_ADDR'));
++    $this->input = new \bloc\types\Dictionary([
++      'token'    => base_convert($key, 10, date('G')+11),
++      'message'  => $message ?: 'Login',
++      'username' => $username,
++      'password' => null, 
++      'redirect' => $redirect,
++      'tokens'   => [
++        'username' => \bloc\types\string::rotate('username', $token),
++        'password' => \bloc\types\string::rotate('password', $token),
++        'redirect' => \bloc\types\string::rotate('redirect', $token),
++      ]
++      
++    ]);
++    
+     
+-    $data = new \bloc\types\Dictionary(['username' => $username, 'password' => null, 'redirect' => $redirect]);
+-    return $view->render($data);
++    return $view->render($this());
+   }
+   
+-  public function POSTLogin($request)
++  public function POSTLogin($request, $key)
+   {
+-    $username = $request->post('username');
+-    $password = $request->post('password');
+-    $redirect = $request->post('redirect');
+     
+-    if ($user = (new \models\person)->authenticate($username, $password)) {
++    $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
++    $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
++        
++    $username = $request->post(\bloc\types\string::rotate('username', $token));
++    $password = $request->post(\bloc\types\string::rotate('password', $token));
++    $redirect = $request->post(\bloc\types\string::rotate('redirect', $token));
++    
++    if ($key && $user = (new \models\person)->authenticate($username, $password)) {
+       \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
+       \bloc\router::redirect($redirect);
+-    } else {
+-      $this->GETLogin($request, $redirect, $username);
+-    }
++    } 
++    
++    return $this->GETLogin($redirect, $username, "Hmm, better try again.");
++  }
++  
++  public function CLItask($file)
++  {
++    $text = file_get_contents(PATH . $file);
++    $compressed = gzencode($text, 3);
++    file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
+   }
+ }
+\ No newline at end of file
+
+commit 47d7b8a891e037c84f863bfd99ccf340371e3131
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Apr 2 12:24:32 2015 -0500
+
+    took out apache config, modified all code to reflect prefixed GET/POST, session now handled outside of controller
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index b35a907..22b8738 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -19,6 +19,7 @@ class Manage extends \bloc\controller
+     View::addRenderer('after', view\renderer::HTML());
+     
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
++
+ 		$this->year = date('Y');
+     $this->title = "Third Coast";
+     $this->supporters = [
+@@ -34,30 +35,31 @@ class Manage extends \bloc\controller
+     }
+   }
+   
+-  public function index()
++  public function GETindex()
+   {
+     return (new View($this->partials['layout']))->render($this());
+   }
+   
+-  public function login($redirect_url, $request)
++  public function GETlogin($redirect, $username = null)
+   {
+     $view = new View($this->partials['layout']);    
+     $view->content = 'views/forms/credentials.html';
+-        
++    
++    $data = new \bloc\types\Dictionary(['username' => $username, 'password' => null, 'redirect' => $redirect]);
++    return $view->render($data);
++  }
++  
++  public function POSTLogin($request)
++  {
+     $username = $request->post('username');
+     $password = $request->post('password');
+-
+-      
++    $redirect = $request->post('redirect');
++    
+     if ($user = (new \models\person)->authenticate($username, $password)) {
+-      session_start();
+-      $_SESSION['user'] = $user->getAttribute('id');
+-      \bloc\router::redirect('/');
++      \bloc\Application::session('TCIAF', ['user' =>  $user->getAttribute('id')]);
++      \bloc\router::redirect($redirect);
++    } else {
++      $this->GETLogin($request, $redirect, $username);
+     }
+-    
+-    $this->action   = $redirect_url;
+-    $this->username = $username;
+-    $this->password = null;   
+-
+-    return $view->render($this());
+   }
+ }
+\ No newline at end of file
+
+commit b5eb75faf422310e976826f04f74256b580a1438
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Apr 1 13:34:31 2015 -0500
+
+    setting up command facilities
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index 252845c..b35a907 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -13,7 +13,7 @@ class Manage extends \bloc\controller
+     'layout' => 'views/layout.html',
+   ];
+   
+-  public function __construct($request, $access)
++  public function __construct($request)
+   {
+     View::addRenderer('before', view\renderer::addPartials($this));
+     View::addRenderer('after', view\renderer::HTML());
+
+commit 27ad62945b1e8ea0e0465c8b6312627cb3a016e7
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Mar 30 09:54:55 2015 -0500
+
+    adding more administration stuff
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index 9448ef3..252845c 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -36,7 +36,7 @@ class Manage extends \bloc\controller
+   
+   public function index()
+   {
+-    print (new View($this->partials['layout']))->render($this());
++    return (new View($this->partials['layout']))->render($this());
+   }
+   
+   public function login($redirect_url, $request)
+@@ -58,6 +58,6 @@ class Manage extends \bloc\controller
+     $this->username = $username;
+     $this->password = null;   
+ 
+-    print $view->render($this());
++    return $view->render($this());
+   }
+ }
+\ No newline at end of file
+
+commit dde829bfe704bca034a2ce6c6d2224077022a249
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Sun Mar 29 08:48:13 2015 -0500
+
+    flushing output and testing a method that can execute more script after the user receives their content
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index dc85611..9448ef3 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -17,6 +17,7 @@ class Manage extends \bloc\controller
+   {
+     View::addRenderer('before', view\renderer::addPartials($this));
+     View::addRenderer('after', view\renderer::HTML());
++    
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+ 		$this->year = date('Y');
+     $this->title = "Third Coast";
+
+commit 57a781a07616d536fcae0ff8a703c393bcda167e
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Mar 26 22:37:21 2015 -0500
+
+    accidentally deleted renderer
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index 196cf4a..dc85611 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -16,6 +16,7 @@ class Manage extends \bloc\controller
+   public function __construct($request, $access)
+   {
+     View::addRenderer('before', view\renderer::addPartials($this));
++    View::addRenderer('after', view\renderer::HTML());
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+ 		$this->year = date('Y');
+     $this->title = "Third Coast";
+
+commit 28c99befb8b21c8251444485d78dfd3320ddf695
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Mar 26 21:50:27 2015 -0500
+
+    tightening syntax. adding a preflight renderer. adding more executable states in app index
+
+diff --git a/controllers/manage.php b/controllers/manage.php
+index de59965..196cf4a 100644
+--- a/controllers/manage.php
++++ b/controllers/manage.php
+@@ -16,8 +16,6 @@ class Manage extends \bloc\controller
+   public function __construct($request, $access)
+   {
+     View::addRenderer('before', view\renderer::addPartials($this));
+-    View::addRenderer('after', view\renderer::HTML());
+-
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+ 		$this->year = date('Y');
+     $this->title = "Third Coast";
+
+commit 7e41d30202b52d2371fb25665cf851de7d08c56a
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Mar 26 09:16:25 2015 -0500
+
+    renaming controller. proper header on 404
+
+diff --git a/controllers/home.php b/controllers/manage.php
+similarity index 97%
+rename from controllers/home.php
+rename to controllers/manage.php
+index 1c9efaf..de59965 100644
+--- a/controllers/home.php
++++ b/controllers/manage.php
+@@ -6,7 +6,7 @@ use \bloc\view as View;
+  * Third Coast International Audio Festival Defaults
+  */
+ 
+-class Home extends \bloc\controller
++class Manage extends \bloc\controller
+ {
+ 
+   protected $partials = [
+
+commit fdd6a53492b2caac06b1274cb5e4584bac88a161
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Mar 25 23:37:36 2015 -0500
+
+    better file names, adding more user flow, condensing structure
+
+diff --git a/controllers/superintend.php b/controllers/home.php
+similarity index 79%
+rename from controllers/superintend.php
+rename to controllers/home.php
+index 9587672..1c9efaf 100644
+--- a/controllers/superintend.php
++++ b/controllers/home.php
+@@ -6,7 +6,7 @@ use \bloc\view as View;
+  * Third Coast International Audio Festival Defaults
+  */
+ 
+-class superintend extends \bloc\controller
++class Home extends \bloc\controller
+ {
+ 
+   protected $partials = [
+@@ -29,27 +29,28 @@ class superintend extends \bloc\controller
+     ];
+     
+     if ($this->authenticated) {
++      $this->user = $_SESSION['user'];
+       $this->partials['helper'] = 'views/admin.html';
+     }
+   }
+   
+-  
+   public function index()
+   {
+     print (new View($this->partials['layout']))->render($this());
+   }
+   
+-  public function login($redirect_url, $post_data)
++  public function login($redirect_url, $request)
+   {
+     $view = new View($this->partials['layout']);    
+     $view->content = 'views/forms/credentials.html';
+-    
+-    $username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
+-    $password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
+-    
++        
++    $username = $request->post('username');
++    $password = $request->post('password');
++
++      
+     if ($user = (new \models\person)->authenticate($username, $password)) {
+       session_start();
+-      $_SESSION['user'] = $user->getAttribute('username');
++      $_SESSION['user'] = $user->getAttribute('id');
+       \bloc\router::redirect('/');
+     }
+     
+
+commit bfeaee53e8b8b3165140d2cc594882bae421003c
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Mar 25 23:00:37 2015 -0500
+
+    organizing. controllers are starting to take shape
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index c01130a..9587672 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -13,23 +13,20 @@ class superintend extends \bloc\controller
+     'layout' => 'views/layout.html',
+   ];
+   
+-      
+   public function __construct($request, $access)
+   {
+     View::addRenderer('before', view\renderer::addPartials($this));
+     View::addRenderer('after', view\renderer::HTML());
+-    
++
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+-		$this->year  = date('Y');
++		$this->year = date('Y');
+     $this->title = "Third Coast";
+-    
+     $this->supporters = [
+       ['name' => 'The MacArthur Foundation'],
+       ['name' => 'The Richard H. Driehaus Foundation'],
+       ['name' => 'The Boeing Company'],
+       ['name' => 'Individual Donors']
+     ];
+-
+     
+     if ($this->authenticated) {
+       $this->partials['helper'] = 'views/admin.html';
+@@ -39,36 +36,27 @@ class superintend extends \bloc\controller
+   
+   public function index()
+   {
+-    echo 'hi';
++    print (new View($this->partials['layout']))->render($this());
+   }
+   
+   public function login($redirect_url, $post_data)
+   {
+-    $view = new View($this->partials['layout']);
+-    
++    $view = new View($this->partials['layout']);    
+     $view->content = 'views/forms/credentials.html';
+     
+-    $data = new \bloc\types\dictionary;
++    $username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
++    $password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
+     
+-    $data->username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
+-    $data->password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
+-    
+-    $users = new \bloc\DOM\Document('data/users', ['validateOnParse' => true]);
+-    $user = $users->getElementById($data->username);
+-    if ($user && password_verify($data->password, $user->getAttribute('password'))) {
++    if ($user = (new \models\person)->authenticate($username, $password)) {
+       session_start();
+-      $_SESSION['user'] = $data->username;
+-      header("Location: {$redirect_url}");
+-      exit();
++      $_SESSION['user'] = $user->getAttribute('username');
++      \bloc\router::redirect('/');
+     }
+     
+-    $data->year = 2015;
+-    $data->action = $redirect_url;
+-    $data->title = 'TCIAF';
+-    $data->password = null;   
+-    print $view->render($data);
+-    
+-  }
+-  
++    $this->action   = $redirect_url;
++    $this->username = $username;
++    $this->password = null;   
+ 
++    print $view->render($this());
++  }
+ }
+\ No newline at end of file
+
+commit a181a82e8ed082d121b5b3449c60f3259524521f
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Mar 25 19:17:05 2015 -0500
+
+    adding a models directory for application
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index ffde185..c01130a 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -6,9 +6,8 @@ use \bloc\view as View;
+  * Third Coast International Audio Festival Defaults
+  */
+ 
+-class superintend
++class superintend extends \bloc\controller
+ {
+-  use \bloc\registry;
+ 
+   protected $partials = [
+     'layout' => 'views/layout.html',
+@@ -17,22 +16,26 @@ class superintend
+       
+   public function __construct($request, $access)
+   {
+-    $this->registry = new \bloc\model\dictionary;
+-
+     View::addRenderer('before', view\renderer::addPartials($this));
+     View::addRenderer('after', view\renderer::HTML());
+     
+     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
+-        
++		$this->year  = date('Y');
++    $this->title = "Third Coast";
++    
++    $this->supporters = [
++      ['name' => 'The MacArthur Foundation'],
++      ['name' => 'The Richard H. Driehaus Foundation'],
++      ['name' => 'The Boeing Company'],
++      ['name' => 'Individual Donors']
++    ];
++
++    
+     if ($this->authenticated) {
+       $this->partials['helper'] = 'views/admin.html';
+     }
+   }
+   
+-  public function getPartials()
+-  {
+-    return $this->partials;
+-  }
+   
+   public function index()
+   {
+@@ -45,7 +48,7 @@ class superintend
+     
+     $view->content = 'views/forms/credentials.html';
+     
+-    $data = new \bloc\model\dictionary;
++    $data = new \bloc\types\dictionary;
+     
+     $data->username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
+     $data->password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
+@@ -67,28 +70,5 @@ class superintend
+     
+   }
+   
+-  protected function logout()
+-  {
+-    session_destroy();
+-    header("Location: /");
+-  }
+-  
+-  protected function review($id = null)
+-  {
+-    $view = new View($this->partials['layout']);
+-    $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+-    
+-    $this->features = $db->query("SELECT * FROM features LIMIT 25")->fetch_all(MYSQLI_ASSOC);
+-    $view->content = 'views/feature.html';
+-    // \bloc\application::dump($this->registry);
+-    // $fragment = $view->dom->createDocumentFragment();
+-    // $fragment->appendXML("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>");
+-    // \bloc\application::dump(new view($fragment));
+-    // $view->fieldlist = new view($fragment);
+-    
+-    
+-    print $view->render($this->registry);
+ 
+-    
+-  }
+ }
+\ No newline at end of file
+
+commit 9f3ac4822dd0c9d3eeb5d30b99a44db9a0cbd19c
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Mar 25 14:38:21 2015 -0500
+
+    renderers doing everything correctly
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index 1c5871d..ffde185 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -21,14 +21,10 @@ class superintend
+ 
+     View::addRenderer('before', view\renderer::addPartials($this));
+     View::addRenderer('after', view\renderer::HTML());
+-
+-    if (! $access) {
+-      session_start();
+-      $this->authenticated = array_key_exists('user', $_SESSION);
+-      $this->title = "Administrate";
+-    } 
+     
+-    if ($restricted) {
++    $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
++        
++    if ($this->authenticated) {
+       $this->partials['helper'] = 'views/admin.html';
+     }
+   }
+@@ -57,6 +53,7 @@ class superintend
+     $users = new \bloc\DOM\Document('data/users', ['validateOnParse' => true]);
+     $user = $users->getElementById($data->username);
+     if ($user && password_verify($data->password, $user->getAttribute('password'))) {
++      session_start();
+       $_SESSION['user'] = $data->username;
+       header("Location: {$redirect_url}");
+       exit();
+
+commit f891807dea2720e18d190103f6ed305d1df02f80
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Mar 25 14:29:21 2015 -0500
+
+    beginning work on a unified site view as opposed to an admin area
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index 872cfe8..1c5871d 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -1,6 +1,6 @@
+ <?php
+ namespace controllers;
+-use \bloc\view as view;
++use \bloc\view as View;
+ 
+ /**
+  * Third Coast International Audio Festival Defaults
+@@ -9,21 +9,35 @@ use \bloc\view as view;
+ class superintend
+ {
+   use \bloc\registry;
++
++  protected $partials = [
++    'layout' => 'views/layout.html',
++  ];
+   
++      
+   public function __construct($request, $access)
+   {
+     $this->registry = new \bloc\model\dictionary;
+ 
++    View::addRenderer('before', view\renderer::addPartials($this));
++    View::addRenderer('after', view\renderer::HTML());
++
+     if (! $access) {
+       session_start();
+       $this->authenticated = array_key_exists('user', $_SESSION);
+-      $this->layout = '/views/layout.html';
+       $this->title = "Administrate";
+-    } else {
+-      $this->layout = '/views/layout.html';
++    } 
++    
++    if ($restricted) {
++      $this->partials['helper'] = 'views/admin.html';
+     }
+   }
+   
++  public function getPartials()
++  {
++    return $this->partials;
++  }
++  
+   public function index()
+   {
+     echo 'hi';
+@@ -31,7 +45,8 @@ class superintend
+   
+   public function login($redirect_url, $post_data)
+   {
+-    $view = new View($this->layout);
++    $view = new View($this->partials['layout']);
++    
+     $view->content = 'views/forms/credentials.html';
+     
+     $data = new \bloc\model\dictionary;
+@@ -63,7 +78,7 @@ class superintend
+   
+   protected function review($id = null)
+   {
+-    $view = new view($this->layout);
++    $view = new View($this->partials['layout']);
+     $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
+     
+     $this->features = $db->query("SELECT * FROM features LIMIT 25")->fetch_all(MYSQLI_ASSOC);
+
+commit 6d0f4ed40c9cf7919e690d5d604aea000fcce3ae
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Mar 25 10:32:41 2015 -0500
+
+    updating submodule
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index 1eaaf60..872cfe8 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -68,7 +68,7 @@ class superintend
+     
+     $this->features = $db->query("SELECT * FROM features LIMIT 25")->fetch_all(MYSQLI_ASSOC);
+     $view->content = 'views/feature.html';
+-    
++    // \bloc\application::dump($this->registry);
+     // $fragment = $view->dom->createDocumentFragment();
+     // $fragment->appendXML("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>");
+     // \bloc\application::dump(new view($fragment));
+
+commit 6bfb244be92f8de2b41826e896ad66e614b8d0b8
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Mar 24 21:52:50 2015 -0500
+
+    hooking up db for migrations, thinking through admin
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index 4a09ae7..1eaaf60 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -17,7 +17,8 @@ class superintend
+     if (! $access) {
+       session_start();
+       $this->authenticated = array_key_exists('user', $_SESSION);
+-      $this->layout = '/views/admin.html';
++      $this->layout = '/views/layout.html';
++      $this->title = "Administrate";
+     } else {
+       $this->layout = '/views/layout.html';
+     }
+@@ -38,7 +39,7 @@ class superintend
+     $data->username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
+     $data->password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
+     
+-    $users = new \data\db('users');
++    $users = new \bloc\DOM\Document('data/users', ['validateOnParse' => true]);
+     $user = $users->getElementById($data->username);
+     if ($user && password_verify($data->password, $user->getAttribute('password'))) {
+       $_SESSION['user'] = $data->username;
+@@ -49,7 +50,7 @@ class superintend
+     $data->year = 2015;
+     $data->action = $redirect_url;
+     $data->title = 'TCIAF';
+-        
++    $data->password = null;   
+     print $view->render($data);
+     
+   }
+@@ -59,4 +60,23 @@ class superintend
+     session_destroy();
+     header("Location: /");
+   }
++  
++  protected function review($id = null)
++  {
++    $view = new view($this->layout);
++    $db   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
++    
++    $this->features = $db->query("SELECT * FROM features LIMIT 25")->fetch_all(MYSQLI_ASSOC);
++    $view->content = 'views/feature.html';
++    
++    // $fragment = $view->dom->createDocumentFragment();
++    // $fragment->appendXML("<ul><li>[@origin_country]</li><li>[@premier_locaction]</li><li>[@premier_date]</li><li>[@published]</li><li>[@delta]</li></ul>");
++    // \bloc\application::dump(new view($fragment));
++    // $view->fieldlist = new view($fragment);
++    
++    
++    print $view->render($this->registry);
++
++    
++  }
+ }
+\ No newline at end of file
+
+commit 0e5dd01de90d2b7aa28c691367c52734cbe215ac
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Mar 24 19:24:49 2015 -0500
+
+    ironing out controllers and hierarchy
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index 13ff0cc..4a09ae7 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -8,6 +8,20 @@ use \bloc\view as view;
+ 
+ class superintend
+ {
++  use \bloc\registry;
++  
++  public function __construct($request, $access)
++  {
++    $this->registry = new \bloc\model\dictionary;
++
++    if (! $access) {
++      session_start();
++      $this->authenticated = array_key_exists('user', $_SESSION);
++      $this->layout = '/views/admin.html';
++    } else {
++      $this->layout = '/views/layout.html';
++    }
++  }
+   
+   public function index()
+   {
+@@ -16,10 +30,10 @@ class superintend
+   
+   public function login($redirect_url, $post_data)
+   {
+-    $view = new View('views/layout.html');
+-    $view->content = 'forms/credentials.html';
++    $view = new View($this->layout);
++    $view->content = 'views/forms/credentials.html';
+     
+-    $data = new \stdClass;
++    $data = new \bloc\model\dictionary;
+     
+     $data->username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
+     $data->password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
+@@ -35,10 +49,8 @@ class superintend
+     $data->year = 2015;
+     $data->action = $redirect_url;
+     $data->title = 'TCIAF';
+-    
+-    $plat = new view\plat($view, $data);
+-    
+-    print $view->render();
++        
++    print $view->render($data);
+     
+   }
+   
+
+commit 3ecf0debb6440d532b572f46e7f4ace6fc4937a0
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Mar 23 22:17:20 2015 -0500
+
+    changes needed for bloc updates
+
+diff --git a/controllers/superintend.php b/controllers/superintend.php
+index b19ca58..13ff0cc 100644
+--- a/controllers/superintend.php
++++ b/controllers/superintend.php
+@@ -8,10 +8,6 @@ use \bloc\view as view;
+ 
+ class superintend
+ {
+-  public function __construct()
+-  {
+-    view::$webroot = 'views/';
+-  }
+   
+   public function index()
+   {
+@@ -20,7 +16,7 @@ class superintend
+   
+   public function login($redirect_url, $post_data)
+   {
+-    $view = new View('layout.html');
++    $view = new View('views/layout.html');
+     $view->content = 'forms/credentials.html';
+     
+     $data = new \stdClass;
+
+commit cc99f5880e1d8eca63b97f9c3b2f26dfa9e5fbfd
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri Mar 20 18:40:30 2015 -0500
+
+    rearranging
+
+diff --git a/controllers/locus.php b/controllers/superintend.php
+similarity index 94%
+rename from controllers/locus.php
+rename to controllers/superintend.php
+index 9f9879d..b19ca58 100644
+--- a/controllers/locus.php
++++ b/controllers/superintend.php
+@@ -6,16 +6,16 @@ use \bloc\view as view;
+  * Third Coast International Audio Festival Defaults
+  */
+ 
+-class locus
++class superintend
+ {
+   public function __construct()
+   {
+-    view::$webroot = 'visible/';
++    view::$webroot = 'views/';
+   }
+   
+   public function index()
+   {
+-    echo 'hello';
++    echo 'hi';
+   }
+   
+   public function login($redirect_url, $post_data)
+
+commit 3e6f67ef8b53d96494e0d6f14b859865e05d8fb7
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Mar 19 19:33:39 2015 -0500
+
+    adding a bit o data
+
+diff --git a/controllers/locus.php b/controllers/locus.php
+index b7f768c..9f9879d 100644
+--- a/controllers/locus.php
++++ b/controllers/locus.php
+@@ -18,23 +18,26 @@ class locus
+     echo 'hello';
+   }
+   
+-  public function login()
++  public function login($redirect_url, $post_data)
+   {
+     $view = new View('layout.html');
+     $view->content = 'forms/credentials.html';
+     
+     $data = new \stdClass;
+-    $data->supporters = [
+-      ['name' => 'The MacArthur Foundation'],
+-      ['name' => 'The Richard H. Driehaus Foundation'],
+-      ['name' => 'The Boeing Company'],
+-      ['name' => 'Individual Donors']
+-    ];
+     
+-    $data->username = '';
+-    $data->password = '';
++    $data->username = array_key_exists('username', $post_data) ? $post_data['username'] : '';
++    $data->password = array_key_exists('password', $post_data) ? $post_data['password'] : '';
++    
++    $users = new \data\db('users');
++    $user = $users->getElementById($data->username);
++    if ($user && password_verify($data->password, $user->getAttribute('password'))) {
++      $_SESSION['user'] = $data->username;
++      header("Location: {$redirect_url}");
++      exit();
++    }
++    
+     $data->year = 2015;
+-    $data->action = "/locus";
++    $data->action = $redirect_url;
+     $data->title = 'TCIAF';
+     
+     $plat = new view\plat($view, $data);
+@@ -45,6 +48,7 @@ class locus
+   
+   protected function logout()
+   {
+-    echo "no";
++    session_destroy();
++    header("Location: /");
+   }
+ }
+\ No newline at end of file
+
+commit 522606b24e123eed93beea3f8d997e5f592a81e0
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Mar 19 17:38:41 2015 -0500
+
+    pondering login
+
+diff --git a/controllers/locus.php b/controllers/locus.php
+new file mode 100644
+index 0000000..b7f768c
+--- /dev/null
++++ b/controllers/locus.php
+@@ -0,0 +1,50 @@
++<?php
++namespace controllers;
++use \bloc\view as view;
++
++/**
++ * Third Coast International Audio Festival Defaults
++ */
++
++class locus
++{
++  public function __construct()
++  {
++    view::$webroot = 'visible/';
++  }
++  
++  public function index()
++  {
++    echo 'hello';
++  }
++  
++  public function login()
++  {
++    $view = new View('layout.html');
++    $view->content = 'forms/credentials.html';
++    
++    $data = new \stdClass;
++    $data->supporters = [
++      ['name' => 'The MacArthur Foundation'],
++      ['name' => 'The Richard H. Driehaus Foundation'],
++      ['name' => 'The Boeing Company'],
++      ['name' => 'Individual Donors']
++    ];
++    
++    $data->username = '';
++    $data->password = '';
++    $data->year = 2015;
++    $data->action = "/locus";
++    $data->title = 'TCIAF';
++    
++    $plat = new view\plat($view, $data);
++    
++    print $view->render();
++    
++  }
++  
++  protected function logout()
++  {
++    echo "no";
++  }
++}
+\ No newline at end of file
+commit 6978465223390ed4c3cda294bd8771b7779cc2c1
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Sep 17 15:16:12 2015 -0500
+
+    heavy cleaning, adding ratio to images for query.
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 7546931..b7d60a1 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -305,7 +305,7 @@ class Task extends \bloc\controller
+     
+     $client = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
+     
+-    $tracks = \models\Graph::group('feature')->find('vertex/media[@type="audio"]');
++    $tracks = \models\Graph::group('broadcast')->find('vertex/media[@type="audio"]');
+     
+     foreach ($tracks as $track) {
+       $path = $track->getAttribute('src');
+@@ -337,14 +337,35 @@ class Task extends \bloc\controller
+     }
+     
+     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+-    
+-      
+-    
+   }
+ 
+   private function CLIcorrelate($id = null)
+   {
+     return self::pearson($id);
+   }
++  
++  public function CLImarkMedia($per = 25)
++  {
++    $unmarked = \models\Graph::group('feature')->find('vertex/media[@type="image" and @mark=0]');
++    if ($unmarked->count() < 1) {
++      echo "None left\n";
++    }
++    
++    foreach ($unmarked as $image) {
++      if ($per-- < 0) {
++        echo "Quitting - run again if you must....\n";
++        break;
++      }
++      $src = preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $image['@src']);
++      $url = "http://s3.amazonaws.com/{$src}";
++      
++      $size = getimagesize($url);
++      $ratio = round($size[0] / $size[1], 1);
++      $image->setAttribute('mark', $ratio);
++      
++      echo $image->write() . "\n";
++    }
++    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
++  }
+ 
+ }
+\ No newline at end of file
+
+commit 851b6b572ce191687b329d41e66d99d466755ac1
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Aug 11 12:42:27 2015 -0500
+
+    adding argument to do multiple jobs
+
+diff --git a/controllers/task.php b/controllers/task.php
+index d83d4ff..7546931 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -293,7 +293,7 @@ class Task extends \bloc\controller
+ 
+   }
+   
+-  public function CLItranscode()
++  public function CLItranscode($size = 5)
+   {
+     
+     $pipeline = [
+@@ -328,9 +328,11 @@ class Task extends \bloc\controller
+           ]
+         ]);
+         
+-        echo "new job created: " . $result['Job']['Id'];  
++        echo "new job created: " . $result['Job']['Id'] . "\n\n";  
+         
+-        break;
++        if ($size-- < 0) {
++          break;
++        }
+       }
+     }
+     
+
+commit d349ddf5fcc2c2523edcb169ace4eba333dbbb8a
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Aug 11 12:33:42 2015 -0500
+
+    added a task to create jobs and transcode audio
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 371af84..d83d4ff 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -292,6 +292,53 @@ class Task extends \bloc\controller
+     
+ 
+   }
++  
++  public function CLItranscode()
++  {
++    
++    $pipeline = [
++      'new' => '1439307152758-prv5fa',
++      'old' => '1439307760286-8f5hu5',
++    ];
++
++    $mp4_preset_id = '1439308682558-sehqe8';
++    
++    $client = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
++    
++    $tracks = \models\Graph::group('feature')->find('vertex/media[@type="audio"]');
++    
++    foreach ($tracks as $track) {
++      $path = $track->getAttribute('src');
++      $parts = explode('/', $path);
++      if ($parts[0] == '3rdcoast-features') {
++        $path = substr($path, strlen('3rdcoast-features/'));
++        $new_path = $parts[2] . '_' . preg_replace('/\.?mp3/i', '', array_pop($parts)) . '.m4a';
++        // set new attribute
++        $track->setAttribute('src', 'tciaf-audio/'. $new_path);
++        echo $path . ' - into - ' . $new_path . "\n";
++        
++        $result = $client->createJob([
++          'PipelineId' => $pipeline['old'],
++          'Input' => [
++            'Key' => $path,
++          ],
++          'Output' => [
++            'Key'      => $new_path,
++            'PresetId' => $mp4_preset_id,
++          ]
++        ]);
++        
++        echo "new job created: " . $result['Job']['Id'];  
++        
++        break;
++      }
++    }
++    
++    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
++    
++      
++    
++  }
+ 
+   private function CLIcorrelate($id = null)
+   {
+
+commit abae4e3d5f3d72678727de0cfe6727e9374ebf18
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri Jul 31 13:33:02 2015 -0500
+
+    design and layout work mostly
+
+diff --git a/controllers/task.php b/controllers/task.php
+index ca1960f..371af84 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -242,7 +242,7 @@ class Task extends \bloc\controller
+     if ($id !== null) {
+       
+       if (!array_key_exists($id, $list)) {
+-        throw new \RuntimeException("No recommendations will be available", 1);
++        throw new \RuntimeException("No recommendations will be available", 25);
+         
+       }
+       $A = $list[$id];
+
+commit 7db6db5246b5475ca8cc6c8729ff7fa16015e9b6
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Jul 30 13:34:55 2015 -0500
+
+    redesigning and fixing media uploads
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 2a336a9..ca1960f 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -240,6 +240,11 @@ class Task extends \bloc\controller
+     
+     
+     if ($id !== null) {
++      
++      if (!array_key_exists($id, $list)) {
++        throw new \RuntimeException("No recommendations will be available", 1);
++        
++      }
+       $A = $list[$id];
+       
+       foreach ($list as $bid => $B) {
+
+commit f0ff86251e63ca5361bce2f7414153b0451eb47f
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Thu Jul 30 11:32:40 2015 -0500
+
+    showing related spectra right off the bat. changes when you adjust spectra
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 8d6d97b..2a336a9 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -209,13 +209,14 @@ class Task extends \bloc\controller
+     // }
+   }
+   
+-  public function CLIcorrelate($id = null)
++  static public function pearson($id = null)
+   {
+     
+     $spectrum  = \models\Graph::group('feature')->find('vertex/spectra');
+     $list      = [];
+     
+     $count = 7;
++    
+     foreach ($spectrum as $spectra) {
+       $item = new \stdClass;
+       $item->sum    = 0;
+@@ -244,7 +245,11 @@ class Task extends \bloc\controller
+       foreach ($list as $bid => $B) {
+         if ($id == $bid) continue;
+       
+-        $r = $this->pearson($A, $B, $count);
++        $sum_p = array_sum(array_map(function($a, $b) {
++          return $a * $b;
++        }, $A->values, $B->values));
++
++        $r = ($sum_p - (($A->sum * $B->sum) / $count ) ) / sqrt( $A->pow  * $B->pow );
+ 
+         if ($r == 1 || $r == -1) continue;
+         if ($r > 0.5 || $r < -0.5) {
+@@ -259,8 +264,14 @@ class Task extends \bloc\controller
+ 
+         foreach ($list as $bid => $B) {
+           if ($aid == $bid) continue;
+-        
+-          $r = $this->pearson($A, $B, $count);
++          
++          
++          $sum_p = array_sum(array_map(function($a, $b) {
++            return $a * $b;
++          }, $A->values, $B->values));
++
++          $r = ($sum_p - (($A->sum * $B->sum) / $count ) ) / sqrt( $A->pow  * $B->pow );
++          
+ 
+           if ($r == 1 || $r == -1) continue;
+           if ($r > 0.5 || $r < -0.5) {
+@@ -277,18 +288,9 @@ class Task extends \bloc\controller
+ 
+   }
+ 
+-  private function pearson($v1, $v2, $length)
++  private function CLIcorrelate($id = null)
+   {
+-    // sum products
+-    $sum_p = array_sum(array_map(function($a, $b) {
+-      return $a * $b;
+-    }, $v1->values, $v2->values));
+-
+-    $diff = ( ($v1->sum * $v2->sum) / $length );
+-
+-    // calculate r (pearson score)
+-
+-    return ($sum_p - $diff) / sqrt( $v1->pow  * $v2->pow );
++    return self::pearson($id);
+   }
+ 
+ }
+\ No newline at end of file
+
+commit 6342cb306ebe42f3ad439676fd61ae77bd350815
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Jul 29 22:27:53 2015 -0500
+
+    computing spectra correlations. and it can do a single episode in real time
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 1bb2d42..8d6d97b 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -11,8 +11,10 @@ class Task extends \bloc\controller
+ {
+   public function __construct($request)
+   {
+-    $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
+-    $this->authenticated = file_exists($this->sessionfile);
++    if ($request->type == 'CLI') {
++      $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
++      $this->authenticated = file_exists($this->sessionfile);
++    }
+   }
+ 
+   public function CLIindex()
+@@ -206,5 +208,87 @@ class Task extends \bloc\controller
+     //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
+     // }
+   }
++  
++  public function CLIcorrelate($id = null)
++  {
++    
++    $spectrum  = \models\Graph::group('feature')->find('vertex/spectra');
++    $list      = [];
++    
++    $count = 7;
++    foreach ($spectrum as $spectra) {
++      $item = new \stdClass;
++      $item->sum    = 0;
++      $item->sumsq  = 0;
++      $item->values = [];
++      $item->best   = [];
++      $item->id     = $spectra->parentNode['@id'];
++      
++      foreach ($spectra->attributes as $attr) {
++        $value = (int)$attr->nodeValue;
++        $item->sum += $value;
++        $item->sumsq += pow($value, 2);
++        $item->values[] = $value;
++      }
++
++      $item->pow = $item->sumsq - pow($item->sum, 2) / $count;
++      
++      if ($item->pow == 0) continue;
++      $list[$item->id] = $item;
++    }
++    
++    
++    if ($id !== null) {
++      $A = $list[$id];
++      
++      foreach ($list as $bid => $B) {
++        if ($id == $bid) continue;
++      
++        $r = $this->pearson($A, $B, $count);
++
++        if ($r == 1 || $r == -1) continue;
++        if ($r > 0.5 || $r < -0.5) {
++          $A->best[$bid] = $r;
++        }
++      }
++      return $A;
++    } else {
++      $finished = [];
++
++      foreach ($list as $aid => $A) {
++
++        foreach ($list as $bid => $B) {
++          if ($aid == $bid) continue;
++        
++          $r = $this->pearson($A, $B, $count);
++
++          if ($r == 1 || $r == -1) continue;
++          if ($r > 0.5 || $r < -0.5) {
++            $list[$aid]->best[$bid] = $r;
++            $list[$bid]->best[$aid] = $r;
++          }
++        }
++        $finished[] = array_shift($list);
++      }
++    
++      return $finished;
++    }
++    
++
++  }
++
++  private function pearson($v1, $v2, $length)
++  {
++    // sum products
++    $sum_p = array_sum(array_map(function($a, $b) {
++      return $a * $b;
++    }, $v1->values, $v2->values));
++
++    $diff = ( ($v1->sum * $v2->sum) / $length );
++
++    // calculate r (pearson score)
++
++    return ($sum_p - $diff) / sqrt( $v1->pow  * $v2->pow );
++  }
+ 
+ }
+\ No newline at end of file
+
+commit 1d4bc45c3e661259e52185041735f4f80fc2d4ba
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Jul 22 17:23:44 2015 -0500
+
+    safe way to login from CLI using needing both sudo and login access to make changes.
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 319fab5..1bb2d42 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -11,6 +11,8 @@ class Task extends \bloc\controller
+ {
+   public function __construct($request)
+   {
++    $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
++    $this->authenticated = file_exists($this->sessionfile);
+   }
+ 
+   public function CLIindex()
+@@ -21,7 +23,6 @@ class Task extends \bloc\controller
+     $instance_class_name = get_class($this);
+     $parent_class_name = $reflection_class->getParentClass()->name;
+     $methods = ['instance' => [], 'parent' => []];
+-    
+     foreach ($reflection_class->getMethods() as $method) {
+       if (substr($method->name, 0, 3) == 'CLI') {
+         $name = $method->getDeclaringClass()->name;
+@@ -40,37 +41,6 @@ class Task extends \bloc\controller
+     print_r($methods);
+     
+   }
+-
+-  public function CLIsort()
+-  {
+-    $doc  = new \bloc\DOM\Document('data/db5');
+-    $xml  = new \DomXpath($doc);
+-    
+-    $order = [];
+-    foreach ($xml->query('//group[@type="person"]/token') as $person) {
+-      $key = strtolower(preg_replace('/\W/', '', $person->getAttribute('title')));
+-      $order[$key] = $person;
+-    }
+-    
+-    $group = $xml->query('//group[@type="person"]')->item(0);
+-    
+-    $placement = $group->firstChild;
+-    
+-    ksort($order);    
+-        
+-    foreach (array_reverse($order) as $node) {
+-      $group->insertBefore($node, $placement);
+-      $placement = $node;
+-    }
+-    
+-    if ($doc->validate()) {
+-      $file = 'data/db5.xml';
+-      echo "New File: {$file}\n";
+-      // $doc->save(PATH . $file);
+-      
+-      $this->CLIcompress($file);
+-    }
+-  }
+   
+   public function CLIedgeproducer()
+   {
+@@ -126,7 +96,7 @@ class Task extends \bloc\controller
+     
+   }
+   
+-  public function CLILogin($xml)
++  public function CLILoginBak($xml)
+   {
+     $postdata = [];
+     
+@@ -175,6 +145,52 @@ class Task extends \bloc\controller
+     return $result;
+   }
+   
++  public function CLILogin($value='')
++  {
++    try {
++      echo "\nPlease Enter your username: ";
++      $username = trim(fgets(STDIN));
++      
++      echo "\nPlease Enter your password: ";
++      $password = trim(fgets(STDIN));
++
++      $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
++      
++      touch($this->sessionfile);
++      
++      echo "-- Session Created, you may now run restricted commands --";
++       
++    } catch (\InvalidArgumentException $e) {
++      echo sprintf($e->getMessage(), $username);
++    }
++    
++  }
++  
++  protected function CLIpassword($username = false)
++  {
++    if (!$username) return "Provide a username as the first argument";
++    
++    
++    echo "\nPlease Enter new password for '{$username}': ";
++    $password = trim(fgets(STDIN));
++
++    echo "\nPlease Confirm password: ";
++    $confirm = trim(fgets(STDIN));
++      
++    if ($password !== $confirm) {
++      return "\n\nPasswords DO NOT MATCH...";
++    }
++
++    $user = new \models\person('p-' . preg_replace('/\W/', '', $username));
++    $user->context->setAttribute('hash', $user->getHash($password));
++    
++    if ($user->save()) {
++      return "Saved new password";
++    } else {
++      print_r($user->errors);
++    }
++  }
++  
+   public function CLIaws()
+   {
+     $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
+
+commit a4124fa12c537821ef73ad5a9cb89f692f4d4689
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue May 19 10:07:32 2015 -0500
+
+    published/unpublished no longer a type. added a weight variable to vertices that can be used - unpublished will have a date set to 70 years in the future.
+
+diff --git a/controllers/task.php b/controllers/task.php
+index bd7e038..319fab5 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -77,7 +77,7 @@ class Task extends \bloc\controller
+     $doc  = new \bloc\DOM\Document('data/db5');
+     $xml  = new \DomXpath($doc);
+     
+-    $edges = $xml->query('//group[@type="published" or @type="unpublished"]/token/edge');
++    $edges = $xml->query('//group[@type="feature"]/token/edge');
+     
+     foreach ($edges as $edge) {
+       $token = $doc->getElementById($edge->getAttribute('token'));
+
+commit 49dd371f14c0a0ae20cda8c6c300fa2241802262
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon May 18 18:29:39 2015 -0500
+
+    adhering more strictly to a graph format
+
+diff --git a/controllers/task.php b/controllers/task.php
+index c55515c..bd7e038 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -72,17 +72,17 @@ class Task extends \bloc\controller
+     }
+   }
+   
+-  public function CLIpointerproducer()
++  public function CLIedgeproducer()
+   {
+     $doc  = new \bloc\DOM\Document('data/db5');
+     $xml  = new \DomXpath($doc);
+     
+-    $pointers = $xml->query('//group[@type="published" or @type="unpublished"]/token/pointer');
++    $edges = $xml->query('//group[@type="published" or @type="unpublished"]/token/edge');
+     
+-    foreach ($pointers as $pointer) {
+-      $token = $doc->getElementById($pointer->getAttribute('token'));
+-      $pointer->setAttribute('token', $pointer->parentNode->getAttribute('id'));
+-      $token->appendChild($pointer);
++    foreach ($edges as $edge) {
++      $token = $doc->getElementById($edge->getAttribute('token'));
++      $edge->setAttribute('token', $edge->parentNode->getAttribute('id'));
++      $token->appendChild($edge);
+     }
+     
+     if ($doc->validate()) {
+
+commit 5b5ad779f2985378e5684099399d5f5c8d3c985b
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri May 15 18:54:34 2015 -0500
+
+    updating site to deal with multiple types of reference. getting ready to put online.
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 06d22df..c55515c 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -1,6 +1,7 @@
+ <?php
+ namespace controllers;
+-use \bloc\Application;
++
++use \bloc\application;
+ 
+ /**
+  * Third Coast International Audio Festival Defaults
+
+commit 5857c8ae60eee8acd3a7a55d329e34b78d92fc84
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Mon Apr 13 16:19:03 2015 -0500
+
+    working on search, led to big refactor of header outputs.
+
+diff --git a/controllers/task.php b/controllers/task.php
+index b4f8939..06d22df 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -71,6 +71,30 @@ class Task extends \bloc\controller
+     }
+   }
+   
++  public function CLIpointerproducer()
++  {
++    $doc  = new \bloc\DOM\Document('data/db5');
++    $xml  = new \DomXpath($doc);
++    
++    $pointers = $xml->query('//group[@type="published" or @type="unpublished"]/token/pointer');
++    
++    foreach ($pointers as $pointer) {
++      $token = $doc->getElementById($pointer->getAttribute('token'));
++      $pointer->setAttribute('token', $pointer->parentNode->getAttribute('id'));
++      $token->appendChild($pointer);
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db6.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++    
++    
++  }
++  
+   public function CLIvalid()
+   {
+     libxml_use_internal_errors(true);
+
+commit 81d85f6e660d5e5f807ba922b203079fd47a7a23
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Sun Apr 12 21:44:52 2015 -0500
+
+    error hiding somewhere
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 6fa143b..b4f8939 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -65,12 +65,23 @@ class Task extends \bloc\controller
+     if ($doc->validate()) {
+       $file = 'data/db5.xml';
+       echo "New File: {$file}\n";
+-      $doc->save(PATH . $file);
++      // $doc->save(PATH . $file);
+       
+       $this->CLIcompress($file);
+     }
+-    
+-    
++  }
++  
++  public function CLIvalid()
++  {
++    libxml_use_internal_errors(true);
++    $doc  = new \bloc\DOM\Document('data/db5');
++    if ($doc->validate()) {
++      
++    } else {
++      foreach(libxml_get_errors() as $error) {
++        print_r($error);
++      }
++    }
+     
+   }
+   
+
+commit d1f22e634b6c77e1656906080d3e58b4b36a75d2
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Fri Apr 10 16:09:20 2015 -0500
+
+    pagination is now partial, adding task to order xml, keeping things tight
+
+diff --git a/controllers/task.php b/controllers/task.php
+index a892c3c..6fa143b 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -39,6 +39,40 @@ class Task extends \bloc\controller
+     print_r($methods);
+     
+   }
++
++  public function CLIsort()
++  {
++    $doc  = new \bloc\DOM\Document('data/db5');
++    $xml  = new \DomXpath($doc);
++    
++    $order = [];
++    foreach ($xml->query('//group[@type="person"]/token') as $person) {
++      $key = strtolower(preg_replace('/\W/', '', $person->getAttribute('title')));
++      $order[$key] = $person;
++    }
++    
++    $group = $xml->query('//group[@type="person"]')->item(0);
++    
++    $placement = $group->firstChild;
++    
++    ksort($order);    
++        
++    foreach (array_reverse($order) as $node) {
++      $group->insertBefore($node, $placement);
++      $placement = $node;
++    }
++    
++    if ($doc->validate()) {
++      $file = 'data/db5.xml';
++      echo "New File: {$file}\n";
++      $doc->save(PATH . $file);
++      
++      $this->CLIcompress($file);
++    }
++    
++    
++    
++  }
+   
+   public function CLIcompress($file)
+   {
+
+commit b521ec88a93262db26ffa493045e003afc5236fc
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Wed Apr 8 15:29:51 2015 -0500
+
+    lots of data migration
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 7407ade..a892c3c 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -15,7 +15,29 @@ class Task extends \bloc\controller
+   public function CLIindex()
+   {
+     // show a list of methods.
+-    print_r(get_class_methods($this));
++    $reflection_class = new \ReflectionClass($this);
++    
++    $instance_class_name = get_class($this);
++    $parent_class_name = $reflection_class->getParentClass()->name;
++    $methods = ['instance' => [], 'parent' => []];
++    
++    foreach ($reflection_class->getMethods() as $method) {
++      if (substr($method->name, 0, 3) == 'CLI') {
++        $name = $method->getDeclaringClass()->name;
++        if ($instance_class_name == $name) {
++          $methods['instance'][] = substr($method->name, 3) . "\n";
++        }
++        if ($parent_class_name == $name) {
++          $methods['parent'][] = substr($method->name, 3) . "\n";
++        }
++      }
++    }
++    
++    echo "Available Methods in {$instance_class_name}\n";
++    
++    
++    print_r($methods);
++    
+   }
+   
+   public function CLIcompress($file)
+@@ -82,5 +104,21 @@ class Task extends \bloc\controller
+     
+     return $result;
+   }
++  
++  public function CLIaws()
++  {
++    $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
++    $result = $client->listObjects([
++        'Bucket' => '3rdcoast-features',
++        'MaxKeys' => 2,
++        'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
++    ]);
++    print($result);
++    // foreach ($result['Buckets'] as $bucket) {
++    //   print_r($bucket);
++    //     // Each Bucket value will contain a Name and CreationDate
++    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
++    // }
++  }
+ 
+ }
+\ No newline at end of file
+
+commit 732c2f2ffcba8e1f9cacae170df308e6b4928791
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Apr 7 19:03:08 2015 -0500
+
+    can now login on CLI using the same login method for HTTP
+
+diff --git a/controllers/task.php b/controllers/task.php
+index 6bffdec..7407ade 100644
+--- a/controllers/task.php
++++ b/controllers/task.php
+@@ -26,6 +26,14 @@ class Task extends \bloc\controller
+     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
+   }
+   
++  public function CLILogout()
++  {
++    if (unlink("/tmp/curlCookies.txt")) {
++      echo "\nGoodbye!\n";
++    }
++    
++  }
++  
+   public function CLILogin($xml)
+   {
+     $postdata = [];
+@@ -62,7 +70,8 @@ class Task extends \bloc\controller
+     curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+     curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
+     curl_setopt($handle, CURLOPT_AUTOREFERER,    true);
+-    curl_setopt($handle, CURLOPT_COOKIEFILE, "");
++    curl_setopt($handle, CURLOPT_COOKIEFILE, "/tmp/curlCookies.txt");
++    curl_setopt($handle, CURLOPT_COOKIEJAR, "/tmp/curlCookies.txt");
+     
+     $result = curl_exec($handle);
+     $info   = curl_getinfo($handle);
+
+commit 035194e470d31db72dc5d668be0ce2ca3d61bd71
+Author: Brendan <brendan.metzger@gmail.com>
+Date:   Tue Apr 7 18:22:00 2015 -0500
+
+    working on more automations
+
+diff --git a/controllers/task.php b/controllers/task.php
+new file mode 100644
+index 0000000..6bffdec
+--- /dev/null
++++ b/controllers/task.php
+@@ -0,0 +1,77 @@
++<?php
++namespace controllers;
++use \bloc\Application;
++
++/**
++ * Third Coast International Audio Festival Defaults
++ */
++
++class Task extends \bloc\controller
++{
++  public function __construct($request)
++  {
++  }
++
++  public function CLIindex()
++  {
++    // show a list of methods.
++    print_r(get_class_methods($this));
++  }
++  
++  public function CLIcompress($file)
++  {
++    $text = file_get_contents(PATH . $file);
++    $compressed = gzencode($text, 3);
++        
++    file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
++  }
++  
++  public function CLILogin($xml)
++  {
++    $postdata = [];
++    
++    $xml = new \SimpleXMLElement($xml);
++    $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
++
++    echo "\n" .(string)$xml->xpath('//xmlns:legend')[0] . "\n";
++    $inputs = $xml->xpath('//xmlns:input');
++
++    foreach ($inputs as $input) {
++      
++      if ((string)$input['id'] == 'name') {
++        echo "\nPlease Enter your username: ";
++        $input['value'] = trim(fgets(STDIN));
++      }
++      
++      if ((string)$input['id'] == 'password') {
++        echo "\nPlease Enter your password: ";
++        $input['value'] = trim(fgets(STDIN));
++      }
++      
++      $postdata[(string)$input['name']] = (string)$input['value'];
++    }
++    
++    $url = 'http://local.thirdcoastfestival.org' . $xml->xpath('//xmlns:form')[0]['action'];
++
++      
++    $handle = curl_init();
++ 
++    curl_setopt($handle, CURLOPT_URL, $url);
++    curl_setopt($handle, CURLOPT_POST, true);
++    curl_setopt($handle, CURLOPT_POSTFIELDS, $postdata);
++    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
++    curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
++    curl_setopt($handle, CURLOPT_AUTOREFERER,    true);
++    curl_setopt($handle, CURLOPT_COOKIEFILE, "");
++    
++    $result = curl_exec($handle);
++    $info   = curl_getinfo($handle);
++    curl_close($handle);
++    if ($info['http_code'] == 401) {
++      $result = $this->CLILogin($result);
++    }
++    
++    return $result;
++  }
++
++}
+\ No newline at end of file

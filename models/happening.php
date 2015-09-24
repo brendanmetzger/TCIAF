@@ -22,7 +22,7 @@ namespace models;
     ];
     
     protected $edges = [
-      'host'        => ['person'],
+      'host'        => ['person', 'organization'],
       'presenter'   => ['person'],
       'participant' => ['person'],
       'extra'       => ['article'],
@@ -50,10 +50,25 @@ namespace models;
       });  
     }
     
+    public function getEditions(\DOMElement $context)
+    {
+      return $context->find("edge[@type='edition']")->map(function($edge) {
+        return ['edition' => new Happening($edge['@vertex'])];
+      }); 
+    }
+    
+    public function getConferences()
+    {
+      return $this->editions->sort(function($a, $b) {
+        return substr($a['edition']['title'], 0, 4) < substr($b['edition']['title'], 0, 4);
+      });
+    }
+    
     public function getParticipantsAlpha()
     {
       return $this->participants->sort(function($a, $b) {
         return ucfirst(ltrim($a['person']->title, "\x00..\x2F")) > ucfirst(ltrim($b['person']->title, "\x00..\x2F"));
       });
     }
+    
   }

@@ -45,30 +45,29 @@
       });
       // ]]>
     </script>
+
     <link rel="shortcut icon" href="/images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="/css/austere.css" />
-    <link rel="stylesheet" type="text/css" href="/css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="/css/tciaf.css" />
   </head>
   
   <body class="[$_controller $_action unloaded]" data-user="[$user]">
     <!-- replace helper -->
     <header class="container">
+      <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
       <nav>
         <ul class="inline">
-          <li class="home"><a href="/">home</a></li>
-          <li><a href="/overview/library">Library</a></li>
           <li><a href="/overview/conference">Conference</a></li>
           <li><a href="#">Events</a></li>
-          <li><a href="/overview/competition">Competitions</a></li>
+          <li><a href="/explore/index/competition">Competitions</a></li>
           <li><a href="#">Subscribe</a></li>
           <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
-          <li><input type="text" name="search" value="" placeholder="search" /></li>
         </ul>
       </nav>
-      <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
+      <a id="logo" href="/"><span>Third Coast</span><span>International</span> <span>Audio Festival</span></a>
     </header>
-        
+
     <main class="content container">
+
       <!-- replace content nextSibling -->
       <article>
         <style type="text/css" media="screen">
@@ -197,7 +196,12 @@
             if (idx % cols === 0) {
               rows++;
             }
+              
+              
+              
+            
           });
+          
         });
         // ]]>
         </script>
@@ -207,6 +211,8 @@
     
     <!-- insert views/pages/footer.html -->
     
-    <script type="text/javascript">window.bloc.load();</script>
+    <script type="text/javascript">
+      window.bloc.load();
+    </script>
   </body>
 </html>

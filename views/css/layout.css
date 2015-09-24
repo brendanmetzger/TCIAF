@@ -1,0 +1,250 @@
+/* Color ------------------- 
+  dark 323031
+  tan eddad0
+  brown 88746A
+  teal 5B9B98
+  purple 492737
+  red EE3124
+  offwhite fdfdfa
+*/
+
+body, ul, ol, form, h2, h3, h4, h5, figure, blockquote {
+  margin:0;
+}
+
+
+body {
+  font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
+  background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
+  margin-top:6em;
+  transition:background-position 2s, background-size 1s;
+}
+
+main {
+  margin:0 auto;
+  width:65%;
+  position:relative;
+  top:0;
+  transition:opacity 1s, top 1s;
+}
+
+aside img {
+  padding:1em 1em 1em 0;
+  margin-right:1em;
+  border-right:1px solid #eee;
+  float:left;
+  width:25%;
+}
+
+.transition > main {opacity:0;top:-2em;}
+
+/* Responsivity ------------------- */
+audio, img:not([src]), nav[data-pages='1'] {display:none;}
+
+@media only screen and (min-width: 992px){
+  footer section:first-of-type {
+    width:80%;
+    margin:0 auto;
+  }
+}
+
+body > header, #Player {
+  background-color:#323031;
+  box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
+}
+body > header {
+  color:#e8dbd4;
+  top:0;
+  position:fixed;
+  z-index:10000;
+  width:100%;
+  height:4em;
+}
+
+header nav a {
+  padding:1em;
+  line-height:1.25em;
+  display:inline-block;
+  text-decoration:none;
+  text-transform:uppercase;
+  letter-spacing:0.075em;
+}
+
+li.home a {
+  background: #f8f8f8 url(/images/pidgey.svg) no-repeat;
+  background-size:auto 100%;
+  text-indent:-1000em;
+  width:2em;
+}
+
+
+
+
+#Player {
+  position:fixed;
+  transition:height 0.25s 0.125s, width 0.25s 0.125s;
+  width:8em;
+  height:4em;
+  top:0;
+  right:0;
+  overflow:hidden;
+  z-index:1000;
+}
+
+body.playing #Player {
+  background-color:#EE3124;
+  height:4em;
+}
+/*body.unloaded #Player {height:0;}*/
+
+#Player:hover {
+  height:8em;
+  width:16em;
+}
+
+#Player button, #Player .progress {width:3.5em;height:3.5em;transition:all 0.25s 0.125s;}
+#Player:hover button, #Player:hover .progress {width:7em;height:7em;}
+
+
+
+#Player button {padding:0;background-color:transparent;border:none;box-shadow:none;display:block;display:inline-block;border-radius:0;}
+#Player .progress {display:inline-block;}
+
+#Player button svg{width:100%;height:100%;fill:#eddad0;margin:0%}
+#Player button svg path {stroke:none;}
+
+
+
+
+
+
+.progress:hover {
+  cursor:pointer;
+}
+
+.progress .handle {
+  stroke-opacity:0;
+  transition:stroke-opacity 0.75s;
+}
+
+.progress:hover .handle {
+  stroke:#eddad0 !important;
+  stroke-width:4;
+  stroke-opacity:1;
+}
+
+.progress svg {
+  width:100%;
+  height:100%;
+  fill:none;
+  margin: 0;
+  stroke:#fff;
+  position: relative;
+  stroke-width:5;
+  stroke-opacity:0.75;
+}
+
+
+.progress strong, .progress .handle {
+  pointer-events: none;
+}
+
+
+.progress circle {
+  stroke:rgba(255,255,255,0.25);
+  stroke-width:1px;
+  fill:none;
+  pointer-events: none;
+}
+
+#Player .progress path {
+  stroke:#eddad0;
+  fill:none;
+}
+
+#Player .progress strong {
+  top:33%;
+  color:#eddad0;
+}
+
+.progress strong {
+  position:absolute;
+  height:100%;
+  top:0;
+  left:0;
+  width:100%;
+  height:auto;
+  text-align:center;
+}
+
+
+#Player .display {
+  padding:1em 0;
+  display:inline-block;
+  line-height:1em;
+  font-family:'Courier New';
+  vertical-align:top;
+  word-break:break-all;
+  color:#888;
+}
+
+
+button path.indicator{stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
+button path.wait{fill:transparent;stroke-opacity:1;transition:stroke-opacity 0.25s;}
+button:not(.wait) path.wait{stroke-opacity:0;}
+button.wait svg path.indicator{fill-opacity:0;fill:#AAA;}
+button.error{background-color:#ED1C24;}
+
+
+
+.progress {position:relative;background-size:cover;}
+.progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
+
+
+
+
+
+article header {
+  margin:2.5em 0 0;
+  padding:1em 0;
+  border-bottom: 1px solid #eee;
+}
+
+article > nav {
+  margin:10em 0;
+}
+
+article > nav li {
+  list-style:none;
+  margin:0.25em;
+}
+
+
+
+
+footer {}
+  
+.sponsor {
+  background-color:#DEDAD4;padding:2em;color:#333;
+}
+
+.sponsor nav a img {
+  height:100%;
+}
+.sponsor nav a {
+  display:block;
+  padding:1em;
+  float:left;
+  width:auto;
+  height:5em;
+}
+
+/* Color ------------------- 
+  dark 323031
+  tan eddad0
+  brown 88746A
+  teal 5B9B98
+  purple 492737
+  red EE3124
+  offwhite fdfdfa
+*/
