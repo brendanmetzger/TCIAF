@@ -1,38 +1,12 @@
-html{
-  height: 100%;
-}
-body {
-  min-height:100%;
-  width:100%;
-  font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
-  background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0) 0%, rgba(96,75,56,0.2) 100%);
-  background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0) 0%,rgba(96,75,56,0.2) 100%);
-  background: -o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0) 0%,rgba(96,75,56,0.2) 100%);
-  background: -ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0) 0%,rgba(96,75,56,0.2) 100%);
-  background: radial-gradient(ellipse at center,  rgba(255,255,255,0) 0%,rgba(96,75,56,0.2) 100%);
-  background-size:100% 100%;
-}
 
-/* Responsivity ------------------- */
-audio, img:not([src]), nav[data-pages='1'] {display:none;}
-
-@media only screen and (min-width: 992px){
-  main {
-    width:75%;
-    margin:0 0 0 12.5%;
-  }
-  body > header nav {
-    margin-left:25%;
-  }
-  footer section:first-of-type {
-    width:80%;
-    margin:0 auto;
-  }
-  
-}
-
-/* Color ------------------- */
-
+/* Color ------------------- 
+  dark 323031
+  tan eddad0
+  brown 88746A
+  teal 5B9B98
+  purple 492737
+  red EE3124
+*/
 svg .brown {fill:#88746A;}
 svg .red   {fill:#EE3124;}
 svg .blue  {fill:#5B9B98;}
@@ -57,7 +31,6 @@ a.selected{text-decoration:none;cursor:pointer;}
 
 .plain {list-style:none;}
 .caps-lock {text-transform:uppercase;}
-.transition > main {opacity:0;}
 .ghost, a[href^='#'] {opacity:0.5;}
 .ghost:hover {opacity:1;}
 .inline:not(ul), .inline li, .inline dd  {display:inline-block;}
@@ -94,7 +67,7 @@ ul.inline {padding:0; }
 }
 
 .intro {
-  color:#444;
+  color:#323031;
   font-size:1.125em;
 }
 
@@ -109,7 +82,7 @@ strong, .strong, .selected {font-weight:600;}
 em, .em {font-style:italic;}
 .mono, pre, code, input, textarea {font-family:'Courier New';}
 
-h1, .h1 { font-size:2.75em; }
+h1, .h1 { font-size:2em; }
 h2, .h2, legend { font-size:1.75em; line-height:175%; }
 h3, .h3, input, textarea { font-size:1.5em; }
 h4, h5, p, .p, li, label, form button { font-size:1.25em;line-height:150%;}
@@ -214,12 +187,12 @@ legend {
   text-shadow:1px 1px rgba(0,0,0,0.25);
   font-weight:400;
   letter-spacing:0.125em;
-  color:#555;
+  color:#323031;
 }
 
 /* Specifics ------------------- */
-button,.button{border:1px solid #AAA;background-color:#fdfdfa;box-shadow:0em 0em 0.125em 0.125em rgba(0,0,0,0.1);color:#333;text-decoration:none;padding:0.5em;border-radius:0.25em;transition:box-shadow 0.25s,background-color 0.25s;display:inline-block;}
-button:hover,.button:hover,input[type=checkbox]:hover{background-color:#fff;color:#333;box-shadow:0 0 0.125em 0 rgba(0,0,0,0.25);}
+button,.button{border:1px solid #AAA;background-color:#fdfdfa;box-shadow:0em 0em 0.125em 0.125em rgba(0,0,0,0.1);color:#323031;text-decoration:none;padding:0.5em;border-radius:0.25em;transition:box-shadow 0.25s,background-color 0.25s;display:inline-block;}
+button:hover,.button:hover,input[type=checkbox]:hover{background-color:#fff;color:#323031;box-shadow:0 0 0.125em 0 rgba(0,0,0,0.25);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-color:#fff;color:#888;}
 
 
@@ -258,7 +231,7 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-c
 .search ul li {
   padding:0.75em 1em;
   cursor:pointer;
-  color:#333;
+  color:#323031;
   display:block;
   position:relative;
 }
@@ -279,106 +252,6 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-c
 
 
 /* COMPONENTS */
-#Player {
-  width:100%;
-  height:5em;
-  overflow:hidden;
-  z-index:1000;
-}
-
-
-#Player button {background-color:transparent;border:none;box-shadow:none;width:5em; height:auto;padding:0;display:block;display:inline-block;border-radius:0;}
-#Player button svg{width:100%;height:100%;fill:#444;margin:0%}
-#Player button svg path {stroke:none;}
-
-
-.progress {
-  position:relative;
-  background-size:cover;
-}
-
-
-.progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
-
-
-
-
-.progress:hover {
-  cursor:pointer;
-}
-
-.progress .handle {
-  stroke-opacity:0;
-  transition:stroke-opacity 0.75s;
-}
-
-.progress:hover .handle {
-  stroke:#888 !important;
-  stroke-width:4;
-  stroke-opacity:1;
-}
-
-.progress svg {
-  width:100%;
-  height:100%;
-  fill:none;
-  margin: 0;
-  stroke:#000;
-  position: relative;
-  stroke-width:5;
-  stroke-opacity:0.75;
-}
-
-
-.progress strong, .progress .handle {
-  pointer-events: none;
-}
-
-
-.progress circle {
-  stroke:rgba(0,0,0,0.25);
-  stroke-width:1px;
-  fill:none;
-  pointer-events: none;
-}
-
-#Player .progress path {
-  stroke:#5B9B98;
-  fill:none;
-}
-
-#Player .progress strong {
-  top:33%;
-  color:#5B9B98;
-}
-
-.progress strong {
-  position:absolute;
-  height:100%;
-  top:0;
-  left:0;
-  width:100%;
-  height:auto;
-  text-align:center;
-}
-
-
-#Player .display {
-  padding:1em 0;
-  display:inline-block;
-  line-height:1em;
-  font-family:'Courier New';
-  vertical-align:top;
-  word-break:break-all;
-  color:#888;
-}
-
-
-button path.indicator{stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
-button path.wait{fill:transparent;stroke-opacity:1;transition:stroke-opacity 0.25s;}
-button:not(.wait) path.wait{stroke-opacity:0;}
-button.wait svg path.indicator{fill-opacity:0;fill:#AAA;}
-button.error{background-color:#ED1C24;}
 
 .award {
   padding: 0.5em 3.5em 0.5em 0;

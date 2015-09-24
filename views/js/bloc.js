@@ -652,7 +652,10 @@ if (window.history.pushState) {
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
       
       
-      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class');
+      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
+      setTimeout(function () {
+        document.body.classList.remove('transition');
+      }, 10);
       // if
       window.bloc.execute('autoload');
       window.bloc.execute('editables');
@@ -676,6 +679,8 @@ if (window.history.pushState) {
     
     Content.get(this.href + '.xml');
     document.body.classList.add('transition');
+    document.body.style.backgroundPosition = '100%' + (Math.random() * 50) + '%';
+    document.body.style.backgroundSize = Math.max(Math.random() * 100, 65) + '%';
   };
   
   document.body.addEventListener('click', function (evt) {

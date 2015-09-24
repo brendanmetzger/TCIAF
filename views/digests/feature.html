@@ -24,13 +24,11 @@
     /* ]]> */
   </style>
 
-  
   <header class="title card">
     <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
-    <h1 data-id="[$item:@id]" class="mono marquee margins"  property="name">[$item:title]</h1>
-
+    <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
     <!-- iterate item:media:audio -->
-    <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="console.log(this);" controls="controls" preload="metadata">Audio</audio>
+    <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="drawButton(this);" controls="controls" preload="metadata">Audio</audio>
   </header>
   
   <section class="container">
@@ -51,21 +49,16 @@
       butt.addEventListener('click', function (evt) {
         var spread = Animate(function (element) {
           var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % animation
-          
           var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
           var y = ratio >= 1 ? this.to[1] : ( ratio * ( this.to[1] - this.from[1] ) ) + this.from[1];
-          
           element.style.top  = y + 'px';
           element.style.left = x + 'px';
-          
-
           return (ratio < 1);
         });
       
         evt.preventDefault();
         var player = window.bloc.execute('Player', audio_element);
         var li = document.createElement('li');
-        
         var h1 = this.parentNode.querySelector('h1');
         var clone = h1.cloneNode(true);
         var pos = h1.getBoundingClientRect();
