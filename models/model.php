@@ -165,7 +165,8 @@ abstract class Model extends \bloc\Model
 		if (!is_object($abstract)) return;
     if ($node = \bloc\DOM\Document::TAG("<root>{$abstract->current()['text']}</root>")) {
       if ($node->childNodes->length > 0) {
-        return substr($node->firstChild->write(), 3, -4);
+        $len = strlen($node->firstChild->nodeName) + 2;
+        return substr($node->firstChild->write(), $len, -($len + 1));
       }
 
     }
