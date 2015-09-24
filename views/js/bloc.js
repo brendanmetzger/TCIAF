@@ -244,7 +244,6 @@ Player.prototype = {
     var time = Math.ceil(elem.currentTime);
     var dur  = Math.ceil(elem.duration);
     var msg = "<pre>{m}:{s}</pre>";
-    
     this.meter.update(time / dur, msg.format(this.timecode(new Date(time*1e3))) + msg.format(this.timecode(new Date((dur-time)*1e3))));
 
   },
@@ -258,8 +257,10 @@ Player.prototype = {
   attach: function (audio_element) {
     if (audio_element.nodeName === "AUDIO") {
       this.container.classList.add('queued');
+      
       this.container.appendChild(audio_element);
-      audio_element.dataset.index = this.elements.push(audio_element) - 1;
+      document.body.dataset.playing = audio_element.dataset.index = this.elements.push(audio_element) - 1;
+      
       audio_element.removeAttribute('controls');
       ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {
         audio_element.addEventListener(trigger, this[trigger].bind(this), false);
@@ -271,6 +272,13 @@ Player.prototype = {
     delete this.elements[audio_element.dataset.index];
   }
 };
+
+function loadButtonAudio(button) {
+
+  var player = window.bloc.execute('Player', button.parentNode.querySelector('audio'));
+  player.playTrack(player.elements.length - 1);
+  button.classList.add('evaporate');
+}
 
 
 // should implement a controllable interface
@@ -413,6 +421,8 @@ var Search = function (container, data) {
     select: []
   };
 };
+
+
 
 
 
@@ -671,7 +681,7 @@ if (window.history.pushState) {
 
   
   window.navigateToPage = function (evt) {
-    window.Adjust.scroll(0, 500);
+    window.Adjust.scroll(0, 1000);
     
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);

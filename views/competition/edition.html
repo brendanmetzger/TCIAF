@@ -1,6 +1,6 @@
-<article class="competition"  vocab="http://schema.org/" typeof="Event">
+<article class="competition page"  vocab="http://schema.org/" typeof="Event">
   
-  <header class="borderblock title">
+  <header>
     <h1 data-id="[$item:@id]" class="mono">[$item:title]</h1>
   </header>
   
@@ -23,33 +23,30 @@
     </aside>
     
   </section>
-  
-  
-  
- <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:about]</section>
+  <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:about]</section>
+  <hr />
   <section class="awards container">
-    <h3>Awards</h3>
+    <h2>And the Winners Are</h2>
     <!-- iterate item:awards -->
-    <div property="workPerformed" typeof="CreativeWork">
-      <h1 property="award">[$award]</h1>
-      <h2 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h2>
+    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks">
+      <span class="h3" property="award">[$award]</span>
+      <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
       <!-- iterate feature:producers -->
-      <a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a>
-      <aside property="description">[$feature:summary]</aside>
+      <h4 class="mono"><a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a></h4>
+      
+      <p property="description">[$feature:summary]</p>
     </div>
   </section>
   
   <hr />
   
-  <aside class="participants container">
-    <h3>Browse All Entries</h3>
+  <aside class="participants container" style="text-align:center;">
+    <h2>Browse All Entries</h2>
     <!-- iterate item:participants -->
-    <div style="padding:1em;float:left;margin:0.25em;background-color:#eee;">
-      <h3><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
-      <em>
-        <!-- iterate feature:producers -->
-        <a href="[/explore/detail/$person:@id]">[$person:title]</a>
-      </em>
+    <div style="padding:0.5em 1em;display:inline-block;margin:0.25em;background-color:#eee;">
+      <h4><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h4>
+      <!-- iterate feature:producers -->
+      <a href="[/explore/detail/$person:@id]">[$person:title]</a>
     </div>
   </aside>
 </article>

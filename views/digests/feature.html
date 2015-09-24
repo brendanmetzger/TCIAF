@@ -1,26 +1,12 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-    main.content {position:relative;}
-    
-    .shrink {
-      transition:all 1s cubic-bezier(0.9,0,0.25,1)  0.125s;
-      font-size:1.5em !important;
-      padding:1em;
-      background-color:#fdfdfa;
-    }
-    .move {
-      width:10% !important;
-      padding:0.5em;
-    }
-    /* ]]> */
-  </style>
-
   <header>
     <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
     <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
-    <!-- iterate item:media:audio -->
-    <audio src="[$domain/$src]" title="[$caption]" onloadedmetadata="drawButton(this);" controls="controls" preload="metadata">Audio</audio>
+  <!-- iterate item:media:audio -->
+  <span>
+    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+  </span>
   </header>
   
   <section class="container">
@@ -28,64 +14,6 @@
   </section>
   
   
-  <script type="text/javascript">
-    // <![CDATA[
-    function drawButton(audio_element) {
-      var butt = document.createElement('button');
-      butt.textContent = "Listen — " + "{m}:{s}".format((new Date(audio_element.duration *1e3)).timecode());
-      butt.className = "listen";
-      audio_element.parentNode.insertBefore(butt, audio_element);
-      
-      
-      butt.addEventListener('click', function (evt) {
-        var spread = Animate(function (element) {
-          var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % animation
-          var x = ratio >= 1 ? this.to[0] : ( ratio * ( this.to[0] - this.from[0] ) ) + this.from[0];
-          var y = ratio >= 1 ? this.to[1] : ( ratio * ( this.to[1] - this.from[1] ) ) + this.from[1];
-          element.style.top  = y + 'px';
-          element.style.left = x + 'px';
-          return (ratio < 1);
-        });
-      
-        evt.preventDefault();
-        var player = window.bloc.execute('Player', audio_element);
-        var li = document.createElement('li');
-        var h1 = this.parentNode.querySelector('h1');
-        var clone = h1.cloneNode(true);
-        var pos = h1.getBoundingClientRect();
-
-        clone.style.position = 'absolute';
-        window.Adjust.scroll(window.pageYOffset - pos.height, 1500);
-        clone.style.top = pos.top + window.pageYOffset + 'px';
-        clone.style.left = pos.left + 'px';
-        clone.style.width = pos.width + 'px';
-        clone.style.textAlign = 'center';
-        var button = this;
-        button.style.top = '-1em';
-
-        document.body.appendChild(clone);
-        clone.addEventListener('transitionend', function (evt) {
-          console.log(evt);
-        });
-        setTimeout(function () {
-          button.parentNode.removeChild(button);
-          clone.classList.add('shrink');
-          setTimeout(function () {
-            clone.style.left = '0px';
-            clone.style.width = '0px';
-            clone.classList.add('move');
-          }, 500);
-          
-          
-        }, 150);
-        
-        
-        player.display.appendChild(li);
-        
-      });
-    }
-    // ]]>
-  </script>
   
   
   <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
@@ -108,22 +36,21 @@
 
   <hr  class="clear" />
   
-  <section class="half group float-left">
-    <h2>Related</h2>
+  <section class="half group float-left" style="padding-right:1em;">
+    <h2>On this note...</h2>
     <!-- insert views/lists/recommendation.html -->
-    
     <aside>[$item:content:extra]</aside>
   </section>
 
-  <section class="half group float-left">
+  <section class="half group float-left" style="padding-left:1em;">
     <h2>Featured In</h2>
     
     <ul class="plain">
-    <!-- iterate item:playlists -->
-    <li><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
+      <!-- iterate item:playlists -->
+      <li><h4><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></h4></li>
     
       <!-- iterate item:competitions -->
-      <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
+      <li><h4><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h4></li>
     </ul>
   </section>
   
@@ -131,23 +58,23 @@
   <script type="text/javascript" async="true">
     // <![CDATA[
     
-    bloc.prepare('recommend', function () {
-      
-      document.querySelector('ol.recommended').addEventListener('click', function (evt) {
-        if (evt.target.nodeName === "A") {
-          evt.preventDefault();
-          var request = new XMLHttpRequest();
-          request.addEventListener('load', function (evt) {
-            evt.target.responseXML.querySelectorAll('audio').forEach(function (audio) {
-              document.body.appendChild(audio);
-            });
-          });
-          request.open('GET', evt.target.href + ".xml");
-          request.send();
-
-        }
-      });
-    });
+    // bloc.prepare('recommend', function () {
+    //
+    //   document.querySelector('ul.recommended').addEventListener('click', function (evt) {
+    //     if (evt.target.nodeName === "A") {
+    //       evt.preventDefault();
+    //       var request = new XMLHttpRequest();
+    //       request.addEventListener('load', function (evt) {
+    //         evt.target.responseXML.querySelectorAll('audio').forEach(function (audio) {
+    //           document.body.appendChild(audio);
+    //         });
+    //       });
+    //       request.open('GET', evt.target.href + ".xml");
+    //       request.send();
+    //
+    //     }
+    //   });
+    // });
     // ]]>
   </script>
 </article>

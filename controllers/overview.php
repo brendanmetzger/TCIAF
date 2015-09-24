@@ -32,7 +32,7 @@ use \models\graph;
            ->map(function($vertex) {
              return ['item' => Graph::factory($vertex)];
            })
-           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/library/feature/{$sort}"]));
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/library/{$sort}"]));
 
       return $view->render($this());
     }
