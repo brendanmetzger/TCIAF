@@ -17,7 +17,7 @@ body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Arial, sans-serif;
   background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
   margin-top:6em;
-  transition:background-position 2s, background-size 1s;
+  transition:background-position 3s, background-size 1.5s;
 }
 
 main {
@@ -89,7 +89,6 @@ li.home a {
 button.listen {
   overflow:hidden;
   height:2.5em;
-/*  transition:height 1s cubic-bezier(0.9,0,0.25,1), opacity 0.875s  0.125s, padding 1s;*/
   padding-left:2.5em;
 }
 
