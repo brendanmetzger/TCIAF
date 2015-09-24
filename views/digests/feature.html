@@ -1,12 +1,13 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <header>
-    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
-    <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
-  <!-- iterate item:media:audio -->
-  <span>
-    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
-  </span>
+    <header>
+      <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
+      <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
+    <!-- iterate item:media:audio -->
+  
+    <span>
+      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+      <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+    </span>
   </header>
   
   <section class="container">
@@ -23,12 +24,14 @@
   
   <section class="group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
   
+  
   <section class="group float-left" property="contributors" style="width:75%;margin-left:2.5%;">
-    <ul>
+    <hr/>
+    <ul class="plain">
       <!-- iterate item:extras -->
-      <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
+      <li><h3><a href="[/explore/detail/$article:@id]">[$article:title]</a></h3></li>
     </ul>
-    
+    <hr/>
     <h2>Produced By</h2>
     <!-- iterate item:producers -->
     <!-- insert views/cards/person.html -->
