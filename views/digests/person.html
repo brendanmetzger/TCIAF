@@ -11,9 +11,11 @@
     <h2 class="caps-lock padded">[$name]</h2>
     <ul class="plain">
       <!-- iterate items -->
-      <li>
-        <a class="h4" href="[$overview]">[$item:title]</a>
-        <p>[$item:summary]</p>
+      <li style="border-top:1px solid #eee;">
+        <a class="h5 award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
+        <a class="h2" href="[$overview]">[$item:title]</a>
+        
+        <p style="max-width:50em;">[$item:summary]</p>
       </li>
     </ul>
   </nav>
