@@ -27,7 +27,7 @@ namespace models;
       'award'       => ['feature'],
       'sponsor'     => ['organization', 'person'],
       'participant' => ['feature'],
-      'extra'       => ['article'],
+      'page'        => ['article'],
       'edition'     => ['competition'],
     ];
     

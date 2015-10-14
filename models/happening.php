@@ -28,6 +28,7 @@ namespace models;
       'extra'       => ['article'],
       'session'     => ['feature'],
       'edition'     => ['happening'],
+      'page'        => ['article'],
     ];
     
     public function __construct($id = null, $data =[])

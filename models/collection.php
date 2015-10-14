@@ -24,6 +24,7 @@ namespace models;
     protected $edges = [
       'item'   => ['feature', 'broadcast'],
       'curator' => ['person', 'organization'],
+      'page'    => ['article'],
     ];
     
     public function __construct($id = null, $data =[])
@@ -38,7 +39,13 @@ namespace models;
       return $context->find("edge[@type='item']")->map(function($edge) {
         return ['feature' => new Feature($edge['@vertex'])];
       });
-      
+    }
+    
+    public function getArticles(\DOMElement $context)
+    {
+      return $context->find("edge[@type='page']")->map(function($edge) {
+        return ['feature' => new Article($edge['@vertex'])];
+      });
     }
     
   }

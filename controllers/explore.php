@@ -29,12 +29,9 @@ class Explore extends Manage
            })
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$type}/{$sort}"]));
     } else {
-      $tokens = [];    
-      foreach (Graph::group('feature')->find('vertex[@mark < '.time().']')->sort(Graph::sort('recommended:F')) as $feature) {
-        $tokens[] = $feature['@id'];
-      }
+      // the homepage is a collection.
+      $this->collection = Graph::factory(Graph::ID('homepage'));
       $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
-      $this->tokens = implode(' ', $tokens);
     }
 
     return $view->render($this());

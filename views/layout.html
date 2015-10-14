@@ -55,9 +55,10 @@
     <header class="container">
       <nav>
         <ul class="inline">
-          <li class="home"><a href="/">home</a></li>
+          <li class="home"><a href="/">Home</a></li>
           <li><a href="/overview/library">Library</a></li>
           <li><a href="/overview/conference">Conference</a></li>
+          <li><a href="/overview/broadcasts">Broadcasts</a></li>
           <li><a href="#">Events</a></li>
           <li><a href="/overview/competition">Competitions</a></li>
           <li><a href="#">Subscribe</a></li>
@@ -70,38 +71,32 @@
         
     <main class="content container">
       <!-- replace content nextSibling -->
-      <article>
-        <style type="text/css" media="screen">
-          /* <![CDATA[ */
-          
-          #Library {
-            width:100%;
-            background-color:#46827e;
-            padding:0;
-          }
-
-
-          #Library rect {
-            fill:#5b9b98;
-            transition:fill-opacity 0.5s;      
-          }
-          #Library rect:hover {
-            fill-opacity:0.5;
-          }
-          /* ]]> */
-        </style>
+      <section>
+        
         
         <!-- insert views/forms/partials/search.html -->
         
-        <div class="container">
-          <div id="Library" data-tokens="[$tokens]">
-          </div>
-        </div>
         
         <h1 style="font-size:10em;letter-spacing:0.025em;color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,0.3);font-weight:100;">Third Coast<br/>International<br/>Audio Festival</h1>
-
         
-      </article>
+        <article style="border:1px solid #000;">
+          <h2 data-id="[$collection:@id]">[$collection:title]</h2>
+          <p>[$collection:content:about]</p>
+          <!-- iterate collection:features -->
+          <div data-created="[$feature:@created]" data-updated="[$feature:@updated]" data-award="[$feature:award:title]">
+            <h2><a href="[/explore/detail/$feature:@id]" data-id="[$feature:@id]">[$feature:title]</a> <em>[($feature:premier:@date)]</em></h2>
+            <cite>
+              <!-- iterate feature:producers -->
+              <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
+            </cite>
+  
+            <aside>[$feature:summary]</aside>
+  
+          </div>
+
+        </article>
+        
+      </section>
     </main>
     
     <!-- insert views/pages/footer.html -->

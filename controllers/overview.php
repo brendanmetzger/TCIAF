@@ -58,7 +58,13 @@ use \models\graph;
       return $view->render($this());
     }
     
-    public function GETcompetition($id = null)
+    public function GETBroadcasts()
+    {
+      $view = new view('views/layout.html');
+      return $view->render($this());
+    }
+    
+    public function GETcompetition($id = null, $participants = false)
     {
       
       if ($id === null) {
@@ -67,12 +73,14 @@ use \models\graph;
           ['item' => Graph::factory(Graph::ID('driehaus'))],
           ['item' => Graph::factory(Graph::ID('shortdocs'))],
         ];
-
         $page =  'overview';
       } else {
         $this->item = Graph::factory(Graph::ID($id));
-        $page = 'edition';
-        
+        if ($participants) {
+          $page = 'listing';
+        } else {
+          $page = 'edition';
+        }
       }
       
       $view = new view('views/layout.html');

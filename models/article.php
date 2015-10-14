@@ -23,7 +23,8 @@ class Article extends Feature
   protected $edges = [
     'producer' => ['person'],
     'extra'    => ['feature', 'broadcast'],
-    'item'     => ['collection', 'competition']
+    'item'     => ['competition'],
+    'page'     => ['collection', 'competition', 'happening'],
   ];
   
   public function getFeatures(\DOMElement $context)
