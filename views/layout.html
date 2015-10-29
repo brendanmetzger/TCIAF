@@ -74,9 +74,16 @@
     <main class="content container">
       <!-- replace content nextSibling -->
       <section>
+
+        <article>
+          <!-- iterate collection:articles -->        
+          <section>
+            <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
+            <h2 data-id="[$article:@id]"><a href="[/explore/detail/$article:@id]">[$article:title]</a></h2>
+            <p>[$article:summary]</p>
+          </section>
+        </article>
         
-        
-        <!-- insert views/forms/partials/search.html -->
                 
         <article>
           <h2 data-id="[$collection:@id]">[$collection:title]</h2>

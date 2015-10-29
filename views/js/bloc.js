@@ -708,7 +708,7 @@ if (window.history.pushState) {
 }
 
 var processLayout = function (evt) {
-  if (this.dataset.engage === undefined, this.scrollTop >= this.dataset.top) {
+  if (this.dataset.engage === undefined, this.scrollTop > this.dataset.top) {
     this.dataset.engage = true;
   } else if (this.dataset.engage){
     delete this.dataset.engage;

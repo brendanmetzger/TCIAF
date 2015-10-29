@@ -44,7 +44,7 @@ namespace models;
     public function getArticles(\DOMElement $context)
     {
       return $context->find("edge[@type='page']")->map(function($edge) {
-        return ['feature' => new Article($edge['@vertex'])];
+        return ['article' => new Article($edge['@vertex'])];
       });
     }
     
