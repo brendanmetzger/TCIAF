@@ -51,6 +51,8 @@
   </head>
   
   <body class="[$_controller $_action unloaded]" data-user="[$user]">
+    <nav style="background:rgba(255,255,255,0.75) url(/images/tightrope.svg); height: 10em;">
+    </nav>
     <!-- replace helper -->
     <header class="container">
       <nav>
@@ -75,11 +77,8 @@
         
         
         <!-- insert views/forms/partials/search.html -->
-        
-        
-        <h1 style="font-size:10em;letter-spacing:0.025em;color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,0.3);font-weight:100;">Third Coast<br/>International<br/>Audio Festival</h1>
-        
-        <article style="border:1px solid #000;">
+                
+        <article>
           <h2 data-id="[$collection:@id]">[$collection:title]</h2>
           <p>[$collection:content:about]</p>
           <!-- iterate collection:features -->

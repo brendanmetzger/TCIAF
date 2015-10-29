@@ -33,7 +33,10 @@ class Manage extends \bloc\controller
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
     
-    $this->supporters = Graph::factory(Graph::ID('TCIAF'))->supporters;
+    $tciaf = Graph::factory(Graph::ID('TCIAF'));
+
+    $this->supporters = $tciaf->supporters;
+    $this->staff      = $tciaf->staff;
     
     if ($this->authenticated) {
 
@@ -144,6 +147,40 @@ class Manage extends \bloc\controller
     
     $view = new view('views/layout.html');    
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
+    return $view->render($this()); 
+  }
+  
+  protected function GETgroup($to_group, $from_group, $vertex)
+  {
+    $view = new view('views/layout.html');
+    
+    if ($vertex) {
+      $vertex = Graph::ID($vertex);
+      $dom = Graph::instance()->storage;
+
+      $context = $dom->pick("/graph/group[@type='{$to_group}']");
+   
+      if ($to_group === 'archive') {
+        $vertex->setAttribute('mark', $from_group);
+        $vertex->setAttribute('updated', 'expunged');
+      } else {
+        $vertex->removeAttribute('mark');
+        $vertex->setAttribute('updated', (new \DateTime())->format('Y-m-d H:i:s'));
+      }
+    
+      $context->insertBefore($vertex, $context->firstChild);
+    
+      $filepath = PATH . Graph::DB . '.xml';
+
+      if ($dom->validate() && is_writable($filepath)) {
+        $dom->save($filepath);
+        \models\Search::clear();
+      }
+    }
+    
+    $this->archive = Graph::group('archive')->find('vertex');
+
+    $view->content = 'views/lists/archive.html';
     return $view->render($this()); 
   }
   

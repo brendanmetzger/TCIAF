@@ -11,11 +11,18 @@
     <h2 class="caps-lock padded">[$name]</h2>
     <ul class="plain">
       <!-- iterate items -->
-      <li style="border-top:1px solid #eee;">
+      <li style="border-top:1px solid #eee;" data-updated="[$item:@updated]">
         <a class="h5 award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
         <a class="h2" href="[$overview]">[$item:title]</a>
         
         <p style="max-width:50em;">[$item:summary]</p>
+        
+        <!-- iterate item:media:audio -->
+        <span>
+          <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+          <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+        </span>
+        
       </li>
     </ul>
   </nav>

@@ -22,7 +22,7 @@ namespace models;
     ];
     
     protected $edges = [
-      'item'   => ['feature', 'broadcast'],
+      'item'    => ['feature', 'broadcast'],
       'curator' => ['person', 'organization'],
       'page'    => ['article'],
     ];

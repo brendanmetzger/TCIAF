@@ -16,19 +16,19 @@
     <aside class="sponsors container">
       <h3>Sponsors</h3>
       <!-- iterate item:sponsors -->
-      <div vocab="http://schema.org/" typeof="Organization">
+      <div vocab="http://schema.org/" typeof="Organization" data-updated="[$organization:@updated]">
         <h3 data-id="[$organization:@id]"><a href="[/explore/detail/$organization:@id]" property="name">[$organization:title]</a></h3>
         <p>[$organization:about]</p>
       </div>
     </aside>
     
   </section>
-  <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:about]</section>
+  <section class="group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:about]</section>
   <hr />
   <section class="awards container">
     <h2>And the Winners Are</h2>
     <!-- iterate item:awards -->
-    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks">
+    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks" data-updated="[$feature:@updated]">
       <span class="h3" property="award">[$award]</span>
       <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
       <!-- iterate feature:producers -->

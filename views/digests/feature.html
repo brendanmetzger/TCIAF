@@ -1,9 +1,9 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-    <header>
-      <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
-      <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
+  <header>
+    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
+    <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
+    
     <!-- iterate item:media:audio -->
-  
     <span>
       <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
       <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
@@ -35,7 +35,7 @@
   <hr  class="clear" />
   
   <section class="half group float-left" style="padding-right:1em;">
-    <h2>On this note...</h2>
+    <h2>Recommended</h2>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>

@@ -73,7 +73,7 @@ use \models\graph;
           ['item' => Graph::factory(Graph::ID('driehaus'))],
           ['item' => Graph::factory(Graph::ID('shortdocs'))],
         ];
-        $page =  'overview';
+        $page = 'overview';
       } else {
         $this->item = Graph::factory(Graph::ID($id));
         if ($participants) {

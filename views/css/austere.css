@@ -111,7 +111,7 @@ h1, .h1 { font-size:2.5em; margin:0.25em 0; }
 h2, .h2, legend { font-size:1.75em; line-height:175%; }
 h3, .h3, input { font-size:1.65em; }
 h4, .h4 {font-size:1.45em;}
-h5, p, .p, li, label, form button, input, textarea { font-size:1.25em;line-height:150%;}
+h5, p, .p, li, label, form button, input, textarea { font-size:1.35em;line-height:150%;}
 ul.plain li {font-size:100%;}
 label, cite, p, .p, li, h1, h2, h3, h4, h5, address, legend, .normal, button, .button {
   font-weight:400;
@@ -301,7 +301,7 @@ div.person img {
 
 
 
-article > header {
+.page article > header {
   margin:10% 5em 0 20%;
   font-family:'Courier New';
   font-weight:400;

@@ -300,6 +300,7 @@ var Modal = function (element) {
         button.addEventListener('click', this.close.bind(this));
     
     this.element.insertBefore(button, this.element.firstChild);
+    this.element.style.top = (document.body.scrollTop + 20) + 'px';
     bloc.execute('autoload');
     if (this.progress) {
       this.progress.remove();
@@ -308,7 +309,6 @@ var Modal = function (element) {
   show: function () {
     document.body.classList.add('locked');
     this.backdrop.style.height = document.body.scrollHeight + 'px';
-    // this.element.style.top = document.body.scrollTop + (window.innerHeight / 4) + 'px';
     this.backdrop.classList.add('viewing');
   },
   close: function (evt) {

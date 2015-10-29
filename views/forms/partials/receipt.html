@@ -1,6 +1,8 @@
 <div class="receipt">
   <button type="submit">Save Changes</button>
   <p class="[status $item:status:type]"><em>[$item:status:text]</em></p>
+  
+  <a class="trash button p" href="[/manage/group/archive/$item:_model/$item:@id]">[Archive "$item:title"]</a>
 
   <!-- iterate item:status:errors -->
   <h3 class="error">[$message]</h3>

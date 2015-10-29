@@ -1,4 +1,3 @@
-.error   {color:#BC6365;}
 
 .console {
   background-color:rgba(33,33,33,1);
@@ -231,7 +230,8 @@ body[data-user] {
 .backdrop .close {
   position:fixed;
   top:1em;
-  left:10%;
+  right:1em;
+  z-index:90000;
 }
 .backdrop > .progress circle {
   stroke:none;
@@ -262,25 +262,43 @@ body[data-user] {
   overflow:scroll;
 }
 .backdrop > form {
-  position: fixed;
+  position: relative;
   left: 10%;
-  top: 5%;
-  max-width: 70%;
-  height: auto;
-  width: 75%;
-  max-height: 85%;
+  max-width: 80%;
+  height: 90vh;
+  width: 80%;
   border-color: #CEE3EB;
-  border-width: 1em 0;
-  border-style: solid;
-  box-shadow: 0 0 0.25em 0.25em rgba(0,0,0,0.25);
-  padding: 1.5em;
-  margin: 2em 0;
+  padding: 5vh 1em;
+  margin: 0;
   background-color: #f8f8f8;
 }
 .backdrop.viewing {
   opacity:1;
   visibility:visible;
 }
+
+div.receipt {
+  height:4vh;
+  transition:background-color 1s;
+  position:fixed;
+  top:0;
+  left:0;
+  width:80%;
+  padding:0.25em 10% 0.75em;
+  background-color:rgba(68,68,68,1);
+  box-shadow:-0.25em 0.5em 1em rgba(0,0,0,0.1);
+  z-index:10001;
+}
+
+
+
+div.receipt p {
+  display:inline-block;
+  margin:0;
+}
+
+
+
 
 
 fieldset.edges dl {
@@ -440,28 +458,6 @@ div.edge {
   padding:0.25em;
 }
 
-div.receipt {
-  height:3em;
-  transition:background-color 1s;
-  position:fixed;
-  top:0;
-  left:15%;
-  width:62.5%;
-  padding:1em 1.5%;
-  background-color:rgba(68,68,68,1);
-  box-shadow:-0.25em 1em 1em rgba(0,0,0,0.1);
-  z-index:1000;
-  border-bottom:0.5em solid #444;
-}
-
-
-
-div.receipt p{
-  display:inline-block;
-  margin:0;
-}
-
-
 
 
 
@@ -526,3 +522,10 @@ dd.sorting div.edge {
 dt.closed ~ dd {
   display:none;
 }
+
+.trash {
+  background:#E9CCCB url(/images/trash.svg) no-repeat left center;
+  padding-left:2.5em;
+}
+
+.error   {color:#BC6365;}

@@ -225,7 +225,9 @@ class Task extends \bloc\controller
       $item->best   = [];
       $item->id     = $spectra->parentNode['@id'];
       
+      $skip = 0;
       foreach ($spectra->attributes as $attr) {
+        if ($skip++ < 1) continue; // do not factor recommendation into correlation
         $value = (int)$attr->nodeValue;
         $item->sum += $value;
         $item->sumsq += pow($value, 2);
@@ -255,7 +257,6 @@ class Task extends \bloc\controller
         }, $A->values, $B->values));
 
         $r = ($sum_p - (($A->sum * $B->sum) / $count ) ) / sqrt( $A->pow  * $B->pow );
-
         if ($r == 1 || $r == -1) continue;
         if ($r > 0.5 || $r < -0.5) {
           $A->best[$bid] = $r;

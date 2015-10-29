@@ -97,6 +97,9 @@ use \bloc\dom\query;
       if ($model instanceof \DOMElement) {
         $element = $model;
         $model = $element->parentNode->getAttribute('type');
+        if ($model === 'archive') {
+          $model = $element->getAttribute('mark');
+        }
       } else {
         $element = null;
       }

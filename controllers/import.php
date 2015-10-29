@@ -676,30 +676,16 @@ class Import extends Task
   }
   
 
-  public function CLIRenameSpectra()
+  public function CLISpectra()
   {
-    $doc  = new \bloc\DOM\Document('data/db10');
+    $doc  = new \bloc\DOM\Document('data/db24');
     $xml  = new \DomXpath($doc);
-    
-    foreach ($xml->query("//group/vertex/spectra") as $spectra) {
-      parse_str($spectra->nodeValue, $parsed);
-      $newspectra = $doc->createElement('spectra');
-      foreach ($parsed as $key => $value) {
-        $newspectra->setAttribute($key, $value);
-      }
-      
-      $spectra->parentNode->replaceChild($newspectra, $spectra);
-      
-      $spectra->nodeValue = null;
+    $spectras = $xml->query("//group/vertex/spectra[@R > 50]");
+    foreach ($spectras as $spectra) {
+      echo $spectra->write() . "\n";
     }
-    
-    if ($doc->validate()) {
-      $file = 'data/db11.xml';
-      echo "New File: {$file}\n";
-      $doc->save(PATH . $file);
-      
-      $this->CLIcompress($file);
-    }
+    $tot = ($spectras->length * 7);
+    echo "There are {$tot}\n";
   }
   
   public function CLISync()

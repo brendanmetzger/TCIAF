@@ -286,7 +286,7 @@ abstract class Model extends \bloc\Model
 		
 		$this->parseText($this->context);
   }
-  
+    
   public function __call($method, $arguments)
   {
 
@@ -374,7 +374,4 @@ abstract class Model extends \bloc\Model
     return $out;
     
   }
-  
-
-  
 }

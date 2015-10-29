@@ -2,7 +2,7 @@
   <a href="[/$paginate:prefix/$paginate:previous]">Prev</a>
   <em>[$paginate:index of $paginate:total]</em>
   <a href="[/$paginate:prefix/$paginate:next]">Next</a>
-  <input type="range" min="1" max="[$paginate:total]" value="[$paginate:index]" step="1" onchange="[navigateToPage.call({href: '/$paginate:prefix/'+this.value}, event);]" oninput="this.parentNode.querySelector('em').innerHTML = 'Go to page ' + this.value"/>
+  <!-- <input type="range" min="1" max="[$paginate:total]" value="[$paginate:index]" step="1" onchange="[navigateToPage.call({href: '/$paginate:prefix/'+this.value}, event);]" oninput="this.parentNode.querySelector('em').innerHTML = 'Go to page ' + this.value"/> -->
   
   <!-- insert views/forms/partials/search.html -->
 </nav>
