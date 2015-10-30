@@ -13,10 +13,4 @@ class Broadcast extends Feature
     'item'     => ['collection'],
   ];
   
-  public function __construct($id = null, $data =[])
-  {
-    $this->template['form'] = 'vertex';
-    parent::__construct($id, $data);
-  }
-  
 }

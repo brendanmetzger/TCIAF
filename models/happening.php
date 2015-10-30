@@ -8,6 +8,8 @@ namespace models;
 
   class Happening extends Model
   {
+    use traits\navigation;
+    
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -25,10 +27,10 @@ namespace models;
       'host'        => ['person', 'organization'],
       'presenter'   => ['person'],
       'participant' => ['person'],
-      'extra'       => ['article'],
       'session'     => ['feature'],
       'edition'     => ['happening'],
       'page'        => ['article'],
+      'playlist'    => ['collection'],
     ];
     
     public function __construct($id = null, $data =[])

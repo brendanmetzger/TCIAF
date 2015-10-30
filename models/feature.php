@@ -39,7 +39,7 @@ namespace models;
     {
       parent::__construct($id, $data);
       
-      if ($this->happenings->count() > 0) {
+      if ($this->happenings->count() > 0 && $this->presenters->count() > 0) {
         $this->template['digest'] = 'session';
       }
     }
@@ -131,8 +131,10 @@ namespace models;
     
     public function getPresenters(\DOMElement $context)
     {
-      return $context->find("edge[@type='presenter']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex']), 'role' => 'Presenter'];
+      $presenters = $context->find("edge[@type='presenter']");
+      $count = $presenters->count();
+      return $presenters->map(function($edge) use ($count){
+        return ['person' => new Person($edge['@vertex']), 'role' => 'Presenter', 'count' => $count];
       });
     }
     

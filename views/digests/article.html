@@ -3,6 +3,13 @@
     <h1 data-id="[$item:@id]">[$item:title]</h1>
   </header>
   <section>[$item:content:description]</section>
+  <hr />
+  <!-- iterate item:media:audio -->
+  <span>
+    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+    <p>[$caption]</p>
+  </span>
   <nav>
   <h2>More</h2>
     <ul class="plain">

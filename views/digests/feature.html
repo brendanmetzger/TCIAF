@@ -1,8 +1,9 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <header>
-    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>
+  <header class="trans-blocks">
+    <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
     <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
-    
+    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>    
+    <hr/>
     <!-- iterate item:media:audio -->
     <span>
       <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
@@ -10,9 +11,6 @@
     </span>
   </header>
   
-  <section class="container">
-    <a class="h3 award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-  </section>
   
   <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
     <!-- iterate item:media:image -->

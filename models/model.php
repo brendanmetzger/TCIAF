@@ -132,7 +132,6 @@ abstract class Model extends \bloc\Model
     $context->setAttribute('content', $abstract['@']['content']);
 
     $markdown = new \Parsedown();
-    
     file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
     return true;
   }

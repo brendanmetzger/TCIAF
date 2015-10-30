@@ -717,7 +717,7 @@ var processLayout = function (evt) {
 };
 
 bloc.prepare('onload', function () {
-  document.body.dataset.top = document.body.firstElementChild.offsetHeight;
+  document.body.dataset.top = document.body.querySelector('header').offsetHeight;
   
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   

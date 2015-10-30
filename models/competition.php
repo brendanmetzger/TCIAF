@@ -9,6 +9,8 @@ namespace models;
 
   class Competition extends Model
   {
+    use traits\banner;
+    
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -29,6 +31,7 @@ namespace models;
       'participant' => ['feature'],
       'page'        => ['article'],
       'edition'     => ['competition'],
+      'playlist'    => ['collection'],
     ];
     
     public function __construct($id = null, $data =[])
@@ -60,15 +63,7 @@ namespace models;
       $this->parseText($context);
       return isset($this->about) ? $this->about : null;
     }
-    
-    public function getBanner(\DOMElement $context)
-    {
-      if ($photo = $this->media['image']->current()) {
-        return $photo;
-      }
-    }
 
-    
     public function getParticipants(\DOMElement $context)
     {
       return $context->find("edge[@type='participant']")->map(function($edge) {

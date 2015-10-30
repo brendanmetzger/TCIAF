@@ -7,6 +7,8 @@
 
 class Article extends Model
 {
+  use traits\banner;
+  
   static public $fixture = [
     'vertex' => [
       'abstract' => [
@@ -40,10 +42,5 @@ class Article extends Model
     });
   }
   
-  public function getPhoto(\DOMElement $context)
-  {
-    if ($photo = $this->media['image']->current()) {
-      return $photo;
-    }
-  }
+ 
 }

@@ -1,13 +1,14 @@
 <article>
   <header>
   	<a href="/explore/index/collection">All Playlists</a>
+    <img src="[http://s3.amazonaws.com/$item:photo:url]" />
     <h2 data-id="[$item:@id]">[$item:title]</h2>
   </header>
   
-  <section>[$item:about]</section>
+  <section>[$item:content:about]</section>
   
   <nav>
     <!-- iterate item:features -->
-    <h3 data-id="[$feature:@id]" data-updated="[$feature:@updated]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+    <!-- insert views/cards/feature.html -->
   </nav>
 </article>

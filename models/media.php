@@ -22,7 +22,7 @@ namespace models;
         'src'     => $media['@src'],
         'type'    => $media['@type'],
         'mark'    => $media['@mark'] ?: 0,
-        'caption' => $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4)),
+        'caption' => (new \Parsedown())->text($media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4))),
         'context' => $index ?: $media['@type'] . '/' . $media->parentNode['@id'] . '/' . $media->getIndex(),
       ];
     }

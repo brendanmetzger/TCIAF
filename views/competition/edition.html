@@ -1,12 +1,29 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
   
   <header>
+    <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:20%;background-color:#fdfdfa;padding:5%;"/>
     <h1 data-id="[$item:@id]" class="mono">[$item:title]</h1>
   </header>
   
-  <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;">
-    <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;background-color:#fdfdfa;padding:5%;"/>
-    
+  
+  <section  property="description">[$item:content:about]</section>
+
+  <section class="awards container">
+    <h2>And the Winners Are</h2>
+    <!-- iterate item:awards -->
+    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks" data-updated="[$feature:@updated]">
+      <span class="h3" property="award">[$award]</span>
+      <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+      <!-- iterate feature:producers -->
+      <h4 class="mono"><a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a></h4>
+      
+      <p property="description">[$feature:summary]</p>
+    </div>
+  </section>
+  
+  <hr />
+  
+  <section>
     <aside class="judges container" property="attendees">
       <h3>Judges</h3>
       <!-- iterate item:judges -->
@@ -23,22 +40,6 @@
     </aside>
     
   </section>
-  <section class="group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:about]</section>
-  <hr />
-  <section class="awards container">
-    <h2>And the Winners Are</h2>
-    <!-- iterate item:awards -->
-    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks" data-updated="[$feature:@updated]">
-      <span class="h3" property="award">[$award]</span>
-      <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
-      <!-- iterate feature:producers -->
-      <h4 class="mono"><a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a></h4>
-      
-      <p property="description">[$feature:summary]</p>
-    </div>
-  </section>
-  
-  <hr />
   
   <a href="[/overview/competition/$item:@id/participants]">See All Participants</a>
 </article>

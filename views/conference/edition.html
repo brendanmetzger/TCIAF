@@ -1,6 +1,12 @@
 <article class="conference page">
   <header>
-    <a href="/overview/conference">See all Conferences</a>
+    <ul class="ragleft plain">
+      <li><a href="/overview/conference">See all Conferences</a></li>
+      <!-- iterate item:playlists -->
+      <li><a href="[/explore/detail/$playlist:@id]">[$playlist:title]</a></li>
+    </ul>
+    
+    <hr/>
     <h1 data-id="[$item:@id]">[$item:title]</h1>    
   </header>
 
@@ -8,21 +14,63 @@
   
 
   <section>
-    <h3>Conference Sessions</h3>
     <!-- iterate item:sessions -->
-    <aside class="trans-blocks">
-      <h3><a href="[/explore/detail/$session:@id]">[$session:title]</a></h3>
-      <nav>
-        <ul class="inline">
-          <!-- iterate session:presenters -->
-          <li><a href="[/explore/detail/$person:@id]">[$person:title]</a></li>
-        </ul>
-      </nav>
-      <p>[$session:summary]</p>
-    </aside>
+    <article class="trans-blocks">
+      <h3 data-id="[$session:@id]" class="center h1"><a href="[/explore/detail/$session:@id]"><strong>[$session:title]</strong></a></h3>
+      <blockquote class="justify p">
+        <p>[$session:summary]</p>
+      </blockquote>
+      
+      <hr/>
+      <h5 class="h2 center">Featuring</h5>
+      <ul class="bios container">
+        <!-- iterate session:presenters -->
+        <li class="[float-left _$count group]" data-id="[$person:@id]">
+          <span class="bio-disc" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+          <a href="[/explore/detail/$person:@id]">[$person:title]</a>
+        </li>
+      </ul>
+    </article>
   </section>
     
     
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
 
+    
+
+    
+    .bios {
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .bios li {
+      text-align:center;
+    }
+    
+    .bios li a {
+      display:block;
+      width:10em;
+      margin:0 auto;
+      padding:0.5em;
+      border-top:1px dashed rgba(0,0,0,0.1);
+    }
+    
+    .bio-disc {
+      margin:1em auto;
+      width:5em;
+      height:5em;
+    }
+    
+    .bios li img {
+      width:10em;
+      background-color:rgba(255,255,255,0.25);
+      margin:0 auto;
+      padding:0.5em;
+    }
+
+    /* ]]> */
+  </style>
 
 </article>

@@ -7,6 +7,8 @@ namespace models;
 
 class Person extends Model
 {
+  use traits\banner;
+  
   static public $fixture = [
     'vertex' => [
       'abstract' => [
@@ -78,12 +80,7 @@ class Person extends Model
     return isset($this->bio) ? $this->bio : null;
   }
   
-  public function getPhoto(\DOMElement $context)
-  {
-    if ($photo = $this->media['image']->current()) {
-      return $photo;
-    }
-  }
+
   
   public function getFeatures(\DOMElement $context)
   {
@@ -109,6 +106,8 @@ class Person extends Model
               $overview = "/overview/tciaf";
             } else if ($item->_model == 'competition') {
               $overview = '/overview/competition/' . $collection['@vertex'];
+            } else if ($item->_model == 'happening') {
+              $overview = "/overview/conference/{$collection['@vertex']}";
             } else {
               $overview = "/explore/detail/{$collection['@vertex']}";
             }

@@ -1,0 +1,59 @@
+
+
+.trans-blocks {
+  margin:3em 0;
+  background-color:rgba(255,255,255, 0.4);
+  padding:2em;
+  border:1px solid rgba(0,0,0,0.25);
+  box-shadow: 0 0 0 1em rgba(255,255,255,0.4);
+  position:relative;
+}
+
+blockquote.justify {
+  width:50%;
+  margin:1em auto;
+  color:#888;
+}
+
+.award {
+  padding: 0.5em 3.5em 0.5em 0;
+  display:block;
+  position:absolute;
+  text-align:right;
+  top:0;
+  right:0;
+  text-decoration:none;
+  background: transparent url(/images/medal.svg) no-repeat top right;
+  background-size:auto 100% ;
+}
+.award > * {
+  display:block;
+}
+
+
+.bio-disc {
+  border-radius:50%;
+  background-size:cover;
+  background-position:top center;
+  background-repeat:no-repeat;
+  width:7.5em;
+  height:7.5em;
+  border:2px solid #fff;
+  display:block;
+  text-indent:-1000em;
+  color:transparent;
+  box-shadow:0 0 0 0.25em rgba(0,0,0,0.1);
+}
+
+.card .bio-disc {
+  float:left;
+  opacity:0.8;
+  margin:0 1em 0 0;
+}
+
+.card {
+  margin:1em 0;
+  border:1px solid #eee;
+  box-shadow:0 0 0 0.25em rgba(255,255,255,0.25);
+  padding:1em;
+}

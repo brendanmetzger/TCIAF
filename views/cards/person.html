@@ -1,5 +1,5 @@
 <aside class="person card container" vocab="http://schema.org/" typeof="Person">
-  <img src="[http://s3.amazonaws.com/$person:photo:url]"/>
+  <span class="bio-disc" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
   <h3 data-id="[$person:@id]"><a href="[/explore/detail/$person:@id]" property="name">[$person:@title]</a></h3>
   <p>[$person:summary]</p>
 </aside>

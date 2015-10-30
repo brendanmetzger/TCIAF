@@ -1,15 +1,18 @@
 <article class="session page" vocab="http://schema.org/" typeof="CreativeWork">
-  <h5 class="h1">Conference<br/>Session</h5>
-  <!-- iterate item:media:audio -->
-  <span>
-    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
-  </span>
+  
+  <h3>Conference Session</h3>
+  
 
   
   <header>
     <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
     <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
+    <!-- iterate item:media:audio -->
+    <span>
+      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+      <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+    </span>
+    
   </header>
   
   

@@ -8,6 +8,8 @@ namespace models;
 
   class Collection extends Model
   {
+    use traits\banner;
+    
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -25,6 +27,7 @@ namespace models;
       'item'    => ['feature', 'broadcast'],
       'curator' => ['person', 'organization'],
       'page'    => ['article'],
+      'playlist'=> ['competition', 'happening'],
     ];
     
     public function __construct($id = null, $data =[])

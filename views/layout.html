@@ -48,15 +48,15 @@
     <link rel="shortcut icon" href="/images/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="/css/austere.css" />
     <link rel="stylesheet" type="text/css" href="/css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="/css/_working_.css" />
   </head>
   
+  
   <body class="[$_controller $_action unloaded]" data-user="[$user]">
-    <nav style="background:rgba(255,255,255,0.75) url(/images/tightrope.svg); height: 10em;">
-    </nav>
     <!-- replace helper -->
     <header class="container">
-      <nav>
-        <ul class="inline">
+      <nav class="responsive">
+        <ul>
           <li class="home"><a href="/">Home</a></li>
           <li><a href="/overview/library">Library</a></li>
           <li><a href="/overview/conference">Conference</a></li>
@@ -83,23 +83,12 @@
             <p>[$article:summary]</p>
           </section>
         </article>
-        
-                
+
         <article>
           <h2 data-id="[$collection:@id]">[$collection:title]</h2>
           <p>[$collection:content:about]</p>
           <!-- iterate collection:features -->
-          <div data-created="[$feature:@created]" data-updated="[$feature:@updated]" data-award="[$feature:award:title]">
-            <h2><a href="[/explore/detail/$feature:@id]" data-id="[$feature:@id]">[$feature:title]</a> <em>[($feature:premier:@date)]</em></h2>
-            <cite>
-              <!-- iterate feature:producers -->
-              <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
-            </cite>
-  
-            <aside>[$feature:summary]</aside>
-  
-          </div>
-
+          <!-- insert views/cards/feature.html -->
         </article>
         
       </section>

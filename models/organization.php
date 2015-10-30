@@ -9,6 +9,8 @@ namespace models;
 
   class Organization extends Model
   {
+    use traits\banner;
+    
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -63,14 +65,7 @@ namespace models;
         return ['person' => new Person($edge['@vertex']), 'position' => $edge->nodeValue];
       });
     }
-    
-    public function getPhoto(\DOMElement $context)
-    {
-      if ($photo = $this->media['image']->current()) {
-        return $photo;
-      }
-    }
-    
+
     public function getSupporters(\DOMElement $context)
     {
       return $context->find("edge[@type='sponsor' and contains(., 'Support')]")->map(function($edge) {
