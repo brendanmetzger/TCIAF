@@ -1,8 +1,16 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li><a href="/overview/competition">More Competitions</a></li>
+      <li><strong>See All</strong><a href="[/overview/competition/$item:@id/participants]">Participants</a></li>
+      <li style="line-height:0;border:none;">
+          <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:100%;margin:0" data-aspect="[$item:banner:mark]"/>
+      </li>
+    </ul>
+  </nav>
   
   <header>
-    <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:20%;background-color:#fdfdfa;padding:5%;"/>
-    <h1 data-id="[$item:@id]" class="mono">[$item:title]</h1>
+    <h1 data-id="[$item:@id]">[$item:title]</h1>
   </header>
   
   
@@ -20,26 +28,35 @@
       <p property="description">[$feature:summary]</p>
     </div>
   </section>
-  
-  <hr />
-  
-  <section>
-    <aside class="judges container" property="attendees">
-      <h3>Judges</h3>
-      <!-- iterate item:judges -->
-      <!-- insert views/cards/person.html -->
-    </aside>
-    
-    <aside class="sponsors container">
-      <h3>Sponsors</h3>
-      <!-- iterate item:sponsors -->
-      <div vocab="http://schema.org/" typeof="Organization" data-updated="[$organization:@updated]">
-        <h3 data-id="[$organization:@id]"><a href="[/explore/detail/$organization:@id]" property="name">[$organization:title]</a></h3>
-        <p>[$organization:about]</p>
-      </div>
-    </aside>
-    
+  <hr/>
+  <h2>Judges</h2>
+  <section property="attendees" class="split container">
+    <!-- iterate item:judges -->
+    <!-- insert views/cards/person.html -->
+  </section>
+  <hr/>
+  <h2>Sponsors</h2>
+  <section class="sponsors container">
+    <!-- iterate item:sponsors -->
+    <div vocab="http://schema.org/" typeof="Organization" data-updated="[$organization:@updated]">
+      <h4 data-id="[$organization:@id]">[$organization:title]</h4>
+      <p>[$organization:about]</p>
+    </div>
   </section>
   
-  <a href="[/overview/competition/$item:@id/participants]">See All Participants</a>
+  
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    .split .card:nth-child(even) {
+      margin-left:2.5% !important;
+    }
+    .split .card {
+      width:47.5%;
+      box-sizing:border-box;
+      height:11em;
+      overflow:hidden;
+      float:left;
+    }
+    /* ]]> */
+  </style>
 </article>

@@ -50,10 +50,6 @@ ul.inline {padding:0; }
   margin:1em 0;
 }
 
-.page h3 {
-  font-weight:500;
-  margin:1em 0 0;
-}
 
 
 
@@ -142,7 +138,7 @@ label, p, h5 {
 hr, .hr {
   border:none;
   border-top:1px dashed rgba(238,49,36, 0.5);
-  margin:2em 0;
+  margin:2.5em 5%;
   box-shadow: 0 0 2em 1em rgba(255,255,255, 0.25);
   clear:both;
 }

@@ -695,7 +695,16 @@ if (window.history.pushState) {
   
   document.body.addEventListener('click', function (evt) {
     if (evt.target.nodeName.toLowerCase() === 'a') {
-      if (evt.target.matches("a:not(.button)[href^='/']")) {
+      if (evt.target.hash) {
+        evt.preventDefault();
+        var elem = document.getElementById(evt.target.hash.substr(1))
+        if (elem) {
+          console.dir(elem);
+          window.Adjust.scroll(elem.offsetTop - 50, 1500);
+        }
+        
+        
+      } else if (evt.target.matches("a:not(.button)[href^='/']")) {
         evt.preventDefault();
         navigateToPage.call(evt.target, evt);
       }
@@ -713,11 +722,10 @@ var processLayout = function (evt) {
   } else if (this.dataset.engage){
     delete this.dataset.engage;
   }
-
 };
 
 bloc.prepare('onload', function () {
-  document.body.dataset.top = document.body.querySelector('header').offsetHeight;
+  document.body.dataset.top = document.body.firstElementChild.offsetHeight;
   
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   

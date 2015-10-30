@@ -4,7 +4,7 @@
   margin:3em 0;
   background-color:rgba(255,255,255, 0.4);
   padding:2em;
-  border:1px solid rgba(0,0,0,0.25);
+  border:1px solid rgba(0,0,0,0.075);
   box-shadow: 0 0 0 1em rgba(255,255,255,0.4);
   position:relative;
 }
@@ -26,10 +26,10 @@ blockquote.justify {
   background: transparent url(/images/medal.svg) no-repeat top right;
   background-size:auto 100% ;
 }
+
 .award > * {
   display:block;
 }
-
 
 .bio-disc {
   border-radius:50%;
@@ -56,4 +56,32 @@ blockquote.justify {
   border:1px solid #eee;
   box-shadow:0 0 0 0.25em rgba(255,255,255,0.25);
   padding:1em;
+}
+
+
+.crumbs ul {
+  padding:1em;
+  border-top-width:0;
+  display:inline-block;
+  background-color:rgba(255,255,255,1);
+  box-shadow:0 0.25em 0 0.125em rgba(0,0,0,0.1);
+  max-width:40%;
+}
+
+.crumbs li strong {
+  text-transform:uppercase;
+  letter-spacing:0.125em;
+  color:#AAA;
+  padding:0 0.5em;
+}
+
+.crumbs li {
+  padding:0.5em 0;
+}
+.crumbs li + li {
+  border-top:1px dashed rgba(0,0,0,0.1);
+}
+.crumbs li a {
+  padding:0.125em;
+  font-size:1.35em;
 }

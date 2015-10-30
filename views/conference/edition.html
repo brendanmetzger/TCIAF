@@ -1,12 +1,16 @@
 <article class="conference page">
-  <header>
-    <ul class="ragleft plain">
-      <li><a href="/overview/conference">See all Conferences</a></li>
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li class="h2 caps-lock">· Also Available ·</li>
       <!-- iterate item:playlists -->
-      <li><a href="[/explore/detail/$playlist:@id]">[$playlist:title]</a></li>
+      <li data-updated="[$playlist:@updated]"><strong>Playlist</strong> <a href="[/explore/detail/$playlist:@id]">[$playlist:title]</a></li>
+      <li><strong>See All</strong><a href="/overview/conference">Conferences</a></li>
     </ul>
-    
-    <hr/>
+  </nav>
+
+  <hr/>
+
+  <header>
     <h1 data-id="[$item:@id]">[$item:title]</h1>    
   </header>
 
@@ -16,13 +20,14 @@
   <section>
     <!-- iterate item:sessions -->
     <article class="trans-blocks">
-      <h3 data-id="[$session:@id]" class="center h1"><a href="[/explore/detail/$session:@id]"><strong>[$session:title]</strong></a></h3>
+      <h3 data-id="[$session:@id]" class="center h1"><a href="[/explore/detail/$session:@id]">[$session:title]</a></h3>
       <blockquote class="justify p">
         <p>[$session:summary]</p>
       </blockquote>
       
       <hr/>
-      <h5 class="h2 center">Featuring</h5>
+      <h5 class="h2 center">· Featuring ·</h5>
+      
       <ul class="bios container">
         <!-- iterate session:presenters -->
         <li class="[float-left _$count group]" data-id="[$person:@id]">
@@ -36,9 +41,6 @@
     
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-
-    
-
     
     .bios {
       margin:0;
@@ -54,7 +56,6 @@
       width:10em;
       margin:0 auto;
       padding:0.5em;
-      border-top:1px dashed rgba(0,0,0,0.1);
     }
     
     .bio-disc {

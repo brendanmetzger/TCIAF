@@ -12,7 +12,7 @@
       ]]>
     </style>  
   </defs>
-  <g>
+  <g transform="translate(50, 0)">
   	<g id="pidgy" transform="translate(140 65) scale(0.35 0.35)">
   		<g class="brown">
   			<path d="M177.92,17.85c-5.41-11.11-2.27-50.86-7.14-62.17c-9.95-23.12-28.18-20.32-34.01-18.81

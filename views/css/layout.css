@@ -59,40 +59,33 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 
 
 
-body[data-engage] > header,  #Player {
+body > header,  #Player {
   background-color:#323031;
   box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
 }
 body > header {
-  color:#e8dbd4;
   top:0;
   z-index:3;
   width:100%;
-  background:#fff url(/images/logo.svg) no-repeat 75% 10%;
-  background-size:75% auto;
-  transition:background-color 0.25s;
+  box-shadow: 0 0.25em 0.25em rgba(0,0,0,0.1);
 }
 
 body[data-engage] {
   margin-top:4em;
 }
+
 body[data-engage] > header {
   position:fixed;
-  background-image:none;
 }
 
-body[data-engage] .responsive {
-  width:100%;
-  padding:0;
-  text-align:left;
-}
 
-body[data-engage] > header li {
+body > header li {
   display:inline-block;
 }
 
-body[data-engage] > header li a {
+body > header li a {
   padding:1em;
+  font-size:1.25em;
 }
 body[data-engage] .home a {
   background-color:#f8f8f8;
@@ -103,10 +96,9 @@ header nav a {
   line-height:1.25em;
   display:inline-block;
   text-decoration:none;
-  text-transform:uppercase;
   letter-spacing:0.075em;
 }
-.home {display:none;}
+
 .home a {
   background: transparent url(/images/pidgey.svg) no-repeat;
   background-size:auto 100%;

@@ -1,8 +1,13 @@
 <article class="session page" vocab="http://schema.org/" typeof="CreativeWork">
-  
-  <h3>Conference Session</h3>
-  
-
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li class="h2 caps-lock">· Conference Session ·</li>
+      <!-- iterate item:playlists -->
+      <li><strong>Playlist</strong> <a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
+      <!-- iterate item:happenings -->
+      <li><strong>Conference</strong> <a href="[/overview/conference/$happening:@id]">[$happening:title]</a></li>
+    </ul>
+  </nav>
   
   <header>
     <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
@@ -12,7 +17,6 @@
       <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
       <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
     </span>
-    
   </header>
   
   
@@ -34,21 +38,4 @@
     <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->
   </section>
-  
-  
-  
-  <section class="half group float-left" style="padding-left:1em;">
-    <h2>Part of...</h2>
-    
-    <ul class="plain">
-      <!-- iterate item:playlists -->
-      <li><h4><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></h4></li>
-    
-      <!-- iterate item:happenings -->
-      <li><h4><a href="[/overview/conference/$happening:@id]">[$happening:title]</a></h4></li>
-    </ul>
-  </section>
-  
-
- 
 </article>

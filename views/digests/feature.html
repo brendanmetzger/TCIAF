@@ -1,8 +1,19 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li class="h2 caps-lock">· More ·</li>
+      <!-- iterate item:playlists -->
+      <li><strong>Playlist</strong> <a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
+      <!-- iterate item:competitions -->
+      <li><strong>Competition</strong> <a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
+      <li><a href="/overview/library">Features</a> | <a href="/explore/index/person">Producers</a></li>
+    </ul>
+  </nav>
+    
   <header class="trans-blocks">
     <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-    <h1 data-id="[$item:@id]" class="mono"  property="name">[$item:title]</h1>
-    <span class="p mono">[$item:premier:@date, $item:premier,  $item:location]</span>    
+    <h1 data-id="[$item:@id]" style="margin:1.5em 0 0;" property="name">[$item:title]</h1>
+    <span class="h3">[$item:premier:@date, $item:premier,  $item:location]</span>    
     <hr/>
     <!-- iterate item:media:audio -->
     <span>
@@ -38,17 +49,6 @@
     <aside>[$item:content:extra]</aside>
   </section>
 
-  <section class="half group float-left" style="padding-left:1em;">
-    <h2>Featured In</h2>
-    
-    <ul class="plain">
-      <!-- iterate item:playlists -->
-      <li><h4><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></h4></li>
-    
-      <!-- iterate item:competitions -->
-      <li><h4><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h4></li>
-    </ul>
-  </section>
   
 
   <script type="text/javascript" async="true">
