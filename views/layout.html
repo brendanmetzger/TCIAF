@@ -46,28 +46,32 @@
       // ]]>
     </script>
     <link rel="shortcut icon" href="/images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="/css/austere.css" />
-    <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-    <link rel="stylesheet" type="text/css" href="/css/_working_.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/austere.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/layout.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/_working_.css" />
+    <link rel="stylesheet" media="(max-width: 600px)" href="/css/_working_mobile_.css" />
   </head>
   
   
   <body class="[$_controller $_action unloaded]" data-user="[$user]">
-    <img src="/images/logo.svg" style="display:block;width:40%;padding:5em 30%; background-color:#fff;"/>
+    <div class="banner">
+      <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
+    </div>
+    
     
     
     
     <header class="container">
       <nav>
-        <ul class="plain caps-lock">
-          <li class="home"><a href="/">Home</a></li>
+        <ul class="plain caps-lock inline">
+          <li class="home context"><a href="/">Home</a></li>
           <li><a href="/overview/library">Library</a></li>
           <li><a href="/overview/conference">Conference</a></li>
           <li><a href="/overview/broadcasts">Broadcasts</a></li>
           <li><a href="#">Events</a></li>
           <li><a href="/overview/competition">Competitions</a></li>
-          <li><a href="#">Subscribe</a></li>
-          <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
+          <li class="context"><a href="#">Subscribe</a></li>
+          <li class="context"><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
           <!-- <li><input type="text" name="search" value="" placeholder="search" /></li> -->
         </ul>
       </nav>

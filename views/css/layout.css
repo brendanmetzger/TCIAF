@@ -78,11 +78,6 @@ body[data-engage] > header {
   position:fixed;
 }
 
-
-body > header li {
-  display:inline-block;
-}
-
 body > header li a {
   padding:1em;
   font-size:1.25em;
@@ -108,7 +103,18 @@ header nav a {
   width:2em;
 }
 
-
+.banner {
+  padding:2em 0;
+  background-color:#fff;
+  text-align:center;
+}
+.banner img {
+  width:100%;
+}
+.banner a {
+  display:inline-block;
+  width:50%;
+}
 
 .listen {
   background-image:url(/images/listen.svg);

@@ -1,6 +1,18 @@
 <article class="competitions listing page">
-  <a href="[/overview/competition/$item:@id]">[Back to $item:title overview page]</a>
-  <h2>[$item:title Contentstants]</h2>
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li><a href="[/overview/competition/$item:@id]">[$item:title overview page]</a></li>
+      <li><a href="/overview/competition">More Competitions</a></li>
+      <li style="line-height:0;border:none;">
+          <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:100%;margin:0" data-aspect="[$item:banner:mark]"/>
+      </li>
+    </ul>
+  </nav>
+  
+  <header>
+    <h1>[$item:title Contentstants]</h1>
+  </header>
+  
   <!-- iterate item:participants -->
   <div style="padding:0.5em 1em;display:inline-block;margin:0.25em;background-color:#eee;">
     <h4><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h4>

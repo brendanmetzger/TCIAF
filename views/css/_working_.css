@@ -12,7 +12,6 @@
 blockquote.justify {
   width:50%;
   margin:1em auto;
-  color:#888;
 }
 
 .award {
@@ -85,3 +84,22 @@ blockquote.justify {
   padding:0.125em;
   font-size:1.35em;
 }
+
+.split .card:nth-child(odd) {
+  margin-right:2.5% !important;
+  clear:left;
+}
+.split .card, .split li {
+  width:47.5%;
+  box-sizing:border-box;
+  float:left;
+}
+
+.split li {
+  padding:0.25em 1em;
+  border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.split li:nth-child(odd) {
+  text-align:right;
+}
+

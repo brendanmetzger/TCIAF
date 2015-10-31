@@ -10,7 +10,6 @@
   </nav>
   
   <header>
-    <p>[Presented: $item:premier:@date, $item:premier,  $item:location]</p>
     <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
     <!-- iterate item:media:audio -->
     <span>
@@ -20,15 +19,15 @@
   </header>
   
   
-  <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
+  <section>
     <!-- iterate item:media:image -->
-    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:100%;" property="image"/>
+    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:20%;" property="image"/>
   </section>
   
-  <section class="intro group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
+  <section class="intro" property="description">[$item:content:description]</section>
   
   
-  <section class="group float-left" property="contributors" style="width:75%;margin-left:2.5%;">
+  <section property="contributors">
     <ul>
       <!-- iterate item:extras -->
       <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
