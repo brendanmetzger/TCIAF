@@ -2,12 +2,18 @@
   
   <header class="title">
     <h1 data-id="[$item:@id]">[$item:title]</h1>
-    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:100%;" alt="third coast"/>
+    
   </header>
   
-  <section class="group float-left">[$item:content:description]</section>
+  <div class="group float-left">
+    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:90%;padding:5%;background-color:rgba(255,255,255,0.25)" alt="third coast"/>
+    <cite>[$item:photo:caption]</cite>
+    <section>[$item:content:description]</section>
+  </div>
+  
 
   <nav class="group float-left">
+    
     <h2>Staff</h2>
     
     <ul class="plain">
@@ -39,7 +45,7 @@
 
     
 
-    .about section {
+    .about div {
       width:70%;
       padding:0 5em 0 0;
       margin:0;
