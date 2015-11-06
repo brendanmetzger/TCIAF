@@ -68,20 +68,6 @@ ul.inline {padding:0; }
   cursor:pointer;
 }
 
-.intro p:first-of-type {
-  text-indent:-0.25em;
-  font-size:1.75em;
-}
-
-.intro {
-  color:#323031;
-  font-size:1.125em;
-}
-
-.intro p {
-  margin:1em 0;
-}
-
 
 /* Typography ------------------- */
 

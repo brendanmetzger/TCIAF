@@ -543,7 +543,6 @@ Menu.prototype = {
         li.id     = id;
   },
   sort: function () {
-    
     this.items = Array.prototype.slice.call(this.list.querySelectorAll('li'), 0).sort(function (a, b) {
       return b.weight - a.weight;
     });
@@ -681,7 +680,8 @@ if (window.history.pushState) {
 
   
   window.navigateToPage = function (evt) {
-    window.Adjust.scroll(document.body.dataset.top, 1000);
+    
+    window.Adjust.scroll(document.body.dataset.top , 1000);
     
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
@@ -697,7 +697,7 @@ if (window.history.pushState) {
     if (evt.target.nodeName.toLowerCase() === 'a') {
       if (evt.target.hash) {
         evt.preventDefault();
-        var elem = document.getElementById(evt.target.hash.substr(1))
+        var elem = document.getElementById(evt.target.hash.substr(1));
         if (elem) {
           console.dir(elem);
           window.Adjust.scroll(elem.offsetTop - 50, 1500);
@@ -717,17 +717,15 @@ if (window.history.pushState) {
 }
 
 var processLayout = function (evt) {
-  if (this.dataset.engage === undefined, this.scrollTop > this.dataset.top) {
+  if (this.dataset.engage === undefined && this.scrollTop > this.dataset.top) {
     this.dataset.engage = true;
-  } else if (this.dataset.engage){
+  } else if (this.dataset.engage && this.scrollTop < this.dataset.top){
     delete this.dataset.engage;
   }
 };
 
 bloc.prepare('onload', function () {
   document.body.dataset.top = document.body.firstElementChild.offsetHeight;
-  
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
-  
   window.addEventListener('scroll', processLayout.bind(document.body), false);
 });

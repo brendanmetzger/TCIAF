@@ -54,14 +54,22 @@
   
   
   <body class="[$_controller $_action unloaded]" data-user="[$user]">
-    <div class="banner">
-      <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
-    </div>
-    
-    
     
     
     <header class="container">
+
+      <form class="finder float-left group">
+        <input type="text" class="mono" value="" />
+      </form>
+    
+      <div class="banner float-left group">
+        <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
+        <blockquote class="mono" style="padding:2em 0;">Sharing the best audio stories produced worldwide and inspiring the next generation of makers.</blockquote>
+      </div>
+      
+      <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
+
+    
       <nav>
         <ul class="plain caps-lock inline">
           <li class="home context"><a href="/">Home</a></li>
@@ -72,17 +80,25 @@
           <li><a href="/overview/competition">Competitions</a></li>
           <li class="context"><a href="#">Subscribe</a></li>
           <li class="context"><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
-          <!-- <li><input type="text" name="search" value="" placeholder="search" /></li> -->
         </ul>
       </nav>
-      <noscript id="Player" data-queue="">The Third Coast Festival Audio Player Requires Javascript</noscript>
+      
     </header>
         
     <main class="content container">
       <!-- replace content nextSibling -->
-      <section>
+      <section class="landing">
+        
+        <article class="group float-left gradient" style="width:45%;padding:5em 1em 1em;background-color:rgba(255,255,255,0.25); text-align:center">
+          <h2 data-id="[$collection:@id]">[$collection:title]</h2>
+          <p>[$collection:content:about]</p>
+          <!-- iterate collection:features -->
+          <!-- insert views/cards/feature.html -->
+        </article>
+        
 
-        <article>
+        <article class="group float-left" style="width:55%;padding:5em;">
+          <h2>News and Events</h2>
           <!-- iterate collection:articles -->        
           <section>
             <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
@@ -90,13 +106,12 @@
             <p>[$article:summary]</p>
           </section>
         </article>
-
-        <article>
-          <h2 data-id="[$collection:@id]">[$collection:title]</h2>
-          <p>[$collection:content:about]</p>
-          <!-- iterate collection:features -->
-          <!-- insert views/cards/feature.html -->
-        </article>
+        
+        <style type="text/css" media="screen">
+          /* <![CDATA[ */
+          .landing article > h2 {margin:0 0 2em;}
+          /* ]]> */
+        </style>
         
       </section>
     </main>

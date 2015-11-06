@@ -22,10 +22,9 @@
     <div property="workPerformed" typeof="CreativeWork" class="trans-blocks" data-updated="[$feature:@updated]">
       <span class="h3" property="award">[$award]</span>
       <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+      <p class="intro" property="description">[$feature:summary]</p>
       <!-- iterate feature:producers -->
-      <h4 class="mono"><a href="[/explore/detail/$person:@id]" property="author">[$person:title]</a></h4>
-      
-      <p property="description">[$feature:summary]</p>
+      <!-- insert views/cards/person.html -->
     </div>
   </section>
   <hr/>

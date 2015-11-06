@@ -47,6 +47,16 @@ use \models\graph;
       return $view->render($this());
     }
     
+    public function GETOpportunities()
+    {
+      $view = new view('views/layout.html');
+      $view->content   = 'views/pages/overview.html';
+      
+      $this->item = Graph::factory(Graph::ID('opportunities'));
+      
+      return $view->render($this());
+    }
+    
     public function GETconference($id = 'tciaf-conference')
     {
       $this->item = Graph::factory(Graph::ID($id));

@@ -9,6 +9,11 @@
   position:relative;
 }
 
+.card h3 {
+  text-transform:none;
+}
+
+
 blockquote.justify {
   width:50%;
   margin:1em auto;
@@ -58,12 +63,21 @@ blockquote.justify {
 }
 
 
+.trans-blocks .card {
+  margin:0;
+  box-shadow:none;
+  border:none;
+  border-left:1px dashed rgba(0,0,0,0.1);
+  padding-left:2em;
+}
+
+
 .crumbs ul {
   padding:1em;
   border-top-width:0;
   display:inline-block;
   background-color:rgba(255,255,255,1);
-  box-shadow:0 0.25em 0 0.125em rgba(0,0,0,0.1);
+  box-shadow:0 0.25em 0.25em 0.075em rgba(0,0,0,0.1);
   max-width:40%;
 }
 
@@ -103,3 +117,16 @@ blockquote.justify {
   text-align:right;
 }
 
+
+
+h3 {
+  text-transform:uppercase;
+  color:#88746A;
+  margin:1em 0 0;
+}
+
+
+.intro {
+  font-size:1.65em;
+  color:#88746A;
+}

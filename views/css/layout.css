@@ -17,6 +17,7 @@ body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Verdana, sans-serif;
   background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
   transition:background-position 3s, background-size 1.5s;
+  margin-top:4em;
 }
 
 main {
@@ -59,26 +60,20 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 
 
 
-body > header,  #Player {
-  background-color:#323031;
-  box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
-}
 body > header {
+  box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
+  background-color:#fff;
+}
+body > header nav {
+  background-color:#323031;
   top:0;
+  position:fixed;
   z-index:3;
   width:100%;
   box-shadow: 0 0.25em 0.25em rgba(0,0,0,0.1);
 }
 
-body[data-engage] {
-  margin-top:4em;
-}
-
-body[data-engage] > header {
-  position:fixed;
-}
-
-body > header li a {
+body > header nav a {
   padding:1em;
   font-size:1.25em;
 }
@@ -103,17 +98,41 @@ header nav a {
   width:2em;
 }
 
+header .finder {
+  width:25%;
+  padding:1em 0;
+}
+.finder label {
+}
+
+.finder input {
+  margin:1em;
+  padding:0.25em 0 0.25em 10%;
+  background: transparent url(/images/search.svg) no-repeat 0 15%;
+  background-size: auto 125%;
+  border:none;
+  outline:none;
+  width:90%;
+  border-bottom:1px dashed #EEE;
+  transition:background-size 0.25s;
+}
+
+.finder input:focus {
+  background-size:auto 100%;
+}
+
+
 .banner {
-  padding:2em 0;
-  background-color:#fff;
+  width:50%;
+  padding:0;
   text-align:center;
 }
 .banner img {
   width:100%;
 }
 .banner a {
-  display:inline-block;
-  width:50%;
+  display:block;
+  width:100%;
 }
 
 .listen {
@@ -144,7 +163,6 @@ button.listen {
 
 
 #Player {
-  position:fixed;
   transition:height 0.25s 0.125s, width 0.25s 0.125s;
   width:8em;
   height:0;
@@ -281,8 +299,7 @@ article header {
 
 
 
-footer {}
-  
+
 .sponsor {
   background-color:#DEDAD4;padding:2em;color:#333;
 }
