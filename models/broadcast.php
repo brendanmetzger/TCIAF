@@ -13,4 +13,10 @@ class Broadcast extends Feature
     'item'     => ['collection'],
   ];
   
+  
+  public function __construct($id = null, $data =[])
+  {
+    $this->template['form'] = 'feature';
+    parent::__construct($id, $data);
+  }
 }

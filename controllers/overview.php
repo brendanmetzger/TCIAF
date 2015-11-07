@@ -68,9 +68,21 @@ use \models\graph;
       return $view->render($this());
     }
     
-    public function GETBroadcasts()
+    public function GETBroadcasts($sort = 'alpha-numeric', $index = 1, $per = 100)
     {
       $view = new view('views/layout.html');
+      $view->content = "views/lists/broadcast.html";
+      $this->search = ['topic' => 'broadcast', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->group = 'broadcast';
+      $this->{$sort} = "selected";
+      $this->list = Graph::group('broadcast')
+           ->find('vertex')
+           ->sort(Graph::sort($sort))
+           ->map(function($vertex) {
+             return ['item' => Graph::factory($vertex)];
+           })
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/library/{$sort}"]));
+
       return $view->render($this());
     }
     

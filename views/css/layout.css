@@ -49,6 +49,10 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
   width:20%;
 }
 
+._75.float-left {
+  width:75%;
+}
+
 
 
 @media only screen and (min-width: 992px){
