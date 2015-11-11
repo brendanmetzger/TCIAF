@@ -1,5 +1,5 @@
 
-/* Color ------------------- 
+/* Color -------------------
   dark 323031
   tan eddad0
   brown 88746A
@@ -9,7 +9,7 @@
 */
 svg .brown {fill:#88746A;}
 svg .red   {fill:#EE3124;}
-svg .blue  {fill:#5B9B98;}
+svg .blue  {fill:#5b9c99;}
 
 a {color:#5B9B98;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
@@ -21,7 +21,7 @@ a.selected{text-decoration:none;cursor:pointer;}
 .warn {background-color:#F3EECC;border-radius:0.35em;}
 .alert {background-color:#E9CCCB !important;border-radius:0;}
 .warn,.info,.alert,.success{padding:0.5em 1em;border:1px solid rgba(0,0,0,0.25);}
-
+.button.login {border:none;padding:0 0.5em;box-shadow:none;}
 
 
 
@@ -158,7 +158,7 @@ body > footer {
   padding:2.5em 0;
 }
 .social {
-  padding:1em 0;
+  padding:2em 0 0;
 }
 .social a {
   font-size:1.25em;

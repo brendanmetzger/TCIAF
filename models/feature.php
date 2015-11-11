@@ -7,7 +7,7 @@ namespace models;
   *
   */
   class Feature extends Model
-  {    
+  {
     static public $fixture = [
       'vertex' => [
         'location' => [
@@ -24,7 +24,7 @@ namespace models;
         ]
       ]
     ];
-    
+
     protected $edges = [
       'producer'    => ['person'],
       'presenter'   => ['person'],
@@ -34,36 +34,36 @@ namespace models;
       'session'     => ['happening'],
       'participant' => ['competition'],
     ];
-    
+
     public function __construct($id = null, $data = [])
     {
       parent::__construct($id, $data);
-      
+
       if ($this->happenings->count() > 0 && $this->presenters->count() > 0) {
         $this->template['digest'] = 'session';
       }
     }
-    
+
     public function getSpectra(\DOMElement $context)
     {
       $spectra = $this::$fixture['vertex']['spectra']['@'];
-      
+
       if ($spectrum = $context->getFirst('spectra')) {
         foreach ($spectrum->attributes as $attr) {
           $spectra[$attr->name] = $attr->value;
         }
       }
-      
+
       return Graph::instance()->query('graph/config')->find('/spectra')->map(function($item) use($spectra) {
         return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];
       });
     }
-    
+
     public function getGradient(\DOMElement $context)
     {
       $color = '-webkit-linear-gradient(left, %s)';
       $count = 0;
-      
+
       foreach ($this->getSpectra($context) as $spectra) {
         $h = round($count++ * 255);
         $s = round((abs(50 - $spectra['value']) / 100) * 200) . '%';
@@ -73,17 +73,17 @@ namespace models;
 
       return sprintf($color, implode(',', $colors));
     }
-    
+
     public function setAbstract(\DOMElement $context, array $abstract)
     {
       if ($abstract['@']['content'] == 'description' && empty($abstract['CDATA'])) {
         $context->setAttribute('content', 'description');
         throw new \UnexpectedValueException("Please add a description", 400);
       }
-      
+
       return parent::setAbstract($context, $abstract);
     }
-        
+
     public function getAward(\DOMElement $context)
     {
       $award = $context->find("edge[@type='award']");
@@ -95,16 +95,16 @@ namespace models;
         return new \bloc\types\Dictionary(['title' => $edge->nodeValue, 'competition' => $competition, 'html' => $html]);
       }
     }
-    
+
     public function getExtra(\DOMElement $context)
     {
       return isset($this->extra) ? $this->extra : null;
     }
-    
+
     public function getBackground()
     {
       if ($image = $this->media['image'][0]) {
-        
+
         if ($im = @imagecreatefromjpeg('http://s3.amazonaws.com/'.$image->url)) {
           imagefilter($im, IMG_FILTER_PIXELATE, 10);
           imagefilter($im, IMG_FILTER_CONTRAST, 50);
@@ -121,14 +121,14 @@ namespace models;
         return $background;
       }
     }
-    
+
     public function getProducers(\DOMElement $context)
     {
       return $context->find("edge[@type='producer']")->map(function($edge) {
         return ['person' => new Person($edge['@vertex']), 'role' => 'Producer'];
       });
     }
-    
+
     public function getPresenters(\DOMElement $context)
     {
       $presenters = $context->find("edge[@type='presenter']");
@@ -137,35 +137,35 @@ namespace models;
         return ['person' => new Person($edge['@vertex']), 'role' => 'Presenter', 'count' => $count];
       });
     }
-    
+
     public function getPlaylists(\DOMElement $context)
     {
       return $context->find("edge[@type='item']")->map(function($collection) {
         return ['collection' => new Collection($collection['@vertex'])];
       });
     }
-    
+
     public function getExtras(\DOMElement $context)
     {
       return $context->find("edge[@type='extra']")->map(function($extra) {
         return ['article' => new Article($extra['@vertex'])];
       });
     }
-    
+
     public function getCompetitions(\DomElement $context)
     {
       return $context->find("edge[@type='participant']")->map(function($extra) {
         return ['competition' => new Competition($extra['@vertex'])];
       });
     }
-    
+
     public function getHappenings(\DomElement $context)
     {
       return $context->find("edge[@type='session']")->map(function($extra) {
         return ['happening' => new Happening($extra['@vertex'])];
       });
     }
-   
+
     public function getRecommended(\DOMElement $context)
     {
       $correlation = \controllers\Task::pearson($context['@id'])->best;
@@ -174,5 +174,14 @@ namespace models;
       return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 7, true))))->map(function($id, $score) {
        return ['item' => Graph::factory(Graph::ID($id)), 'store'=> $score];
       });
-    } 
+    }
+
+    public function getNonsense(\DomElement $context)
+    {
+      return new \bloc\types\Dictionary([
+        ['item' => 'one'],
+        ['item' => 'two'],
+        ]);
+    }
+
   }

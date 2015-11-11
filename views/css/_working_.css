@@ -71,14 +71,18 @@ blockquote.justify {
   padding-left:2em;
 }
 
+nav.crumbs ul {
+  box-shadow:0 0.25em 0.25em 0.075em rgba(0,0,0,0.1);
+  background-color:rgba(255,255,255,1);
+}
 
 .crumbs ul {
   padding:1em;
   border-top-width:0;
   display:inline-block;
-  background-color:rgba(255,255,255,1);
-  box-shadow:0 0.25em 0.25em 0.075em rgba(0,0,0,0.1);
-  max-width:40%;
+
+
+  max-width:50%;
 }
 
 .crumbs li strong {
@@ -126,7 +130,7 @@ h3 {
 }
 
 
-.intro {
+.intro p:first-of-type {
   font-size:1.65em;
   color:#88746A;
 }

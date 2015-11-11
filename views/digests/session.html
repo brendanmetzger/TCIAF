@@ -8,31 +8,28 @@
       <li><strong>Conference</strong> <a href="[/overview/conference/$happening:@id]">[$happening:title]</a></li>
     </ul>
   </nav>
-  
+
   <header>
     <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
     <!-- iterate item:media:audio -->
-    <span>
-      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-      <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
-    </span>
+    <!-- insert views/partials/play-button.html -->
   </header>
-  
-  
+
+
   <section>
     <!-- iterate item:media:image -->
     <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:20%;" property="image"/>
   </section>
-  
+
   <section class="intro" property="description">[$item:content:description]</section>
-  
-  
+
+
   <section property="contributors">
     <ul>
       <!-- iterate item:extras -->
       <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
     </ul>
-    
+
     <h2>Featuring</h2>
     <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->

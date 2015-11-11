@@ -1,7 +1,13 @@
 <ul class="recommended plain" style="font-size:1.25em;">
   <!-- iterate item:recommended -->
-  <li style="[position:relative;padding:0.25em;margin:0 0 0em;border-style:dashed;border-width:0 0 1px 0;border-image: $item:gradient 30 30 stretch]">
-    <a href="[/explore/detail/$item:@id]" >[$item:title]</a>
-    <!-- <em>[$item:summary]</em> -->
+  <li class="container">
+    <div class="group float-left _4 audio" style="text-align:center;">
+      <!-- iterate item:media:audio -->
+      <!--  insert views/partials/play-button.html-->
+    </div>
+    <div class="group float-left _75">
+      <a href="[/explore/detail/$item:@id]" class="blocky" style="[border-image: $item:gradient 30 30 stretch;]">[$item:title]</a>
+      <blockquote>[$item:summary]</blockquote>
+    </div>
   </li>
 </ul>

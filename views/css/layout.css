@@ -1,13 +1,3 @@
-/* Color ------------------- 
-  dark 323031
-  tan eddad0
-  brown 88746A
-  teal 5B9B98
-  purple 492737
-  red EE3124
-  offwhite fdfdfa
-*/
-
 body, ul, ol, form, h2, h3, h4, h5, figure, blockquote {
   margin:0;
 }
@@ -140,18 +130,23 @@ header .finder {
 }
 
 .listen {
-  background-image:url(/images/listen.svg);
   background-size: auto 100%;
   background-repeat:no-repeat;
-  padding-left:1.5em;
   color:#5B9B98;
   letter-spacing:0.075em;
+  text-shadow:0 0 1px #fff;
+}
+
+.listen:hover {
+  background-image:url(/images/listen.svg);
+  color:#5B9B98;
 }
 
 button.listen {
   overflow:hidden;
-  height:2.5em;
-  padding-left:2.5em;
+  height:5em;
+  width:5em;
+  border-radius:50%;
 }
 
 .evaporate {
@@ -319,7 +314,7 @@ article header {
   height:5em;
 }
 
-/* Color ------------------- 
+/* Color -------------------
   dark 323031
   tan eddad0
   brown 88746A

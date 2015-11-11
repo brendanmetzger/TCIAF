@@ -18,45 +18,49 @@ class Manage extends \bloc\controller
 {
 
   protected $partials;
-  
+
   public function __construct($request)
   {
     $this->partials = new \StdClass();
 
     View::addRenderer('before', Renderer::addPartials($this));
     View::addRenderer('after', Renderer::HTML());
-        
+
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
 		$this->year        = date('Y');
     $this->title       = "Third Coast International Audio Festival";
+    $this->_redirect   = $request->redirect;
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
-    
+
     $tciaf = Graph::factory(Graph::ID('TCIAF'));
 
     $this->supporters = $tciaf->supporters;
     $this->staff      = $tciaf->staff;
-    
-    if ($this->authenticated) {
 
+    if ($this->authenticated) {
+      $this->_login = 'Logout';
       $this->user = Application::instance()->session('TCIAF')['user'];
       $this->tasks = (new Dictionary(['person', 'feature', 'broadcast', 'article', 'competition', 'organization', 'happening', 'collection']))->map(function($task) {
         return ['name' => $task, 'count' => Graph::group($task)->find('vertex')->count()];
       });
       $this->partials->helper = 'views/partials/admin.html';
+    } else {
+      $this->_login = "Staff Login";
     }
   }
-  
+
   public function GETindex()
   {
     return (new View($this->partials->layout))->render($this());
   }
-  
+
   public function GETlogin($redirect = '/', $username = null, $message = null)
   {
-    if ($this->authenticated) \bloc\router::redirect($redirect);
-    
+    $redirect = $redirect == '/' ? $redirect : base64_decode($redirect);
+
+    if ($this->authenticated) \bloc\router::redirect('/manage/logout');
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
     $view = new view('views/layout.html');
@@ -68,7 +72,7 @@ class Manage extends \bloc\controller
       'token'    => base_convert($key, 10, date('G')+11),
       'message'  => $message ?: 'Login',
       'username' => $username,
-      'password' => null, 
+      'password' => null,
       'redirect' => $redirect,
       'tokens'   => [
         'username' => String::rotate('username', $token),
@@ -76,19 +80,19 @@ class Manage extends \bloc\controller
         'redirect' => String::rotate('redirect', $token),
       ]
     ]);
-      
+
     return $view->render($this());
   }
-  
+
   public function POSTLogin($request, $key)
   {
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
-     
+
     $username = $request->post(String::rotate('username', $token));
     $password = $request->post(String::rotate('password', $token));
     $redirect = $request->post(String::rotate('redirect', $token));
-    
+
     if ($key) {
       try {
         $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
@@ -100,41 +104,41 @@ class Manage extends \bloc\controller
     } else {
       $message = "This form has expired - it can happen.. try again!";
     }
-    
+
     return $this->GETLogin($redirect, $username, $message);
   }
-  
+
   protected function GETedge($model, $type, $id = null)
   {
     $view = new view('views/layout.html');
     $view->content = "views/forms/edge.html";
-    
+
     $this->model  = $model;
-    $this->type   = $type; 
+    $this->type   = $type;
     $this->vertex = Graph::ID($id);
-    
+
     return $view->render($this());
   }
-  
+
   protected function POSTedge($request)
   {
-        
+
     $view = new view('views/layout.html');
     $view->content = "views/forms/partials/edge.html";
 
     $this->vertex = Graph::factory(Graph::ID($_POST['id']));
     $this->edge   = Graph::EDGE(null, $_POST['keyword'], null);
-    
+
     $this->process = 'keep';
     $this->checked = 'checked';
-    
-    
+
+
     $this->index = time() * -1;
-    
+
     return $view->render($this());
   }
 
-  
+
   // Create a new vertex model from scratch
   // output: HTML Form
   protected function GETcreate($model)
@@ -143,23 +147,23 @@ class Manage extends \bloc\controller
     $this->action     = "Create New {$model}";
     $this->references = null;
     $this->edges      = null;
-    
-    
-    $view = new view('views/layout.html');    
+
+
+    $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
-    return $view->render($this()); 
+    return $view->render($this());
   }
-  
+
   protected function GETgroup($to_group, $from_group, $vertex)
   {
     $view = new view('views/layout.html');
-    
+
     if ($vertex) {
       $vertex = Graph::ID($vertex);
       $dom = Graph::instance()->storage;
 
       $context = $dom->pick("/graph/group[@type='{$to_group}']");
-   
+
       if ($to_group === 'archive') {
         $vertex->setAttribute('mark', $from_group);
         $vertex->setAttribute('updated', 'expunged');
@@ -167,9 +171,9 @@ class Manage extends \bloc\controller
         $vertex->removeAttribute('mark');
         $vertex->setAttribute('updated', (new \DateTime())->format('Y-m-d H:i:s'));
       }
-    
+
       $context->insertBefore($vertex, $context->firstChild);
-    
+
       $filepath = PATH . Graph::DB . '.xml';
 
       if ($dom->validate() && is_writable($filepath)) {
@@ -177,13 +181,13 @@ class Manage extends \bloc\controller
         \models\Search::clear();
       }
     }
-    
+
     $this->archive = Graph::group('archive')->find('vertex');
 
     $view->content = 'views/lists/archive.html';
-    return $view->render($this()); 
+    return $view->render($this());
   }
-  
+
   // Fetch a vertex and create a model.
   // output: HTML Form
   protected function GETedit($vertex)
@@ -192,10 +196,10 @@ class Manage extends \bloc\controller
     $this->action = "Edit {$this->item->get_model()}:";
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
-    
+
     return $view->render($this());
   }
-  
+
   protected function POSTedit($request, $model, $id = null)
   {
     if ($instance = Graph::factory( (Graph::ID($id) ?: $model), $_POST)) {
@@ -209,9 +213,9 @@ class Manage extends \bloc\controller
         return $this->GETedit($instance);
 
       }
-    } 
+    }
   }
-  
+
   protected function POSTupload($request)
   {
     $name   = base_convert($_FILES['upload']['size'], 10, 36) . '_' . strtolower(preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']));
@@ -221,9 +225,9 @@ class Manage extends \bloc\controller
     $type = substr($mime, 0, strpos($mime, '/'));
 
     if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
-      
+
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
-      
+
       try {
         $config = [
           'Bucket' => $bucket,
@@ -236,13 +240,13 @@ class Manage extends \bloc\controller
           } else {
             $config['Body'] =  file_get_contents(PATH . $src);
           }
-          
+
         } else {
           $config['SourceFile'] = PATH . $src;
         }
 
         $result = $client->putObject($config);
-        
+
         if ($type == 'audio' && $result) {
           $transcoder = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
 
@@ -257,7 +261,7 @@ class Manage extends \bloc\controller
               'PresetId' => '1439308682558-sehqe8',
             ]
           ]);
-            
+
           $pending = "?/tciaf-audio/{$key}";
           $mark = 0;
         } else {
@@ -265,40 +269,40 @@ class Manage extends \bloc\controller
           $mark = round($size[0] / $size[1], 1);
           $pending = "";
         }
-        
+
         $media = Graph::instance()->storage->createElement('media', 'A caption');
         $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}{$pending}");
         $media->setAttribute('name',  $name);
         $media->setAttribute('type', $type);
         $media->setAttribute('mark', $mark);
-      
+
         $model = new \models\Media($media, (time() * -1));
-        
+
         $view = new view('views/layout.html');
         $view->content = "views/forms/partials/{$type}.html";
-      
+
         return $view->render($this($model->slug));
       } catch (\Exception $e) {
         return $this->GETerror("The file was unable to be uploaded to amazon.", 500);
         exit();
       }
-      
-      
-     
+
+
+
     } else {
       return $this->GETerror("The Server has refused this file", 400);
     }
   }
-  
+
   public function POSTcorrelate($request)
   {
     $this->item = Graph::factory(Graph::ID($_POST['vertex']['@']['id']), $_POST);
-    
-    
+
+
     $view = new view('views/layout.html');
     $view->content = 'views/lists/recommendation.html';
-    
+
     return $view->render($this());
   }
-  
+
 }

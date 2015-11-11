@@ -1,18 +1,15 @@
 <div data-updated="[$feature:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature card">
-  
-  
+
+
   <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]" property="name">[$feature:title]</a></h3>
   <blockquote><p>[$feature:summary]</p></blockquote>
 
-  
+
   <!-- iterate feature:producers -->
   <a href="[/explore/detail/$person:@id]" class="h3" data-id="[$person:@id]" rel="author" property="author">[$person:@title]</a>
 
   <hr/>
-  
+
   <!-- iterate feature:media:audio -->
-  <span>
-    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
-  </span>
+  <!--  insert views/partials/play-button.html-->
 </div>

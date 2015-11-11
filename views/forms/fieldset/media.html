@@ -1,28 +1,28 @@
 <fieldset class="responsive media">
   <legend class="caps-lock">Media</legend>
-  
+
   <dl class="audio container">
-    <dt>Audio</dt>  
+    <dt>Audio</dt>
     <!-- iterate item:media:audio -->
     <!-- insert views/forms/partials/audio.html -->
   </dl>
-  
+
   <hr style="border-color:#5B9B98;opacity:0.5;"/>
-  
+
   <dl class="images dnd container">
     <dt>Images</dt>
     <!-- iterate item:media:image -->
     <!-- insert views/forms/partials/image.html -->
   </dl>
-  
+
   <hr class="clear"/>
-  
+
   <button class="media upload" style="margin-left:1em;">+ Add Audio / Images</button>
   <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, audio/mp3, audio/mp4">Javascript Required For upload</noscript>
-  
+
   <script type="text/javascript" async="true">
     // <![CDATA[
-        
+
     function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
 			var player = window.bloc.execute('Player', audio_element);
@@ -32,57 +32,57 @@
       a.addEventListener('click', function (evt) {
         evt.preventDefault();
         player.playTrack(Number(this.hash.substring(1)));
-      });      
-      
-      audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
-      
-			
+      });
+
+      // audio_element.parentNode.querySelector('input.mark').value = audio_element.duration;
+
+
     }
-  
+
     bloc.prepare('Upload', function () {
       this.addTrigger(this.container.parentNode.querySelector("button.upload"));
-      
+
       this.addRoutine('audio', function (file) {
         // make sure there is not a file currently associated with the feature
         this.progress = new Progress();
         var dd = this.container.parentNode.parentNode.querySelector('dl.audio').appendChild(document.createElement('dd'));
         dd.appendChild(this.progress.element);
       }.bind(this));
-    
+
       this.addRoutine('image', function (file) {
 
         var reader = new FileReader();
-    
+
         reader.onload = function (evt) {
           // this is the progress default holder thing.
           this.progress = new Progress();
-          
+
           this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
 
           var dd = this.container.parentNode.parentNode.querySelector('dl.images').appendChild(document.createElement('dd'));
               dd.appendChild(this.progress.element);
               dd.className = "image";
         }.bind(this);
-      
+
         reader.readAsDataURL(file);
       });
-    
+
       this.addEvent('success', function (xhr) {
         var media = xhr.responseXML.documentElement.querySelector('dd.media');
         this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
         sortable('dl.images.dnd', 'dd');
       });
-      
+
       this.addEvent('failure', function (xhr) {
         console.error(xhr.responseText, 'undo some stuff');
         window.alert(xhr.responseText);
         this.progress.element.parentNode.removeChild(this.progress.element);
       });
-      
+
       sortable('dl.images.dnd', 'dd');
     });
   //]]>
   </script>
-  
-  
+
+
 </fieldset>
