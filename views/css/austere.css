@@ -31,10 +31,11 @@ a.selected{text-decoration:none;cursor:pointer;}
 
 .plain {list-style:none;padding:0;}
 .caps-lock {text-transform:uppercase;}
-.ghost, a[href^='#'] {opacity:0.5;}
+.ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
 .inline:not(ul), .inline li, .inline dd  {display:inline-block;}
 ul.inline {padding:0; }
+.ragright {text-align:left;}
 .ragleft {text-align:right;}
 .center {text-align:center;}
 .justify {text-align: justify;}

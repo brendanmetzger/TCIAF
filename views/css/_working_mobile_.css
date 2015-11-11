@@ -12,12 +12,23 @@ main {
 }
 
 
-body[data-engage] {
-  margin-top:0;
+
+body {
+   padding-top:3em;
+}
+body > header li:not(.context) {
+  display:inline-block !important;
+  width:30%;
+  padding:0.5em 1%;
+  text-align:center;
 }
 
-body[data-engage] > header {
-  position:static;
+body > header li:nth-child(2), body > header li:nth-child(3), body > header li:nth-child(4) {
+  border-bottom:1px  dotted  rgba(255,255,255, 0.2);
+}
+header li:nth-child(3), header li:nth-child(6) {
+  border-left:1px dotted rgba(255,255,255, 0.2);
+  border-right:1px dotted  rgba(255,255,255, 0.2);
 }
 
 body > header li a {

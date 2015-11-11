@@ -176,12 +176,4 @@ namespace models;
       });
     }
 
-    public function getNonsense(\DomElement $context)
-    {
-      return new \bloc\types\Dictionary([
-        ['item' => 'one'],
-        ['item' => 'two'],
-        ]);
-    }
-
   }

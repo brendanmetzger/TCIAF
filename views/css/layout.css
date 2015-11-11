@@ -43,6 +43,14 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
   width:75%;
 }
 
+.golden.float-left {
+  width:62%;
+}
+.golden + *.float-left {
+  width:38%;
+}
+
+
 
 
 @media only screen and (min-width: 992px){
@@ -130,16 +138,18 @@ header .finder {
 }
 
 .listen {
-  background-size: auto 100%;
+  background-size: auto 500%;
+  background-image:url(/images/listen.svg);
+  background-position:50% 50%;
   background-repeat:no-repeat;
   color:#5B9B98;
   letter-spacing:0.075em;
-  text-shadow:0 0 1px #fff;
+  transition:color 0.25s, background-size 0.25s;
 }
 
 .listen:hover {
-  background-image:url(/images/listen.svg);
-  color:#5B9B98;
+  background-size: auto 100%;
+  color:rgba(0,0,0,0);
 }
 
 button.listen {

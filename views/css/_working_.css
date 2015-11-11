@@ -67,7 +67,6 @@ blockquote.justify {
   margin:0;
   box-shadow:none;
   border:none;
-  border-left:1px dashed rgba(0,0,0,0.1);
   padding-left:2em;
 }
 
@@ -103,6 +102,13 @@ nav.crumbs ul {
   font-size:1.35em;
 }
 
+ul.index {
+  background-color:rgb(240, 245, 243) !important;
+  max-width:100%;
+  width:80%;
+  margin-left:10%;
+}
+
 .split .card:nth-child(odd) {
   margin-right:2.5% !important;
   clear:left;
@@ -130,10 +136,10 @@ h3 {
 }
 
 
-.intro p:first-of-type {
+.intro > p:first-of-type {
   font-size:1.65em;
   color:#88746A;
-}
+  }
 
 .break {
   margin:10em 0;

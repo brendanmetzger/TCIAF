@@ -8,26 +8,52 @@
       </li>
     </ul>
   </nav>
-  
-  <header>
-    <h1 data-id="[$item:@id]">[$item:title]</h1>
+
+
+
+
+  <header class="container">
+    <div class="group float-left golden">
+      <h1 data-id="[$item:@id]">[$item:title]</h1>
+      <section  property="description">[$item:content:about]</section>
+    </div>
+
+    <nav class="crumbs group float-left">
+      <ul class="plain ragright index">
+        <li class="ragleft"><strong>Awards</strong></li>
+        <!-- iterate item:awards -->
+        <li><a href="[#$id]">[$award]</a></li>
+      </ul>
+    </nav>
   </header>
-  
-  
-  <section  property="description">[$item:content:about]</section>
+
+
 
   <section class="awards container">
-    <h2>And the Winners Are</h2>
     <!-- iterate item:awards -->
-    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks" data-updated="[$feature:@updated]">
-      <span class="h3" property="award">[$award]</span>
-      <h3 data-id="[$feature:@id]"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
-      <p class="intro" property="description">[$feature:summary]</p>
+    <div property="workPerformed" typeof="CreativeWork" class="trans-blocks award-block" data-updated="[$feature:@updated]" id="[$id]">
+      <span class="h1 center title" property="award">[$award]</span>
+
+      <div class="container">
+        <div class="group float-left center _10" style="padding:1em 2.5em;">
+          <!-- iterate item:media:audio -->
+          <!-- insert views/partials/play-button.html -->
+        </div>
+
+        <div class="group float-left intro _75">
+          <h3 data-id="[$feature:@id]" class="h1 strong"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
+          <p property="description">[$feature:summary]</p>
+        </div>
+      </div>
+      <hr/>
+
       <!-- iterate feature:producers -->
       <!-- insert views/cards/person.html -->
     </div>
   </section>
+
   <hr/>
+
   <h2>Judges</h2>
   <section property="attendees" class="split container">
     <!-- iterate item:judges -->
@@ -42,6 +68,28 @@
       <p>[$organization:about]</p>
     </div>
   </section>
-  
-  
+
+  <style media="screen">
+    .award-block {
+      background: transparent url(/images/medal.svg) no-repeat top right;
+      background-size:15% auto;
+    }
+    .title {
+      border-bottom: 1px dashed #AAA;
+      margin:0 15% 1em;
+      padding:1em 0;
+    }
+    
+
+    header.container {
+      border-top:1px solid #eee;
+      border-bottom:none;
+      padding:0;
+    }
+
+    header.container h1 {
+      padding:1em 0;
+    }
+
+  </style>
 </article>
