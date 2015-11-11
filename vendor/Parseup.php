@@ -26,7 +26,7 @@ class Parseup
      * @var array Class-wide options users can override.
      */
     private $options = array(
-        'header_style'    => 'setext', // Set to "atx" to output H1 and H2 headers as # Header1 and ## Header2
+        'header_style'    => 'atx', // Set to "atx" to output H1 and H2 headers as # Header1 and ## Header2
         'suppress_errors' => true, // Set to false to show warnings when loading malformed HTML
         'strip_tags'      => false, // Set to true to strip tags that don't have markdown equivalents. N.B. Strips tags, not their content. Useful to clean MS Word HTML output.
         'bold_style'      => '**', // Set to '__' if you prefer the underlined style
@@ -107,7 +107,7 @@ class Parseup
 
             if ( is_array($parent_name) && in_array($p->nodeName, $parent_name) )
                 return true;
-            
+
             if ($p->nodeName == $parent_name)
                 return true;
         }
@@ -202,7 +202,7 @@ class Parseup
     {
         $tag = $node->nodeName; // the type of element, e.g. h1
         $value = $node->nodeValue; // the value of that element, e.g. The Title
-        
+
         // Strip nodes named in remove_nodes
         $tags_to_remove = explode(' ', $this->options['remove_nodes']);
         if ( in_array($tag, $tags_to_remove) )
@@ -321,9 +321,9 @@ class Parseup
     /**
      * Converts inline styles
      * This function is used to render strong and em tags
-     * 
+     *
      * eg <strong>bold text</strong> becomes **bold text** or __bold text__
-     * 
+     *
      * @param string $tag
      * @param string $value
      * @return string
@@ -335,7 +335,7 @@ class Parseup
         } else {
             $markdown = $this->options['bold_style'] . trim($value) . $this->options['bold_style'];
         }
-        
+
         return ' ' . $markdown . ' ';
      }
 
@@ -476,7 +476,7 @@ class Parseup
             $markdown .= "`" . $lines[0] . "`";
 
         }
-        
+
         return $markdown;
     }
 
