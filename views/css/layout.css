@@ -138,9 +138,9 @@ header .finder {
 }
 
 .listen {
-  background-size: auto 500%;
+  background-size: auto 0%;
   background-image:url(/images/listen.svg);
-  background-position:50% 50%;
+  background-position:50% 46.5%;
   background-repeat:no-repeat;
   color:#5B9B98;
   letter-spacing:0.075em;
