@@ -6,7 +6,7 @@ body, ul, ol, form, h2, h3, h4, h5, figure, blockquote {
 body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Verdana, sans-serif;
   background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
-  transition:background-position 3s, background-size 1.5s;
+  transition:background-position 2.25s cubic-bezier(.09,.11,.2,1), background-size 1.5s cubic-bezier(.09,.11,.2,1);
   margin-top:4em;
 }
 
@@ -79,6 +79,11 @@ body > header nav a {
   padding:1em;
   font-size:1.25em;
 }
+body > header nav a:hover {
+  padding:1em;
+  color:#fff;
+}
+
 body[data-engage] .home a {
   background-color:#f8f8f8;
   background-position:0 0;
@@ -96,7 +101,7 @@ header nav a {
   background-size:auto 100%;
   background-position:0 10em;
   text-indent:-1000em;
-  transition:background-color 0.25s, background-position 0.75s;
+  transition:background-color 0.25s, background-position 0.75s cubic-bezier(.24,-0.25,.26,1.25);
   width:2em;
 }
 
