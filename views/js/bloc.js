@@ -664,6 +664,7 @@ if (window.history.pushState) {
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
+        window.Adjust.scroll(document.body.dataset.top , 1000);
       }, 10);
       // if
       window.bloc.execute('autoload');
@@ -681,8 +682,6 @@ if (window.history.pushState) {
 
   window.navigateToPage = function (evt) {
 
-    window.Adjust.scroll(document.body.dataset.top , 1000);
-
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
     }
@@ -699,7 +698,6 @@ if (window.history.pushState) {
         evt.preventDefault();
         var elem = document.getElementById(evt.target.hash.substr(1));
         if (elem) {
-          console.dir(elem);
           window.Adjust.scroll(elem.offsetTop - 50, 1500);
         }
 
