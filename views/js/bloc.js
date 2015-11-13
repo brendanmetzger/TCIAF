@@ -42,7 +42,6 @@ var Animate = function (callback) {
     animations: [],
     tween: function (element, idx) {
       if (callback.call(this.animations[idx], element)) {
-        // console.log(this.timer);
         requestAnimationFrame(this.tween.bind(this, element, idx));
       } else {
         if (this.animations[idx].hasOwnProperty('finish')) {
@@ -64,28 +63,39 @@ var Animate = function (callback) {
 };
 
 window.Adjust = function () {
+  var scrolling = {stop: function () {}};
   var scroller = Animate(function (element) {
     var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % anim complete
-
     var y = ratio >= 1 ? this.to : ( ratio * ( this.to - this.from ) ) + this.from;
-
-
-    // element.setAttribute('x', x);
-    element.scrollTo(0,y);
+    element.scroll(0, y);
     return (ratio < 1);
 
   });
 
+
+  var cancelTransition = function (evt) {
+    scrolling.stop();
+    document.body.removeEventListener('touchmove', cancelTransition, false);
+  };
+
   return {
     scroll: function (end, seconds) {
-      scroller.start(window, {
+      document.body.addEventListener('mousemove', cancelTransition, false);
+      scrolling = scroller.start(window, {
         from: window.pageYOffset,
         to: end,
-        duration: seconds
+        duration: seconds,
+        finish: function (something) {
+          document.body.removeEventListener('touchmove', cancelTransition, false);
+        }
       });
     }
   };
 }();
+
+// window.addEventListener('scroll', function (evt) {
+//   console.dir(evt);
+// });
 
 
 var Request = function (callbacks) {
@@ -106,6 +116,8 @@ Request.prototype = {
     this.request.send();
   }
 };
+
+
 
 
 /* Quick way to create an SVG element with and a prototypal method

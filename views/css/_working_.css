@@ -79,9 +79,7 @@ nav.crumbs ul {
   padding:1em;
   border-top-width:0;
   display:inline-block;
-
-
-  max-width:50%;
+  max-width:62.5%;
 }
 
 .crumbs li strong {
@@ -143,4 +141,9 @@ h3 {
 
 .break {
   margin:10em 0;
+}
+
+
+.headspace {
+  padding:6em 3em;
 }

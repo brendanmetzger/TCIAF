@@ -11,12 +11,22 @@ body {
 }
 
 main {
-  margin:0 auto;
-  width:65%;
+  margin:0 auto 5em;
+  width:85%;
   top:0;
   transition:opacity 1s, top 1s;
   min-height:50vh;
 }
+
+
+@media only screen and (min-width: 992px){
+  main {
+    width:65%;
+  }
+}
+
+
+
 
 .transition > main {opacity:0;top:-2em;}
 
@@ -50,15 +60,6 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
   width:38%;
 }
 
-
-
-
-@media only screen and (min-width: 992px){
-  footer section:first-of-type {
-    width:80%;
-    margin:0 auto;
-  }
-}
 
 
 
