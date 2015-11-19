@@ -171,8 +171,8 @@ namespace models;
       $correlation = \controllers\Task::pearson($context['@id'])->best;
       arsort($correlation);
 
-      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 7, true))))->map(function($id, $score) {
-       return ['item' => Graph::factory(Graph::ID($id)), 'store'=> $score];
+      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 7, true))))->map(function($id) {
+       return ['item' => Graph::factory(Graph::ID($id))];
       });
     }
 

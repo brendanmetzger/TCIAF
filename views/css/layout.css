@@ -238,7 +238,7 @@ body[data-playing] #Player:hover {
   height:100%;
   fill:none;
   margin: 0;
-  stroke:#fff;
+  stroke:#333;
   position: relative;
   stroke-width:5;
   stroke-opacity:0.75;

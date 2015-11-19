@@ -283,7 +283,8 @@ class Manage extends \bloc\controller
 
         return $view->render($this($model->slug));
       } catch (\Exception $e) {
-        return $this->GETerror("The file was unable to be uploaded to amazon.", 500);
+
+        return $this->GETerror("The file was unable to be uploaded to amazon.\n\n{$e->getMessage()}", 500);
         exit();
       }
 
