@@ -13,7 +13,7 @@ bloc.prepare('stylesheets', function () {
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
-  
+
   // show an indicator next to all editable elements
 });
 
@@ -25,11 +25,11 @@ bloc.prepare('editables', function () {
     edits[j].dataset.id = null;
     var button = edits[j].appendChild(document.createElement('button'));
         button.textContent = 'Edit';
-        button.title = "Edit";        
+        button.title = "Edit";
         button.addEventListener('click', goto.bind(button, url), false);
-    
+
   }
-  
+
 });
 
 
@@ -39,7 +39,7 @@ function goto(url, evt) {
     window.location.href = url;
     return;
   }
-  
+
   (new Modal.Form({
     load: function (form) {
       window.bloc.execute('stylesheets');
@@ -65,14 +65,14 @@ function Markdown(container, options) {
   this.hud = container.appendChild(document.createElement('nav'));
   this.hud.className = 'hud visible';
   this.textareas = document.querySelectorAll(options.selector);
-  
+
   this.textareas.forEach(function (t) {
     // this.fit(t);
     t.addEventListener('keyup', this.fit.bind(this, t));
     t.addEventListener('select', this.watch.bind(this));
-    t.addEventListener('focus', this.show.bind(this));    
+    t.addEventListener('focus', this.show.bind(this));
   }, this);
-  
+
   if (this.textareas.length > 0) {
     this.textareas[0].parentNode.insertBefore(this.hud, this.textareas[0]);
   }
@@ -111,7 +111,7 @@ Markdown.prototype = {
         if (message.charCodeAt(begin-1) !== 13 && message.charCodeAt(begin-1) !== 10) {
           output += "\n";
         }
-        output += '- ' + message.substring(begin, end) + "\n" + message.substring(end);        
+        output += '- ' + message.substring(begin, end) + "\n" + message.substring(end);
         return {value: output};
       }
     },
@@ -119,12 +119,12 @@ Markdown.prototype = {
       format: '<var>[</var>Link Text<var>](</var>url<var>)</var>',
       insert: function (message, begin, end) {
         var url = window.prompt("Please insert a link", "http://");
-        
+
         if (url === null) {
           return string;
         }
-        
-        return {value: message.substring(0, begin) + '[' + message.substring(begin, end) + '](' + url + ')' + message.substring(end)}; 
+
+        return {value: message.substring(0, begin) + '[' + message.substring(begin, end) + '](' + url + ')' + message.substring(end)};
       }
     },
     exclaim: {
@@ -181,49 +181,49 @@ Markdown.prototype = {
     }
     this.element = evt.target;
     evt.target.parentNode.insertBefore(this.hud, evt.target);
-    
+
   },
-  
+
 };
 
 
 function Upload(container, data) {
   this.container = container;
-  this.action    = data.url;  
-  
+  this.action    = data.url;
+
   this.xhr = new XMLHttpRequest();
-  
+
   if (this.input === null) {
     this.input = this.container.appendChild(document.createElement('input'));
     this.input.type = 'file';
     this.input.id = "_" + Date.now().toString(36);
   }
-  
+
   this.input.accept = data.accept;
-  
+
   this.xhr.addEventListener('loadstart', function (evt) {
     this.status = 'Uploading';
   }.bind(this));
-  
+
   this.xhr.addEventListener('load', this.invoke.bind(this), false);
-  
+
   this.xhr.upload.onprogress = function (evt) {
     if (evt.lengthComputable && this.progress) {
       this.progress.update(evt.loaded/evt.total, 'Uploading');
     }
   }.bind(this);
-  
+
   this.xhr.upload.onload = function (evt) {
     this.progress.update(0.9, 'Compressing');
     this.progress.element.classList.add('spin');
   }.bind(this);
-  
-  
+
+
   this.input.addEventListener('change', function (evt) {
 
     if (this.input.files.length < 1) return;
     var type = this.input.files[0].type.split('/')[0] || null;
-    
+
     try {
       if (this.rules[type]) {
         this.rules[type].call(this, this.input.files[0]);
@@ -235,7 +235,7 @@ function Upload(container, data) {
     } catch (e) {
       console.error(e);
     }
-    
+
   }.bind(this), false);
 }
 Upload.instance = null;
@@ -259,7 +259,7 @@ Upload.prototype = {
     this.callbacks[status].forEach(function (callback) {
       callback.call(this, evt.target);
     }, this);
-    
+
   },
   addEvent: function (type, callback) {
     this.callbacks[type].push(callback);
@@ -269,7 +269,7 @@ Upload.prototype = {
   },
   attach: function (blob) {
     this.xhr.open('POST', this.action);
-    this.xhr.send(blob); 
+    this.xhr.send(blob);
   }
 };
 
@@ -298,7 +298,7 @@ var Modal = function (element) {
         button.className = 'close';
         button.innerHTML = '&times;';
         button.addEventListener('click', this.close.bind(this));
-    
+
     this.element.insertBefore(button, this.element.firstChild);
     this.element.style.top = (document.body.scrollTop + 20) + 'px';
     bloc.execute('autoload');
@@ -315,7 +315,7 @@ var Modal = function (element) {
     if (evt instanceof Event) {
       evt.preventDefault();
     }
-    
+
     document.body.classList.remove('locked');
     this.backdrop.parentNode.removeChild(this.backdrop);
     this.backdrop = false;
@@ -338,17 +338,17 @@ Modal.Form = function (callbacks) {
   // this.ajax.timeout = 3500;
   this.ajax.overrideMimeType('text/xml');
   this.ajax.addEventListener('load', this.processForm.bind(this));
-  
+
   this.ajax.addEventListener('error', function () {
     alert('Unable to retrieve the form, please send word.');
     this.modal.close();
   }.bind(this));
-  
+
   this.ajax.addEventListener('timeout', function (evt) {
     alert('The server is taking too long to respond, if this issue persists, please send word.');
     this.modal.close();
   }.bind(this));
-  
+
   for (var key in callbacks) {
     this.addEvent(key, callbacks[key]);
   }
@@ -366,33 +366,33 @@ Modal.Form = function (callbacks) {
     evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
       document.head.appendChild(window.bloc.tag(false)).text = script.text;
     });
-    
+
     // No form means we need to load up one via our ajax object
     if (!this.form) {
       this.form  = evt.target.responseXML.querySelector('form.editor');
-      
+
       if (! this.form) {
-       evt.target.dispatchEvent(new ProgressEvent('error')); 
+       evt.target.dispatchEvent(new ProgressEvent('error'));
       }
-      
+
       this.modal.addElement(this.form);
-      
+
       this.form.addEventListener('submit', function (evt) {
         evt.preventDefault();
         var submit_request = new XMLHttpRequest();
-        
+
        submit_request.timeout = 3500;
        submit_request.overrideMimeType('text/xml');
        submit_request.addEventListener('load', this.callbacks.submit.bind(this));
        submit_request.open("POST", this.form.action);
        submit_request.send(new FormData(this.form));
-        
+
       }.bind(this));
 
       if (this.callbacks.load) {
         this.callbacks.load.call(this, this.form);
       }
-      
+
     }
   }
 };
@@ -412,15 +412,15 @@ var Edge = function (container, data) {
         submit: function (evt) {
           var elem = evt.target.responseXML.querySelector("div.edge");
           button.parentNode.appendChild(elem);
-        
+
           setTimeout(function () {
             elem.classList.add('highlight');
           }, 10);
-        
+
           setTimeout(function () {
             elem.classList.remove('highlight');
           }, 1000);
-                
+
           // close modal
           this.modal.close(function (arg) {
             if (this.backdrop) {
@@ -431,13 +431,14 @@ var Edge = function (container, data) {
       })).load(this.href+'.xml');
     });
   });
-  
+
   document.querySelector('fieldset.edges').addEventListener('click', function (evt) {
     if (evt.srcElement.nodeName == 'DT') {
-      evt.target.classList.toggle('closed');
+      var priority = evt.target.parentNode.dataset.priority;
+      evt.target.parentNode.dataset.priority = priority == 'low' ? 'normal' : 'low';
     }
   }, false);
-  
+
   document.querySelectorAll('a.sort').forEach(function (button) {
     button.addEventListener('click', function (evt) {
       evt.preventDefault();
@@ -445,7 +446,7 @@ var Edge = function (container, data) {
       list.classList.add('sorting');
       list.removeChild(this);
       sortable(list, 'div');
-      
+
     }, false);
   });
 };
@@ -453,9 +454,9 @@ var Edge = function (container, data) {
 Edge.finder = function (input) {
   input.removeAttribute('onfocus');
   var search = new Search(null, input);
-  
+
   search.subscribers.select.push(function (dataset) {
-    
+
     if (dataset.id) {
       this.input.form.id.value = dataset.id;
       var event = document.createEvent("HTMLEvents");
@@ -499,7 +500,7 @@ var Spectra = function(container, data) {
 Spectra.prototype.color = function () {
   var value = parseInt(this.value, 10);
   var color = {
-    h: Math.round(parseFloat(this.dataset.index, 10) * 255), 
+    h: Math.round(parseFloat(this.dataset.index, 10) * 255),
     s: Math.round((Math.abs(50 - value) / 100) * 200) + '%',
     l: Math.round(((Math.abs(100 - value) / 100) * 50) + 40) + '%'
   };
@@ -508,16 +509,16 @@ Spectra.prototype.color = function () {
 Spectra.prototype.correlate = function (evt) {
   var ajax = new XMLHttpRequest();
   var replace = document.querySelector('fieldset.recommended .recommended');
-  
+
   ajax.addEventListener('load', function (evt) {
     var elem = evt.target.responseXML.querySelector('.recommended');
     replace.parentNode.replaceChild(elem, replace);
   }, false);
-  
+
   ajax.open("POST", '/manage/correlate.xml');
-  
+
   ajax.send(new FormData(this.form));
-  
+
 };
 
 
@@ -539,9 +540,9 @@ function sortable(selector, targetname, onUpdate) {
        evt.dataTransfer.dropEffect = 'move';
 
        var target = evt.target;
-       
+
        if( target && target !== dragEl && target.nodeName == targetname.toUpperCase() ){
-         // Sorting         
+         // Sorting
          var rect = target.getBoundingClientRect();
          var topnext = (evt.clientY - rect.top)/(rect.bottom - rect.top) > 0.5;
          var leftnext = (evt.clientX - rect.left)/(rect.right - rect.left) > 0.5;

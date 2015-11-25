@@ -16,13 +16,13 @@ class Import extends Task
 
 
     $people_group = $xml->query("//group[@type='person']")->item(0);
-    
+
 
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     $new_people = $sql->query("SELECT * FROM producers WHERE created_at > '2014-12-02 17:16:09'")->fetch_all(MYSQLI_ASSOC);
-    
-    
+
+
     foreach ($new_people as $person) {
 
       $id = 'p:'.$person['id'];
@@ -34,34 +34,34 @@ class Import extends Task
         $element->setAttribute('updated', $person['updated_at']);
         $abstract = $element->appendChild($doc->createElement('abstract', html_entity_decode(strip_tags(trim($person['bio'])))));
         $abstract->setAttribute('content', 'bio');
-        
+
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db12.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     } else {
       print_r(libxml_get_errors());
-    } 
-    
+    }
+
   }
-  
+
   public function CLImapFeaturestoProducers()
   {
     $doc  = new \bloc\DOM\Document('data/db12');
     $xml  = new \DomXpath($doc);
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
-    
+
+
     $pairs = $sql->query("SELECT * FROM features_producers")->fetch_all(MYSQLI_ASSOC);
 
 
     foreach ($pairs as $pair) {
-     
+
       $fid      = 'f:'. $pair['feature_id'];
       $pid      = 'p:'. $pair['producer_id'];
 
@@ -73,10 +73,10 @@ class Import extends Task
       if ($producer) {
         $edges = $xml->query($producer->getNodePath()."/edge[@vertex = '$fid']");
         if ($edges->length > 0) {
-        
+
           continue;
         }
-        
+
         echo "create edge $pid -> $fid\n";
 
         $edge = $doc->createElement("edge");
@@ -87,37 +87,37 @@ class Import extends Task
         echo "no producer for $fid\n";
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db12.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     } else {
       print_r(libxml_get_errors());
     }
   }
-  
+
   public function CLIfeatures()
   {
 
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     $new_features = $sql->query("SELECT * FROM features WHERE created_at > '2014-12-02 17:16:09'")->fetch_all(MYSQLI_ASSOC);
 
     foreach ($new_features as $feature) {
       $id = trim('f:' . $feature['id']);
-      
+
       if ($id == 'p:1291') {
         $id = 'p:MayaGoldbergSafir';
       }
-      
+
       try {
         \models\Graph::id($id);
         continue;
       } catch (\Exception $e) {
-      
+
         $data = ['vertex' =>
           [
             '@' => [
@@ -137,10 +137,10 @@ class Import extends Task
             ],
             'location' => [
               'CDATA' => $feature['origin_country'],
-              ]     
+              ]
           ]
         ];
-            
+
         if ($modeled = \models\feature::create(new \models\feature, $data)) {
           if ($modeled->save()) {
             echo "Added {$id} \n";
@@ -154,10 +154,10 @@ class Import extends Task
       }
     }
   }
-  
-  
-  
-  
+
+
+
+
   public function CLImapAudiotoFeatures()
   {
     $doc = new \bloc\DOM\Document('data/db12');
@@ -166,7 +166,7 @@ class Import extends Task
 
     $features = $xml->query("//group[@type='feature']/vertex[not(media)]");
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     foreach ($features as $feature) {
       echo $feature->getAttribute('title');
       $id = substr($feature->getAttribute('id'), 2);
@@ -176,15 +176,15 @@ class Import extends Task
       $media->setAttribute('type', 'audio');
       $feature->appendChild($media);
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db12.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
     }
-    
+
   }
-  
+
   public function CLImapImagestoFeatures()
   {
     $doc = new \bloc\DOM\Document('data/db12');
@@ -193,60 +193,60 @@ class Import extends Task
 
     $features = $xml->query("//group[@type='feature']/vertex");
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     foreach ($features as $feature) {
 
       $id = substr($feature->getAttribute('id'), 2);
-      
+
       $images = $sql->query("SELECT CONCAT('feature-photos/photos/', id, '/', photo_file_name) as file, caption FROM feature_photos  WHERE feature_id = '{$id}'")->fetch_all(MYSQLI_ASSOC);
       foreach ($images as $image) {
-       
+
         $media = $doc->createElement("media", $image['caption'] ?: null);
         $media->setAttribute('src', $image['file']);
         $media->setAttribute('type', 'image');
         $feature->appendChild($media);
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db12.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
     }
-    
+
   }
-  
+
   public function CLIremap()
   {
     $doc = new \bloc\DOM\Document('data/db');
     $xml  = new \DomXpath($doc);
-    
+
     $groups = [];
     foreach ($xml->query("//group") as $group) {
       $groups[$group->getAttribute('type')] = $group;
     }
-    
+
     foreach ($xml->query("//token") as $token) {
       $group = $token->getAttribute('type');
-      echo "Moving {$token->getAttribute('title')} to {$group} group.\n"; 
-      $token->removeAttribute('type'); 
+      echo "Moving {$token->getAttribute('title')} to {$group} group.\n";
+      $token->removeAttribute('type');
       $groups[$group]->appendChild($token);
     }
-    
+
     if ($doc->validate()) {
       // $doc->save(PATH.'data/db2.xml');
     }
   }
-  
 
-  
+
+
   public function CLImapAllFeaturesToProducers()
   {
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
     $results = $sql->query("SELECT COUNT(feature_id) as c, feature_id FROM features_producers GROUP BY (feature_id) ORDER BY c DESC")->fetch_all(MYSQLI_ASSOC);
     $doc  = new \bloc\DOM\Document('data/db7');
     $xml  = new \DomXpath($doc);
-    
+
     foreach ($results as $result) {
       if ($result['c'] <= 1) continue;
       $feature = $result['feature_id'];
@@ -259,47 +259,47 @@ class Import extends Task
         $edge = $xml->query($exp, $p);
                 echo $edge->length . "\n";
         if ($p && $edge->length === 0) {
-          
+
           $edge = $doc->createElement("edge");
           $edge->setAttribute('token', 's:'.$feature);
           $edge->setAttribute('type', 'producer');
           $p->appendChild($edge);
-          
+
            echo $producer['id'] . " has no edge \n";
         }
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db8.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     } else {
       print_r(libxml_get_errors());
-    } 
+    }
   }
-  
+
   public function CLIevents()
   {
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     $events = $sql->query("SELECT * from events")->fetch_all(MYSQLI_ASSOC);
     $doc  = new \bloc\DOM\Document('data/db12');
     $xml  = new \DomXpath($doc);
-    
+
     $event_group = $xml->query("//group[@type='event']")->item(0);
-    
+
     foreach ($events as $event) {
       $vertex = $doc->createElement('vertex');
-      
+
       print_r($event). "\n";
-      
+
       $id = 'e:' . $event['id'];
-      
+
       // location / host
-      
+
       $element = $event_group->appendChild($doc->createElement('vertex'));
       $element->setAttribute('id', $id);
       $element->setAttribute('title', $event['name']);
@@ -310,31 +310,31 @@ class Import extends Task
       $abstract = $element->appendChild($doc->createElement('abstract', $abstract_text));
       $abstract->setAttribute('content', 'desription');
       $location = $element->appendChild($doc->createElement('location', $event['location']));
-      
+
 
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db13.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     } else {
       print_r(libxml_get_errors());
-    } 
+    }
   }
 
-  
+
   public function CLIsetWeights()
   {
     $doc  = new \bloc\DOM\Document('data/db9');
     $xml  = new \DomXpath($doc);
-    
+
     $features = $xml->query('//group[@type="feature"]/vertex');
-    
+
     foreach ($features as $feature) {
-      
+
       if ($feature->getAttribute('weight')) {
         echo 'skip ' . $feature->getAttribute('title');
       } else {
@@ -342,24 +342,24 @@ class Import extends Task
         $feature->setAttribute('weight', 0);
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db10.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     } else {
       print_r(libxml_get_errors());
     }
   }
-  
+
   public function CLImapAwardsToProducer()
   {
     $doc  = new \bloc\DOM\Document('data/db3');
     $xml  = new \DomXpath($doc);
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     $group = $xml->query("//group[@type='competition']")->item(0);
     $driehaus  = $doc->getElementById('c:1');
 
@@ -371,25 +371,25 @@ class Import extends Task
       }
       $years[$award['year_of']][] = $award;
     }
-    
+
     foreach ($years as $key => $awards) {
       echo "Create token for $key\n";
       echo "Create edge to token in {$driehaus->getAttribute('title')}\n\n";
 
-      
+
       $cid = 'd:'.$key;
       $competition = $doc->createElement('token');
       $competition->setAttribute('id', $cid);
       $competition->setAttribute('title', $key);
-      
+
       $group->appendChild($competition);
 
-      
+
       $edge = $doc->createElement("edge");
       $edge->setAttribute('rel', $cid);
       $edge->setAttribute('type', 'issue');
       $driehaus->appendChild($edge);
-      
+
       foreach ($awards as $award) {
         $subedge = $doc->createElement('edge', trim($award['award']));
         $subedge->setAttribute('rel', 's:'.$award['feature_id']);
@@ -397,28 +397,28 @@ class Import extends Task
         $competition->appendChild($subedge);
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db4.xml';
       echo "New File: {$file}\n";
       // $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     }
-    
-    
+
+
   }
-  
+
   public function CLIextras()
   {
     require_once(PATH . 'vendor/markdown/HTML_To_Markdown.php');
-    
+
     $sql   = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     $extras = $sql->query('SELECT extras.*, extra_audio_files.mp3_file_name, extra_audio_files.description as audio_description FROM extras LEFT JOIN extra_audio_files on (extras.id = extra_audio_files.extra_id);')->fetch_all(MYSQLI_ASSOC);
-    
+
     $grouped_extras = [];
-    
+
     foreach ($extras as $extra) {
       if (! array_key_exists($extra['id'], $grouped_extras)) {
         $grouped_extras[$extra['id']] = [
@@ -426,7 +426,7 @@ class Import extends Task
           'media' => [],
         ];
       };
-      
+
       if (isset($extra["mp3_file_name"])) {
         $grouped_extras[$extra['id']]['media'][] = [
             'CDATA'  => trim(strip_tags(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;', '&quot;'], ["'", '–', "'", ' ', '"'], $extra["audio_description"])), "\n\r\t"),
@@ -443,8 +443,8 @@ class Import extends Task
       $extra = $group['extra'];
       $fid = 'f:' . $extra['feature_id'];
       $eid = $fid . 'e' . $extra['id'];
-      
-      
+
+
       $markdown = trim((new \HTML_To_Markdown(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], $extra['behind_the_scene_text']), ['strip_tags' => true]))->output(), "\n\r\t");
       preg_match('/\**behind\s+the\s+scenes\**\s+.*/im', $markdown, $result, PREG_OFFSET_CAPTURE);
       $interview = false;
@@ -458,35 +458,35 @@ class Import extends Task
         $description = substr_replace($markdown, '', $result[0][1], strlen($result[0][0]));
       }
 
-      
-      
-      
+
+
+
       $links_block = trim((new \HTML_To_Markdown(str_replace(['&#39;', '&ndash;', '&rsquo;', '&nbsp;'], ["'", '–', "'", ' '], $extra['links_block']), ['strip_tags' => true]))->output(), "\n\r\t");
-      
+
       $external_vertex = \models\Graph::ID($fid);
-      
+
       // Add this to the feature in $fid
       if (!empty($links_block)) {
 
-        
+
         $abstract = $external_vertex->insertBefore(\models\Graph::instance()->storage->createElement('abstract'), $external_vertex->getElementsByTagName('abstract')->item(0)->nextSibling);
         $abstract->setAttribute('content', 'extras');
-        
+
         $abstract->nodeValue = str_replace('↩↩' , '¶', preg_replace(["/\r\n/", "/\n{2,}/"], ['↩', '↩↩'], $links_block));
       }
-      
+
       // if there is no description, then we are basically done here.
       if (empty($description)) {
         continue;
       }
-      
+
       echo "{$fid} \n";
-        
+
       $external_vertex->appendChild(\models\Graph::EDGE($eid, 'extra', $interview ? 'interview' : null));
-      
-      
+
+
       $description = preg_replace('/\*{2}\s*(.*)\*{2}/i', '### $1', trim($description));
-            
+
       $data = ['vertex' =>
         [
           '@' => [
@@ -504,9 +504,9 @@ class Import extends Task
           'media'    => [],
         ]
       ];
-      
-        
-      
+
+
+
       // if (!empty($group['media'])) {
 //         $data['vertex']['media'] = $group['media'];
 //       }
@@ -526,10 +526,10 @@ class Import extends Task
 //         exit();
 //       }
     }
-    
+
     // \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
-  
+
   public function CLIempties()
   {
     foreach (\models\Graph::group('feature')->find('vertex') as $vertex) {
@@ -543,13 +543,13 @@ class Import extends Task
     }
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
-  
+
   public function CLIdonors()
   {
     $doc = new \bloc\DOM\Document('data/db4');
     $xml = new \DomXpath($doc);
     $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
+
     $group = $xml->query("//group[@type='organization']")->item(0);
     $driehaus  = $doc->getElementById('c:1');
 
@@ -559,16 +559,16 @@ class Import extends Task
       $token->setAttribute('title',  $donor['name']);
       $group->appendChild($token);
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db5.xml';
       echo "New File: {$file}\n";
       // $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     }
   }
-  
+
   public function CLImoveAbstracts()
   {
     $doc = new \bloc\DOM\Document('data/db15');
@@ -579,51 +579,58 @@ class Import extends Task
       $new_abs = $doc->createElement('abstract');
       $new_abs->setAttribute('src', $uri);
       $new_abs->setAttribute('content', $abstract->getAttribute('content'));
-      
+
       $abstract->parentNode->replaceChild($new_abs, $abstract);
       echo $uri . "\n";
-      
+
       file_put_contents(PATH . 'data/abstracts/'.$uri, $text);
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db15.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-    }    
+    }
   }
-  
+
   public function CLIbroadcasts()
   {
-    $features = \models\Graph::group('feature')->find('vertex');
+    $broadcasts = \models\Graph::group('broadcast')->find('vertex');
 
-    $broadcast = \models\Graph::group('broadcast')->pick('.');
-    $article = \models\Graph::group('article')->pick('.');
-    
+    $feature = \models\Graph::group('feature')->pick('.');
+    $tciaf   = \models\Graph::group('organization')->pick('vertex[@id="TCIAF"]');
 
 
-    foreach ($features as $feature) {
-      $title = $feature->getAttribute('title');
-      $start = strtolower(substr(ltrim($title, "\x00..\x2F"), 0, 5));
-      // move to broadcasts
-      if ($start === 're:so') {
-        echo "Move {$title} to broadcast group\n";
-        $broadcast->appendChild($feature);
-      }
-      
-      // move to article
-      if ($start === 'extra' || $start === 'behin') {
-        // echo "Move {$title} to article group\n";
-        $article->appendChild($feature);
-      }
+
+    $doc = $feature->ownerDocument;
+
+    foreach ($broadcasts as $broadcast) {
+      $tciaf_edge  = $doc->createElement('edge');
+      $tciaf_edge->setAttribute('type', 'producer');
+      $tciaf_edge->setAttribute('vertex', $broadcast['@id']);
+
+      // Add an edge to TCIAF that points to this broadcast
+      $tciaf->appendChild($tciaf_edge);
+
+      echo $tciaf_edge->write() . "\n";
+
+      // Add an edge to this broadcast that points to TCIAF
+      $broadcast_edge = $doc->createElement('edge');
+      $broadcast_edge->setAttribute('type', 'producer');
+      $broadcast_edge->setAttribute('vertex', $tciaf['@id']);
+
+      $broadcast->appendChild($broadcast_edge);
+      echo $broadcast_edge->write() . "\n";
+
+      // Move Broadcast back to Feature group
+      $feature->appendChild($broadcast);
     }
-    
-    echo "There are " . $broadcast->childNodes->length . " broadcasts\n";
-    echo "There are " . $article->childNodes->length . " articles\n";
-    
+
+    echo $tciaf->write();
+
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
-  
+
   public function CLIshortdocs()
   {
     $doc = new \bloc\DOM\Document('data/db15');
@@ -640,14 +647,14 @@ class Import extends Task
         exit();
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db16.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
     }
   }
-  
+
   public function CLIlowerdocs()
   {
     foreach (\models\Graph::group('competition')->find('vertex[@id="comp-2"]/edge') as $edge) {
@@ -655,7 +662,7 @@ class Import extends Task
       foreach (\models\Graph::group('competition')->find($exp) as $ref) {
         $vertex = \models\Graph::id($ref->getAttribute('vertex'));
         $spectra = $vertex->getElementsByTagName('spectra');
-        
+
         if ($spectra->length > 0) {
           $f = $spectra->item(0)->getAttribute('F');
           if ($f == '50') {
@@ -669,12 +676,12 @@ class Import extends Task
           }
           $vertex->appendChild($spectra);
         }
-        
+
       }
     }
     \models\Graph::instance()->storage->save(PATH .  'data/db17.xml');
   }
-  
+
 
   public function CLISpectra()
   {
@@ -687,70 +694,70 @@ class Import extends Task
     $tot = ($spectras->length * 7);
     echo "There are {$tot}\n";
   }
-  
+
   public function CLISync()
   {
-    for ($i=10; $i < 150; $i++) { 
+    for ($i=10; $i < 150; $i++) {
       $handle = curl_init();
-    
+
       $url = 'http://local.thirdcoastfestival.org/explore/fix/:' . $i;
 
       curl_setopt($handle, CURLOPT_URL, $url);
       curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($handle, CURLOPT_COOKIEFILE, "/tmp/curlCookies.txt");
       curl_setopt($handle, CURLOPT_COOKIEJAR, "/tmp/curlCookies.txt");
-    
+
       $result = curl_exec($handle);
       $info   = curl_getinfo($handle);
-    
+
       curl_close($handle);
-    
+
       if ($info['http_code'] == 401) {
         $result = $this->CLILogin($result);
       }
-        
+
       if ($xml = simplexml_load_string(html_entity_decode($result, ENT_QUOTES, "utf-8"))) {
         $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
         foreach ($xml->xpath('//xmlns:form')[0]->input as $input) {
           echo $input['name'] . "\n";
         }
-        
+
       } else {
         echo $result;
       }
       echo "\n\n\n";
     }
   }
-  
+
   public function CLIcorrectsrc()
   {
     $doc  = new \bloc\DOM\Document('data/db18');
     $xml  = new \DomXpath($doc);
     $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
-    
-        
-    
+
+
+
     foreach ($xml->query("//group[@type='article']/vertex/media") as $media) {
       $src = $media->getAttribute('src');
       $id = $sql->query("SELECT id FROM extra_audio_files WHERE mp3_file_name = '{$src}';")->fetch_object()->id;
       $media->setAttribute('src', "features-extra-audio/mp3s/{$id}/$src");
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db19.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     }
   }
-  
+
   public function CLIrenameJPG()
   {
     $sql = new \mysqli('127.0.0.1', 'root', '', 'TCIAF');
     $doc  = new \bloc\DOM\Document('data/db19');
     $xml  = new \DomXpath($doc);
-    
+
 
     foreach ($sql->query("SELECT photo_file_name as src FROM feature_photos")->fetch_all(MYSQLI_ASSOC) as $photo) {
       $pos = strrpos($photo['src'], '.');
@@ -764,23 +771,23 @@ class Import extends Task
         }
       }
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db20.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     }
   }
-  
+
   public function CLIDoubleEdgeNodes()
   {
     $doc  = \models\Graph::instance()->storage;
-    
+
     $edges = $doc->getElementsByTagName('edge');
     $append = [];
-    
+
     foreach ($edges as $edge) {
       $vertex = \models\Graph::ID($edge->getAttribute('vertex'));
       $new_edge = $doc->createElement('edge');
@@ -793,15 +800,15 @@ class Import extends Task
         'vertex' => $vertex,
         'edge' => $new_edge,
       ];
-      
+
       echo $new_edge->getAttribute('vertex') . "\n";
     }
-    
+
     foreach ($append as $group) {
       $group['vertex']->appendChild($group['edge']);
     }
-    
-    
+
+
     if ($doc->validate()) {
       $file = 'data/db21.xml';
       echo "New File: {$file}\n";
@@ -809,17 +816,17 @@ class Import extends Task
     } else {
       print_r(libxml_get_errors());
     }
-    
+
   }
 
   public function CLIitemSess()
   {
     $doc  = new \bloc\DOM\Document('data/db25');
     $xml  = new \DomXpath($doc);
-    
+
     foreach ($xml->query("//group[@type='happening']/vertex/edge[@type='session']") as $edge) {
       $producers = $xml->query("//group[@type='feature']/vertex[@id='{$edge['@vertex']}']/edge[@type='producer']");
-      
+
       foreach ($producers as $producer) {
         $producer->setAttribute('type', 'presenter');
         $session_id = $producer->parentNode['@id'];
@@ -830,14 +837,14 @@ class Import extends Task
         echo $producer->write();
         echo "\n";
       }
-      
+
 
       // echo $ref->write();
-      
+
       echo "\n\n";
-      
+
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db26.xml';
       echo "New File: {$file}\n";

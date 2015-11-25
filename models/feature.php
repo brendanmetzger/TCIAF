@@ -26,7 +26,7 @@ namespace models;
     ];
 
     protected $edges = [
-      'producer'    => ['person'],
+      'producer'    => ['person', 'organization'],
       'presenter'   => ['person'],
       'extra'       => ['article', 'feature'],
       'award'       => ['competition'],
@@ -41,7 +41,10 @@ namespace models;
 
       if ($this->happenings->count() > 0 && $this->presenters->count() > 0) {
         $this->template['digest'] = 'session';
+      } else if ($this->context->find('edge[@vertex="TCIAF"]')->count() > 0) {
+        $this->template['digest'] = 'broadcast';
       }
+
     }
 
     public function getSpectra(\DOMElement $context)
@@ -124,7 +127,7 @@ namespace models;
 
     public function getProducers(\DOMElement $context)
     {
-      return $context->find("edge[@type='producer']")->map(function($edge) {
+      return $context->find("edge[@type='producer' and @vertex!='TCIAF']")->map(function($edge) {
         return ['person' => new Person($edge['@vertex']), 'role' => 'Producer'];
       });
     }

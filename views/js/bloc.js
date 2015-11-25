@@ -676,8 +676,9 @@ if (window.history.pushState) {
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
-        window.Adjust.scroll(document.body.dataset.top , 1000);
-      }, 10);
+        // window.Adjust.scroll(document.body.dataset.top , 1000);
+        window.scrollTo(0,document.body.dataset.top);
+      }, 100);
       // if
       window.bloc.execute('autoload');
       window.bloc.execute('editables');
@@ -716,6 +717,7 @@ if (window.history.pushState) {
 
       } else if (evt.target.matches("a:not(.button)[href^='/']")) {
         evt.preventDefault();
+        document.querySelector('main').className = 'wee';
         navigateToPage.call(evt.target, evt);
       }
     }

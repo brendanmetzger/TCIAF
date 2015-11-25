@@ -5,12 +5,12 @@ abstract class Model extends \bloc\Model
 {
   public $context  = null,
          $errors   = [];
-        
-        
+
+
   protected $template = ['form' => null, 'digest' => null, 'card' => null, 'index' => null];
-         
-    
-  
+
+
+
   static public $fixture = [
     'vertex' => [
       '@' => ['id' => null, 'title' => '', 'created' => '', 'updated' => '', 'mark' => 0],
@@ -24,7 +24,7 @@ abstract class Model extends \bloc\Model
       'edge'  => [],
     ]
   ];
-  
+
   public function save()
   {
     $filepath = PATH . Graph::DB . '.xml';
@@ -40,7 +40,7 @@ abstract class Model extends \bloc\Model
       return false;
     }
   }
-  
+
   public function mergeInput($input, \DOMElement $context)
   {
     $element = key($input);
@@ -53,75 +53,75 @@ abstract class Model extends \bloc\Model
           TODO consider about empty values
         */
         $this->setAttributes($value, $context);
-        
+
       } else if ($key === 'CDATA') {
-        
+
         $this->{"set{$element}"}($context, $value);
-        
+
       } else if (is_int($key)) {
         // if the key is an integer, we have an array of elements to add/update. If the set(Element)
         // method returns false, we add add the found/created element to a list of nodes to remove at the
         // completion of this routine -- ie. return false to delete the context node.
         $subcontext = $context->parentNode->getFirst($element, $key);
-        
+
         if ($this->{"set{$element}"}($subcontext, $input[$element][$key]) === false) {
           $pending_removal[] = $subcontext;
        } else {
-         
+
          // Appending the $subcontext ensures that the order remains the order provided by the input mechanism.
          $pending_reorder[] = $subcontext;
        }
-      } else {                
+      } else {
         // we have an entire element, that can have elements, attributes, etc, so merge that.
         // Be extremely careful here - this will create an element and add to the document. it's up to
         // you to ensure that if you are going to be inserting an array of elems (see is_int($key) above)
-        // that you make sure your array index starts at zero. If you don't, you will probably have an 
+        // that you make sure your array index starts at zero. If you don't, you will probably have an
         // empty node inserted into the document, and this will likely cause a validation error.
         $this->mergeInput([$key => $value], $context->getFirst($key));
       }
     }
-    
+
     if (! $context->hasAttributes() && ! $context->hasChildNodes()) {
       $pending_removal[] = $context;
     }
-    
+
     foreach ($pending_removal as $element) {
       if ($element->parentNode) {
         $element->parentNode->removeChild($element);
       }
     }
-    
+
     foreach ($pending_reorder as $element) {
       $element->parentNode->appendChild($element);
     }
   }
-  
+
   public function setAttributes(array $attributes, \DOMElement $context)
   {
     foreach ($attributes as $property => $value) {
       $this->{"set{$property}Attribute"}($context, $value);
     }
-  }  
-    
+  }
+
   public function setIdAttribute(\DOMElement $context, $id)
   {
     if (empty($id)) {
       $id = substr($this->_model, 0, 1) . '-' . uniqid();
     }
-    
+
     $context->setAttribute('id', $id);
   }
-  
+
   public function getTitle(\DOMNode $context)
   {
     return strip_tags((new \Parsedown())->text(trim($context->getAttribute('title'))) , '<em><strong>');
   }
-    
+
   public function setUpdatedAttribute(\DOMElement $context)
   {
     $context->setAttribute('updated',  (new \DateTime())->format('Y-m-d H:i:s'));
   }
-  
+
   public function setAbstract(\DOMElement $context, array $abstract)
   {
     if (empty($abstract['CDATA'])) return false;
@@ -135,7 +135,7 @@ abstract class Model extends \bloc\Model
     file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
     return true;
   }
-  
+
   public function getAbstract(\DOMElement $context, $parse = true)
   {
     if ($context['abstract']->count() < 1) {
@@ -146,18 +146,18 @@ abstract class Model extends \bloc\Model
        'required' => 'required',
       ]];
     }
-    
+
     return $context['abstract']->map(function($abstract) use($parse){
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
       return [
        'type' => $abstract->getAttribute('content'),
        'index' => $abstract->getIndex(),
-       'text' => $parse ? (new \Parseup($content))->output() : $content, 
+       'text' => $parse ? (new \Parseup($content))->output() : $content,
       ];
     });
   }
-	
+
   public function getSummary(\DOMElement $context)
   {
 		$abstract = $this->getAbstract($context, false);
@@ -170,43 +170,43 @@ abstract class Model extends \bloc\Model
 
     }
   }
-   
+
   public function setEdge(\DOMElement $context, $value)
   {
     $atts  = $value['@'];
     $eid   = $context->parentNode['@id'];
     $ref   = Graph::ID($atts['vertex']);
-    
+
     $type =  $atts['type'] ?: $context['@type'];
     $edges = $ref->find("edge[@vertex='{$eid}' and @type='{$type}']");
-          
+
     $connect = $edges->count() > 0 ? $edges->pick(0) : $ref->appendChild(Graph::instance()->storage->createElement('edge'));
 
     if (empty($atts['type'])) {
       $ref->removeChild($connect);
       return false;
     }
-    
+
     $context->setAttribute('type',  $atts['type']);
     $connect->setAttribute('type', $atts['type']);
-    
+
     $context->setAttribute('vertex', $atts['vertex']);
     $connect->setAttribute('vertex', $eid);
-      
+
     if (array_key_exists('CDATA', $value)) {
       $context->nodeValue = $value['CDATA'];
       $connect->nodeValue = $value['CDATA'];
     }
   }
-  
+
   public function setMedia(\DOMElement $context, $media)
   {
     if (empty($media['@']['src'])) {
       return false;
     }
-    
+
     // Check for a query string - due to latency involved with Elastic Transcoding, we
-    // don't set transcoded url until after a save. It is tacked on as a query parameter until then. 
+    // don't set transcoded url until after a save. It is tacked on as a query parameter until then.
     if ($pending = parse_url($media['@']['src'], PHP_URL_QUERY)) {
       $media['@']['src'] = $pending;
     }
@@ -218,21 +218,21 @@ abstract class Model extends \bloc\Model
       $context->nodeValue = $media['CDATA'];
     }
   }
-  
+
   public function getMedia(\DomElement $context)
   {
     $media = [
       'audio' => [],
       'image' => [],
     ];
-    
+
     foreach ($context['media'] as $item) {
       $media[$item['@type']][] = new Media($item);
     }
-        
+
     return new \bloc\types\Dictionary($media);
   }
-    
+
   public function getStatus($context)
   {
     $created  = strtotime($context['@created']);
@@ -270,28 +270,32 @@ abstract class Model extends \bloc\Model
       $slugs['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
       Graph::group($this->get_model())->pick('.')->appendChild($this->context);
     }
-    
+
+    if ($this->_model != $this->context->parentNode->getAttribute('type')) {
+      throw new \RuntimeException("Model declared as wrong type", 1);
+    }
+
     static::$fixture = array_replace_recursive(self::$fixture, static::$fixture);
 
     if (!empty($data)) {
       try {
         static::$fixture = array_replace_recursive($data, $slugs);
         $this->mergeInput(static::$fixture, $this->context);
-        
+
       } catch (\UnexpectedValueException $e) {
         $this->errors[] = $e->getMessage();
       }
     }
-		
+
 		$this->parseText($this->context);
   }
-    
+
   public function __call($method, $arguments)
   {
 
     $accessor = substr($method, 0, 3); // will be get or set
     $context = $arguments[0];
-   
+
     if ($accessor == 'get') {
       return $context[substr($method,3)];
     } else {
@@ -300,13 +304,13 @@ abstract class Model extends \bloc\Model
 
       if (strtolower(substr($method, -9)) == 'attribute') {
         $key = substr($method, 3, -9);
-        $context->setAttribute($key, $value);        
+        $context->setAttribute($key, $value);
       } else {
         $context->setNodeValue($value);
       }
     }
   }
-  
+
   public function __get($property)
   {
     $this->{$property} = $this->{"get{$property}"}($this->context);
@@ -318,7 +322,7 @@ abstract class Model extends \bloc\Model
     return $this->template[$name] ?: $this->get_model();
   }
 
-  
+
   protected function parseText($context)
   {
 		$dict = [];
@@ -327,50 +331,58 @@ abstract class Model extends \bloc\Model
     }
 		$this->content = new \bloc\types\Dictionary($dict);
   }
-  
+
   public function getEdges($context)
   {
     return $context['edge']->map(function($edge) {
       return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
     });
   }
-  
+
   public function getStructure(\DOMElement $context)
   {
     $output = [];
-    
+
     foreach ($this->edges as $type => $models) {
-      if (!array_key_exists($type, $output)) {
-        $output[$type] = [];
-      }
-      
+      $output[$type] = [
+        'priority' => 'normal',
+        'items'    => [],
+      ];
+
       foreach ($models as $model) {
-        if (! array_key_exists($model, $output[$type])) {
-          $output[$type][$model] = [];
-        }
+        $output[$type]['items'][$model] = [];
       }
     }
-    
+
     foreach ($context['edge'] as $edge) {
-      $type = $edge['@type'];
+      $type   = $edge['@type'];
       $vertex = Graph::factory(Graph::ID($edge['@vertex']));
 
-      $output[$type][$vertex->_model][] = ['vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+      if (! array_key_exists($type, $output)) {
+        $output[$type] = [
+          'priority' => 'low',
+          'items'    => [],
+        ];
+      }
+
+      $output[$type]['items'][$vertex->_model][] = ['vertex' => $vertex, 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+
+
     }
-    
+
     $out = [];
-    
-    foreach ($output as $type => $models) {
-      $b = ['name' => $type, 'items' => []];
-      
-      foreach ($models as $model => $items) {
+
+    foreach ($output as $type => $config) {
+      $b = ['name' => $type, 'items' => [], 'priority' => $config['priority']];
+
+      foreach ($config['items'] as $model => $items) {
         $b['items'][] = ['name' => $model, 'type' => $type, 'items' => $items];
       }
-      
+
       $out[] = $b;
     }
-    
+
     return $out;
-    
+
   }
 }

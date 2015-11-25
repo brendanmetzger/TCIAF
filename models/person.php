@@ -8,11 +8,11 @@ namespace models;
 class Person extends Model
 {
   use traits\banner;
-  
+
   static public $fixture = [
     'vertex' => [
       'abstract' => [
-        [ 
+        [
           'CDATA'  => '',
           '@' => ['content' => 'bio']
         ]
@@ -29,15 +29,14 @@ class Person extends Model
     'participant' => ['feature'],
     'host'        => ['happening', 'competition', 'feature'],
     'staff'       => ['organization'],
-    'sponsor'     => ['happening', 'competition'],
   ];
-  
+
   public function __construct($id = null, $data =[])
   {
     $this->template['form'] = 'vertex';
     parent::__construct($id, $data);
   }
-    
+
   public function authenticate($password)
   {
     if (! password_verify($password, $this->context->getAttribute('hash'))) {
@@ -45,43 +44,43 @@ class Person extends Model
     }
     return $this->context;
   }
-  
+
   public function authorize()
   {
     /*
       TODO need a system to check for role of staff or contributor.
     */
   }
-  
+
   public function setIdAttribute(\DOMElement $context, $value)
   {
-    
+
     if (empty($value)) {
       $value = 'p-' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
     }
-    
+
     if (empty($value)) {
       $this->errors[] = "Name Invalid, either doesn't exist, or is not unique enough.";
       throw new \RuntimeException($message, 1);
     }
 
     $context->setAttribute('id', $value);
-    
+
   }
-  
+
   public function getHash($string)
   {
     return password_hash($string, PASSWORD_DEFAULT);
   }
-  
+
   public function getBio(\DOMElement $context)
   {
     $this->parseText($context);
     return isset($this->bio) ? $this->bio : null;
   }
-  
 
-  
+
+
   public function getFeatures(\DOMElement $context)
   {
     $features = $context->find("edge[@type='producer']");
@@ -91,7 +90,7 @@ class Person extends Model
       });
     }
   }
-  
+
   public function getContributions(\DOMElement $context)
   {
     $out = [];

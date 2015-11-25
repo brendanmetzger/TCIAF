@@ -13,7 +13,7 @@ $app = Application::instance(['mode' => getenv('MODE') ?: 'production']);
 
 // this is non functional, but indicates some meta programming potential.
 $app->prepare('session-start', function ($app) {
-  $app::session('TCIAF');
+  $app->session('TCIAF');
 });
 
 

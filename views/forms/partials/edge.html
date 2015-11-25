@@ -1,9 +1,8 @@
-<div class="edge">
-  <input type="hidden" name="[vertex[edge][$index][@][vertex]]" value="[$vertex:@id]" /> 
-  <h3 class="inline"><strong>[$vertex:title]</strong> - <a href="[/explore/detail/$vertex:@id]">Go to page</a></h3>
-  <span class="padded float-right">
+<div class="edge container">
+  <input type="hidden" name="[vertex[edge][$index][@][vertex]]" value="[$vertex:@id]" />
+  <span class="group float-left">
     <input type="checkbox" name="[vertex[edge][$index][@][type]]" value="[$edge:@type]" id="[$vertex:@id$index]" onchange="this.parentNode.classList.toggle('warn');" checked="checked"/>
-    <label for="[$vertex:@id$index]" class="inline">[$process]</label>
+    <label for="[$vertex:@id$index]" class="inline h4">[$vertex:title]</label>
   </span>
-  <input type="text" name="[vertex[edge][$index][CDATA]]" value="[$edge]" placeholder="[$edge:@type type (optional)]" style="display:block;padding:0.125em 0.5em;border:1px solid #eee;width:80%;margin:0.25em 0;"/>
+  <input type="text" name="[vertex[edge][$index][CDATA]]" value="[$edge]" placeholder="[$edge:@type type (optional)]"/>
 </div>

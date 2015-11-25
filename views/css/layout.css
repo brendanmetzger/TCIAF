@@ -14,8 +14,12 @@ main {
   margin:0 auto 5em;
   width:85%;
   top:0;
-  transition:opacity 1s, top 1s;
-  min-height:50vh;
+  transition:opacity 1.5s, top 1s, transform 1.5s;
+  min-height:100vh;
+}
+
+main.wee {
+  transform:scale(0.85);
 }
 
 
