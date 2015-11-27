@@ -28,7 +28,6 @@ namespace models;
       'judge'       => ['person', 'organization'],
       'award'       => ['feature'],
       'sponsor'     => ['organization', 'person'],
-      'participant' => ['feature'],
       'page'        => ['article'],
       'edition'     => ['competition'],
       'playlist'    => ['collection'],

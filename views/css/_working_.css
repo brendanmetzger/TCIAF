@@ -14,10 +14,6 @@
 }
 
 
-blockquote.justify {
-  width:50%;
-  margin:1em auto;
-}
 
 .award {
   padding: 0.5em 3.5em 0.5em 0;
@@ -79,7 +75,7 @@ nav.crumbs ul {
   padding:1em;
   border-top-width:0;
   display:inline-block;
-  max-width:62.5%;
+  max-width:62%;
 }
 
 .crumbs li strong {
@@ -128,7 +124,6 @@ ul.index {
 
 
 h3 {
-  text-transform:uppercase;
   color:#88746A;
   margin:1em 0 0;
 }

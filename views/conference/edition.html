@@ -5,29 +5,34 @@
       <!-- iterate item:playlists -->
       <li data-updated="[$playlist:@updated]"><strong>Playlist</strong> <a href="[/explore/detail/$playlist:@id]">[$playlist:title]</a></li>
       <li><strong>See All</strong><a href="/overview/conference">Conferences</a></li>
+      <li style="line-height:0;border:none;">
+          <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:100%;margin:0" data-aspect="[$item:banner:mark]"/>
+      </li>
     </ul>
   </nav>
 
-  <hr/>
 
-  <header>
-    <h1 data-id="[$item:@id]">[$item:title]</h1>    
+  <header class="container">
+    <div class="group float-left golden">
+      <h1 data-id="[$item:@id]">[$item:title]</h1>
+      <section>[$item:content:about]</section>
+    </div>
   </header>
 
-  <section>[$item:content:about]</section>
-  
+
+  <span class="marquee condensed center">Conference Sessions</span>
 
   <section>
     <!-- iterate item:sessions -->
     <article class="trans-blocks">
       <h3 data-id="[$session:@id]" class="center h1"><a href="[/explore/detail/$session:@id]">[$session:title]</a></h3>
-      <blockquote class="justify p">
+      <blockquote class="three-quarters p middle center">
         <p>[$session:summary]</p>
       </blockquote>
-      
+
       <hr/>
       <h5 class="h2 center">· Featuring ·</h5>
-      
+
       <ul class="bios container">
         <!-- iterate session:presenters -->
         <li class="[float-left _$count group]" data-id="[$person:@id]">
@@ -37,11 +42,11 @@
       </ul>
     </article>
   </section>
-    
-    
+
+
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-    
+
     .bios {
       margin:0;
       padding:0;
@@ -50,20 +55,20 @@
     .bios li {
       text-align:center;
     }
-    
+
     .bios li a {
       display:block;
       width:10em;
       margin:0 auto;
       padding:0.5em;
     }
-    
+
     .bio-disc {
       margin:1em auto;
       width:5em;
       height:5em;
     }
-    
+
     .bios li img {
       width:10em;
       background-color:rgba(255,255,255,0.25);

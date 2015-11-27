@@ -40,22 +40,23 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 ._1.float-left {
   width:100%;
 }
-._2.float-left {
+._2.float-left, .half {
   width:50%;
 }
-._3.float-left, ._6.float-left {
+._3.float-left, ._6.float-left, .one-third {
   width:33%;
 }
-._4.float-left {
+._4.float-left, .one-quarter {
   width:25%;
 }
 ._5.float-left {
   width:20%;
 }
 
-._75.float-left {
+._75.float-left, .three-quarters {
   width:75%;
 }
+
 
 .golden.float-left {
   width:62%;

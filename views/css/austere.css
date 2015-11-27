@@ -33,17 +33,22 @@ a.selected{text-decoration:none;cursor:pointer;}
 .caps-lock {text-transform:uppercase;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
-.inline:not(ul), .inline li, .inline dd  {display:inline-block;}
-ul.inline {padding:0; }
+.inline:not(ul), .inline li, .inline dd, ul.divide li  {display:inline-block;}
+ul.inline, ul.divide {padding:0; }
 .ragright {text-align:left;}
 .ragleft {text-align:right;}
 .center {text-align:center;}
+.middle {margin: 0 auto};
 .justify {text-align: justify;}
 .clear {clear:both;}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
 .group{display:block;box-sizing:border-box;}
 .float-left{float:left;}
 .float-right{float:right;}
+.divide li {padding:0.25em 1em}
+.divide li + li {border-left:1px solid rgba(0,0,0,0.1)}
+
+
 
 .page h2, .page .h2 {
   color:#EE3124;
@@ -75,7 +80,8 @@ ul.inline {padding:0; }
 strong, .strong, .selected {font-weight:600;letter-spacing:0.05em;}
 em, .em, blockquote {font-style:italic;}
 .mono, pre, code {font-family:'Courier New';}
-
+.condensed {font-family:'Avenir Next Condensed', 'Open Sans Condensed';}
+.marquee {color:rgba(0,0,0,0.25);font-size:7.5em;font-weight:200;margin:1.5em 0 0.75em;display:block;}
 h1, .h1 { font-size:2.5em; margin:0.25em 0;line-height:125%;}
 h2, .h2, legend { font-size:1.75em; line-height:175%; }
 h3, .h3, input { font-size:1.65em; }

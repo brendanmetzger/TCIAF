@@ -16,13 +16,16 @@
         return {
           tag: function (async) {var s = d.createElement('script');s.type='text/javascript';s.async=async;return s;},
           embed: function() {for (var i=0; i < arguments.length; i++) {var s = this.tag(false);s.src=s.src=arguments[i];s.onload = this.load; q.push(s);} return this;},
-          track: function (src) { for (var i=0; i < arguments.length; i++) {t.push(this.tag(arguments[i], true));} return this;},
+          track: function (src) { for (var i=0; i < arguments.length; i++) {var s = this.tag(true);s.src=arguments[i];t.push(s);} return this;},
           load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { for (var k in c) {w.bloc.execute(k, null)}; while(t.length > 0) d.body.appendChild(t.shift());}},
           execute: function(k, a) { if (c[k]) return c[k].call(this, a);},
           prepare: function(k, f) {if (typeof f === 'function') c[k] = f; else return c[k] || function() {};}
       };}(document, window, {}, [], []));
-
+      WebFontConfig = {
+        google: { families: [ 'Open+Sans+Condensed:300:latin' ] }
+      };
       bloc.embed('/js/bloc.js');
+      bloc.track('//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
       bloc.prepare('autoload', function (auto) {
         document.querySelectorAll('noscript').forEach(function (elem) {
           var swap = document.createElement('div');

@@ -1,12 +1,25 @@
 <article>
-  <header>
-    <h1 data-id="[$item:@id]">[$item:title]</h1>
+
+  <header class="container">
+    <div class="group float-left golden">
+      <h1 data-id="[$item:@id]">[$item:title]</h1>
+      <section  property="description">[$item:content:about]</section>
+    </div>
+
+    <nav class="crumbs group float-left">
+      <ul class="plain center index">
+        <!-- iterate item:conferences -->
+        <li><a href="[/overview/conference/$edition:@id]">[$year Conference]</a></li>
+      </ul>
+    </nav>
   </header>
-  <section>[$item:content:about]</section>
+
   <section>
-    <!-- iterate item:conferences -->
+    <span class="marquee condensed center">Recent Conferences</span>
+    <!-- iterate item:recent -->
     <article>
-      <h2><a href="[/overview/conference/$edition:@id]">[$edition:title]</a></h2>
+      <img src="[http://s3.amazonaws.com/$edition:banner:url]" style="width:25%;margin:0" data-aspect="[$item:banner:mark]"/>
+      <h2 data-id="[$edition:@id]"><a href="[/overview/conference/$edition:@id]">[$edition:title]</a></h2>
       <aside>[$edition:summary]</aside>
     </article>
   </section>

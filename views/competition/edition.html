@@ -1,4 +1,5 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
+
   <nav class="center crumbs">
     <ul class="plain">
       <li><a href="/overview/competition">More Competitions</a></li>
@@ -16,6 +17,13 @@
     <div class="group float-left golden">
       <h1 data-id="[$item:@id]">[$item:title]</h1>
       <section  property="description">[$item:content:about]</section>
+      <hr />
+      <ul class="plain center divide h4">
+        <li><a href="#awards">Awards</a></li>
+        <li><a href="#judges">Judges</a></li>
+        <li><a href="#sponsors">Sponsors</a></li>
+      </ul>
+
     </div>
 
     <nav class="crumbs group float-left">
@@ -27,7 +35,7 @@
     </nav>
   </header>
 
-
+<span class="marquee center condensed" id="awards">Awards</span>
 
   <section class="awards container">
     <!-- iterate item:awards -->
@@ -52,15 +60,17 @@
     </div>
   </section>
 
-  <hr/>
 
-  <h2>Judges</h2>
+
+  <span class="marquee center condensed"  id="judges">Judges</span>
+
   <section property="attendees" class="split container">
     <!-- iterate item:judges -->
     <!-- insert views/cards/person.html -->
   </section>
-  <hr/>
-  <h2>Sponsors</h2>
+
+  <span class="marquee center condensed" id="sponsors">Sponsors</span>
+
   <section class="sponsors container">
     <!-- iterate item:sponsors -->
     <div vocab="http://schema.org/" typeof="Organization" data-updated="[$organization:@updated]">
@@ -79,7 +89,7 @@
       margin:0 15% 1em;
       padding:1em 0;
     }
-    
+
 
     header.container {
       border-top:1px solid #eee;

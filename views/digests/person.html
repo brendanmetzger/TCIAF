@@ -5,16 +5,16 @@
       <li><a href="/explore/index/person">See All People</a></li>
     </ul>
   </nav>
-  <header>
-    <h1 data-id="[$item:@id]">[$item:@title]</h1>
+
+  <header class="container">
     <img src="[http://s3.amazonaws.com/$item:photo:url]" />
+    <h1 data-id="[$item:@id]" style="margin-top:1em;">[$item:@title]</h1>
+    <section>[$item:content:bio]</section>
   </header>
 
-  <section>[$item:content:bio]</section>
-  <hr />
   <!-- iterate item:contributions -->
   <nav>
-    <h2 class="caps-lock padded">[$name]</h2>
+    <span class="marquee center condensed capitalize">[$name]</span>
     <ul class="plain">
       <!-- iterate items -->
       <li data-updated="[$item:@updated]" class="trans-blocks headspace">

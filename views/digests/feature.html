@@ -39,19 +39,26 @@
     <section class="group float-left" style="width:75%;margin-left:2.5%"  property="description">[$item:content:description]</section>
 
     <section class="group float-left" property="contributors" style="width:75%;margin-left:2.5%;">
-      <ul class="plain">
+      <ul class="plain" style="margin-top:5em;">
         <!-- iterate item:extras -->
-        <li><h3><a href="[/explore/detail/$article:@id]">[$article:title]</a></h3></li>
+        <li style="margin:1em;border:1px dashed rgba(0,0,0,0.1);padding:0 1em;background-color:rgba(255,255,255,0.5)">
+          <h3><a href="[/explore/detail/$article:@id]">[$article:title]</a></h3>
+          <p>[$article:summary]</p>
+        </li>
       </ul>
-      <hr/>
-      <h2 >Produced By</h2>
-      <!-- iterate item:producers -->
-      <!-- insert views/cards/person.html -->
     </section>
+
+
   </div>
 
+  <section>
+    <span class="marquee center condensed" >Produced By</span>
+    <!-- iterate item:producers -->
+    <!-- insert views/cards/person.html -->
+  </section>
+
   <section class="center crumbs" style="margin-top:5em;">
-    <h2>Recommended</h2>
+    <span class="marquee condensed">Recommended</span>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>
