@@ -465,6 +465,7 @@ Search.prototype = {
   },
   processIndices: function (evt) {
     (JSON.parse(evt.target.responseText) || []).forEach(function (item) {
+      console.log(item);
       var key = item[1].toLowerCase().replace(/[^a-z0-9]/g, '');
       this[key] = {
         id: item[0],
@@ -701,8 +702,12 @@ if (window.history.pushState) {
 
     Content.get(this.href + '.xml');
     document.body.classList.add('transition');
-    document.body.style.backgroundPosition = (100 + Math.cos(Math.random() * Math.PI) * 20) + '%' + (Math.random() * 50) + '%';
-    document.body.style.backgroundSize = Math.max(Math.random() * 100, 75) + (Math.cos(Math.random() * Math.PI) * 10) + '%';
+    var A = (75 + Math.random() * 25) + '%' + (75 + (Math.random() * 25)) + '%';
+    var B = (75 + Math.random() * 25) + '%' + (75 + (Math.random() * 25)) + '%';
+    var C = Math.max(Math.random() * 100, 75) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
+    var D = Math.max(Math.random() * 100, 75) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
+    document.body.style.backgroundPosition = A + ', ' + B;
+    document.body.style.backgroundSize = C + ', ' + D;
   };
 
   document.body.addEventListener('click', function (evt) {

@@ -335,7 +335,7 @@ abstract class Model extends \bloc\Model
   public function getEdges($context)
   {
     return $context['edge']->map(function($edge) {
-      return [ 'vertex' => Graph::factory(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
+      return [ 'vertex' => Graph::FACTORY(Graph::ID($edge['@vertex'])), 'edge' => $edge, 'index' => $edge->getIndex(), 'process' => 'keep'];
     });
   }
 
@@ -356,7 +356,7 @@ abstract class Model extends \bloc\Model
 
     foreach ($context['edge'] as $edge) {
       $type   = $edge['@type'];
-      $vertex = Graph::factory(Graph::ID($edge['@vertex']));
+      $vertex = Graph::FACTORY(Graph::ID($edge['@vertex']));
 
       if (! array_key_exists($type, $output)) {
         $output[$type] = [

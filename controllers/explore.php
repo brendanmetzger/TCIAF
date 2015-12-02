@@ -29,12 +29,12 @@ class Explore extends Manage
            ->find('vertex'.$query)
            ->sort(Graph::sort($sort))
            ->map(function($vertex) {
-             return ['item' => Graph::factory($vertex)];
+             return ['item' => Graph::FACTORY($vertex)];
            })
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$type}/{$sort}"]));
     } else {
       // the homepage is a collection.
-      $this->collection = Graph::factory(Graph::ID('homepage'));
+      $this->collection = Graph::FACTORY(Graph::ID('homepage'));
       $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
     }
 
@@ -44,7 +44,7 @@ class Explore extends Manage
   public function GETdetail($id)
   {
 
-    $this->item   = Graph::factory(Graph::ID($id));
+    $this->item   = Graph::FACTORY(Graph::ID($id));
     $this->title  = $this->item['@title'] . ", TCIAF";
 
     $view = new view('views/layout.html');
@@ -64,7 +64,7 @@ class Explore extends Manage
          ->find('vertex')
          ->sort(Graph::sort($sort))
          ->map(function($feature) {
-           return ['item' => Graph::factory($feature)];
+           return ['item' => Graph::FACTORY($feature)];
          })
          ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$sort}"]));
 

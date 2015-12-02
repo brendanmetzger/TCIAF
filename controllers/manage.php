@@ -34,7 +34,7 @@ class Manage extends \bloc\controller
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
 
-    $tciaf = Graph::factory(Graph::ID('TCIAF'));
+    $tciaf = Graph::FACTORY(Graph::ID('TCIAF'));
 
     $this->supporters = $tciaf->supporters;
     $this->staff      = $tciaf->staff;
@@ -126,7 +126,7 @@ class Manage extends \bloc\controller
     $view = new view('views/layout.html');
     $view->content = "views/forms/partials/edge.html";
 
-    $this->vertex = Graph::factory(Graph::ID($_POST['id']));
+    $this->vertex = Graph::FACTORY(Graph::ID($_POST['id']));
     $this->edge   = Graph::EDGE(null, $_POST['keyword'], null);
 
     $this->process = 'keep';
@@ -143,7 +143,7 @@ class Manage extends \bloc\controller
   // output: HTML Form
   protected function GETcreate($model)
   {
-    $this->item       = Graph::factory($model);
+    $this->item       = Graph::FACTORY($model);
     $this->action     = "Create New {$model}";
     $this->references = null;
     $this->edges      = null;
@@ -178,7 +178,7 @@ class Manage extends \bloc\controller
 
       if ($dom->validate() && is_writable($filepath)) {
         $dom->save($filepath);
-        \models\Search::clear();
+        \models\Search::CLEAR();
       }
     }
 
@@ -192,7 +192,7 @@ class Manage extends \bloc\controller
   // output: HTML Form
   protected function GETedit($vertex)
   {
-    $this->item   = $vertex instanceof \models\model ? $vertex : Graph::factory(Graph::ID($vertex));
+    $this->item   = $vertex instanceof \models\model ? $vertex : Graph::FACTORY(Graph::ID($vertex));
     $this->action = "Edit {$this->item->get_model()}:";
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
@@ -202,11 +202,13 @@ class Manage extends \bloc\controller
 
   protected function POSTedit($request, $model, $id = null)
   {
-    if ($instance = Graph::factory( (Graph::ID($id) ?: $model), $_POST)) {
+    if ($instance = Graph::FACTORY( (Graph::ID($id) ?: $model), $_POST)) {
 
       if ($instance->save()) {
-        // clear caches
-        \models\Search::clear();
+        // clear and rebuild caches w/o slowing down response
+        \models\search::CLEAR();
+        get_headers('http://'.$_SERVER['HTTP_HOST'].'/search/index');
+
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
         // echo $instance->context->write(true);
@@ -297,7 +299,7 @@ class Manage extends \bloc\controller
 
   public function POSTcorrelate($request)
   {
-    $this->item = Graph::factory(Graph::ID($_POST['vertex']['@']['id']), $_POST);
+    $this->item = Graph::FACTORY(Graph::ID($_POST['vertex']['@']['id']), $_POST);
 
 
     $view = new view('views/layout.html');

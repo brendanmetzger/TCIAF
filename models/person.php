@@ -100,7 +100,7 @@ class Person extends Model
         $out[] = [
           'name' => $key,
           'items' => $items->map(function($collection) {
-            $item = Graph::factory(Graph::ID($collection['@vertex']));
+            $item = Graph::FACTORY(Graph::ID($collection['@vertex']));
             if ($collection['@vertex'] === "TCIAF") {
               $overview = "/overview/tciaf";
             } else if ($item->_model == 'competition') {

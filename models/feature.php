@@ -175,7 +175,7 @@ namespace models;
       arsort($correlation);
 
       return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 7, true))))->map(function($id) {
-       return ['item' => Graph::factory(Graph::ID($id))];
+       return ['item' => Graph::FACTORY(Graph::ID($id))];
       });
     }
 

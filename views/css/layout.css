@@ -6,6 +6,8 @@ body, ul, ol, form, h2, h3, h4, h5, figure, blockquote {
 body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Verdana, sans-serif;
   background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
+  background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y 100% 100% fixed;
+  background-color:#f8f8f8;
   transition:background-position 2.25s cubic-bezier(.09,.11,.2,1), background-size 1.5s cubic-bezier(.09,.11,.2,1);
   margin-top:4em;
 }
@@ -16,14 +18,12 @@ main {
   top:0;
   transition:opacity 1.5s, top 1s, transform 1.5s;
   min-height:100vh;
+  position:relative;
+  z-index:1;
 }
 
 main.wee {
-  transform:scale(0.85);
-}
-
-main.wee .crumbs {
-  transform: translateY(-85em);
+  transform:scale(1.125);
 }
 
 
@@ -75,6 +75,8 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 body > header {
   box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
   background-color:#fff;
+  position:relative;
+  z-index:2;
 }
 body > header nav {
   background-color:#323031;

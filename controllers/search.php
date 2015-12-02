@@ -13,6 +13,23 @@ use \models\Graph;
 
 class Search extends Manage
 {
+
+  public function GETindex($token)
+  {
+    echo "ok";
+    flush();
+    $groups = Graph::instance()->query('graph/group[@type!="archive"]/')->find('.');
+    foreach ($groups as $group) {
+      $search = \models\search::FACTORY($group);
+      $index = $search->createIndex();
+    }
+  }
+
+  public function GETtry()
+  {
+    \models\search::BUILD();
+  }
+
   public function GETgroup($type, $subset = null)
   {
     $list   = Graph::group($type)->find('vertex');
@@ -20,7 +37,7 @@ class Search extends Manage
 
     return $search->asJSON('group', $subset, $type);
   }
-  
+
   public function GETmedia($type, $subset = null)
   {
     $list = Graph::instance()->query('/graph/group/vertex/')->find("media[@type='{$type}']")->map(function($item) {
@@ -29,10 +46,10 @@ class Search extends Manage
     $search = new \models\search($list);
     $search->key = 'context';
     $search->tag = 'caption';
-    
+
     return $search->asJSON('media', $subset, $type);
   }
-  
+
   public function GETform($type)
   {
     $view = new View('views/forms/partials/search.html');

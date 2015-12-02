@@ -30,7 +30,7 @@ use \models\graph;
            ->find('vertex')
            ->sort(Graph::sort($sort))
            ->map(function($vertex) {
-             return ['item' => Graph::factory($vertex)];
+             return ['item' => Graph::FACTORY($vertex)];
            })
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/library/{$filter}/{$sort}"]));
 
@@ -42,7 +42,7 @@ use \models\graph;
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/about.html';
 
-      $this->item = Graph::factory(Graph::ID('TCIAF'));
+      $this->item = Graph::FACTORY(Graph::ID('TCIAF'));
 
       return $view->render($this());
     }
@@ -52,14 +52,14 @@ use \models\graph;
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/overview.html';
 
-      $this->item = Graph::factory(Graph::ID('opportunities'));
+      $this->item = Graph::FACTORY(Graph::ID('opportunities'));
 
       return $view->render($this());
     }
 
     public function GETconference($id = 'tciaf-conference')
     {
-      $this->item = Graph::factory(Graph::ID($id));
+      $this->item = Graph::FACTORY(Graph::ID($id));
       $this->banner = 'Conferences';
       $page = (($id === 'tciaf-conference') ? 'overview' : 'edition');
       $view = new view('views/layout.html');
@@ -76,12 +76,12 @@ use \models\graph;
       if ($id === null) {
         $this->banner = 'Competitions';
         $this->competitions = [
-          ['item' => Graph::factory(Graph::ID('driehaus'))],
-          ['item' => Graph::factory(Graph::ID('shortdocs'))],
+          ['item' => Graph::FACTORY(Graph::ID('driehaus'))],
+          ['item' => Graph::FACTORY(Graph::ID('shortdocs'))],
         ];
         $page = 'overview';
       } else {
-        $this->item = Graph::factory(Graph::ID($id));
+        $this->item = Graph::FACTORY(Graph::ID($id));
         if ($participants) {
           $page = 'listing';
         } else {
@@ -106,7 +106,7 @@ use \models\graph;
            ->find('vertex')
            ->sort(Graph::sort($sort))
            ->map(function($vertex) {
-             return ['item' => Graph::factory($vertex)];
+             return ['item' => Graph::FACTORY($vertex)];
            })
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/playlist/{$sort}"]));
 

@@ -92,7 +92,7 @@ use \bloc\dom\query;
       });
     }
 
-    static public function factory($model, $data = [])
+    static public function FACTORY($model, $data = [])
     {
       if ($model instanceof \DOMElement) {
         $element = $model;
