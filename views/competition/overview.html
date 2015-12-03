@@ -16,15 +16,14 @@
       <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
       <h2 data-id="[$item:@id]">[$item:title]</h2>
     </header>
-
     <article>[$item:content:about]</article>
-        <!-- iterate item:competitions -->
-        <section class="trans-blocks container">
-          <img src="[http://s3.amazonaws.com/$competition:square:url]"/>
-          <h3 data-id="[$competition:@id]"><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h3>
-          <p>[$competition:summary]</p>
 
-        </section>
+    <!-- iterate item:competitions -->
+    <section class="trans-blocks container">
+      <img src="[http://s3.amazonaws.com/$competition:square:url]"/>
+      <h3 data-id="[$competition:@id]"><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h3>
+      <p>[$competition:summary]</p>
+    </section>
   </section>
 
   <style type="text/css" media="screen">
@@ -37,9 +36,7 @@
       border:1px dashed rgba(0,0,0,0.1);
     }
 
-    #driehaus p {
-      display:none;
-    }
+
 
     /* ]]> */
   </style>

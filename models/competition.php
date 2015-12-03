@@ -82,7 +82,8 @@ namespace models;
     {
 
       return $context->find("edge[@type='award']")->map(function($edge) {
-        return ['feature' => new Feature($edge['@vertex']), 'award' => $edge->nodeValue, 'id' => $edge['@vertex']];
+        $feature = new Feature($edge['@vertex']);
+        return ['feature' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];
       });
     }
 

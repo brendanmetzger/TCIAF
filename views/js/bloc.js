@@ -408,16 +408,9 @@ var Search = function (container, data) {
 
   this.input = document.getElementById(data.id);
   if (!this.input) {
-    console.error("MUST fix the search going blank when reloading content");
+    console.error("No valid search input");
     return;
   }
-  this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
-  this.input.addEventListener('keydown', this.checkDown.bind(this), false);
-
-
-  this.ajax = new XMLHttpRequest();
-  this.ajax.addEventListener('load', this.processIndices.bind(this), false);
-  this.ajax.addEventListener('loadstart', this.reset.bind(this), false);
 
   this.menu = new Menu(this.input.parentNode.insertBefore(document.createElement('ul'), this.input.nextSibling));
   this.menu.list.addEventListener('click', function (evt) {
@@ -432,6 +425,11 @@ var Search = function (container, data) {
   this.subscribers = {
     select: []
   };
+
+  this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
+  this.input.addEventListener('keydown', this.checkDown.bind(this), false);
+  this.input.addEventListener('blur', this.reset.bind(this), false);
+
 };
 
 
@@ -443,11 +441,22 @@ Search.prototype = {
   ajax: null,
   results: null,
   indices: {},
-  find: function (path, topic, letter) {
-    this.ajax.open('GET', '/' + path +'/' + topic + '/' + letter + '.json?ask=' + (new Date()).getTime() );
-    this.ajax.send();
+  find: function (path, groups, letter) {
+    groups.forEach(function (group) {
+      var request = new XMLHttpRequest(),
+          url  = '/' + path +'/' + group + '/' + letter + '.json?q=' + (new Date()).getTime();
+
+      request.addEventListener('load', this.processIndices.bind(this, group), false);
+      request.open('GET', url );
+      request.send();
+
+
+    }, this);
+
+
   },
   reset: function () {
+    this.input.value = '';
     this.indices = {};
     this.menu.reset();
   },
@@ -463,18 +472,43 @@ Search.prototype = {
       item.call(this, this.input.dataset, evt);
     }, this);
   },
-  processIndices: function (evt) {
+  processIndices: function (group, evt) {
     (JSON.parse(evt.target.responseText) || []).forEach(function (item) {
-      console.log(item);
       var key = item[1].toLowerCase().replace(/[^a-z0-9]/g, '');
       this[key] = {
         id: item[0],
-        name: item[1]
+        name: item[1],
+        group: group
       };
     }, this.indices);
 
+    this.processMatches();
+  },
+  processMatches: function () {
+    var term = this.input.value.replace(/\s(?=[a-z0-9]{2,})/ig, '|\\b').replace(/\s[a-z0-9]?/ig, '');
+    // var term     = this.input.value;
+    var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[.,"':?#\[\]\(\)\-]*/g, ''), 'i');
+    var item_re  = new RegExp("("+term+")", 'ig');
+
+    for (var key in this.indices) {
+
+      if (match_re.test(key)) {
+        var matches = this.indices[key].name.match(item_re);
+        this.menu.addItem(
+          this.indices[key].id,
+          this.indices[key].name.replace(item_re, "<strong>$1</strong>"),
+          matches ? matches.length : 0,
+          this.indices[key].group
+        );
+
+        if (++this.menu.position >= 25) break;
+      }
+
+      this.menu.sort();
+    }
   },
   checkUp: function (evt) {
+
     var meta = evt.keyIdentifier.toLowerCase();
 
     if (meta === 'down' || meta == 'up') return;
@@ -487,46 +521,29 @@ Search.prototype = {
     this.menu.reset();
     this.input.dataset.id = '';
 
-    if (this.input.value.length < 1) return;
+    if (this.input.value.length < 1) { this.reset(); return};
 
-    var term = this.input.value.replace(/\s(?=[a-z0-9]{1,})/ig, '|\\b').replace(/\s[a-z0-9]?/ig, '');
-    // var term     = this.input.value;
-    var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[.,"':?#\[\]\(\)\-]*/g, ''), 'i');
-    var item_re  = new RegExp("("+term+")", 'ig');
-
-    for (var key in this.indices) {
-
-      if (match_re.test(key)) {
-        var matches = this.indices[key].name.match(item_re);
-        this.menu.addItem(
-          this.indices[key].id,
-          this.indices[key].name.replace(item_re, "<strong>$1</strong>"),
-          matches ? matches.length : 0
-        );
-
-        if (++this.menu.position >= 25) break;
-      }
-
-      this.menu.sort();
-    }
+    this.processMatches();
   },
   checkDown: function (evt) {
-    var letter = String.fromCharCode(evt.keyCode);
-    var meta   = evt.keyIdentifier.toLowerCase();
+    var letter = String.fromCharCode(evt.keyCode),
+        meta   = evt.keyIdentifier.toLowerCase(),
+        data   = this.input.dataset;
+
     if (meta == 'enter') {
       evt.preventDefault();
       return;
     }
-    if (this.menu.items.length > 0 && (meta === 'down' || meta == 'up')) {
+
+    if (this.menu.items.length > 0 && (meta == 'down' || meta == 'up')) {
       evt.preventDefault();
-      var current = this.menu.cycle(meta == 'down' ? 1 : -1);
-      this.input.value       = current.textContent;
-      this.input.dataset.id  = current.id;
+      var current      = this.menu.cycle(meta == 'down' ? 1 : -1);
+      this.input.value = current.textContent;
+      data.id          = current.id;
       return;
     }
-
     if (this.input.value.length === 0 && /[a-z0-9]{1}/i.test(letter)) {
-      this.find(this.input.dataset.path, this.input.dataset.topic, letter);
+      this.find(data.path, data.topic.split(/,\s*/), letter);
     }
   }
 };
@@ -546,14 +563,17 @@ Menu.prototype = {
     while (this.list.firstChild) {
       this.list.removeChild(this.list.firstChild);
     }
+
     this.items = [];
     this.position = 0;
+    this.index = -1;
   },
-  addItem: function (id, html, weight) {
+  addItem: function (id, html, weight, group) {
     var li = this.list.appendChild(document.createElement('li'));
         li.innerHTML = html;
-        li.weight = weight;
-        li.id     = id;
+        li.weight    = weight;
+        li.id        = id;
+        li.className = group;
   },
   sort: function () {
     this.items = Array.prototype.slice.call(this.list.querySelectorAll('li'), 0).sort(function (a, b) {
