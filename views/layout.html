@@ -19,7 +19,7 @@
           track: function (src) { for (var i=0; i < arguments.length; i++) {var s = this.tag(true);s.src=arguments[i];t.push(s);} return this;},
           load: function(){ if (q.length > 0) {d.body.appendChild(q.shift()); } else { for (var k in c) {w.bloc.execute(k, null)}; while(t.length > 0) d.body.appendChild(t.shift());}},
           execute: function(k, a) { if (c[k]) return c[k].call(this, a);},
-          prepare: function(k, f) {if (typeof f === 'function') c[k] = f; else return c[k] || function() {};}
+          prepare: function(k, f) {if (typeof f === 'function') c[k] = f; else return c[k] || new Function();}
       };}(document, window, {}, [], []));
       WebFontConfig = {
         google: { families: [ 'Open+Sans+Condensed:300:latin' ] }
@@ -46,6 +46,12 @@
         }
         return this;
       });
+
+      bloc.prepare('Search', function () {
+        this.subscribers.select.push(function (dataset, evt) {
+          navigateToPage.call({href: '/explore/detail/'+dataset.id}, evt);
+        });
+      });
       // ]]>
     </script>
     <link rel="shortcut icon" href="/images/favicon.ico"/>
@@ -62,7 +68,7 @@
     <header class="container">
 
       <form class="finder float-left group search">
-        <input type="text" class="mono" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article"/>
+        <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article"/>
         <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>
 

@@ -69,10 +69,11 @@ namespace models;
 
     public function addToIndex($id, $value)
     {
-      $value = preg_replace('/[^a-z0-9\s\'\!\.\?]+/i', '', $value);
-      $parts = preg_split('/\s+/', $value);
+      $value = preg_replace('/[^a-z0-9\s\'\!\.\?\:]+/i', '', $value);
+      $parts = preg_split('/\swith\s|\sthe\s|\s/i', $value);
       $level = 1;
       foreach ($parts as $part) {
+        if ($level > 1 && strlen($part) < 3) continue;
         $idx = substr(strtolower($part), 0, 1);
         $key = strtolower($part);
         $this->index[$idx][$id] = [$level++, $value];

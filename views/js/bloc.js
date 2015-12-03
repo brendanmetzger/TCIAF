@@ -63,7 +63,7 @@ var Animate = function (callback) {
 };
 
 window.Adjust = function () {
-  var scrolling = {stop: function () {}};
+  var scrolling = {stop: new Function()};
   var scroller = Animate(function (element) {
     var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % anim complete
     var y = ratio >= 1 ? this.to : ( ratio * ( this.to - this.from ) ) + this.from;
@@ -540,6 +540,7 @@ Search.prototype = {
       var current      = this.menu.cycle(meta == 'down' ? 1 : -1);
       this.input.value = current.textContent;
       data.id          = current.id;
+      data.group       = current.classList.item(0);
       return;
     }
     if (this.input.value.length === 0 && /[a-z0-9]{1}/i.test(letter)) {
