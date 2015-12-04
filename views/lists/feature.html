@@ -1,23 +1,25 @@
 <article class="features listing">
   <nav class="center crumbs">
     <ul class="plain">
-      <li><strong>Sort by</strong></li>
-      <li class="padded"><a class="[$newest]" href="[/explore/index/$group/all/newest]">Created</a></li>
-      <li class="padded"><a class="[$updated]" href="[/explore/index/$group/all/updated]">Updated</a></li>
-      <li class="padded"><a class="[$title]" href="[/explore/index/$group/all/alpha-numeric]">Alphabet</a></li>
-      <li class="padded"><a class="[$yearproduced]" href="[/explore/index/$group/all/year-produced]">Year Produced</a></li>
-      <li>
-        <select onchange="if (this.value != 'Spectra') navigateToPage.call({href: this.value}, event);">
-          <option>Spectra</option>
-          <option selected="[$recommendedS]" value="[/explore/index/$group/all/recommended:S]">Fiction to Fact</option>
-          <option selected="[$recommendedM]" value="[/explore/index/$group/all/recommended:M]">Heavy to Light</option>
-          <option selected="[$recommendedR]" value="[/explore/index/$group/all/recommended:R]">Social Relevance</option>
-          <option selected="[$recommendedP]" value="[/explore/index/$group/all/recommended:P]">Rich Sound to Print-Worthy</option>
-          <option selected="[$recommendedT]" value="[/explore/index/$group/all/recommended:T]">Experimental to Traditional</option>
-          <option selected="[$recommendedA]" value="[/explore/index/$group/all/recommended:A]">Energetic to Cozy</option>
-        </select>
+      <li class="half group float-left">
+        <ul class="plain">
+          <li><strong>Sort by</strong></li>
+          <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
+          <li><a class="[$updated]" href="[/overview/library/$filter/updated]">Updated</a></li>
+          <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
+          <li><a class="[$yearproduced]" href="[/overview/library/$filter/year-produced]">Year Produced</a></li>
+        </ul>
       </li>
-      <li>
+      <li class="half group float-left">
+        <ul class="plain">
+          <li><strong>Filter by</strong></li>
+          <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
+          <li><a href="[$no]">Conference Audio</a></li>
+          <li><a href="[$no]">Competitions</a></li>
+          <li><a href="[$no]">TCF Awards</a></li>
+        </ul>
+      </li>
+      <li class="clear">
         <!-- insert views/partials/navigator.html -->
       </li>
     </ul>
@@ -25,6 +27,7 @@
 
   <header>
     <h2>The Library</h2>
+    <!-- replace blurb  -->
   </header>
   <!-- iterate list -->
   <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]">

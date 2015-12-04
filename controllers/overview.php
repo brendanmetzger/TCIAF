@@ -24,8 +24,16 @@ use \models\graph;
       $view = new view('views/layout.html');
       $view->content = "views/lists/feature.html";
       $this->search = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
-      $this->group = 'feature';
-      $this->{$sort} = "selected";
+
+      $this->filter = $filter;
+      $this->sort   = $sort;
+
+      $this->{$sort}   = "selected";
+      $this->{$filter} = "selected";
+      if ($filter != 'all') {
+        $view->blurb = "views/pages/{$filter}.html";
+      }
+
       $this->list = Graph::group('feature')
            ->find('vertex')
            ->sort(Graph::sort($sort))
@@ -40,9 +48,9 @@ use \models\graph;
     public function GETtciaf()
     {
       $view = new view('views/layout.html');
-      $view->content   = 'views/pages/about.html';
+      $view->content = 'views/pages/about.html';
 
-      $this->item = Graph::FACTORY(Graph::ID('TCIAF'));
+      $this->item  = Graph::FACTORY(Graph::ID('TCIAF'));
 
       return $view->render($this());
     }
@@ -51,8 +59,7 @@ use \models\graph;
     {
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/overview.html';
-
-      $this->item = Graph::FACTORY(Graph::ID('opportunities'));
+      $this->item      = Graph::FACTORY(Graph::ID('opportunities'));
 
       return $view->render($this());
     }

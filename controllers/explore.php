@@ -22,8 +22,8 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     if ($group !== null) {
       $view->content = "views/lists/{$group}.html";
-      $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
-      $this->group = $group;
+      $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->group   = $group;
 
       if (strtolower(substr($filter, 0, 5)) == 'alpha') {
         $alpha = substr($filter, 6, 1);
@@ -58,7 +58,7 @@ class Explore extends Manage
   {
 
     $this->item   = Graph::FACTORY(Graph::ID($id));
-    $this->title  = $this->item['@title'] . ", TCIAF";
+    $this->title  = strip_tags($this->item['title']);
 
     $view = new view('views/layout.html');
     $view->content = "views/digests/{$this->item->template('digest')}.html";
