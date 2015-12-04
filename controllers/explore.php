@@ -24,13 +24,19 @@ class Explore extends Manage
       $view->content = "views/lists/{$group}.html";
       $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
       $this->group = $group;
-      $this->alphabet = (new Dictionary(range('A', 'Z')))->map(function($letter) {
-        return ['letter' => $letter];
-      });
+
       if (strtolower(substr($filter, 0, 5)) == 'alpha') {
-        $letter = substr($filter, 6, 1);
-        $query = "[starts-with(@title, '{$letter}')]";
+        $alpha = substr($filter, 6, 1);
+        $query = "[starts-with(@title, '{$alpha}')]";
       }
+      $this->alphabet = (new Dictionary(range('A', 'Z')))->map(function($letter) use($alpha) {
+        $map = ['letter' => $letter];
+        if ($alpha == $letter) {
+          $map['selected'] = 'selected';
+        }
+        return $map;
+      });
+
       $this->{$sort} = "selected";
       $this->list = Graph::group($group)
            ->find('vertex'.$query)

@@ -5,7 +5,6 @@
       list-style:none;
       font-size:1.25em;
       padding:0;
-      margin:1em 0;
     }
     ul.people li {
       padding:0.125em;
@@ -20,16 +19,17 @@
     <ul class="plain">
       <li><strong>Filter</strong></li>
       <!--  iterate alphabet -->
-      <li class="alpha"><a href="[/explore/index/person/alpha:$letter/]">[$letter]</a></li>
+      <li class="alpha"><a  class="[$selected]" href="[/explore/index/person/alpha:$letter/]">[$letter]</a></li>
       <li class="alpha"><strong><a href="/explore/index/person/all/">ALL</a></strong></li>
       <li>
         <!-- insert views/partials/navigator.html -->
       </li>
     </ul>
   </nav>
-
-  <ul class="people columns three ruled">
-    <!-- iterate list -->
-    <li><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:@title]</a></li>
-  </ul>
+  <section class="trans-blocks">
+    <ul class="people columns three ruled center">
+      <!-- iterate list -->
+      <li><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:@title]</a></li>
+    </ul>
+  </section>
 </article>

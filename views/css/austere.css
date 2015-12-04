@@ -14,7 +14,7 @@ svg .blue  {fill:#5b9c99;}
 a {color:#5B9B98;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
 a:hover {color:#88746A;}
-a.selected{text-decoration:none;cursor:pointer;}
+a.selected{text-decoration:none;cursor:default;color:#333;}
 
 .success {background-color:#D7F4CB;border-radius:0.65em;}
 .info {background-color:#CEE3EB;border-radius:0.5em;}
@@ -121,7 +121,7 @@ label, p, h5 {
   margin:0.5em 0;
 }
 
-.ruled {
+.ruled:not(.columns) {
   border-bottom:1px solid #eee;
 }
 
