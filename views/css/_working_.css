@@ -146,22 +146,22 @@ h3 {
 }
 
 
-li.feature {
+.search li.feature {
   border-left:0.5em solid rgba(115, 60, 158, 0.35)
 }
 
-li.person {
+.search li.person {
   border-left:0.5em solid rgba(159, 37, 33, 0.32)
 }
 
-li.happening {
+.search li.happening {
   border-left:0.5em solid rgba(106, 172, 179, 0.28)
 }
 
-li.competition {
+.search li.competition {
   border-left:0.5em solid rgba(75, 245, 24, 0.26)
 }
 
-li.article {
+.search li.article {
   border-left:0.5em solid rgba(212, 217, 154, 0.46)
 }

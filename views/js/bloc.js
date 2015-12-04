@@ -414,11 +414,10 @@ var Search = function (container, data) {
 
   this.menu = new Menu(this.input.parentNode.insertBefore(document.createElement('ul'), this.input.nextSibling));
   this.menu.list.addEventListener('click', function (evt) {
-    if (evt.srcElement.nodeName === 'LI') {
+    if (evt.target.nodeName === 'LI') {
       this.input.value       = evt.target.textContent;
       this.input.dataset.id  = evt.target.id;
       this.select(evt);
-
     }
   }.bind(this), false);
 
@@ -455,19 +454,20 @@ Search.prototype = {
 
 
   },
-  reset: function () {
+  reset: function (evt) {
     this.input.value = '';
     this.indices = {};
-    this.menu.reset();
+    this.menu.list.classList.add('fade');
+    var delay = evt && evt.type == 'blur' ? 2500 : 100;
+    setTimeout(this.menu.reset.bind(this.menu), delay);
+
   },
   select: function (evt) {
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();
     }
-
     this.reset();
-
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
@@ -489,7 +489,6 @@ Search.prototype = {
     // var term     = this.input.value;
     var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[.,"':?#\[\]\(\)\-]*/g, ''), 'i');
     var item_re  = new RegExp("("+term+")", 'ig');
-
     for (var key in this.indices) {
 
       if (match_re.test(key)) {
@@ -508,7 +507,7 @@ Search.prototype = {
     }
   },
   checkUp: function (evt) {
-
+    this.delay = 0;
     var meta = evt.keyIdentifier.toLowerCase();
 
     if (meta === 'down' || meta == 'up') return;
@@ -551,7 +550,6 @@ Search.prototype = {
 
 
 var Menu = function (list) {
-  list.className = 'plain';
   this.list = list;
 };
 
@@ -564,7 +562,7 @@ Menu.prototype = {
     while (this.list.firstChild) {
       this.list.removeChild(this.list.firstChild);
     }
-
+    this.list.className = 'plain';
     this.items = [];
     this.position = 0;
     this.index = -1;
@@ -745,6 +743,9 @@ if (window.history.pushState) {
         evt.preventDefault();
         document.querySelector('main').className = 'wee';
         navigateToPage.call(evt.target, evt);
+      } else if (evt.target.matches("a:not([href^='/'])")) {
+        evt.preventDefault();
+        window.open(evt.target.href);
       }
     }
   }, true);

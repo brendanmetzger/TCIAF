@@ -10,10 +10,23 @@
     ul.people li {
       padding:0.125em;
     }
+    .alpha {
+      display:inline-block;width:6.5%;
+    }
     /* ]]> */
   </style>
 
-  <!-- insert views/partials/navigator.html -->
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li><strong>Filter</strong></li>
+      <!--  iterate alphabet -->
+      <li class="alpha"><a href="[/explore/index/person/alpha:$letter/]">[$letter]</a></li>
+      <li class="alpha"><strong><a href="/explore/index/person/all/">ALL</a></strong></li>
+      <li>
+        <!-- insert views/partials/navigator.html -->
+      </li>
+    </ul>
+  </nav>
 
   <ul class="people columns three ruled">
     <!-- iterate list -->

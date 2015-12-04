@@ -17,13 +17,20 @@ class Explore extends Manage
   /*
    * Index Function
    */
-  public function GETindex($group = null, $type = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
+  public function GETindex($group = null, $filter = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
   {
     $view = new view('views/layout.html');
     if ($group !== null) {
       $view->content = "views/lists/{$group}.html";
       $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
       $this->group = $group;
+      $this->alphabet = (new Dictionary(range('A', 'Z')))->map(function($letter) {
+        return ['letter' => $letter];
+      });
+      if (strtolower(substr($filter, 0, 5)) == 'alpha') {
+        $letter = substr($filter, 6, 1);
+        $query = "[starts-with(@title, '{$letter}')]";
+      }
       $this->{$sort} = "selected";
       $this->list = Graph::group($group)
            ->find('vertex'.$query)
@@ -31,7 +38,7 @@ class Explore extends Manage
            ->map(function($vertex) {
              return ['item' => Graph::FACTORY($vertex)];
            })
-           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$type}/{$sort}"]));
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$filter}/{$sort}"]));
     } else {
       // the homepage is a collection.
       $this->collection = Graph::FACTORY(Graph::ID('homepage'));
