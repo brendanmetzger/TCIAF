@@ -8,7 +8,7 @@ body {
   background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
   background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y 100% 100% fixed;
   background-color:#f8f8f8;
-  transition:background-position 2.25s cubic-bezier(.09,.11,.2,1), background-size 1.5s cubic-bezier(.09,.11,.2,1);
+  transition:background-position 7s, background-size 3.5s;
   margin-top:4em;
 }
 
