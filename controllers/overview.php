@@ -30,12 +30,21 @@ use \models\graph;
 
       $this->{$sort}   = "selected";
       $this->{$filter} = "selected";
-      if ($filter != 'all') {
+      if ($filter == 'shows') {
         $view->blurb = "views/pages/{$filter}.html";
+        $query = 'vertex[edge[@vertex="TCIAF"]]';
+      } else if ($filter == 'conference-audio') {
+        $query = 'vertex[edge[@type="presenter"]]';
+      } else if ($filter == 'competitions') {
+        $query = 'vertex[edge[@type="participant"]]';
+      } else if ($filter == 'awards') {
+        $query = 'vertex[edge[@type="award"]]';
+      } else {
+        $query = 'vertex';
       }
 
       $this->list = Graph::group('feature')
-           ->find('vertex')
+           ->find($query)
            ->sort(Graph::sort($sort))
            ->map(function($vertex) {
              return ['item' => Graph::FACTORY($vertex)];
