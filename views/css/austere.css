@@ -83,11 +83,11 @@ em, .em, blockquote {font-style:italic;}
 .mono, pre, code {font-family:'Courier New';}
 .condensed {font-family:'Avenir Next Condensed', 'Open Sans Condensed';}
 .marquee {color:rgba(0,0,0,0.25);font-size:7.5em;font-weight:200;margin:1.5em 0 0.75em;display:block;}
-h1, .h1 { font-size:2.5em; margin:0.25em 0;line-height:125%;}
+h1, .h1 { font-size:3.5em; margin:0.25em 0;line-height:125%;text-shadow:0 -1px 0 #fff}
 h2, .h2, legend { font-size:1.75em; line-height:175%; }
 h3, .h3, input { font-size:1.65em; }
 h4, .h4 {font-size:1.45em;}
-h5, p, .p, li, label, form button, input, textarea { font-size:1.35em;line-height:150%;}
+h5, p, .p, li, label, form button, input, textarea { font-size:1.45em;line-height:150%;}
 ul.plain li {font-size:100%;}
 label, cite, p, .p, li, h1, h2, h3, h4, h5, address, legend, .normal, button, .button {
   font-weight:400;

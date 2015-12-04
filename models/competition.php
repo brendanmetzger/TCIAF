@@ -45,7 +45,9 @@ namespace models;
     public function getEditions(\DOMElement $context)
     {
       return $context->find("edge[@type='edition']")->map(function($edge) {
-        return ['competition' => new Competition($edge['@vertex'])];
+        $competition = new Competition($edge['@vertex']);
+        preg_match('/([0-9]{4})\s*(.*)/i', $competition['title'], $result);
+        return ['competition' => $competition, 'year' => $result[1]];
       });
     }
 

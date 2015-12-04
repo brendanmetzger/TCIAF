@@ -1,20 +1,24 @@
 <article class="person page">
   <nav class="center crumbs">
     <ul class="plain">
-      <li class="h2 caps-lock">· More ·</li>
+      <li><strong>Index</strong></li>
+      <!-- iterate item:contributions -->
+      <li style="display:inline-block;" class="capitalize"><a href="[#$name]">[$name]</a></li>
+      <li><strong>More</strong></li>
+
       <li><a href="/explore/index/person">See All People</a></li>
     </ul>
   </nav>
 
   <header class="container">
     <img src="[http://s3.amazonaws.com/$item:photo:url]" />
-    <h1 data-id="[$item:@id]" style="margin-top:1em;">[$item:@title]</h1>
+    <h1 data-id="[$item:@id]">[$item:@title]</h1>
     <section>[$item:content:bio]</section>
   </header>
 
   <!-- iterate item:contributions -->
   <nav>
-    <span class="marquee center condensed capitalize">[$name]</span>
+    <span class="marquee center condensed capitalize" id="[$name]">[$name]</span>
     <ul class="plain">
       <!-- iterate items -->
       <li data-updated="[$item:@updated]" class="trans-blocks headspace">

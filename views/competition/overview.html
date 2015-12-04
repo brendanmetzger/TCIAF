@@ -7,21 +7,30 @@
     </ul>
   </nav>
 
-  <header>
-    <span class="h1">Competitions</span>
-  </header>
   <!-- iterate competitions -->
   <section id="[$item:@id]">
-    <header>
-      <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
-      <h2 data-id="[$item:@id]">[$item:title]</h2>
+    <header class="container">
+      <div class="group float-left golden">
+        <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
+        <h2 class="h1" data-id="[$item:@id]">[$item:title]</h2>
+        <article>[$item:content:about]</article>
+      </div>
+
+      <nav class="crumbs group float-left">
+        <ul class="plain center index">
+          <li><strong>[$item:title by year]</strong></li>
+          <!-- iterate item:competitions -->
+          <li class="year"><a href="[#$competition:@id]">[$year]</a></li>
+        </ul>
+      </nav>
     </header>
-    <article>[$item:content:about]</article>
+
+
 
     <!-- iterate item:competitions -->
-    <section class="trans-blocks container">
+    <section class="trans-blocks container" id="[$competition:@id]">
       <img src="[http://s3.amazonaws.com/$competition:square:url]"/>
-      <h3 data-id="[$competition:@id]"><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h3>
+      <h2 data-id="[$competition:@id]"><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h2>
       <p>[$competition:summary]</p>
     </section>
   </section>
@@ -36,7 +45,11 @@
       border:1px dashed rgba(0,0,0,0.1);
     }
 
-
+    .year {
+      display:inline-block;
+      border:none !important;
+      padding:0.75em !important;
+    }
 
     /* ]]> */
   </style>
