@@ -1,13 +1,13 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
   <nav class="center crumbs">
     <ul class="plain">
-      <li class="h2 caps-lock">· More ·</li>
+      <li><strong>Featured in</strong></li>
       <!-- iterate item:playlists -->
-      <li><strong>Playlist</strong> <a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
+      <li><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
       <!-- iterate item:competitions -->
       <li><strong>Competition</strong> <a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
-      <li><a href="/overview/library">Features</a> | <a href="/explore/index/person">Producers</a></li>
-      <li><a href="#recommended">Recommended</a></li>
+      <li class="h2 caps-lock">· More ·</li>
+      <li><a href="/overview/library">Features</a> | <a href="/explore/index/person">Producers</a> | <a href="#recommended">Recommended</a></li>
     </ul>
   </nav>
 
@@ -42,7 +42,7 @@
     <section class="group float-left three-quarters" property="contributors" style="margin-left:2.5%;">
       <ul class="plain" style="margin-top:5em;">
         <!-- iterate item:extras -->
-        <li style="margin:1em;border:1px dashed rgba(0,0,0,0.1);padding:0 1em;background-color:rgba(255,255,255,0.5)">
+        <li style="margin:1em;border:1px dashed rgba(0,0,0,0.1);padding:2em 1em 1em;background-color:rgba(255,255,255,0.5)">
           <h3><a href="[/explore/detail/$article:@id]">[$article:title]</a></h3>
           <p>[$article:summary]</p>
         </li>

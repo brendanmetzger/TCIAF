@@ -174,7 +174,7 @@ namespace models;
       $correlation = \controllers\Task::pearson($context['@id'])->best;
       arsort($correlation);
 
-      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 7, true))))->map(function($id) {
+      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 3, true))))->map(function($id) {
        return ['item' => Graph::FACTORY(Graph::ID($id))];
       });
     }

@@ -34,7 +34,7 @@ namespace models;
 
     static public function FACTORY($group)
     {
-      $instance = new self($group->find('vertex[edge]'));
+      $instance = new self($group->find('vertex'));
       $instance->type = $group->getAttribute('type');
       return $instance;
     }
