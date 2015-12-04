@@ -19,7 +19,7 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETLibrary($filter = "all", $sort = 'alpha-numeric', $index = 1, $per = 100)
+    public function GETLibrary($filter = "all", $sort = 'alpha-numeric', $index = 1, $per = 50)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/feature.html";
@@ -33,14 +33,19 @@ use \models\graph;
       if ($filter == 'shows') {
         $view->blurb = "views/pages/{$filter}.html";
         $query = 'vertex[edge[@vertex="TCIAF"]]';
+        $this->title  = "Shows";
       } else if ($filter == 'conference-audio') {
         $query = 'vertex[edge[@type="presenter"]]';
+        $this->title  = "Conference Audio";
       } else if ($filter == 'competitions') {
         $query = 'vertex[edge[@type="participant"]]';
+        $this->title  = "Competition Entries";
       } else if ($filter == 'awards') {
         $query = 'vertex[edge[@type="award"]]';
+        $this->title  = "TCF Award Recipients";
       } else {
         $query = 'vertex';
+        $this->title  = 'Library';
       }
 
       $this->list = Graph::group('feature')
