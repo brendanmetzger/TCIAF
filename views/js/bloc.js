@@ -485,7 +485,7 @@ Search.prototype = {
     this.processMatches();
   },
   processMatches: function () {
-    var term = this.input.value.replace(/\s(?=[a-z0-9]{2,})/ig, '|\\b').replace(/\s[a-z0-9]?/ig, '');
+    var term = this.input.value.replace(/\s(?=[a-z0-9]{1,})/ig, '|\\b').replace(/\s[a-z0-9]?/ig, '');
     // var term     = this.input.value;
     var match_re = new RegExp(term.toLowerCase().replace(/[&+]/g, 'and').replace(/[.,"':?#\[\]\(\)\-]*/g, ''), 'i');
     var item_re  = new RegExp("("+term+")", 'ig');
@@ -496,7 +496,7 @@ Search.prototype = {
         this.menu.addItem(
           this.indices[key].id,
           this.indices[key].name.replace(item_re, "<strong>$1</strong>"),
-          matches ? matches.length : 0,
+          (matches ? matches.length + (matches.join().length / this.indices[key].name.length): 0),
           this.indices[key].group
         );
 

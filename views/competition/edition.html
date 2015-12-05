@@ -42,7 +42,7 @@
     <div property="workPerformed" typeof="CreativeWork" class="trans-blocks award-block" data-updated="[$feature:@updated]" id="[$id]">
       <span class="h1 center title" property="award">[$award]</span>
 
-      <div class="container">
+      <header class="container">
         <div class="group float-left center _10" style="padding:1em 2.5em;">
           <!-- iterate item:media:audio -->
           <!-- insert views/partials/play-button.html -->
@@ -52,7 +52,8 @@
           <h3 data-id="[$feature:@id]" class="h1 strong"><a href="[/explore/detail/$feature:@id]">[$feature:title]</a></h3>
           <p property="description">[$feature:summary]</p>
         </div>
-      </div>
+      </header>
+      
       <hr/>
 
       <!-- iterate feature:producers -->
