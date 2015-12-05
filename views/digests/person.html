@@ -1,9 +1,9 @@
 <article class="person page">
   <nav class="center crumbs">
     <ul class="plain">
-      <li><strong>[Jump to $item:@title's Credits...]</strong></li>
+      <li><strong>[Jump to $item:@title's Credits as...]</strong></li>
       <!-- iterate item:contributions -->
-      <li><a href="[#$name]">[as $name]</a></li>
+      <li><a class="capitalize" href="[#$name]">[$name]</a></li>
       <li><strong>More</strong></li>
 
       <li><a href="/explore/index/person">See All People</a></li>
@@ -31,7 +31,7 @@
           </div>
 
           <div class="group float-left _75">
-            <a class="h1" href="[$overview]">[$item:title]</a>
+            <a class="h1 condensed" href="[$overview]">[$item:title]</a>
             <blockquote><p>[$item:summary]</p></blockquote>
           </div>
         </div>

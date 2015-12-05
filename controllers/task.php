@@ -21,7 +21,7 @@ class Task extends \bloc\controller
   {
     // show a list of methods.
     $reflection_class = new \ReflectionClass($this);
-    
+
     $instance_class_name = get_class($this);
     $parent_class_name = $reflection_class->getParentClass()->name;
     $methods = ['instance' => [], 'parent' => []];
@@ -36,72 +36,72 @@ class Task extends \bloc\controller
         }
       }
     }
-    
+
     echo "Available Methods in {$instance_class_name}\n";
-    
-    
+
+
     print_r($methods);
-    
+
   }
-  
+
   public function CLIedgeproducer()
   {
     $doc  = new \bloc\DOM\Document('data/db5');
     $xml  = new \DomXpath($doc);
-    
+
     $edges = $xml->query('//group[@type="feature"]/token/edge');
-    
+
     foreach ($edges as $edge) {
       $token = $doc->getElementById($edge->getAttribute('token'));
       $edge->setAttribute('token', $edge->parentNode->getAttribute('id'));
       $token->appendChild($edge);
     }
-    
+
     if ($doc->validate()) {
       $file = 'data/db6.xml';
       echo "New File: {$file}\n";
       $doc->save(PATH . $file);
-      
+
       $this->CLIcompress($file);
     }
-    
-    
+
+
   }
-  
+
   public function CLIvalid()
   {
     libxml_use_internal_errors(true);
     $doc  = new \bloc\DOM\Document('data/db5');
     if ($doc->validate()) {
-      
+
     } else {
       foreach(libxml_get_errors() as $error) {
         print_r($error);
       }
     }
-    
+
   }
-  
+
   public function CLIcompress($file)
   {
     $text = file_get_contents(PATH . $file);
     $compressed = gzencode($text, 3);
-        
+
     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
   }
-  
+
   public function CLILogout()
   {
     if (unlink("/tmp/curlCookies.txt")) {
       echo "\nGoodbye!\n";
     }
-    
+
   }
-  
+
   public function CLILoginBak($xml)
   {
     $postdata = [];
-    
+
     $xml = new \SimpleXMLElement($xml);
     $xml->registerXPathNamespace('xmlns', "http://www.w3.org/1999/xhtml");
 
@@ -109,25 +109,25 @@ class Task extends \bloc\controller
     $inputs = $xml->xpath('//xmlns:input');
 
     foreach ($inputs as $input) {
-      
+
       if ((string)$input['id'] == 'name') {
         echo "\nPlease Enter your username: ";
         $input['value'] = trim(fgets(STDIN));
       }
-      
+
       if ((string)$input['id'] == 'password') {
         echo "\nPlease Enter your password: ";
         $input['value'] = trim(fgets(STDIN));
       }
-      
+
       $postdata[(string)$input['name']] = (string)$input['value'];
     }
-    
+
     $url = 'http://local.thirdcoastfestival.org' . $xml->xpath('//xmlns:form')[0]['action'];
 
-      
+
     $handle = curl_init();
- 
+
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_POST, true);
     curl_setopt($handle, CURLOPT_POSTFIELDS, $postdata);
@@ -136,63 +136,63 @@ class Task extends \bloc\controller
     curl_setopt($handle, CURLOPT_AUTOREFERER,    true);
     curl_setopt($handle, CURLOPT_COOKIEFILE, "/tmp/curlCookies.txt");
     curl_setopt($handle, CURLOPT_COOKIEJAR, "/tmp/curlCookies.txt");
-    
+
     $result = curl_exec($handle);
     $info   = curl_getinfo($handle);
     curl_close($handle);
     if ($info['http_code'] == 401) {
       $result = $this->CLILogin($result);
     }
-    
+
     return $result;
   }
-  
+
   public function CLILogin($value='')
   {
     try {
       echo "\nPlease Enter your username: ";
       $username = trim(fgets(STDIN));
-      
+
       echo "\nPlease Enter your password: ";
       $password = trim(fgets(STDIN));
 
       $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
-      
+
       touch($this->sessionfile);
-      
+
       echo "-- Session Created, you may now run restricted commands --";
-       
+
     } catch (\InvalidArgumentException $e) {
       echo sprintf($e->getMessage(), $username);
     }
-    
+
   }
-  
+
   protected function CLIpassword($username = false)
   {
     if (!$username) return "Provide a username as the first argument";
-    
-    
+
+
     echo "\nPlease Enter new password for '{$username}': ";
     $password = trim(fgets(STDIN));
 
     echo "\nPlease Confirm password: ";
     $confirm = trim(fgets(STDIN));
-      
+
     if ($password !== $confirm) {
       return "\n\nPasswords DO NOT MATCH...";
     }
 
     $user = new \models\person('p-' . preg_replace('/\W/', '', $username));
     $user->context->setAttribute('hash', $user->getHash($password));
-    
+
     if ($user->save()) {
       return "Saved new password";
     } else {
       print_r($user->errors);
     }
   }
-  
+
   public function CLIaws()
   {
     $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
@@ -208,15 +208,15 @@ class Task extends \bloc\controller
     //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
     // }
   }
-  
+
   static public function pearson($id = null)
   {
-    
+
     $spectrum  = \models\Graph::group('feature')->find('vertex/spectra');
     $list      = [];
-    
+
     $count = 7;
-    
+
     foreach ($spectrum as $spectra) {
       $item = new \stdClass;
       $item->sum    = 0;
@@ -224,7 +224,7 @@ class Task extends \bloc\controller
       $item->values = [];
       $item->best   = [];
       $item->id     = $spectra->parentNode['@id'];
-      
+
       $skip = 0;
       foreach ($spectra->attributes as $attr) {
         if ($skip++ < 1) continue; // do not factor recommendation into correlation
@@ -235,23 +235,23 @@ class Task extends \bloc\controller
       }
 
       $item->pow = $item->sumsq - pow($item->sum, 2) / $count;
-      
+
       if ($item->pow == 0) continue;
       $list[$item->id] = $item;
     }
-    
-    
+
+
     if ($id !== null) {
-      
+
       if (!array_key_exists($id, $list)) {
         throw new \RuntimeException("No recommendations will be available", 25);
-        
+
       }
       $A = $list[$id];
-      
+
       foreach ($list as $bid => $B) {
         if ($id == $bid) continue;
-      
+
         $sum_p = array_sum(array_map(function($a, $b) {
           return $a * $b;
         }, $A->values, $B->values));
@@ -270,14 +270,14 @@ class Task extends \bloc\controller
 
         foreach ($list as $bid => $B) {
           if ($aid == $bid) continue;
-          
-          
+
+
           $sum_p = array_sum(array_map(function($a, $b) {
             return $a * $b;
           }, $A->values, $B->values));
 
           $r = ($sum_p - (($A->sum * $B->sum) / $count ) ) / sqrt( $A->pow  * $B->pow );
-          
+
 
           if ($r == 1 || $r == -1) continue;
           if ($r > 0.5 || $r < -0.5) {
@@ -287,27 +287,27 @@ class Task extends \bloc\controller
         }
         $finished[] = array_shift($list);
       }
-    
+
       return $finished;
     }
-    
+
 
   }
-  
+
   public function CLItranscode($size = 5)
   {
-    
+
     $pipeline = [
       'new' => '1439307152758-prv5fa',
       'old' => '1439307760286-8f5hu5',
     ];
 
     $mp4_preset_id = '1439308682558-sehqe8';
-    
+
     $client = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
-    
+
     $tracks = \models\Graph::group('broadcast')->find('vertex/media[@type="audio"]');
-    
+
     foreach ($tracks as $track) {
       $path = $track->getAttribute('src');
       $parts = explode('/', $path);
@@ -317,7 +317,7 @@ class Task extends \bloc\controller
         // set new attribute
         $track->setAttribute('src', 'tciaf-audio/'. $new_path);
         echo $path . ' - into - ' . $new_path . "\n";
-        
+
         $result = $client->createJob([
           'PipelineId' => $pipeline['old'],
           'Input' => [
@@ -328,15 +328,15 @@ class Task extends \bloc\controller
             'PresetId' => $mp4_preset_id,
           ]
         ]);
-        
-        echo "new job created: " . $result['Job']['Id'] . "\n\n";  
-        
+
+        echo "new job created: " . $result['Job']['Id'] . "\n\n";
+
         if ($size-- < 0) {
           break;
         }
       }
     }
-    
+
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
 
@@ -344,14 +344,14 @@ class Task extends \bloc\controller
   {
     return self::pearson($id);
   }
-  
+
   public function CLImarkMedia($per = 25)
   {
     $unmarked = \models\Graph::group('feature')->find('vertex/media[@type="image" and @mark=0]');
     if ($unmarked->count() < 1) {
       echo "None left\n";
     }
-    
+
     foreach ($unmarked as $image) {
       if ($per-- < 0) {
         echo "Quitting - run again if you must....\n";
@@ -359,14 +359,33 @@ class Task extends \bloc\controller
       }
       $src = preg_replace('/^(feature-photos\/photos\/[0-9]+\/)(.*)$/i', '$1small/$2', $image['@src']);
       $url = "http://s3.amazonaws.com/{$src}";
-      
+
       $size = getimagesize($url);
       $ratio = round($size[0] / $size[1], 1);
       $image->setAttribute('mark', $ratio);
-      
+
       echo $image->write() . "\n";
     }
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+  }
+
+  public function CLIduration($count = 10)
+  {
+    $media = \models\Graph::group('feature')->find('vertex/media[@type="audio" and not(@mark)]');
+    echo "\n\nThere are -- {$media->count()} -- tracks with no known duration\n\n";
+    foreach ($media as $audio) {
+      $filename = 'http://s3.amazonaws.com/' . $audio->getAttribute('src');
+      $command = "ffprobe -i {$filename} -show_format -v quiet | sed -n 's/duration=//p'";
+      echo "Seeking duration for {$audio->getAttribute('src')}...\n";
+      $duration = round(shell_exec($command));
+      echo " - {$duration} seconds -\n\n";
+      $audio->setAttribute('mark', $duration);
+      \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+      if ($count-- < 0) break;
+    }
+
+
+
   }
 
 }

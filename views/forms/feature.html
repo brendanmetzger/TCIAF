@@ -33,7 +33,7 @@
 
       <!-- iterate item:spectra -->
       <label class="range container">
-        <h4>[$title]</h4>
+        <strong class="center" style="display:block;padding:0.5em;">[$title]</strong>
         <span>[$item:@from]</span>
         <input type="range" min="0" max="100" name="[vertex[spectra][@][$item:@id]]" value="[$value]" data-index="0" />
         <span>[$item:@to]</span>
@@ -48,7 +48,7 @@
 
     <hr style="clear:both;margin:5em 0;border-color:transparent;" />
 
-    
+
     <!-- insert views/forms/fieldset/edge.html -->
 
     <button type="submit" class="margins">Save Changes</button>

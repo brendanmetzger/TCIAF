@@ -115,7 +115,7 @@ label.range span {
 
 
 .spectra.open label {
-  height:6em;
+  height:4.5em;
   list-style:none;
 }
 label.range h4 {
@@ -124,7 +124,7 @@ label.range h4 {
   transition:margin 0.125s;
 }
 .spectra.open label.range h4 {
-  margin:1em 25%;
+  margin:1em 25% 0.25em;
   text-align:center;
 }
 

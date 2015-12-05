@@ -735,7 +735,8 @@ if (window.history.pushState) {
         evt.preventDefault();
         var elem = document.getElementById(evt.target.hash.substr(1));
         if (elem) {
-          window.Adjust.scroll(elem.offsetTop, 1500);
+          console.log(+document.body.dataset.top + elem.offsetTop, elem.offsetTop);
+          window.Adjust.scroll(+document.body.dataset.top + elem.offsetTop - 50, 1500);
         }
 
 
