@@ -1,60 +1,66 @@
 <article class="about page container">
-  
+
   <header class="title">
     <h1 data-id="[$item:@id]">[$item:title]</h1>
-    
+
   </header>
-  
+
   <div class="group float-left">
     <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:90%;padding:5%;background-color:rgba(255,255,255,0.25);border:1px solid #eee;border-top:none;" alt="third coast"/>
     <cite>[$item:photo:caption]</cite>
     <section>[$item:content:description]</section>
   </div>
-  
+
 
   <nav class="group float-left">
-    
+
     <h2>Staff</h2>
-    
-    <ul class="plain">
+
+    <ul class="staff plain">
       <!-- iterate item:staff -->
       <li>
-        <h5>[$position]</h5>
+        <em>[$position]</em>
         <h4 data-id="[$person:@id]"><a href="[/explore/detail/$person:@id]">[$person:title]</a></h4>
       </li>
     </ul>
 
-    
+
     <h2>Board of Directors</h2>
-    <ul class="plain">
+    <ul class="staff plain">
     <!-- iterate item:board -->
       <li>
-        <h5>[$position]</h5>
+        <em>[$position]</em>
         <h4 data-id="[$person:@id]">[$person:title]</h4>
       </li>
     </ul>
   </nav>
-  
-  
+
+
   <style type="text/css" media="screen">
     /* <![CDATA[ */
     .about nav {
-      width:30%;
+      width:25%;
       margin:0;
     }
-
-    
+    ul.staff li {
+      padding:0 0 1em 0;
+    }
+    ul.staff em, cite {
+      font-weight:400;
+      color:#775;
+      padding:1em 0;
+      letter-spacing:0.075em;
+    }
 
     .about div {
-      width:70%;
-      padding:0 5em 0 0;
-      margin:0;
+      width:72.5%;
+      margin-right:2.5%;
     }
     div.staff img[src] {
       float:left;
       width:15%;
     }
-    /* ]]> */      
+    /* ]]> */
   </style>
-  
+
 </article>

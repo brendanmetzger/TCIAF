@@ -94,7 +94,7 @@ nav.crumbs > ul {
   padding:0.5em 0;
 }
 .crumbs  li + li:not([class*=group]) {
-  border-top:1px dashed rgba(0,0,0,0.1);
+  border-top:1px dashed rgba(0,0,0,0.05);
 }
 .crumbs li a {
   padding:0.125em;
