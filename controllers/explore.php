@@ -24,7 +24,7 @@ class Explore extends Manage
       $view->content = "views/lists/{$group}.html";
       $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
       $this->group   = $group;
-
+      $alpha = null;
       if (strtolower(substr($filter, 0, 5)) == 'alpha') {
         $alpha = substr($filter, 6, 1);
         $query = "[starts-with(@title, '{$alpha}')]";

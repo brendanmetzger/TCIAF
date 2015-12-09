@@ -33,7 +33,7 @@ namespace models;
     protected function identify($identity) {}
     public function save() {}
 
-    static public function COLLECT(\bloc\dom\NodeIterator $media, $filter = null)
+    static public function COLLECT(\bloc\dom\Iterator $media, $filter = null)
     {
       $collect = [];
       foreach ($media as $item) {

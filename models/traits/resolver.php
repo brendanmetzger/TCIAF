@@ -5,7 +5,6 @@ use \models\Graph;
 trait resolver {
   protected function identify($identity) {
     $node = Graph::ID($identity);
-    $this->parseText($node);
     return $node;
   }
 

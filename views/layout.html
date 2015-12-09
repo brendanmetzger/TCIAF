@@ -13,6 +13,8 @@
     <script type="text/javascript">
       // <![CDATA[
       window.bloc = (function(d,w,c,q,t,m) {
+        w.mobile = (/mobile/i).test(navigator.userAgent);
+        console.log(w.mobile);
         return {
           tag: function (async) {var s = d.createElement('script');s.type='text/javascript';s.async=async;return s;},
           embed: function() {for (var i=0; i < arguments.length; i++) {var s = this.tag(false);s.src=s.src=arguments[i];s.onload = this.load; q.push(s);} return this;},
@@ -72,7 +74,7 @@
     <header class="container">
 
       <form class="finder float-left group search">
-        <span>Limit: Feature, Happening, Competition, Person, Article</span>
+        <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
         <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
         <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>

@@ -10,7 +10,7 @@ namespace models;
   class Organization extends Vertex
   {
     use traits\banner;
-    
+
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -23,7 +23,7 @@ namespace models;
         ]
       ]
     ];
-    
+
     protected $edges = [
       'staff'   => ['person'],
       'friend'  => ['person'],
@@ -32,24 +32,11 @@ namespace models;
       'sponsor' => ['organization', 'competition', 'happening'],
       'judge'   => ['competition'],
     ];
-    
+
     public function __construct($id = null, $data =[])
     {
       $this->template['form'] = 'vertex';
       parent::__construct($id, $data);
-    }
-    
-    public function getSummary(\DOMElement $context)
-    {
-      $this->parseText($context);
-      return substr(strip_tags($this->about), 0, 100) . '...';
-    }
-    
-    
-    public function getAbout(\DOMElement $context)
-    {
-      $this->parseText($context);
-      return isset($this->about) ? $this->about : null;
     }
     
     public function getStaff(\DOMElement $context)
@@ -58,7 +45,7 @@ namespace models;
         return ['person' => new Person($edge['@vertex']), 'position' => $edge->nodeValue];
       });
     }
-    
+
     public function getBoard(\DOMElement $context)
     {
       return $context->find("edge[@type='board']")->map(function($edge) {
@@ -71,7 +58,7 @@ namespace models;
       return $context->find("edge[@type='sponsor' and contains(., 'Support')]")->map(function($edge) {
         return ['organization' => new Organization($edge['@vertex']), 'type' => $edge->nodeValue];
       });
-      
+
     }
-    
+
   }

@@ -73,14 +73,6 @@ class Person extends Vertex
     return password_hash($string, PASSWORD_DEFAULT);
   }
 
-  public function getBio(\DOMElement $context)
-  {
-    $this->parseText($context);
-    return isset($this->bio) ? $this->bio : null;
-  }
-
-
-
   public function getFeatures(\DOMElement $context)
   {
     $features = $context->find("edge[@type='producer']");

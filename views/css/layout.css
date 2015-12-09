@@ -92,7 +92,6 @@ body > header nav a {
   font-size:1.25em;
 }
 body > header nav a:hover {
-  padding:1em;
   color:#fff;
 }
 
@@ -125,14 +124,14 @@ header .finder {
 }
 
 .finder input {
-  margin:1em;
+  margin:0.5em 1em;
   padding:0.25em 0 0.25em 10%;
   background: transparent url(/images/search.svg) no-repeat 0 15%;
   background-size: auto 125%;
   border:none;
   outline:none;
   width:90%;
-  border-bottom:1px dashed #EEE;
+  border-bottom:1px dashed #ddd;
   transition:background-size 0.25s;
 }
 

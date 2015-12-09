@@ -59,12 +59,6 @@ namespace models;
       });
     }
 
-    public function getAbout(\DOMElement $context)
-    {
-      $this->parseText($context);
-      return isset($this->about) ? $this->about : null;
-    }
-
     public function getParticipants(\DOMElement $context)
     {
       return $context->find("edge[@type='participant']")->map(function($edge) {

@@ -66,8 +66,10 @@ abstract class Vertex extends \bloc\Model
     }
 
     return $context['abstract']->map(function($abstract) use($parse){
+
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
+
       return [
        'type' => $abstract->getAttribute('content'),
        'index' => $abstract->getIndex(),
@@ -179,13 +181,14 @@ abstract class Vertex extends \bloc\Model
     return $this->template[$name] ?: $this->get_model();
   }
 
-  protected function parseText($context)
+  protected function getContent($context)
   {
 		$dict = [];
+
 		foreach ($this->getAbstract($context, false) as $abstract) {
 			$dict[$abstract['type']] = $abstract['text'];
     }
-		$this->content = new \bloc\types\Dictionary($dict);
+		return new \bloc\types\Dictionary($dict);
   }
 
   public function getEdges($context)
