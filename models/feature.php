@@ -6,7 +6,7 @@ namespace models;
   * Feature
   *
   */
-  class Feature extends Model
+  class Feature extends Vertex
   {
     static public $fixture = [
       'vertex' => [
@@ -102,6 +102,11 @@ namespace models;
     public function getExtra(\DOMElement $context)
     {
       return isset($this->extra) ? $this->extra : null;
+    }
+
+    public function getDuration(\DOMElement $context)
+    {
+      return round($this->media['audio'][0]->mark / 60) . ' minutes';
     }
 
     public function getBackground()

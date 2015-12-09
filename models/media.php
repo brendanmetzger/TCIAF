@@ -29,6 +29,10 @@ namespace models;
       ];
     }
 
+    protected function initialize() {}
+    protected function identify($identity) {}
+    public function save() {}
+
     static public function COLLECT(\bloc\dom\NodeIterator $media, $filter = null)
     {
       $collect = [];
@@ -40,10 +44,6 @@ namespace models;
       return new \bloc\types\Dictionary($collect);
     }
 
-    public function upload($file)
-    {
-      // do
-    }
 
     public function __get($key)
     {

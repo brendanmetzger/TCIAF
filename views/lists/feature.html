@@ -8,6 +8,7 @@
           <li><a class="[$updated]" href="[/overview/library/$filter/updated]">Updated</a></li>
           <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
           <li><a class="[$yearproduced]" href="[/overview/library/$filter/year-produced]">Year Produced</a></li>
+          <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
         </ul>
       </li>
       <li class="half group float-left">
@@ -33,6 +34,7 @@
   <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]">
     <figure style="[background:$item:gradient]">Spectra</figure>
     <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
+    <span>[$item:duration]</span>
     <cite>
       <!-- iterate item:producers -->
       <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>

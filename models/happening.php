@@ -6,7 +6,7 @@ namespace models;
   *
   */
 
-  class Happening extends Model
+  class Happening extends Vertex
   {
     use traits\navigation;
     use traits\banner;

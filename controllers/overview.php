@@ -59,6 +59,11 @@ use \models\graph;
       return $view->render($this());
     }
 
+    public function GETpeople()
+    {
+      # code...
+    }
+
     public function GETtciaf()
     {
       $view = new view('views/layout.html');

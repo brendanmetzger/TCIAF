@@ -7,7 +7,7 @@ namespace models;
   *
   */
 
-  class Organization extends Model
+  class Organization extends Vertex
   {
     use traits\banner;
     

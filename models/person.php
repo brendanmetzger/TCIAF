@@ -5,7 +5,7 @@ namespace models;
  * Person
  */
 
-class Person extends Model
+class Person extends Vertex
 {
   use traits\banner;
 

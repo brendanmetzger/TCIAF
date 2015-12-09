@@ -1,60 +1,48 @@
 <fieldset>
   <input type="hidden" name="vertex[@][id]" value="[$item:@id]" />
   <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
-  
-  <legend class="capitalize">Basic</legend>  
-
+  <legend class="capitalize">Basic</legend>
   <label for="title">Title</label>
   <input type="text" name="vertex[@][title]" value="[$item:@title]" id="title" class="required text" required="required" />
-  
   <noscript id="Markdown" data-selector="#Markdown ~ div.abstract textarea">Markdown Editor</noscript>
-  
   <!-- iterate item:abstract -->
   <div class="abstract">
     <label for="[abstract-$index-$type]">[$type]</label>
     <input type="hidden" name="[vertex[abstract][$index][@][content]]" value="[$type]" />
-    
     <textarea name="[vertex[abstract][$index][CDATA]]" rows="8" cols="40" id="[abstract-$index-$type]" class="text" required="[$required]">[$text]</textarea>
   </div>
-  
-  <a class="toggle_extra button margins" href="[#/manage/edge/$item:_model/inside/$item:@id]">+/- Extra</a>  
-
+  <a class="toggle_extra button margins" href="[#/manage/edge/$item:_model/inside/$item:@id]">+/- Extra</a>
   <script type="text/javascript">
     // <![CDATA[
       document.querySelector('a.toggle_extra').addEventListener('click', function (evt) {
         evt.preventDefault();
-        
         var divs = document.querySelectorAll('div.abstract');
         if (divs.length > 1) {
           if(window.confirm('Since you already have an extra, would you like to rid yourself of this one?')) {
             var idx = divs.length - 1;
-
             divs.item(idx).querySelector('textarea').value = '';
           }
           return;
         }
-        
-        var clone = divs.item(0).cloneNode(true);
-        
-        
-        var new_index = Math.floor(Date.now()/-1e8);
-        var label = clone.querySelector('label');
+
+        var clone    = divs.item(0).cloneNode(true),
+            index    = Math.floor(Date.now()/-1e8),
+            label    = clone.querySelector('label'),
+            input    = clone.querySelector('input[type=hidden]'),
+            textarea = clone.querySelector('textarea');
+
         label.textContent = 'Extras';
-        label.for = label.getAttribute('for').replace(/[0-9]+/, new_index);
-        
-        var input = clone.querySelector('input[type=hidden]');
-            input.value = 'Extras';
-            input.name = input.name.replace(/[0-9]+/, new_index);
-        
-        var textarea = clone.querySelector('textarea');
-            textarea.value = ''
-            textarea.placeholder = 'Enter extra information';
-            textarea.name = textarea.name.replace(/[0-9]+/, new_index);
-        
+        label.for = label.getAttribute('for').replace(/[0-9]+/, index);
+
+        input.value = 'Extras';
+        input.name = input.name.replace(/[0-9]+/, index);
+
+        textarea.value = '';
+        textarea.placeholder = 'Enter extra information';
+        textarea.name = textarea.name.replace(/[0-9]+/, index);
+
         this.parentNode.insertBefore(clone, this);
-        
       });
     // ]]>
   </script>
-  
 </fieldset>

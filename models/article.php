@@ -5,7 +5,7 @@
  * Broadcast
  */
 
-class Article extends Model
+class Article extends Vertex
 {
   use traits\banner;
   

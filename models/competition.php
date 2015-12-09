@@ -7,7 +7,7 @@ namespace models;
   *
   */
 
-  class Competition extends Model
+  class Competition extends Vertex
   {
     use traits\banner;
 

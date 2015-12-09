@@ -62,6 +62,9 @@ use \bloc\dom\query;
         },
         'recommended' => function($a, $b) use($key){
           return $a->getFirst('spectra', 0, false)->getAttribute($key) < $b->getFirst('spectra', 0, false)->getAttribute($key);
+        },
+        'duration' => function($a, $b) {
+          return $a->getAttribute('mark') < $b->getAttribute('mark');
         }
       ][$type];
     }
@@ -105,6 +108,7 @@ use \bloc\dom\query;
       }
 
       $classname = NS . __NAMESPACE__ . NS . $model;
+
       return  new $classname($element, $data);
     }
 
