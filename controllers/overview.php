@@ -59,9 +59,38 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETpeople()
+    public function GETpeople($filter = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
     {
-      # code...
+      $view = new view('views/layout.html');
+      $view->content = "views/lists/person.html";
+      $this->search  = ['topic' => 'people', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $alpha = null;
+
+      if (strtolower(substr($filter, 0, 5)) == 'alpha') {
+        $alpha = substr($filter, 6, 1);
+        $query = "[starts-with(@title, '{$alpha}')]";
+      } else {
+        $query = "[edge[@type='producer']]"; 
+      }
+      $this->alphabet = (new \bloc\types\Dictionary(range('A', 'Z')))->map(function($letter) use($alpha) {
+        $map = ['letter' => $letter];
+        if ($alpha == $letter) {
+          $map['selected'] = 'selected';
+        }
+        return $map;
+      });
+
+      $this->{$sort} = "selected";
+      $this->list = Graph::group('person')
+           ->find('vertex'.$query)
+           ->sort(Graph::sort($sort))
+           ->map(function($vertex) {
+             return ['item' => Graph::FACTORY($vertex)];
+           })
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/people/{$filter}/{$sort}"]));
+
+      return $view->render($this());
+
     }
 
     public function GETtciaf()
