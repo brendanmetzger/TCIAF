@@ -261,11 +261,6 @@ div.person img {
 
 
 
-
-
-
-
-
 .page article > header {
   margin:10% 5em 0 20%;
   font-family:'Courier New';
@@ -275,7 +270,8 @@ div.person img {
 }
 
 article > header img {
-  width:20%;float:left;padding:1em;margin:1em;border-right:1px solid #eee;
+  box-sizing:border-box;
+  width:30%;float:left;padding:1em;margin:1.5%;
 }
 
 figure {

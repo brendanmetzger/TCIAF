@@ -53,7 +53,7 @@
           <p property="description">[$feature:summary]</p>
         </div>
       </header>
-      
+
       <hr/>
 
       <!-- iterate feature:producers -->
@@ -71,14 +71,7 @@
   </section>
 
   <span class="marquee center condensed" id="sponsors">Sponsors</span>
-
-  <section class="sponsors container">
-    <!-- iterate item:sponsors -->
-    <div vocab="http://schema.org/" typeof="Organization" data-updated="[$organization:@updated]">
-      <h4 data-id="[$organization:@id]">[$organization:title]</h4>
-      <p>[$organization:about]</p>
-    </div>
-  </section>
+  <!-- insert views/partials/sponsors.html -->
 
   <style media="screen">
     .award-block {

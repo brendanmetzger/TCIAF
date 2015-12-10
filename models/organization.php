@@ -13,6 +13,9 @@ namespace models;
 
     static public $fixture = [
       'vertex' => [
+        'location' => [
+          'CDATA' => ''
+        ],
         'abstract' => [
           [
             'CDATA' => '',
@@ -38,7 +41,7 @@ namespace models;
       $this->template['form'] = 'vertex';
       parent::__construct($id, $data);
     }
-    
+
     public function getStaff(\DOMElement $context)
     {
       return $context->find("edge[@type='staff']")->map(function($edge) {

@@ -31,13 +31,29 @@ use \bloc\dom\query;
       return self::instance()->query("graph/group[@type='{$type}']/");
     }
 
-    static public function ID($id)
+    static public function ID($id = null)
     {
-      if ($id === null || strpos(strtolower($id), 'pending') === 0) return null;
       if (! $element = Graph::instance()->storage->getElementById($id)) {
-        throw new \InvalidArgumentException("%s... Doesn't ring a bell.", 1);
+        return null;
       }
       return $element;
+    }
+
+    static public function FACTORY($model, $data = [])
+    {
+      if ($model instanceof \DOMElement) {
+        $element = $model;
+        $model = $element->parentNode->getAttribute('type');
+        if ($model === 'archive') {
+          $model = $element->getAttribute('mark');
+        }
+      } else {
+        $element = null;
+      }
+
+      $classname = NS . __NAMESPACE__ . NS . $model;
+
+      return  new $classname($element, $data);
     }
 
     static public function SORT($type, $key = null)
@@ -93,23 +109,6 @@ use \bloc\dom\query;
       return (new \bloc\types\Dictionary(preg_split('/\s?\|\s?/i', $result[1])))->map(function($item) {
         return ['name' => $item];
       });
-    }
-
-    static public function FACTORY($model, $data = [])
-    {
-      if ($model instanceof \DOMElement) {
-        $element = $model;
-        $model = $element->parentNode->getAttribute('type');
-        if ($model === 'archive') {
-          $model = $element->getAttribute('mark');
-        }
-      } else {
-        $element = null;
-      }
-
-      $classname = NS . __NAMESPACE__ . NS . $model;
-
-      return  new $classname($element, $data);
     }
 
     private function __construct()

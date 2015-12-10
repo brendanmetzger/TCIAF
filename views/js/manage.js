@@ -471,12 +471,12 @@ Edge.finder = function (input) {
             search.select();
             this.modal.close();
           } else {
-            console.error('still getting submitted twice.');
+            console.error('Submitted twice.');
           }
         },
         load: function (form) {
           var field = form.querySelector('input[name*=title]');
-          field.value = input.value;
+          field.value = dataset.text;
           field.focus();
         }
       })).load('/manage/create/'+ dataset.topic + '.xml');

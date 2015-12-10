@@ -427,8 +427,6 @@ var Search = function (container, data) {
 
   this.input.addEventListener('keyup',   this.checkUp.bind(this),   false);
   this.input.addEventListener('keydown', this.checkDown.bind(this), false);
-  // this.input.addEventListener('blur', this.reset.bind(this), false);
-
 };
 
 
@@ -458,19 +456,19 @@ Search.prototype = {
     this.input.value = '';
     this.indices = {};
     this.menu.list.classList.add('fade');
-    var delay = evt && evt.type == 'blur' ? 2500 : 100;
-    setTimeout(this.menu.reset.bind(this.menu), delay);
-
+    this.menu.reset();
   },
   select: function (evt) {
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();
     }
-    this.reset();
+    this.input.dataset.text = this.input.value;
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
+
+    this.reset();
   },
   processIndices: function (group, evt) {
     (JSON.parse(evt.target.responseText) || []).forEach(function (item) {
@@ -750,7 +748,7 @@ if (window.history.pushState) {
         evt.preventDefault();
         document.querySelector('main').className = 'wee';
         navigateToPage.call(evt.target, evt);
-      } else if (evt.target.matches("a:not([href^='/'])")) {
+      } else if (evt.target.matches("a:not(.button)[href^='http'])")) {
         evt.preventDefault();
         window.open(evt.target.href);
       }

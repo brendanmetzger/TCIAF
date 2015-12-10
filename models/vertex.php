@@ -26,7 +26,6 @@ abstract class Vertex extends \bloc\Model
     if (empty($id)) {
       $id = substr($this->_model, 0, 1) . '-' . uniqid();
     }
-
     $context->setAttribute('id', $id);
   }
 

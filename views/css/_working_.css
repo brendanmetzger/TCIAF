@@ -102,10 +102,9 @@ nav.crumbs > ul {
 }
 
 ul.index {
+  margin-left:5%;
   background-color:rgb(240, 245, 243) !important;
   max-width:100%;
-  width:80%;
-  margin-left:10%;
 }
 
 .split .card:nth-child(odd) {
@@ -166,4 +165,14 @@ h3 {
 
 .search li.article {
   border-left:0.5em solid rgba(212, 217, 154, 0.46)
+}
+
+.sponsors img {
+  width:25%;
+  box-sizing:border-box;
+  padding:2em;
+}
+
+.sponsors h3 {
+  margin:2em 0 1em;
 }

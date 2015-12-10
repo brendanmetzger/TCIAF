@@ -9,7 +9,7 @@ namespace models;
   class Happening extends Vertex
   {
     use traits\navigation;
-    use traits\banner;
+    use traits\banner, traits\sponsor;
 
     static public $fixture = [
       'vertex' => [
@@ -32,6 +32,7 @@ namespace models;
       'edition'     => ['happening'],
       'page'        => ['article'],
       'playlist'    => ['collection'],
+      'sponsor'     => ['organization'],
     ];
 
     public function __construct($id = null, $data =[])
@@ -81,5 +82,4 @@ namespace models;
         return ucfirst(ltrim($a['person']->title, "\x00..\x2F")) > ucfirst(ltrim($b['person']->title, "\x00..\x2F"));
       });
     }
-
   }

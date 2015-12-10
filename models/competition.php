@@ -9,7 +9,7 @@ namespace models;
 
   class Competition extends Vertex
   {
-    use traits\banner;
+    use traits\banner, traits\sponsor;
 
     static public $fixture = [
       'vertex' => [
