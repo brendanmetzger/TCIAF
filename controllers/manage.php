@@ -5,7 +5,6 @@ use \bloc\application;
 use \bloc\view;
 use \bloc\view\renderer;
 use \bloc\types\string;
-use \bloc\types\xml;
 use \bloc\types\dictionary;
 
 use \models\graph;

@@ -10,15 +10,6 @@ namespace models;
   {
     static public $fixture = [
       'vertex' => [
-        'location' => [
-          'CDATA' => ''
-        ],
-        'premier' => [
-          'CDATA' => '',
-          '@' => [
-            'date' => null
-          ]
-        ],
         'spectra' => [
           '@' => ['F'=>50,'S'=>50,'M'=>50,'R'=>50,'P'=>50,'T'=>50,'A'=>50]
         ]

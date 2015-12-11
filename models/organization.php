@@ -10,12 +10,10 @@ namespace models;
   class Organization extends Vertex
   {
     use traits\banner;
-
+    public $_location = "Website";
+    public $_premier = "Expires";
     static public $fixture = [
       'vertex' => [
-        'location' => [
-          'CDATA' => ''
-        ],
         'abstract' => [
           [
             'CDATA' => '',

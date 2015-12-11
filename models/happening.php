@@ -11,6 +11,9 @@ namespace models;
     use traits\navigation;
     use traits\banner, traits\sponsor;
 
+    public $_location = "Ticket Website";
+    public $_premier = "Event Date";
+
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -35,10 +38,43 @@ namespace models;
       'sponsor'     => ['organization'],
     ];
 
+    static public function EVENTS($timeline = 'upcoming')
+    {
+      $now = time();
+      $happenings = Graph::GROUP('happening')
+           ->find("vertex[edge[@type='host' and @vertex='TCIAF']]")
+           ->map(function($vertex) {
+             return ['item' => new self($vertex)];
+           })
+           ->filter(function($event) use($now, $timeline){
+             $time = strtotime($event['item']['premier']['@date']);
+             if ($timeline == 'past') {
+               return $time < $now;
+             } else {
+               return $time > $now;
+             }
+           });
+
+
+      return $happenings;
+    }
+
     public function __construct($id = null, $data =[])
     {
       $this->template['form'] = 'vertex';
       parent::__construct($id, $data);
+    }
+
+    public function setDateAttribute(\DOMElement $context, $date)
+    {
+      if ($date = (new \DateTime($date))->format('Y-m-d H:i:s')) {
+        $context->setAttribute('date', $date);
+      }
+    }
+
+    public function getDate(\DOMElement $context)
+    {
+      return (new \DateTime($context['premier']['@date']))->format('l, F jS, Y');
     }
 
     public function getSessions(\DOMElement $context)

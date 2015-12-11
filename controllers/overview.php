@@ -19,7 +19,7 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETLibrary($filter = "all", $sort = 'alpha-numeric', $index = 1, $per = 50)
+    public function GETLibrary($filter = "all", $sort = 'newest', $index = 1, $per = 25)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/feature.html";
@@ -59,35 +59,42 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETpeople($filter = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
+    public function GETpeople($category = 'producer', $filter = 'all', $index = 1, $per = 100, $query = '')
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/person.html";
       $this->search  = ['topic' => 'people', 'path' => 'search/group', 'area' => 'explore/detail'];
       $alpha = null;
 
-      if (strtolower(substr($filter, 0, 5)) == 'alpha') {
-        $alpha = substr($filter, 6, 1);
-        $query = "[starts-with(@title, '{$alpha}')]";
-      } else {
-        $query = "[edge[@type='producer']]"; 
+      $query = "edge[@type]";
+
+      if ($category != 'all') {
+        $query = "edge[@type='{$category}']";
       }
-      $this->alphabet = (new \bloc\types\Dictionary(range('A', 'Z')))->map(function($letter) use($alpha) {
-        $map = ['letter' => $letter];
+
+      if ($filter != 'all') {
+        $alpha = substr($filter, 6, 1);
+        $query .= "and starts-with(@title, '{$alpha}')";
+      }
+      $this->alphabet = (new \bloc\types\Dictionary(range('A', 'Z')))->map(function($letter) use($alpha, $category) {
+        $map = ['letter' => $letter, 'category' => $category];
         if ($alpha == $letter) {
           $map['selected'] = 'selected';
         }
         return $map;
       });
 
-      $this->{$sort} = "selected";
+      $this->{$category} = "selected";
+      $this->filter = $filter;
+      $this->category = $category;
+
       $this->list = Graph::group('person')
-           ->find('vertex'.$query)
-           ->sort(Graph::sort($sort))
+           ->find("vertex[{$query}]")
+           ->sort(Graph::sort('alpha-numeric'))
            ->map(function($vertex) {
-             return ['item' => Graph::FACTORY($vertex)];
+             return ['item' => new \models\person($vertex)];
            })
-           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/people/{$filter}/{$sort}"]));
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/people/{$category}/{$filter}"]));
 
       return $view->render($this());
 
@@ -118,7 +125,14 @@ use \models\graph;
       $this->banner = 'Conferences';
       $page = (($id === 'tciaf-conference') ? 'overview' : 'edition');
       $view = new view('views/layout.html');
+
       $view->content = "views/conference/{$page}.html";
+
+      // if there is an upcoming competition, we want to embed it.
+      if (true) {
+        // $view->upcoming = 'views/conference/listing.html';
+      }
+
 
       return $view->render($this());
     }
@@ -127,6 +141,7 @@ use \models\graph;
 
     public function GETcompetition($id = null, $participants = false)
     {
+      $view = new view('views/layout.html');
 
       if ($id === null) {
         $this->banner = 'Competitions';
@@ -144,7 +159,7 @@ use \models\graph;
         }
       }
 
-      $view = new view('views/layout.html');
+
       $view->content = "views/competition/{$page}.html";
 
       return $view->render($this());
@@ -169,11 +184,17 @@ use \models\graph;
     }
 
 
-    public function GETnothing()
+    public function GETevents()
     {
       $view = new view('views/layout.html');
+      $view->content = 'views/lists/event.html';
 
-      $view->content = (new \bloc\DOM\Document('<h1>Not Implemented (yet)</h1>', [], \bloc\DOM\Document::TEXT))->documentElement;
+      // Gather upcoming events
+      $this->upcoming = \models\happening::EVENTS();
+
+      // Gather Past Events
+      $this->past = \models\happening::EVENTS('past');
+
       return $view->render($this());
     }
 

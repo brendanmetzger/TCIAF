@@ -132,10 +132,10 @@ h3 {
 }
 
 
-.intro > p:first-of-type {
+.intro > p:first-of-type, .subhead {
   font-size:175%;
   color:#88746A;
-  }
+}
 
 .break {
   margin:10em 0;

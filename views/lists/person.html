@@ -19,8 +19,14 @@
     <ul class="plain">
       <li><strong>Filter</strong></li>
       <!--  iterate alphabet -->
-      <li class="alpha"><a class="[$selected]" href="[/overview/people/alpha:$letter/]">[$letter]</a></li>
-      <li class="apha"><em><a href="/overview/people/all/">ALL</a></em></li>
+      <li class="alpha"><a class="[$selected]" href="[/overview/people/$category/alpha:$letter/]">[$letter]</a></li>
+      <li class="alpha"><a href="[/overview/people/$category/all]">(all)</a></li>
+      <li>
+        <a class="[$all]" href="[/overview/people/all/$filter]">All</a> |
+        <a class="[$producer]" href="[/overview/people/producer/$filter]">Producers</a> |
+        <a class="[$presenter]" href="[/overview/people/presenter/$filter]">Presenters</a> |
+        <a class="[$judge]" href="[/overview/people/judge/$filter]">Judges</a>
+      </li>
       <li>
         <!-- insert views/partials/navigator.html -->
       </li>

@@ -39,7 +39,7 @@
 <!ATTLIST edge mark CDATA #IMPLIED>
 
 <!ELEMENT location (#PCDATA)>
-<!ATTLIST location geo CDATA #IMPLIED>
+<!ATTLIST location ref CDATA #IMPLIED>
 
 <!ELEMENT premier (#PCDATA)>
 <!ATTLIST premier date CDATA #IMPLIED>

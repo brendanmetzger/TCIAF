@@ -20,19 +20,11 @@
         <ul class="plain center index">
           <li><strong>[$item:title by year]</strong></li>
           <!-- iterate item:competitions -->
-          <li class="year"><a href="[#$competition:@id]">[$year]</a></li>
+          <li class="year"><a href="[/overview/competition/$competition:@id]">[$year]</a></li>
         </ul>
       </nav>
     </header>
 
-
-
-    <!-- iterate item:competitions -->
-    <section class="trans-blocks container" id="[$competition:@id]">
-      <img src="[http://s3.amazonaws.com/$competition:square:url]"/>
-      <h2 data-id="[$competition:@id]"><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h2>
-      <p>[$competition:summary]</p>
-    </section>
   </section>
 
   <style type="text/css" media="screen">

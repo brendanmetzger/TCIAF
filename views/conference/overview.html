@@ -3,6 +3,7 @@
   <header class="container">
     <div class="group float-left golden">
       <h1 data-id="[$item:@id]">[$item:title]</h1>
+      <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:25%;margin:0 1em 0 0;" data-aspect="[$item:photo:mark]"/>
       <section  property="description">[$item:content:about]</section>
     </div>
 
@@ -14,13 +15,5 @@
     </nav>
   </header>
 
-  <section>
-    <span class="marquee condensed center">Recent Conferences</span>
-    <!-- iterate item:recent -->
-    <article>
-      <img src="[http://s3.amazonaws.com/$edition:banner:url]" style="width:25%;margin:0" data-aspect="[$item:banner:mark]"/>
-      <h2 data-id="[$edition:@id]"><a href="[/overview/conference/$edition:@id]">[$edition:title]</a></h2>
-      <aside>[$edition:summary]</aside>
-    </article>
-  </section>
+  <!-- replace upcoming -->
 </article>

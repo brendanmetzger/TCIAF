@@ -9,8 +9,13 @@
 
     <fieldset class="extra group float-left">
       <legend>Details</legend>
-      <label for="location">Link</label>
-      <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
+
+      <label for="premier_date">[$item:_premier]</label>
+      <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
+
+      <label for="location">[$item:_location]</label>
+      <input type="text" name="vertex[location][@][ref]" value="[$item:location:@ref]" id="location" class="required text" />
+
     </fieldset>
 
     <fieldset class="responsive media">

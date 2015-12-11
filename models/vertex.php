@@ -5,6 +5,12 @@ abstract class Vertex extends \bloc\Model
 {
   use traits\resolver;
 
+  // The Location and premier fields are capapable of storing slightly
+  // different data based on context. These properties are just for templates
+  // to show text for the user - can be overridden in child models.
+  public $_location = 'Link';
+  public $_premier  = 'Date';
+
   protected $template = ['form' => null, 'digest' => null, 'card' => null, 'index' => null];
 
   static public $fixture = [
@@ -14,6 +20,15 @@ abstract class Vertex extends \bloc\Model
         [
           'CDATA'  => '',
           '@' => ['content' => 'description']
+        ]
+      ],
+      'location' => [
+        'CDATA' => ''
+      ],
+      'premier' => [
+        'CDATA' => '',
+        '@' => [
+          'date' => null
         ]
       ],
       'media' => [],

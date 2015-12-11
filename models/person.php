@@ -9,6 +9,9 @@ class Person extends Vertex
 {
   use traits\banner;
 
+  public $_location = "Contact";
+  public $_premier = "Date Joined";
+
   static public $fixture = [
     'vertex' => [
       'abstract' => [
@@ -29,6 +32,7 @@ class Person extends Vertex
     'participant' => ['feature'],
     'host'        => ['happening', 'competition', 'feature'],
     'staff'       => ['organization'],
+    'board'       => ['organization'],
   ];
 
   public function __construct($id = null, $data =[])
