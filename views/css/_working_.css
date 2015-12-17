@@ -81,6 +81,7 @@ nav.crumbs > ul {
   border-top-width:0;
   display:inline-block;
   max-width:62%;
+  min-width:45%;
 }
 
 .crumbs li strong {
