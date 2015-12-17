@@ -205,7 +205,9 @@ use \models\graph;
 
     public function GETsubscribe()
     {
-      # code...
+      $view = new view('views/layout.html');
+      $view->content = 'views/pages/subscribe.html';
+      return $view->render($this());
     }
 
   }
