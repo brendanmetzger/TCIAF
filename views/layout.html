@@ -45,6 +45,12 @@
         return this;
       });
 
+      function load_bg_async(data) {
+        console.log(data[0]);
+        document.body.backgroundImage = data[0];
+
+      }
+
       bloc.prepare('Player', function (audio) {
         if (audio instanceof Element) {
           this.attach(audio);
@@ -119,6 +125,13 @@
             <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
             <h2 data-id="[$article:@id]"><a href="[/explore/detail/$article:@id]">[$article:title]</a></h2>
             <p>[$article:summary]</p>
+          </section>
+          <hr />
+          <h2>Featured Playlists</h2>
+          <!-- iterate playlists -->
+          <section>
+            <h2 data-id="[$playlist:@id]"><a href="[/explore/detail/$playlist:@id]">[$playlist:title]</a></h2>
+            <p>[$playlist:summary]</p>
           </section>
         </article>
 

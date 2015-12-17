@@ -63,6 +63,10 @@ blockquote.justify {
   max-width:100%;
 }
 
+section .crumbs ul {
+  width:82.5%;
+}
+
 .split .card {
   width:100%;
   margin:0;

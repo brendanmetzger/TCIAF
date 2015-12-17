@@ -6,7 +6,7 @@
           <li><strong>Sort by</strong></li>
           <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
           <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
-          <li><a class="[$yearproduced]" href="[/overview/library/$filter/year-produced]">Year Produced</a></li>
+          <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
           <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
         </ul>
       </li>
@@ -20,41 +20,43 @@
         </ul>
       </li>
       <li class="clear">
+        <ul class="plain inline">
+          <li><strong>Length</strong></li>
+          <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
+          <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
+          <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
+        </ul>
+      </li>
+      <li class="clear">
         <!-- insert views/partials/navigator.html -->
       </li>
     </ul>
   </nav>
-
   <header>
     <span class="marquee center condensed" style="margin:0.5em;">[$title]</span>
-    <!-- replace blurb  -->
+    <!-- replace blurb-->
   </header>
   <!-- iterate list -->
   <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]">
     <figure style="[background:$item:gradient]">Spectra</figure>
     <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
-    <span>[$item:duration]</span>
+    <span>[$item:duration minutes]</span>
     <cite>
       <!-- iterate item:producers -->
       <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
     </cite>
-
     <aside>[$item:summary]</aside>
-
-    <!-- replace fieldlist -->
   </div>
-
-
+  <footer class="center">
+    <p>Looking for more to listen to? Check out our <a href="/overview/playlists">Playlists</a></p>
+  </footer>
   <style type="text/css" media="screen">
-  div[data-award] {
-    background:transparent url(/images/medal.svg) no-repeat right top;
-    background-size:auto 50%;
-  }
-
+    div[data-award] {
+      background:transparent url(/images/medal.svg) no-repeat right top;
+      background-size:auto 50%;
+    }
     .features div {
       padding:0 2.5% 1em;
     }
   </style>
-
-
 </article>

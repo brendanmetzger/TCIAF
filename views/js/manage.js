@@ -46,13 +46,19 @@ function goto(url, evt) {
       form.querySelector('input').focus();
     },
     submit: function (evt) {
-      var res = evt.target.responseXML;
+      // var res = evt.target.responseXML;
       this.modal.close();
+
+      var exist = document.querySelector('main');
       new Request({
         load: function (evt) {
-          var exist = document.querySelector('main');
-          exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-          window.bloc.execute('editables');
+
+          setTimeout(function () {
+            exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
+            window.bloc.execute('editables');
+          }, 100);
+
+
         }
       }).get(window.location.href + '.xml');
     }

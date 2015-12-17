@@ -1,3 +1,31 @@
 <article>
-	<!-- insert views/lists/template.html -->
+	<nav class="center crumbs">
+    <ul class="plain">
+      <li>
+        <ul class="plain">
+          <li><strong>Sort by</strong></li>
+          <li><a class="[$newest]" href="/overview/playlists/newest">Created</a></li>
+          <li><a class="[$alphanumeric]" href="/overview/playlists/alpha-numeric">Alphabet</a></li>
+        </ul>
+      </li>
+      <li class="clear">
+        <!-- insert views/partials/navigator.html -->
+      </li>
+    </ul>
+  </nav>
+	<!-- iterate list -->
+  <section data-created="[$item:@created]" data-updated="[$item:@updated]" class="trans-blocks container" style="margin-top:5em;">
+		<header class="group float-left golden" style="margin:0;">
+			<h2 class="h1 condensed"><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a></h2>
+			<aside>[$item:summary]</aside>
+		</header>
+		<nav class="crumbs group float-left">
+			<ul class="plain index">
+				<!-- iterate item:curators -->
+	      <li><a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a></li>
+	    	<li>[$item:size:length Tracks]</li>
+				<li>[$item:size:duration Hours]</li>
+	    </ul>
+		</nav>
+  </section>
 </article>

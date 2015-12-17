@@ -43,6 +43,7 @@ namespace models;
       $now = time();
       $happenings = Graph::GROUP('happening')
            ->find("vertex[edge[@type='host' and @vertex='TCIAF']]")
+           ->sort(Graph::sort('date'))
            ->map(function($vertex) {
              return ['item' => new self($vertex)];
            })

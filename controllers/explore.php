@@ -48,6 +48,12 @@ class Explore extends Manage
     } else {
       // the homepage is a collection.
       $this->collection = Graph::FACTORY(Graph::ID('homepage'));
+      $this->playlists = Graph::GROUP('collection')
+            ->find("vertex[location[@ref='homepage']]")
+            ->map(function($vertex) {
+              return ['playlist' => new \models\collection($vertex)];
+            });
+
       $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
     }
 
@@ -66,7 +72,7 @@ class Explore extends Manage
   }
 
 
-  protected function GETcenterpiece($group = null, $sort = 'year-produced', $index = 1, $per = 25)
+  protected function GETcenterpiece($group = null, $sort = 'date', $index = 1, $per = 25)
   {
     $view = new view('views/layout.html');
     $view->content = 'views/lists/feature.html';

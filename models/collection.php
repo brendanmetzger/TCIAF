@@ -10,6 +10,9 @@ namespace models;
   {
     use traits\banner;
 
+    public $_location = 'Feature (where)';
+    public $_premier  = 'Date';
+
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -51,4 +54,25 @@ namespace models;
       });
     }
 
+    public function getCurators(\DOMElement $context)
+    {
+      return $context->find("edge[@type='curator']")->map(function($edge) {
+        return ['person' => new Person($edge['@vertex'])];
+      });
+    }
+
+    public function getSize(\DOMElement $context)
+    {
+      $out = [
+        'length'   => 0,
+        'duration' => 0,
+      ];
+      foreach ($this->features as $feature) {
+        $out['length']+=1;
+        $out['duration']+= $feature['feature']->duration;
+      }
+
+      $out['duration'] = round($out['duration'] / 60, 1);
+      return new \bloc\types\Dictionary($out);
+    }
   }

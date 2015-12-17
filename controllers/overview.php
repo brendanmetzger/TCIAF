@@ -43,6 +43,11 @@ use \models\graph;
       } else if ($filter == 'awards') {
         $query = 'vertex[edge[@type="award"]]';
         $this->title  = "TCF Award Recipients";
+      } else if (substr($filter,0,6) == 'length') {
+        $lim = explode('-', substr($filter, 7));
+        $lower = $lim[0] * 60;
+        $upper = $lim[1] * 60;
+        $query = "vertex[media[@type='audio' and @mark > '{$lower}' and @mark < '{$upper}']]";
       } else {
         $query = 'vertex';
         $this->title  = 'Library';
@@ -165,11 +170,11 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETplaylists($sort = 'alpha-numeric', $index = 1, $per = 100)
+    public function GETplaylists($sort = 'newest', $index = 1, $per = 25)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/collection.html";
-      $this->search = ['topic' => 'playlist', 'path' => 'search/group', 'area' => 'overview/playlist'];
+      $this->search = ['topic' => 'playlist', 'path' => 'search/group', 'area' => 'overview/playlists'];
       $this->group = 'collection';
       $this->{$sort} = "selected";
       $this->list = Graph::group('collection')
@@ -178,7 +183,7 @@ use \models\graph;
            ->map(function($vertex) {
              return ['item' => Graph::FACTORY($vertex)];
            })
-           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/playlist/{$sort}"]));
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/playlists/{$sort}"]));
 
       return $view->render($this());
     }

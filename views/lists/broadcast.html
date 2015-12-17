@@ -1,18 +1,18 @@
 <article class="features listing">
   <header>
     <!-- insert views/partials/navigator.html -->
-  
+
     <nav>
       <ul class="inline margins">
         <li>Sort by:</li>
         <li class="padded"><a class="[$newest]" href="[/explore/index/$group/all/newest]">Created</a></li>
         <li class="padded"><a class="[$updated]" href="[/explore/index/$group/all/updated]">Updated</a></li>
         <li class="padded"><a class="[$title]" href="[/explore/index/$group/all/alpha-numeric]">Alphabetic on Title</a></li>
-        <li class="padded"><a class="[$yearproduced]" href="[/explore/index/$group/all/year-produced]">Year Produced</a></li>
+        <li class="padded"><a class="[$date]" href="[/explore/index/$group/all/date]">Year Produced</a></li>
       </ul>
     </nav>
   </header>
-  
+
   <!-- iterate list -->
   <div data-created="[$item:@created]" data-updated="[$item:@updated]">
     <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
@@ -20,26 +20,26 @@
       <!-- iterate item:producers -->
       <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
     </cite>
-    
+
     <aside>[$item:summary]</aside>
-    
+
     <!-- replace fieldlist -->
   </div>
-  
-  
+
+
   <style type="text/css" media="screen">
   .listing nav {
-    
+
   }
   div[data-award] {
     background:transparent url(/images/medal.svg) no-repeat right top;
     background-size:auto 50%;
   }
-    
+
     .features div {
       padding:0 2.5% 1em;
     }
   </style>
-  
-  
+
+
 </article>
