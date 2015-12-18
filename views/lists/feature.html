@@ -37,8 +37,8 @@
     <!-- replace blurb-->
   </header>
   <!-- iterate list -->
-  <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]">
-    <figure style="[background:$item:gradient]">Spectra</figure>
+  <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]"  style="[background:$item:gradient]">
+    <div>
     <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
     <span>[$item:duration minutes]</span>
     <cite>
@@ -46,6 +46,7 @@
       <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
     </cite>
     <aside>[$item:summary]</aside>
+    </div>
   </div>
   <footer class="center">
     <p>Looking for more to listen to? Check out our <a href="/overview/playlists">Playlists</a></p>
@@ -55,8 +56,14 @@
       background:transparent url(/images/medal.svg) no-repeat right top;
       background-size:auto 50%;
     }
+    .features div div {
+      padding:2em;
+      background-color:rgba(255,255,255,0.65);
+    }
     .features div {
-      padding:0 2.5% 1em;
+      padding:0;
+      border-radius:5em 0 0 5em;
+      margin:2em 0;
     }
   </style>
 </article>

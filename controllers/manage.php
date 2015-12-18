@@ -156,7 +156,7 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
 
-  protected function GETgroup($to_group, $from_group, $vertex)
+  protected function GETgroup($to_group = null, $from_group = null, $vertex = null)
   {
     $view = new view('views/layout.html');
 
