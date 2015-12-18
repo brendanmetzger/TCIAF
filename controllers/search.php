@@ -21,7 +21,7 @@ class Search extends Manage
     $groups = Graph::instance()->query('graph/group[@type!="archive"]/')->find('.');
     foreach ($groups as $group) {
       $search = \models\search::FACTORY($group);
-      $index = $search->createIndex();
+      $index = $search->createIndex('group');
     }
   }
 
@@ -44,8 +44,9 @@ class Search extends Manage
       return new \models\Media($item);
     });
     $search = new \models\search($list);
-    $search->key = 'context';
-    $search->tag = 'caption';
+    $search->key = 'src';
+    $search->tag = 'plain';
+    // $search->createIndex('media');
 
     return $search->asJSON('media', $subset, $type);
   }

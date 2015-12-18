@@ -271,7 +271,12 @@ div.person img {
 
 article > header img {
   box-sizing:border-box;
-  width:30%;float:left;padding:1em;margin:1.5%;
+  width:30%;
+  float:left;
+  padding:1em;
+  margin:1em 2.5% 0 0;
+  box-shadow: inset 0 0 0.5em rgba(0,0,0,0.125);
+  border: 1em solid rgba(255,255,255,0.5);
 }
 
 figure {

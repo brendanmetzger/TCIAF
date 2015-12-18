@@ -44,7 +44,7 @@ namespace models;
       $this->list = $list;
     }
 
-    public function createIndex()
+    public function createIndex($category = 'group')
     {
       $this->index = array_fill_keys(array_merge(range('a', 'z'), range(0, 9)), []);
 
@@ -52,10 +52,11 @@ namespace models;
         $this->addToIndex($result[$this->key], $result[$this->tag]);
       }
 
+      
       foreach ($this->index as $alpha => $subset) {
         $output = json_encode($this->format($subset));
 
-        $path = sprintf('%sdata/cache/search/group/%s', PATH, $this->type);
+        $path = sprintf('%sdata/cache/search/%s/%s', PATH, $category, $this->type);
         if (! file_exists($path)) {
           if (!mkdir($path, 0777, true)) {
             echo "NO";
@@ -89,6 +90,8 @@ namespace models;
       if ($subset) {
         return $this->format($this->index[strtolower($subset)]);
       }
+
+
 
       return $this->index;
     }

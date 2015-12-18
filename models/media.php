@@ -16,6 +16,7 @@ namespace models;
     public function __construct(\DOMNode $media, $index = null)
     {
       $caption = $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4));
+
       $this->slug = [
         'domain'  => 'http://s3.amazonaws.com',
         'index'   => $index === null ? $media->getIndex() : $index,
