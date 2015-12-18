@@ -3,3 +3,4 @@ current
 tmp
 config
 data/*
+data.*
