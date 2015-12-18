@@ -44,9 +44,8 @@ class Search extends Manage
       return new \models\Media($item);
     });
     $search = new \models\search($list);
-    $search->key = 'src';
+    $search->key = 'xid';
     $search->tag = 'plain';
-    // $search->createIndex('media');
 
     return $search->asJSON('media', $subset, $type);
   }

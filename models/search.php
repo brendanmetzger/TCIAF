@@ -52,7 +52,7 @@ namespace models;
         $this->addToIndex($result[$this->key], $result[$this->tag]);
       }
 
-      
+
       foreach ($this->index as $alpha => $subset) {
         $output = json_encode($this->format($subset));
 
