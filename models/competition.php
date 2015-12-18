@@ -37,8 +37,21 @@ namespace models;
     {
       parent::__construct($id, $data);
       $this->template['form'] = 'vertex';
-      $this->template['digest'] = $this->awards->count() > 0 ? 'competition/edition' : 'competition/overview';
+      // TODO: templates can be set automatically with overriding the constructor
+      $this->template['digest'] = $this->_template($this->context);
     }
+
+    protected function _template(\DOMElement $context)
+    {
+      if ($context['premier']->count() > 0 && strtotime($context['premier']['@date']) > time()) {
+        return 'competition/preview';
+      } else if ($context->find("edge[@type='edition']")->count() > 1){
+        return 'competition/overview';
+      } else {
+        return 'competition/edition';
+      }
+    }
+
 
 
 

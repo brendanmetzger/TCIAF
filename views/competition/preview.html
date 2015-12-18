@@ -1,0 +1,48 @@
+<article class="competition page"  vocab="http://schema.org/" typeof="Event">
+
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li><a href="/overview/competition">More Competitions</a></li>
+      <li style="line-height:0;border:none;">
+          <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:100%;margin:0" data-aspect="[$item:banner:mark]"/>
+      </li>
+    </ul>
+  </nav>
+
+
+
+
+  <header class="container">
+    <div class="group float-left golden">
+      <h1 data-id="[$item:@id]">[$item:title]</h1>
+      <section  property="description">[$item:content:about]</section>
+    </div>
+  </header>
+
+
+
+
+  <span class="marquee center condensed" id="sponsors">Sponsors</span>
+  <!-- insert views/partials/sponsors.html -->
+
+  <style media="screen">
+
+    .title {
+      border-bottom: 1px dashed #AAA;
+      margin:0 15% 1em;
+      padding:1em 0;
+    }
+
+
+    header.container {
+      border-top:1px solid #eee;
+      border-bottom:none;
+      padding:0;
+    }
+
+    header.container h1 {
+      padding:1em 0;
+    }
+
+  </style>
+</article>

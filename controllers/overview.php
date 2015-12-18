@@ -134,8 +134,15 @@ use \models\graph;
       $view->content = "views/conference/{$page}.html";
 
       // if there is an upcoming competition, we want to embed it.
-      if (true) {
-        // $view->upcoming = 'views/conference/listing.html';
+      if ($page == 'overview' && true) {
+        $now = (new \DateTime())->format('YmdHis');
+        $query = "vertex[edge[@vertex = 'tciaf-conference'] and premier[number(translate(@date,'-: ','')) > {$now}]]";
+        $this->upcoming = Graph::group('happening')
+                    ->find($query)
+                    ->map(function($item) {
+                      return ['item' => new \models\Happening($item)];
+                    });
+        $view->upcoming = 'views/conference/listing.html';
       }
 
 
@@ -154,18 +161,19 @@ use \models\graph;
           ['item' => Graph::FACTORY(Graph::ID('driehaus'))],
           ['item' => Graph::FACTORY(Graph::ID('shortdocs'))],
         ];
-        $page = 'overview';
+        $page = 'competition/overview';
       } else {
         $this->item = Graph::FACTORY(Graph::ID($id));
         if ($participants) {
-          $page = 'listing';
+          $page = 'competition/listing';
         } else {
-          $page = 'edition';
+
+          $page = $this->item->template['digest'];
         }
       }
 
 
-      $view->content = "views/competition/{$page}.html";
+      $view->content = "views/{$page}.html";
 
       return $view->render($this());
     }
