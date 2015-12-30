@@ -87,3 +87,28 @@ section .crumbs ul {
 .award {
   font-size:1em;
 }
+
+#Player .controls {
+  height:auto;
+}
+
+#Player .playlist {
+  height:5em;
+}
+
+#Player .controls {
+  width:25%;
+}
+
+#Player .controls {
+  width:25% !important;
+  float:left;
+}
+#Player .playlist {
+  width:75% !important;
+  float:left;
+}
+#Player .controls button, #Player .controls div {
+  width:50%;
+  display:inline-block;
+}

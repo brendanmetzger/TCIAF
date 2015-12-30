@@ -36,7 +36,7 @@ bloc.prepare('editables', function () {
 function goto(url, evt) {
   evt.preventDefault();
   if (evt.metaKey) {
-    window.location.href = url;
+    document.location.assign(url);
     return;
   }
 

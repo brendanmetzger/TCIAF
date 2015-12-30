@@ -35,7 +35,7 @@ a.selected{text-decoration:none;cursor:default;color:#333;}
 .ghost:hover {opacity:1;}
 .fade {opacity:0;}
 .inline:not(ul), .inline li, .inline dd, ul.divide li  {display:inline-block;}
-ul.inline, ul.divide {padding:0; }
+ul.inline, ul.divide {padding:0;}
 .ragright {text-align:left;}
 .ragleft {text-align:right;}
 .center {text-align:center;}

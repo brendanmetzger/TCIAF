@@ -74,7 +74,7 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 
 body > header {
   box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
-  background-color:#fff;
+  background-color:#FFF;
   position:relative;
   z-index:2;
 }
@@ -143,7 +143,11 @@ header .finder {
 .banner {
   width:50%;
   padding:0;
+  padding:0 1em;
   text-align:center;
+  background-color:#FFF;
+  border:1px dashed #EEE;
+  border-width:0 1px;
 }
 .banner img {
   width:100%;
@@ -153,177 +157,11 @@ header .finder {
   width:100%;
 }
 
-.listen {
-  background-size: auto 0%;
-  background-image:url(/images/listen.svg);
-  background-position:50% 46.5%;
-  background-repeat:no-repeat;
-  color:#5B9B98;
-  letter-spacing:0.075em;
-  transition:color 0.25s, background-size 0.25s;
-}
-
-.listen:hover {
-  background-size: auto 100%;
-  color:rgba(0,0,0,0);
-}
-
-button.listen {
-  overflow:hidden;
-  height:5em;
-  width:5em;
-  border-radius:50%;
-}
-
-.evaporate {
-  opacity:0;
-  margin:0 !important;
-  height:0 !important;
-  padding-top:0 !important;
-  padding-bottom:0 !important;
-  line-height:0 !important;
-}
-
-
-
-
-#Player {
-  transition:height 0.25s 0.125s, width 0.25s 0.125s;
-  width:8em;
-  height:0;
-  top:0;
-  right:0;
-  overflow:hidden;
-  z-index:1000;
-}
-
-body[data-playing] #Player {
-  height:4em;
-}
-
-body.playing #Player {
-  background-color:#EE3124;
-  height:4em;
-}
-body #Player {height:0;}
-
-body[data-playing] #Player:hover {
-  height:8em;
-  width:16em;
-}
-
-#Player button, #Player .progress {width:3.5em;height:3.5em;transition:all 0.25s 0.125s;}
-#Player:hover button, #Player:hover .progress {width:7em;height:7em;}
-
-
-
-#Player button {padding:0;background-color:transparent;border:none;box-shadow:none;display:block;display:inline-block;border-radius:0;}
-#Player .progress {display:inline-block;}
-
-#Player button svg{width:100%;height:100%;fill:#eddad0;margin:0%}
-#Player button svg path {stroke:none;}
-
-
-
-
-
-
-.progress:hover {
-  cursor:pointer;
-}
-
-.progress .handle {
-  stroke-opacity:0;
-  transition:stroke-opacity 0.75s;
-}
-
-.progress:hover .handle {
-  stroke:#eddad0 !important;
-  stroke-width:4;
-  stroke-opacity:1;
-}
-
-.progress svg {
-  width:100%;
-  height:100%;
-  fill:none;
-  margin: 0;
-  stroke:#333;
-  position: relative;
-  stroke-width:5;
-  stroke-opacity:0.75;
-}
-
-
-.progress strong, .progress .handle {
-  pointer-events: none;
-}
-
-
-.progress circle {
-  stroke:rgba(255,255,255,0.25);
-  stroke-width:1px;
-  fill:none;
-  pointer-events: none;
-}
-
-#Player .progress path {
-  stroke:#eddad0;
-  fill:none;
-}
-
-#Player .progress strong {
-  top:33%;
-  color:#eddad0;
-}
-
-.progress strong {
-  position:absolute;
-  height:100%;
-  top:0;
-  left:0;
-  width:100%;
-  height:auto;
-  text-align:center;
-}
-
-
-#Player .display {
-  padding:1em 0;
-  display:inline-block;
-  line-height:1em;
-  font-family:'Courier New';
-  vertical-align:top;
-  word-break:break-all;
-  color:#888;
-}
-
-
-button path.indicator{stroke:none;transition:fill-opacity 0.75s;fill-opacity:1;}
-button path.wait{fill:transparent;stroke-opacity:1;transition:stroke-opacity 0.25s;}
-button:not(.wait) path.wait{stroke-opacity:0;}
-button.wait svg path.indicator{fill-opacity:0;fill:#AAA;}
-button.error{background-color:#ED1C24;}
-
-
-
-.progress {position:relative;background-size:cover;}
-.progress.spin svg{-moz-animation:spin .75s infinite linear;-webkit-animation:spin .75s infinite linear;-ms-animation:spin .75s infinite linear;animation:spin .75s infinite linear;}
-
-
-
-
-
 article header {
   margin:2.5em 0 0;
   padding:1em 0;
   border-bottom: 1px solid #eee;
 }
-
-
-
-
-
 
 .sponsor {
   background-color:#DEDAD4;padding:2em;color:#333;

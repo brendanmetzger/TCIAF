@@ -151,146 +151,7 @@ SVG.prototype.b64url = function (styles) {
 
 
 
-var Player = function (container, data) {
-  container.id = 'Player';
-  this.container = container;
 
-  var button = container.appendChild(document.createElement('button'));
-      button.setAttribute('type', 'button');
-
-  this.button = new Button(button, 'play');
-
-  var button_activate = function (evt) {
-    evt.preventDefault();
-    this[this.button.state].call(this);
-  }.bind(this);
-
-  this.button.getDOMButton().addEventListener('touchend', button_activate, false);
-  this.button.getDOMButton().addEventListener('click', button_activate, false);
-
-  this.meter = new Progress(container);
-
-  var tick = function (evt) {
-    this.update((evt.theta() / 360), null, true);
-  }.bind(this.meter);
-
-  this.meter.element.addEventListener('mouseover', function () {
-    this.addEventListener('mousemove', tick, false);
-  }.bind(this.meter.element));
-
-  this.meter.element.addEventListener('mouseout', function () {
-    this.removeEventListener('mousemove', tick, false);
-  }.bind(this.meter.element));
-
-
-
-  this.meter.element.addEventListener('click', function (evt) {
-    var audio = this.elements[this.index];
-    audio.currentTime = audio.duration * (evt.theta() / 360);
-  }.bind(this), false);
-
-
-
-  this.display = container.appendChild(document.createElement('ul'));
-  this.display.className = "playlist display";
-
-  // this.display.title  = display.appendChild(document.createElement('h2'));
-  // this.display.byline = display.appendChild(document.createElement('p'));
-};
-
-
-
-Player.prototype = {
-  container: null,
-  elements: [],
-  display: {},
-  index: 0,
-  button: null,
-  setDisplay: function (value) {
-    this.display.innerHTML = value;
-  },
-  progress: function (evt) {
-    if (evt.target.paused) {
-      this.meter.update(evt.target.buffered.end(0) / evt.target.duration, null, true);
-    }
-  },
-  play: function () {
-    this.button.setState('pause');
-    this.elements[this.index].play();
-  },
-  pause: function () {
-    this.button.setState('play');
-    this.elements[this.index].pause();
-  },
-  playTrack: function (index) {
-    this.pause();
-    this.index = index;
-    this.play();
-  },
-  ended: function (evt) {
-    var next = this.index+1;
-    if (next < this.elements.length) {
-      this.playTrack(next);
-    }
-  },
-  playing: function (evt) {
-    console.log('playing');
-  },
-  waiting: function (evt) {
-    console.log('waiting', evt);
-  },
-  seeking: function (evt) {
-    console.log('seeking');
-  },
-  seeked: function (evt) {
-    console.log('seeked');
-  },
-  stalled: function (evt) {
-    console.log('stalled', evt);
-  },
-  error: function (evt) {
-    console.log('error', evt);
-  },
-  timeupdate: function (evt) {
-    var elem = evt.target;
-    var time = Math.ceil(elem.currentTime);
-    var dur  = Math.ceil(elem.duration);
-    var msg = "<pre>{m}:{s}</pre>";
-    this.meter.update(time / dur, msg.format(this.timecode(new Date(time*1e3))) + msg.format(this.timecode(new Date((dur-time)*1e3))));
-
-  },
-  timecode: function (timestamp) {
-    return {
-      h: ('00'+timestamp.getUTCHours()).slice(-2),
-      m: ('00'+timestamp.getUTCMinutes()).slice(-2),
-      s: ('00'+timestamp.getSeconds()).slice(-2)
-    };
-  },
-  attach: function (audio_element) {
-    if (audio_element.nodeName === "AUDIO") {
-      this.container.classList.add('queued');
-
-      this.container.appendChild(audio_element);
-      document.body.dataset.playing = audio_element.dataset.index = this.elements.push(audio_element) - 1;
-
-      audio_element.removeAttribute('controls');
-      ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'].forEach(function (trigger) {
-        audio_element.addEventListener(trigger, this[trigger].bind(this), false);
-      }.bind(this));
-      this.timeupdate({target: audio_element});
-    }
-  },
-  detach: function (audio_element) {
-    delete this.elements[audio_element.dataset.index];
-  }
-};
-
-function loadButtonAudio(button) {
-
-  var player = window.bloc.execute('Player', button.parentNode.querySelector('audio'));
-  player.playTrack(player.elements.length - 1);
-  button.classList.add('evaporate');
-}
 
 
 // should implement a controllable interface
@@ -659,6 +520,9 @@ var Progress = function(container) {
     }
   };
 
+  this.setState = function (state) {
+    this.element.dataset.state = state;
+  };
 
 
   return this;
@@ -756,20 +620,39 @@ if (window.history.pushState) {
   }, true);
 } else {
   window.navigateToPage = function (evt) {
-    window.location.href = this.href;
+    document.location.assign(this.href);
   };
 }
 
-var processLayout = function (evt) {
-  if (this.dataset.engage === undefined && this.scrollTop > this.dataset.top) {
-    this.dataset.engage = true;
-  } else if (this.dataset.engage && this.scrollTop < this.dataset.top){
-    delete this.dataset.engage;
+function processLayout(body, throttle) {
+  var timeout = 0, offset = body.dataset.top;
+
+  function operation() {
+    if (body.dataset.engage === undefined && body.scrollTop > offset) {
+      body.dataset.engage = true;
+    } else if (body.dataset.engage && body.scrollTop < offset){
+      delete body.dataset.engage;
+    }
+  }
+
+  return function (evt) {
+    clearTimeout(timeout);
+    timeout = setTimeout(operation, throttle);
   }
 };
 
+function setBanner(timeout) {
+  var header = document.body.firstElementChild;
+  header.removeAttribute('style');
+
+  document.body.dataset.top = header.offsetHeight;
+  header.style.height = header.offsetHeight + 'px';
+
+  return setBanner;
+}
+
 bloc.prepare('onload', function () {
-  document.body.dataset.top = document.body.firstElementChild.offsetHeight;
+  window.addEventListener('resize', setBanner());
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
-  window.addEventListener('scroll', processLayout.bind(document.body), false);
+  window.addEventListener('scroll', processLayout(document.body, 50), false);
 });

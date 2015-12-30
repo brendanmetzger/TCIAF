@@ -1,12 +1,14 @@
 <article>
+  <nav class="center crumbs">
+    <ul class="plain">
+      <li><a href="/explore/index/collection">All Playlists</a></li>
+    </ul>
+  </nav>
   <header>
-  	<a href="/explore/index/collection">All Playlists</a>
     <img src="[http://s3.amazonaws.com/$item:photo:url]" />
-    <h2 data-id="[$item:@id]">[$item:title]</h2>
+    <h1 class="condensed" data-id="[$item:@id]">[$item:title]</h1>
   </header>
-  
   <section>[$item:content:about]</section>
-  
   <nav>
     <!-- iterate item:features -->
     <!-- insert views/cards/feature.html -->
