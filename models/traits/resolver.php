@@ -8,7 +8,6 @@ trait resolver {
     return $node;
   }
 
-
   protected function initialize() {
 
     self::$fixture['vertex']['@']['created'] = (new \DateTime())->format('Y-m-d H:i:s');
@@ -16,7 +15,6 @@ trait resolver {
     $this->input(self::$fixture, $node);
     return Graph::group($this->get_model())->pick('.')->appendChild($node);
   }
-
 
   public function save()
   {

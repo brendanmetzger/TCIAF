@@ -110,9 +110,9 @@ header nav a {
 .home a {
   background: transparent url(/images/pidgey.svg) no-repeat;
   background-size:auto 100%;
-  background-position:0 10em;
+  background-position:0 -10em;
   text-indent:-1000em;
-  transition:background-color 0.25s, background-position 0.75s cubic-bezier(.24,-0.25,.26,1.25);
+  transition:background-color 0.25s 0.15s, background-position 0.75s cubic-bezier(.24,-0.25,.26,1.25);
   width:2em;
 }
 

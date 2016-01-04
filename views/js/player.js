@@ -113,6 +113,8 @@ var Player = function (container, data) {
     this.element.addEventListener('mousemove', tick, false);
   }.bind(this.meter));
 
+  // this.meter.element.addEventListener('touchmove', tick, false);
+
   this.meter.element.addEventListener('mouseout', function () {
     this.element.removeEventListener('mousemove', tick, false);
   }.bind(this.meter));

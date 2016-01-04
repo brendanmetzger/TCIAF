@@ -22,12 +22,15 @@ button.listen {
 
 .queued {
   opacity: 0.5;
-  /*margin: 0 !important;
-  height: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  line-height: 0 !important;*/
 }
+
+#Player {
+  width:25%;
+  top:-5em;
+  right:0;
+  transition:right 0.5s, background-color 0.5s 0.15s, top 0.5s;
+}
+
 
 
 #Player, .playlist {
@@ -73,9 +76,6 @@ li.current span:before {
 }
 
 
-#Player {
-  width:25%;
-}
 
 
 #Player button, #Player .progress {
@@ -234,9 +234,9 @@ button.error {
 body[data-engage] #Player {
   position:fixed;
   top:0;
-  right:0;
+  width:30%;
   height:4em;
-  background-color:#333;
+  background-color:#f8f8f8;
   z-index:5;
   overflow:hidden;
 }
@@ -244,25 +244,20 @@ body[data-engage] #Player {
 
 body[data-engage] #Player .controls {
   height:100%;
+  width:9em !important;
+  text-align:center;
+  float:left;
 }
 
 body[data-engage] #Player .playlist {
   height:100%;
 }
 
-body[data-engage] #Player .controls {
-  width:25%;
-}
-
-body[data-engage] #Player .controls {
-  width:25% !important;
-  float:left;
-}
 body[data-engage] #Player .playlist {
-  width:75% !important;
   float:left;
 }
 body[data-engage] #Player .controls button, body[data-engage] #Player .controls div {
-  width:50%;
+  width:4em;
+  height:4em;
   display:inline-block;
 }

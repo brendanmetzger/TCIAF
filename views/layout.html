@@ -47,12 +47,6 @@
         return this;
       });
 
-      function load_bg_async(data) {
-        console.log(data[0]);
-        document.body.backgroundImage = data[0];
-
-      }
-
       bloc.prepare('Player', function () {
         return this;
       });
@@ -71,29 +65,20 @@
     <link rel="stylesheet" media="screen" type="text/css" href="/css/_working_.css" />
     <link rel="stylesheet" media="(max-width: 600px)" type="text/css" href="/css/_working_mobile_.css" />
   </head>
-
-
   <body class="[$_controller $_action]" data-user="[$user]">
-
-
     <header class="container">
-
       <form class="finder float-left group search">
         <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
         <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
         <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>
-
       <div class="banner float-left group">
         <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
         <blockquote class="mono" style="padding:2em 0;">Sharing the best audio stories produced worldwide and inspiring the next generation of makers.</blockquote>
       </div>
-
       <noscript id="Player" data-queue="" data-controls="one-quarter group float-left controls" data-playlist="plain playlist three-quarters group float-left" class="float-left group">
         <p>The Third Coast Festival Audio Player</p>
       </noscript>
-
-
       <nav>
         <ul class="plain inline">
           <li class="home context"><a href="/">Home</a></li>
@@ -105,21 +90,16 @@
           <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
         </ul>
       </nav>
-
     </header>
-
     <main class="content container">
       <!-- replace content nextSibling -->
       <section class="landing">
-
         <article class="group float-left gradient" style="width:45%;padding:5em 1em 1em;background-color:rgba(255,255,255,0.25); text-align:center">
           <h2 data-id="[$collection:@id]">[$collection:title]</h2>
           <p>[$collection:content:about]</p>
           <!-- iterate collection:features -->
           <!-- insert views/cards/feature.html -->
         </article>
-
-
         <article class="group float-left" style="width:55%;padding:5em;">
           <h2>News and Events</h2>
           <!-- iterate collection:articles -->
@@ -136,20 +116,15 @@
             <p>[$playlist:summary]</p>
           </section>
         </article>
-
         <style type="text/css" media="screen">
           /* <![CDATA[ */
           .landing article > h2 {margin:0 0 2em;}
           /* ]]> */
         </style>
-
       </section>
     </main>
-
     <!-- insert views/pages/footer.html -->
-
     <script type="text/javascript">window.bloc.load();</script>
-
     <!-- replace helper -->
   </body>
 </html>

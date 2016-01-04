@@ -7,11 +7,6 @@ main {
   width:95%;
 }
 
-section[data-size='2'] img {
-  width: 50%;
-}
-
-
 
 body {
    padding-top:4em;
@@ -37,7 +32,7 @@ body > header li a {
   font-size:1.25em;
 }
 
-li.context { display:none }
+li.context, .banner blockquote { display:none }
 
 .search ul {
   margin:-1em 0;
@@ -52,6 +47,8 @@ li.context { display:none }
 .banner a {
   width:100%;
 }
+
+
 
 blockquote.justify {
   width:100%;
@@ -88,30 +85,29 @@ section .crumbs ul {
   font-size:1em;
 }
 
-#Player .controls {
+#Player .controls, body[data-engage] #Player .controls {
   height:auto;
-}
-
-#Player .playlist {
-  height:5em;
-}
-
-#Player .controls {
-  width:25%;
-}
-
-#Player .controls {
-  width:25% !important;
+  width:35vw !important;
   float:left;
 }
-#Player .playlist {
-  width:75% !important;
+#Player .playlist, body[data-engage] #Player .playlist {
+  width:65vw !important;
+  100%;
   float:left;
 }
+
 #Player .controls button, #Player .controls div {
-  width:50%;
+  width:17.5vw !important;
+  height:17.5vw !important;
   display:inline-block;
 }
+
+#Player, body[data-engage] #Player {
+  height:22.5vw;
+  padding:3vw 0;
+}
+
+
 
 .marquee {
   font-size:3em;
