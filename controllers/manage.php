@@ -66,7 +66,7 @@ class Manage extends \bloc\controller
     $messages = [
       'default' => 'Login',
       'expired' => 'The form has expired.. try one again',
-      'invalid' => "Might I ask you to try once more?"
+      'invalid' => "Username/password mismatch."
     ];
 
     $view = new view('views/layout.html');

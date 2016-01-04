@@ -34,7 +34,8 @@ use \bloc\dom\query;
     static public function ID($id = null)
     {
       if (! $element = Graph::instance()->storage->getElementById($id)) {
-        return null;
+        throw new \InvalidArgumentException("Unknown: {$id}", 1);
+
       }
       return $element;
     }

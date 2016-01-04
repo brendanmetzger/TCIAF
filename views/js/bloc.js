@@ -166,6 +166,7 @@ SVG.prototype.b64url = function (styles) {
 
 
 
+
 var Search = function (container, data) {
 
   this.input = document.getElementById(data.id);
@@ -507,8 +508,6 @@ if (window.history.pushState) {
         if (elem) {
           window.Adjust.scroll(+document.body.dataset.top + elem.offsetTop - 50, 1500);
         }
-
-
       } else if (evt.target.matches("a:not(.button)[href^='/']")) {
         evt.preventDefault();
         document.querySelector('main').className = 'wee';
