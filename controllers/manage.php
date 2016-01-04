@@ -58,12 +58,16 @@ class Manage extends \bloc\controller
     return (new View($this->partials->layout))->render($this());
   }
 
-  public function GETlogin($redirect = '/', $username = null, $message = null)
+  public function GETlogin($redirect = '/', $status = "default", $username = null)
   {
-    $redirect = $redirect == '/' ? $redirect : base64_decode($redirect);
-
     if ($this->authenticated) \bloc\router::redirect('/manage/logout');
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
+
+    $messages = [
+      'default' => 'Login',
+      'expired' => 'The form has expired.. try one again',
+      'invalid' => "Might I ask you to try once more?"
+    ];
 
     $view = new view('views/layout.html');
     $view->content = 'views/forms/credentials.html';
@@ -72,10 +76,11 @@ class Manage extends \bloc\controller
     $key = ip2long(getenv('REMOTE_ADDR')) + ip2long(getenv('SERVER_ADDR'));
     $this->input = new \bloc\types\Dictionary([
       'token'    => base_convert($key, 10, date('G')+11),
-      'message'  => $message ?: 'Login',
-      'username' => $username,
+      'message'  => $messages[$status],
+      'username' => base64_decode($username),
       'password' => null,
-      'redirect' => $redirect,
+      'action'   => $redirect,
+      'redirect' =>  base64_decode($redirect),
       'tokens'   => [
         'username' => String::rotate('username', $token),
         'password' => String::rotate('password', $token),
@@ -90,7 +95,6 @@ class Manage extends \bloc\controller
   {
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
-
     $username = $request->post(String::rotate('username', $token));
     $password = $request->post(String::rotate('password', $token));
     $redirect = $request->post(String::rotate('redirect', $token));
@@ -101,13 +105,14 @@ class Manage extends \bloc\controller
         Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect);
       } catch (\InvalidArgumentException $e) {
-        $message = sprintf($e->getMessage(), $username);
+        $type = 'invalid';
       }
     } else {
-      $message = "This form has expired - it can happen.. try again!";
+      $type = 'expired';
     }
+    $retry = sprintf('/manage/login/%s/%s/%s', base64_encode($redirect), $type, base64_encode($username));
 
-    return $this->GETLogin($redirect, $username, $message);
+    \bloc\router::redirect($retry);
   }
 
   protected function GETedge($model, $type, $id = null)

@@ -49,7 +49,6 @@ button.listen {
 
 #Player .controls{
   height:100%;
-  background-color:#fefefe;
 }
 li.played {
   color:#999;
@@ -76,12 +75,10 @@ li.current span:before {
 
 #Player {
   width:25%;
-  transition: height 0.25s 0.125s, width 0.25s 0.125s;
 }
 
 
 #Player button, #Player .progress {
-  transition: all 0.25s 0.125s;
   display: block;
   vertical-align:middle;
   font-size:1em;
@@ -96,16 +93,6 @@ li.current span:before {
   border-radius: 0;
 }
 
-/*
-
-dark #323031
-tan #eddad0
-brown #88746A
-teal #5B9B98
-purple #492737
-red #EE3124
-
-*/
 
 #Player button svg {
   width: 100%;
@@ -117,6 +104,7 @@ red #EE3124
 #Player .progress path, .progress:hover .handle, .progress circle {
   stroke: #88746A;
   fill: none;
+  transition: stroke-width 1s;
 }
 
 .progress circle {
@@ -157,19 +145,20 @@ red #EE3124
   stroke-opacity: 0.75;
 }
 
-.progress strong, .progress .handle {
+.progress span, .progress .handle {
   pointer-events: none;
 }
 
-#Player .progress strong {
+#Player .progress span {
   top: 30%;
-  color: rgba(0,0,0,0.5);
-  font-size:1.25em;
+  color: #9c5f5b;
+  font-size:1em;
   opacity:0;
   transition:opacity 0.5s 0.25s;
+  font-weight:400;
 }
 
-.progress strong {
+.progress span {
   position: absolute;
   height: 100%;
   top: 0;
@@ -226,7 +215,7 @@ button.error {
   animation: spin .75s infinite linear;
 }
 
-.progress[data-state='playing'] strong {
+.progress[data-state='playing'] span {
   opacity:1 !important;
 }
 
@@ -234,4 +223,46 @@ button.error {
   stroke-opacity: 1;
   stroke-dashArray: 50 50;
   stroke:#000;
+}
+
+.progress[data-state='waiting'] svg path {
+  stroke-width:1 !important;
+  stroke-opacity: 0 !important;
+}
+
+
+body[data-engage] #Player {
+  position:fixed;
+  top:0;
+  right:0;
+  height:4em;
+  background-color:#333;
+  z-index:5;
+  overflow:hidden;
+}
+
+
+body[data-engage] #Player .controls {
+  height:100%;
+}
+
+body[data-engage] #Player .playlist {
+  height:100%;
+}
+
+body[data-engage] #Player .controls {
+  width:25%;
+}
+
+body[data-engage] #Player .controls {
+  width:25% !important;
+  float:left;
+}
+body[data-engage] #Player .playlist {
+  width:75% !important;
+  float:left;
+}
+body[data-engage] #Player .controls button, body[data-engage] #Player .controls div {
+  width:50%;
+  display:inline-block;
 }

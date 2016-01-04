@@ -49,10 +49,11 @@ namespace models;
 
     public function __get($key)
     {
+
       if (!array_key_exists($key, $this->slug)) {
         throw new \RuntimeException("No {$key}");
-
       }
+  
       return $this->slug[$key];
     }
   }

@@ -44,7 +44,7 @@ class Person extends Vertex
   public function authenticate($password)
   {
     if (! password_verify($password, $this->context->getAttribute('hash'))) {
-      throw new \InvalidArgumentException("Might I ask you to try once more?", 1);
+      throw new \InvalidArgumentException("Credentials do not match", 1);
     }
     return $this->context;
   }

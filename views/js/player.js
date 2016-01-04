@@ -1,17 +1,20 @@
 // _Capitalized word indicates an instance of an object
 
+
+// TODO - scroll playlist.
+
 function Track(audio) {
   this.audio = audio;
   this.playcount = 0;
 }
 
 Track.prototype = {
-  events: ['progress','ended', 'stalled', 'timeupdate', 'error','seeked','seeking','playing','waiting'],
+  events: ['ended', 'stalled', 'timeupdate', 'error','seeked', 'seeking', 'playing', 'waiting'],
   set element(node){
+    document.createElement('span').insert(node).textContent = this.title;
+
     this._element = node;
     this._element.appendChild(this.audio);
-    this._element.appendChild(document.createElement('span')).textContent = this.title;
-
   },
   set state(state) {
     this.element.className = state;
@@ -35,10 +38,10 @@ Track.prototype = {
 };
 
 
-var Playlist = function () {
+var Playlist = function (container, attributes) {
   this.tracks  = [];
   this.pointer = 0;
-  this.element = document.createElement('ul');
+  this.element = container.appendChild(document.createElement('ul')['@'](attributes));
 };
 
 Playlist.prototype = {
@@ -78,30 +81,27 @@ Playlist.prototype.queue = function (_Track) {
 
 var Player = function (container, data) {
   container.id = 'Player';
-  this.container = container;
+
+
   this.elements = [];
   this.index = 0;
 
-  var controls = container.appendChild(document.createElement('div'));
-      controls.className = data.controls;
+  var controls = document.createElement('div')['@']({
+    'class': data.controls
+  }).insert(container);
 
-  this.playlist = new Playlist;
-  this.playlist.element.className = data.playlist;
+  var button = document.createElement('button')['@']({
+    'type': 'button'
+  }).insert(controls);
 
-  this.container.appendChild(this.playlist.element);
+  this.playlist = new Playlist(container, {'class': data.playlist});
 
-  var button   = controls.appendChild(document.createElement('button'));
-      button.setAttribute('type', 'button');
 
   this.button = new Button(button, 'play');
-
-  var button_activate = function (evt) {
+  this.button.press(function(evt) {
     evt.preventDefault();
     this[this.button.state].call(this);
-  }.bind(this);
-
-  this.button.getDOMButton().addEventListener('touchend', button_activate, false);
-  this.button.getDOMButton().addEventListener('click', button_activate, false);
+  }.bind(this));
 
   this.meter = new Progress(controls);
 
@@ -127,11 +127,6 @@ var Player = function (container, data) {
 
 
 Player.prototype = {
-  progress: function (evt) {
-    if (evt.target.buffered.length > 0) {
-      this.meter.update(evt.target.buffered.end(0) / evt.target.duration, null, true);
-    }
-  },
   play: function () {
     this.playlist.current.play();
   },
@@ -164,20 +159,14 @@ Player.prototype = {
   },
   timeupdate: function (evt) {
     var elem = evt.target;
-    var time = Math.ceil(elem.currentTime);
-    var dur  = Math.ceil(elem.duration);
-    var msg = "{m}:{s}";
-    this.meter.update(time / dur, msg.format(this.timecode(new Date(time*1e3))) + "<br/>"+  msg.format(this.timecode(new Date((dur-time)*1e3))));
-
+    var t = Math.ceil(elem.currentTime) * 1e3;
+    var d = Math.ceil(elem.duration) * 1e3;
+    var m = "{m}:{s}<br/>";
+    this.meter.update(t/d, new Date(t).parse(m) + new Date(d-t).parse(m));
   },
-  timecode: function (timestamp) {
-    return {
-      h: ('00'+timestamp.getUTCHours()).slice(-2),
-      m: ('00'+timestamp.getUTCMinutes()).slice(-2),
-      s: ('00'+timestamp.getSeconds()).slice(-2)
-    };
-  },
+  // Returns `new Track` instance
   attach: function (audio_element) {
+    // TODO: check for track in list
     var track = this.playlist.queue(new Track(audio_element));
 
     track.events.forEach(function (trigger) {
@@ -185,9 +174,6 @@ Player.prototype = {
     }.bind(this));
 
     return track;
-  },
-  detach: function (audio_element) {
-    delete this.elements[audio_element.dataset.index];
   }
 };
 
@@ -207,3 +193,129 @@ function loadButtonAudio(button) {
 
   button.classList.add('queued');
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// should implement a controllable interface
+
+var Button = function (button, state) {
+  var svg, indicator, animate, states, scale, g;
+  this.state = state || 'play';
+
+  svg = new SVG(button, {
+    height: 50,
+    width: 50,
+    viewBox: '0 0 45 45',
+    preserveAspectRatio: 'xMinYMin meet'
+  });
+
+  states = {
+    play:  'M11,7.5 l0,30 l12.5,-8 l0-14 l-12.5,-8 m12.5,8 l0,14 l12.5,-7 l0,0  z',
+    pause: 'M11.5,10 l0,25l10,0 l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z',
+    error: 'M16,10 l10,0l-3,20  l-3,0l-3,-20  m3,22  l4,0 l0,4    l-4,0 z',
+    wait:  'M521.5,21.5A500,500 0 1 1 427.0084971874736,-271.39262614623664'
+  };
+
+  st2 = {
+    play: [['m',1,7.5],['l',0,30], ['l', 12.5,-8],['l',0,-14],['l',-12.5,-8],['m', 12.5, 8 ], ['l',0,14 ],['l',12.5,-7], ['l',0,0], ['z']],
+    pause: [],
+    error: [],
+    wait: []
+  };
+
+  this.factor = 1;
+
+  this.press = function (callback) {
+    button.addEventListener(mobile ? 'touchend' : 'click', callback);
+  };
+
+  // states match the d
+  this.setState = function (state, e) {
+    if (state === this.state) {
+      return;
+    }
+    if (state != 'wait') {
+      indicator.setAttribute('d', states[this.state]);
+
+
+      animate.setAttribute('from', states[this.state]);
+      animate.setAttribute('to', states[state]);
+
+      animate.beginElement();
+
+      this.state = state;
+      if (this.factor !== 1) {
+        this.zoom(1, this.factor);
+        this.factor = 1;
+      }
+    } else if (this.factor !== 0.2) {
+      this.zoom(0.02, this.factor);
+      this.factor = 0.02;
+    }
+
+    // Delay this, just for appearance
+    setTimeout(function () {
+      button.className = state;
+    }, 150);
+
+  };
+
+  g = svg.createElement('g', {
+    transform: 'scale(1) translate(0,0)'
+  });
+
+  indicator = svg.createElement('path', {
+    'd': states[this.state],
+    'class': 'indicator'
+  }, g);
+
+  svg.createElement('path', {
+    'd': states.wait,
+    'stroke': '#000',
+    'stroke-width':35,
+    'class': 'wait'
+  }, g);
+
+
+
+  animate = svg.createElement('animate', {
+    attributeName: 'd',
+    attributeType: 'XML',
+    from: states.play,
+    to: states.pause,
+    dur: '0.25s',
+    begin: 'indefinite',
+    fill: 'freeze'
+  }, indicator);
+
+  if (! animate.beginElement) {
+    animate.beginElement = function () {
+      indicator.setAttribute('d', animate.getAttribute('to'));
+    };
+  }
+
+  this.zoom = function (from, to) {
+    requestAnimationFrame(transition.bind(g, Date.now(), function (begin) {
+      var ratio = (Date.now() - begin) / 500; // float % animation complete
+      var scale = ratio >= 1 ? from : Math.pow(ratio * (from - to), 5) + to;
+      var translate = (22.5 / scale) - 22.5;
+      this.setAttribute('transform', 'scale({0}) translate({1}, {1})'.format(scale, translate));
+      return (ratio < 1);
+    }));
+  };
+  this.setState(this.state);
+};
