@@ -1,27 +1,27 @@
 <article class="features listing">
   <nav class="center crumbs">
     <ul class="plain">
-      <li class="half group float-left">
-        <ul class="plain">
-          <li><strong>Sort by</strong></li>
+      <li class="topic">
+        <strong>Sort by</strong>
+        <ul class="plain inline separated">
           <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
           <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
           <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
           <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
         </ul>
       </li>
-      <li class="half group float-left">
-        <ul class="plain">
-          <li><strong>Filter by</strong></li>
+      <li class="topic">
+        <strong>Filter by type or length</strong>
+        <ul class="plain inline separated">
+          <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
           <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
-          <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference Audio</a></li>
+          <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference</a></li>
           <li><a class="[$competitions]" href="[/overview/library/competitions/$sort]">Competitions</a></li>
-          <li><a class="[$awards]" href="[/overview/library/awards/$sort]">TCF Awards</a></li>
+          <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Decorated</a></li>
         </ul>
       </li>
-      <li class="clear">
-        <ul class="plain inline">
-          <li><strong>Length</strong></li>
+      <li class="topic">
+        <ul class="plain inline separated">
           <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
           <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
           <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
@@ -33,7 +33,7 @@
     </ul>
   </nav>
   <header>
-    <span class="marquee center condensed" style="margin:0.5em;">[$title]</span>
+    <span class="marquee center condensed">[$title]</span>
     <!-- replace blurb-->
   </header>
   <!-- iterate list -->
@@ -51,6 +51,10 @@
     </div>
   </div>
   <footer class="center">
+    <nav>
+      <!-- insert views/partials/navigator.html -->
+    </nav>
+
     <p>Looking for more to listen to? Check out our <a href="/overview/playlists">Playlists</a></p>
   </footer>
   <style type="text/css" media="screen">

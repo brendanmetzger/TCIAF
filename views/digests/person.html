@@ -1,11 +1,13 @@
 <article class="person page">
   <nav class="center crumbs">
     <ul class="plain">
-      <li><strong>[Jump to $item:@title's Credits as...]</strong></li>
-      <!-- iterate item:contributions -->
-      <li><a class="capitalize" href="[#$name]">[$name]</a></li>
-      <li><strong>More</strong></li>
-
+      <li class="topic">
+        <strong>[Jump to $item:@title's Credits as...]</strong>
+        <ul class="inline plain separated">
+          <!-- iterate item:contributions -->
+          <li><a class="capitalize" href="[#$name]">[$name]</a></li>
+        </ul>
+      </li>
       <li><a href="/overview/people">See All People</a></li>
     </ul>
   </nav>

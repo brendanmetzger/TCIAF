@@ -64,7 +64,7 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETpeople($category = 'producer', $filter = 'all', $index = 1, $per = 100, $query = '')
+    public function GETpeople($category = 'producer', $filter = 'any', $index = 1, $per = 100, $query = '')
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/person.html";
@@ -77,7 +77,7 @@ use \models\graph;
         $query = "edge[@type='{$category}']";
       }
 
-      if ($filter != 'all') {
+      if ($filter != 'any') {
         $alpha = substr($filter, 6, 1);
         $query .= "and starts-with(@title, '{$alpha}')";
       }
@@ -90,6 +90,7 @@ use \models\graph;
       });
 
       $this->{$category} = "selected";
+      $this->{$filter} = 'selected';
       $this->filter = $filter;
       $this->category = $category;
 

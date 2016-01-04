@@ -6,38 +6,35 @@
       <li><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
       <!-- iterate item:competitions -->
       <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
-      <li><a href="/overview/library">Features</a> | <a href="/overview/people">Producers</a> | <a href="#recommended">Recommended</a></li>
+      <li class="topic">
+        <strong>More</strong>
+        <ul class="plain inline separated">
+          <li><a href="/overview/library">Features</a></li>
+          <li><a href="/overview/people">Producers</a></li>
+          <li><a href="#recommended">Recommended</a></li>
+        </ul>
+      </li>
     </ul>
   </nav>
-
   <header class="trans-blocks headspace">
     <a class="p award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-
-
     <div class="container">
       <div class="group float-left center _10" style="padding:1em 2.5em;">
         <!-- iterate item:media:audio -->
         <!-- insert views/partials/play-button.html -->
       </div>
-
       <div class="group float-left _75">
         <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
         <span class="h3">[$item:premier:@date, $item:premier,  $item:location]</span>
       </div>
     </div>
-
-
   </header>
-
-
-  <div class="container">
-    <section class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
+  <div class="content container">
+    <section data-size="[$item:media:size:image]" class="group float-left _5" style="padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
       <!-- iterate item:media:image -->
-      <img src="[$domain/$url]" alt="[$caption]" style="width:100%;" property="image"/>
+      <img src="[$domain/$url]" alt="[$plain]" property="image"/>
     </section>
-
     <section class="group float-left three-quarters intro" style="margin-left:2.5%"  property="description">[$item:content:description]</section>
-
     <section class="group float-left three-quarters" property="contributors" style="margin-left:2.5%;">
       <ul class="plain" style="margin-top:5em;">
         <!-- iterate item:extras -->
@@ -47,34 +44,31 @@
         </li>
       </ul>
     </section>
-
-
   </div>
-
   <section>
     <span class="marquee center condensed" >Produced By</span>
     <!-- iterate item:producers -->
     <!-- insert views/cards/person.html -->
   </section>
-
   <section class="center crumbs" style="margin-top:5em;" id="recommended">
     <span class="marquee condensed">Recommended</span>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>
-
   <style media="screen">
-  .blocky {
-    display:inline-block;
-    padding:0.25em;
-    margin:0.25em 0;
-    border-width:0 0 1px 0;
-  }
-  section.crumbs ul li {
-    padding:1em;
-    text-align:left;
-  }
-
+    .blocky {
+      display:inline-block;
+      padding:0.25em;
+      margin:0.25em 0;
+      border-width:0 0 1px 0;
+    }
+    section.crumbs ul li {
+      padding:1em;
+      text-align:left;
+    }
+    .content img {
+      width:100%;
+    }
   </style>
 
 </article>

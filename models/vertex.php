@@ -158,10 +158,15 @@ abstract class Vertex extends \bloc\Model
     $media = [
       'audio' => [],
       'image' => [],
+      'size'  => [
+        'image' => 0,
+        'audio' => 0,
+       ]
     ];
 
     foreach ($context['media'] as $item) {
       $media[$item['@type']][] = new Media($item);
+      $media['size'][$item['@type']]++;
     }
 
     return new \bloc\types\Dictionary($media);

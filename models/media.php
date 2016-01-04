@@ -15,7 +15,6 @@ namespace models;
 
     public function __construct(\DOMNode $media, $index = null)
     {
-
       $caption = $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4));
       $this->slug = [
         'domain'  => 'http://s3.amazonaws.com',
@@ -53,7 +52,7 @@ namespace models;
       if (!array_key_exists($key, $this->slug)) {
         throw new \RuntimeException("No {$key}");
       }
-  
+
       return $this->slug[$key];
     }
   }
