@@ -15,10 +15,10 @@
 
   <!-- iterate list -->
   <div data-created="[$item:@created]" data-updated="[$item:@updated]">
-    <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
+    <h2><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
     <cite>
       <!-- iterate item:producers -->
-      <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
+      <a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a>
     </cite>
 
     <aside>[$item:summary]</aside>

@@ -66,6 +66,13 @@ namespace models;
       parent::__construct($id, $data);
     }
 
+    public function GETpermalink(\DOMElement $context)
+    {
+      $conference = $context->find("edge[@type='edition' and @vertex='tciaf-conference']")->count() > 0;
+
+      return ($conference ? "/overview/conference/" : "/explore/detail/") . $context['@id'];
+    }
+
     public function setDateAttribute(\DOMElement $context, $date)
     {
       if ($date = (new \DateTime($date))->format('Y-m-d H:i:s')) {

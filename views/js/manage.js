@@ -12,7 +12,7 @@ bloc.prepare('stylesheets', function () {
   var elem = window.getComputedStyle(document.querySelector('input') || document.body, null);
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
-  stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' !important; }', stylesheet.cssRules.length);
+  stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' }', stylesheet.cssRules.length);
 
   // show an indicator next to all editable elements
 });
@@ -48,17 +48,11 @@ function goto(url, evt) {
     submit: function (evt) {
       // var res = evt.target.responseXML;
       this.modal.close();
-
       var exist = document.querySelector('main');
       new Request({
         load: function (evt) {
-
-          setTimeout(function () {
-            exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-            window.bloc.execute('editables');
-          }, 100);
-
-
+          exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
+          setTimeout(window.bloc.execute.bind(window.bloc, 'editables'), 100);
         }
       }).get(window.location.href + '.xml');
     }
@@ -151,7 +145,7 @@ Markdown.prototype = {
   },
   fit: function (textarea) {
     if (textarea.scrollHeight > textarea.clientHeight) {
-      textarea.style.height = textarea.scrollHeight + "px";
+      textarea.style.height = (textarea.scrollHeight + 10) + "px";
     }
   },
   selection: function (evt) {
@@ -182,10 +176,12 @@ Markdown.prototype = {
     return this.selection.bind(this);
   },
   show: function (evt) {
+
     if (! evt) {
       return this.show.bind(this);
     }
     this.element = evt.target;
+    this.fit(this.element);
     evt.target.parentNode.insertBefore(this.hud, evt.target);
 
   },
@@ -295,10 +291,13 @@ var Modal = function (element) {
     this.progress.update(0.9, 'One Moment..');
     this.progress.element.classList.add('spin');
   }
-}; Modal.prototype = {
+};
+
+Modal.prototype = {
   addElement: function (element) {
     this.element = element;
     this.backdrop.appendChild(this.element);
+    setTimeout(DOMTokenList.prototype.add.bind(this.backdrop.classList, 'loaded'), 250);
     // make closeable
     var button = document.createElement('button');
         button.className = 'close';
@@ -322,8 +321,14 @@ var Modal = function (element) {
       evt.preventDefault();
     }
 
-    document.body.classList.remove('locked');
-    this.backdrop.parentNode.removeChild(this.backdrop);
+    this.backdrop.classList.remove('viewing');
+
+    // delay so that there can be a fade.
+    setTimeout(function () {
+      document.body.classList.remove('locked');
+      this.parentNode.removeChild(this);
+    }.bind(this.backdrop), 750);
+
     this.backdrop = false;
 
     if (evt instanceof Function) {
@@ -331,6 +336,9 @@ var Modal = function (element) {
     }
   }
 };
+
+
+
 
 
 Modal.Form = function (callbacks) {
@@ -384,6 +392,7 @@ Modal.Form = function (callbacks) {
       this.modal.addElement(this.form);
 
       this.form.addEventListener('submit', function (evt) {
+        this.modal.backdrop.classList.remove('loaded');
         evt.preventDefault();
         var submit_request = new XMLHttpRequest();
 

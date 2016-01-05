@@ -263,4 +263,9 @@ abstract class Vertex extends \bloc\Model
     return $out;
 
   }
+
+  public function GETpermalink(\DOMNode $context)
+  {
+    return "/explore/detail/{$context['@id']}";
+  }
 }

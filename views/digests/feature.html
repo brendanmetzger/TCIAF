@@ -3,7 +3,7 @@
     <ul class="plain">
       <li><strong>Featured in</strong></li>
       <!-- iterate item:playlists -->
-      <li><a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
+      <li><a href="[$collection:permalink]">[$collection:title]</a></li>
       <!-- iterate item:competitions -->
       <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
       <li class="topic">
@@ -39,7 +39,7 @@
       <ul class="plain" style="margin-top:5em;">
         <!-- iterate item:extras -->
         <li style="margin:1em;border:1px dashed rgba(0,0,0,0.1);padding:2em 1em 1em;background-color:rgba(255,255,255,0.5)">
-          <h3><a href="[/explore/detail/$article:@id]">[$article:title]</a></h3>
+          <h3><a href="[$article:permalink]">[$article:title]</a></h3>
           <p>[$article:summary]</p>
         </li>
       </ul>

@@ -3,7 +3,7 @@
     <ul class="plain">
       <li class="h2 caps-lock">· Conference Session ·</li>
       <!-- iterate item:playlists -->
-      <li><strong>Playlist</strong> <a href="[/explore/detail/$collection:@id]">[$collection:title]</a></li>
+      <li><strong>Playlist</strong> <a href="[$collection:permalink]">[$collection:title]</a></li>
       <!-- iterate item:happenings -->
       <li><strong>Conference</strong> <a href="[/overview/conference/$happening:@id]">[$happening:title]</a></li>
     </ul>
@@ -27,7 +27,7 @@
   <section property="contributors">
     <ul>
       <!-- iterate item:extras -->
-      <li>More: <a href="[/explore/detail/$article:@id]">[$article:title]</a></li>
+      <li>More: <a href="[$article:permalink]">[$article:title]</a></li>
     </ul>
 
     <h2>Featuring</h2>

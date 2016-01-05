@@ -16,9 +16,9 @@ a > *:not(button) {pointer-events: none;}
 a:hover {color:#88746A;}
 a.selected{text-decoration:none;cursor:default;color:#333;}
 
-.success {background-color:#D7F4CB;border-radius:0.65em;}
-.info {background-color:#CEE3EB;border-radius:0.5em;}
-.warn {background-color:#F3EECC;border-radius:0.35em;}
+.success {background-color:#D7F4CB;border-radius:0.15em;}
+.info {background-color:#CEE3EB;border-radius:0.15em;}
+.warn {background-color:#F3EECC;border-radius:0.15em;}
 .alert {background-color:#E9CCCB !important;border-radius:0;}
 .warn,.info,.alert,.success{border:1px solid rgba(0,0,0,0.25);}
 .button.login {border:none;padding:0 0.5em;box-shadow:none;}

@@ -39,11 +39,11 @@
   <!-- iterate list -->
   <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]"  style="[background:$item:gradient]">
     <div>
-    <h2><a href="[/explore/detail/$item:@id]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
+    <h2><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
     <span class="h3">[$item:duration minutes]</span>
     <cite>
       <!-- iterate item:producers -->
-      <a href="[/explore/detail/$person:@id]" data-id="[$person:@id]">[$person:@title]</a>
+      <a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a>
     </cite>
     <blockquote>
       <p>[$item:summary]</p>

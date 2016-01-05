@@ -460,8 +460,7 @@ if (window.history.pushState) {
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
-        // window.Adjust.scroll(document.body.dataset.top , 1000);
-        window.scrollTo(0,document.body.dataset.top);
+        window.scrollTo(0, document.body.dataset.top);
       }, 100);
       // if
       window.bloc.execute('autoload');
@@ -472,7 +471,6 @@ if (window.history.pushState) {
       alert('FIX this now! look at console..');
       console.dir(evt.target);
       console.log(this);
-
     }
   });
 
@@ -512,9 +510,13 @@ if (window.history.pushState) {
         evt.preventDefault();
         document.querySelector('main').className = 'wee';
         navigateToPage.call(evt.target, evt);
-      } else if (evt.target.matches("a:not(.button)[href^='http'])")) {
-        evt.preventDefault();
-        window.open(evt.target.href);
+      } else {
+        if (! evt.target.classList.contains('button')) {
+          if (evt.target.matches("a[href^='http'])")) {
+            evt.preventDefault();
+            window.open(evt.target.href);
+          }
+        }
       }
     }
   }, true);
@@ -525,12 +527,13 @@ if (window.history.pushState) {
 }
 
 function processLayout(body, throttle) {
-  var timeout = 0, offset = body.dataset.top;
+  var timeout = 0, offset = body.dataset.top, engaged = false;
 
   function operation() {
-    if (body.dataset.engage === undefined && body.scrollTop > offset) {
-      body.dataset.engage = true;
-    } else if (body.dataset.engage && body.scrollTop < offset){
+    if (! engaged && body.scrollTop > offset) {
+      engaged = body.dataset.engage = true;
+    } else if (engaged && body.scrollTop < offset){
+      engaged = false;
       delete body.dataset.engage;
     }
   }

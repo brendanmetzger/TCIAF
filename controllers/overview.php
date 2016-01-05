@@ -150,8 +150,6 @@ use \models\graph;
       return $view->render($this());
     }
 
-
-
     public function GETcompetition($id = null, $participants = false)
     {
       $view = new view('views/layout.html');
