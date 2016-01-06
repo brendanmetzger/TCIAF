@@ -85,17 +85,7 @@ class Person extends Vertex
         $out[] = [
           'name' => $key,
           'items' => $items->map(function($collection) {
-            $item = Graph::FACTORY(Graph::ID($collection['@vertex']));
-            if ($collection['@vertex'] === "TCIAF") {
-              $overview = "/overview/tciaf";
-            } else if ($item->_model == 'competition') {
-              $overview = '/overview/competition/' . $collection['@vertex'];
-            } else if ($item->_model == 'happening') {
-              $overview = "/overview/conference/{$collection['@vertex']}";
-            } else {
-              $overview = "/explore/detail/{$collection['@vertex']}";
-            }
-            return ['item' => $item, 'overview' => $overview];
+            return ['item' => Graph::FACTORY(Graph::ID($collection['@vertex']))];
           }),
         ];
       }
