@@ -57,7 +57,7 @@ namespace models;
     public function getCurators(\DOMElement $context)
     {
       return $context->find("edge[@type='curator']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex'])];
+        return ['person' => Graph::FACTORY(Graph::ID($edge['@vertex']))];
       });
     }
 

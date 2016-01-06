@@ -15,7 +15,7 @@ use \models\graph;
     public function GETpolicy()
     {
       $view = new view('views/layout.html');
-      $view->content   = 'views/pages/policy.html';
+      $view->content = 'views/pages/policy.html';
       return $view->render($this());
     }
 
@@ -134,15 +134,8 @@ use \models\graph;
 
       $view->content = "views/conference/{$page}.html";
 
-      // if there is an upcoming competition, we want to embed it.
-      if ($page == 'overview' && true) {
-        $now = (new \DateTime())->format('YmdHis');
-        $query = "vertex[edge[@vertex = 'tciaf-conference'] and premier[number(translate(@date,'-: ','')) > {$now}]]";
-        $this->upcoming = Graph::group('happening')
-                    ->find($query)
-                    ->map(function($item) {
-                      return ['item' => new \models\Happening($item)];
-                    });
+      // if there is an upcoming competition, we want to attach view.
+      if ($id === 'tciaf-conference' && $this->item->upcoming->count() > 0) {
         $view->upcoming = 'views/conference/listing.html';
       }
 

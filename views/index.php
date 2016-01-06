@@ -32,7 +32,7 @@ $app->prepare('http-request', function ($app, $params) {
   $response->setBody($router->delegate('explore', 'index'));
 
 
-  $app->execute('debug', $response);
+  // $app->execute('debug', $response);
 
 
   echo $response;

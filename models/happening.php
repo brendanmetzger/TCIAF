@@ -9,7 +9,7 @@ namespace models;
   class Happening extends Vertex
   {
     use traits\navigation;
-    use traits\banner, traits\sponsor;
+    use traits\banner, traits\sponsor, traits\periodical;
 
     public $_location = "Ticket Website";
     public $_premier = "Event Date";
@@ -56,7 +56,6 @@ namespace models;
              }
            });
 
-
       return $happenings;
     }
 
@@ -68,21 +67,8 @@ namespace models;
 
     public function GETpermalink(\DOMElement $context)
     {
-      $conference = $context->find("edge[@type='edition' and @vertex='tciaf-conference']")->count() > 0;
-
-      return ($conference ? "/overview/conference/" : "/explore/detail/") . $context['@id'];
-    }
-
-    public function setDateAttribute(\DOMElement $context, $date)
-    {
-      if ($date = (new \DateTime($date))->format('Y-m-d H:i:s')) {
-        $context->setAttribute('date', $date);
-      }
-    }
-
-    public function getDate(\DOMElement $context)
-    {
-      return (new \DateTime($context['premier']['@date']))->format('l, F jS, Y');
+      $path = $this->editions->count() > 0 ? "/overview/conference/" : "/explore/detail/";
+      return $path . $context['@id'];
     }
 
     public function getSessions(\DOMElement $context)
@@ -99,16 +85,7 @@ namespace models;
       });
     }
 
-    public function getEditions(\DOMElement $context)
-    {
-      return $context->find("edge[@type='edition']")->map(function($edge) {
-        $happening = new Happening($edge['@vertex']);
-        preg_match('/^([0-9]{4})\s*(.*)$/i', $happening['title'], $result);
-        return ['edition' => $happening, 'year' => $result[1]];
-      });
-    }
-
-    public function getConferences()
+    public function getConferences(\DOMElement $context)
     {
       return $this->editions->sort(function($a, $b) {
         return substr($a['edition']['title'], 0, 4) < substr($b['edition']['title'], 0, 4);

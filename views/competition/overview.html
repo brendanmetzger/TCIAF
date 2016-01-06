@@ -20,11 +20,20 @@
         <ul class="plain center index">
           <li><strong>[$item:title by year]</strong></li>
           <!-- iterate item:competitions -->
-          <li class="year"><a href="[/overview/competition/$competition:@id]">[$year]</a></li>
+          <li class="year"><a href="[/overview/competition/$edition:@id]">[$year]</a></li>
         </ul>
       </nav>
     </header>
 
+    <!-- iterate item:upcoming -->
+    <div class="trans-blocks upcoming">
+      <span class="h1 intro">
+        <time>[$item:date]</time>
+      </span>
+      <h2 class="h1 condensed" data-id="[$item:@id]">[$item:title]</h2>
+      <p>[$item:summary]</p>
+      <h3><a href="[$item:permalink]">Learn More</a></h3>
+    </div>
   </section>
 
   <style type="text/css" media="screen">
@@ -41,6 +50,15 @@
       display:inline-block;
       border:none !important;
       padding:0.75em !important;
+    }
+
+    .upcoming:first-of-type {
+      padding-left:25%;
+      background-image:url('/images/pidgey.svg');
+      background-position: left bottom;
+      background-repeat:no-repeat;
+      background-size:20% auto;
+      border-color:#5B9B98;
     }
 
     /* ]]> */

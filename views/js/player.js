@@ -42,6 +42,7 @@ var Playlist = function (container, attributes) {
   this.tracks  = [];
   this.pointer = 0;
   this.element = container.appendChild(document.createElement('ul')['@'](attributes));
+  this.element.addEventListener('mouseover', window.Adjust.scroll.bind(window.Adjust, 0, 1000));
 };
 
 Playlist.prototype = {

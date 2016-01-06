@@ -93,13 +93,13 @@ window.Adjust = function () {
 
   return {
     scroll: function (end, seconds) {
-      document.body.addEventListener('mousemove', cancelTransition, false);
+      // document.body.addEventListener('mousemove', cancelTransition, false);
       scrolling = scroller.start(window, {
         from: window.pageYOffset,
         to: end,
         duration: seconds,
         finish: function (something) {
-          document.body.removeEventListener('touchmove', cancelTransition, false);
+          // document.body.removeEventListener('touchmove', cancelTransition, false);
         }
       });
     }

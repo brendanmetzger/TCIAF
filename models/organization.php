@@ -40,6 +40,11 @@ namespace models;
       parent::__construct($id, $data);
     }
 
+    public function getPermalink(\DOMElement $context)
+    {
+      $id = $context['@id'];
+      return $id == 'TCIAF' ? '/overview/tciaf' : '/explore/index/'. $id;
+    }
     public function getStaff(\DOMElement $context)
     {
       return $context->find("edge[@type='staff']")->map(function($edge) {

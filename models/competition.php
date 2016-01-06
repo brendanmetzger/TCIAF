@@ -9,7 +9,7 @@ namespace models;
 
   class Competition extends Vertex
   {
-    use traits\banner, traits\sponsor;
+    use traits\banner, traits\sponsor, traits\periodical;
 
     static public $fixture = [
       'vertex' => [
@@ -52,23 +52,15 @@ namespace models;
       }
     }
 
-
-
-
-    public function getEditions(\DOMElement $context)
+    public function GETpermalink(\DOMElement $context)
     {
-      return $context->find("edge[@type='edition']")->map(function($edge) {
-        $competition = new Competition($edge['@vertex']);
-        preg_match('/([0-9]{4})\s*(.*)/i', $competition['title'], $result);
-        return ['competition' => $competition, 'year' => $result[1]];
-      });
+      return "/overview/competition/{$context['@id']}";
     }
-
 
     public function getCompetitions()
     {
       return $this->editions->sort(function($a, $b) {
-        return substr($a['competition']['title'], 0, 4) < substr($b['competition']['title'], 0, 4);
+        return substr($a['edition']['title'], 0, 4) < substr($b['edition']['title'], 0, 4);
       });
     }
 
@@ -79,7 +71,6 @@ namespace models;
       });
     }
 
-
     public function getJudges(\DOMElement $context)
     {
       return $context->find("edge[@type='judge']")->map(function($edge) {
@@ -89,7 +80,6 @@ namespace models;
 
     public function getAwards(\DOMElement $context)
     {
-
       return $context->find("edge[@type='award']")->map(function($edge) {
         $feature = new Feature($edge['@vertex']);
         return ['feature' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];

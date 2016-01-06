@@ -219,7 +219,7 @@ form .recommended div {
   width:100% !important;
 }
 
-.locked {
+.locked, .lock {
   overflow:hidden;
 }
 
