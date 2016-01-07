@@ -29,7 +29,7 @@ namespace models;
     protected $edges = [
       'item'    => ['feature', 'broadcast'],
       'curator' => ['person', 'organization'],
-      'page'    => ['article'],
+      'page'    => ['article', 'happening'],
       'playlist'=> ['competition', 'happening'],
     ];
 
