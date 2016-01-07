@@ -72,7 +72,7 @@ class Explore extends Manage
   }
 
 
-  protected function GETbehindTheScenes($sort = 'date', $index = 1, $per = 25)
+  public function GETbehindTheScenes($sort = 'date', $index = 1, $per = 25)
   {
     $view = new view('views/layout.html');
     $view->content = 'views/lists/article.html';
