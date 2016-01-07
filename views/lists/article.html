@@ -1,3 +1,30 @@
 <article>
-	<!-- insert views/lists/template.html -->
+	<nav class="center crumbs">
+		<ul class="plain">
+			<li>
+				<ul class="plain">
+					<li><strong>Sort by</strong></li>
+					<li><a class="[$newest]" href="/explore/behindthescenes/newest">Created</a></li>
+					<li><a class="[$alphanumeric]" href="/explore/behindthescenes/alpha-numeric">Alphabet</a></li>
+				</ul>
+			</li>
+			<li class="clear">
+				<!-- insert views/partials/navigator.html -->
+			</li>
+		</ul>
+	</nav>
+	<h1 class="center condensed" style="margin:2em 0 1em;">Behind The Scenes</h1>
+	<ul class="plain listing">
+		<!-- iterate list -->
+		<li data-created="[$item:@created]" data-updated="[$item:@updated]">
+			<h2><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
+			<p>[$item:summary]</p>
+		</li>
+	</ul>
+	<style media="screen">
+		.listing li {
+			padding:1em;
+			border-bottom:1px solid rgba(0,0,0,0.1);
+		}
+	</style>
 </article>

@@ -72,69 +72,25 @@ class Explore extends Manage
   }
 
 
-  protected function GETcenterpiece($group = null, $sort = 'date', $index = 1, $per = 25)
+  protected function GETbehindTheScenes($sort = 'date', $index = 1, $per = 25)
   {
     $view = new view('views/layout.html');
-    $view->content = 'views/lists/feature.html';
-    $this->group   = $group;
+    $view->content = 'views/lists/article.html';
     $this->{$sort} = "selected";
-    $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
-    $this->list    = Graph::group($group)
-         ->find('vertex')
+    $this->search  = ['topic' => 'article', 'path' => 'search/group', 'area' => 'explore/detail'];
+    $this->list    = Graph::group('article')
+         ->find("vertex[starts-with(translate(@title, 'BEH*', 'beh'), 'beh')]")
          ->sort(Graph::sort($sort))
-         ->map(function($feature) {
-           return ['item' => Graph::FACTORY($feature)];
+         ->map(function($item) {
+           return ['item' => new \models\Article($item)];
          })
-         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$sort}"]));
+         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/behindthescenes/{$sort}"]));
 
     return $view->render($this());
   }
 
 
-  public function GETbroadcast($sort = 'newest', $index = 1, $per = 25)
-  {
-    return $this->GETcenterpiece('broadcast', $sort, $index, $per);
-  }
 
-
-  public function GETarticle($sort = 'newest', $index = 1, $per = 25)
-  {
-    return $this->GETcenterpiece('article', $sort, $index, $per);
-  }
-
-
-  public function GETgroup($group = null, $type = 'all', $index = 1, $per = 100, $query = '')
-  {
-    $view = new View('views/layout.html');
-    $view->content = 'views/lists/collection.html';
-    $this->search = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
-    $this->collection = Graph::group($group)
-         ->find('vertex'.$query)
-         ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/{$group}/{$type}"]));
-
-    return $view->render($this());
-  }
-
-  public function GETcollection($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETgroup('collection', $type, $index, $per);
-  }
-
-
-  public function GETcompetition($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETgroup('competition', $type, $index, $per);
-  }
-
-  public function GETorganization($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETgroup('organization', $type, $index, $per);
-  }
-
-  public function GEThappening($type = 'all', $index = 1, $per = 100)
-  {
-    return $this->GETgroup('happening',$type, $index, $per);
-  }
 
   public function GETmedia($type = 'image', $index = 1, $per = 25)
   {
@@ -154,7 +110,6 @@ class Explore extends Manage
   {
     $view = new view('views/layout.html');
     $view->content = 'views/forms/partials/image.html';
-
     $media = new \models\Media(Graph::ID($context)->getElementsByTagName('media')->item($index));
 
     return $view->render($this($media->slug));

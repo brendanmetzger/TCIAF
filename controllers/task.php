@@ -345,7 +345,7 @@ class Task extends \bloc\controller
     return self::pearson($id);
   }
 
-  public function CLImarkMedia($per = 25)
+  protected function CLImarkMedia($per = 25)
   {
     $unmarked = \models\Graph::group('feature')->find('vertex/media[@type="image" and @mark=0]');
     if ($unmarked->count() < 1) {
@@ -369,7 +369,7 @@ class Task extends \bloc\controller
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
 
-  public function CLIduration($count = 10)
+  protected function CLIduration($count = 10)
   {
     $media = \models\Graph::group('feature')->find('vertex/media[@type="audio" and not(@mark)]');
     echo "\n\nThere are -- {$media->count()} -- tracks with no known duration\n\n";
@@ -383,9 +383,5 @@ class Task extends \bloc\controller
       \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
       if ($count-- < 0) break;
     }
-
-
-
   }
-
 }
