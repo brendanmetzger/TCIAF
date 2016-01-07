@@ -8,31 +8,34 @@
       </li>
     </ul>
   </nav>
-
-
-
-
   <header class="container">
-    <div class="group float-left golden">
+    <div>
       <h1 data-id="[$item:@id]">[$item:title]</h1>
       <section  property="description">[$item:content:about]</section>
     </div>
   </header>
 
-
-
+  <!-- iterate item:articles -->
+  <article class="memo">
+    <h2>[$item:title]</h2>
+    <section>[$item:content:description]</section>
+  </article>
 
   <span class="marquee center condensed" id="sponsors">Sponsors</span>
+
   <!-- insert views/partials/sponsors.html -->
 
   <style media="screen">
-
+    .memo {
+      padding:0 1em;
+      margin:1em 0;
+      background-color:rgba(255,255,255,0.25);
+    }
     .title {
       border-bottom: 1px dashed #AAA;
       margin:0 15% 1em;
       padding:1em 0;
     }
-
 
     header.container {
       border-top:1px solid #eee;

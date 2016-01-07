@@ -26,6 +26,13 @@ trait periodical {
     });
   }
 
+  public function getArticles(\DOMElement $context)
+  {
+    return $context->find("edge[@type='page']")->map(function($edge) {
+      return ['item' => new \models\Article($edge['@vertex'])];
+    });
+  }
+
   public function getUpcoming(\DOMElement $context)
   {
     $now   = (new \DateTime())->format('YmdHis');

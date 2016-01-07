@@ -2,7 +2,6 @@
 namespace controllers;
 
 use \bloc\view;
-
 use \models\graph;
 
 
@@ -27,30 +26,29 @@ use \models\graph;
 
       $this->filter = $filter;
       $this->sort   = $sort;
-
+      $this->title  = 'Library';
       $this->{$sort}   = "selected";
       $this->{$filter} = "selected";
+      $query = 'vertex';
+
       if ($filter == 'shows') {
         $view->blurb = "views/pages/{$filter}.html";
-        $query = 'vertex[edge[@vertex="TCIAF"]]';
+        $query .= '[edge[@vertex="TCIAF"]]';
         $this->title  = "Shows";
       } else if ($filter == 'conference-audio') {
-        $query = 'vertex[edge[@type="presenter"]]';
+        $query .= '[edge[@type="presenter"]]';
         $this->title  = "Conference Audio";
       } else if ($filter == 'competitions') {
-        $query = 'vertex[edge[@type="participant"]]';
+        $query .= '[edge[@type="participant"]]';
         $this->title  = "Competition Entries";
       } else if ($filter == 'awards') {
-        $query = 'vertex[edge[@type="award"]]';
+        $query .= '[edge[@type="award"]]';
         $this->title  = "TCF Award Recipients";
       } else if (substr($filter,0,6) == 'length') {
         $lim = explode('-', substr($filter, 7));
-        $lower = $lim[0] * 60;
-        $upper = $lim[1] * 60;
-        $query = "vertex[media[@type='audio' and @mark > '{$lower}' and @mark < '{$upper}']]";
-      } else {
-        $query = 'vertex';
-        $this->title  = 'Library';
+        $l = $lim[0] * 60;
+        $u = $lim[1] * 60;
+        $query .= "[media[@type='audio' and @mark>'{$l}' and @mark<'{$u}']]";
       }
 
       $this->list = Graph::group('feature')
@@ -69,6 +67,7 @@ use \models\graph;
       $view = new view('views/layout.html');
       $view->content = "views/lists/person.html";
       $this->search  = ['topic' => 'people', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->title = ucfirst($category).'s, Third Coast International Audio Festival';
       $alpha = null;
 
       $query = "edge[@type]";
@@ -110,9 +109,7 @@ use \models\graph;
     {
       $view = new view('views/layout.html');
       $view->content = 'views/pages/about.html';
-
-      $this->item  = Graph::FACTORY(Graph::ID('TCIAF'));
-
+      $this->item  = new \models\Organization('TCIAF');
       return $view->render($this());
     }
 
@@ -121,22 +118,24 @@ use \models\graph;
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/overview.html';
       $this->item      = Graph::FACTORY(Graph::ID('opportunities'));
-
       return $view->render($this());
     }
 
     public function GETconference($id = 'tciaf-conference')
     {
-      $this->item = Graph::FACTORY(Graph::ID($id));
-      $this->banner = 'Conferences';
-      $page = (($id === 'tciaf-conference') ? 'overview' : 'edition');
       $view = new view('views/layout.html');
 
-      $view->content = "views/conference/{$page}.html";
+      $this->item = Graph::FACTORY(Graph::ID($id));
+      $this->banner = 'Conferences';
 
       // if there is an upcoming competition, we want to attach view.
-      if ($id === 'tciaf-conference' && $this->item->upcoming->count() > 0) {
-        $view->upcoming = 'views/conference/listing.html';
+      if ($id === 'tciaf-conference') {
+        $view->content = "views/conference/overview.html";
+        if ($this->item->upcoming->count() > 0) {
+          $view->upcoming = 'views/conference/listing.html';
+        }
+      } else {
+        $view->content = "views/conference/{$this->item->_template}.html";
       }
 
 
@@ -146,7 +145,6 @@ use \models\graph;
     public function GETcompetition($id = null, $participants = false)
     {
       $view = new view('views/layout.html');
-
       if ($id === null) {
         $this->banner = 'Competitions';
         $this->competitions = [
@@ -159,14 +157,10 @@ use \models\graph;
         if ($participants) {
           $page = 'competition/listing';
         } else {
-
           $page = $this->item->template['digest'];
         }
       }
-
-
       $view->content = "views/{$page}.html";
-
       return $view->render($this());
     }
 
@@ -184,7 +178,6 @@ use \models\graph;
              return ['item' => Graph::FACTORY($vertex)];
            })
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/playlists/{$sort}"]));
-
       return $view->render($this());
     }
 

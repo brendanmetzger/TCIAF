@@ -65,7 +65,17 @@ namespace models;
       parent::__construct($id, $data);
     }
 
-    public function GETpermalink(\DOMElement $context)
+    public function get_template(\DOMElement $context)
+    {
+      if ($context['premier']->count() > 0) {
+        if (strtotime($context['premier']['@date']) > time()) {
+          return 'preview';
+        }
+      }
+      return 'edition';
+    }
+
+    public function getPermalink(\DOMElement $context)
     {
       $path = $this->editions->count() > 0 ? "/overview/conference/" : "/explore/detail/";
       return $path . $context['@id'];
