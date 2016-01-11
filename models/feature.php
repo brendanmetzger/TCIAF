@@ -72,7 +72,7 @@ namespace models;
     {
       if ($abstract['@']['content'] == 'description' && empty($abstract['CDATA'])) {
         $context->setAttribute('content', 'description');
-        throw new \UnexpectedValueException("Please add a description", 400);
+        // throw new \UnexpectedValueException("Please add a description", 400);
       }
 
       return parent::setAbstract($context, $abstract);
