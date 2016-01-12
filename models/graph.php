@@ -15,7 +15,7 @@ use \bloc\dom\query;
 
     public $storage = null;
 
-    static public function instance()
+    static public function instance($id = null)
     {
       static $instance = null;
 
@@ -23,7 +23,7 @@ use \bloc\dom\query;
         $instance = new static();
       }
 
-      return $instance;
+      return $id ? $instance->storage->getElementById($id) : $instance;
     }
 
     static public function group($type)
@@ -35,11 +35,7 @@ use \bloc\dom\query;
     {
       if (is_null($id)) return null;
       if ($id instanceof \bloc\model) return $id->context;
-
-      if (! $element = Graph::instance()->storage->getElementById($id)) {
-        print_r($id);
-        throw new \InvalidArgumentException("Unknown: {$id}", 1);
-      }
+      if (! $element = Graph::instance($id) ) return null;
 
       return $element;
     }
