@@ -53,7 +53,10 @@
 
       bloc.prepare('Search', function () {
         this.subscribers.select.push(function (dataset, evt) {
-          navigateToPage.call({href: '/explore/detail/'+dataset.id}, evt);
+          var url = (Number(dataset.index) < 0)
+                  ? '/search/full?query=' + dataset.text
+                  : '/explore/detail/'+dataset.id;
+          navigateToPage.call({href: url}, evt);
         });
       });
       // ]]>
@@ -65,7 +68,7 @@
     <link rel="stylesheet" media="screen" type="text/css" href="/css/_working_.css" />
     <link rel="stylesheet" media="(max-width: 600px)" type="text/css" href="/css/_working_mobile_.css" />
   </head>
-  <body class="[$_controller $_action]" data-user="[$user]">
+  <body id="[$_controller]" class="[$_action]" data-user="[$user]">
     <header class="container">
       <form class="finder float-left group search">
         <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>

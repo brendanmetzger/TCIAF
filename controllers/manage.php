@@ -15,15 +15,15 @@ use \models\graph;
 
 class Manage extends \bloc\controller
 {
-
-  protected $partials;
+  protected $partials,
+            $request;
 
   public function __construct($request)
   {
     $this->partials = new \StdClass();
 
     View::addRenderer('before', Renderer::addPartials($this));
-    View::addRenderer('after', Renderer::HTML());
+    View::addRenderer('after',  Renderer::HTML());
 
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 

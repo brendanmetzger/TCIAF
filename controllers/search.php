@@ -50,6 +50,14 @@ class Search extends Manage
     return $search->asJSON('media', $subset, $type);
   }
 
+  public function GETfull()
+  {
+    $this->query = \bloc\request::$data['query'];
+    $view = new View('views/layout.html');
+    $view->content= 'views/pages/search.html';
+    return $view->render($this());
+  }
+
   public function GETform($type)
   {
     $view = new View('views/forms/partials/search.html');

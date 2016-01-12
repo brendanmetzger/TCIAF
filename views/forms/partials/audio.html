@@ -2,10 +2,10 @@
   <a style="display:none;" class="button">▸ Play</a>
   <input type="hidden" class="type" name="[vertex[media][$index][@][type]]" value="[$type]" />
   <input type="hidden" class="mark" name="[vertex[media][$index][@][mark]]" value="[$mark]" />
-  <input type="text" name="[vertex[media][$index][CDATA]]" value="[$caption]" style="width:50%;display:inline-block;padding:0.25em;margin:1px;vertical-align:middle;border-radius:0.25em;background-color:#f8f8f8;"/>
+  <input type="text" name="[vertex[media][$index][CDATA]]" value="[$plain]" style="width:50%;display:inline-block;padding:0.25em;margin:1px;vertical-align:middle;border-radius:0.25em;background-color:#f8f8f8;"/>
   <label class="inline">
     <input type="checkbox" class="src" name="[vertex[media][$index][@][src]]"  value="[$src]" checked="checked" />
     <span>Keep Audio</span>
   </label>
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" onloadedmetadata="this.parentNode.querySelector('input.mark').value = Math.round(this.duration); notifyPlayer(this); " controls="controls" preload="metadata">Audio</audio>
+  <audio src="[http://s3.amazonaws.com/$src]" title="[$title]" onloadedmetadata="this.parentNode.querySelector('input.mark').value = Math.round(this.duration); notifyPlayer(this); " controls="controls" preload="metadata">Audio</audio>
 </dd>

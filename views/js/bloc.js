@@ -113,6 +113,7 @@ window.Adjust = function () {
 
 var Request = function (callbacks) {
   this.request = new XMLHttpRequest();
+  this.request.overrideMimeType('text/xml');
   for (var action in callbacks) {
     this.request.addEventListener(action, callbacks[action].bind(this), false);
   }
@@ -195,22 +196,17 @@ var Search = function (container, data) {
 
 Search.instance = null;
 Search.prototype = {
-  ajax: null,
   results: null,
   indices: {},
-  find: function (path, groups, letter) {
-    groups.forEach(function (group) {
-      var request = new XMLHttpRequest(),
-          url  = '/' + path +'/' + group + '/' + letter + '.json?q=' + (new Date()).getTime();
+  request: function (path, topics, callback) {
 
-      request.addEventListener('load', this.processIndices.bind(this, group), false);
-      request.open('GET', url );
-      request.send();
-
-
+    return topics.map(function (topic) {
+      var req = new XMLHttpRequest;
+      req.addEventListener('load', callback.bind(this, topic), false);
+      req.open('GET', path.format(topic));
+      req.send();
+      return req;
     }, this);
-
-
   },
   reset: function (evt) {
     this.input.value = '';
@@ -219,15 +215,19 @@ Search.prototype = {
     this.menu.reset();
   },
   select: function (evt) {
+
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();
     }
+
     this.input.dataset.text = this.input.value;
+    this.input.dataset.index = this.menu.index;
+
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
-
+    
     this.reset();
   },
   processIndices: function (group, evt) {
@@ -301,7 +301,8 @@ Search.prototype = {
       return;
     }
     if (this.input.value.length === 0 && /[a-z0-9]{1}/i.test(letter)) {
-      this.find(data.path, data.topic.split(/,\s*/), letter);
+      var path = '/'+data.path+'/{0}/' + letter +'.json?q=' + Date.now();
+      this.request(path, data.topic.split(/,\s*/), this.processIndices.bind(this));
     }
   }
 };
@@ -432,27 +433,27 @@ if (window.history.pushState) {
 
   var Content = new Request({
     load: function (evt) {
-
       if (! evt.target.responseXML) {
+
         evt.target.dispatchEvent(new ProgressEvent('error'));
       }
 
-      var response = evt.target.responseXML;
 
       document.querySelectorAll('head title, head style').forEach(function(node) {
         document.head.removeChild(node);
       });
-      response.querySelectorAll('head title, head style').forEach(function (node) {
+
+      evt.target.responseXML.querySelectorAll('head title, head style').forEach(function (node) {
         document.head.appendChild(node);
       });
-      response.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+      evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
         document.head.appendChild(window.bloc.tag(false)).text = script.text;
       });
 
       var main = document.body.querySelector('main');
-      main.parentNode.replaceChild(response.querySelector('main'), main);
+      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
 
-      document.body.className = response.querySelector('body').getAttribute('class') + ' transition';
+      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
         window.scrollTo(0, document.body.dataset.top);
@@ -463,9 +464,9 @@ if (window.history.pushState) {
     },
     error: function (evt) {
       // should just redirect
-      alert('FIX this now! look at console..');
-      console.dir(evt.target);
-      console.log(this);
+      // console.error('FIX this now! look at console..');
+      // console.dir(evt.target);
+      // console.log(this);
     }
   });
 
@@ -475,8 +476,7 @@ if (window.history.pushState) {
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
     }
-
-    Content.get(this.href + '.xml');
+    Content.get(this.href);
     document.body.classList.add('transition');
     var A, B, C, D;
     A = (75 + Math.random() * 25) + '%' + (75 + (Math.random() * 25)) + '%';

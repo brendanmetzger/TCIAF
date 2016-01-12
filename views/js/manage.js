@@ -348,7 +348,7 @@ Modal.prototype = {
         button.addEventListener('click', this.close.bind(this));
 
     this.element.insertBefore(button, this.element.firstChild);
-    this.element.style.top = (document.body.scrollTop + 20) + 'px';
+    this.element.style.top = (document.body.scrollTop + 10) + 'px';
     bloc.execute('autoload');
     if (this.progress) {
       this.progress.remove();

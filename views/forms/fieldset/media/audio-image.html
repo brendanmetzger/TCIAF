@@ -18,12 +18,14 @@
     // <![CDATA[
     function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
-			var player = window.bloc.execute('Player', audio_element);
+			var player = bloc.execute('Player');
+
       a.style.display = 'inline-block';
       a.href = '#' + audio_element.dataset.index;
       a.addEventListener('click', function (evt) {
         evt.preventDefault();
-        player.playTrack(Number(this.hash.substring(1)));
+        player.playlist.pointer = player.attach(audio_element).position;
+        player.play();
       });
     }
 
