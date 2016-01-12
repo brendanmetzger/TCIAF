@@ -61,8 +61,8 @@ namespace models;
 
     public function __construct($id = null, $data =[])
     {
-      $this->template['form'] = 'vertex';
       parent::__construct($id, $data);
+      $this->template['form'] = 'vertex';
     }
 
     public function get_template(\DOMElement $context)

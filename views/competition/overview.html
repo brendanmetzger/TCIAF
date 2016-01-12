@@ -10,13 +10,13 @@
   <!-- iterate competitions -->
   <section id="[$item:@id]">
     <header class="container">
-      <div class="group float-left golden">
+      <div class="group float-left three-quarters">
         <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
         <h2 class="h1" data-id="[$item:@id]">[$item:title]</h2>
         <article>[$item:content:about]</article>
       </div>
 
-      <nav class="crumbs group float-left">
+      <nav class="crumbs group float-left one-quarter">
         <ul class="plain center index">
           <li><strong>[$item:title by year]</strong></li>
           <!-- iterate item:competitions -->
@@ -27,11 +27,7 @@
 
     <!-- iterate item:upcoming -->
     <div class="trans-blocks upcoming">
-      <span class="h1 intro">
-        <time>[$item:date]</time>
-      </span>
       <h2 class="h1 condensed" data-id="[$item:@id]">[$item:title]</h2>
-      <p>[$item:summary]</p>
       <h3><a href="[$item:permalink]">Learn More</a></h3>
     </div>
   </section>
@@ -53,11 +49,11 @@
     }
 
     .upcoming:first-of-type {
-      padding-left:25%;
+      padding-left:15%;
       background-image:url('/images/pidgey.svg');
       background-position: left bottom;
       background-repeat:no-repeat;
-      background-size:20% auto;
+      background-size:auto 100%;
       border-color:#5B9B98;
     }
 

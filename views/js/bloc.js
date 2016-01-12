@@ -193,9 +193,6 @@ var Search = function (container, data) {
 };
 
 
-
-
-
 Search.instance = null;
 Search.prototype = {
   ajax: null,
@@ -440,24 +437,22 @@ if (window.history.pushState) {
         evt.target.dispatchEvent(new ProgressEvent('error'));
       }
 
+      var response = evt.target.responseXML;
+
       document.querySelectorAll('head title, head style').forEach(function(node) {
         document.head.removeChild(node);
       });
-
-      evt.target.responseXML.querySelectorAll('head title, head style').forEach(function (node) {
+      response.querySelectorAll('head title, head style').forEach(function (node) {
         document.head.appendChild(node);
       });
-
-
-      evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+      response.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
         document.head.appendChild(window.bloc.tag(false)).text = script.text;
       });
 
-      var main =document.body.querySelector('main');
-      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
+      var main = document.body.querySelector('main');
+      main.parentNode.replaceChild(response.querySelector('main'), main);
 
-
-      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
+      document.body.className = response.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
         window.scrollTo(0, document.body.dataset.top);
@@ -547,11 +542,9 @@ function processLayout(body, throttle) {
 
 function setBanner(timeout) {
   var header = document.body.firstElementChild;
-  header.removeAttribute('style');
-
+      header.removeAttribute('style');
   document.body.dataset.top = header.offsetHeight;
   header.style.height = header.offsetHeight + 'px';
-
   return setBanner;
 }
 

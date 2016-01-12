@@ -83,6 +83,13 @@ nav.crumbs > ul {
   max-width:62%;
   min-width:45%;
 }
+nav.group.crumbs {
+  padding:1em;
+}
+nav.group.crumbs > ul.index {
+  width:100%;
+  margin:1em 0;
+}
 
 .crumbs li strong {
   text-transform:uppercase;

@@ -121,23 +121,15 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETconference($id = 'tciaf-conference')
+    public function GETconference($id = null)
     {
-      $view = new view('views/layout.html');
-
-      $this->item = Graph::FACTORY(Graph::ID($id));
       $this->banner = 'Conferences';
+      $this->item   = Graph::FACTORY(Graph::ID($id ?: 'tciaf-conference'));
 
-      // if there is an upcoming competition, we want to attach view.
-      if ($id === 'tciaf-conference') {
-        $view->content = "views/conference/overview.html";
-        if ($this->item->upcoming->count() > 0) {
-          $view->upcoming = 'views/conference/listing.html';
-        }
-      } else {
-        $view->content = "views/conference/{$this->item->_template}.html";
-      }
+      $template = $id === null ? 'overview' : $this->item->_template;
 
+      $view = new View('views/layout.html');
+      $view->content = "views/conference/{$template}.html";
 
       return $view->render($this());
     }
