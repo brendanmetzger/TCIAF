@@ -119,27 +119,21 @@ class Manage extends \bloc\controller
   {
     $view = new view('views/layout.html');
     $view->content = "views/forms/edge.html";
-
     $this->model  = $model;
     $this->type   = $type;
     $this->vertex = Graph::ID($id);
-
     return $view->render($this());
   }
 
   protected function POSTedge($request)
   {
-
     $view = new view('views/layout.html');
     $view->content = "views/forms/partials/edge.html";
 
     $this->vertex = Graph::FACTORY(Graph::ID($_POST['id']));
     $this->edge   = Graph::EDGE(null, $_POST['keyword'], null);
-
     $this->process = 'keep';
     $this->checked = 'checked';
-
-
     $this->index = time() * -1;
 
     return $view->render($this());
@@ -155,7 +149,6 @@ class Manage extends \bloc\controller
     $this->references = null;
     $this->edges      = null;
 
-
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
     return $view->render($this());
@@ -168,9 +161,7 @@ class Manage extends \bloc\controller
     if ($vertex) {
       $vertex = Graph::ID($vertex);
       $dom = Graph::instance()->storage;
-
       $context = $dom->pick("/graph/group[@type='{$to_group}']");
-
       if ($to_group === 'archive') {
         $vertex->setAttribute('mark', $from_group);
         $vertex->setAttribute('updated', 'expunged');
@@ -178,9 +169,7 @@ class Manage extends \bloc\controller
         $vertex->removeAttribute('mark');
         $vertex->setAttribute('updated', (new \DateTime())->format('Y-m-d H:i:s'));
       }
-
       $context->insertBefore($vertex, $context->firstChild);
-
       $filepath = PATH . Graph::DB . '.xml';
 
       if ($dom->validate() && is_writable($filepath)) {
@@ -203,7 +192,7 @@ class Manage extends \bloc\controller
     $this->action = "Edit {$this->item->get_model()}:";
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
-
+    $view->upload = sprintf("views/forms/fieldset/media/%s.html", $this->item->template('upload'));
     return $view->render($this());
   }
 

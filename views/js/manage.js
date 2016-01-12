@@ -1,3 +1,4 @@
+
 bloc.prepare('stylesheets', function () {
   var stylesheet  = document.styleSheets.length - 1;
 
@@ -241,6 +242,48 @@ function Upload(container, data) {
   }.bind(this), false);
 }
 Upload.instance = null;
+Upload.config = {
+  init: function (instance, routines) {
+    instance.addTrigger(instance.container.parentNode.querySelector("button.upload"));
+
+    routines.forEach(function (type) {
+      this.addRoutine(type, Upload.config.routine[type].bind(this));
+    }, instance);
+
+    instance.addEvent('success', function (xhr) {
+      var media = xhr.responseXML.documentElement.querySelector('dd.media');
+      this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
+      sortable('dl.images.dnd', 'dd');
+    });
+
+    instance.addEvent('failure', function (xhr) {
+      console.error(xhr.responseText, 'undo some stuff');
+      window.alert(xhr.responseText);
+      this.progress.element.parentNode.removeChild(this.progress.element);
+    });
+    sortable('dl.images.dnd', 'dd');
+  },
+  routine: {
+    audio: function (file) {
+      // make sure there is not a file currently associated with the feature
+      this.progress = new Progress();
+      var dd = this.container.parentNode.parentNode.querySelector('dl.audio').appendChild(document.createElement('dd'));
+      dd.appendChild(this.progress.element);
+    },
+    image: function (file) {
+      var reader = new FileReader();
+      reader.onload = function (evt) {
+        // this is the progress default holder thing.
+        this.progress = new Progress();
+        this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
+        var dd = this.container.parentNode.parentNode.querySelector('dl.images').appendChild(document.createElement('dd'));
+            dd.appendChild(this.progress.element);
+            dd.className = "image";
+      }.bind(this);
+      reader.readAsDataURL(file);
+    }
+  }
+};
 Upload.prototype = {
   input: null,
   progress: null,

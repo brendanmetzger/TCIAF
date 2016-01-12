@@ -1,0 +1,41 @@
+<fieldset class="responsive media">
+  <legend class="caps-lock">Media</legend>
+  <dl class="images dnd container">
+    <dt>Images</dt>
+    <!-- iterate item:media:image -->
+    <!-- insert views/forms/partials/image.html -->
+  </dl>
+  <div class="search">
+    <button class="media upload">+ Add Images</button>
+    <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, image/gif">Javascript Required For upload</noscript>
+    <hr/>
+    <input id="image-FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" />
+    <noscript id="Search" data-id="image-FILTER">Search Requires Javascript</noscript>
+  </div>
+  <script type="text/javascript" async="true" defer="defer">
+    // <![CDATA[
+    bloc.prepare('Search', function () {
+      if (! this.input) {
+        console.error('Related to above.');
+        return;
+      }
+      this.subscribers.select.push(function (dataset) {
+        var input = this.input;
+        var ajax  = new XMLHttpRequest();
+        var url = '/' + dataset.area + '/' + dataset.id + '.xml';
+        ajax.open('GET', url);
+        ajax.addEventListener('load', function (evt) {
+          var elem  = evt.target.responseXML.documentElement.querySelector('dd.media.image');
+          document.querySelector('dl.images').appendChild(elem);
+          input.value = '';
+        }, false);
+        ajax.send();
+        this.input.value = '';
+      });
+    });
+    bloc.prepare('Upload', function () {
+      Upload.config.init(this, ['image']);
+    });
+    // ]]>
+  </script>
+</fieldset>

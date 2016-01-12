@@ -494,6 +494,7 @@ if (window.history.pushState) {
       D = Math.max(Math.random() * 100, 75) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
 
     }
+    // TODO: recalculate these based on current position. it's a bit jarring now, esp. in mobile.
     document.body.style.backgroundPosition = A + ', ' + B;
     document.body.style.backgroundSize = C + ', ' + D;
   };

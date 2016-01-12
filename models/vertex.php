@@ -11,7 +11,7 @@ abstract class Vertex extends \bloc\Model
   public $_location = 'Link';
   public $_premier  = 'Date';
 
-  public $template = ['form' => null, 'digest' => null, 'card' => null, 'index' => null];
+  public $template = ['form' => null, 'digest' => null, 'card' => null, 'index' => null, 'upload' => 'image'];
 
   static public $fixture = [
     'vertex' => [

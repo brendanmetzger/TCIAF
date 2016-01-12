@@ -29,13 +29,12 @@ namespace models;
     public function __construct($id = null, $data = [])
     {
       parent::__construct($id, $data);
-
+      $this->template['upload'] = 'audio-image';
       if ($this->happenings->count() > 0 && $this->presenters->count() > 0) {
         $this->template['digest'] = 'session';
       } else if ($this->context->find('edge[@vertex="TCIAF"]')->count() > 0) {
         $this->template['digest'] = 'broadcast';
       }
-
     }
 
     public function getSpectra(\DOMElement $context)
@@ -74,7 +73,6 @@ namespace models;
         $context->setAttribute('content', 'description');
         // throw new \UnexpectedValueException("Please add a description", 400);
       }
-
       return parent::setAbstract($context, $abstract);
     }
 

@@ -1,36 +1,23 @@
 <article>
-
   <h2><strong>[$action]</strong> <a class="em" href="[$item:permalink]">[$item:title]</a></h2>
-
   <form name="uploadData" method="POST" action="[/manage/edit/feature/$item:@id]" class="editor" autocomplete="off">
-
     <!-- insert views/forms/partials/receipt.html -->
-
     <!-- insert  views/forms/fieldset/title-description.html -->
-
-
     <fieldset class="extra group float-left">
       <legend>Details</legend>
       <label for="location">Origin Country</label>
       <input type="text" name="vertex[location][CDATA]" value="[$item:location]" id="location" class="required text" />
-
       <label for="premier">Premier Location</label>
       <input type="text" name="vertex[premier][CDATA]" value="[$item:premier]" id="premier" class="required text" />
-
       <label for="premier_date">Premier Date</label>
       <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
     </fieldset>
-
-    <!-- insert views/forms/fieldset/media.html -->
-
+    <!--  replace upload nextSibling -->
+    <!-- insert views/forms/fieldset/media/audio-image.html -->
     <hr style="clear:both;margin:5em 0;border-color:transparent;"/>
-
-
     <fieldset class="spectra group float-left">
       <legend class="caps-lock interactive" onclick="this.parentNode.classList.toggle('open');this.classList.toggle('active');">Spectra</legend>
-
       <noscript id="Spectra" data-selector="fieldset.spectra label input">Spectra Requires Javascript!</noscript>
-
       <!-- iterate item:spectra -->
       <label class="range container">
         <strong class="center" style="display:block;padding:0.5em;">[$title]</strong>
@@ -39,28 +26,12 @@
         <span>[$item:@to]</span>
       </label>
     </fieldset>
-
     <fieldset class="recommended group float-left">
       <legend class="caps-lock">Similar</legend>
       <!-- insert views/lists/recommendation.html -->
     </fieldset>
-
-
     <hr style="clear:both;margin:5em 0;border-color:transparent;" />
-
-
     <!-- insert views/forms/fieldset/edge.html -->
-
     <button type="submit" class="margins">Save Changes</button>
-
   </form>
-
-  <script type="text/javascript">
-    // <![CDATA[
-    bloc.prepare('sort', function () {
-      sortable('dl.images.dnd', 'dd');
-    });
-  //]]>
-  </script>
-
 </article>

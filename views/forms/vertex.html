@@ -1,113 +1,19 @@
 <article class="form">
   <span class="h3" style="padding:2em 0;display:block;"><strong>[$action]</strong> <a href="[$item:permalink]">[$item:title]</a></span>
-
   <form action="[/manage/edit/$item:_model/$item:@id]" method="POST" class="editor">
-
     <!-- insert views/forms/partials/receipt.html -->
-
     <!-- insert  views/forms/fieldset/title-description.html -->
-
     <fieldset class="extra group float-left">
       <legend>Details</legend>
-
       <label for="premier_date">[$item:_premier]</label>
       <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
-
       <label for="location">[$item:_location]</label>
       <input type="text" name="vertex[location][@][ref]" value="[$item:location:@ref]" id="location" class="required text" />
-
     </fieldset>
-
-    <fieldset class="responsive media">
-      <legend class="caps-lock">Media</legend>
-      <dl class="images dnd container">
-        <dt>Images</dt>
-        <!-- iterate item:media:image -->
-        <!-- insert views/forms/partials/image.html -->
-      </dl>
-      <div class="search">
-        <button class="media upload">+ Add Images</button>
-        <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, image/gif">Javascript Required For upload</noscript>
-
-        <hr/>
-
-        <input id="image-FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" />
-        <noscript id="Search" data-id="image-FILTER">Search Requires Javascript</noscript>
-      </div>
-    </fieldset>
-
+    <!--  replace upload nextSibling -->
+    <!-- insert views/forms/fieldset/media/image.html -->
     <hr style="clear:both;margin:5em 0;border-color:transparent;" />
-
-
     <!-- insert views/forms/fieldset/edge.html -->
-
     <button type="submit">Save</button>
-
   </form>
-
-
-  <script type="text/javascript" async="true">
-    // <![CDATA[
-
-    bloc.prepare('Search', function () {
-      if (! this.input) {
-        console.error('Related to above.');
-        return;
-      }
-
-      this.subscribers.select.push(function (dataset) {
-
-        var input = this.input;
-        var ajax  = new XMLHttpRequest();
-
-        var url = '/' + dataset.area + '/' + dataset.id + '.xml';
-        ajax.open('GET', url);
-
-
-        ajax.addEventListener('load', function (evt) {
-          var elem  = evt.target.responseXML.documentElement.querySelector('dd.media.image');
-          document.querySelector('dl.images').appendChild(elem);
-          input.value = '';
-        }, false);
-
-
-        ajax.send();
-        this.input.value = '';
-      });
-
-    });
-
-    bloc.prepare('Upload', function () {
-      this.addTrigger(this.container.parentNode.querySelector("button.upload"));
-      this.addRoutine('image', function (file) {
-        var reader = new FileReader();
-
-        reader.onload = function (evt) {
-          // this is the progress default holder thing.
-          this.progress = new Progress();
-          this.progress.element.style.backgroundImage = 'url('+evt.target.result+')';
-          var dd = this.container.parentNode.parentNode.querySelector('dl.images').appendChild(document.createElement('dd'));
-              dd.appendChild(this.progress.element);
-              dd.className = "image";
-        }.bind(this);
-
-        reader.readAsDataURL(file);
-      });
-
-      this.addEvent('success', function (xhr) {
-        var media = xhr.responseXML.documentElement.querySelector('dd.media');
-        this.progress.element.parentNode.parentNode.replaceChild(media, this.progress.element.parentNode);
-        sortable('dl.images.dnd', 'dd');
-      });
-
-      this.addEvent('failure', function (xhr) {
-        console.error(xhr.responseText, 'undo some stuff');
-        window.alert(xhr.responseText);
-        this.progress.element.parentNode.removeChild(this.progress.element);
-      });
-
-      sortable('dl.images.dnd', 'dd');
-    });
-    // ]]>
-  </script>
 </article>
