@@ -227,7 +227,7 @@ Search.prototype = {
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
-    
+
     this.reset();
   },
   processIndices: function (group, evt) {
@@ -522,7 +522,7 @@ if (window.history.pushState) {
   };
 }
 
-function processLayout(body, throttle) {
+function processLayout(body) {
   var timeout = 0, offset = body.dataset.top, engaged = false;
 
   function operation() {
@@ -534,6 +534,8 @@ function processLayout(body, throttle) {
     }
   }
 
+  return operation;
+
   return function (evt) {
     clearTimeout(timeout);
     timeout = setTimeout(operation, throttle);
@@ -543,7 +545,7 @@ function processLayout(body, throttle) {
 function setBanner(timeout) {
   var header = document.body.firstElementChild;
       header.removeAttribute('style');
-  document.body.dataset.top = header.offsetHeight;
+  document.body.dataset.top = header.offsetHeight - header.querySelector('nav').offsetHeight;
   header.style.height = header.offsetHeight + 'px';
   return setBanner;
 }
@@ -551,5 +553,5 @@ function setBanner(timeout) {
 bloc.prepare('onload', function () {
   window.addEventListener('resize', setBanner());
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
-  window.addEventListener('scroll', processLayout(document.body, 50), false);
+  window.addEventListener('scroll', processLayout(document.body), false);
 });

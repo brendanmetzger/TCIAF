@@ -26,9 +26,9 @@ button.listen {
 
 #Player {
   width:25%;
-  top:-5em;
   right:0;
-  transition:right 0.5s, background-color 0.5s 0.15s, top 0.5s;
+  top:0;
+  background-color:#FFF;
 }
 
 
@@ -234,11 +234,11 @@ button.error {
 body[data-engage] #Player {
   position:fixed;
   top:0;
-  width:30%;
   height:4em;
-  background-color:#f8f8f8;
   z-index:5;
   overflow:hidden;
+  background-color:#f8f8f8;
+  box-shadow:0 0 0.5em rgba(0,0,0,0.15);
 }
 
 

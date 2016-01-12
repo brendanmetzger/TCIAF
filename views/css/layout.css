@@ -1,7 +1,4 @@
-body, ul, ol, form, h2, h3, h4, h5, figure, blockquote {
-  margin:0;
-}
-
+body, ul, ol, form, h2, h3, h4, h5, figure, blockquote { margin:0 }
 
 body {
   font: normal normal 300 62.5%/1.35 'Avenir Next', Verdana, sans-serif;
@@ -9,7 +6,6 @@ body {
   background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y 100% 100% fixed;
   background-color:#f8f8f8;
   transition:background-position 7s, background-size 3.5s;
-  margin-top:4em;
 }
 
 main {
@@ -70,8 +66,6 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 }
 
 
-
-
 body > header {
   box-shadow:0 0.25em 1em rgba(0,0,0,0.1);
   background-color:#FFF;
@@ -79,33 +73,72 @@ body > header {
   z-index:2;
 }
 body > header nav {
-  background-color:#323031;
+  background-color: #F8F8F8;
   top:0;
+  left:25%;
   position:fixed;
   z-index:3;
-  width:100%;
-  box-shadow: 0 0.25em 0.25em rgba(0,0,0,0.1);
+  width:50%;
+  transition:background-color 1s;
+  box-shadow:0 0 0.5em rgba(0,0,0,0.15);
 }
 
 body > header nav a {
-  padding:1em;
+  padding:1em 0.75vw;
   font-size:1.25em;
+  color:#5B9B98;
+  line-height:1.25em;
+  display:inline-block;
+  text-decoration:none;
+  letter-spacing:0.075em;
 }
+
 body > header nav a:hover {
   color:#fff;
 }
+
+header .finder {
+  width:25%;
+  padding:0;
+  top:0;
+  background-color:#FFF;
+  position:fixed;
+  z-index:4;
+}
+
+.finder input {
+  margin:0.5em 1em 0;
+  padding:0.5em 0 0.25em 10%;
+  background: transparent url(/images/search.svg) no-repeat 0 65%;
+  background-size: auto 125%;
+  border:none;
+  outline:none;
+  width:90%;
+  border-bottom:1px dashed #ddd;
+
+  transition:background-size 0.25s;
+}
+
+body[data-engage] .finder {
+  box-shadow:0 0 0.5em rgba(0,0,0,0.15);
+  background-color:#f8f8f8;
+}
+body[data-engage] .finder input {
+  border-color:transparent;
+}
+
+.finder input:focus {
+  background-size:auto 100%;
+}
+
+
 
 body[data-engage] .home a {
   background-color:#f8f8f8;
   background-position:0 0;
 }
 
-header nav a {
-  line-height:1.25em;
-  display:inline-block;
-  text-decoration:none;
-  letter-spacing:0.075em;
-}
+
 
 .home a {
   background: transparent url(/images/pidgey.svg) no-repeat;
@@ -116,44 +149,17 @@ header nav a {
   width:2em;
 }
 
-header .finder {
-  width:25%;
-  padding:1em 0;
-}
-.finder label {
-}
-
-.finder input {
-  margin:0.5em 1em;
-  padding:0.25em 0 0.25em 10%;
-  background: transparent url(/images/search.svg) no-repeat 0 15%;
-  background-size: auto 125%;
-  border:none;
-  outline:none;
-  width:90%;
-  border-bottom:1px dashed #ddd;
-  transition:background-size 0.25s;
-}
-
-.finder input:focus {
-  background-size:auto 100%;
-}
-
 
 .banner {
   width:50%;
-  padding:0;
-  padding:0 1em;
+  margin-left:25%;
+  padding:4em 1em 0;
   text-align:center;
   background-color:#FFF;
   border:1px dashed #EEE;
   border-width:0 1px;
 }
 .banner img {
-  width:100%;
-}
-.banner a {
-  display:block;
   width:100%;
 }
 
