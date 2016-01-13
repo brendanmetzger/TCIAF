@@ -7,5 +7,5 @@
     <input type="checkbox" class="src" name="[vertex[media][$index][@][src]]"  value="[$src]" checked="checked" />
     <span>Keep Audio</span>
   </label>
-  <audio src="[http://s3.amazonaws.com/$src]" title="[$title]" onloadedmetadata="this.parentNode.querySelector('input.mark').value = Math.round(this.duration); notifyPlayer(this); " controls="controls" preload="metadata">Audio</audio>
+  <audio src="[http://s3.amazonaws.com/$src]" title="[$model:title]" onloadedmetadata="this.parentNode.querySelector('input.mark').value = Math.round(this.duration); notifyPlayer(this); " controls="controls" preload="metadata">Audio</audio>
 </dd>

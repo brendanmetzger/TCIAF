@@ -233,11 +233,9 @@ button.error {
 
 body[data-engage] #Player {
   position:fixed;
-  top:0;
   height:4em;
   z-index:5;
   overflow:hidden;
-  background-color:#f8f8f8;
   box-shadow:0 0 0.5em rgba(0,0,0,0.15);
 }
 

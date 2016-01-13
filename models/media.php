@@ -25,7 +25,6 @@ namespace models;
         'type'    => $media['@type'],
         'mark'    => $media['@mark'] ?: 0,
         'caption' => (new \Parsedown())->text($caption),
-        'title'   => $media->parentNode['@title'],
         'plain'   => $caption,
         'xid'     => $index ?: $media['@type'] . '/' . $media->parentNode['@id'] . '/' . $media->getIndex(),
       ];
@@ -34,6 +33,11 @@ namespace models;
     protected function initialize() {}
     protected function identify($identity) {}
     public function save() {}
+
+    public function attach(\bloc\model $model)
+    {
+      $this->slug['model'] = $model;
+    }
 
     static public function COLLECT(\bloc\dom\Iterator $media, $filter = null)
     {

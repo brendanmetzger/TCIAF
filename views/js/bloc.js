@@ -454,9 +454,10 @@ if (window.history.pushState) {
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
 
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
+      window.scrollTo(0, document.body.dataset.top);
       setTimeout(function () {
         document.body.classList.remove('transition');
-        window.scrollTo(0, document.body.dataset.top);
+
       }, 100);
       // if
       window.bloc.execute('autoload');
@@ -472,7 +473,6 @@ if (window.history.pushState) {
 
 
   window.navigateToPage = function (evt) {
-
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
     }

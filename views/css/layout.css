@@ -83,6 +83,10 @@ body > header nav {
   box-shadow:0 0 0.5em rgba(0,0,0,0.15);
 }
 
+body[data-engage] > header nav {
+  background-color:#fff;
+}
+
 body > header nav a {
   padding:1em 0.75vw;
   font-size:1.25em;
@@ -107,13 +111,13 @@ header .finder {
 }
 
 .finder input {
-  margin:0.5em 1em 0;
-  padding:0.5em 0 0.25em 10%;
+  margin:0.5em 0 0;
+  padding:0.5em 0 0.25em 12.5%;
   background: transparent url(/images/search.svg) no-repeat 0 65%;
   background-size: auto 125%;
   border:none;
   outline:none;
-  width:90%;
+  width:100%;
   border-bottom:1px dashed #ddd;
 
   transition:background-size 0.25s;
@@ -121,7 +125,6 @@ header .finder {
 
 body[data-engage] .finder {
   box-shadow:0 0 0.5em rgba(0,0,0,0.15);
-  background-color:#f8f8f8;
 }
 body[data-engage] .finder input {
   border-color:transparent;
@@ -131,14 +134,10 @@ body[data-engage] .finder input {
   background-size:auto 100%;
 }
 
-
-
 body[data-engage] .home a {
   background-color:#f8f8f8;
   background-position:0 0;
 }
-
-
 
 .home a {
   background: transparent url(/images/pidgey.svg) no-repeat;
@@ -148,7 +147,6 @@ body[data-engage] .home a {
   transition:background-color 0.25s 0.15s, background-position 0.75s cubic-bezier(.24,-0.25,.26,1.25);
   width:2em;
 }
-
 
 .banner {
   width:50%;

@@ -6,6 +6,7 @@
 function Track(audio) {
   this.audio = audio;
   this.playcount = 0;
+  this.trigger = function(){};
 }
 
 Track.prototype = {
@@ -42,19 +43,20 @@ var Playlist = function (container, attributes) {
   this.tracks  = [];
   this.pointer = 0;
   this.element = container.appendChild(document.createElement('ul')['@'](attributes));
-  this.element.addEventListener('mouseover', window.Adjust.scroll.bind(window.Adjust, 0, 1000));
 };
 
 Playlist.prototype = {
-  select: function (index) {
+  select: function (index, evt) {
     var currentTrack = this.tracks[this.pointer];
     if (! currentTrack.audio.paused) {
       currentTrack.state = 'played';
       currentTrack.audio.pause();
     }
 
+
     this.pointer = index;
-    this.current.play();
+    this.current.audio.play();
+    this.current.trigger(evt);
   },
   next: function (idx) {
     this.tracks[this.pointer].state = 'played';
@@ -67,18 +69,19 @@ Playlist.prototype = {
   get current() {
     var track = this.tracks[this.pointer];
     track.state = 'current';
-    return track.audio;
+    return track;
+  },
+  queue: function (_Track) {
+    _Track.element  = this.element.appendChild(document.createElement('li'));
+    _Track.position = (this.tracks.push(_Track) - 1);
+    _Track.element.addEventListener('click', this.select.bind(this, _Track.position));
+
+    return _Track;
+  },
+  clearUnplayed: function () {
+
   }
 };
-
-
-Playlist.prototype.queue = function (_Track) {
-  _Track.element  = this.element.appendChild(document.createElement('li'));
-  _Track.position = (this.tracks.push(_Track) - 1);
-  _Track.element.addEventListener('click', this.select.bind(this, _Track.position));
-
-  return _Track;
-}
 
 var Player = function (container, data) {
   container.id = 'Player';
@@ -121,7 +124,7 @@ var Player = function (container, data) {
   }.bind(this.meter));
 
   this.meter.element.addEventListener('click', function (evt) {
-    var audio = this.playlist.current;
+    var audio = this.playlist.current.audio;
     audio.currentTime = audio.duration * (evt.theta() / 360);
   }.bind(this), false);
 
@@ -131,11 +134,11 @@ var Player = function (container, data) {
 
 Player.prototype = {
   play: function () {
-    this.playlist.current.play();
+    this.playlist.current.audio.play();
   },
   pause: function () {
     this.button.setState('play');
-    this.playlist.current.pause();
+    this.playlist.current.audio.pause();
   },
   ended: function (evt) {
     this.playlist.next().play();
@@ -170,6 +173,7 @@ Player.prototype = {
   // Returns `new Track` instance
   attach: function (audio_element) {
     // TODO: check for track in list
+    this.playlist.clearUnplayed();
     var track = this.playlist.queue(new Track(audio_element));
 
     track.events.forEach(function (trigger) {
@@ -185,6 +189,10 @@ function loadButtonAudio(button) {
   var player = bloc.execute('Player');
   document.querySelectorAll('audio').forEach(function (audio) {
     var track = player.attach(audio);
+    track.trigger = function (evt) {
+      console.log(this);
+      navigateToPage.call({href: this.audio.dataset.ref}, evt);
+    }
     if (selected === audio) {
       // set this to be selected
       player.playlist.pointer = track.position;
