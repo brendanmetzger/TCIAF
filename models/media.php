@@ -15,7 +15,7 @@ namespace models;
 
     public function __construct(\DOMNode $media, $index = null)
     {
-      $caption = $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4));
+      $plain  = $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4));
       $domain = 'http://s3.amazonaws.com';
       $this->slug = [
         'domain'  => $domain,
@@ -24,8 +24,8 @@ namespace models;
         'src'     => $media['@src'],
         'type'    => $media['@type'],
         'mark'    => $media['@mark'] ?: 0,
-        'caption' => (new \Parsedown())->text($caption),
-        'plain'   => $caption,
+        'caption' => (new \Parsedown())->text($plain),
+        'plain'   => $plain,
         'xid'     => $index ?: $media['@type'] . '/' . $media->parentNode['@id'] . '/' . $media->getIndex(),
       ];
     }

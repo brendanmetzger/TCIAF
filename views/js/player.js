@@ -35,9 +35,7 @@ Track.prototype = {
   get position() {
     return parseInt(this.element.dataset.position, 10);
   }
-
 };
-
 
 var Playlist = function (container, attributes) {
   this.tracks  = [];
@@ -52,8 +50,6 @@ Playlist.prototype = {
       currentTrack.state = 'played';
       currentTrack.audio.pause();
     }
-
-
     this.pointer = index;
     this.current.audio.play();
     this.current.trigger(evt);

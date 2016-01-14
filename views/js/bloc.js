@@ -454,8 +454,11 @@ if (window.history.pushState) {
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
 
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
-      window.scrollTo(0, document.body.dataset.top);
+      var top = Number(document.body.dataset.top);      
       setTimeout(function () {
+        if (document.body.scrollTop > top) {
+          window.scrollTo(0, top);
+        }
         document.body.classList.remove('transition');
 
       }, 100);
