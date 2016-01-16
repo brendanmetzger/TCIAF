@@ -49,18 +49,6 @@ class Person extends Vertex
     return $this->context;
   }
 
-  public function setIdAttribute(\DOMElement $context, $value)
-  {
-    if (empty($value)) {
-      $value = 'p-' . preg_replace('/[^a-z0-9]/i', '', static::$fixture['vertex']['@']['title']);
-    }
-    if (empty($value)) {
-      $this->errors[] = "Name Invalid, either doesn't exist, or is not unique enough.";
-      throw new \RuntimeException($message, 1);
-    }
-    $context->setAttribute('id', $value);
-  }
-
   public function getHash($string)
   {
     return password_hash($string, PASSWORD_DEFAULT);

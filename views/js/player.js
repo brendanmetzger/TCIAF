@@ -39,7 +39,7 @@ Track.prototype = {
 
 var Playlist = function (container, attributes) {
   this.tracks  = [];
-  this.pointer = 0;
+  this.pointer = null;
   this.element = container.appendChild(document.createElement('ul')['@'](attributes));
 };
 
@@ -63,19 +63,35 @@ Playlist.prototype = {
     return this.tracks.length - 1;
   },
   get current() {
-    var track = this.tracks[this.pointer];
-    track.state = 'current';
-    return track;
+    if (this.pointer !== null) {
+      var track = this.tracks[this.pointer];
+      track.state = 'current';
+      return track;
+    }
+
   },
-  queue: function (_Track) {
+  enQueue: function (_Track) {
     _Track.element  = this.element.appendChild(document.createElement('li'));
     _Track.position = (this.tracks.push(_Track) - 1);
     _Track.element.addEventListener('click', this.select.bind(this, _Track.position));
 
     return _Track;
   },
-  clearUnplayed: function () {
-
+  // not a real queue, as some elements bay be skipped
+  deQueue: function (_Track) {
+    this.element.removeChild(_Track.element);
+    return this.tracks.splice(_Track.position, 1);
+  },
+  getUnplayed: function () {
+    return this.tracks.filter(function (track) {
+      return ! track.element.classList.contains('played');
+    });
+  },
+  clear: function (list) {
+    list.forEach(this.deQueue, this);
+    this.tracks.map(function (track, index) {
+      track.position = index;
+    });
   }
 };
 
@@ -169,8 +185,7 @@ Player.prototype = {
   // Returns `new Track` instance
   attach: function (audio_element) {
     // TODO: check for track in list
-    this.playlist.clearUnplayed();
-    var track = this.playlist.queue(new Track(audio_element));
+    var track = this.playlist.enQueue(new Track(audio_element));
 
     track.events.forEach(function (trigger) {
       audio_element.addEventListener(trigger, this[trigger].bind(this), false);
@@ -183,10 +198,18 @@ Player.prototype = {
 function loadButtonAudio(button) {
   var selected = button.parentNode.querySelector('audio');
   var player = bloc.execute('Player');
+  player.playlist.clear(player.playlist.getUnplayed());
+
   document.querySelectorAll('audio').forEach(function (audio) {
-    var track = player.attach(audio);
+    // select the button that was responsible for playing this track
+    var button = audio.parentNode.querySelector('button.listen');
+    var track  = player.attach(audio);
+    if (button) {
+      button.onclick = player.playlist.select.bind(player.playlist, track.position);
+    }
+
+
     track.trigger = function (evt) {
-      console.log(this);
       navigateToPage.call({href: this.audio.dataset.ref}, evt);
     }
     if (selected === audio) {
