@@ -270,4 +270,20 @@ abstract class Vertex extends \bloc\Model
   {
     return "/explore/detail/{$context['@id']}";
   }
+
+  public function slugify()
+  {
+    // check that title and ID are somewhat similar
+    if (levenshtein($this->context['@title'], $this->context['@id']) > 10) {
+      // trim title
+      // create a slug based on title, sans-non-word characters, replaced with hyphens
+      // ensure that title starts with [a-z], else assign an underscore
+      // set new id to slugged title
+      // set all abstracts using old id as path to new id
+      // find all edges with a vertex referencing old id and replace new id
+      // save, if document is valid we'll be in fine shape, otherwise, log error
+      // echo "<pre>" . print_r($instance['@title'], true)."</pre>";
+      // echo "<pre>" . print_r($instance['@id'], true)."</pre>";
+    }
+  }
 }

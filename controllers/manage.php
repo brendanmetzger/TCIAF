@@ -199,15 +199,13 @@ class Manage extends \bloc\controller
   protected function POSTedit($request, $model, $id = null)
   {
     if ($instance = Graph::FACTORY( (Graph::ID($id) ?: $model), $_POST)) {
-      // if (levenshtein($instance['@title'], $instance['@id']) > 10) {
-      //   echo "<pre>" . print_r($instance['@title'], true)."</pre>";
-      //   echo "<pre>" . print_r($instance['@id'], true)."</pre>";
-      //   exit();
-      // }
       if ($instance->save()) {
         // clear and rebuild caches w/o slowing down response
         \models\search::CLEAR();
         get_headers('http://'.$_SERVER['HTTP_HOST'].'/search/index');
+
+        // Check about slugs; make ID fields represent actual content instead of random strings.
+        // $instance->slugify();
 
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {

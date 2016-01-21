@@ -11,7 +11,7 @@ require  '../bloc/application.php';
 $app = Application::instance(['mode' => getenv('MODE') ?: 'production']);
 
 
-// this is non functional, but indicates some meta programming potential.
+// Start session before app runs
 $app->prepare('session-start', function ($app) {
   $app->session('TCIAF');
 });
