@@ -161,6 +161,10 @@ body[data-engage] .home a {
   width:100%;
 }
 
+.banner a {
+  display:block;
+}
+
 article header {
   margin:2.5em 0 0;
   padding:1em 0;

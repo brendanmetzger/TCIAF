@@ -2,22 +2,22 @@
   <nav class="center crumbs">
     <ul class="plain">
       <li class="topic">
+        <li class="topic">
+          <strong>Collection</strong>
+          <ul class="plain inline separated">
+            <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
+            <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
+            <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference</a></li>
+            <li><a class="[$competitions]" href="[/overview/library/shortdocs/$sort]">ShortDocs</a></li>
+            <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Awards</a></li>
+          </ul>
+        </li>
         <strong>Sort by</strong>
         <ul class="plain inline separated">
           <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
           <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
           <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
           <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
-        </ul>
-      </li>
-      <li class="topic">
-        <strong>Filter by type or length</strong>
-        <ul class="plain inline separated">
-          <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
-          <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
-          <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference</a></li>
-          <li><a class="[$competitions]" href="[/overview/library/competitions/$sort]">Competitions</a></li>
-          <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Decorated</a></li>
         </ul>
       </li>
       <li class="topic">
@@ -37,18 +37,18 @@
     <!-- replace blurb-->
   </header>
   <!-- iterate list -->
-  <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]"  style="[background:$item:gradient]">
-    <div>
-    <h2><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a> <em>[($item:premier:@date)]</em></h2>
-    <span class="h3">[$item:duration minutes]</span>
-    <cite>
-      <!-- iterate item:producers -->
-      <a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a>
-    </cite>
-    <blockquote>
+  <div data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]"  style="[border-image: $item:gradient 30 30 stretch;]" class="container">
+    <header class="golden float-left group" style="margin:0;">
+      <h2 class="condensed"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
-    </blockquote>
-    </div>
+    </header>
+    <dl class="float-left group">
+      <dt class="condensed">Added / Duration</dt>
+      <dd><span>[$item:premier:@date / $item:duration min.]</span></dd>
+      <dt class="condensed">Produced by</dt>
+      <!-- iterate item:producers -->
+      <dd><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></dd>
+    </dl>
   </div>
   <footer class="center">
     <nav>
@@ -64,12 +64,30 @@
     }
     .features div div {
       padding:2em;
-      background-color:rgba(255,255,255,0.65);
+
+      border-style:solid;
     }
     .features div {
-      padding:0;
-      border-radius:5em 0 0 5em;
+      padding:1em;
       margin:2em 0;
+      background-color:rgba(255,255,255,0.65);
+      border-width:2px 0 0 0;
+    }
+    .features dl dt {
+      border-bottom:1px solid rgba(0,0,0,0.05);
+      padding:0.25em;
+      margin:0 0 0.25em;
+    }
+    .features dd {
+      padding: 0 1em;
+    }
+    .features dl {
+        font-weight:400;
+      padding:0 2em;
+      font-size:1.5em;
+      color: #888;
+    }
+    .features div cite {
     }
   </style>
 </article>

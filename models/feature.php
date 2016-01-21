@@ -95,7 +95,7 @@ namespace models;
 
     public function getDuration(\DOMElement $context)
     {
-      return round($this->media['audio'][0]->mark / 60);
+      return $this->media['size']['audio'] > 0 ? round($this->media['audio'][0]->mark / 60) : 0;
     }
 
     public function getBackground()

@@ -38,9 +38,9 @@ use \models\graph;
       } else if ($filter == 'conference-audio') {
         $query .= '[edge[@type="presenter"]]';
         $this->title  = "Conference Audio";
-      } else if ($filter == 'competitions') {
+      } else if ($filter == 'shortdocs') {
         $query .= '[edge[@type="participant"]]';
-        $this->title  = "Competition Entries";
+        $this->title  = "ShortDocs";
       } else if ($filter == 'awards') {
         $query .= '[edge[@type="award"]]';
         $this->title  = "TCF Award Recipients";

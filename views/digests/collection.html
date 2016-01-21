@@ -4,11 +4,12 @@
       <li><a href="/overview/playlists">All Playlists</a></li>
     </ul>
   </nav>
-  <header>
-    <img src="[http://s3.amazonaws.com/$item:photo:url]" />
+  <section class="container" style="margin:2em 0;">
+    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:50%;float:left;margin:0 1em 0 0;"/>
     <h1 class="condensed" data-id="[$item:@id]">[$item:title]</h1>
-  </header>
-  <section>[$item:content:about]</section>
+    <section>[$item:content:description]</section>
+  </section>
+
   <nav>
     <!-- iterate item:features -->
     <!-- insert views/cards/feature.html -->

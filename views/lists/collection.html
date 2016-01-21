@@ -14,10 +14,11 @@
     </ul>
   </nav>
 	<!-- iterate list -->
-  <section data-created="[$item:@created]" data-updated="[$item:@updated]" class="trans-blocks container" style="margin-top:5em;">
+	<div style="[margin-top:5em;background-image:url(http://s3.amazonaws.com/$item:photo:url);background-size:cover;background-position:90% 50%;background-repeat:no-repeat;]">
+  <section data-created="[$item:@created]" data-updated="[$item:@updated]" class="trans-blocks container" style="background-color:rgba(250,250,250,0.85)">
 		<header class="group float-left golden" style="margin:0;">
 			<h2 class="h1 condensed"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
-			<aside>[$item:summary]</aside>
+			<p>[$item:summary]</p>
 		</header>
 		<nav class="crumbs group float-left">
 			<ul class="plain index">
@@ -28,4 +29,5 @@
 	    </ul>
 		</nav>
   </section>
+	</div>
 </article>
