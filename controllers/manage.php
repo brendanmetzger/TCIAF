@@ -218,11 +218,15 @@ class Manage extends \bloc\controller
 
   protected function POSTupload($request)
   {
-    $name   = base_convert($_FILES['upload']['size'], 10, 36) . '_' . strtolower(preg_replace(['/[^a-zA-Z0-9\-\:\/\_\.]/', '/\.jpeg/'], ['', '.jpg'], $_FILES['upload']['name']));
-    $src    = 'data/media/' . $name;
+    $name   = base_convert($_FILES['upload']['size'], 10, 36) . '_' . strtolower(preg_replace(['/\.[a-z34]{3,4}$/i', '/[^a-zA-Z0-9\-\:\/\_]/'], ['', ''], $_FILES['upload']['name']));
+
     $mime   = $_FILES['upload']['type'];
     $bucket = 'tciaf-media';
-    $type = substr($mime, 0, strpos($mime, '/'));
+
+    $slash = strpos($mime, '/');
+    $type = substr($mime, 0, $slash);
+    $name = $name . '.' . substr($mime, $slash + 1);
+    $src    = 'data/media/' . $name;
 
     if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
 
