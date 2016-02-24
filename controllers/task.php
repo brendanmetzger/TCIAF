@@ -17,6 +17,11 @@ class Task extends \bloc\controller
     }
   }
 
+  public function authenticate()
+  {
+    # code...
+  }
+
   public function CLIindex()
   {
     // show a list of methods.

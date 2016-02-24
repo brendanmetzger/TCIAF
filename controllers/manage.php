@@ -3,7 +3,7 @@ namespace controllers;
 
 use \bloc\application;
 use \bloc\view;
-use \bloc\view\renderer;
+use \bloc\view\renderer as Render;
 use \bloc\types\string;
 use \bloc\types\dictionary;
 
@@ -20,10 +20,8 @@ class Manage extends \bloc\controller
 
   public function __construct($request)
   {
-    $this->partials = new \StdClass();
-
-    View::addRenderer('before', Renderer::addPartials($this));
-    View::addRenderer('after',  Renderer::HTML());
+    View::addRenderer('before', Render::PARTIAL());
+    View::addRenderer('after',  Render::HTML());
 
     $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
@@ -37,8 +35,7 @@ class Manage extends \bloc\controller
 
     $this->supporters = $tciaf->supporters;
     $this->staff      = $tciaf->staff;
-
-
+    
 
 
     if ($this->authenticated) {
@@ -47,15 +44,28 @@ class Manage extends \bloc\controller
       $this->tasks = (new Dictionary(['person', 'feature', 'article', 'competition', 'organization', 'happening', 'collection']))->map(function($task) {
         return ['name' => $task, 'count' => Graph::group($task)->find('vertex')->count()];
       });
-      $this->partials->helper = 'views/partials/admin.html';
+      Render::PARTIAL('helper', 'views/partials/admin.html');
     } else {
       $this->_login = "Staff Login";
     }
   }
 
+  public function authenticate()
+  {
+    # code...
+  }
+
+  public function GETError($message, $code)
+  {
+    $this->message = parent::GETerror($message, $code);
+    $view = new \bloc\View('views/layout.html');
+    $view->content = 'views/layouts/error.html';
+    return $view->render($this());
+  }
+
   public function GETindex()
   {
-    return (new View($this->partials->layout))->render($this());
+    return (new View('views/layout.html'))->render($this());
   }
 
   public function GETlogin($redirect = '/', $status = "default", $username = null)

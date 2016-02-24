@@ -24,7 +24,7 @@ namespace models;
         'src'     => $media['@src'],
         'type'    => $media['@type'],
         'mark'    => $media['@mark'] ?: 0,
-        'caption' => (new \Parsedown())->text($plain),
+        'caption' => (new \vendor\Parsedown())->text($plain),
         'plain'   => $plain,
         'xid'     => $index ?: $media['@type'] . '/' . $media->parentNode['@id'] . '/' . $media->getIndex(),
       ];

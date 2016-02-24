@@ -29,6 +29,7 @@ namespace models;
     public function __construct($id = null, $data = [])
     {
       parent::__construct($id, $data);
+
       $this->template['upload'] = 'audio-image';
       if ($this->happenings->count() > 0 && $this->presenters->count() > 0) {
         $this->template['digest'] = 'session';

@@ -572,7 +572,7 @@ class Import extends Task
   public function CLImoveAbstracts()
   {
     $doc = new \bloc\DOM\Document('data/db15');
-    $markdown = new \Parsedown();
+    $markdown = new \vendor\Parsedown();
     foreach ($doc->getElementsByTagName('abstract') as $abstract) {
       $uri = $abstract->parentNode->getAttribute('id') . '-' .$abstract->getIndex() . '.html';
       $text = $markdown->text(str_replace(['¶', '↩'], ["\n\n", "\n"], $abstract->nodeValue));

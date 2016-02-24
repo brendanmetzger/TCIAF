@@ -14,7 +14,7 @@
   </div>
   <script type="text/javascript" async="true" defer="defer">
     // <![CDATA[
-    bloc.prepare('Search', function () {
+    bloc.init('Search', function () {
       if (! this.input) {
         console.error('Related to above.');
         return;
@@ -33,7 +33,7 @@
         this.input.value = '';
       });
     });
-    bloc.prepare('Upload', function () {
+    bloc.init('Upload', function () {
       Upload.config.init(this, ['image']);
     });
     // ]]>

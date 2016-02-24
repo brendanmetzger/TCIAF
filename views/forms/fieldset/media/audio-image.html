@@ -18,7 +18,7 @@
     // <![CDATA[
     function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
-			var player = bloc.execute('Player');
+			var player = bloc.init('Player');
 
       a.style.display = 'inline-block';
       a.href = '#' + audio_element.dataset.index;
@@ -29,7 +29,7 @@
       });
     }
 
-    bloc.prepare('Upload', function () {
+    bloc.init('Upload', function () {
       Upload.config.init(this, ['audio','image']);
     });
 

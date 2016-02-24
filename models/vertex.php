@@ -46,7 +46,7 @@ abstract class Vertex extends \bloc\Model
 
   public function getTitle(\DOMNode $context)
   {
-    return strip_tags((new \Parsedown())->text(trim($context->getAttribute('title'))) , '<em><strong>');
+    return strip_tags((new \vendor\Parsedown)->text(trim($context->getAttribute('title'))) , '<em><strong>');
   }
 
   public function setUpdatedAttribute(\DOMElement $context)
@@ -63,7 +63,7 @@ abstract class Vertex extends \bloc\Model
     $context->setAttributeNode($url);
     $context->setAttribute('content', $abstract['@']['content']);
 
-    $markdown = new \Parsedown();
+    $markdown = new \vendor\Parsedown;
     file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
     return true;
   }
@@ -96,7 +96,7 @@ abstract class Vertex extends \bloc\Model
   {
 		$abstract = $this->getAbstract($context, false);
 		if (!is_object($abstract)) return;
-    if ($node = \bloc\DOM\Document::TAG("<root>{$abstract->current()['text']}</root>")) {
+    if ($node = \bloc\DOM\Document::ELEM("<root>{$abstract->current()['text']}</root>")) {
       if ($node->childNodes->length > 0) {
         $len = strlen($node->firstChild->nodeName) + 2;
         return substr($node->firstChild->write(), $len, -($len + 1));

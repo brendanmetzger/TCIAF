@@ -3,7 +3,7 @@
   <noscript id="Search" data-id="[$search:topic-FILTER]">Search Requires Javascript</noscript>
   <script type="text/javascript" async="true">
     // <![CDATA[
-      bloc.prepare('Search', function (auto) {
+      bloc.init('Search', function (auto) {
         this.subscribers.select.push(function (dataset, evt) {
           navigateToPage.call({href: '/' + dataset.area + '/' + dataset.id}, evt);
         });

@@ -1,5 +1,5 @@
 
-bloc.prepare('stylesheets', function () {
+bloc.init('stylesheets', function () {
   var stylesheet  = document.styleSheets.length - 1;
 
   while (stylesheet > 0 && typeof stylesheet === 'number') {
@@ -18,7 +18,7 @@ bloc.prepare('stylesheets', function () {
   // show an indicator next to all editable elements
 });
 
-bloc.prepare('editables', function () {
+bloc.init('editables', function () {
   var edits = document.querySelectorAll('*[data-id]');
 
   for (var j = 0; j < edits.length; j++) {
@@ -43,7 +43,7 @@ function goto(url, evt) {
 
   (new Modal.Form({
     load: function (form) {
-      window.bloc.execute('stylesheets');
+      window.bloc.init('stylesheets');
       form.querySelector('input').focus();
     },
     submit: function (evt) {
@@ -53,7 +53,7 @@ function goto(url, evt) {
       new Request({
         load: function (evt) {
           exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-          setTimeout(window.bloc.execute.bind(window.bloc, 'editables'), 100);
+          setTimeout(window.bloc.init.bind(window.bloc, 'editables'), 100);
         }
       }).get(window.location.href + '.xml');
     }
@@ -349,7 +349,7 @@ Modal.prototype = {
 
     this.element.insertBefore(button, this.element.firstChild);
     this.element.style.top = (document.body.scrollTop + 10) + 'px';
-    bloc.execute('autoload');
+    bloc.init('autoload');
     if (this.progress) {
       this.progress.remove();
     }

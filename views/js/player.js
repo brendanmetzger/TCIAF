@@ -197,7 +197,7 @@ Player.prototype = {
 
 function loadButtonAudio(button) {
   var selected = button.parentNode.querySelector('audio');
-  var player = bloc.execute('Player');
+  var player = bloc.init('Player').call();
   player.playlist.clear(player.playlist.getUnplayed());
 
   document.querySelectorAll('audio').forEach(function (audio) {

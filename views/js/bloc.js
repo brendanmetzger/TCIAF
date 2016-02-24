@@ -438,7 +438,6 @@ if (window.history.pushState) {
         evt.target.dispatchEvent(new ProgressEvent('error'));
       }
 
-
       document.querySelectorAll('head title, head style').forEach(function(node) {
         document.head.removeChild(node);
       });
@@ -454,17 +453,18 @@ if (window.history.pushState) {
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
 
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
-      var top = Number(document.body.dataset.top);      
+      var top = Number(document.body.dataset.top);
       setTimeout(function () {
         if (document.body.scrollTop > top) {
           window.scrollTo(0, top);
         }
         document.body.classList.remove('transition');
 
-      }, 100);
+      }, 10);
+
       // if
-      window.bloc.execute('autoload');
-      window.bloc.execute('editables');
+      window.bloc.init('autoload');
+      window.bloc.init('editables');
     },
     error: function (evt) {
       // should just redirect
@@ -474,6 +474,9 @@ if (window.history.pushState) {
     }
   });
 
+  var adjust = function (num) {
+    return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 5))) + '%';
+  };
 
   window.navigateToPage = function (evt) {
     if (evt.type != 'popstate') {
@@ -481,20 +484,11 @@ if (window.history.pushState) {
     }
     Content.get(this.href);
     document.body.classList.add('transition');
-    var A, B, C, D;
-    A = (75 + Math.random() * 25) + '%' + (75 + (Math.random() * 25)) + '%';
-    B = (75 + Math.random() * 25) + '%' + (75 + (Math.random() * 25)) + '%';
-    if (window.tablet) {
-      C = 'auto ' + Math.max(Math.random() * 75, 50) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
-      D = 'auto ' + Math.max(Math.random() * 75, 50) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
-    } else {
-      C = Math.max(Math.random() * 100, 75) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
-      D = Math.max(Math.random() * 100, 75) + (Math.cos(Math.random() * Math.PI) * 25) + '%';
+    var style = getComputedStyle(document.body);
+    document.body.style.backgroundSize = style.backgroundSize.match(/([0-9\-\.]+)/g).map(adjust).join(', ');
+    var pos = style.backgroundPosition.match(/([0-9\-\.]+)/g).map(adjust);
+    document.body.style.backgroundPosition = [pos[0] + ' ' + pos[1],pos[2] +' ' + pos[3]].join(', ');
 
-    }
-    // TODO: recalculate these based on current position. it's a bit jarring now, esp. in mobile.
-    document.body.style.backgroundPosition = A + ', ' + B;
-    document.body.style.backgroundSize = C + ', ' + D;
   };
 
   document.body.addEventListener('click', function (evt) {
@@ -507,7 +501,6 @@ if (window.history.pushState) {
         }
       } else if (evt.target.matches("a:not(.button)[href^='/']")) {
         evt.preventDefault();
-        document.querySelector('main').className = 'wee';
         navigateToPage.call(evt.target, evt);
       } else {
         if (! evt.target.classList.contains('button')) {
@@ -553,7 +546,7 @@ function setBanner(timeout) {
   return setBanner;
 }
 
-bloc.prepare('onload', function () {
+bloc.init('onload', function () {
   window.addEventListener('resize', setBanner());
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('scroll', processLayout(document.body), false);
