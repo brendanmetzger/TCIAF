@@ -16,7 +16,7 @@
   text-transform:none;
 }
 
-.condensed, header h1, header .h1 {font-family:'Avenir Next Condensed', 'Open Sans Condensed';}
+.condensed, header h1, header .h1 {font-family: 'Avenir Next Condensed', 'Open Sans Condensed';}
 
 .award {
   padding: 0.5em 3.5em 0.5em 0;
