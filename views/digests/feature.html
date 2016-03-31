@@ -1,128 +1,63 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <nav class="center crumbs" style="display:none">
-    <ul class="plain">
-      <li><strong>Featured in</strong></li>
-      <!-- iterate item:playlists -->
-      <li><a href="[$collection:permalink]">[$collection:title]</a></li>
-      <!-- iterate item:competitions -->
-      <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
-      <li class="topic">
-        <strong>More</strong>
-        <ul class="plain inline separated">
-          <li><a href="/overview/library">Features</a></li>
-          <li><a href="/overview/people">Producers</a></li>
-          <li><a href="#recommended">Recommended</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
   <header>
     <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-    <div class="controls">
+    <div class="two-thirds controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
       <h1 data-id="[$item:@id]" property="name" class="lead display tracked">[$item:title]</h1>
     </div>
-    <p class="h3">[$item:summary]</p>
-    <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
+    <div class="two-thirds">
+      <p class="h3">[$item:summary]</p>
+      <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
+    </div>
   </header>
-  <div class="content container">
-    <section class="group float-left three-quarters" property="description">[$item:content:description]</section>
-    <section data-size="[$item:media:size:image]" class="group float-left _5" style="padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
+
+  <section class="panel">
+    <div class="two-thirds">
+      <div property="description">[$item:content:description]</div>
+
+      <h4 class="brown caps-lock strong t">produced by</h4>
+      <!-- iterate item:producers -->
+      <!-- insert views/cards/person.html -->
+
+    </div>
+
+    <style media="screen">
+      .gallery {
+        text-align:center;
+      }
+      .gallery img {
+        padding:2.5em;
+        background-color:rgba(0,0,0,0.05);
+        max-width:100%;
+      }
+    </style>
+    <div data-size="[$item:media:size:image]" class="one-third gallery">
       <!-- iterate item:media:image -->
       <img src="[$domain/$url]" alt="[$plain]" property="image" data-ratio="[$mark]"/>
-    </section>
-    <section class="group float-left three-quarters" property="contributors" style="margin-left:2.5%;">
-      <ul class="plain" style="margin-top:5em;">
-        <!-- iterate item:extras -->
-        <li style="margin:1em;border:1px dashed rgba(0,0,0,0.1);padding:2em 1em 1em;background-color:rgba(255,255,255,0.5)">
-          <h3><a href="[$article:permalink]">[$article:title]</a></h3>
-          <p>[$article:summary]</p>
-        </li>
-      </ul>
-    </section>
-  </div>
-  <section>
-    <h4 class="brown caps-lock strong">produced by</h4>
-    <!-- iterate item:producers -->
-    <!-- insert views/cards/person.html -->
+    </div>
+
   </section>
 
+  <section>
+    <h4 class="strong caps-lock brown t b">Featured in</h4>
+    <nav>
+      <ul class="plain">
+        <!-- iterate item:extras -->
+        <li><a href="[$article:permalink]">[$article:title]</a></li>
+        <!-- iterate item:playlists -->
+        <li><a href="[$collection:permalink]">[$collection:title]</a></li>
+        <!-- iterate item:competitions -->
+        <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
+      </ul>
+    </nav>
+  </section>
 
-
-  <section class="">
-    <h4 class="brown caps-lock strong">Recommend</h4>
+  <section style="margin:2em 0;">
+    <h4 class="brown caps-lock strong t b">Recommend</h4>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>
 
 
-  <style media="screen">
-  header .controls button {
-    font-size:125%;
-    margin:2vw 2vw 0.5em 0;
-  }
-  header .controls {
-    margin:3.5em 0;
-  }
-
-
-  @media screen and (min-width: 800px){
-    .lead {
-      max-width: calc(75vw - 5em);
-    }
-  }
-  .lead {
-    font-size:calc(3em + 2vw);
-    line-height:1.15;
-  }
-  .controls {
-    display:flex;
-    padding:1.5em 0;
-    flex-flow:row;
-    align-items: flex-end;
-  }
-  .path {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:flex-start;
-  }
-  .path > * {
-    padding:0.25em;
-  }
-  .display {
-    font-family:Baskerville, Didot;
-  }
-
-  .triptych {
-    padding:1em 0;
-    display:flex;
-    justify-content:space-around;
-  }
-
-  .triptych > * {
-    box-sizing:border-box;
-    display:flex;
-    flex-flow: column;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    padding:1em;
-    flex:0 0 calc(33% - 0.5em);
-  }
-  .brown {
-    color:rgb(119, 99, 92);
-  }
-
-  /*<![CDATA[*/
-    .content img {
-      width:100%;
-    }
-
-
-    section.crumbs ul li {
-      padding:1em;
-      text-align:left;
-    }
-  /*]]>*/
-  </style>
 </article>

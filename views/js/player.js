@@ -51,7 +51,10 @@ Playlist.prototype = {
       currentTrack.audio.pause();
     }
     this.pointer = index;
-    this.current.audio.play();
+    setTimeout(function () {
+      this.play();
+    }.bind(this.current.audio), 750);
+
     this.current.trigger(evt);
   },
   next: function (idx) {

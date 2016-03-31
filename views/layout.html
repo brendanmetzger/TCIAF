@@ -1,117 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
-  <head>
-    <title>[$title]</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1" />
-    <meta name="apple-mobile-web-app-capable" content="no"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Third Coast International Audio Festival"/>
-    <link rel="shortcut icon" href="/images/favicon.ico"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/austere.css" />
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/layout.css" />
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/player.css" />
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/_working_.css" />
-    <link rel="stylesheet" media="(max-width: 600px)" type="text/css" href="/css/_working_mobile_.css" />
-    <script type="text/javascript">
-      // <![CDATA[
-      // Autoload scripts
-      var bloc = window.bloc || (function(s,c,p1,p2,append) {
-        s.type='text/javascript';
-        return {
-          embed: function (u, p) {
-            var ctx = s.cloneNode(); ctx.src = u; ctx.async = p;
-                p ? p2.push(ctx) : ctx.onload = this.load.bind(ctx, p1.push(ctx));
-          },
-          load: function (i, e) {
-            if (!e) return p1.concat(p2).map(append.bind(document.body));
-            if (e && p1.length === i) for (var k in c) c[k].call(c[k], true);
-          },
-          init: function (k, f) {
-            if (f && 'call' in f) c[k] = f;
-            return c[k];
-          }
-        };
-      }(document.createElement('script'),{},[],[],Node.prototype.appendChild));
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
+  <!-- insert views/head.html-->
+  <body class="[$_action panel]" data-user="[$user]" data-id="browse">
 
-      var mobile = (/mobile/i).test(navigator.userAgent),
-          WebFontConfig = { google: { families: [ 'Open+Sans+Condensed:300:latin' ] } };
+    <section id="media" class="column panel" style="background-color:#fff;box-shadow:inset -0.125em 0 0 rgba(0,0,0,0.1)">
+      <form class="finder search">
+        <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
+        <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
+        <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
+      </form>
+      <noscript id="Player" data-queue="" data-controls="controls" data-playlist="plain playlist">
+        <p>The Third Coast Festival Audio Player</p>
+      </noscript>
+    </section>
 
-      // Embed script for site
-      bloc.embed('/js/bloc.js')
-      bloc.embed('/js/player.js');
-
-      // Lastly, fonts and analytics
-      bloc.embed('//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js', true);
-
-      bloc.init('autoload', function (auto) {
-        document.querySelectorAll('noscript').forEach(function (elem) {
-          var swap = document.createElement('div');
-          swap.className = elem.className;
-          elem.parentNode.replaceChild(swap, elem);
-          var callback = bloc.init(elem.id).bind(new window[elem.id](swap, elem.dataset));
-          bloc.init(elem.id, callback);
-        });
-        return this;
-      });
-
-      bloc.init('Player', function (hmm) {
-        return this;
-      });
-
-      bloc.init('Search', function () {
-        this.subscribers.select.push(function (dataset, evt) {
-          var url = (Number(dataset.index) < 0)
-                  ? '/search/full?query=' + dataset.text
-                  : '/explore/detail/'+dataset.id;
-          navigateToPage.call({href: url}, evt);
-        });
-      });
-      // ]]>
-    </script>
-  </head>
-  <body class="[$_action]" data-user="[$user]">
-    <div data-id="media"></div>
-    <div data-id="browse">
-      <header class="container">
-        <form class="finder float-left group search">
-          <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
-          <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
-          <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
-        </form>
-        <div class="banner float-left group">
-          <nav>
-            <ul class="plain inline">
-              <!-- <li class="home context"><a href="/">Home</a></li> -->
-              <li><a href="/overview/library">Library</a></li>
-              <li><a href="/overview/conference">Conference</a></li>
-              <li><a href="/overview/events">Events</a></li>
-              <li><a href="/overview/competition">Competitions</a></li>
-              <li><a href="/overview/subscribe">Subscribe</a></li>
-              <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
-            </ul>
-          </nav>
-          <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
-          <blockquote class="mono" style="padding:2em 0;">Sharing the best audio stories produced worldwide and inspiring the next generation of makers.</blockquote>
-        </div>
-        <noscript id="Player" data-queue="" data-controls="one-quarter group float-left controls" data-playlist="plain playlist three-quarters group float-left" class="float-left group">
-          <p>The Third Coast Festival Audio Player</p>
-        </noscript>
+    <section id="browse" class="column panel">
+      <header class="white-bg">
+        <nav role="navigation" class="panel" style="align-items:center;">
+          <a href="/" class="banner" title="Go to the Third Coast Homepage">Home</a>
+          <ul class="plain caps-lock p">
+            <li><a href="/overview/library">Listen</a></li>
+            <li><a href="/overview/playlists">Playlists</a></li>
+            <li><a href="/overview/conference">Conference</a></li>
+            <li><a href="/overview/competition">Competitions</a></li>
+            <li><a href="/overview/events">Happenings</a></li>
+            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button">Donate</a></li>
+          </ul>
+        </nav>
       </header>
       <main class="content container">
         <!-- replace content nextSibling -->
         <section class="landing">
-          <article class="group float-left gradient" style="width:45%;padding:5em 1em 1em;background-color:rgba(255,255,255,0.25); text-align:center">
+          <article>
             <h2 data-id="[$collection:@id]">[$collection:title]</h2>
             <p>[$collection:content:about]</p>
-            <!-- iterate collection:features -->
-            <!-- insert views/cards/feature.html -->
+            <section class="triptych">
+              <!-- iterate collection:features -->
+              <!-- insert views/cards/feature.html -->
+            </section>
           </article>
-          <article class="group float-left" style="width:55%;padding:5em;">
+          <article class="panel">
             <h2>News and Events</h2>
             <!-- iterate collection:articles -->
             <section>
@@ -127,15 +56,11 @@
               <p>[$playlist:summary]</p>
             </section>
           </article>
-          <style type="text/css" media="screen">
-            /* <![CDATA[ */
-            .landing article > h2 {margin:0 0 2em;}
-            /* ]]> */
-          </style>
+
         </section>
       </main>
       <!-- insert views/pages/footer.html -->
-    </div>
+    </section>
     <!-- replace helper -->
     <script type="text/javascript">window.bloc.load();</script>
   </body>

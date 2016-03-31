@@ -453,13 +453,9 @@ if (window.history.pushState) {
       main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
 
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
-      var top = Number(document.body.dataset.top);
       setTimeout(function () {
-        if (document.body.scrollTop > top) {
-          window.scrollTo(0, top);
-        }
+        document.querySelector('#browse').scrollTop = 0;
         document.body.classList.remove('transition');
-
       }, 10);
 
       // if
@@ -475,7 +471,7 @@ if (window.history.pushState) {
   });
 
   var adjust = function (num) {
-    return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 5))) + '%';
+    return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))) + '%';
   };
 
   window.navigateToPage = function (evt) {
@@ -538,16 +534,8 @@ function processLayout(body) {
   }
 };
 
-function setBanner(timeout) {
-  var header = document.body.firstElementChild;
-      header.removeAttribute('style');
-  document.body.dataset.top = header.offsetHeight - header.querySelector('nav').offsetHeight;
-  header.style.height = header.offsetHeight + 'px';
-  return setBanner;
-}
 
 bloc.init('onload', function () {
-  window.addEventListener('resize', setBanner());
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('scroll', processLayout(document.body), false);
 });

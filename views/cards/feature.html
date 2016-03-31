@@ -1,9 +1,16 @@
 <div data-updated="[$feature:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature card">
+  <div class="controls">
+    <!-- iterate feature:media:audio -->
+    <!--  insert views/partials/play-button.html-->
+    <span class="h4" style="margin-left:1em;">[$feature:premier:@date / $feature:duration min]</span>
+  </div>
+
   <h3 data-id="[$feature:@id]"><a href="[$feature:permalink]" property="name">[$feature:title]</a></h3>
-  <blockquote><p>[$feature:summary]</p></blockquote>
-  <!-- iterate feature:producers -->
-  <a href="[$person:permalink]" class="h3" data-id="[$person:@id]" rel="author" property="author">[$person:@title]</a>
-  <hr/>
-  <!-- iterate feature:media:audio -->
-  <!--  insert views/partials/play-button.html-->
+
+  <p>[$feature:summary]</p>
+
+  <ul class="plain path h4" style="">
+    <!-- iterate feature:producers -->
+    <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+  </ul>
 </div>

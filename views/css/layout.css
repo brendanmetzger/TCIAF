@@ -11,67 +11,9 @@ body {
   color:#333;
 }
 
-main {
-  margin:0 auto;
-  width:100%;
-  box-sizing:border-box;
-  top:0;
-  transition:opacity 1s, background-color 1.5s 0.125s;
-  min-height:80vh;
-  position:relative;
-  z-index:1;
-  background-color:rgba(255, 255, 254, 1);
-  padding:0;
-}
-
-
-@media only screen and (min-width: 800px){
-  main {
-    padding:0 2em 0 calc(20em + 10%);
-  }
-
-
-  .------- {
-    width: 70%;
-  }
-}
-
-
-
-
-.transition > div > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
 
 /* Responsivity ------------------- */
 audio, img:not([src]), nav[data-pages='1'] {display:none;}
-
-._1.float-left {
-  width:100%;
-}
-._2.float-left, .half {
-  width:50%;
-}
-._3.float-left, ._6.float-left, .one-third {
-  width:33%;
-}
-._4.float-left, .one-quarter {
-  width:25%;
-}
-._5.float-left {
-  width:20%;
-}
-
-._75.float-left, .three-quarters {
-  width:75%;
-}
-
-
-
-.golden.float-left {
-  width:62%;
-}
-.golden + *.float-left {
-  width:38%;
-}
 
 
 
@@ -141,56 +83,9 @@ body[data-engage] .finder input {
   background-size:auto 100%;
 }
 
-body[data-engage] .home a {
-  background-color:#f8f8f8;
-  background-position:0 0;
-}
 
-.home a {
-  background: transparent url(/images/pidgey.svg) no-repeat;
-  background-size:auto 100%;
-  background-position:0 -10em;
-  text-indent:-1000em;
-  transition:background-color 0.25s 0.15s, background-position 0.75s cubic-bezier(.24,-0.25,.26,1.25);
-  width:2em;
-}
 
-.banner {
-  width:50%;
-  margin-left:25%;
-  padding:4em 1em 0;
-  text-align:center;
-  background-color:#FFF;
-  border:1px dashed #EEE;
-  border-width:0 1px;
-}
-.banner img {
-  width:100%;
-}
 
-.banner a {
-  display:block;
-}
-
-article header {
-  padding:1em 0;
-  border-bottom: 1px solid #eee;
-}
-
-.sponsor {
-  background-color:#DEDAD4;padding:2em;color:#333;
-}
-
-.sponsor nav a img {
-  height:100%;
-}
-.sponsor nav a {
-  display:block;
-  padding:1em;
-  float:left;
-  width:auto;
-  height:5em;
-}
 
 /* Color -------------------
   dark 323031

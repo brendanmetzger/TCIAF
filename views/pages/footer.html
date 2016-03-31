@@ -1,44 +1,55 @@
-<footer>
-  <section class="container">
-    <nav class="group _2 float-left container">
-      <ul class="plain p split container">
-        <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
-        <li><a href="/overview/tciaf">About</a></li>
-        <li><a href="/overview/people">Producers</a></li>
-        <li><a href="/overview/playlists">Playlists</a></li>
-        <li><a href="/overview/subscribe">Subscribe to Podcast</a></li>
-        <li><a href="/overview/opportunities">Jobs and Internships</a></li>
-        <li><a class="ghost" href="#notyet">Shoppe</a></li>
-        <li><a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/">Newsletter</a></li>
-      </ul>
-      <div class="social center">
-        <a class="twitter" href="https://twitter.com/ThirdCoastFest">Twitter</a>
-        <a class="instagram" href="https://instagram.com/thirdcoastfest/">Instagram</a>
-        <a class="facebook" href="https://www.facebook.com/thirdcoastfest?ref=ts">Facebook</a>
-      </div>
-    </nav>
-    <aside class="group _2 float-left">
-      <address class="mono p trans-blocks" style="margin:0 0 1em;padding:1em;">
-        <span>Third Coast Festival</span>
-        <blockquote>
+<footer class="white-bg">
+  <section style="background-color:#DDD;margin:0;padding:2em 10%;" class="panel">
+    <p><strong class="caps-lock brown">Sign Up for our newsletter</strong> Be the first to hear new docs, get the scoop on Third Coast events, and go behind-the-scenes with producers.</p>
+    <button  class="caps-lock gray-bg" style="border:none;margin:1em 0 0 2em; padding:0 2em;"><strong>Subscribe</strong></button>
+  </section>
+  <section class="container brown-bg">
+    <div class="panel" style="justify-content:space-between;padding:2.5em; 0">
+      <nav class="one-third">
+        <style media="screen">
+        footer nav ul.panel {
+          flex-wrap:wrap;
+        }
+        footer nav ul.panel li {
+          flex: 0 0 50%;
+        }
+        </style>
+        <ul class="plain p panel columns">
+          <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
+          <li><a href="/overview/tciaf">About</a></li>
+          <li><a href="/overview/people">Producers</a></li>
+          <li><a href="/overview/playlists">Playlists</a></li>
+          <li><a href="/overview/subscribe">Subscribe to Podcast</a></li>
+          <li><a href="/overview/opportunities">Jobs and Internships</a></li>
+          <li><a class="ghost" href="#notyet">Shoppe</a></li>
+          <li><a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/">Newsletter</a></li>
+        </ul>
+      </nav>
+      <aside class="one-third">
+        <address style="font-style:normal;font-size:1.125em">
+          <h4>Third Coast Festival</h4>
           <span>Navy Pier</span>
           <span>848 East Grand</span>
           <span>Chicago, Illinois 60611-3509</span>
-        </blockquote>
-        <span>312-948-4682</span>
-        <a href="mailto:info@thirdcoastfestival.org">info@thirdcoastfestival.org</a>
-      </address>
-    </aside>
+          <span>312-948-4682</span>
+          <a href="mailto:info@thirdcoastfestival.org">info@thirdcoastfestival.org</a>
+        </address>
+        <nav class="social">
+          <a class="twitter" href="https://twitter.com/ThirdCoastFest">Twitter</a>
+          <a class="instagram" href="https://instagram.com/thirdcoastfest/">Instagram</a>
+          <a class="facebook" href="https://www.facebook.com/thirdcoastfest?ref=ts">Facebook</a>
+        </nav>
+      </aside>
+    </div>
   </section>
-  <p class="center legal">© <time>[$year]</time> Third Coast International Audio Festival. All rights reserved. <a href="/overview/policy">Terms and Conditions</a> <a class="context button login" href="/manage/login" onclick="this.href = this.href + '/' + btoa(window.location.pathname);">[$_login]</a></p>
-  <section class="sponsor container">
-    <aside>
-      <p>The following foundations, companies and individuals help make the Third Coast International Audio Festival possible through their generous support and sponsorship.</p>
-      <p>Find out how your organization or business can take part in the Third Coast by contacting executive director <a href="mailto:jzorn@thirdcoastfestival.org?subject=Funding%2FSponorship">Johanna Zorn.</a></p>
-    </aside>
+  <section class="sponsor panel" style="align-items:center;">
+    <p class="half legal">The following foundations, companies and individuals help make the Third Coast International Audio Festival possible through their generous support and sponsorship.</p>
     <nav>
       <!-- iterate supporters -->
       <a href="[$organization:location]"><img src="[http://s3.amazonaws.com/$organization:photo:url]" alt="[$organization:@title]" /></a>
     </nav>
+  </section>
+  <section>
+    <p class="center legal caps-lock">© <time>[$year]</time> Third Coast International Audio Festival. All rights reserved. <a href="/overview/policy">Terms and Conditions</a> <a class="context button login" href="/manage/login" onclick="this.href = this.href + '/' + btoa(window.location.pathname);">[$_login]</a></p>
   </section>
 </footer>
