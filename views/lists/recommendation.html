@@ -1,13 +1,18 @@
-<ul class="recommended plain" style="font-size:1.25em;">
+<ul class="triptych plain">
   <!-- iterate item:recommended -->
-  <li class="container">
-    <div class="group float-left _4 audio" style="text-align:center;">
-      <!-- iterate item:media:audio -->
-      <!--  insert views/partials/play-button.html-->
+  <li>
+    <div>
+      <div class="controls">
+        <!-- iterate item:media:audio -->
+        <!--  insert views/partials/play-button.html-->
+        <span class="h4" style="margin-left:1em;">[$item:premier:@date / $item:duration min]</span>
+      </div>
+        <h3 class="display strong tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
+        <p>[$item:summary]</p>
     </div>
-    <div class="group float-left _75">
-      <a href="[$item:permalink]" class="blocky" style="[border-image: $item:gradient 30 30 stretch;]">[$item:title]</a>
-      <blockquote>[$item:summary]</blockquote>
-    </div>
+    <ul class="plain path h4" style="">
+      <!-- iterate item:producers -->
+      <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+    </ul>
   </li>
 </ul>

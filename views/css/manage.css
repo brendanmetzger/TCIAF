@@ -1,21 +1,21 @@
 
 .console {
-  background-color:rgba(33,33,33,1);
+  background-color:rgba(33,33,33,0.75);
   color:#fff;
-  width:97.5%;
+  width:25vw;
   margin:0;
   font-size:1.25em;
-  padding:2em 1.25%;
+  padding:2em;
   display:block;
-  overflow:scroll;
+  overflow:auto;
   position:fixed;
-  bottom:0;
-  left:0;
-  opacity:0.75;
+  top:0;
+  right:0;
+  height:100vh;
   font-family:Inconsolata;
-  line-height:1em;
-  transition:height 0.25s;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-all; 
+  z-index:5;
 }
 
 
@@ -602,5 +602,3 @@ dl[data-priority='low'] > dd {
   background:#E9CCCB url(/images/trash.svg) no-repeat left center;
   padding-left:2.5em;
 }
-
-.error   {color:#BC6365;}

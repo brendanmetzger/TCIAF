@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
-  <path id="band" d="M29,71C0,0,100,0,72,71" style="stroke:#eee;fill:none;stroke-width:2;"/>
-  <g style="fill:#CCC;stroke:none;">
+  <!-- <path id="band" d="M29,71C0,0,100,0,72,71" style="stroke:#eee;fill:none;stroke-width:2;"/>
+  <g style="fill:#FFF;stroke:none;">
     <rect x="30" y="65" width="8" height="16"/>
     <rect x="63" y="65" width="8" height="16"/>
-  </g>
-  <polygon points="44.5,37.5 44.5,57.5 60,46.429" fill="#5b9c99"/>
+  </g> -->
+  <polygon points="40,35         40,65         65,50" fill="#5b9c99"/>
 </svg>

@@ -1,23 +1,25 @@
 .listen {
-  background-size: auto 0%;
+  background-size: auto 100%;
   background-image: url(/images/listen.svg);
   background-position: 50% 46.5%;
   background-repeat: no-repeat;
-  color: #5B9B98;
+  color: rgba(0,0,0,0);
   letter-spacing: 0.075em;
   transition: color 0.25s, background-size 0.25s;
 }
 
 .listen:hover {
-  background-size: auto 100%;
-  color: rgba(0,0,0,0);
+  background-size: auto 0%;
+  color: #5B9B98;
 }
 
 button.listen {
+  box-shadow:none;
+  border: 3px solid #5B9B98;
   overflow: hidden;
-  height: 5em;
-  width: 5em;
-  border-radius: 50%;
+  height: 4em;
+  width: 4em;
+  border-radius: 45%;
 }
 
 .queued {

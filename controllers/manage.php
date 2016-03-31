@@ -35,12 +35,13 @@ class Manage extends \bloc\controller
 
     $this->supporters = $tciaf->supporters;
     $this->staff      = $tciaf->staff;
-    
+
 
 
     if ($this->authenticated) {
       $this->_login = 'Logout';
-      $this->user = Application::instance()->session('TCIAF')['user'];
+      $session = Application::instance()->session('TCIAF');
+      $this->user = $session('user')->get('trim');
       $this->tasks = (new Dictionary(['person', 'feature', 'article', 'competition', 'organization', 'happening', 'collection']))->map(function($task) {
         return ['name' => $task, 'count' => Graph::group($task)->find('vertex')->count()];
       });

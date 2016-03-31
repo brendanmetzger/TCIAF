@@ -1,13 +1,14 @@
 body, ul, ol, form, h2, h3, h4, h5, figure, blockquote { margin:0 }
 
 body {
-  font: normal normal 300 62.5%/1.35 'Avenir Next', Verdana, sans-serif;
-  background: #f8f8f8 url(/images/background.png) repeat-y 100% 100% fixed;
+  font: normal normal 300 62.5%/1.35 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
+  background: #FFF url(/images/background.png) repeat-y 100% 100% fixed;
   background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
-  background-color:#f8f8f8;
+  background-color:#FFF;
   background-size:100%, 100%;
   background-position:100% 100%, 100% 100%;
   transition:background-position 2s, background-size 1.5s;
+  color:#333;
 }
 
 main {
@@ -15,25 +16,30 @@ main {
   width:100%;
   box-sizing:border-box;
   top:0;
-  transition:opacity 1s, background-color 2s;
+  transition:opacity 1s, background-color 1.5s 0.125s;
   min-height:80vh;
   position:relative;
   z-index:1;
-  background-color:rgba(248, 248, 248, 0.65);
-  padding:0 1em;
+  background-color:rgba(255, 255, 254, 1);
+  padding:0;
 }
 
 
-@media only screen and (min-width: 992px){
+@media only screen and (min-width: 800px){
   main {
-    padding:0 15%;
+    padding:0 2em 0 calc(20em + 10%);
+  }
+
+
+  .------- {
+    width: 70%;
   }
 }
 
 
 
 
-.transition > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
+.transition > div > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
 
 /* Responsivity ------------------- */
 audio, img:not([src]), nav[data-pages='1'] {display:none;}
@@ -59,12 +65,14 @@ audio, img:not([src]), nav[data-pages='1'] {display:none;}
 }
 
 
+
 .golden.float-left {
   width:62%;
 }
 .golden + *.float-left {
   width:38%;
 }
+
 
 
 body > header {
@@ -165,7 +173,6 @@ body[data-engage] .home a {
 }
 
 article header {
-  margin:2.5em 0 0;
   padding:1em 0;
   border-bottom: 1px solid #eee;
 }

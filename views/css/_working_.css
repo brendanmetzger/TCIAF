@@ -19,7 +19,7 @@
 .condensed, header h1, header .h1 {font-family: 'Avenir Next Condensed', 'Open Sans Condensed';}
 
 .award {
-  padding: 0.5em 3.5em 0.5em 0;
+  padding: 0.25em 3.5em 0.25em 0;
   display:block;
   position:absolute;
   text-align:right;
@@ -146,11 +146,6 @@ ul.index {
   text-align:right;
 }
 
-
-
-h3 {
-  color:#88746A;
-}
 
 
 .intro > p:first-of-type, .subhead {

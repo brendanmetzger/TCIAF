@@ -116,4 +116,10 @@ class Explore extends Manage
     return $view->render($this($media->slug));
   }
 
+  public function GETdesign()
+  {
+    $view = new view('views/switch.html');
+    return $view->render($this());
+  }
+
 }

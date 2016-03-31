@@ -53,12 +53,13 @@
           var swap = document.createElement('div');
           swap.className = elem.className;
           elem.parentNode.replaceChild(swap, elem);
-          bloc.init(elem.id, bloc.init(elem.id).bind(new window[elem.id](swap, elem.dataset)));
+          var callback = bloc.init(elem.id).bind(new window[elem.id](swap, elem.dataset));
+          bloc.init(elem.id, callback);
         });
         return this;
       });
 
-      bloc.init('Player', function () {
+      bloc.init('Player', function (hmm) {
         return this;
       });
 
@@ -72,68 +73,70 @@
       });
       // ]]>
     </script>
-
   </head>
-  <body id="[$_controller]" class="[$_action]" data-user="[$user]">
-    <header class="container">
-      <form class="finder float-left group search">
-        <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
-        <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
-        <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
-      </form>
-      <div class="banner float-left group">
-        <nav>
-          <ul class="plain inline">
-            <!-- <li class="home context"><a href="/">Home</a></li> -->
-            <li><a href="/overview/library">Library</a></li>
-            <li><a href="/overview/conference">Conference</a></li>
-            <li><a href="/overview/events">Events</a></li>
-            <li><a href="/overview/competition">Competitions</a></li>
-            <li><a href="/overview/subscribe">Subscribe</a></li>
-            <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
-          </ul>
-        </nav>
-        <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
-        <blockquote class="mono" style="padding:2em 0;">Sharing the best audio stories produced worldwide and inspiring the next generation of makers.</blockquote>
-      </div>
-      <noscript id="Player" data-queue="" data-controls="one-quarter group float-left controls" data-playlist="plain playlist three-quarters group float-left" class="float-left group">
-        <p>The Third Coast Festival Audio Player</p>
-      </noscript>
-    </header>
-    <main class="content container">
-      <!-- replace content nextSibling -->
-      <section class="landing">
-        <article class="group float-left gradient" style="width:45%;padding:5em 1em 1em;background-color:rgba(255,255,255,0.25); text-align:center">
-          <h2 data-id="[$collection:@id]">[$collection:title]</h2>
-          <p>[$collection:content:about]</p>
-          <!-- iterate collection:features -->
-          <!-- insert views/cards/feature.html -->
-        </article>
-        <article class="group float-left" style="width:55%;padding:5em;">
-          <h2>News and Events</h2>
-          <!-- iterate collection:articles -->
-          <section>
-            <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
-            <h2 data-id="[$article:@id]"><a href="[$article:permalink]">[$article:title]</a></h2>
-            <p>[$article:summary]</p>
-          </section>
-          <hr />
-          <h2>Featured Playlists</h2>
-          <!-- iterate playlists -->
-          <section>
-            <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
-            <p>[$playlist:summary]</p>
-          </section>
-        </article>
-        <style type="text/css" media="screen">
-          /* <![CDATA[ */
-          .landing article > h2 {margin:0 0 2em;}
-          /* ]]> */
-        </style>
-      </section>
-    </main>
-    <!-- insert views/pages/footer.html -->
-    <script type="text/javascript">window.bloc.load();</script>
+  <body class="[$_action]" data-user="[$user]">
+    <div data-id="media"></div>
+    <div data-id="browse">
+      <header class="container">
+        <form class="finder float-left group search">
+          <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
+          <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
+          <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
+        </form>
+        <div class="banner float-left group">
+          <nav>
+            <ul class="plain inline">
+              <!-- <li class="home context"><a href="/">Home</a></li> -->
+              <li><a href="/overview/library">Library</a></li>
+              <li><a href="/overview/conference">Conference</a></li>
+              <li><a href="/overview/events">Events</a></li>
+              <li><a href="/overview/competition">Competitions</a></li>
+              <li><a href="/overview/subscribe">Subscribe</a></li>
+              <li><a href="https://donatenow.networkforgood.org/ThirdCoast">Donate</a></li>
+            </ul>
+          </nav>
+          <a href="/" title="Go to the Third Coast Homepage"><img src="/images/logo.svg"/></a>
+          <blockquote class="mono" style="padding:2em 0;">Sharing the best audio stories produced worldwide and inspiring the next generation of makers.</blockquote>
+        </div>
+        <noscript id="Player" data-queue="" data-controls="one-quarter group float-left controls" data-playlist="plain playlist three-quarters group float-left" class="float-left group">
+          <p>The Third Coast Festival Audio Player</p>
+        </noscript>
+      </header>
+      <main class="content container">
+        <!-- replace content nextSibling -->
+        <section class="landing">
+          <article class="group float-left gradient" style="width:45%;padding:5em 1em 1em;background-color:rgba(255,255,255,0.25); text-align:center">
+            <h2 data-id="[$collection:@id]">[$collection:title]</h2>
+            <p>[$collection:content:about]</p>
+            <!-- iterate collection:features -->
+            <!-- insert views/cards/feature.html -->
+          </article>
+          <article class="group float-left" style="width:55%;padding:5em;">
+            <h2>News and Events</h2>
+            <!-- iterate collection:articles -->
+            <section>
+              <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
+              <h2 data-id="[$article:@id]"><a href="[$article:permalink]">[$article:title]</a></h2>
+              <p>[$article:summary]</p>
+            </section>
+            <hr />
+            <h2>Featured Playlists</h2>
+            <!-- iterate playlists -->
+            <section>
+              <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
+              <p>[$playlist:summary]</p>
+            </section>
+          </article>
+          <style type="text/css" media="screen">
+            /* <![CDATA[ */
+            .landing article > h2 {margin:0 0 2em;}
+            /* ]]> */
+          </style>
+        </section>
+      </main>
+      <!-- insert views/pages/footer.html -->
+    </div>
     <!-- replace helper -->
+    <script type="text/javascript">window.bloc.load();</script>
   </body>
 </html>

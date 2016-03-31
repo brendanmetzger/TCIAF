@@ -1,5 +1,5 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <nav class="center crumbs">
+  <nav class="center crumbs" style="display:none">
     <ul class="plain">
       <li><strong>Featured in</strong></li>
       <!-- iterate item:playlists -->
@@ -16,25 +16,22 @@
       </li>
     </ul>
   </nav>
-  <header class="trans-blocks headspace">
-    <a class="p award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-    <div class="container">
-      <div class="group float-left center _10" style="padding:1em 2.5em;">
-        <!-- iterate item:media:audio -->
-        <!-- insert views/partials/play-button.html -->
-      </div>
-      <div class="group float-left _75">
-        <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
-        <span class="h3">[$item:premier:@date, $item:premier,  $item:location]</span>
-      </div>
+  <header>
+    <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
+    <div class="controls">
+      <!-- iterate item:media:audio -->
+      <!-- insert views/partials/play-button.html -->
+      <h1 data-id="[$item:@id]" property="name" class="lead display tracked">[$item:title]</h1>
     </div>
+    <p class="h3">[$item:summary]</p>
+    <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
   </header>
   <div class="content container">
+    <section class="group float-left three-quarters" property="description">[$item:content:description]</section>
     <section data-size="[$item:media:size:image]" class="group float-left _5" style="padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
       <!-- iterate item:media:image -->
       <img src="[$domain/$url]" alt="[$plain]" property="image" data-ratio="[$mark]"/>
     </section>
-    <section class="group float-left three-quarters intro" style="margin-left:2.5%"  property="description">[$item:content:description]</section>
     <section class="group float-left three-quarters" property="contributors" style="margin-left:2.5%;">
       <ul class="plain" style="margin-top:5em;">
         <!-- iterate item:extras -->
@@ -46,63 +43,86 @@
     </section>
   </div>
   <section>
-    <span class="marquee center condensed" >Produced By</span>
+    <h4 class="brown caps-lock strong">produced by</h4>
     <!-- iterate item:producers -->
     <!-- insert views/cards/person.html -->
   </section>
-  <section class="center crumbs" style="margin-top:5em;" id="recommended">
-    <span class="marquee condensed">Recommended</span>
+
+
+
+  <section class="">
+    <h4 class="brown caps-lock strong">Recommend</h4>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>
+
+
   <style media="screen">
+  header .controls button {
+    font-size:125%;
+    margin:2vw 2vw 0.5em 0;
+  }
+  header .controls {
+    margin:3.5em 0;
+  }
+
+
+  @media screen and (min-width: 800px){
+    .lead {
+      max-width: calc(75vw - 5em);
+    }
+  }
+  .lead {
+    font-size:calc(3em + 2vw);
+    line-height:1.15;
+  }
+  .controls {
+    display:flex;
+    padding:1.5em 0;
+    flex-flow:row;
+    align-items: flex-end;
+  }
+  .path {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+  }
+  .path > * {
+    padding:0.25em;
+  }
+  .display {
+    font-family:Baskerville, Didot;
+  }
+
+  .triptych {
+    padding:1em 0;
+    display:flex;
+    justify-content:space-around;
+  }
+
+  .triptych > * {
+    box-sizing:border-box;
+    display:flex;
+    flex-flow: column;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    padding:1em;
+    flex:0 0 calc(33% - 0.5em);
+  }
+  .brown {
+    color:rgb(119, 99, 92);
+  }
+
   /*<![CDATA[*/
     .content img {
       width:100%;
     }
 
-    .blocky {
-      display:inline-block;
-      padding:0.25em;
-      margin:0.25em 0;
-      border-width:0 0 1px 0;
-    }
+
     section.crumbs ul li {
       padding:1em;
       text-align:left;
     }
-
-
-    @media only screen and (max-width: 600px) {
-      section[data-size] {
-        text-align:center;
-
-      }
-
-      section[data-size] img {
-        background-color:rgba(255,255,255,0.5);
-        border:1px solid #EEE;
-        box-sizing:border-box;
-        vertical-align:top;
-        padding:1em;
-        margin:0.5%;
-        width:20%;
-      }
-      section[data-size='1'] img {
-        width: 50%;
-        float:left;
-        padding:0.5em;
-        margin: 0 1em 0 0;
-      }
-      section[data-size='2'] img {
-        width: 45%;
-      }
-
-      section[data-size='3'] img {
-        width: 30%;
-        padding:0.5em;
-      }
-  	}
   /*]]>*/
   </style>
 </article>

@@ -5,7 +5,7 @@ namespace models;
  * Person
  */
 
-class Person extends Vertex
+class Person extends Vertex  implements \bloc\types\authentication
 {
   use traits\banner;
 
@@ -41,9 +41,9 @@ class Person extends Vertex
     parent::__construct($id, $data);
   }
 
-  public function authenticate($password)
+  public function authenticate($token)
   {
-    if (! password_verify($password, $this->context->getAttribute('hash'))) {
+    if (! password_verify($token, $this->context->getAttribute('hash'))) {
       throw new \InvalidArgumentException("Credentials do not match", 1);
     }
     return $this->context;

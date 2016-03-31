@@ -105,6 +105,19 @@ abstract class Vertex extends \bloc\Model
     }
   }
 
+  public function getBody(\DOMElement $context)
+  {
+		$abstract = $this->getAbstract($context, false);
+		if (!is_object($abstract)) return;
+    if ($node = \bloc\DOM\Document::ELEM("<root>{$abstract->current()['text']}</root>")) {
+      if ($node->childNodes->length > 0) {
+        $len = strlen($node->firstChild->nodeName) + 2;
+        return substr($node->firstChild->write(), $len, -($len + 1));
+      }
+
+    }
+  }
+
   public function setEdge(\DOMElement $context, $value)
   {
     $atts  = $value['@'];

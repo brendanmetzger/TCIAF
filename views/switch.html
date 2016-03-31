@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
+  <head>
+    <title>[$title]</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="no"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Third Coast International Audio Festival"/>
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+    <style>
+      body {
+        font-family:'Avenir Next';
+      }
+      * {
+        padding:0;
+        margin:0;
+        box-sizing:border-box;
+      }
+      p {
+        margin:2em;
+      }
+      section[data-id] {
+        background-color:#FFF;
+        transition:height 0.15s ease-in, background-color 0.5s;
+        height:90vh;
+        overflow:auto;
+        display:flex;
+        flex-flow: column;
+        position:relative;
+      }
+
+      #browse > section[data-id='media'], #media > section[data-id='browse'] {
+        height:10vh;
+        overflow:hidden;
+        background-color:#AAA;
+      }
+      section[data-id] > header {
+        padding:1em;
+      }
+
+      #media section > main, #browse section > nav {
+        display:none;
+      }
+      section[data-id='browse'] {
+        flex-flow: column-reverse;
+      }
+
+    </style>
+  </head>
+  <body id="browse" >
+    <section data-id="media">
+      <header>
+        <h1>Play</h1>
+      </header>
+      <nav>
+        <ul>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+          <li>track</li>
+        </ul>
+      </nav>
+
+    </section>
+    <section data-id="browse">
+      <header>
+        <h1>Browse</h1>
+      </header>
+      <main>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est iusto dolor sint earum harum neque porro aliquid praesentium, itaque voluptatem dicta assumenda recusandae, voluptate explicabo vel voluptatum culpa accusantium inventore.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis odit, blanditiis voluptate molestias porro ut facilis at voluptas amet quam, deleniti ratione eligendi hic fuga, itaque autem excepturi molestiae totam.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam asperiores consectetur quisquam distinctio quo in, commodi quae sed totam id, mollitia at necessitatibus nemo tempora qui sunt accusantium vel provident?</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati doloribus nesciunt unde animi qui, illum earum rerum. Eaque id laborum recusandae iure tempora earum, reprehenderit? Recusandae illo molestias, asperiores. Ipsa!</p>
+      </main>
+    </section>
+    <script type="text/javascript">
+      // <![CDATA[
+      [].forEach.call(document.querySelectorAll('section[data-id]'), function(section) {
+        section.addEventListener('click', function(evt) {
+          console.log(this);
+          this.parentNode.id = this.dataset.id;
+        });
+      });
+      // ]]>
+    </script>
+  </body>
+</html>
