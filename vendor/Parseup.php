@@ -1,4 +1,5 @@
 <?php
+namespace Vendor;
 /**
  * Class HTML_To_Markdown
  *
@@ -75,7 +76,7 @@ class Parseup
      */
     public function convert($html)
     {
-        $this->document = new DOMDocument();
+        $this->document = new \DOMDocument();
 
         if ($this->options['suppress_errors'])
             libxml_use_internal_errors(true); // Suppress conversion errors (from http://bit.ly/pCCRSX )

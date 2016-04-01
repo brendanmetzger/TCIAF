@@ -6,6 +6,7 @@ use \bloc\view;
 use \bloc\view\renderer as Render;
 use \bloc\types\string;
 use \bloc\types\dictionary;
+use \models\person as Admin;
 
 use \models\graph;
 
@@ -15,15 +16,12 @@ use \models\graph;
 
 class Manage extends \bloc\controller
 {
-  protected $partials,
-            $request;
+  protected $authenticated = false, $request;
 
   public function __construct($request)
   {
     View::addRenderer('before', Render::PARTIAL());
     View::addRenderer('after',  Render::HTML());
-
-    $this->authenticated = (isset($_SESSION) && array_key_exists('user', $_SESSION));
 
 		$this->year        = date('Y');
     $this->title       = "Third Coast International Audio Festival";
@@ -37,23 +35,27 @@ class Manage extends \bloc\controller
     $this->staff      = $tciaf->staff;
 
 
+    if ((isset($_SESSION) && array_key_exists('id', $_SESSION))) {
+      $this->authenticated = true;
 
-    if ($this->authenticated) {
+      Render::PARTIAL('helper', 'views/partials/admin.html');
+      $this->user = $_SESSION['user'];
       $this->_login = 'Logout';
-      $session = Application::instance()->session('TCIAF');
-      $this->user = $session('user')->get('trim');
+
       $this->tasks = (new Dictionary(['person', 'feature', 'article', 'competition', 'organization', 'happening', 'collection']))->map(function($task) {
         return ['name' => $task, 'count' => Graph::group($task)->find('vertex')->count()];
       });
-      Render::PARTIAL('helper', 'views/partials/admin.html');
+
     } else {
+
       $this->_login = "Staff Login";
     }
+
   }
 
   public function authenticate()
   {
-    # code...
+    return $this->authenticated  ? new \models\person($_SESSION['id']) : null;
   }
 
   public function GETError($message, $code)
@@ -112,8 +114,10 @@ class Manage extends \bloc\controller
 
     if ($key) {
       try {
-        $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
-        Application::instance()->session('TCIAF', ['user' =>  $user->getAttribute('title')]);
+        $id = 'p-' . preg_replace('/\W/', '', $username);
+        $user = (new \models\person($id))->authenticate($password);
+
+        Application::instance()->session('TCIAF', ['id' => $id, 'user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect);
       } catch (\InvalidArgumentException $e) {
         $type = 'invalid';
@@ -126,7 +130,7 @@ class Manage extends \bloc\controller
     \bloc\router::redirect($retry);
   }
 
-  protected function GETedge($model, $type, $id = null)
+  protected function GETedge(Admin $user, $model, $type, $id = null)
   {
     $view = new view('views/layout.html');
     $view->content = "views/forms/edge.html";
@@ -136,7 +140,7 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
 
-  protected function POSTedge($request)
+  protected function POSTedge(Admin $user, $request)
   {
     $view = new view('views/layout.html');
     $view->content = "views/forms/partials/edge.html";
@@ -153,7 +157,7 @@ class Manage extends \bloc\controller
 
   // Create a new vertex model from scratch
   // output: HTML Form
-  protected function GETcreate($model)
+  protected function GETcreate(Admin $user, $model)
   {
     $this->item       = Graph::FACTORY($model);
     $this->action     = "Create New {$model}";
@@ -165,7 +169,7 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
 
-  protected function GETgroup($to_group = null, $from_group = null, $vertex = null)
+  protected function GETgroup(Admin $user, $to_group = null, $from_group = null, $vertex = null)
   {
     $view = new view('views/layout.html');
 
@@ -197,7 +201,7 @@ class Manage extends \bloc\controller
 
   // Fetch a vertex and create a model.
   // output: HTML Form
-  protected function GETedit($vertex)
+  protected function GETedit(Admin $user, $vertex)
   {
     $this->item   = $vertex instanceof \models\model ? $vertex : Graph::FACTORY(Graph::ID($vertex));
     $this->action = "Edit {$this->item->get_model()}:";
@@ -207,7 +211,7 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
 
-  protected function POSTedit($request, $model, $id = null)
+  protected function POSTedit(Admin $user, $request, $model, $id = null)
   {
     if ($instance = Graph::FACTORY( (Graph::ID($id) ?: $model), $_POST)) {
       if ($instance->save()) {
@@ -227,7 +231,7 @@ class Manage extends \bloc\controller
     }
   }
 
-  protected function POSTupload($request)
+  protected function POSTupload(Admin $user, $request)
   {
     $name   = base_convert($_FILES['upload']['size'], 10, 36) . '_' . strtolower(preg_replace(['/\.[a-z34]{3,4}$/i', '/[^a-zA-Z0-9\-\:\/\_]/'], ['', ''], $_FILES['upload']['name']));
 

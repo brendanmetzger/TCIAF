@@ -5,7 +5,7 @@
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
 .brown-bg a { color:#AAA }
 
-a {color:#706F73;text-decoration:none;}
+a {color:#706F73;text-decoration:none;border-bottom:1px solid rgba(112, 111, 115, 0.25)}
 a > *:not(button) {pointer-events: none;}
 a:hover {color:#5a9a98;}
 a.selected{text-decoration:none;cursor:default;color:#333;}
@@ -82,7 +82,7 @@ header .controls {
 section#browse > main {
   transition:opacity 1s, background-color 1.5s 0.125s;
   background-color:#FAFAFA;
-  padding-bottom:2vmax;
+  padding:2vw;
 }
 
 .transition #browse > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
@@ -155,6 +155,14 @@ article > header {
     flex-direction: column;
   }
 
+
+  hr, .hr {
+    border:none;
+    border-top:1px dashed #BEBEBE;
+    margin:2.5vmax 0;
+    clear:both;
+  }
+
   .half       {width:50%   }
   .one-third  {width:33.3% }
   .two-thirds {width:66.6% }
@@ -171,8 +179,8 @@ article > header {
     left:20vw;
     width:80vw;
   }
-  #browse > header, #browse > main {
-    padding:0 2.5vw;
+  #browse > header {
+    padding:0 2vw;
   }
 }
 
@@ -263,3 +271,24 @@ article > header {
 .twitter   {background-position:0 0.5em}
 .facebook  {background-position:-0.25em -3em}
 .instagram {background-position:0 -6.5em}
+
+
+
+.console {
+  background-color:rgba(33,33,33,0.75);
+  color:#fff;
+  width:25vw;
+  margin:0;
+  font-size:1.25em;
+  padding:2em;
+  display:block;
+  overflow:auto;
+  position:fixed;
+  top:0;
+  right:0;
+  height:100vh;
+  font-family:Inconsolata;
+  white-space: pre-wrap;
+  word-break: break-all;
+  z-index:5;
+}

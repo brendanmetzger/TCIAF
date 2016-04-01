@@ -87,7 +87,7 @@ abstract class Vertex extends \bloc\Model
       return [
        'type' => $abstract->getAttribute('content'),
        'index' => $abstract->getIndex(),
-       'text' => $parse ? (new \Parseup($content))->output() : $content,
+       'text' => $parse ? (new \vendor\Parseup($content))->output() : $content,
       ];
     });
   }

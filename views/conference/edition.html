@@ -30,7 +30,7 @@
   <span class="marquee condensed center" id="sessions">Conference Sessions</span>
   <section>
     <!-- iterate item:sessions -->
-    <article class="trans-blocks" id="[$session:@id]">
+    <article id="[$session:@id]">
       <h3 data-id="[$session:@id]" class="center h1 condensed"><a href="[$session:permalink]">[$session:title]</a></h3>
       <blockquote class="three-quarters middle center">
         <p>[$session:summary]</p>
@@ -42,7 +42,7 @@
       <ul class="bios container">
         <!-- iterate session:presenters -->
         <li class="[float-left _$count group]" data-id="[$person:@id]">
-          <span class="bio-disc" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+          <span class="bio" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
           <a href="[$person:permalink]">[$person:title]</a>
         </li>
       </ul>

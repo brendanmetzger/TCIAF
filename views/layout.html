@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
   <!-- insert views/head.html-->
-  <body class="[$_action panel]" data-user="[$user]" data-id="browse">
+  <body class="[$_action panel]" data-user="[$user]" data-view="browse">
 
     <section id="media" class="column panel" style="background-color:#fff;box-shadow:inset -0.125em 0 0 rgba(0,0,0,0.1)">
       <form class="finder search">
@@ -33,30 +33,39 @@
         <!-- replace content nextSibling -->
         <section class="landing">
           <article>
-            <h2 data-id="[$collection:@id]">[$collection:title]</h2>
-            <p>[$collection:content:about]</p>
+
+            <div style="height:25vw;margin:-2vw -2vw 2vw;padding:2vw;background-color:#ffc22d;position:relative">
+              <div style="position:absolute;bottom:2.5vw;left:2.5vw; width:50%;">
+                <h2 data-id="[$collection:@id]">[$collection:title]</h2>
+                <p>[$collection:content:about]</p>
+              </div>
+            </div>
+
+            <h3 class="brown caps-lock t b">Listen</h3>
             <section class="triptych">
               <!-- iterate collection:features -->
               <!-- insert views/cards/feature.html -->
             </section>
           </article>
-          <article class="panel">
-            <h2>News and Events</h2>
-            <!-- iterate collection:articles -->
-            <section>
-              <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
-              <h2 data-id="[$article:@id]"><a href="[$article:permalink]">[$article:title]</a></h2>
-              <p>[$article:summary]</p>
-            </section>
-            <hr />
-            <h2>Featured Playlists</h2>
-            <!-- iterate playlists -->
-            <section>
-              <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
-              <p>[$playlist:summary]</p>
-            </section>
+          <hr />
+          <article>
+            <h3 class="brown caps-lock t b">News and Events</h3>
+            <div  class="panel">
+              <!-- iterate collection:articles -->
+              <section>
+                <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
+                <h2 data-id="[$article:@id]"><a href="[$article:permalink]">[$article:title]</a></h2>
+                <p>[$article:summary]</p>
+              </section>
+              <hr />
+              <h2>Featured Playlists</h2>
+              <!-- iterate playlists -->
+              <section>
+                <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
+                <p>[$playlist:summary]</p>
+              </section>
+            </div>
           </article>
-
         </section>
       </main>
       <!-- insert views/pages/footer.html -->

@@ -43,7 +43,7 @@ function goto(url, evt) {
 
   (new Modal.Form({
     load: function (form) {
-      window.bloc.init('stylesheets');
+      bloc.init('stylesheets')();
       form.querySelector('input').focus();
     },
     submit: function (evt) {
@@ -53,7 +53,11 @@ function goto(url, evt) {
       new Request({
         load: function (evt) {
           exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-          setTimeout(window.bloc.init.bind(window.bloc, 'editables'), 100);
+          setTimeout(function () {
+            var edit = bloc.init('editables');
+            console.log(edit)
+            edit();
+          }, 100);
         }
       }).get(window.location.href + '.xml');
     }
@@ -344,19 +348,18 @@ Modal.prototype = {
     // make closeable
     var button = document.createElement('button');
         button.className = 'close';
-        button.innerHTML = '&times;';
+        button.innerHTML = '×';
         button.addEventListener('click', this.close.bind(this));
 
     this.element.insertBefore(button, this.element.firstChild);
     this.element.style.top = (document.body.scrollTop + 10) + 'px';
-    bloc.init('autoload');
+    bloc.init('autoload')();
     if (this.progress) {
       this.progress.remove();
     }
   },
   show: function () {
     document.body.classList.add('locked');
-    this.backdrop.style.height = document.body.scrollHeight + 'px';
     this.backdrop.classList.add('viewing');
   },
   close: function (evt) {
@@ -421,7 +424,10 @@ Modal.Form = function (callbacks) {
   },
   processForm: function (evt) {
     evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
-      document.head.appendChild(window.bloc.tag(false)).text = script.text;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      // document.head.appendChild(window.bloc.tag(false)).text = script.text;
+      document.head.appendChild(s).text = script.text;
     });
 
     // No form means we need to load up one via our ajax object

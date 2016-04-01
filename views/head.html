@@ -30,6 +30,7 @@
         },
         init: function (k, f) {
           if (f && 'call' in f) c[k] = f;
+          else c[k] = function() {return this ;}
           return c[k];
         }
       };
@@ -50,8 +51,14 @@
         var swap = document.createElement('div');
         swap.className = elem.className;
         elem.parentNode.replaceChild(swap, elem);
-        var callback = bloc.init(elem.id).bind(new window[elem.id](swap, elem.dataset));
-        bloc.init(elem.id, callback);
+        try {
+          var callback = bloc.init(elem.id).bind(new window[elem.id](swap, elem.dataset));
+          bloc.init(elem.id, callback);
+        } catch(e) {
+          console.log(e, elem, elem.id);
+        }
+
+
       });
       return this;
     });
