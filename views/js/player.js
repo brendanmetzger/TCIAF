@@ -13,7 +13,6 @@ Track.prototype = {
   events: ['ended', 'stalled', 'timeupdate', 'error','seeked', 'seeking', 'playing', 'waiting'],
   set element(node){
     document.createElement('span').insert(node).textContent = this.title;
-
     this._element = node;
     this._element.appendChild(this.audio);
   },
@@ -146,14 +145,20 @@ var Player = function (container, data) {
 };
 
 
-
 Player.prototype = {
+  cleanup: function () {
+    var player = bloc.init('Player')();
+    player.pause();
+    delete player;
+  },
   play: function () {
     this.playlist.current.audio.play();
+    window.addEventListener('unload', Player.prototype.cleanup);
   },
   pause: function () {
     this.button.setState('play');
     this.playlist.current.audio.pause();
+    window.removeEventListener('unload', Player.prototype.cleanup);
   },
   ended: function (evt) {
     this.playlist.next().play();
@@ -200,8 +205,8 @@ Player.prototype = {
 
 function loadButtonAudio(button) {
   var selected = button.parentNode.querySelector('audio');
-  console.log(bloc);
   var player = bloc.init('Player')();
+
   player.playlist.clear(player.playlist.getUnplayed());
 
   document.querySelectorAll('audio').forEach(function (audio) {
@@ -223,8 +228,6 @@ function loadButtonAudio(button) {
   });
 
   player.play();
-
-
   button.classList.add('queued');
 }
 

@@ -23,17 +23,6 @@
   display:block;
 }
 
-.bio {
-  background-size:cover;
-  background-position:top center;
-  background-repeat:no-repeat;
-  width:10em;
-  height:10em;
-  background-color:rgba(0,0,0,0.05);
-  display:block;
-  text-indent:-1000em;
-  color:transparent;
-}
 
 
 
@@ -121,11 +110,6 @@ ul.index {
 
 .break {
   margin:10em 0;
-}
-
-
-.headspace {
-  padding:6em 3em;
 }
 
 

@@ -1,43 +1,24 @@
 <article class="person page">
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li class="topic">
-        <strong>[Jump to $item:@title's Credits as...]</strong>
-        <ul class="inline plain separated">
-          <!-- iterate item:contributions -->
-          <li><a class="capitalize" href="[#$name]">[$name]</a></li>
-        </ul>
-      </li>
-      <li><a href="/overview/people">See All People</a></li>
-    </ul>
-  </nav>
-
-  <header class="container">
-    <img src="[http://s3.amazonaws.com/$item:photo:url]" />
+  <header>
     <h1 data-id="[$item:@id]">[$item:@title]</h1>
-    <section>[$item:content:bio]</section>
   </header>
+  <section>
+    <div>[$item:content:bio]</div>
+    <figure>
+      <img src="[http://s3.amazonaws.com/$item:photo:url]" />
+    </figure>
+  </section>
 
   <!-- iterate item:contributions -->
-  <nav>
-    <span class="marquee center condensed capitalize" id="[$name]">[$name]</span>
-    <ul class="plain">
-      <!-- iterate items -->
-      <li data-updated="[$item:@updated]" class="trans-blocks headspace">
-        <a class="h5 award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-
-        <div class="container">
-          <div class="group float-left center _10" style="padding:1em 2.5em;">
-            <!-- iterate item:media:audio -->
-            <!-- insert views/partials/play-button.html -->
-          </div>
-
-          <div class="group float-left _75">
-            <a class="h1 condensed" href="[$item:permalink]">[$item:title]</a>
-            <blockquote><p>[$item:summary]</p></blockquote>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </nav>
+  <section>
+    <h4 class="brown caps-lock strong" id="[$name]">[$name]</h4>
+    <!-- iterate items -->
+    <article data-updated="[$item:@updated]" style="position:relative;">
+      <a class="h5 award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
+      <!-- iterate item:media:audio -->
+      <!-- insert views/partials/play-button.html -->
+      <h1><a href="[$item:permalink]">[$item:title]</a></h1>
+      <p>[$item:summary]</p>
+    </article>
+  </section>
 </article>

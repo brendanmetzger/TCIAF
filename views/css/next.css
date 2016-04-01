@@ -1,34 +1,20 @@
-
-* {
-  box-sizing:border-box;
-}
-
-.brown {
-  color:rgb(119, 99, 92);
-}
-.white-bg {
-  background-color:#fff;
-}
-
-.gray-bg {
-  background-color:#BEBEBE;
-  color: #706F73;
-}
-.brown-bg {
-  color:#EEE;
-  background-color:rgb(119, 99, 92);
-}
-
-
+* { box-sizing:border-box; }
+.brown { color:rgb(119, 99, 92); }
+.white-bg { background-color:#fff }
+.gray-bg { background-color:#BEBEBE; color: #706F73 }
+.brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
+.brown-bg a { color:#AAA }
 
 a {color:#706F73;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
 a:hover {color:#5a9a98;}
 a.selected{text-decoration:none;cursor:default;color:#333;}
 
-.brown-bg a {
-  color:#AAA;
-}
+.t  { margin-top:1.5vmax }
+.tt { margin-top:3.0vmax }
+.b  { margin-bottom:1.5vmax }
+.bb { margin-bottom:3.0vmax }
+
 
 header .controls button {
   font-size:125%;
@@ -38,6 +24,21 @@ header .controls {
   padding:3.5em 0;
 }
 
+
+
+.bio { min-width:10vmin;padding-right:1vmin; margin-right:1vmin; border-right:1px dashed rgba(0,0,0,0.1); }
+.bio figcaption { padding:1em 0 }
+.bio > span {
+  background-size:cover;
+  background-position:top center;
+  background-repeat:no-repeat;
+  width:9vmin;
+  height:9vmin;
+  box-shadow:0 0 0 0.25vmin rgba(0,0,0,0.05);
+  display:block;
+  color:rgba(0,0,0,0);
+  color:transparent;
+}
 
 
 .lead {
@@ -61,7 +62,6 @@ header .controls {
 .display {
   font-family:Baskerville, Didot;
 }
-
 .triptych {
   display:flex;
   justify-content:space-around;
@@ -79,10 +79,12 @@ header .controls {
 }
 
 
-main {
+section#browse > main {
   transition:opacity 1s, background-color 1.5s 0.125s;
   background-color:#FAFAFA;
+  padding-bottom:2vmax;
 }
+
 .transition #browse > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
 
 nav a.banner {
@@ -120,13 +122,6 @@ body > section[id] {
 button,.button{border:1px solid #706F73;background-color:#fff;text-decoration:none;border-radius:0;transition:box-shadow 0.25s,background-color 0.25s;display:inline-block;}
 button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.125em 0 rgba(0,0,0,0.25);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-color:#fff;color:#888;}
-
-
-
-.t  { margin-top:1.5vmax }
-.tt { margin-top:3.0vmax }
-.b  { margin-bottom:1.5vmax }
-.bb { margin-bottom:3.0vmax }
 
 
 @media screen and (max-aspect-ratio: 2/3) {

@@ -1,7 +1,8 @@
+
 <article vocab="http://schema.org/" typeof="Person" class="panel" style="margin:0.5em 0;">
-  <figure style="padding-right:2em;border-right:1px dashed rgba(0,0,0,0.1);margin-right:2em;" class="center">
-    <span class="bio" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-    <figcaption data-id="[$person:@id]" class="h4" style="padding:1em 0;background-color:rgba(255,255,255,0.25);"><a href="[$person:permalink]" property="name">[$person:@title]</a></figcaption>
+  <figure class="center bio">
+    <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+    <figcaption data-id="[$person:@id]" class="h4 strong"><a href="[$person:permalink]" property="name">[$person:@title]</a></figcaption>
   </figure>
   <p>[$person:summary]</p>
 </article>
