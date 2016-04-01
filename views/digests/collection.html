@@ -1,17 +1,22 @@
 <article>
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li><a href="/overview/playlists">All Playlists</a></li>
-    </ul>
+  <nav class="caps-lock strong t b">
+    <a href="/overview/playlists">All Playlists</a> / <span>[$item:title]</span>
   </nav>
-  <section class="container" style="margin:2em 0;">
-    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:50%;float:left;margin:0 1em 0 0;"/>
-    <h1 class="condensed" data-id="[$item:@id]">[$item:title]</h1>
-    <section>[$item:content:description]</section>
-  </section>
 
-  <nav>
+  <header class="two-thirds">
+    <h1 class="lead display strong tracked" data-id="[$item:@id]">[$item:title]</h1>
+  </header>
+
+  <div class="panel">
+    <section>[$item:content:description]</section>
+    <figure class="gallery">
+      <img src="[http://s3.amazonaws.com/$item:photo:url]"/>
+      <figcaption>[$item:photo:caption]</figcaption>
+    </figure>
+  </div>
+
+  <section>
     <!-- iterate item:features -->
     <!-- insert views/cards/feature.html -->
-  </nav>
+  </section>
 </article>

@@ -4,7 +4,7 @@
     <div class="two-thirds controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
-      <h1 data-id="[$item:@id]" property="name" class="lead display tracked">[$item:title]</h1>
+      <h1 data-id="[$item:@id]" property="name" class="strong lead display tracked">[$item:title]</h1>
     </div>
     <div class="two-thirds">
       <p class="h3">[$item:summary]</p>
@@ -19,24 +19,11 @@
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
     </div>
-
-    <style media="screen">
-      .gallery {
-        text-align:center;
-        padding:1vmax;
-      }
-      .gallery img {
-        padding:calc(2.5em - 1vw);
-        background-color:rgba(0,0,0,0.05);
-        max-width:80%;
-      }
-    </style>
-    <div data-size="[$item:media:size:image]" class="one-third gallery">
+    <figure data-size="[$item:media:size:image]" class="one-third gallery">
       <!-- iterate item:media:image -->
       <img src="[$domain/$url]" alt="[$plain]" property="image" data-ratio="[$mark]"/>
-    </div>
+    </figure>
   </section>
-
   <section>
     <h4 class="strong caps-lock brown t b">Featured in</h4>
     <nav>
@@ -51,7 +38,7 @@
     </nav>
   </section>
 
-  <section style="margin:2em 0;">
+  <section>
     <h4 class="brown caps-lock strong t b">Recommend</h4>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>

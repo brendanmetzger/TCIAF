@@ -1,36 +1,38 @@
 <article class="session page" vocab="http://schema.org/" typeof="CreativeWork">
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li class="h2 caps-lock">· Conference Session ·</li>
-      <!-- iterate item:playlists -->
-      <li><strong>Playlist</strong> <a href="[$collection:permalink]">[$collection:title]</a></li>
-      <!-- iterate item:happenings -->
-      <li><strong>Conference</strong> <a href="[/overview/conference/$happening:@id]">[$happening:title]</a></li>
-    </ul>
+  <nav class="strong caps-lock">
+    <!-- iterate item:happenings -->
+    <span><a href="[/overview/conference/$happening:@id]">[$happening:title]</a> / </span>
+    <span>[$item:title]</span>
   </nav>
 
   <header>
-    <h1 data-id="[$item:@id]" property="name">[$item:title]</h1>
-    <!-- iterate item:media:audio -->
-    <!-- insert views/partials/play-button.html -->
+    <div class="two-thirds controls">
+      <!-- iterate item:media:audio -->
+      <!-- insert views/partials/play-button.html -->
+      <h1 class="lead display strong tracked" data-id="[$item:@id]" property="name">[$item:title]</h1>
+    </div>
+
   </header>
 
 
-  <section>
-    <!-- iterate item:media:image -->
-    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" style="width:20%;" property="image"/>
-  </section>
+  <div class="panel">
+    <section class="two-thirds intro" property="description">[$item:content:description]</section>
+    <figure class="one-third gallery">
+      <!-- iterate item:media:image -->
+      <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" property="image"/>
+    </figure>
+  </div>
 
-  <section class="intro" property="description">[$item:content:description]</section>
+
 
 
   <section property="contributors">
     <ul>
       <!-- iterate item:extras -->
-      <li>More: <a href="[$article:permalink]">[$article:title]</a></li>
+      <li><a href="[$article:permalink]">[$article:title]</a></li>
     </ul>
 
-    <h2>Featuring</h2>
+    <h4 class="strong caps-lock brown">Featuring</h4>
     <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->
   </section>

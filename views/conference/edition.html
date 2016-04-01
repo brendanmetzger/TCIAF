@@ -1,91 +1,52 @@
 <article class="conference page">
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li><a href="/overview/conference">More Conferences</a></li>
-      <!-- iterate item:playlists -->
-      <li data-updated="[$playlist:@updated]"><strong>Playlist</strong> <a href="[$playlist:permalink]">[$playlist:title]</a></li>
-      <li style="line-height:0;">
-        <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;" data-aspect="[$item:banner:mark]"/>
-      </li>
-    </ul>
-  </nav>
-  <header class="container">
-    <div class="group float-left half">
-      <h1 data-id="[$item:@id]">[$item:title]</h1>
-      <section>[$item:content:about]</section>
-      <hr />
-      <ul class="plain center divide h4">
-        <li><a href="#sessions">Sessions</a></li>
-        <li><a href="#sponsors">Sponsors</a></li>
-      </ul>
+  <header>
+    <div class="tmp-banner" style="background-color:#ff8d00;color:#fff;"  data-aspect="[$item:banner:mark]">
+      <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
+      <p>[$item:summary]</p>
     </div>
-    <nav class="crumbs group float-left half">
-      <ul class="plain index">
-        <li><strong>Sessions</strong></li>
-        <!-- iterate item:sessions -->
-        <li><a href="[#$session:@id]">[$session:title]</a></li>
-      </ul>
+    <nav class="caps-lock strong t b">
+      <a href="/overview/conference">Conferences</a> / <span>[$item:title]</span>
     </nav>
+    <ul class="plain path">
+      <li><a href="#sessions">Sessions</a></li>
+      <li><a href="#sponsors">Sponsors</a></li>
+    </ul>
+    <section>[$item:content:about]</section>
   </header>
-  <span class="marquee condensed center" id="sessions">Conference Sessions</span>
-  <section>
-    <!-- iterate item:sessions -->
-    <article id="[$session:@id]">
-      <h3 data-id="[$session:@id]" class="center h1 condensed"><a href="[$session:permalink]">[$session:title]</a></h3>
-      <blockquote class="three-quarters middle center">
+
+
+  <div class="panel">
+    <section class="two-thirds" style="padding:1em">
+      <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
+      <nav>
+        <ul class="plain path">
+          <!-- iterate item:sessions -->
+          <li><a href="[#$session:@id]">[$session:title]</a></li>
+        </ul>
+      </nav>
+
+      <!-- iterate item:sessions -->
+      <article id="[$session:@id]" class="listing">
+        <h2 data-id="[$session:@id]" class="display strong"><a href="[$session:permalink]">[$session:title]</a></h2>
         <p>[$session:summary]</p>
-      </blockquote>
 
-      <hr/>
-      <h5 class="h2 center">· Featuring ·</h5>
+        <h4 class="strong brown caps-lock t">Featuring</h4>
 
-      <ul class="bios container">
-        <!-- iterate session:presenters -->
-        <li class="[float-left _$count group]" data-id="[$person:@id]">
-          <span class="bio" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-          <a href="[$person:permalink]">[$person:title]</a>
-        </li>
-      </ul>
-    </article>
-  </section>
+        <section class="panel">
+          <!-- iterate session:presenters -->
+          <figure class="bio head" data-id="[$person:@id]">
+            <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+            <figcaption class="strong"><a href="[$person:permalink]">[$person:title]</a></figcaption>
+          </figure>
+        </section>
 
-  <span class="marquee center condensed" id="sponsors">Sponsors</span>
-  <!-- insert views/partials/sponsors.html -->
+      </article>
+    </section>
+    <section class="one-third" style="padding:1em; background-color:rgba(0,0,0,0.05)">
+      <h4 class="brown caps-lock strong tt bb" id="sponsors">Sponsors</h4>
+      <!-- insert views/partials/sponsors.html -->
+    </section>
+  </div>
 
-
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-
-    .bios {
-      margin:0;
-      padding:0;
-      list-style:none;
-    }
-    .bios li {
-      text-align:center;
-    }
-
-    .bios li a {
-      display:block;
-      width:10em;
-      margin:0 auto;
-      padding:0.5em;
-    }
-
-    .bio-disc {
-      margin:1em auto;
-      width:5em;
-      height:5em;
-    }
-
-    .bios li img {
-      width:10em;
-      background-color:rgba(255,255,255,0.25);
-      margin:0 auto;
-      padding:0.5em;
-    }
-
-    /* ]]> */
-  </style>
 
 </article>

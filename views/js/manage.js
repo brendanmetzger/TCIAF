@@ -83,7 +83,7 @@ function Markdown(container, options) {
   }
 
   var list = this.hud.appendChild(document.createElement('ul'));
-      list.className = 'inline';
+      list.className = 'plain panel';
 
 
   for (var command in this.commands) {

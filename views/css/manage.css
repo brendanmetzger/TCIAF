@@ -149,10 +149,10 @@ body[data-user] {
   height:auto;
   opacity:1;
 }
-
 .hud li {
-  padding:1em;
+  padding:0.5em;
   cursor:pointer;
+  flex:1 0 auto;
   transition:background-color 0.25s, color 0.25s;
   text-align:center;
 }

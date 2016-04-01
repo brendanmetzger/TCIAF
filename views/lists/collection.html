@@ -1,27 +1,19 @@
 <article>
-	<nav class="center crumbs">
-    <ul class="plain">
-      <li>
-        <ul class="plain">
-          <li><strong>Sort by</strong></li>
-          <li><a class="[$newest]" href="/overview/playlists/newest">Created</a></li>
-          <li><a class="[$alphanumeric]" href="/overview/playlists/alpha-numeric">Alphabet</a></li>
-        </ul>
-      </li>
-      <li class="clear">
-        <!-- insert views/partials/navigator.html -->
-      </li>
-    </ul>
-  </nav>
-	<!-- iterate list -->
+	<header>
+		<h3 class="brown strong caps-lock">Playlists</h3>
+		<nav>
+	    <!-- insert views/partials/navigator.html -->
+	  </nav>
+	</header>
 
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="trans-blocks container" style="background-color:rgba(250,250,250,0.85)">
-		<header class="group float-left golden" style="margin:0;">
-			<h2 class="h1 condensed"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
+	<!-- iterate list -->
+  <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="panel">
+		<header class="two-thirds">
+			<h2 class="display tracked strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
 			<p>[$item:summary]</p>
 		</header>
-		<nav class="crumbs group float-left">
-			<ul class="plain index">
+		<nav>
+			<ul class="plain">
 				<!-- iterate item:curators -->
 	      <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
 	    	<li>[$item:size:length Tracks]</li>

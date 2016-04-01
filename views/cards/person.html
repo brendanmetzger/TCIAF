@@ -1,8 +1,8 @@
 
-<article vocab="http://schema.org/" typeof="Person" class="panel" style="margin:0.5em 0;">
-  <figure class="center bio">
+<article vocab="http://schema.org/" typeof="Person" class="listing panel" style="margin:0.5em 0;">
+  <figure class="bio read center" data-id="[$person:@id]">
     <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-    <figcaption data-id="[$person:@id]" class="h4 strong"><a href="[$person:permalink]" property="name">[$person:@title]</a></figcaption>
+    <figcaption class="strong"><a href="[$person:permalink]" property="name">[$person:@title]</a></figcaption>
   </figure>
   <p>[$person:summary]</p>
 </article>

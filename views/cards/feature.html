@@ -1,16 +1,18 @@
-<div data-updated="[$feature:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature card">
-  <div class="controls">
+<article data-updated="[$feature:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing">
+  <div>
     <!-- iterate feature:media:audio -->
     <!--  insert views/partials/play-button.html-->
-    <span class="h4" style="margin-left:1em;">[$feature:premier:@date / $feature:duration min]</span>
   </div>
 
-  <h3 data-id="[$feature:@id]"><a href="[$feature:permalink]" property="name">[$feature:title]</a></h3>
+  <div class="two-thirds envelope">
+    <h3 class="display strong" data-id="[$feature:@id]"><a href="[$feature:permalink]" property="name">[$feature:title]</a></h3>
+    <p>[$feature:summary]</p>
+  </div>
 
-  <p>[$feature:summary]</p>
-
-  <ul class="plain path h4" style="">
+  <ul class="plain h4">
+    <li class="strong">[$feature:duration min]</li>
+    <li>[$feature:premier:@date]</li>
     <!-- iterate feature:producers -->
-    <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+    <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:title]</a></li>
   </ul>
-</div>
+</article>

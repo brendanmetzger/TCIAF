@@ -1,3 +1,16 @@
+body, ul, ol, form, h2, h3, h4, h5, figure, blockquote { margin:0 }
+
+body {
+  transition:background-position 2s, background-size 1.5s;
+  font: normal normal 300 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
+  background: #FFF url(/images/background.png) repeat-y 100% 100% fixed;
+  background: #FFF url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
+  background-size:100%, 100%;
+  background-position:100% 100%, 100% 100%;
+  color:#333;
+}
+
+
 * { box-sizing:border-box; }
 .brown { color:rgb(119, 99, 92); }
 .white-bg { background-color:#fff }
@@ -5,15 +18,22 @@
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
 .brown-bg a { color:#AAA }
 
-a {color:#706F73;text-decoration:none;border-bottom:1px solid rgba(112, 111, 115, 0.25)}
+a {color:#706F73;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
 a:hover {color:#5a9a98;}
 a.selected{text-decoration:none;cursor:default;color:#333;}
+p a {text-decoration:underline}
 
 .t  { margin-top:1.5vmax }
 .tt { margin-top:3.0vmax }
 .b  { margin-bottom:1.5vmax }
 .bb { margin-bottom:3.0vmax }
+
+h1, .h1 { font-size:2.75em;line-height:1.25;margin:0;}
+h2, .h2, legend { font-size:2.375em; line-height:1.5; }
+h3, .h3, input { font-size:calc(0.85em + 1.125vmax);line-height:1.2}
+h4, .h4 {font-size:1.45em;}
+h5, .h5, p, .p, li, label, form button, input, textarea { font-size:calc(1.15em + 0.35vw);line-height:1.5;}
 
 
 header .controls button {
@@ -25,9 +45,23 @@ header .controls {
 }
 
 
+.award > * { display:block }
+.award {
+  padding: 0.25vw 3vh 0.25vw 0;
+  min-height:3em;
+  text-align:right;
+  position:absolute;
+  top:0;
+  right:0;
+  background: transparent url(/images/medal.svg) no-repeat top right;
+  background-size:auto 3vh;
+}
 
-.bio { min-width:10vmin;padding-right:1vmin; margin-right:1vmin; border-right:1px dashed rgba(0,0,0,0.1); }
-.bio figcaption { padding:1em 0 }
+
+
+.bio.head { min-width:10vmin}
+.bio.read { min-width:10vmin;padding:1vmin 0;margin-right:1vmin; }
+.bio figcaption {padding:0.5em }
 .bio > span {
   background-size:cover;
   background-position:top center;
@@ -40,14 +74,33 @@ header .controls {
   color:transparent;
 }
 
+.gallery {
+  text-align:center;
+  padding:1vmax;
+}
+.gallery img {
+  padding:calc(2.5em - 1vw);
+  background-color:#fff;
+  max-width:80%;
+  margin:-2em -0.5em;
+  position:relative;
+  box-shadow:0 0 0.125em 0 rgba(0,0,0,0.1);
+}
+.gallery img:nth-of-type(2n+1) { transform:rotate(1deg) scale(0.9);}
+.gallery img:nth-of-type(2n) { transform:rotate(-1deg);}
 
+.listing:not(:first-of-type) {border-top:1px solid #EEE;}
+.listing {
+  position:relative;padding:1vw 0;
+}
+.envelope { padding:0 2.5vmax}
 .lead {
-  font-size:calc(3em + 2vw);
-  line-height:1.15;
+  font-size:calc(2.75em + 1.75vw);
+  line-height:1;
 }
 .controls {
   display:flex;
-  padding:1.5em 0;
+  padding:1.5vw;
   flex-flow:row;
   align-items: flex-end;
 }
@@ -60,15 +113,11 @@ header .controls {
   padding:0.25em;
 }
 .display {
-  font-family:Baskerville, Didot;
-}
-.triptych {
-  display:flex;
-  justify-content:space-around;
+  font-family: 'Source Serif Pro', Baskerville, Didot, Serif;
 }
 
+.triptych {justify-content:space-between}
 .triptych > * {
-  box-sizing:border-box;
   background-color:rgba(255,255,255,0.5);
   display:flex;
   flex-flow: column;
@@ -131,6 +180,9 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-c
   main {
 
   }
+  .controls {
+    padding:2.5vh 0;
+  }
 }
 
 article > header {
@@ -148,9 +200,10 @@ article > header {
   nav[role] > ul > li {
     flex: 1 0 auto;
   }
-  .panel {
+  .panel, .triptych {
     display:flex;
   }
+
   .column {
     flex-direction: column;
   }
@@ -291,4 +344,23 @@ article > header {
   white-space: pre-wrap;
   word-break: break-all;
   z-index:5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* TMP STUFF TMP STUFF TMP STUFF*/
+.tmp-banner {
+  height:25vw;margin:-2vw -2vw 2vw;padding:2vw;position:relative;
 }

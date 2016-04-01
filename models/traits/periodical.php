@@ -20,9 +20,7 @@ trait periodical {
   public function getEditions(\DOMElement $context)
   {
     return $context->find("edge[@type='edition']")->map(function($edge) {
-      $item = \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex']));
-      preg_match('/^([0-9]{4})\s*(.*)$/i', $item['title'], $result);
-      return ['edition' => $item, 'year' => $result[1]];
+      return ['edition' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex']))];
     });
   }
 
