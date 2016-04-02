@@ -1,12 +1,13 @@
 body, ul, ol, form, h2, h3, h4, h5, figure, blockquote { margin:0 }
 
 body {
-  transition:background-position 2s, background-size 1.5s;
   font: normal normal 300 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
   background: #FFF url(/images/background.png) repeat-y 100% 100% fixed;
-  background: #FFF url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
+  background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
+  background-color:#FFF;
   background-size:100%, 100%;
   background-position:100% 100%, 100% 100%;
+  transition:background-position 2s, background-size 1.5s;
   color:#333;
 }
 
@@ -82,7 +83,7 @@ header .controls {
   padding:calc(2.5em - 1vw);
   background-color:#fff;
   max-width:80%;
-  margin:-2em -0.5em;
+  margin:-0.5em -0.5em;
   position:relative;
   box-shadow:0 0 0.125em 0 rgba(0,0,0,0.1);
 }

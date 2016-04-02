@@ -16,6 +16,12 @@ trait periodical {
     return (new \DateTime($context['premier']['@date']))->format('l, F jS, Y');
   }
 
+  public function getYear(\DOMElement $context)
+  {
+    preg_match('/^([0-9]{4})\s*(.*)$/i', $context['@title'], $result);
+    return $result[1];
+  }
+
 
   public function getEditions(\DOMElement $context)
   {

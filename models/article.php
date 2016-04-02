@@ -43,5 +43,11 @@ class Article extends Vertex
     });
   }
 
+  public function getSuffix(\DOMElement $context)
+  {
+    \bloc\application::instance()->log();
+    return substr(strip_tags($this->title), 18);
+  }
+
 
 }

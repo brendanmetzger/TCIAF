@@ -1,22 +1,29 @@
 <article class="text page">
-  <nav class="center crumbs">
-		<ul class="plain">
-			<li><a href="/explore/behindthescenes"><strong>More</strong> Behind the Scenes</a></li>
-		</ul>
+  <nav class="caps-lock strong t b">
+		<a href="/explore/behindthescenes">Behind the Scenes</a> / <span>[$item:suffix]</span>
 	</nav>
   <header>
-    <h1 data-id="[$item:@id]">[$item:title]</h1>
+    <h1 class="display lead strong tt bb" data-id="[$item:@id]">[$item:title]</h1>
   </header>
-  <section>[$item:content:description]</section>
+
+  <div class="panel">
+    <section class="two-thirds">[$item:content:description]</section>
+    <aside class="one-third">
+      <!-- iterate item:media:audio -->
+      <span>
+        <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
+        <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+        <p>[$caption]</p>
+      </span>
+    </aside>
+  </div>
+
   <hr />
-  <!-- iterate item:media:audio -->
-  <span>
-    <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-    <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
-    <p>[$caption]</p>
-  </span>
+
+
   <nav>
-  <h2>More</h2>
+
+  <h4 class="brown strong caps-lock t b">More</h4>
     <ul class="plain">
       <!-- iterate item:producers -->
       <li class="person">

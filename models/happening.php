@@ -75,11 +75,6 @@ namespace models;
       return 'edition';
     }
 
-    public function getYear(\DOMElement $context)
-    {
-      preg_match('/^([0-9]{4})\s*(.*)$/i', $context['@title'], $result);
-      return $result[1];
-    }
     public function getPermalink(\DOMElement $context)
     {
       $path = $this->editions->count() > 0 ? "/overview/conference/" : "/explore/detail/";
