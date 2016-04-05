@@ -1,7 +1,6 @@
 
 bloc.init('stylesheets', function () {
   var stylesheet  = document.styleSheets.length - 1;
-
   while (stylesheet > 0 && typeof stylesheet === 'number') {
     if (document.styleSheets[stylesheet].title === 'administrator') {
       stylesheet = document.styleSheets[stylesheet];
@@ -20,7 +19,6 @@ bloc.init('stylesheets', function () {
 
 bloc.init('editables', function () {
   var edits = document.querySelectorAll('*[data-id]');
-
   for (var j = 0; j < edits.length; j++) {
     var url = '/manage/edit/' + edits[j].dataset.id;
     edits[j].dataset.id = null;
@@ -54,9 +52,7 @@ function goto(url, evt) {
         load: function (evt) {
           exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
           setTimeout(function () {
-            var edit = bloc.init('editables');
-            console.log(edit)
-            edit();
+            bloc.init('editables')();
           }, 100);
         }
       }).get(window.location.href + '.xml');
@@ -423,12 +419,20 @@ Modal.Form = function (callbacks) {
     this.callbacks[evt] = callback;
   },
   processForm: function (evt) {
-    evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
+    var scripts = evt.target.responseXML.querySelectorAll('body script[data-class]');
+
+
+    scripts.forEach(function (script) {
       var s = document.createElement('script');
+
       s.type = 'text/javascript';
       // document.head.appendChild(window.bloc.tag(false)).text = script.text;
+
       document.head.appendChild(s).text = script.text;
+      bloc.init(script.dataset.class)();
     });
+
+    bloc.load();
 
     // No form means we need to load up one via our ajax object
     if (!this.form) {

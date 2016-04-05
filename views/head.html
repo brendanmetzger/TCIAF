@@ -49,7 +49,9 @@
     bloc.embed('//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js', true);
 
     bloc.init('autoload', function (auto) {
+      console.log("HEY");
       document.querySelectorAll('noscript').forEach(function (elem) {
+
         var swap = document.createElement('div');
         swap.className = elem.className;
         elem.parentNode.replaceChild(swap, elem);
@@ -59,7 +61,6 @@
         } catch(e) {
           console.log(e, elem, elem.id);
         }
-
 
       });
       return this;

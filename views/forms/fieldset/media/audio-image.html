@@ -14,7 +14,7 @@
   <hr class="clear"/>
   <button class="media upload" style="margin-left:1em;">+ Add Audio / Images</button>
   <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, audio/mp3, audio/mp4">Javascript Required For upload</noscript>
-  <script type="text/javascript" async="true">
+  <script type="text/javascript" data-class="autoload">
     // <![CDATA[
     function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
@@ -31,6 +31,7 @@
 
     bloc.init('Upload', function () {
       Upload.config.init(this, ['audio','image']);
+      return this;
     });
 
   //]]>

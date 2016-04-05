@@ -42,10 +42,24 @@
             </div>
 
             <h3 class="brown caps-lock t b">Listen</h3>
-            <section class="triptych">
+            <ul class="plain triptych">
               <!-- iterate collection:features -->
-              <!-- insert views/cards/feature.html -->
-            </section>
+              <li>
+                <div>
+                  <div class="controls">
+                    <!-- iterate feature:media:audio -->
+                    <!--  insert views/partials/play-button.html-->
+                    <span class="h4" style="margin-left:1em;">[$feature:premier:@date / $feature:duration min]</span>
+                  </div>
+                    <h3 class="display strong tracked"><a href="[$feature:permalink]" class="blocky">[$feature:title]</a></h3>
+                    <p>[$feature:summary]</p>
+                </div>
+                <ul class="plain path h4" style="">
+                  <!-- iterate feature:producers -->
+                  <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+                </ul>
+              </li>
+            </ul>
           </article>
           <hr />
           <article>

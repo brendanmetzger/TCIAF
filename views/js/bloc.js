@@ -459,8 +459,8 @@ if (window.history.pushState) {
       }, 10);
 
       // if
-      window.bloc.init('autoload');
-      window.bloc.init('editables');
+      bloc.init('autoload')();
+      bloc.init('editables')();
     },
     error: function (evt) {
       // should just redirect
