@@ -46,7 +46,8 @@ abstract class Vertex extends \bloc\Model
 
   public function getTitle(\DOMNode $context)
   {
-    return strip_tags((new \vendor\Parsedown)->text(trim($context->getAttribute('title'))) , '<em><strong>');
+    $parsedown = new \vendor\Parsedown;
+    return strip_tags($parsedown->text(trim($context->getAttribute('title'))) , '<em><strong>');
   }
 
   public function setUpdatedAttribute(\DOMElement $context)

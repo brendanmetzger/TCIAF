@@ -17,6 +17,7 @@ namespace models;
     {
       $plain  = $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4));
       $domain = 'http://s3.amazonaws.com';
+      $parsedown = new \vendor\Parsedown;
       $this->slug = [
         'domain'  => $domain,
         'index'   => $index === null ? $media->getIndex() : $index,
@@ -24,7 +25,7 @@ namespace models;
         'src'     => $media['@src'],
         'type'    => $media['@type'],
         'mark'    => $media['@mark'] ?: 0,
-        'caption' => (new \vendor\Parsedown())->text($plain),
+        'caption' => $parsedown->text($plain),
         'plain'   => $plain,
         'xid'     => $index ?: $media['@type'] . '/' . $media->parentNode['@id'] . '/' . $media->getIndex(),
       ];
