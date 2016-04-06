@@ -137,11 +137,10 @@ li.current span:before {
 
 #Player .progress span {
   top: 30%;
-  color: #9c5f5b;
-  font-size:1em;
-  opacity:0;
+  color: #9d9d9d;
+  font-size:1.25vmax;
   transition:opacity 0.5s 0.25s;
-  font-weight:400;
+  font-weight:200;
 }
 
 .progress span {

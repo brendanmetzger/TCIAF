@@ -411,7 +411,7 @@ dd.image img {
 }
 
 fieldset {
-  transition: opacity 0.75s 0.25s;
+  transition: opacity 0.75s;
   padding:0 1em 1em;
 }
 
