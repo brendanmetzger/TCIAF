@@ -62,7 +62,7 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETpeople($category = 'producer', $filter = 'any', $index = 1, $per = 100, $query = '')
+    public function GETpeople($category = 'producers', $filter = 'any', $index = 1, $per = 100, $query = '')
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/person.html";
@@ -73,7 +73,8 @@ use \models\graph;
       $query = "edge[@type]";
 
       if ($category != 'all') {
-        $query = "edge[@type='{$category}']";
+        $trimmed = substr($category, 0, -1);
+        $query = "edge[@type='{$trimmed}']";
       }
 
       if ($filter != 'any') {

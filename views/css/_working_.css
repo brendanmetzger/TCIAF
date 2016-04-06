@@ -47,14 +47,6 @@ li.topic > strong {
   padding:1em;
   display:block;
 }
-.separated li {
-  padding:0.25em 0.5em;
-  border-top-width:0 !important;
-}
-.inline.separated li + li {
-  border-left:1px dashed #EEE;
-}
-
 .crumbs li a {
   padding:0.125em;
   font-size:1.35em;

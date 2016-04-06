@@ -7,20 +7,20 @@
   </dl>
   <div class="search">
     <button class="media upload">+ Add Images</button>
-    <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, image/gif">Javascript Required For upload</noscript>
+    <noscript id="image-upload" class="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, image/gif">Javascript Required For upload</noscript>
     <hr/>
     <input id="image-FILTER" data-path="search/media" data-topic="image" data-area="explore/resource" type="text" name="search" placeholder="find existing image" class="text" autocomplete="off" />
-    <noscript id="Search" data-id="image-FILTER">Search Requires Javascript</noscript>
+    <noscript id="image-finder" class="Search" data-id="image-FILTER">Search Requires Javascript</noscript>
   </div>
-  <script type="text/javascript" async="true" defer="defer">
+  <script type="text/javascript" async="true">
     // <![CDATA[
-    bloc.init('Search', function () {
-      if (! this.input) {
+    bloc.define('image-finder', function (instance) {
+      if (! instance.input) {
         console.error('Related to above.');
         return;
       }
-      this.subscribers.select.push(function (dataset) {
-        var input = this.input;
+      instance.subscribers.select.push(function (dataset) {
+        var input = instance.input;
         var ajax  = new XMLHttpRequest();
         var url = '/' + dataset.area + '/' + dataset.id + '.xml';
         ajax.open('GET', url);
@@ -30,12 +30,13 @@
           input.value = '';
         }, false);
         ajax.send();
-        this.input.value = '';
+        instance.input.value = '';
       });
     });
-    bloc.init('Upload', function () {
-      Upload.config.init(this, ['image']);
+    bloc.define('image-upload', function (instance) {
+      Upload.config.init(instance, ['image']);
     });
+
     // ]]>
   </script>
 </fieldset>

@@ -1,8 +1,10 @@
 
-<article vocab="http://schema.org/" typeof="Person" class="listing panel" style="margin:0.5em 0;">
-  <figure class="bio read center" data-id="[$person:@id]">
-    <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-    <figcaption class="strong"><a href="[$person:permalink]" property="name">[$person:@title]</a></figcaption>
-  </figure>
-  <p>[$person:summary]</p>
+<article vocab="http://schema.org/" typeof="Person" class="listing panel t" data-id="[$person:@id]">
+  <a href="[$person:permalink]" property="name">
+    <figure class="bio read center">
+      <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+      <figcaption class="strong">[$person:@title]</figcaption>
+    </figure>
+  </a>
+  <p class="pad">[$person:summary]</p>
 </article>

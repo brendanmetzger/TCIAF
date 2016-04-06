@@ -459,8 +459,8 @@ if (window.history.pushState) {
       }, 10);
 
       // if
-      bloc.init('autoload')();
-      bloc.init('editables')();
+      bloc.module('autoload')();
+      bloc.module('editables')();
     },
     error: function (evt) {
       // should just redirect
@@ -535,7 +535,37 @@ function processLayout(body) {
 };
 
 
-bloc.init('onload', function () {
+bloc.init(function () {
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('scroll', processLayout(document.body), false);
+});
+
+
+bloc.init(bloc.define('autoload', function () {
+  document.querySelectorAll('noscript').forEach(function (elem) {
+    var swap = document.createElement('div');
+    elem.parentNode.replaceChild(swap, elem);
+    try {
+      var module = bloc.module(elem.id);
+
+      if('call' in module) {
+        module(new window[elem.className](swap, elem.dataset));
+      } else {
+        console.log(module);
+      }
+
+    } catch(e) {
+      console.log(e, elem.id);
+    }
+  });
+  return this;
+}));
+
+bloc.define('site-search', function (instance) {
+  instance.subscribers.select.push(function (dataset, evt) {
+    var url = (Number(dataset.index) < 0)
+            ? '/search/full?query=' + dataset.text
+            : '/explore/detail/'+dataset.id;
+    navigateToPage.call({href: url}, evt);
+  });
 });

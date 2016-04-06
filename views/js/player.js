@@ -147,7 +147,7 @@ var Player = function (container, data) {
 
 Player.prototype = {
   cleanup: function () {
-    var player = bloc.init('Player')();
+    var player = bloc.module('Player');
     player.pause();
     delete player;
   },
@@ -205,7 +205,7 @@ Player.prototype = {
 
 function loadButtonAudio(button) {
   var selected = button.parentNode.querySelector('audio');
-  var player = bloc.init('Player')();
+  var player = bloc.module('Player');
   player.playlist.clear(player.playlist.getUnplayed());
 
   document.querySelectorAll('audio').forEach(function (audio) {

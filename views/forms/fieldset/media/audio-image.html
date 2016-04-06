@@ -13,12 +13,12 @@
   </dl>
   <hr class="clear"/>
   <button class="media upload" style="margin-left:1em;">+ Add Audio / Images</button>
-  <noscript id="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, audio/mp3, audio/mp4">Javascript Required For upload</noscript>
-  <script type="text/javascript" data-class="autoload">
+  <noscript id="AIUpload" class="Upload" data-url="/manage/upload.xml" data-accept="image/jpeg, image/png, image/jpg, audio/mp3, audio/mp4">Javascript Required For upload</noscript>
+  <script type="text/javascript" async="true">
     // <![CDATA[
     function notifyPlayer(audio_element) {
       var a = audio_element.parentNode.querySelector('a.button');
-			var player = bloc.init('Player');
+			var player = bloc.module('Player');
 
       a.style.display = 'inline-block';
       a.href = '#' + audio_element.dataset.index;
@@ -29,9 +29,9 @@
       });
     }
 
-    bloc.init('Upload', function () {
-      Upload.config.init(this, ['audio','image']);
-      return this;
+    bloc.define('AIUpload', function (instance) {
+      Upload.config.init(instance, ['audio','image']);
+      return instance;
     });
 
   //]]>

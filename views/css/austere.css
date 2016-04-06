@@ -47,11 +47,6 @@ ul.inline, ul.divide {padding:0;}
 
 
 
-.columns{column-gap:1em;}
-.columns.three{column-count:3;}
-.columns.ruled{column-rule:1px solid #eee;}
-
-
 .interactive:before {
   content: '⚙ ';
   transition:color 0.25s;

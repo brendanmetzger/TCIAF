@@ -1,5 +1,5 @@
 
-bloc.init('stylesheets', function () {
+bloc.init(bloc.define('stylesheets', function () {
   var stylesheet  = document.styleSheets.length - 1;
   while (stylesheet > 0 && typeof stylesheet === 'number') {
     if (document.styleSheets[stylesheet].title === 'administrator') {
@@ -15,9 +15,9 @@ bloc.init('stylesheets', function () {
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' }', stylesheet.cssRules.length);
 
   // show an indicator next to all editable elements
-});
+}));
 
-bloc.init('editables', function () {
+bloc.init(bloc.define('editables', function () {
   var edits = document.querySelectorAll('*[data-id]');
   for (var j = 0; j < edits.length; j++) {
     var url = '/manage/edit/' + edits[j].dataset.id;
@@ -29,7 +29,7 @@ bloc.init('editables', function () {
 
   }
 
-});
+}));
 
 
 function goto(url, evt) {
@@ -41,7 +41,7 @@ function goto(url, evt) {
 
   (new Modal.Form({
     load: function (form) {
-      bloc.init('stylesheets')();
+      bloc.define('stylesheets')();
       form.querySelector('input').focus();
     },
     submit: function (evt) {
@@ -52,7 +52,7 @@ function goto(url, evt) {
         load: function (evt) {
           exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
           setTimeout(function () {
-            bloc.init('editables')();
+            bloc.module('editables')();
           }, 100);
         }
       }).get(window.location.href + '.xml');
@@ -349,7 +349,7 @@ Modal.prototype = {
 
     this.element.insertBefore(button, this.element.firstChild);
     this.element.style.top = (document.body.scrollTop + 10) + 'px';
-    bloc.init('autoload')();
+    bloc.module('autoload')();
     if (this.progress) {
       this.progress.remove();
     }
@@ -408,7 +408,9 @@ Modal.Form = function (callbacks) {
   for (var key in callbacks) {
     this.addEvent(key, callbacks[key]);
   }
-}; Modal.Form.prototype = {
+};
+
+Modal.Form.prototype = {
   load: function (url) {
     this.ajax.id = "GET " + url;
     this.modal.show();
@@ -419,20 +421,19 @@ Modal.Form = function (callbacks) {
     this.callbacks[evt] = callback;
   },
   processForm: function (evt) {
-    var scripts = evt.target.responseXML.querySelectorAll('body script[data-class]');
-
+    var scripts = evt.target.responseXML.querySelectorAll('body script[async]');
 
     scripts.forEach(function (script) {
       var s = document.createElement('script');
-
       s.type = 'text/javascript';
-      // document.head.appendChild(window.bloc.tag(false)).text = script.text;
-
       document.head.appendChild(s).text = script.text;
-      bloc.init(script.dataset.class)();
     });
 
-    bloc.load();
+    bloc.remove('Edge');
+    bloc.remove('Markdown');
+
+    bloc.module('autoload')();
+
 
     // No form means we need to load up one via our ajax object
     if (!this.form) {
@@ -601,16 +602,15 @@ function sortable(selector, targetname, onUpdate) {
    [].slice.call(rootEl.getElementsByTagName(targetname)).forEach(function (itemEl) {
        itemEl.draggable = true;
    });
-
    // Function responsible for sorting
    function _onDragOver(evt) {
        evt.preventDefault();
        evt.dataTransfer.dropEffect = 'move';
-
        var target = evt.target;
 
-       if( target && target !== dragEl && target.nodeName == targetname.toUpperCase() ){
+       if( target && target !== dragEl && target.nodeName.toLowerCase() == targetname.toLowerCase() ){
          // Sorting
+
          var rect = target.getBoundingClientRect();
          var topnext = (evt.clientY - rect.top)/(rect.bottom - rect.top) > 0.5;
          var leftnext = (evt.clientX - rect.left)/(rect.right - rect.left) > 0.5;

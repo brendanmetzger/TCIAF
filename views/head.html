@@ -17,67 +17,42 @@
   <link rel="stylesheet" media="screen" type="text/css" href="/css/next.css" />
   <script type="text/javascript">
     // <![CDATA[
-    // Autoload scripts
-    var bloc = window.bloc || (function(s,c,p1,p2,append) {
+    (function(exports,s,c,p1,p2) {
       s.type='text/javascript';
-      return {
-        embed: function (u, p) {
-          var ctx = s.cloneNode(); ctx.src = u; ctx.async = p;
-              p ? p2.push(ctx) : ctx.onload = this.load.bind(ctx, p1.push(ctx));
-        },
-        load: function (i, e) {
-          if (!e) return p1.concat(p2).map(append.bind(document.body));
-          if (e && p1.length === i) for (var k in c) c[k].call(c[k], true);
-        },
-        init: function (k, f) {
-          if (f && 'call' in f) c[k] = f;
-          return (k in c) ? c[k] : function() {
-            return this;
-          };
-        }
+      exports.cache = Object.create(null);
+      exports.require = function (u, p) {
+        var ctx = s.cloneNode(); ctx.src = u; ctx.async = p;
+            p ? p2.push(ctx) : ctx.onload = exports.load.bind(ctx, p1.push(ctx));
       };
-    }(document.createElement('script'),{},[],[],Node.prototype.appendChild));
+      exports.load = function (i, e) {
+        if (!e) return p1.concat(p2).map(Node.prototype.appendChild.bind(document.head));
+        if (e && p1.length === i) while(c.length > 0) c.shift().call();
+      };
+      exports.init = function(f) {
+        c.push(f);
+      };
+      exports.module = function(k) {
+        return (k in exports.cache) ? exports.cache[k] : exports.define.bind(exports, k);
+      };
+      exports.remove = function(k) {
+        delete exports.cache[k];
+      }
+      exports.define = function (k, f) {
+        return (k in exports.cache) ? exports.cache[k] : exports.cache[k] = f;
+      };
+
+    }(this.bloc = {}, document.createElement('script'),[],[],[]));
 
     var mobile = (/mobile/i).test(navigator.userAgent),
         WebFontConfig = { google: { families: [ 'Open+Sans+Condensed:300:latin' ] } };
 
     // Embed script for site
-    bloc.embed('/js/bloc.js')
-    bloc.embed('/js/player.js');
+    bloc.require('/js/bloc.js')
+    bloc.require('/js/player.js');
 
     // Lastly, fonts and analytics
-    bloc.embed('//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js', true);
+    bloc.require('//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js', true);
 
-    bloc.init('autoload', function (auto) {
-      console.log("HEY");
-      document.querySelectorAll('noscript').forEach(function (elem) {
-
-        var swap = document.createElement('div');
-        swap.className = elem.className;
-        elem.parentNode.replaceChild(swap, elem);
-        try {
-          var callback = bloc.init(elem.id).bind(new window[elem.id](swap, elem.dataset));
-          bloc.init(elem.id, callback);
-        } catch(e) {
-          console.log(e, elem, elem.id);
-        }
-
-      });
-      return this;
-    });
-
-    bloc.init('Player', function (hmm) {
-      return this;
-    });
-
-    bloc.init('Search', function () {
-      this.subscribers.select.push(function (dataset, evt) {
-        var url = (Number(dataset.index) < 0)
-                ? '/search/full?query=' + dataset.text
-                : '/explore/detail/'+dataset.id;
-        navigateToPage.call({href: url}, evt);
-      });
-    });
     // ]]>
   </script>
 </head>

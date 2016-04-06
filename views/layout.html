@@ -8,9 +8,9 @@
       <form class="finder search">
         <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
         <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
-        <noscript id="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
+        <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>
-      <noscript id="Player" data-queue="" data-controls="controls" data-playlist="plain playlist">
+      <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist">
         <p>The Third Coast Festival Audio Player</p>
       </noscript>
     </section>
@@ -85,6 +85,6 @@
       <!-- insert views/pages/footer.html -->
     </section>
     <!-- replace helper -->
-    <script type="text/javascript">window.bloc.load();</script>
+    <script type="text/javascript">bloc.load();</script>
   </body>
 </html>
