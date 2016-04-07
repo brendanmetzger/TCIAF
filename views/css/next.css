@@ -15,6 +15,7 @@ body {
 * { box-sizing:border-box; }
 .brown { color:rgb(119, 99, 92); }
 .white-bg { background-color:#fff }
+.gray {color:#BEBEBE}
 .gray-bg { background-color:#BEBEBE; color: #706F73 }
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
 .brown-bg a { color:#AAA }
@@ -38,6 +39,7 @@ h3, .h3, input { font-size:calc(0.85em + 1.125vmax);line-height:1.2}
 h4, .h4 {font-size:1.45em;}
 h5, .h5, p, .p, li, label, form button, input, textarea { font-size:calc(1.15em + 0.35vw);line-height:1.5;}
 
+.display > *:not(a) {color:#FC6202;display:block;font-size:0.5em;text-transform:uppercase;margin:0.5em 0;}
 
 header .controls button {
   font-size:125%;
@@ -161,9 +163,18 @@ nav[role] > ul > li {
   display:flex;
 }
 
-header nav li > a {
+#browse > header nav li > a {
   flex: 1 1 auto;
   padding:0.5rem;
+}
+
+article nav > ul.plain {
+  margin:0.5em 0;
+
+}
+article nav > ul.plain li > a {
+  font-size:1.5em;
+  text-transform: uppercase;
 }
 
 body > section[id] {
@@ -192,8 +203,8 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-c
 article > header {
   position:relative;
   border-bottom:1px dashed #BEBEBE;
-  padding-bottom:2.5vmax;
-  margin-bottom:2.5vmax;
+  padding-bottom:1vmax;
+  margin-bottom:2vmax;
 }
 
 

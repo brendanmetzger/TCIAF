@@ -2,41 +2,27 @@
   <header>
     <h3 class="brown caps-lock strong t b">Listen</h3>
     <h1 class="lead display strong tracked tt bb">Our Library Speaks Volumes</h1>
+    <nav>
+      <ul class="plain path">
+        <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
+        <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
+        <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference</a></li>
+        <li><a class="[$competitions]" href="[/overview/library/shortdocs/$sort]">ShortDocs</a></li>
+        <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Awards</a></li>
+        <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
+        <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
+        <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
+      </ul>
+      <ul class="plain path">
+        <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
+        <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
+        <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
+        <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
+      </ul>
+    </nav>
+
     <!-- replace blurb -->
   </header>
-  <nav>
-    <ul class="plain">
-      <li class="topic">
-        <li class="topic">
-          <ul class="plain path">
-            <li><strong>Collection</strong></li>
-            <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
-            <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
-            <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference</a></li>
-            <li><a class="[$competitions]" href="[/overview/library/shortdocs/$sort]">ShortDocs</a></li>
-            <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Awards</a></li>
-          </ul>
-        </li>
-        <ul class="plain path">
-          <li><strong>Sort by</strong></li>
-          <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
-          <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric]">Alphabet</a></li>
-          <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
-          <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
-        </ul>
-      </li>
-      <li class="topic">
-        <ul class="plain inline separated">
-          <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
-          <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
-          <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
-        </ul>
-      </li>
-      <li class="clear">
-        <!-- insert views/partials/navigator.html -->
-      </li>
-    </ul>
-  </nav>
   <!-- iterate list -->
   <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel">
     <header class="two-thirds">
@@ -52,9 +38,7 @@
 
 
   <footer class="center">
-    <nav>
-      <!-- insert views/partials/navigator.html -->
-    </nav>
+    <!-- insert views/partials/navigator.html -->
     <p>Looking for more to listen to? Check out our <a href="/overview/playlists">Playlists</a></p>
   </footer>
   <style type="text/css" media="screen">

@@ -1,49 +1,42 @@
 <article>
   <header>
     <h4 class="strong caps-lock brown t b" id="sessions">[$category]</h4>
-    <h1 class="strong lead display tracked">Our Team of Producers</h1>
+    <h1 class="strong lead display tracked tt bb">Our Team of Producers</h1>
+    <nav>
+      <ul class="plain path">
+        <li><a class="[$all]" href="[/overview/people/all/$filter]">All</a></li>
+        <li><a class="[$producers]" href="[/overview/people/producers/$filter]">Producers</a></li>
+        <li><a class="[$presenters]" href="[/overview/people/presenters/$filter]">Presenters</a></li>
+        <li><a class="[$judges]" href="[/overview/people/judges/$filter]">Judges</a></li>
+      </ul>
+      <ul class="plain path">
+        <li class="alpha"><a class="[$any]" href="[/overview/people/$category/any]">All</a></li>
+        <!--  iterate alphabet -->
+        <li class="alpha"><a class="[$selected]" href="[/overview/people/$category/alpha:$letter/]">[$letter]</a></li>
+      </ul>
+    </nav>
   </header>
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-    ul.people {
-      list-style:none;
-      padding:0;
-    }
-    ul.people, nav.filters ul {
-      font-size:1.5em;
-    }
     ul.people a {
       display:block;
       border-bottom:1px dashed #CCC;
       margin:1px;
       padding:0.25em;
     }
+
     /* ]]> */
   </style>
 
-  <nav class="filters">
-    <ul class="plain path caps-lock">
-      <li><a class="[$all]" href="[/overview/people/all/$filter]">All</a></li>
-      <li><a class="[$producers]" href="[/overview/people/producers/$filter]">Producers</a></li>
-      <li><a class="[$presenters]" href="[/overview/people/presenters/$filter]">Presenters</a></li>
-      <li><a class="[$judges]" href="[/overview/people/judges/$filter]">Judges</a></li>
-    </ul>
-    <ul class="plain path caps-lock">
-      <li class="alpha"><a class="[$any]" href="[/overview/people/$category/any]">All</a></li>
-      <!--  iterate alphabet -->
-      <li class="alpha"><a class="[$selected]" href="[/overview/people/$category/alpha:$letter/]">[$letter]</a></li>
-    </ul>
 
-    <ul class="plain">
-      <li>
-        <!-- insert views/partials/navigator.html -->
-      </li>
-    </ul>
-  </nav>
-  <section class="t b">
+  <nav class="t b">
     <ul class="people plain columns four">
       <!-- iterate list -->
       <li><a href="[$item:permalink]" data-id="[$item:@id]">[$item:@title]</a></li>
     </ul>
-  </section>
+  </nav>
+
+  <footer class="center">
+    <!-- insert views/partials/navigator.html -->
+  </footer>
 </article>

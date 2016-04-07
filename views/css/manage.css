@@ -16,10 +16,6 @@ textarea.text::selection {
 }
 
 
-textarea {
-  min-height:5em;
-}
-
 input[type='file'] {
   display:none;
 }
@@ -43,7 +39,6 @@ form.editor .text:focus {
 }
 
 textarea:not(:focus) {
-  height:10em !important;
   overflow:hidden;
   box-shadow:inset 0 -0.25em 0.55em rgba(0,0,0,0.25);
 }
@@ -184,18 +179,19 @@ body[data-user] {
 }
 
 *[data-id] > button {
-  border:none;
-  background-color:transparent;
-  box-shadow:none;
-  color: rgba(0,0,0,0);
-  width:10px;
-  margin:0 0 0 2px !important;
-  height:10px;
-  overflow:hidden;
-  display:inline-block;
-  background: transparent url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHdpZHRoPSIxMDBweCIgaGVpZ2h0PSIxMDBweCIgdmlld0JveD0iMCAwIDEwMCAxMDAiPgogICA8ZyBmaWxsPSIjMzMzIj4KICAgICA8cGF0aCBkPSJNODUsNTBjMC0wLjg1LTAuMDQtMS42OC0wLjEtMi41MWwxMS44MS02LjA2Yy0wLjQ2LTIuNTMtMS4xMi00Ljk4LTEuOTYtNy4zNUw4MS41LDM0LjczYy0wLjc0LTEuNTItMS41OC0yLjk4LTIuNTItNC4zNgogICAgICAgICAgICAgCWw3LjE5LTExLjE0Yy0xLjY1LTEuOTQtMy40NS0zLjc0LTUuMzgtNS4zOGwtMTEuMTQsNy4xOWMtMS4zOS0wLjk0LTIuODQtMS43OS00LjM2LTIuNTJsMC42Ni0xMy4yNmMtMi4zNy0wLjg0LTQuODMtMS41LTcuMzUtMS45NgogICAgICAgICAgICAgCUw1Mi41MSwxNS4xQzUxLjY4LDE1LjA0LDUwLjg1LDE1LDUwLDE1cy0xLjY4LDAuMDQtMi41MSwwLjFMNDEuNDIsMy4yOWMtMi41MywwLjQ2LTQuOTgsMS4xMi03LjM1LDEuOTZsMC42NiwxMy4yNgogICAgICAgICAgICAgCWMtMS41MiwwLjc0LTIuOTgsMS41OC00LjM2LDIuNTJsLTExLjE0LTcuMTljLTEuOTQsMS42NS0zLjc0LDMuNDUtNS4zOCw1LjM4bDcuMTksMTEuMTRjLTAuOTQsMS4zOS0xLjc5LDIuODQtMi41Miw0LjM2TDUuMjUsMzQuMDcKICAgICAgICAgICAgIAljLTAuODQsMi4zNy0xLjUsNC44My0xLjk2LDcuMzVsMTEuODEsNi4wNkMxNS4wNCw0OC4zMiwxNSw0OS4xNSwxNSw1MHMwLjA0LDEuNjgsMC4xLDIuNTFMMy4yOSw1OC41OAogICAgICAgICAgICAgCWMwLjQ2LDIuNTMsMS4xMiw0Ljk4LDEuOTYsNy4zNWwxMy4yNi0wLjY2YzAuNzQsMS41MiwxLjU4LDIuOTgsMi41Miw0LjM2bC03LjE5LDExLjE0YzEuNjUsMS45NCwzLjQ1LDMuNzQsNS4zOCw1LjM4bDExLjE0LTcuMTkKICAgICAgICAgICAgIAljMS4zOSwwLjk0LDIuODQsMS43OSw0LjM2LDIuNTJsLTAuNjYsMTMuMjZjMi4zNywwLjg0LDQuODMsMS41LDcuMzUsMS45Nmw2LjA2LTExLjgxQzQ4LjMyLDg0Ljk2LDQ5LjE1LDg1LDUwLDg1CiAgICAgICAgICAgICAJczEuNjgtMC4wNCwyLjUxLTAuMWw2LjA2LDExLjgxYzIuNTMtMC40Niw0Ljk4LTEuMTIsNy4zNS0xLjk2TDY1LjI3LDgxLjVjMS41Mi0wLjc0LDIuOTgtMS41OCw0LjM2LTIuNTJsMTEuMTQsNy4xOQogICAgICAgICAgICAgCWMxLjk0LTEuNjUsMy43NC0zLjQ1LDUuMzgtNS4zOGwtNy4xOS0xMS4xNGMwLjk0LTEuMzksMS43OS0yLjg0LDIuNTItNC4zNmwxMy4yNiwwLjY2YzAuODQtMi4zNywxLjUtNC44MywxLjk2LTcuMzVMODQuOSw1Mi41MQogICAgICAgICAgICAgCUM4NC45Niw1MS42OCw4NSw1MC44NSw4NSw1MHogTTUwLDc1Yy0xMy44MSwwLTI1LTExLjE5LTI1LTI1YzAtMTMuODEsMTEuMTktMjUsMjUtMjVjMTMuODEsMCwyNSwxMS4xOSwyNSwyNQogICAgICAgICAgICAgCUM3NSw2My44MSw2My44MSw3NSw1MCw3NXoiLz4KICAgICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1Ii8+CiAgIDwvZz4KPC9zdmc+Cg==) no-repeat 50% 50%;
-  background-size:contain;
-  vertical-align:middle;
+  border: none;
+    color: #fff;
+    text-transform:lowercase;
+    margin:0 0 0 10px !important;
+    padding:5px !important;
+    display: inline-block;
+    line-height: 1;
+    background-color: rgb(224, 81, 154);
+    font-size: 10px !important;
+    letter-spacing:1px;
+    vertical-align: top;
+    border-radius:5px;
+    align-self:flex-start;
 }
 
 form .recommended div.audio {
@@ -355,15 +351,20 @@ dd {
   margin:0;
 }
 
+.dnd dd {
+  cursor:move;
+  background-image:url(/images/drag.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 dd.image {
-  width:19.5%;
-  padding:0 0 14.5% 0 !important;
-  margin:0.25%;
+  width:20%;
+  height:10em;
   cursor:move;
   background-color:#333;
-  background-size:contain !important;
+  background-size:cover;
   background-position:50% 50%;
-  border-radius:0.5em;
   display:block;
   float:left;
   overflow:hidden;
@@ -371,22 +372,19 @@ dd.image {
 }
 
 dd.image textarea {
-  position:absolute;
   top:0;
-  min-height:0;
-  height:2em;
   margin:0;
-  padding:0.25em;
   border:none;
+  height:2em;
   font-size:0.9em;
   background-color:rgba(255,255,255, 0.25);
-  text-shadow:0 0 1em #fff;
-  font-size:1.5em;
   font-weight:400;
 }
 dd.image textarea:focus {
-  height:5em;
-  background-color:rgba(255,255,255,0.85);
+  height:7.5em;
+  position:absolute;
+  font-size:1.125em;
+  background-color:#fff;
   color:#333;
 }
 dd.image label {
@@ -426,13 +424,7 @@ fieldset[disabled] {
   opacity:0.25;
 }
 
-.dnd dd {
-  cursor:move;
-  background-image:url(/images/drag.svg);
-  background-repeat: no-repeat;
-  background-size: contain;
-  padding-left:0.5em;
-}
+
 
 
 fieldset.extra {width:30%;}

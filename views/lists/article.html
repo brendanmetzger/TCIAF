@@ -1,30 +1,24 @@
 <article>
-	<nav class="center crumbs">
-		<ul class="plain">
-			<li>
-				<ul class="plain">
-					<li><strong>Sort by</strong></li>
-					<li><a class="[$newest]" href="/explore/behindthescenes/newest">Created</a></li>
-					<li><a class="[$alphanumeric]" href="/explore/behindthescenes/alpha-numeric">Alphabet</a></li>
-				</ul>
-			</li>
-			<li class="clear">
-				<!-- insert views/partials/navigator.html -->
-			</li>
-		</ul>
-	</nav>
-	<h1 class="center condensed" style="margin:2em 0 1em;">Behind The Scenes</h1>
-	<ul class="plain listing">
+	<header>
+		<h3 class="brown strong caps-lock">Behind-the-scenes Interviews</h3>
+		<h1 class="display lead strong tracked tt bb">Go Behind the Scenes</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut massa ex. Donec ullamcorper ex molestie semper finibus. Pellentesque vel quam vel arcu lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut massa ex. Donec ullamcorper ex molestie semper finibus.</p>
+		<nav>
+			<ul class="plain path">
+				<li><a class="[$newest]" href="/explore/behindthescenes/newest">Created</a></li>
+				<li><a class="[$alphanumeric]" href="/explore/behindthescenes/alpha-numeric">Alphabet</a></li>
+			</ul>
+		</nav>
+	</header>
+	<ul class="plain two-thirds">
 		<!-- iterate list -->
-		<li data-created="[$item:@created]" data-updated="[$item:@updated]">
-			<h2><a href="[$item:permalink]" data-id="[$item:@id]">[$item:suffix]</a></h2>
+		<li data-created="[$item:@created]" data-updated="[$item:@updated]" class="listing">
+			<time datetime="[$item:premier:@date]">[$item:date]</time>
+			<h2 class="display t"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:suffix]</a></h2>
 			<p>[$item:summary]</p>
 		</li>
 	</ul>
-	<style media="screen">
-		.listing li {
-			padding:1em;
-			border-bottom:1px solid rgba(0,0,0,0.1);
-		}
-	</style>
+	<footer>
+		<!-- insert views/partials/navigator.html -->
+	</footer>
 </article>

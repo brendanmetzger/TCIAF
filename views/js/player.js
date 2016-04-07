@@ -81,6 +81,7 @@ Playlist.prototype = {
   },
   // not a real queue, as some elements bay be skipped
   deQueue: function (_Track) {
+    // FIXME: Error occurs here sometimes
     this.element.removeChild(_Track.element);
     return this.tracks.splice(_Track.position, 1);
   },

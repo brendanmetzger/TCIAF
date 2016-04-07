@@ -11,7 +11,6 @@
       <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
     </div>
   </header>
-
   <section class="panel">
     <div class="two-thirds">
       <div property="description">[$item:content:description]</div>
@@ -19,30 +18,35 @@
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
     </div>
-    <figure data-size="[$item:media:size:image]" class="one-third gallery">
-      <!-- iterate item:media:image -->
-      <img src="[$domain/$url]" alt="[$plain]" property="image" data-ratio="[$mark]"/>
+    <figure class="one-third gallery">
+      <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
     </figure>
   </section>
-  <section>
-    <h4 class="strong caps-lock brown t b">Featured in</h4>
-    <nav>
-      <ul class="plain">
-        <!-- iterate item:extras -->
-        <li><a href="[$article:permalink]">[$article:title]</a></li>
-        <!-- iterate item:playlists -->
-        <li><a href="[$collection:permalink]">[$collection:title]</a></li>
-        <!-- iterate item:competitions -->
-        <li><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></li>
-      </ul>
-    </nav>
-  </section>
-
+  <hr/>
+  <h4 class="strong caps-lock brown t b">Featured in</h4>
+  <nav class="two-thirds">
+    <ul class="plain">
+      <!-- iterate item:extras -->
+      <li class="articles">
+        <a href="[$article:permalink]">[$article:title]</a>
+        <p>[$article:summary]</p>
+      </li>
+      <!-- iterate item:playlists -->
+      <li class="playlists">
+        <a href="[$collection:permalink]">[$collection:title]</a>
+        <p>[$collection:summary]</p>
+      </li>
+      <!-- iterate item:competitions -->
+      <li class="competitions">
+        <a href="[/overview/competition/$competition:@id]">[$competition:title]</a>
+        <p>[$competition:summary]</p>
+      </li>
+    </ul>
+  </nav>
+  <hr/>
   <section>
     <h4 class="brown caps-lock strong t b">May we recommend…</h4>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>
-
-
 </article>

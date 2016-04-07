@@ -99,24 +99,11 @@ namespace models;
       return $this->media['size']['audio'] > 0 ? round($this->media['audio'][0]->mark / 60) : 0;
     }
 
-    public function getBackground()
+    public function getImage(\DOMElement $context)
     {
       if ($image = $this->media['image'][0]) {
-
-        if ($im = @imagecreatefromjpeg('http://s3.amazonaws.com/'.$image->url)) {
-          imagefilter($im, IMG_FILTER_PIXELATE, 10);
-          imagefilter($im, IMG_FILTER_CONTRAST, 50);
-          imagefilter($im, IMG_FILTER_COLORIZE, 255, 255, 255, 100);
-          imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
-          ob_start();
-          imagejpeg($im, null, 100);
-          $i = ob_get_clean();
-          $background = "data:image/jpg;base64," . base64_encode($i);
-        } else {
-          return null;
-        }
-        imagedestroy($im);
-        return $background;
+        // \bloc\application::instance()->log($image['domain']);
+        return $image;
       }
     }
 

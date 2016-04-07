@@ -502,7 +502,7 @@ var Edge = function (container, data) {
   });
 
   document.querySelector('fieldset.edges').addEventListener('click', function (evt) {
-    if (evt.srcElement.nodeName == 'DT') {
+    if (evt.srcElement.nodeName.toLowerCase() == 'dt') {
       var priority = evt.target.parentNode.dataset.priority;
       evt.target.parentNode.dataset.priority = priority == 'low' ? 'normal' : 'low';
     }
@@ -596,18 +596,21 @@ Spectra.prototype.correlate = function (evt) {
 
 
 function sortable(selector, targetname, onUpdate) {
+
    var dragEl;
    var rootEl = selector instanceof Element ? selector : document.querySelector(selector);
+
+
    // Making all siblings movable
    [].slice.call(rootEl.getElementsByTagName(targetname)).forEach(function (itemEl) {
        itemEl.draggable = true;
    });
+
    // Function responsible for sorting
    function _onDragOver(evt) {
        evt.preventDefault();
        evt.dataTransfer.dropEffect = 'move';
        var target = evt.target;
-
        if( target && target !== dragEl && target.nodeName.toLowerCase() == targetname.toLowerCase() ){
          // Sorting
 

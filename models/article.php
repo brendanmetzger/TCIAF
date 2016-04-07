@@ -7,8 +7,8 @@
 
 class Article extends Vertex
 {
-  use traits\banner;
-
+  use traits\banner, traits\periodical;
+  public $_premier = "Publication Date";
   static public $fixture = [
     'vertex' => [
       'abstract' => [
@@ -34,6 +34,10 @@ class Article extends Vertex
     $this->template['form'] = 'vertex';
     $this->template['upload'] = 'audio-image';
     parent::__construct($id, $data);
+
+    if ($this->context['premier']->count() < 1) {
+      $this->context->getFirst('premier')->setAttribute('date', $this->context["@created"]);
+    }
   }
 
   public function getFeatures(\DOMElement $context)
@@ -48,6 +52,5 @@ class Article extends Vertex
     \bloc\application::instance()->log();
     return substr(strip_tags($this->title), 18);
   }
-
 
 }
