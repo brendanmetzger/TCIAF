@@ -170,15 +170,12 @@ body[data-user] {
  color:#333;
 }
 
-*[data-id] > button:focus {
+*.edit > button[title=edit]:focus {
   outline:none;
 }
 
-*[data-id] > button:hover {
-  opacity:1;
-}
 
-*[data-id] > button {
+*.edit > button[title='edit'] {
   border: none;
     color: #fff;
     text-transform:lowercase;

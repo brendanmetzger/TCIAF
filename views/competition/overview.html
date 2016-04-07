@@ -1,60 +1,53 @@
 <article>
+  <header class="pad-v b ruled">
+    <h3 class="strong brown caps-lock">Competitions</h3>
+    <nav>
+      <ul class="plain path">
+        <li><a href="#driehaus">Third Coast / Richard Drihaus Competition</a></li>
+        <li><a href="#shortdocs">ShortDocs Competition</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li><a href="#driehaus">Third Coast / Richard Drihaus Competition</a></li>
-      <li><a href="#shortdocs">ShortDocs Competition</a></li>
-    </ul>
-  </nav>
 
   <!-- iterate competitions -->
-  <section id="[$item:@id]">
-    <header class="container">
-      <div class="group float-left three-quarters">
+  <article id="[$item:@id]" class="panel">
+    <div class="two-thirds">
+      <header class="pad-v b">
+        <h1 class="lead display strong tracked" data-id="[$item:@id]">[$item:title]</h1>
         <img style="width:50%" src="[http://s3.amazonaws.com/$item:banner:url]" />
-        <h2 class="h1" data-id="[$item:@id]">[$item:title]</h2>
-        <article>[$item:content:about]</article>
-      </div>
+      </header>
 
-      <nav class="crumbs group float-left one-quarter">
-        <ul class="plain center index">
-          <li><strong>[$item:title by year]</strong></li>
+      <section>[$item:content:about]</section>
+      <hr/>
+      <nav class="pad-v t b">
+        <h4 class="brown caps-lock strong">[$item:title by year]</h4>
+        <ul class="plain path">
           <!-- iterate item:competitions -->
           <li class="year"><a href="[/overview/competition/$edition:@id]">[$edition:year]</a></li>
         </ul>
       </nav>
-    </header>
-
-    <!-- iterate item:upcoming -->
-    <div class="trans-blocks upcoming">
-      <h2 class="h1 condensed" data-id="[$item:@id]">[$item:title]</h2>
-      <h3><a href="[$item:permalink]">Learn More</a></h3>
     </div>
-  </section>
+    <!-- iterate item:upcoming -->
+    <aside class="one-third upcoming">
+      <h4>Coming Up</h4>
+      <h2 class="display strong tracked" data-id="[$item:@id]">[$item:title]</h2>
+      <h4 class="caps-lock t b"><a href="[$item:permalink]">Learn More</a></h4>
+    </aside>
+  </article>
 
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-    #shortdocs img {
-      width:15%;
-      float:left;
-      padding:1em;
-      margin-right:2em;
-      border:1px dashed rgba(0,0,0,0.1);
-    }
-
-    .year {
-      display:inline-block;
-      border:none !important;
-      padding:0.75em !important;
-    }
 
     .upcoming:first-of-type {
-      padding-left:15%;
+      align-self:flex-start;
+      padding:10vh 2.5em 2.5em;
       background-image:url('/images/pidgey.svg');
-      background-position: left bottom;
+      background-position: 1vh 1vh;
       background-repeat:no-repeat;
-      background-size:auto 100%;
-      border-color:#5B9B98;
+      background-size:auto 9vh;
+      box-shadow:0 0 5em rgba(0,0,0,0.05);
+      background-color:rgba(255,255,255,0.5);
     }
 
     /* ]]> */

@@ -32,6 +32,7 @@ p a {text-decoration:underline}
 .bb { margin-bottom:3.0vmax }
 .pad   { padding:1vmin }
 .pad-h { padding: 0 1vmin }
+.pad-v { padding: 1vmin 0 }
 
 h1, .h1 { font-size:2.75em;line-height:1.25;margin:0;}
 h2, .h2, legend { font-size:2.375em; line-height:1.5; }
@@ -95,10 +96,11 @@ a:hover .bio > span {
   box-shadow:0 0 0.125em 0 rgba(0,0,0,0.1);
 }
 
-.listing:not(:first-of-type) {border-top:1px solid #EEE;}
+.listing:not(:first-of-type) { border-top:1px solid #EEE;}
 .listing {
   position:relative;padding:1vw 0;
 }
+.path li a {padding:0.25em; }
 .envelope { padding:0 2.5vmax}
 .lead {
   font-size:calc(2.75em + 1.75vw);
@@ -122,7 +124,7 @@ a:hover .bio > span {
   font-family: 'Source Serif Pro', Baskerville, Didot, Serif;
 }
 
-.triptych {justify-content:space-between}
+.triptych {justify-content:space-between;flex-wrap:wrap;}
 .triptych > * {
   background-color:rgba(255,255,255,0.5);
   display:flex;
@@ -130,6 +132,7 @@ a:hover .bio > span {
   flex-wrap:wrap;
   justify-content:space-between;
   padding:1em;
+  margin:0.5em 0;
   flex:0 0 calc(33% - 0.5em);
 }
 
@@ -169,7 +172,7 @@ nav[role] > ul > li {
 }
 
 article nav > ul.plain {
-  margin:0.5em 0;
+  margin:1em 0;
 
 }
 article nav > ul.plain li > a {
@@ -202,9 +205,6 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;background-c
 
 article > header {
   position:relative;
-  border-bottom:1px dashed #BEBEBE;
-  padding-bottom:1vmax;
-  margin-bottom:2vmax;
 }
 
 
@@ -229,16 +229,16 @@ article > header {
   }
 
 
-  hr, .hr {
+  hr, .hr, .ruled {
     border:none;
-    border-top:1px dashed #BEBEBE;
-    margin:2.5vmax 0;
+    border-bottom:1px dashed #BEBEBE;
+    margin:2.5vmin 0;
     clear:both;
   }
 
   .half       {width:50%   }
   .one-third  {width:33.3% }
-  .two-thirds {width:66.6% }
+  .two-thirds {width:66.6%;}
 
   body > section[id] {
     position:fixed;

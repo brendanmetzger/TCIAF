@@ -13,22 +13,7 @@ bloc.init(bloc.define('stylesheets', function () {
   var size = Math.floor(parseFloat(elem.getPropertyValue("line-height"), 10));
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' }', stylesheet.cssRules.length);
-
   // show an indicator next to all editable elements
-}));
-
-bloc.init(bloc.define('editables', function () {
-  var edits = document.querySelectorAll('*[data-id]');
-  for (var j = 0; j < edits.length; j++) {
-    var url = '/manage/edit/' + edits[j].dataset.id;
-    edits[j].dataset.id = null;
-    var button = edits[j].appendChild(document.createElement('button'));
-        button.textContent = 'Edit';
-        button.title = "Edit";
-        button.addEventListener('click', goto.bind(button, url), false);
-
-  }
-
 }));
 
 
@@ -41,7 +26,7 @@ function goto(url, evt) {
 
   (new Modal.Form({
     load: function (form) {
-      bloc.define('stylesheets')();
+      bloc.module('stylesheets')();
       form.querySelector('input').focus();
     },
     submit: function (evt) {
@@ -51,9 +36,7 @@ function goto(url, evt) {
       new Request({
         load: function (evt) {
           exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);
-          setTimeout(function () {
-            bloc.module('editables')();
-          }, 100);
+          bloc.load(true);
         }
       }).get(window.location.href + '.xml');
     }
@@ -177,29 +160,23 @@ Markdown.prototype = {
     return this.selection.bind(this);
   },
   show: function (evt) {
-
-    if (! evt) {
-      return this.show.bind(this);
-    }
+    if (! evt) return this.show.bind(this);
     this.element = evt.target;
     this.fit(this.element);
     evt.target.parentNode.insertBefore(this.hud, evt.target);
-
-  },
-
+  }
 };
 
 
 function Upload(container, data) {
   this.container = container;
   this.action    = data.url;
-
   this.xhr = new XMLHttpRequest();
 
   if (this.input === null) {
-    this.input = this.container.appendChild(document.createElement('input'));
+    this.input      = this.container.appendChild(document.createElement('input'));
     this.input.type = 'file';
-    this.input.id = "_" + Date.now().toString(36);
+    this.input.id   = "_" + Date.now().toString(36);
   }
 
   this.input.accept = data.accept;
@@ -221,24 +198,19 @@ function Upload(container, data) {
     this.progress.element.classList.add('spin');
   }.bind(this);
 
-
   this.input.addEventListener('change', function (evt) {
-
     if (this.input.files.length < 1) return;
     var type = this.input.files[0].type.split('/')[0] || null;
 
     try {
-      if (this.rules[type]) {
-        this.rules[type].call(this, this.input.files[0]);
-      }
+      if (this.rules[type]) this.rules[type].call(this, this.input.files[0]);
+
       var fd = new FormData();
           fd.append("upload", this.input.files[0]);
-
       this.attach(fd);
     } catch (e) {
       console.error(e);
     }
-
   }.bind(this), false);
 }
 Upload.instance = null;
@@ -421,19 +393,13 @@ Modal.Form.prototype = {
     this.callbacks[evt] = callback;
   },
   processForm: function (evt) {
-    var scripts = evt.target.responseXML.querySelectorAll('body script[async]');
-
-    scripts.forEach(function (script) {
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      document.head.appendChild(s).text = script.text;
+    evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
+      eval(script.text);
     });
 
     bloc.remove('Edge');
     bloc.remove('Markdown');
-
     bloc.module('autoload')();
-
 
     // No form means we need to load up one via our ajax object
     if (!this.form) {

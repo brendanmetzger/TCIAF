@@ -13,4 +13,20 @@
     <option value="[/manage/create/$name]">[$name]</option>
   </select>
   <a class="trash p" href="/manage/group/">Go to Archive</a>
+  <script type="text/javascript" async="true">
+  // <![CDATA[
+  bloc.init(function() {
+    var edits = document.querySelectorAll('*[data-id]');
+    for (var j = 0; j < edits.length; j++) {
+      var url = '/manage/edit/' + edits[j].dataset.id;
+      edits[j].classList.add("edit");
+      delete edits[j].dataset.id;
+      var button = edits[j].appendChild(document.createElement('button'));
+          button.textContent = 'Edit';
+          button.title = "edit";
+          button.addEventListener('click', goto.bind(button, url), false);
+    }
+  });
+  //]]>
+  </script>
 </nav>

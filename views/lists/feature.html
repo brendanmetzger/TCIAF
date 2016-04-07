@@ -1,7 +1,7 @@
 <article class="features listing">
-  <header>
+  <header class="pad-v b">
     <h3 class="brown caps-lock strong t b">Listen</h3>
-    <h1 class="lead display strong tracked tt bb">Our Library Speaks Volumes</h1>
+    <h1 class="lead display strong tracked tt b">Our Library Speaks Volumes</h1>
     <nav>
       <ul class="plain path">
         <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
@@ -20,23 +20,20 @@
         <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
       </ul>
     </nav>
-
     <!-- replace blurb -->
   </header>
   <!-- iterate list -->
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel">
+  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel container listing">
     <header class="two-thirds">
       <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
     </header>
-    <ul class="plain h4">
+    <ul class="plain h4 pad-h">
       <li><span>[$item:premier:@date / $item:duration min.]</span></li>
       <!-- iterate item:producers -->
       <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
     </ul>
   </article>
-
-
   <footer class="center">
     <!-- insert views/partials/navigator.html -->
     <p>Looking for more to listen to? Check out our <a href="/overview/playlists">Playlists</a></p>

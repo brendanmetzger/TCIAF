@@ -1,17 +1,14 @@
 <article>
-  <header>
+  <header class="pad-v b">
     <h3 class="caps-lock brown strong t b">Conferences</h3>
     <h1 class="lead display tracked strong tt b" data-id="[$item:@id]">[$item:title]</h1>
+    <section property="description">[$item:content:about]</section>
   </header>
-
-  <section property="description">[$item:content:about]</section>
-
   <!-- iterate item:conferences -->
   <article class="two-thirds listing panel">
     <h2 class="display strong half" style="padding-right:2vmax;"><a href="[/overview/conference/$edition:@id]">[$edition:year Third Coast Conference]</a></h2>
     <p class="half">[$edition:summary]</p>
   </article>
-
   <!-- iterate item:upcoming -->
   <div class="trans-blocks">
     <time class="h1 center">[$item:date]</time>
@@ -19,5 +16,4 @@
     <h2 class="h1 condensed" data-id="[$item:@id]">[$item:title]</h2>
     <h3><a href="[$item:permalink]">Learn More</a></h3>
   </div>
-
 </article>

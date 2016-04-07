@@ -1,5 +1,5 @@
 <article>
-	<header>
+	<header class="pad-v b">
 		<h3 class="brown strong caps-lock">Playlists</h3>
 		<nav>
 	    <!-- insert views/partials/navigator.html -->
@@ -7,13 +7,13 @@
 	</header>
 
 	<!-- iterate list -->
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="panel">
+  <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="panel listing">
 		<header class="two-thirds">
 			<h2 class="display tracked strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
 			<p>[$item:summary]</p>
 		</header>
 		<nav>
-			<ul class="plain">
+			<ul class="plain h4 pad-h">
 				<!-- iterate item:curators -->
 	      <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
 	    	<li>[$item:size:length Tracks]</li>
