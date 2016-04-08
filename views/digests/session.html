@@ -13,14 +13,14 @@
     </div>
 
   </header>
-
+  <figure class="gallery">
+    <!-- iterate item:media:image -->
+    <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" property="image"/>
+  </figure>
 
   <div class="panel">
     <section class="two-thirds intro" property="description">[$item:content:description]</section>
-    <figure class="one-third gallery">
-      <!-- iterate item:media:image -->
-      <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" property="image"/>
-    </figure>
+
   </div>
 
 
