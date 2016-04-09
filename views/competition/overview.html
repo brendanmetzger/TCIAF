@@ -30,7 +30,7 @@
     </div>
     <!-- iterate item:upcoming -->
     <aside class="one-third upcoming">
-      <h4>Coming Up</h4>
+      <h4 class="brown caps-lock strong b">Coming Up</h4>
       <h2 class="display strong tracked" data-id="[$item:@id]">[$item:title]</h2>
       <h4 class="caps-lock t b"><a href="[$item:permalink]">Learn More</a></h4>
     </aside>
@@ -41,13 +41,11 @@
 
     .upcoming:first-of-type {
       align-self:flex-start;
-      padding:10vh 2.5em 2.5em;
-      background-image:url('/images/pidgey.svg');
-      background-position: 1vh 1vh;
-      background-repeat:no-repeat;
+      padding:2.5em 2.5em 10vh;
+      margin:2vh;
+      background:rgba(255,255,255,0.5) url('/images/pidgey.svg') no-repeat 95% 95%;
       background-size:auto 9vh;
       box-shadow:0 0 5em rgba(0,0,0,0.05);
-      background-color:rgba(255,255,255,0.5);
     }
 
     /* ]]> */

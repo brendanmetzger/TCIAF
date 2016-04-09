@@ -19,6 +19,9 @@ bloc.init(bloc.define('stylesheets', function () {
 
 function goto(url, evt) {
   evt.preventDefault();
+  evt.stopPropagation();
+  
+
   if (evt.metaKey) {
     document.location.assign(url);
     return;

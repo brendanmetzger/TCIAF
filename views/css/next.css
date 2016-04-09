@@ -65,21 +65,22 @@ header .controls {
 
 
 
-.bio.head { width:15%}
-.bio.read { width:10vmin;padding:1vmin 0;margin-right:1vmin; }
-.bio figcaption {padding:0.75em 0.125em;font-size:1.35em}
+.bio.head {width:15%; display:inline-block;}
+.bio.read {width:10vmin;padding:1vmin 0;margin-right:1vmin;}
+.bio figcaption {padding:0.75em 0.125em;font-size:1.35em;}
 .bio > span {
   background-size:cover;
   background-position:top center;
   background-repeat:no-repeat;
-  width:9vmin;
-  height:9vmin;
+  width: 8vmin;
+  height: 9vmin;
   border-radius:50%;
   box-shadow:0 0 0 0.25vmin rgba(0,0,0,0.05);
   box-shadow:0 0 0 0.125em rgba(200,200,200,0.75);
-  display:block;
-  color:rgba(0,0,0,0);
+  display: inline-block;
+  /* color:rgba(0,0,0,0); */
   color:transparent;
+  overflow: hidden;
 }
 a:hover .bio > span {
   box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25);
@@ -97,9 +98,7 @@ a:hover .bio > span {
 }
 
 .listing:not(:first-of-type) { border-top:1px solid #EEE;}
-.listing {
-  position:relative;padding:1vw 0;
-}
+.listing { position:relative }
 .path li a {padding:0.25em; }
 .envelope { padding:0 2.5vmax}
 .lead {
@@ -138,7 +137,7 @@ a:hover .bio > span {
 
 
 section#browse > main {
-  transition:opacity 1s, background-color 1.5s 0.125s;
+  transition:opacity 0.75s, background-color 1.5s 0.125s;
   background-color:#FAFAFA;
   padding:2vw;
 }
