@@ -1,66 +1,54 @@
-<article class="about page container">
-
-  <header class="title">
-    <h1 data-id="[$item:@id]">[$item:title]</h1>
-
-  </header>
-
-  <div class="group float-left">
-    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:90%;padding:5%;background-color:rgba(255,255,255,0.25);border:1px solid #eee;border-top:none;" alt="third coast"/>
-    <cite>[$item:photo:caption]</cite>
-    <section>[$item:content:description]</section>
-  </div>
-
-
-  <nav class="group float-left">
-
-    <h2>Staff</h2>
-
-    <ul class="staff plain">
-      <!-- iterate item:staff -->
-      <li>
-        <em>[$position]</em>
-        <h4 data-id="[$person:@id]"><a href="[$person:permalink]">[$person:title]</a></h4>
-      </li>
-    </ul>
-
-
-    <h2>Board of Directors</h2>
-    <ul class="staff plain">
-    <!-- iterate item:board -->
-      <li>
-        <em>[$position]</em>
-        <h4 data-id="[$person:@id]">[$person:title]</h4>
-      </li>
-    </ul>
-  </nav>
-
-
+<article class="about page">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-    .about nav {
-      width:25%;
-      margin:0;
-    }
-    ul.staff li {
-      padding:0 0 1em 0;
-    }
     ul.staff em, cite {
-      font-weight:400;
       color:#775;
-      padding:1em 0;
+      padding:0.25em 0;
+      margin-top:0.5em;
+      display:inline-block;
       letter-spacing:0.075em;
     }
-
-    .about div {
-      width:72.5%;
-      margin-right:2.5%;
-    }
-    div.staff img[src] {
-      float:left;
-      width:15%;
-    }
+    .spot {padding:2vmax;margin:2vmax 0;}
     /* ]]> */
   </style>
 
+  <header class="title">
+    <h3 class="brown strong caps-lock t b">About Us</h3>
+    <h1 class="lead display strong tracked tt bb" data-id="[$item:@id]">[$item:title]</h1>
+  </header>
+
+  <div class="panel">
+    <section class="two-thirds">
+      <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:90%;padding:5%;background-color:rgba(255,255,255,0.25);border:1px solid #eee;border-top:none;" alt="third coast"/>
+      <cite>[$item:photo:caption]</cite>
+      <section class="markdown">[$item:content:description]</section>
+    </section>
+    <nav class="one-third ll rr">
+      <div class="gray-bg spot">
+        <h4 class="strong brown caps-lock">staff</h4>
+        <ul class="staff plain">
+          <!-- iterate item:staff -->
+          <li>
+            <em>[$position]</em>
+            <h4 data-id="[$person:@id]"><a href="[$person:permalink]">[$person:title]</a></h4>
+          </li>
+        </ul>
+      </div>
+      <div class="gray-bg spot">
+        <h4 class="strong brown caps-lock">Board of Directors</h4>
+        <ul class="staff plain">
+        <!-- iterate item:board -->
+          <li>
+            <em>[$position]</em>
+            <h4 data-id="[$person:@id]">[$person:title]</h4>
+          </li>
+        </ul>
+      </div>
+      <div class="gray-bg spot">
+        <h4 class="strong brown caps-lock b">Work with us</h4>
+        <h2 class="display">Have what it takes?</h2>
+        <p>Visit our <a href="/overview/opportunities">Jobs and Internships page</a> to find out more about avaialbe positions or email us at <a href="mailto:info@thirdcoastfestival.org">info@thirdcoastfestival.org</a>, for more information.</p>
+      </div>
+    </nav>
+  </div>
 </article>
