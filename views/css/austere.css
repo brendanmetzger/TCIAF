@@ -7,9 +7,6 @@
   purple 492737
   red EE3124
 */
-svg .brown {fill:#88746A;}
-svg .red   {fill:#EE3124;}
-svg .blue  {fill:#5b9c99;}
 
 .success {background-color:#D7F4CB;border-radius:0.15em;}
 .info {background-color:#CEE3EB;border-radius:0.15em;}
@@ -47,16 +44,6 @@ ul.inline, ul.divide {padding:0;}
 
 
 
-.interactive:before {
-  content: '⚙ ';
-  transition:color 0.25s;
-}
-.interactive:hover:before, .interactive.active:before  {
-  color:#5B9B98;
-}
-.interactive, button, .button {
-  cursor:pointer;
-}
 
 
 /* Typography ------------------- */
@@ -71,10 +58,6 @@ label, cite, p, .p, li, h1, h2, h3, h4, h5, address, legend, .normal, button, .b
   font-weight:400;
 }
 .h1,.h2,.h3,.h4,.h5 {display:block;}
-
-
-
-
 
 select {font-size:1.25em; -webkit-appearance: menulist-button; }
 button:focus, select:focus {

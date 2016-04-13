@@ -1,7 +1,30 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
-
+  <style media="screen">
+    .award-block {
+      background: transparent url(/images/medal.svg) no-repeat top right;
+      background-size:10em auto;
+    }
+    .judges.panel {
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+    .judges.panel > a {
+      margin:0.25%;
+      padding:1em 0.25% 0;
+      border:1px dashed #EEE;
+      flex: 1 0 9vmin;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .driehaus {
+      background: #EE3124 url(/images/driehaus.svg) no-repeat right bottom;
+      color:#fff;
+      background-size:auto 100%;
+    }
+  </style>
   <header>
-    <div class="tmp-banner" style="background-color:#ea2e0d;color:#fff;"  data-aspect="[$item:banner:mark]">
+    <div class="tmp-banner driehaus"  data-aspect="[$item:banner:mark]">
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
     </div>
@@ -59,25 +82,4 @@
     <h4 class="strong brown caps-lock" id="sponsors">Sponsors</h4>
     <!-- insert views/partials/sponsors.html -->
   </section>
-
-
-  <style media="screen">
-    .award-block {
-      background: transparent url(/images/medal.svg) no-repeat top right;
-      background-size:10em auto;
-    }
-    .judges.panel {
-      flex-wrap:wrap;
-      justify-content:space-between;
-    }
-    .judges.panel > a {
-      margin:0.25%;
-      padding:1em 0.25% 0;
-      border:1px dashed #EEE;
-      flex: 1 0 9vmin;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-  </style>
 </article>
