@@ -179,7 +179,8 @@ var Search = function (container, data) {
 
   this.menu = new Menu(this.input.parentNode.insertBefore(document.createElement('ul'), this.input.nextSibling));
   this.menu.list.addEventListener('click', function (evt) {
-    if (evt.target.nodeName === 'LI') {
+    if (evt.target.nodeName.toLowerCase() === 'li') {
+      this.menu.index = 1;
       this.input.value       = evt.target.textContent;
       this.input.dataset.id  = evt.target.id;
       this.select(evt);
@@ -224,7 +225,6 @@ Search.prototype = {
 
     this.input.dataset.text = this.input.value;
     this.input.dataset.index = this.menu.index;
-
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
@@ -494,7 +494,6 @@ if (window.history.pushState) {
         evt.preventDefault();
         var elem = document.getElementById(evt.target.hash.substr(1));
         if (elem) {
-          console.log(elem, elem.offsetTop);
           window.Adjust.scroll(+elem.offsetTop, 500);
         }
       } else if (evt.target.matches("a:not(.button)[href^='/']")) {

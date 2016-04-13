@@ -18,28 +18,6 @@
 
 
 /* Generic Classes ------------------- */
-.container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
-.capitalize {text-transform: capitalize;}
-
-.plain {list-style:none;padding:0;}
-.caps-lock {text-transform:uppercase;}
-.ghost {opacity:0.5;}
-.ghost:hover {opacity:1;}
-.fade {opacity:0;}
-.inline:not(ul), .inline li, .inline dd, ul.divide li  {display:inline-block;}
-ul.inline, ul.divide {padding:0;}
-.ragright {text-align:left;}
-.ragleft {text-align:right;}
-.center {text-align:center;}
-.middle {margin: 0 auto}
-.justify {text-align: justify;}
-.clear {clear:both;}
-.close {height:2em;width:2em;line-height:0;padding:0.5em;}
-.group{display:block;box-sizing:border-box;}
-.float-left{float:left;}
-.float-right{float:right;}
-.divide li {padding:0.25em 1em}
-.divide li + li {border-left:1px solid rgba(0,0,0,0.1)}
 
 
 
@@ -53,11 +31,9 @@ strong, .strong, .selected {font-weight:600;}
 em, .em, blockquote {font-style:italic;}
 
 
-ul.plain li {font-size:100%;}
 label, cite, p, .p, li, h1, h2, h3, h4, h5, address, legend, .normal, button, .button {
   font-weight:400;
 }
-.h1,.h2,.h3,.h4,.h5 {display:block;}
 
 select {font-size:1.25em; -webkit-appearance: menulist-button; }
 button:focus, select:focus {
@@ -84,12 +60,10 @@ label, p, h5 {
   border-bottom:1px solid #eee;
 }
 
-
 input, textarea {
   width:100%;
 }
 input, textarea, fieldset {
-  box-sizing:border-box;
   padding:0;
   border: 1px solid #ccc;
   background-color:rgba(255,255,255,0.5);
@@ -99,18 +73,6 @@ input, textarea, fieldset {
 input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
 input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}
 
-article > footer {
-  margin:2.5em;
-}
-body > footer {
-  background: linear-gradient(to bottom,  rgba(255,255,255,0.5) 0%,rgba(255,255,255,1) 100%);
-  padding:5em 0 0;
-  border-top:1px dashed rgba(0,0,0,0.1);
-  box-shadow: 0 0 0 1em rgba(255,255,255,0.25);
-}
-body > footer > section:first-of-type {
-  margin:0 2.5em;
-}
 
 
 fieldset + fieldset {
@@ -126,45 +88,3 @@ legend {
   letter-spacing:0.125em;
   color:#323031;
 }
-
-
-
-.search {
-  position:relative;
-}
-
-/* components  */
-.search ul {
-  position: absolute;
-  padding: 0;
-  left:0;
-  margin: 0 2.5%;
-  width: 95%;
-  color: #fff;
-  z-index: 1000;
-  background-color: rgba(255,255,255,0.95);
-  box-sizing: border-box;
-  list-style: none;
-  transition:opacity 0.75s;
-}
-.search ul:not(:empty) {
-  box-shadow:0 0.25em 0.125em rgba(0,0,0,0.1);
-}
-.search ul li {
-  padding:0.75em 1em;
-  cursor:pointer;
-  color:#323031;
-  display:block;
-  position:relative;
-}
-.search ul li:hover, .search ul li.highlight {
-  background-color:#5B9B98;
-  color:#fff;
-}
-.search ul li + li {
-  border-top:1px solid #eee;
-}
-
-
-
-@keyframes spin         { from { transform:rotate(0deg) }        to { transform:rotate(360deg) } }

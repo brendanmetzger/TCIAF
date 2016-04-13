@@ -45,14 +45,20 @@ namespace models;
     {
       if ($context['premier']->count() > 0 && strtotime($context['premier']['@date']) > time()) {
         return 'competition/preview';
-      } else if ($context->find("edge[@type='edition']")->count() > 1){
+      }
+      $edges = $context->find("edge[@type='edition']");
+      if ($edges->count() > 1) {
         return 'competition/overview';
       } else {
+        // TODO: Edge should be a model. new Edge($edges->pick())->vertex ... to get owner
+        $this->type = $edges->pick()['@vertex'];
+
         return 'competition/edition';
       }
     }
 
-    public function GETpermalink(\DOMElement $context)
+
+    public function getPermalink(\DOMElement $context)
     {
       return "/overview/competition/{$context['@id']}";
     }

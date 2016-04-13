@@ -1,17 +1,10 @@
 <article class="page">
-  <nav class="center crumbs">
-    <ul class="plain">
-      <!-- iterate item:articles -->
-      <li data-updated="[$article:@updated]"><strong>Playlist</strong> <a href="[$article:permalink]">[$article:title]</a></li>
-      <li><strong>See All</strong><a href="/overview/events">Events</a></li>
-      <li style="line-height:0;border:none;">
-        <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;" data-aspect="[$item:banner:mark]"/>
-      </li>
-    </ul>
+  <nav class="caps-lock strong t b">
+    <a href="/overview/events">Happenings</a> / <span>[$item:title]</span>
   </nav>
   <header>
-    <time class="h3">[$item:date]</time>
-    <h1 class="condensed" data-id="[$item:@id]">[$item:title]</h1>
+    <h4 class="t"><time>[$item:date]</time></h4>
+    <h1 class="lead display tracked strong tt bb" data-id="[$item:@id]">[$item:title]</h1>
   </header>
-  <section>[$item:content:about]</section>
+  <section class="markdown">[$item:content:about]</section>
 </article>

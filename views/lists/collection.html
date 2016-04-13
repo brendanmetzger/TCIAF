@@ -8,18 +8,16 @@
 
 	<!-- iterate list -->
   <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="panel listing pad-v">
-		<header class="two-thirds">
+		<header class="two-thirds pad-h">
 			<h2 class="display tracked strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
 			<p>[$item:summary]</p>
 		</header>
-		<nav>
-			<ul class="plain h4 pad-h">
-				<!-- iterate item:curators -->
-	      <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
-	    	<li>[$item:size:length Tracks]</li>
-				<li>[$item:size:duration Hours]</li>
-	    </ul>
-		</nav>
+		<ul class="plain h4 pad-h">
+			<!-- iterate item:curators -->
+			<li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+			<li>[$item:size:length Tracks]</li>
+			<li>[$item:size:duration Hours]</li>
+		</ul>
   </article>
 
 </article>

@@ -1,40 +1,39 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li class="h2 caps-lock">· More ·</li>
-      <!-- iterate item:playlists -->
-      <li><strong>Playlist</strong> <a href="[$collection:permalink]">[$collection:title]</a></li>
-      <li><a href="/overview/library/shows">Shows</a> | <a href="/explore/index/person">Producers</a></li>
-    </ul>
-  </nav>
-  <header class="trans-blocks">
+  <header>
     <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
-    <h1 data-id="[$item:@id]" style="margin:1.5em 0 0;" property="name">[$item:title]</h1>
-    <span class="h3">[$item:premier:@date, $item:premier,  $item:location]</span>
-    <hr/>
-    <!-- iterate item:media:audio -->
-    <span>
-      <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-      <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
-    </span>
+    <div class="two-thirds controls">
+      <!-- iterate item:media:audio -->
+      <!-- insert views/partials/play-button.html -->
+      <h1 data-id="[$item:@id]" property="name" class="strong lead display tracked">[$item:title]</h1>
+    </div>
+    <div class="two-thirds">
+      <p class="h3">[$item:summary]</p>
+      <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
+    </div>
   </header>
-  <div class="container">
-    <aside class="group float-left" style="width:20%;padding:0 2.5% 0 0;margin:0;border-right:1px solid rgba(0,0,0,0.1)">
-      <!-- iterate item:media:image -->
-      <img src="[$domain/$url]" alt="[$caption]" style="width:100%;" property="image"/>
-    </aside>
-    <section class="group float-left _75" style="margin-left:2.5%"  property="description">[$item:content:description]</section>
-    <hr/>
-    <section class="group float-left _75" property="contributors" style="margin-left:2.5%;">
-      <h2 class="center">Produced By</h2>
+  <section class="panel">
+    <div class="two-thirds">
+      <div property="description">[$item:content:description]</div>
+      <h4 class="brown caps-lock strong t">produced by</h4>
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
-      <ul class="plain">
-        <!-- iterate item:extras -->
-        <li><h3><a href="[$article:permalink]">[$article:title]</a></h3></li>
-      </ul>
-    </section>
-  </div>
+    </div>
+    <figure class="one-third gallery">
+      <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
+    </figure>
+  </section>
+  <hr/>
+  <h4 class="strong caps-lock brown t b">Featured in</h4>
+  <nav class="two-thirds">
+    <ul class="plain">
+      <!-- iterate item:playlists -->
+      <li class="playlists">
+        <a href="[$collection:permalink]">[$collection:title]</a>
+        <p>[$collection:summary]</p>
+      </li>
+    </ul>
+  </nav>
+  <hr/>
   <footer class="hr break center">
     <h2>Subscribe to the Podcast</h2>
     <p>Hosted by Re:sound producer Dennis Funk, the weekly Third Coast Podcast features episodes of Re:sound (a radiophonic remix of audio goodness) and occasional audio treats, like recent faves from our library spotlight and debuts of more experimental work.</p>

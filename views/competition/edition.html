@@ -1,9 +1,5 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
   <style media="screen">
-    .award-block {
-      background: transparent url(/images/medal.svg) no-repeat top right;
-      background-size:10em auto;
-    }
     .judges.panel {
       flex-wrap:wrap;
       justify-content:space-between;
@@ -17,69 +13,77 @@
       justify-content:center;
       align-items:center;
     }
-    .driehaus {
+    .driehaus.banner {
       background: #EE3124 url(/images/driehaus.svg) no-repeat right bottom;
       color:#fff;
       background-size:auto 100%;
     }
+
+    .shortdocs.banner {
+      background-color: #333;
+      color:#fff;
+    }
+    section.shortdocs .jump-nav, section.shortdocs .award{ display:none}
   </style>
   <header>
-    <div class="tmp-banner driehaus"  data-aspect="[$item:banner:mark]">
+    <div class="[banner $item:type]" data-something="[$item:type]" data-aspect="[$item:banner:mark]">
+      <h4 class="bb"><time>[$item:date]</time></h4>
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
     </div>
     <nav class="caps-lock strong t b">
       <a href="/overview/conference">Competitions</a> / <span>[$item:title]</span> / <a href="[/overview/competition/$item:@id/participants]">Participants</a>
     </nav>
-    <ul class="plain path caps-lock">
-      <li><a href="#awards">Awards</a></li>
-      <li><a href="#judges">Judges</a></li>
-      <li><a href="#sponsors">Sponsors</a></li>
-    </ul>
-    <section>[$item:content:about]</section>
+
   </header>
 
-  <section class="awards container" id="awards">
-    <h4 class="strong brown caps-lock">Awards</h4>
-    <ul class="plain">
-      <!-- iterate item:awards -->
-      <li><a href="[#$id]">[$award]</a></li>
-    </ul>
+  <div class="panel">
+    <div class="two-thirds pad">
+      <section class="markdown">[$item:content:about]</section>
 
-    <!-- iterate item:awards -->
-    <article property="workPerformed" typeof="CreativeWork" class="award-block" data-updated="[$feature:@updated]" id="[$id]">
-      <h4 class="strong brown caps-lock" property="award">[$award]</h4>
-      <header>
-        <div class="two-thirds controls">
-          <!-- iterate feature:media:audio -->
-          <!-- insert views/partials/play-button.html -->
-          <h2 data-id="[$feature:@id]" class="display"><a href="[$feature:permalink]">[$feature:title]</a></h2>
-        </div>
-        <p property="description">[$feature:summary]</p>
-      </header>
-      <hr/>
-      <section>
-        <!-- iterate feature:producers -->
-        <!-- insert views/cards/person.html -->
+      <section class="[$item:type awards container]" id="awards">
+        <h4 class="strong brown caps-lock">Awards</h4>
+        <ul class="plain jump-nav">
+          <!-- iterate item:awards -->
+          <li><a href="[#$id]">[$award]</a></li>
+        </ul>
+
+        <!-- iterate item:awards -->
+        <article property="workPerformed" typeof="CreativeWork" class="listing" data-updated="[$feature:@updated]" id="[$id]">
+          <h4 class="strong brown caps-lock award" property="award">[$award]</h4>
+          <header>
+            <div class="two-thirds controls">
+              <!-- iterate feature:media:audio -->
+              <!-- insert views/partials/play-button.html -->
+              <h2 data-id="[$feature:@id]" class="display"><a href="[$feature:permalink]">[$feature:title]</a></h2>
+            </div>
+            <p property="description">[$feature:summary]</p>
+          </header>
+          <hr/>
+          <section>
+            <!-- iterate feature:producers -->
+            <!-- insert views/cards/person.html -->
+          </section>
+        </article>
       </section>
-    </article>
-  </section>
-  <hr/>
-  <section property="attendees" id="judges">
-    <h4 class="strong brown caps-lock">Judges</h4>
-    <div class="judges panel t b">
-      <!-- iterate item:judges -->
-      <a href="[$person:permalink]" vocab="http://schema.org/" typeof="Person" class="center"  data-id="[$person:@id]">
-        <figure class="bio">
-          <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-          <figcaption class="strong"  property="name">[$person:@title]</figcaption>
-        </figure>
-      </a>
+      <hr/>
+      <section property="attendees" id="judges">
+        <h4 class="strong brown caps-lock">Judges</h4>
+        <div class="judges panel t b">
+          <!-- iterate item:judges -->
+          <a href="[$person:permalink]" vocab="http://schema.org/" typeof="Person" class="center"  data-id="[$person:@id]">
+            <figure class="bio">
+              <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+              <figcaption class="strong"  property="name">[$person:@title]</figcaption>
+            </figure>
+          </a>
+        </div>
+      </section>
     </div>
-  </section>
-  <hr/>
-  <section>
-    <h4 class="strong brown caps-lock" id="sponsors">Sponsors</h4>
-    <!-- insert views/partials/sponsors.html -->
-  </section>
+    <section class="one-third gray-bg ll"  id="sponsors">
+      <h4 class="strong brown caps-lock">Sponsors</h4>
+      <!-- insert views/partials/sponsors.html -->
+    </section>
+
+  </div>
 </article>
