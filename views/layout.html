@@ -32,16 +32,24 @@
       <main>
         <!-- replace content nextSibling -->
         <section class="landing">
-          <article>
-
-            <div style="background-color:#ffc22d;" class="banner">
-              <div style="position:absolute;bottom:2.5vw;left:2.5vw; width:50%;">
-                <h2 data-id="[$collection:@id]">[$collection:title]</h2>
-                <p>[$collection:content:about]</p>
-              </div>
+          <div style="background-color:#ffc22d;" class="banner">
+            <div style="position:absolute;bottom:2.5vw;left:2.5vw; width:50%;">
+              <h2 data-id="[$collection:@id]">[$collection:title]</h2>
+              <p>[$collection:content:about]</p>
             </div>
+          </div>
 
-            <h3 class="brown caps-lock t b">Listen</h3>
+          <article class="pad-v">
+            <h4 class="brown caps-lock b">News and Events</h4>
+            <!-- iterate collection:articles -->
+            <section>
+              <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
+              <h2 data-id="[$article:@id]" class="display"><a href="[$article:permalink]">[$article:title]</a></h2>
+              <p>[$article:summary]</p>
+            </section>
+          </article>
+          <article>
+            <h4 class="brown caps-lock t b">Listen</h4>
             <ul class="plain triptych">
               <!-- iterate collection:features -->
               <li>
@@ -63,22 +71,12 @@
           </article>
           <hr />
           <article>
-            <h3 class="brown caps-lock t b">News and Events</h3>
-            <div  class="panel">
-              <!-- iterate collection:articles -->
-              <section>
-                <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
-                <h2 data-id="[$article:@id]"><a href="[$article:permalink]">[$article:title]</a></h2>
-                <p>[$article:summary]</p>
-              </section>
-              <hr />
-              <h2>Featured Playlists</h2>
-              <!-- iterate playlists -->
-              <section>
-                <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
-                <p>[$playlist:summary]</p>
-              </section>
-            </div>
+            <h4 class="brown caps-lock t b">Featured Playlists</h4>
+            <!-- iterate playlists -->
+            <section>
+              <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
+              <p>[$playlist:summary]</p>
+            </section>
           </article>
         </section>
       </main>

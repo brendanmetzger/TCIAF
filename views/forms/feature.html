@@ -1,6 +1,6 @@
 <article>
   <h2><strong>[$action]</strong> <a class="em" href="[$item:permalink]">[$item:title]</a></h2>
-  <form name="uploadData" method="POST" action="[/manage/edit/feature/$item:@id]" class="editor" autocomplete="off">
+  <form name="uploadData" method="POST" action="[/manage/edit/feature/$item:@id]" class="editor" autocomplete="off" oninput="this.classList.add('modified')">
     <!-- insert views/forms/partials/receipt.html -->
     <!-- insert  views/forms/fieldset/title-description.html -->
     <fieldset class="extra group float-left">
@@ -20,7 +20,7 @@
       <noscript id="Spectra" class="Spectra" data-selector="fieldset.spectra label input">Spectra Requires Javascript!</noscript>
       <!-- iterate item:spectra -->
       <label class="range container">
-        <strong class="center" style="display:block;padding:0.5em;">[$title]</strong>
+        <strong class="center" style="display:block;padding:0.25em;">[$title]</strong>
         <span>[$item:@from]</span>
         <input type="range" min="0" max="100" name="[vertex[spectra][@][$item:@id]]" value="[$value]" data-index="0" />
         <span>[$item:@to]</span>
@@ -32,6 +32,6 @@
     </fieldset>
     <hr style="clear:both;margin:5em 0;border-color:transparent;" />
     <!-- insert views/forms/fieldset/edge.html -->
-    <button type="submit" class="margins">Save Changes</button>
+    <button type="submit">Save Changes</button>
   </form>
 </article>

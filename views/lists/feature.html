@@ -23,12 +23,17 @@
     <!-- replace blurb -->
   </header>
   <!-- iterate list -->
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel container listing pad-v">
-    <header class="two-thirds">
+  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad-v">
+    <div>
+      <!-- iterate item:media:audio -->
+      <!--  insert views/partials/play-button.html-->
+    </div>
+
+    <header class="two-thirds ll">
       <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
     </header>
-    <ul class="plain h4 pad-h">
+    <ul class="plain h5 pad-h ll">
       <li><span>[$item:premier:@date / $item:duration min.]</span></li>
       <!-- iterate item:producers -->
       <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>

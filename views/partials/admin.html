@@ -1,7 +1,8 @@
 <nav class="management dashboard">
   <link rel="stylesheet" href="/css/manage.css" type="text/css" media="screen" charset="utf-8" title="administrator"/>
   <script type="text/javascript">bloc.require('/js/manage.js');</script>
-  <h4 class="inline" style="margin-right:2em;">[Logged in as: $user.]</h4>
+  <h4 class="inline">[Logged in as: $user]</h4>
+  <a href="/manage/logout" class="h4 pad-h">Logout</a>
   <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-create').selectedIndex = 0;" id="admin-index">
     <option value="default">Go to...</option>
     <!-- iterate tasks -->

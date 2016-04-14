@@ -1,51 +1,43 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
+  <style media="screen">
+  .driehaus.banner {
+    background: #EE3124 url(/images/driehaus.svg) no-repeat right bottom;
+    color:#fff;
+    background-size:auto 100%;
+  }
 
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li><a href="/overview/competition">More Competitions</a></li>
-      <li style="line-height:0;border:none;">
-          <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:100%;margin:0" data-aspect="[$item:banner:mark]"/>
-      </li>
-    </ul>
-  </nav>
-  <header class="container">
-    <div>
-      <h1 data-id="[$item:@id]">[$item:title]</h1>
-      <section  property="description">[$item:content:about]</section>
+  .shortdocs.banner {
+    background-color: #333;
+    color:#fff;
+  }
+  </style>
+
+
+  <header>
+    <div class="[banner $item:type]" data-something="[$item:type]" data-aspect="[$item:banner:mark]">
+      <h4 class="bb"><time>[$item:date]</time></h4>
+      <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
+      <p>[$item:summary]</p>
     </div>
+    <nav class="caps-lock strong t b">
+      <a href="/overview/competition">Competitions</a> / <span>[$item:title]</span>
+    </nav>
   </header>
 
-  <!-- iterate item:articles -->
-  <article class="memo">
-    <h2>[$item:title]</h2>
-    <section>[$item:content:description]</section>
-  </article>
+  <div class="panel">
+    <div class="two-thirds pad">
+      <section class="markdown">[$item:about]</section>
 
-  <span class="marquee center condensed" id="sponsors">Sponsors</span>
+      <!-- iterate item:articles -->
+      <article class="listing pad-v">
+        <h2 class="display" data-id="[$item:@id]">[$item:title]</h2>
+        <section class="markdown">[$item:content:description]</section>
+      </article>
+    </div>
 
-  <!-- insert views/partials/sponsors.html -->
-
-  <style media="screen">
-    .memo {
-      padding:0 1em;
-      margin:1em 0;
-      background-color:rgba(255,255,255,0.25);
-    }
-    .title {
-      border-bottom: 1px dashed #AAA;
-      margin:0 15% 1em;
-      padding:1em 0;
-    }
-
-    header.container {
-      border-top:1px solid #eee;
-      border-bottom:none;
-      padding:0;
-    }
-
-    header.container h1 {
-      padding:1em 0;
-    }
-
-  </style>
+    <section class="gray-bg one-third ll">
+      <h4 class="brown caps-lock" id="sponsors">Sponsors</h4>
+      <!-- insert views/partials/sponsors.html -->
+    </section>
+  </div>
 </article>

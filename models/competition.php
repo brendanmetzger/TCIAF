@@ -43,15 +43,15 @@ namespace models;
 
     protected function _template(\DOMElement $context)
     {
-      if ($context['premier']->count() > 0 && strtotime($context['premier']['@date']) > time()) {
-        return 'competition/preview';
-      }
+
       $edges = $context->find("edge[@type='edition']");
       if ($edges->count() > 1) {
         return 'competition/overview';
       } else {
-        // TODO: Edge should be a model. new Edge($edges->pick())->vertex ... to get owner
         $this->type = $edges->pick()['@vertex'];
+        if ($context['premier']->count() > 0 && strtotime($context['premier']['@date']) > time()) {
+          return 'competition/preview';
+        }
 
         return 'competition/edition';
       }

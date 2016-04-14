@@ -1,60 +1,10 @@
 
-/* Color -------------------
-  dark 323031
-  tan eddad0
-  brown 88746A
-  teal 5B9B98
-  purple 492737
-  red EE3124
-*/
-
-.success {background-color:#D7F4CB;border-radius:0.15em;}
-.info {background-color:#CEE3EB;border-radius:0.15em;}
-.warn {background-color:#F3EECC;border-radius:0.15em;}
-.alert {background-color:#E9CCCB !important;border-radius:0;}
-.warn,.info,.alert,.success{border:1px solid rgba(0,0,0,0.25);}
-.button.login {border:none;padding:0 0.5em;box-shadow:none;}
-
-
-
-/* Generic Classes ------------------- */
-
-
-
-
-
-
-/* Typography ------------------- */
-
-strong, .strong, .selected {font-weight:600;}
-.tracked {letter-spacing:-0.025em}
-em, .em, blockquote {font-style:italic;}
-
-
-label, cite, p, .p, li, h1, h2, h3, h4, h5, address, legend, .normal, button, .button {
-  font-weight:400;
-}
-
-select {font-size:1.25em; -webkit-appearance: menulist-button; }
-button:focus, select:focus {
-  outline:none;
-}
-
-/* Layout ------------------- */
-
-address span {
-  display:block;
-}
 
 ul { list-style-type: square; }
 ul, ol {
   padding:0 0 0 2em;
 }
 
-label, p, h5 {
-  display:block;
-  margin:0.5em 0;
-}
 
 .ruled:not(.columns) {
   border-bottom:1px solid #eee;
@@ -72,19 +22,3 @@ input, textarea, fieldset {
 
 input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
 input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}
-
-
-
-fieldset + fieldset {
-  margin:5em 0 0 0;
-}
-
-legend {
-  padding:0 0.5em;
-  position:relative;
-  text-align:center;
-  text-shadow:1px 1px rgba(0,0,0,0.25);
-  font-weight:400;
-  letter-spacing:0.125em;
-  color:#323031;
-}
