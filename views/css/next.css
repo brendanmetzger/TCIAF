@@ -171,7 +171,7 @@ nav[role] > ul {
   justify-content:space-around;
   align-items:center;
   flex-grow: 1;
-  padding: 1px 1vw 1px 0;
+  padding: 1px;
 }
 nav[role] > ul > li {
   text-align:center;
@@ -281,10 +281,11 @@ body[data-view='browse'] #media {
 
   .half       {width:50%   }
   .one-third  {width:33.3% }
+  .one-third.ll {width: calc(33.3% - 2vw)}
   .two-thirds {width:66.6%;}
 
   nav[role] > ul > li {background-color:#fff }
-
+  #browse > header {padding:0 1vw;}
   body[data-view] > #media  { top:0;width:20vw;height:100vh; box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
   body[data-view] > #browse { left:20vw;width:80vw;height:100vh;}
 
