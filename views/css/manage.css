@@ -8,7 +8,7 @@
   border: none;
   color: #fff;
   text-transform:lowercase;
-  margin:0 0 0 10px !important;
+  margin:0 0.25em !important;
   padding:5px !important;
   display: inline-block;
   line-height: 1;
@@ -20,6 +20,8 @@
   align-self:flex-start;
   cursor:pointer;
 }
+
+body[data-edit='no'] button[title='edit'] {display:none}
 .interactive:before {
   content: 'adjust';
   margin: 0 0.25em 0 0 !important;
@@ -143,27 +145,12 @@ label.range h4 {
   text-align:center;
 }
 
-body[data-user] {
-  margin-bottom:5em;
-}
-
-
 
 .dashboard {
-  position:fixed;
-  bottom:0;
-  left:0;
-  margin:0;
-  width:100%;
-  height:auto;
   box-shadow: 0 -0.25em 0.125em rgba(0,0,0,0.25);
-  background-color:#fff;
+  background-color:#eee;
   color:#333;
-  padding:1.5em;
-  z-index:1000;
-  opacity:0.9;
-  text-align:right;
-  box-sizing:border-box;
+  padding:2em;
 }
 
 
@@ -584,3 +571,16 @@ div.receipt span, .trash { padding:0.5em;border:none;}
 .warn {background-color:#F3EECC;}
 .alert {background-color:#E9CCCB !important;}
 .warn,.info,.alert,.success{border:1px solid rgba(0,0,0,0.25);}
+
+
+input, textarea {
+  width:100%;
+}
+input, textarea, fieldset {
+  padding:0;
+  border: 1px solid #ccc;
+  background-color:rgba(255,255,255,0.5);
+  transition:box-shadow 0.25s, padding 0.25s, width 0.25s, margin 0.25s;
+}
+input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
+input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}

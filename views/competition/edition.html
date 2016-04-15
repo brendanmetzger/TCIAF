@@ -32,8 +32,8 @@
     <h1 class="lead tracked display strong tt bb" data-id="[$item:@id]">[$item:title]</h1>
   </header>
 
-  <div class="panel">
-    <div class="two-thirds pad">
+  <section class="panel">
+    <div class="two-thirds">
       <section class="markdown">[$item:content:about]</section>
 
       <section class="[$item:type awards container]" id="awards">
@@ -44,10 +44,10 @@
         </ul>
 
         <!-- iterate item:awards -->
-        <article property="workPerformed" typeof="CreativeWork" class="listing" data-updated="[$feature:@updated]" id="[$id]">
+        <article property="workPerformed" typeof="CreativeWork" class="listing pad" data-updated="[$feature:@updated]" id="[$id]">
           <h6 class="brown caps-lock award" property="award">[$award]</h6>
           <header>
-            <div class="two-thirds controls">
+            <div class="controls">
               <!-- iterate feature:media:audio -->
               <!-- insert views/partials/play-button.html -->
               <h2 data-id="[$feature:@id]" class="display"><a href="[$feature:permalink]">[$feature:title]</a></h2>
@@ -75,10 +75,11 @@
         </div>
       </section>
     </div>
+
     <section class="one-third gray-bg ll"  id="sponsors">
       <h4 class="strong brown caps-lock">Sponsors</h4>
       <!-- insert views/partials/sponsors.html -->
     </section>
 
-  </div>
+  </section>
 </article>

@@ -3,23 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
   <!-- insert views/head.html-->
   <body class="[$_action panel]" data-user="[$user]" data-view="browse">
-
-    <section id="media" class="column panel white-bg">
-      <form class="finder search">
-        <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
-        <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
-        <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
-      </form>
-      <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist">
-        <p>The Third Coast Festival Audio Player</p>
-      </noscript>
-    </section>
-
     <section id="browse" class="column">
       <header class="white-bg">
-        <nav role="navigation" class="panel" style="align-items:center;">
+        <nav role="navigation" class="panel">
           <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
-          <ul class="plain caps-lock p">
+          <ul class="plain caps-lock h6">
             <li><a href="/overview/library">Listen</a></li>
             <li><a href="/overview/playlists">Playlists</a></li>
             <li><a href="/overview/conference">Conference</a></li>
@@ -33,7 +21,7 @@
         <!-- replace content nextSibling -->
         <section class="landing">
           <div style="background-color:#ffc22d;" class="banner">
-            <div style="position:absolute;bottom:2.5vw;left:2.5vw; width:50%;">
+            <div>
               <h2 data-id="[$collection:@id]">[$collection:title]</h2>
               <p>[$collection:content:about]</p>
             </div>
@@ -81,8 +69,18 @@
         </section>
       </main>
       <!-- insert views/pages/footer.html -->
+      <!-- replace helper -->
     </section>
-    <!-- replace helper -->
+    <section id="media" class="column panel white-bg">
+      <form class="finder search">
+        <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
+        <input type="text" value="" id="finder" data-path="search/group" data-topic="feature, happening, competition, person, article, collection"/>
+        <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
+      </form>
+      <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist">
+        <p>The Third Coast Festival Audio Player</p>
+      </noscript>
+    </section>
     <script type="text/javascript">bloc.load();</script>
   </body>
 </html>

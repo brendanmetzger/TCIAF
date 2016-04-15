@@ -1,15 +1,13 @@
-<article data-updated="[$feature:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad-v">
+<article data-updated="[$feature:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad">
   <div>
     <!-- iterate feature:media:audio -->
     <!--  insert views/partials/play-button.html-->
   </div>
-
-  <div class="two-thirds envelope">
+  <div class="two-thirds ll">
     <h3 class="display strong" data-id="[$feature:@id]"><a href="[$feature:permalink]" property="name">[$feature:title]</a></h3>
     <p>[$feature:summary]</p>
   </div>
-
-  <ul class="plain h5">
+  <ul class="plain h5 ll">
     <li class="strong">[$feature:duration min]</li>
     <li>[$feature:premier:@date]</li>
     <!-- iterate feature:producers -->

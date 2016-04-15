@@ -1,5 +1,5 @@
 <article>
-  <header class="pad-v b ruled">
+  <header class="b ruled">
     <h3 class="strong brown caps-lock">Competitions</h3>
     <nav>
       <ul class="plain path">
@@ -9,9 +9,8 @@
     </nav>
   </header>
 
-
   <!-- iterate competitions -->
-  <article id="[$item:@id]" class="panel">
+  <article id="[$item:@id]" class="panel flip">
     <div class="two-thirds">
       <header class="pad-v b">
         <h1 class="lead display strong tracked" data-id="[$item:@id]">[$item:title]</h1>
@@ -42,7 +41,6 @@
     .upcoming:first-of-type {
       align-self:flex-start;
       padding:2.5em 2.5em 10vh;
-      margin:2vh;
       background:rgba(255,255,255,0.5) url('/images/pidgey.svg') no-repeat 95% 95%;
       background-size:auto 9vh;
       box-shadow:0 0 5em rgba(0,0,0,0.05);

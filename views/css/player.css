@@ -17,8 +17,8 @@ button.listen {
   box-shadow:none;
   border: 3px solid #5B9B98;
   overflow: hidden;
-  height: 4em;
-  width: 4em;
+  height: calc(1em + 5vmin);
+  width: calc(1em + 5vmin);
   border-radius: 45%;
 }
 
@@ -62,13 +62,14 @@ li.current span:before {
 }
 
 
-
+@media screen and (min-width: 40em) {
+  #Player button, #Player .progress { width: 100% }
+}
 
 #Player button, #Player .progress {
   display: block;
   vertical-align:middle;
   font-size:1em;
-  width:100%;
 }
 
 #Player button {

@@ -1,19 +1,22 @@
 <nav class="management dashboard">
   <link rel="stylesheet" href="/css/manage.css" type="text/css" media="screen" charset="utf-8" title="administrator"/>
   <script type="text/javascript">bloc.require('/js/manage.js');</script>
-  <h4 class="inline">[Logged in as: $user]</h4>
+  <strong class="h4">[$user]</strong>
   <a href="/manage/logout" class="h4 pad-h">Logout</a>
-  <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-create').selectedIndex = 0;" id="admin-index">
-    <option value="default">Go to...</option>
-    <!-- iterate tasks -->
-    <option value="[/explore/index/$name]">[$name ($count)]</option>
-  </select>
-  <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-index').selectedIndex = 0;" id="admin-create">
-    <option value="default">Create New...</option>
-    <!-- iterate tasks -->
-    <option value="[/manage/create/$name]">[$name]</option>
-  </select>
-  <a class="trash p" href="/manage/group/">Go to Archive</a>
+  <span class="p">
+    <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-create').selectedIndex = 0;" id="admin-index">
+      <option value="default">Go to...</option>
+      <!-- iterate tasks -->
+      <option value="[/explore/index/$name]">[$name ($count)]</option>
+    </select>
+    <select onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-index').selectedIndex = 0;" id="admin-create">
+      <option value="default">Create New...</option>
+      <!-- iterate tasks -->
+      <option value="[/manage/create/$name]">[$name]</option>
+    </select>
+    <a class="trash" href="/manage/group/">Go to Archive</a>
+    <a href="#edit" onclick="this.classList.toggle('no');document.body.dataset.edit=this.className;">Toggle Edit</a>
+  </span>
   <script type="text/javascript" async="true">
   // <![CDATA[
   bloc.init(function() {

@@ -1,5 +1,5 @@
-<article class="features listing">
-  <header class="pad-v b">
+<article class="features">
+  <header class="b ruled">
     <h3 class="brown caps-lock strong t b">Listen</h3>
     <h1 class="lead display strong tracked tt bb">Our Library Speaks Volumes</h1>
     <nav>
@@ -23,7 +23,7 @@
     <!-- replace blurb -->
   </header>
   <!-- iterate list -->
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad-v">
+  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad">
     <div>
       <!-- iterate item:media:audio -->
       <!--  insert views/partials/play-button.html-->
@@ -33,7 +33,7 @@
       <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
     </header>
-    <ul class="plain h5 pad-h ll">
+    <ul class="plain h5 pad ll sink">
       <li><span>[$item:premier:@date / $item:duration min.]</span></li>
       <!-- iterate item:producers -->
       <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>

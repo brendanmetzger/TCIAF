@@ -4,14 +4,14 @@
     <div class="two-thirds controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
-      <h1 data-id="[$item:@id]" property="name" class="strong lead display tracked">[$item:title]</h1>
+      <h1 data-id="[$item:@id]" property="name" class="l strong lead display tracked">[$item:title]</h1>
     </div>
     <div class="two-thirds">
       <p class="h3">[$item:summary]</p>
       <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
     </div>
   </header>
-  <section class="panel">
+  <section class="panel flip tt bb">
     <div class="two-thirds">
       <div property="description">[$item:content:description]</div>
       <h4 class="brown caps-lock strong t">produced by</h4>
@@ -27,19 +27,19 @@
   <nav class="two-thirds">
     <ul class="plain">
       <!-- iterate item:extras -->
-      <li class="articles">
+      <li class="articles listing pad-v">
         <h5><a href="[$article:permalink]">[$article:title]</a></h5>
-        <p>[$article:summary]</p>
+        <p class="pad-h">[$article:summary]</p>
       </li>
       <!-- iterate item:playlists -->
-      <li class="playlists">
+      <li class="playlists listing pad-v">
         <h5><a href="[$collection:permalink]">[$collection:title]</a></h5>
-        <p>[$collection:summary]</p>
+        <p class="pad-h">[$collection:summary]</p>
       </li>
       <!-- iterate item:competitions -->
-      <li class="competitions">
+      <li class="competitions listing pad-v">
         <h5><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h5>
-        <p>[$competition:summary]</p>
+        <p class="pad-h">[$competition:summary]</p>
       </li>
     </ul>
   </nav>
