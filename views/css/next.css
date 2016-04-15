@@ -253,7 +253,7 @@ body[data-view='browse'] #media {
 
 
 @media screen and (max-width: 40em) {
-  .flip { flex-direction: column-reverse }
+  /*.flip { flex-direction: column-reverse }*/
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
   .panel > .two-thirds {width:100%;margin: 1.25em 0;flex: 1 0 100%;}
   article.listing {background-color:rgba(255,255,255,0.5);margin:1em 0;}
