@@ -117,7 +117,6 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   overflow: hidden;
 }
 
-.gallery { margin:2vmax 0;}
 .gallery img {
   padding:calc(2.5em - 1vw);
   max-width: 80%;
@@ -177,6 +176,7 @@ nav[role] > ul {
   flex-grow: 1;
   padding: 1px;
 }
+
 nav[role] > ul > li {
   text-align:center;
   display:flex;
@@ -187,6 +187,7 @@ nav[role] > ul > li {
 
 #browse > header nav li > a {
   flex: 1 1 auto;
+  font-weight:400;
   padding: 0.75rem 0.25rem;
 }
 
@@ -284,9 +285,9 @@ body[data-view='browse'] #media {
   .column { flex-direction: column }
 
   .half       {width:50%   }
-  .one-third  {width:33.3% }
-  .one-third.ll {width: calc(33.3% - 2vw)}
-  .two-thirds {width:66.6%;}
+  .one-third  {width:30% }
+  .one-third.ll {width: calc(30% - 2vw)}
+  .two-thirds {width:70%;}
 
   nav[role] > ul > li {background-color:#fff }
   #browse > header {padding:0 1vw;}
