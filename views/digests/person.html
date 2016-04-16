@@ -6,20 +6,25 @@
     <h1 class="strong lead display tracked tt bb" data-id="[$item:@id]">[$item:title]</h1>
   </header>
   <style media="screen">
-    .panel.cluster {
+  @media screen and (min-width:40em){
+    .cluster {
       align-items:flex-start;
+      display:flex;
     }
-    .panel.cluster > h5 {
-      flex:1 0 15%;
-      max-width:15%;
+    .cluster > h5 {
+      flex:1 0 auto;
+      max-width:20%;
       text-align:center;
       align-self:stretch;
-      padding:5vmin 1.5vw;
+      padding:5vmin 0;
       border-right:1px solid #EEE;
     }
-    .panel.cluster > .panel {
+    .cluster > div { max-width:80% }
+    .cluster > .panel {
       flex: 1 0 auto;
     }
+  }
+
   </style>
   <section class="panel">
     <div class="two-thirds">[$item:content:bio]</div>
@@ -29,7 +34,7 @@
     </figure>
   </section>
   <!-- iterate item:contributions -->
-  <section class="panel pad-v listing cluster tt">
+  <section class="pad listing cluster tt">
     <h5 class="brown caps-lock" id="[$name]">[$name]</h5>
     <div>
       <!-- iterate items -->
@@ -41,7 +46,7 @@
             <!-- insert views/partials/play-button.html -->
           </div>
           <div>
-            <h1 class="strong display"><a href="[$item:permalink]">[$item:title]</a></h1>
+            <h2 class="strong display"><a href="[$item:permalink]">[$item:title]</a></h2>
             <p>[$item:summary]</p>
           </div>
         </div>
