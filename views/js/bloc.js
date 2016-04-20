@@ -200,6 +200,7 @@ Search.instance = null;
 Search.prototype = {
   results: null,
   indices: {},
+  command: {up: -1, down: 1, enter: true },
   request: function (path, topics, callback) {
 
     return topics.map(function (topic) {
@@ -217,7 +218,6 @@ Search.prototype = {
     this.menu.reset();
   },
   select: function (evt) {
-
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();
@@ -266,44 +266,43 @@ Search.prototype = {
     }
   },
   checkUp: function (evt) {
-    this.delay = 0;
-    var meta = evt.keyIdentifier.toLowerCase();
+    var meta  = this.command[evt.keyIdentifier.toLowerCase()];
+    if (meta) {
+      if (meta === true) {
 
-    if (meta === 'down' || meta == 'up') return;
-
-    if (meta === 'enter') {
-      this.select(evt);
+        this.select(evt);
+      }
       return;
     }
 
     this.menu.reset();
     this.input.dataset.id = '';
 
-    if (this.input.value.length < 1) { this.reset(); return};
-
+    if (this.input.value.length < 1) {
+      this.reset();
+      return;
+    }
     this.processMatches();
   },
   checkDown: function (evt) {
-    var letter = String.fromCharCode(evt.keyCode),
-        meta   = evt.keyIdentifier.toLowerCase(),
-        data   = this.input.dataset;
-
-    if (meta == 'enter') {
+    var meta  = this.command[evt.keyIdentifier.toLowerCase()];
+    if (meta) {
       evt.preventDefault();
+      // Cycle through list if up/down key is hit
+      if (this.menu.items.length > 0 && Math.abs(meta) === 1) {
+        var current_highlight    = this.menu.cycle(meta);
+        this.input.value         = current_highlight.textContent;
+        this.input.dataset.id    = current_highlight.id;
+        this.input.dataset.group = current_highlight.classList.item(0);
+        console.log(this.input);
+      }
       return;
     }
-
-    if (this.menu.items.length > 0 && (meta == 'down' || meta == 'up')) {
-      evt.preventDefault();
-      var current      = this.menu.cycle(meta == 'down' ? 1 : -1);
-      this.input.value = current.textContent;
-      data.id          = current.id;
-      data.group       = current.classList.item(0);
-      return;
-    }
+    // else check to see if we should find search data
+    var letter = String.fromCharCode(evt.keyCode);
     if (this.input.value.length === 0 && /[a-z0-9]{1}/i.test(letter)) {
-      var path = '/'+data.path+'/{0}/' + letter +'.json?q=' + Date.now();
-      this.request(path, data.topic.split(/,\s*/), this.processIndices.bind(this));
+      var path = '/{0}/{1}/{2}.json?q={3}'.format(this.input.dataset.path, '{0}', letter, Date.now());
+      this.request(path, this.input.dataset.topic.split(/,\s*/), this.processIndices.bind(this));
     }
   }
 };

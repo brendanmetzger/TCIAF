@@ -8,17 +8,19 @@
   border: none;
   color: #fff;
   text-transform:lowercase;
-  margin:0 0.25em !important;
+  margin: -5px 0 0 -15px;
+  position:absolute;
   padding:5px !important;
   display: inline-block;
   line-height: 1;
-  background-color: rgb(224, 81, 154);
+  background-color: rgba(224, 81, 154, 0.9);
   font-size: 10px !important;
-  letter-spacing:1px;
+  letter-spacing: 0;
   vertical-align: top;
   border-radius:5px;
   align-self:flex-start;
   cursor:pointer;
+  opacity: 0.85;
 }
 
 body[data-edit='no'] button[title='edit'] {display:none}
