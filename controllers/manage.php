@@ -86,6 +86,7 @@ class Manage extends \bloc\controller
     $view->content = 'views/forms/credentials.html';
 
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
+
     $key = ip2long(getenv('REMOTE_ADDR')) + ip2long(getenv('SERVER_ADDR'));
     $this->input = new \bloc\types\Dictionary([
       'token'    => base_convert($key, 10, date('G')+11),
@@ -115,10 +116,12 @@ class Manage extends \bloc\controller
     if ($key) {
       try {
         $id = 'p-' . preg_replace('/\W/', '', $username);
+
         $user = (new \models\person($id))->authenticate($password);
 
         Application::instance()->session('TCIAF', ['id' => $id, 'user' =>  $user->getAttribute('title')]);
-        \bloc\router::redirect($redirect);
+
+        \bloc\router::redirect($redirect ?: '/');
       } catch (\InvalidArgumentException $e) {
         $type = 'invalid';
       }
