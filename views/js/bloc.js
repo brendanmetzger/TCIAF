@@ -186,7 +186,7 @@ Search.instance = null;
 Search.prototype = {
   results: null,
   indices: {},
-  command: {up: -1, down: 1, enter: true },
+  command: {up: -1, down: 1, enter: 'select' },
   request: function (path, topics, callback) {
 
     return topics.map(function (topic) {
@@ -200,8 +200,8 @@ Search.prototype = {
   reset: function (evt) {
     this.input.value = '';
     this.indices = {};
-    this.menu.list.classList.add('fade');
     this.menu.reset();
+    console.log('reset');
   },
   select: function (evt) {
     if (evt) {
@@ -209,7 +209,7 @@ Search.prototype = {
       evt.stopPropagation();
     }
 
-    this.input.dataset.text = this.input.value;
+    this.input.dataset.text  = this.input.value;
     this.input.dataset.index = this.menu.index;
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
@@ -252,7 +252,12 @@ Search.prototype = {
   },
   checkUp: function (evt) {
     var meta  = this.command[evt.keyIdentifier.toLowerCase()];
-    if (meta) return meta === true ? this.select(evt) : meta;
+    if (meta) {
+      if (isNaN(meta)) {
+        this.select(evt);
+      }
+      return
+    }
 
     this.menu.reset();
     this.input.dataset.id = '';
@@ -288,6 +293,7 @@ Search.prototype = {
 
 var Menu = function (list) {
   this.list = list;
+  this.list.classList.add('plain');
 };
 
 Menu.prototype = {
@@ -296,7 +302,6 @@ Menu.prototype = {
   index: -1,
   reset: function () {
     while (this.list.firstChild) this.list.removeChild(this.list.firstChild);
-    this.list.className = 'plain';
     this.items = [];
     this.index = -1;
   },
