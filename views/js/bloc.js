@@ -107,10 +107,6 @@ var smoothScroll = function (elem) {
   };
 };
 
-// window.addEventListener('scroll', function (evt) {
-//   console.dir(evt);
-// });
-
 
 var Request = function (callbacks) {
   this.request = new XMLHttpRequest();
@@ -134,7 +130,6 @@ Request.prototype = {
 
 
 
-
 /* Quick way to create an SVG element with and a prototypal method
  * to create children elements. Used in Progress and Player.Button
  */
@@ -155,15 +150,6 @@ SVG.prototype.createElement = function(name, opt, parent) {
   }
   return (parent || this.element).appendChild(node);
 };
-
-SVG.prototype.b64url = function (styles) {
-  var wrapper     = document.createElement('div');
-  var clone       = wrapper.appendChild(this.element.cloneNode(true));
-  var style = this.createElement('style', null, clone);
-      style.textContent = styles;
-  return 'url(data:image/svg+xml;base64,'+btoa(wrapper.innerHTML)+')';
-};
-
 
 
 
@@ -259,21 +245,14 @@ Search.prototype = {
           this.indices[key].group
         );
 
-        if (++this.menu.position >= 25) break;
+        if (this.menu.list.children.length >= 25) break;
       }
-
       this.menu.sort();
     }
   },
   checkUp: function (evt) {
     var meta  = this.command[evt.keyIdentifier.toLowerCase()];
-    if (meta) {
-      if (meta === true) {
-
-        this.select(evt);
-      }
-      return;
-    }
+    if (meta) return meta === true ? this.select(evt) : meta;
 
     this.menu.reset();
     this.input.dataset.id = '';
@@ -294,7 +273,6 @@ Search.prototype = {
         this.input.value         = current_highlight.textContent;
         this.input.dataset.id    = current_highlight.id;
         this.input.dataset.group = current_highlight.classList.item(0);
-        console.log(this.input);
       }
       return;
     }
@@ -316,14 +294,10 @@ Menu.prototype = {
   list: null,
   items: [],
   index: -1,
-  position: 0,
   reset: function () {
-    while (this.list.firstChild) {
-      this.list.removeChild(this.list.firstChild);
-    }
+    while (this.list.firstChild) this.list.removeChild(this.list.firstChild);
     this.list.className = 'plain';
     this.items = [];
-    this.position = 0;
     this.index = -1;
   },
   addItem: function (id, html, weight, group) {
@@ -334,31 +308,21 @@ Menu.prototype = {
         li.className = group;
   },
   sort: function () {
-    this.items = Array.prototype.slice.call(this.list.querySelectorAll('li'), 0).sort(function (a, b) {
+    this.items = [].slice.call(this.list.children, 0).sort(function (a, b) {
       return b.weight - a.weight;
-    });
-
-    this.items.forEach(function (item) {
-      this.list.appendChild(item);
+    }).map(function (item) {
+      return this.list.appendChild(item);
     }, this);
   },
-  tick: function (direction) {
-    direction = direction < 1 ? (this.position - 1) : 1;
-    this.index = Math.abs((this.index + direction) % this.position);
-    return this.index;
-  },
   cycle: function (direction) {
-    if (this.position > 0) {
+    if (this.index >= 0) this.items[this.index].classList.remove('highlight');
 
-      if (this.index >= 0) {
-        this.items[this.index].classList.remove('highlight');
-      }
+    this.index = (this.index + this.items.length + direction) % this.items.length;
 
-      var current = this.items[this.tick(direction)];
-          current.classList.add('highlight');
+    var current = this.items[this.index];
+        current.classList.add('highlight');
 
-      return current;
-    }
+    return current;
   }
 };
 
@@ -379,30 +343,15 @@ var Progress = function(container) {
   }
   message = this.element.appendChild(document.createElement('span'));
 
-
   svg = new SVG(this.element, {
     height: 50,
     width: 50,
     viewBox: '0 0 100 100'
   });
 
-  svg.createElement('circle', {
-    'cx': 50,
-    'cy': 50,
-    'r': 35
-  });
-
-  handle = svg.createElement('path', {
-    'd': 'M50,50',
-    'class': 'handle',
-    'transform': 'rotate(-90 50 50)'
-  });
-
-
-  path = svg.createElement('path', {
-    'd': 'M50,50',
-    'transform': 'rotate(-90 50 50)'
-  });
+  svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
+  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
+  path   = svg.createElement('path', { 'd': 'M50,50', 'transform': 'rotate(-90 50 50)' });
 
 
   this.update = function(percentage, text, mouseover) {
@@ -424,9 +373,10 @@ var Progress = function(container) {
     this.element.dataset.state = state;
   };
 
-
   return this;
 };
+
+
 
 
 if (window.history.pushState) {
@@ -434,7 +384,6 @@ if (window.history.pushState) {
   var Content = new Request({
     load: function (evt) {
       if (! evt.target.responseXML) {
-
         evt.target.dispatchEvent(new ProgressEvent('error'));
       }
 
@@ -484,7 +433,6 @@ if (window.history.pushState) {
     document.body.style.backgroundSize = style.backgroundSize.match(/([0-9\-\.]+)/g).map(adjust).join(', ');
     var pos = style.backgroundPosition.match(/([0-9\-\.]+)/g).map(adjust);
     document.body.style.backgroundPosition = [pos[0] + ' ' + pos[1],pos[2] +' ' + pos[3]].join(', ');
-
   };
 
   document.body.addEventListener('click', function (evt) {
@@ -514,31 +462,9 @@ if (window.history.pushState) {
   };
 }
 
-function processLayout(body) {
-  var timeout = 0, offset = body.dataset.top, engaged = false;
-
-  function operation() {
-    if (! engaged && body.scrollTop > offset) {
-      engaged = body.dataset.engage = true;
-    } else if (engaged && body.scrollTop < offset){
-      engaged = false;
-      delete body.dataset.engage;
-    }
-  }
-
-  return operation;
-
-  return function (evt) {
-    clearTimeout(timeout);
-    timeout = setTimeout(operation, throttle);
-  }
-};
-
-
 bloc.init(function () {
   window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
-  window.addEventListener('scroll', processLayout(document.body), false);
 });
 
 
@@ -548,13 +474,7 @@ bloc.init(bloc.define('autoload', function () {
     elem.parentNode.replaceChild(swap, elem);
     try {
       var module = bloc.module(elem.id);
-
-      if('call' in module) {
-        module(new window[elem.className](swap, elem.dataset));
-      } else {
-        console.log(module);
-      }
-
+      if('call' in module) module(new window[elem.className](swap, elem.dataset));
     } catch(e) {
       console.log(e, elem.id);
     }

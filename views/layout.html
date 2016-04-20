@@ -26,16 +26,6 @@
               <p>[$collection:content:about]</p>
             </div>
           </div>
-
-          <article class="pad-v">
-            <h4 class="brown caps-lock b">News and Events</h4>
-            <!-- iterate collection:articles -->
-            <section>
-              <img src="[http://s3.amazonaws.com/$article:photo:url]" style="width:25%;"/>
-              <h2 data-id="[$article:@id]" class="display"><a href="[$article:permalink]">[$article:title]</a></h2>
-              <p>[$article:summary]</p>
-            </section>
-          </article>
           <article>
             <h4 class="brown caps-lock t b">Listen</h4>
             <ul class="plain triptych">
@@ -58,12 +48,11 @@
             </ul>
           </article>
           <hr />
-          <article>
-            <h4 class="brown caps-lock t b">Featured Playlists</h4>
-            <!-- iterate playlists -->
+          <article class="pad-v">
+            <!-- iterate collection:articles -->
             <section>
-              <h2 data-id="[$playlist:@id]"><a href="[$playlist:permalink]">[$playlist:title]</a></h2>
-              <p>[$playlist:summary]</p>
+              <h4 class="brown caps-lock b" data-id="[$article:@id]">[$article:title]</h4>
+              <div class="markdown">[$article:content:description]</div>
             </section>
           </article>
         </section>

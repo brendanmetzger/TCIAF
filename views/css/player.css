@@ -8,6 +8,7 @@
   transition: color 0.25s, background-size 0.25s;
 }
 
+
 .listen:hover {
   background-size: auto 0%;
   color: #5B9B98;
@@ -21,6 +22,11 @@ button.listen {
   width: calc(1.125em + 5vmin);
   border-radius: 45%;
 }
+
+.bg button.listen {
+  background-color:rgba(255,255,255,0.75);
+}
+
 
 .queued {
   opacity: 0.5;

@@ -1,17 +1,24 @@
 <article class="features">
+  <style media="screen">
+    .bg {
+      background-size:cover;
+      background-position: 50% 50%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      width:20%;
+    }
+  </style>
   <header class="b ruled">
     <h3 class="brown caps-lock strong t b">Listen</h3>
     <h1 class="lead display strong tracked tt bb">Our Library Speaks Volumes</h1>
     <nav class="pad-v">
       <ul class="plain path">
-        <li><a class="[$all]" href="[/overview/library/all/$sort]">Any</a></li>
-        <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Shows</a></li>
-        <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conference</a></li>
-        <li><a class="[$competitions]" href="[/overview/library/shortdocs/$sort]">ShortDocs</a></li>
-        <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Awards</a></li>
-        <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
-        <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
-        <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
+        <li><a class="[$all]" href="[/overview/library/all/$sort]">All</a></li>
+        <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Re:Sound</a></li>
+        <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conf Sessions</a></li>
+        <li><a class="[$competitions]" href="[/overview/library/shortdocs/$sort]">Short Docs</a></li>
+        <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Winners</a></li>
       </ul>
       <ul class="plain path">
         <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
@@ -19,21 +26,25 @@
         <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
         <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
       </ul>
+      <ul style="display:none">
+        <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
+        <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
+        <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
+      </ul>
     </nav>
     <!-- replace blurb -->
   </header>
   <!-- iterate list -->
   <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad">
-    <div>
+    <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">
       <!-- iterate item:media:audio -->
       <!--  insert views/partials/play-button.html-->
     </div>
-
-    <header class="two-thirds ll">
+    <header class="ll" style="width:50%">
       <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
     </header>
-    <ul class="plain h5 pad ll sink">
+    <ul class="plain h5 pad ll sink" style="width:30%">
       <li class="strong">[$item:premier:@date / $item:duration min.]</li>
       <!-- iterate item:producers -->
       <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
