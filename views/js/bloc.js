@@ -12,7 +12,15 @@ String.prototype.format = function() {
 
 Event.prototype.theta = function () {
   var rect  = this.target.getBoundingClientRect();
-  var theta = Math.atan2((this.offsetX || this.layerX) - (rect.width / 2), (rect.height / 2) - (this.offsetY || this.layerY)) * (180 / Math.PI);
+
+  if (this.type.substring(0, 5) == 'touch') {
+    var x = (this.touches[0].clientX - rect.left) - (rect.width / 2);
+    var y = (rect.height / 2) - (this.touches[0].clientY - rect.top);
+  } else {
+    var x = (this.offsetX || this.layerX) - (rect.width / 2);
+    var y = (rect.height / 2) - (this.offsetY || this.layerY);
+  }
+  var theta = Math.atan2(x, y) * (180 / Math.PI);
   return theta < 0 ? 360 + theta : theta;
 };
 
@@ -34,11 +42,6 @@ Element.prototype['@'] = function (obj) {
   for (var prop in obj) {
     this.setAttribute(prop, obj[prop]);
   }
-  return this;
-};
-
-Element.prototype.insert = function (container) {
-  container.appendChild(this);
   return this;
 };
 
@@ -76,22 +79,17 @@ var Animate = function (callback) {
 };
 
 var smoothScroll = function (elem) {
-
   var scrolling = {stop: new Function()};
   var scroller = Animate(function (element) {
     var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % anim complete
     var y = ratio >= 1 ? this.to : ( ratio * ( this.to - this.from ) ) + this.from;
     element.scrollTop =  y;
     return (ratio < 1);
-
   });
-
-
   var cancelTransition = function (evt) {
     scrolling.stop();
     document.body.removeEventListener('touchmove', cancelTransition, false);
   };
-
   return {
     scroll: function (end, seconds) {
       // document.body.addEventListener('mousemove', cancelTransition, false);
@@ -129,27 +127,27 @@ Request.prototype = {
 };
 
 
-
-/* Quick way to create an SVG element with and a prototypal method
- * to create children elements. Used in Progress and Player.Button
- */
-var SVG = function (node, options) {
-  options['xmlns:xlink'] = 'http://www.w3.org/1999/xlink';
-  options.xmlns = 'http://www.w3.org/2000/svg';
-  options.version = 1.1;
-  this.element = this.createElement('svg', options, node);
+var SVG = function (node, width, height) {
+  this.element = this.createElement('svg', {
+    'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+    'xmlns': 'http://www.w3.org/2000/svg',
+    'version': 1.1,
+    'viewBox': '0 0 ' + width + ' ' + height
+  }, node);
+  this.point = this.element.createSVGPoint();
 };
 
 SVG.prototype.createElement = function(name, opt, parent) {
   var node = document.createElementNS('http://www.w3.org/2000/svg', name);
-  for (var key in opt) {
-    node.setAttribute(key, opt[key]);
-  }
-  if (parent === null) {
-    return node;
-  }
-  return (parent || this.element).appendChild(node);
+  for (var key in opt) node.setAttribute(key, opt[key]);
+  return parent === null ? node : (parent || this.element).appendChild(node);
 };
+
+// Get point in global SVG space
+SVG.prototype.cursorPoint = function(evt){
+  this.point.x = evt.clientX; this.point.y = evt.clientY;
+  return this.point.matrixTransform(this.element.getScreenCTM().inverse());
+}
 
 
 
@@ -201,7 +199,6 @@ Search.prototype = {
     this.input.value = '';
     this.indices = {};
     this.menu.reset();
-    console.log('reset');
   },
   select: function (evt) {
     if (evt) {
@@ -211,10 +208,11 @@ Search.prototype = {
 
     this.input.dataset.text  = this.input.value;
     this.input.dataset.index = this.menu.index;
+
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
-
+    this.input.blur();
     this.reset();
   },
   processIndices: function (group, evt) {
@@ -347,27 +345,20 @@ var Progress = function(container) {
     };
   }
   message = this.element.appendChild(document.createElement('span'));
-
-  svg = new SVG(this.element, {
-    height: 50,
-    width: 50,
-    viewBox: '0 0 100 100'
-  });
-
+  svg = new SVG(this.element, 100, 100);
   svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
   path   = svg.createElement('path', { 'd': 'M50,50', 'transform': 'rotate(-90 50 50)' });
 
 
-  this.update = function(percentage, text, mouseover) {
+  this.update = function(percentage, text, scrub) {
     message.innerHTML = text || message.innerHTML;
-
     var radian = (2 * Math.PI) * percentage;
     var x = (Math.cos(radian) * 35) + 50;
     var y = (Math.sin(radian) * 35) + 50;
 
     var data = "M85,50A35,35 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
-    if (mouseover) {
+    if (scrub) {
       handle.setAttribute('d', data);
     } else {
       path.setAttribute('d', data);

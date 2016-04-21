@@ -12,7 +12,7 @@ function Track(audio) {
 Track.prototype = {
   events: ['ended', 'stalled', 'timeupdate', 'error','seeked', 'seeking', 'playing', 'waiting'],
   set element(node){
-    document.createElement('span').insert(node).textContent = this.title;
+    node.appendChild(document.createElement('span')).textContent = this.title;
     this._element = node;
     this._element.appendChild(this.audio);
   },
@@ -100,47 +100,38 @@ Playlist.prototype = {
 
 var Player = function (container, data) {
   container.id = 'Player';
-
-
   this.elements = [];
   this.index = 0;
 
-  var controls = document.createElement('div')['@']({
+  var controls = container.appendChild(document.createElement('div')['@']({
     'class': data.controls
-  }).insert(container);
+  }));
 
-  var button = document.createElement('button')['@']({
+  var button = controls.appendChild(document.createElement('button')['@']({
     'type': 'button'
-  }).insert(controls);
+  }));
 
   this.playlist = new Playlist(container, {'class': data.playlist});
+  this.button   = new Button(button, 'play');
+  this.meter    = new Progress(controls);
 
-
-  this.button = new Button(button, 'play');
   this.button.press(function(evt) {
     evt.preventDefault();
     this[this.button.state].call(this);
   }.bind(this));
 
-  this.meter = new Progress(controls);
-
-  var tick = function (evt) {
-    this.update((evt.theta() / 360), null, true);
-  }.bind(this.meter);
-
-  this.meter.element.addEventListener('mouseover', function () {
-    this.element.addEventListener('mousemove', tick, false);
-  }.bind(this.meter));
-
-  // this.meter.element.addEventListener('touchmove', tick, false);
-
-  this.meter.element.addEventListener('mouseout', function () {
-    this.element.removeEventListener('mousemove', tick, false);
-  }.bind(this.meter));
+  this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
+    var complete = evt.theta() / 360
+    if (evt.type == 'touchmove') {
+      var audio = this.playlist.current.audio;
+      audio.currentTime = audio.duration * complete;
+    }
+    this.meter.update(complete, null, true);
+  }.bind(this), false);
 
   this.meter.element.addEventListener('click', function (evt) {
     var audio = this.playlist.current.audio;
-    audio.currentTime = audio.duration * (evt.theta() / 360);
+    audio.currentTime = audio.duration * complete;
   }.bind(this), false);
 
 };
@@ -242,23 +233,13 @@ function loadButtonAudio(button) {
 
 
 
-
-
-
-
-
 // should implement a controllable interface
 
 var Button = function (button, state) {
   var svg, indicator, animate, states, scale, g;
   this.state = state || 'play';
 
-  svg = new SVG(button, {
-    height: 50,
-    width: 50,
-    viewBox: '0 0 45 45',
-    preserveAspectRatio: 'xMinYMin meet'
-  });
+  svg = new SVG(button, 45, 45);
 
   states = {
     play:  'M11,7.5 l0,30 l12.5,-8 l0-14 l-12.5,-8 m12.5,8 l0,14 l12.5,-7 l0,0  z',
