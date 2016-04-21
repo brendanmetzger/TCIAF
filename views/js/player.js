@@ -171,7 +171,8 @@ Player.prototype = {
   },
   seeked: function (evt) {
     // animate here
-    console.log('seeked');
+    this.button.setState('pause');
+    this.meter.setState('playing');
   },
   stalled: function (evt) {
     // this.meter.setState('waiting');
