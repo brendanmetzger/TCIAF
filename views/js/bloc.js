@@ -473,7 +473,7 @@ bloc.init(bloc.define('autoload', function () {
     elem.parentNode.replaceChild(swap, elem);
     try {
       var module = bloc.module(elem.id);
-      if('call' in module) module(new window[elem.className](swap, elem.dataset));
+      if('call' in module) module(new window[elem.className](swap, elem.dataset, elem.textContent));
     } catch(e) {
       console.log(e, elem.id);
     }

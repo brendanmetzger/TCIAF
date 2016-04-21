@@ -44,6 +44,8 @@ var Playlist = function (container, attributes) {
 
 Playlist.prototype = {
   select: function (index, evt) {
+    // this.element.parentNode.dataset.track = this.pointer;
+
     var currentTrack = this.tracks[this.pointer];
     if (! currentTrack.audio.paused) {
       currentTrack.state = 'played';
@@ -98,12 +100,17 @@ Playlist.prototype = {
   }
 };
 
-var Player = function (container, data) {
-  container.id = 'Player';
+var Player = function (container, data, message) {
+  this.container = container;
+  this.container.id  = 'Player';
   this.elements = [];
-  this.index = 0;
+  this.index    = 0;
 
-  var controls = container.appendChild(document.createElement('div')['@']({
+  this.container.appendChild(document.createElement('p')['@']({
+    'class': 'intro h4 pad rag-left brown r'
+  })).textContent = message;
+
+  var controls = this.container.appendChild(document.createElement('div')['@']({
     'class': data.controls
   }));
 
@@ -111,7 +118,7 @@ var Player = function (container, data) {
     'type': 'button'
   }));
 
-  this.playlist = new Playlist(container, {'class': data.playlist});
+  this.playlist = new Playlist(this.container, {'class': data.playlist});
   this.button   = new Button(button, 'play');
   this.meter    = new Progress(controls);
 
@@ -126,7 +133,7 @@ var Player = function (container, data) {
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     var audio = this.playlist.current.audio;
-    audio.currentTime = audio.duration * evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360);
+    audio.currentTime = audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
 };
@@ -139,7 +146,9 @@ Player.prototype = {
     delete player;
   },
   play: function () {
-    this.playlist.current.audio.play();
+    var current = this.playlist.current;
+    this.container.dataset.position = current.position;
+    current.audio.play();
     window.addEventListener('unload', Player.prototype.cleanup);
   },
   pause: function () {
@@ -200,9 +209,8 @@ function loadButtonAudio(button) {
     var button = audio.parentNode.querySelector('button.listen');
     var track  = player.attach(audio);
     if (button) {
-      button.onclick = player.playlist.select.bind(player.playlist, track.position);
+      button.addEventListener('click', player.playlist.select.bind(player.playlist, track.position));
     }
-
 
     track.trigger = function (evt) {
       navigateToPage.call({href: this.audio.dataset.ref}, evt);

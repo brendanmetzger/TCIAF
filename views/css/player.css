@@ -21,21 +21,20 @@ button.listen {
 
 
 
-.playlist {background-color: rgba(250, 250, 250, 0.59);}
-.playlist li {padding: 1.5vmax 1em;border-bottom:2px solid rgba(255,255,255, 1);}
+.playlist li {padding: 0.75vmax 1em;border-top: 1px solid rgba(0,0,0,0.1);border-left: 0.5em solid rgb(91, 156, 153);}
 .playlist li.current:before { content: '\25B6\FE0E'; margin-right:0.5em; }
 .playlist li.current {
-  background-color: #fff;
+  border-left-color: #88746a;
   color: #88746a;
 }
 
-li.played { opacity:0.5 }
+li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
 
 
 #Player button {border: none;padding: 0;}
 #Player button svg path { stroke: none; }
-
+#Player[data-position] .intro, #Player:not([data-position]) .controls {display:none}
 #Player svg {
   width: 100%;
   height: 100%;

@@ -1,6 +1,8 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
   <style media="screen">
     .shortdocs .jump-nav, .shortdocs .award{ display:none}
+    .pulled {margin:0 -2vw;padding:2.5vw;background-color:rgba(0,0,0,0.02)}
+    .intro {font-size:225%;}
   </style>
   <header>
     <nav class="caps-lock h6">
@@ -8,25 +10,24 @@
     </nav>
     <h1 class="lead tracked display strong tt bb" data-id="[$item:@id]">[$item:title]</h1>
   </header>
-
   <section class="[$item:type panel]">
     <div class="two-thirds">
       <section class="markdown">[$item:content:about]</section>
       <section class="[$item:type awards container]" id="awards">
         <h4 class="strong brown caps-lock">Awards</h4>
-        <ul class="jump-nav tt bb">
+        <ul class="jump-nav t b ll">
           <!-- iterate item:awards -->
           <li><a href="[#$id]">[$award]</a></li>
         </ul>
         <!-- iterate item:awards -->
-        <article property="workPerformed" typeof="CreativeWork" class="listing pad" data-updated="[$feature:@updated]" id="[$id]">
-          <header>
+        <article property="workPerformed" typeof="CreativeWork" class="pad tt bb" data-updated="[$feature:@updated]" id="[$id]">
+          <header class="pulled">
             <div class="controls">
               <!-- iterate feature:media:audio -->
               <!-- insert views/partials/play-button.html -->
-              <h1 data-id="[$feature:@id]" class="display"><a href="[$feature:permalink]">[$feature:title]</a></h1>
+              <h1 class="display"><a href="[$feature:permalink]" data-id="[$feature:@id]">[$feature:title]</a></h1>
             </div>
-            <p property="description" class="h4">[$feature:summary]</p>
+            <p property="description" class="intro">[$feature:summary]</p>
           </header>
           <section>
             <!-- iterate feature:producers -->
@@ -37,7 +38,7 @@
       <hr/>
       <section property="attendees" id="judges">
         <h4 class="strong brown caps-lock">Judges</h4>
-        <ul class="plain judges t b">
+        <ul class="plain judges t b h4">
           <li>
           <!-- iterate item:judges -->
           <a href="[$person:permalink]" vocab="http://schema.org/" typeof="Person">
@@ -51,7 +52,7 @@
       </section>
     </div>
     <section class="one-third gray-bg ll"  id="sponsors">
-      <h4 class="strong brown caps-lock">Sponsors</h4>
+      <h4 class="strong brown caps-lock pad">Sponsors</h4>
       <!-- insert views/partials/sponsors.html -->
     </section>
   </section>
