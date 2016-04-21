@@ -24,10 +24,13 @@ a:hover {color:#5a9a98;}
 .selected, .selected:hover{text-decoration:none;cursor:default;color:#555;border-color: #5b9b98 !important;}
 p a {text-decoration:underline}
 
+.plain    { list-style:none;padding:0; }
+.plain li {font-size:100%;}
+
 .t { margin-top:1.5vmax }
-.tt, .markdown h2 { margin-top:3.0vmax }
+.tt, .markdown h2, hr, .hr { margin-top:3.0vmax }
 .b  { margin-bottom:1.5vmax }
-.bb { margin-bottom:3.0vmax }
+.bb, hr, .hr { margin-bottom:3.0vmax }
 .l  {margin-left:1vw}
 .ll {margin-left:2vw}
 .rr {margin-right:2vw}
@@ -37,17 +40,13 @@ p a {text-decoration:underline}
 
 .m, p, label {
   display:block;
-  margin:0.5em 0;
+  margin: 0.5em 0 1em;
 }
 
 .markdown h3 {margin:0.5em 0 }
 
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
-
-.plain    { list-style:none;padding:0; }
-.plain li {font-size:100%;}
-
 .caps-lock, .markdown h3, article nav > ul.plain li > a {text-transform:uppercase;}
 .ghost {opacity:0.5;}
 .ghost:hover {opacity:1;}
@@ -62,12 +61,12 @@ p a {text-decoration:underline}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
 .group{display:block;box-sizing:border-box;}
 
-p, .p { max-width:55em }
+p, .p {max-width:55em;}
 h1, .h1 {font-size: calc(1em + 1.75vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.125em + 1.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
-h3, .h3 { font-size:calc(0.85em + 1.125vmax);line-height:1.2}
-h4, .h4, .markdown h3  {font-size: calc(0.75em + 1.125vmax);}
-h5, .h5, p, .p, li, label, input, article nav > ul.plain li > a {font-size: calc(1.25em + 0.5vmax);line-height: 1.85;}
+h3, .h3 {f;font-size: calc(1em + 1.5vmax);line-height: 1.2;margin: 0.5em 0;}
+h4, .h4, .markdown h3, article nav > ul.plain li > a  {font-size: calc(0.75em + 1.125vmax);}
+h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.45;}
 h5 {font-weight:400}
 h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
 strong, .strong, .selected {font-weight:600;}
@@ -89,7 +88,6 @@ header .controls button { font-size:125%; margin:2vw 2vw 0.5em 0; }
   padding:2.5vw 30vw 2.5vw 5vw;
 }
 
-hr, .hr {margin:2.5vmax 0;}
 hr, .hr, .ruled {
   border: none;
   clear: both;
@@ -124,12 +122,12 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 }
 
 
-.path li a {padding: 0.25em 0.5em 0.125em;background-color: rgba(0,0,0,0.02);margin: 0.05em;border-bottom: 2px solid rgba(0,0,0,0.025);}
+.path li a {padding: 0.5em 0.75em 0.25em;background-color: rgba(0,0,0,0.02);/* margin: 0.5em 0.125em; */border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;}
 .lead {font-size: calc(2.5em + 1.75vw);line-height:1;}
 
 .controls, .path, .triptych > * {display:flex;}
 .controls {
-  padding:1.5vw;
+  padding: 1.5vw;
   flex-flow:row;
   align-items: flex-end;
 }
@@ -191,25 +189,20 @@ nav[role] > ul > li {
   padding: 0.75rem 0.25rem;
 }
 
-article nav > ul.plain {margin: 0.75em 0;}
-
+article nav > ul.plain {margin: 1vh 0 2vh;}
 body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
+.finder input:focus { background-size:auto 35% }
 .finder input {
   transition: background-size 1.25s, padding 0.25s;
   margin: 0;
   padding: 2.5em 0.5em 0.5em 3em;
   background: transparent url(/images/search.svg) no-repeat 4.25% 65%;
   background-size: auto 75%;
-  outline:none;
-  width:100%;
   border:none;
   border-bottom:1px dashed #ddd;
 }
 
-.finder input:focus {
-  background-size:auto 35%;
-}
 
 button[type='submit'] {
   border-color: rgba(0,0,0,0.25);
@@ -223,8 +216,8 @@ button[type='submit'] {
 .award {
   padding: 0 3.5vh;
   min-height:3em;
-  text-align:right;
-  margin-top: -1vmax;
+  /* text-align:right; */
+  /* margin-bottom: 0; */
   background: transparent url(/images/medal.svg) no-repeat top right;
   background-size:auto 3vh;
   display: block;
@@ -263,18 +256,19 @@ body[data-view='browse'] #media {
 
 
 @media screen and (max-width: 40em) {
-  /*.flip { flex-direction: column-reverse }*/
+  h5 a, h2 a {border-bottom:1px dotted rgba(0,0,0,0.1)}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
-  .panel > .two-thirds {width:100%;margin: 1.25em 0;flex: 1 0 100%;}
+  .panel > .two-thirds, .panel > .half {width:100%;margin: 1.25em 0;flex: 1 0 100%;}
   article.listing {background-color:rgba(255,255,255,0.75);margin:1em 0;}
   .gallery {width:100%}
   .gallery img {max-width:100%}
   .bio.read {display:flex;}
-  #Player {/* height: 20vh; */width: 30vh;}
+  #Player {width: 30vh;}
+  .panel .ll {margin-left:0}
 }
 /* Tablet */
 @media screen and (min-width: 40em) {
-  .card p {flex: 1 0 50%;}
+  .card p {flex: 1 0 50%;text-align: justify;}
   .bio.read {width:10vmin;padding:1vmin 0;margin-right:1vmin;}
   .listing:not(:first-of-type), .search li:not(:first-of-type) { border-top:1px solid #EEE;}
   button, .button {border:1px solid rgba(0,0,0,0.25);}
@@ -356,6 +350,4 @@ body[data-view='browse'] #media {
 .search li.competition { border-left-color:rgba(75, 245, 24, 0.26) }
 .search li.article { border-left-color:rgba(212, 217, 154, 0.46) }
 
-input, textarea { width:100%; }
-input, textarea, fieldset {
-  padding:0;border: 1px solid #ccc;
+input, textarea, fieldset { width:100%; padding:0;border: 1px solid #ccc; }

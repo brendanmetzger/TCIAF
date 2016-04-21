@@ -18,8 +18,8 @@ button.listen {
   box-shadow:none;
   border: 3px solid #5B9B98;
   overflow: hidden;
-  height: calc(1.125em + 5vmin);
-  width: calc(1.125em + 5vmin);
+  height: calc(1.5em + 5vmax);
+  width: calc(1.5em + 5vmax);
   border-radius: 45%;
 }
 

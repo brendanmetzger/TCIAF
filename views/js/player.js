@@ -121,7 +121,7 @@ var Player = function (container, data) {
   }.bind(this));
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
-    var complete = evt.theta() / 360
+    var complete = evt.theta() / 360;
     if (evt.type == 'touchmove') {
       var audio = this.playlist.current.audio;
       audio.currentTime = audio.duration * complete;
@@ -131,7 +131,7 @@ var Player = function (container, data) {
 
   this.meter.element.addEventListener('click', function (evt) {
     var audio = this.playlist.current.audio;
-    audio.currentTime = audio.duration * complete;
+    audio.currentTime = audio.duration * evt.theta() / 360;
   }.bind(this), false);
 
 };

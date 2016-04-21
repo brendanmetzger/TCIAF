@@ -43,7 +43,6 @@ namespace models;
 
     protected function _template(\DOMElement $context)
     {
-
       $edges = $context->find("edge[@type='edition']");
       if ($edges->count() > 1) {
         return 'competition/overview';

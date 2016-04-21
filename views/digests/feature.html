@@ -1,10 +1,9 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
-  <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
   <header>
     <div class="two-thirds controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
-      <h1 data-id="[$item:@id]" property="name" class="strong lead display tracked">[$item:title]</h1>
+      <h1 data-id="[$item:@id]" property="name" class="strong lead display tracked" title="[$item:duration min]">[$item:title]</h1>
     </div>
     <div class="two-thirds">
       <p class="h3">[$item:summary]</p>
@@ -20,7 +19,8 @@
   <section class="panel flip tt bb">
     <div class="two-thirds">
       <div property="description">[$item:content:description]</div>
-      <h4 class="brown caps-lock strong t">produced by</h4>
+      <hr class="ruled"/>
+      <h4 class="brown caps-lock strong">produced by</h4>
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
     </div>
@@ -32,6 +32,7 @@
   <h4 class="strong caps-lock brown t b">Featured in</h4>
   <nav class="two-thirds">
     <ul class="plain">
+      <li><a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a></li>
       <!-- iterate item:extras -->
       <li class="articles listing pad-v">
         <h5><a href="[$article:permalink]">[$article:title]</a></h5>
