@@ -9,7 +9,7 @@
         <!-- iterate tasks -->
         <option value="[/explore/index/$name]">[$name ($count)]</option>
       </select>
-      <select style="display:block;width:100%;" onchange="if (this.value != 'default') navigateToPage.call({href: this.value}, event); document.getElementById('admin-index').selectedIndex = 0;" id="admin-create">
+      <select style="display:block;width:100%;" onchange="if (this.value != 'default') window.location.href = this.value;" id="admin-create">
         <option value="default">Create New...</option>
         <!-- iterate tasks -->
         <option value="[/manage/create/$name]">[$name]</option>

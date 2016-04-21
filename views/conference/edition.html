@@ -23,20 +23,18 @@
       color:rgba(0,0,0,0.5);
       top:1em;
     }
-    .conf-banner {
-      background:#F26322 url(/images/conference-16.svg) no-repeat right bottom;
-      color:#FFF;
-    }
+
   </style>
   <header>
-    <div class="banner conf-banner"  data-aspect="[$item:banner:mark]">
-      <h4 class="bb"><time>[$item:date]</time></h4>
+    <nav class="caps-lock t b h6">
+      <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
+    </nav>
+
+    <div  data-aspect="[$item:banner:mark]">
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
+      <h4><time>[$item:date]</time></h4>
       <p>[$item:summary]</p>
     </div>
-    <nav class="caps-lock strong t b">
-      <a href="/overview/conference">Conferences</a> / <span>[$item:title]</span>
-    </nav>
     <section>[$item:content:about]</section>
   </header>
   <section class="panel">

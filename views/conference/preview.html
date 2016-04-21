@@ -1,72 +1,79 @@
-<article class="conference page"  vocab="http://schema.org/" typeof="Event">
-
-  <nav class="center crumbs">
-    <ul class="plain">
-      <li><a href="/overview/conference">Previous Conferences</a></li>
-      <li style="line-height:0;border:none;">
-          <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:100%;margin:0" data-aspect="[$item:banner:mark]"/>
-      </li>
-    </ul>
-  </nav>
-  <header class="container">
-    <div>
-      <h1 data-id="[$item:@id]">[$item:title]</h1>
-      <section  property="description">[$item:content:about]</section>
-    </div>
-  </header>
-
-  <!-- iterate item:articles -->
-  <article class="memo">
-    <h2>[$item:title]</h2>
-    <section>[$item:content:description]</section>
-  </article>
-
-  <span class="marquee condensed center" id="sessions">Conference Sessions</span>
-  <section>
-    <!-- iterate item:sessions -->
-    <article class="trans-blocks" id="[$session:@id]">
-      <h3 data-id="[$session:@id]" class="center h1 condensed"><a href="[$session:permalink]">[$session:title]</a></h3>
-      <blockquote class="three-quarters middle center">
-        <p>[$session:summary]</p>
-      </blockquote>
-
-      <hr/>
-      <h5 class="h2 center">· Featuring ·</h5>
-
-      <ul class="bios container">
-        <!-- iterate session:presenters -->
-        <li class="[float-left _$count group]" data-id="[$person:@id]">
-          <span class="bio-disc" style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-          <a href="[$person:permalink]">[$person:title]</a>
-        </li>
-      </ul>
-    </article>
-  </section>
-
-  <span class="marquee center condensed" id="sponsors">Sponsors</span>
-  <!-- insert views/partials/sponsors.html -->
-
+<article class="conference page">
   <style media="screen">
-    .memo {
-      padding:0 1em;
-      margin:1em 0;
-      background-color:rgba(255,255,255,0.25);
+    header.controls button {
+      margin: 0 1.5em 0 0;
     }
-    .title {
-      border-bottom: 1px dashed #AAA;
-      margin:0 15% 1em;
-      padding:1em 0;
+    .panel.space {
+      flex-wrap:wrap;
     }
-
-    header.container {
-      border-top:1px solid #eee;
-      border-bottom:none;
-      padding:0;
+    .panel.space > * {
+      flex: 0 0 10em;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
-
-    header.container h1 {
-      padding:1em 0;
+    ul.dash li:before {
+      content: '---';
+      padding:0 0.25em;
+      line-height:0;
+      position:relative;
+      vertical-align:top;
+      color:rgba(0,0,0,0.5);
+      top:1em;
     }
-
+    .conf-banner {
+      background:#F26322 url(/images/conference-16.svg) no-repeat right bottom;
+      color:#FFF;
+    }
   </style>
+  <header>
+    <div class="banner conf-banner"  data-aspect="[$item:banner:mark]">
+      <h4 class="bb"><time>[$item:date]</time></h4>
+      <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
+      <p>[$item:summary]</p>
+    </div>
+    <nav class="caps-lock t b h6">
+      <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
+    </nav>
+    <section>[$item:content:about]</section>
+  </header>
+  <section class="panel">
+    <section class="two-thirds">
+      <!-- iterate item:articles -->
+      <article class="memo">
+        <h2 class="display">[$item:title]</h2>
+        <section>[$item:content:description]</section>
+      </article>
+      <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
+      <nav>
+        <ul class="dash plain">
+          <!-- iterate item:sessions -->
+          <li><a href="[#$session:@id]">[$session:title]</a></li>
+        </ul>
+      </nav>
+      <!-- iterate item:sessions -->
+      <article id="[$session:@id]" class="listing pad">
+        <header class="controls">
+          <!-- iterate session:media:audio -->
+          <!-- insert views/partials/play-button.html -->
+          <h2 data-id="[$session:@id]" class="display strong"><a href="[$session:permalink]">[$session:title]</a></h2>
+        </header>
+        <p class="pad-h">[$session:summary]</p>
+        <h4 class="strong brown caps-lock t b">Featuring</h4>
+        <section class="panel space pad-v">
+          <!-- iterate session:presenters -->
+          <figure class="bio">
+            <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+            <figcaption class="strong"><a href="[$person:permalink]">[$person:title]</a></figcaption>
+          </figure>
+        </section>
+      </article>
+    </section>
+    <section class="one-third gray-bg ll pad">
+      <h4 class="brown caps-lock strong" id="sponsors">Sponsors</h4>
+      <!-- insert views/partials/sponsors.html -->
+    </section>
+  </section>
 </article>
