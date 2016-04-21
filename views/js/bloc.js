@@ -331,13 +331,10 @@ Menu.prototype = {
 
 
 // Progress/Patience
-
 var Progress = function(container) {
-
   var svg, path, handle, message;
   this.element = document.createElement('div');
   this.element.className = 'progress';
-
   if (container) {
     container.appendChild(this.element);
     this.remove = function () {
@@ -360,9 +357,15 @@ var Progress = function(container) {
     var data = "M85,50A35,35 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
     if (scrub) {
       handle.setAttribute('d', data);
+      handle.position = percentage;
     } else {
       path.setAttribute('d', data);
     }
+  };
+
+  this.position = function () {
+    console.log(handle.position);
+    return handle.position;
   };
 
   this.setState = function (state) {

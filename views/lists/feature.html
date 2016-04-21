@@ -30,15 +30,16 @@
       }
     }
   </style>
-  <header class="b ruled">
+  <header>
     <h3 class="brown caps-lock strong t b">Listen</h3>
     <h1 class="lead display strong tracked tt bb">Our Library Speaks Volumes</h1>
+    <!-- replace blurb -->
     <nav class="pad-v">
       <ul class="plain path">
         <li><a class="[$all]" href="[/overview/library/all/$sort]">All</a></li>
         <li><a class="[$stories]" href="[/overview/library/stories/$sort]" onclick="alert('this page is not configured');return false;">Stories</a></li>
         <li><a class="[$shows]" href="[/overview/library/shows/$sort]">Re:Sound</a></li>
-        <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conf Sessions</a></li>
+        <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort]">Conf. Sessions</a></li>
         <li><a class="[$shortdocs]" href="[/overview/library/shortdocs/$sort]">Short Docs</a></li>
         <li><a class="[$awards]" href="[/overview/library/awards/$sort]">Winners</a></li>
       </ul>
@@ -54,8 +55,8 @@
         <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
       </ul>
     </nav>
-    <!-- replace blurb -->
   </header>
+  <hr class="ruled"/>
   <!-- iterate list -->
   <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad ">
     <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">

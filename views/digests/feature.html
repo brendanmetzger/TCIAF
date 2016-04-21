@@ -17,6 +17,9 @@
   </header>
   <hr />
   <section class="panel flip tt bb">
+    <figure class="one-third gallery">
+      <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
+    </figure>
     <div class="two-thirds">
       <div property="description">[$item:content:description]</div>
       <hr class="ruled"/>
@@ -24,9 +27,6 @@
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
     </div>
-    <figure class="one-third gallery">
-      <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
-    </figure>
   </section>
   <hr/>
   <h4 class="strong caps-lock brown t b">Featured in</h4>

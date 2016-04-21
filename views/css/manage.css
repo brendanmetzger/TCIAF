@@ -5,7 +5,7 @@
   outline:none;
 }
 
-*.edit > button[title='edit'], .interactive:before {
+*.edit > button[title='edit'], .interactive:after {
   border: none;
   color: #fff;
   text-transform:lowercase;
@@ -25,11 +25,13 @@
 }
 
 body[data-edit='no'] button[title='edit'] {display:none}
-.interactive:before {
+.interactive:after {
   content: 'adjust';
-  margin: 0 0.25em 0 0 !important;
+  margin: 0 0 0 0.5em !important;
 }
-
+form .button {
+  display:inline-block;
+}
 fieldset {
   margin:1em 0;
 }
@@ -150,10 +152,13 @@ label.range h4 {
 
 
 .dashboard {
-  box-shadow: 0 -0.25em 0.125em rgba(0,0,0,0.25);
+  box-shadow: inset 0 0.25em 0.25em rgba(0,0,0,0.125);
   background-color:#eee;
   color:#333;
   padding:2em;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
 }
 
 
@@ -511,6 +516,7 @@ fieldset.edges dl dd a {
   text-transform:uppercase;
   font-size:1.125em;
   padding:0.5em;
+  /* display: block; */
 }
 
 a.sort {

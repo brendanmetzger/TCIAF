@@ -1,38 +1,33 @@
 <article class="session page" vocab="http://schema.org/" typeof="CreativeWork">
-  <nav class="strong caps-lock">
+  <style media="screen">
+    .gallery.bar {text-align:left;margin:2vmax 0;}
+    .bar img { height: 15vh;}
+  </style>
+  <nav class="caps-lock t b h6">
     <!-- iterate item:happenings -->
     <span><a href="[/overview/conference/$happening:@id]">[$happening:title]</a> / </span>
-    <span>[$item:title]</span>
+    <span class="selected">[$item:title]</span>
   </nav>
-
-  <header>
-    <div class="two-thirds controls">
+  <header class="two-thirds">
+    <div class="controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
       <h1 class="lead display strong tracked" data-id="[$item:@id]" property="name">[$item:title]</h1>
     </div>
-
+    <p class="h3" property="description">[$item:summary]</p>
   </header>
-  <figure class="gallery">
+  <figure class="gallery bar">
     <!-- iterate item:media:image -->
     <img src="[http://s3.amazonaws.com/$url]" alt="[$caption]" property="image"/>
   </figure>
-
-  <div class="panel">
-    <section class="two-thirds intro" property="description">[$item:content:description]</section>
-
-  </div>
-
-
-
-
+  <section class="two-thirds pad" property="description">[$item:content:description]</section>
+  <hr class="ruled"/>
   <section property="contributors">
     <ul>
       <!-- iterate item:extras -->
       <li><a href="[$article:permalink]">[$article:title]</a></li>
     </ul>
-
-    <h4 class="strong caps-lock brown">Featuring</h4>
+    <h4 class="strong caps-lock brown t b">Featuring</h4>
     <!-- iterate item:presenters -->
     <!-- insert views/cards/person.html -->
   </section>

@@ -33,16 +33,25 @@ li.played { opacity:0.5 }
 
 
 
-
-
 #Player button {border: none;padding: 0;}
 #Player button svg path { stroke: none; }
 
+#Player svg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
 #Player button svg {
-   width: 100%;
-   height: 100%;
   fill: #88746A;
+}
+
+.progress svg {
+  fill: none;
+  margin: 0;
+  stroke: #333;
+  stroke-width: 5;
+  stroke-opacity: 0.75;
 }
 
 #Player .progress path, .progress:hover .handle, .progress circle {
@@ -57,33 +66,17 @@ li.played { opacity:0.5 }
   pointer-events: none;
 }
 
+.progress:hover { cursor: crosshair }
 .progress:hover .handle { stroke-opacity: 0.75 }
 .progress:hover .status { stroke-width: 1 }
 
 
-.progress:hover {
-  cursor: crosshair;
-}
-
-.progress .handle {
+.progress .handle, .progress span {
   stroke-opacity: 0;
   transition: stroke-opacity 0.75s;
+  pointer-events: none;
 }
 
-
-
-.progress svg {
-  width: 100%;
-  height: 100%;
-  fill: none;
-  margin: 0;
-  stroke: #333;
-  position: relative;
-  stroke-width: 5;
-  stroke-opacity: 0.75;
-}
-
-.progress span, .progress .handle { pointer-events: none }
 
 #Player .progress span {
   top: 30%;
@@ -103,17 +96,6 @@ li.played { opacity:0.5 }
   text-align: center;
 }
 
-#Player .display {
-  padding: 1em 0;
-  display: inline-block;
-  line-height: 1em;
-  font-family: 'Courier New';
-  vertical-align: top;
-  word-break: break-all;
-  color: #888;
-}
-
-
 
 button path.wait {
   fill: transparent;
@@ -121,30 +103,21 @@ button path.wait {
   transition: stroke-opacity 0.25s;
 }
 
-button:not(.wait) path.wait {
-  stroke-opacity: 0;
-}
+button:not(.wait) path.wait { stroke-opacity: 0 }
 
 button.wait svg path.indicator {
   fill-opacity: 0;
   fill: #AAA;
 }
 
-button.error {
-  background-color: #ED1C24;
-}
+button.error { background-color: #ED1C24 }
 
 .progress {
   position: relative;
   background-size: cover;
 }
 
-.progress.spin svg, .progress[data-state='waiting'] svg {
-  -moz-animation: spin .75s infinite linear;
-  -webkit-animation: spin .75s infinite linear;
-  -ms-animation: spin .75s infinite linear;
-  animation: spin .75s infinite linear;
-}
+.progress.spin svg, .progress[data-state='waiting'] svg { animation: spin .75s infinite linear }
 
 .progress[data-state='playing'] span {
   opacity:1 !important;
@@ -159,4 +132,4 @@ button.error {
 .progress[data-state='waiting'] svg path {
   stroke-width:1 !important;
   stroke-opacity: 0 !important;
-tant;
+}

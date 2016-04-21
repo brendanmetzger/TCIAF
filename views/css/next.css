@@ -33,14 +33,14 @@ p a {text-decoration:underline}
 .bb, hr, .hr { margin-bottom:3.0vmax }
 .l  {margin-left:1vw}
 .ll {margin-left:2vw}
-.rr, #browse .controls button {margin-right:2vw}
-.pad   {padding: 1.5vmin;}
+.r {margin-right:1vw;}
+.rr, #browse .controls button {margin-right: 2vw;}
+.pad   {padding: 1vmax;}
 .pad-h { padding: 0 1.5vmin }
 .pad-v {padding: 1.5vmax 0;}
 
 
 .m, p, label {
-  display:block;
   margin: 0.5em 0 1em;
 }
 
@@ -61,10 +61,11 @@ p a {text-decoration:underline}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
 
 p, .p {max-width:55em;}
+h1, h2 {max-width:75vw}
 h1, .h1 {font-size: calc(1em + 1.75vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.125em + 1.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
 h3, .h3 {f;font-size: calc(1em + 1.5vmax);line-height: 1.2;margin: 0.5em 0;}
-h4, .h4, .markdown h3, article nav > ul.plain li > a  {font-size: calc(0.75em + 1.125vmax);}
+h4, .h4, .markdown h3, article nav > ul.plain li > a  {font-size: calc(0.75em + 1.125vh);}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.45;}
 h5 {font-weight:400}
 h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
@@ -97,8 +98,6 @@ hr, .hr, .ruled {
 
 a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 .bio.head {width:15%; display:inline-block;}
-
-.bio figcaption {padding: 0.75em;font-size:1.35em;}
 .bio > span {
   background-size:cover;
   background-position:top center;
@@ -115,7 +114,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 .gallery img {
   padding:calc(2.5em - 1vw);
   max-width: 80%;
-  box-shadow:0 0 0.125em 0 rgba(0,0,0,0.1);
+  box-shadow: 0 0 0.125em 0 rgba(0,0,0,0.1);
 }
 
 
@@ -156,7 +155,7 @@ section#browse > main {
 nav a.logo {
   margin: 0 0 0 1.5vw;
   min-width: 10em;
-  background: #fff url(/images/full-logo.svg) no-repeat 0 25%;
+  background: #fff url(/images/full-logo.svg) no-repeat 0 20%;
   color:rgba(0,0,0,0);
   background-size: 160% auto;
   align-self: center;
@@ -189,12 +188,12 @@ nav[role] > ul > li {
 article nav > ul.plain {margin: 1vh 0 2vh;}
 body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
-.finder input:focus { background-size:auto 35% }
+.finder input:focus {background-size: auto 37%;}
 .finder input {
-  transition: background-size 1.25s, padding 0.25s;
+  /* transition: background-size 1.25s; */
   margin: 0;
-  padding: 2.5em 0.5em 0.5em 3em;
-  background: transparent url(/images/search.svg) no-repeat 4.25% 65%;
+  padding: 1.25em 0.5em 1.25em 2.5em;
+  background: transparent url(/images/search.svg) no-repeat 5% 50%;
   background-size: auto 75%;
   border:none;
   border-bottom:1px dashed #ddd;
@@ -245,25 +244,29 @@ body > section[id] { position:fixed; width:100vw; }
 
 body[data-view='browse'] #media {
   height: 15vh;
-  overflow:hidden;
   box-shadow: 0 -0.125em 0.125em rgba(0,0,0,0.1);
 }
 
 
+/* Mobile only */
 @media screen and (max-width: 50em) {
+  body[data-view='browse'] #media { overflow:hidden}
   #Player button, #Player .progress { width: 100% }
   h5 a, h2 a {border-bottom:1px dotted rgba(0,0,0,0.1)}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
   .panel > .two-thirds, .panel > .half {width:100%;margin: 1.25em 0;flex: 1 0 100%;}
   article.listing {background-color:rgba(255,255,255,0.75);margin:1em 0;}
   .gallery {width:100%}
-  .gallery img {max-width:100%}
-  .bio.read {display:flex;}
+  .gallery img {max-width:100%;padding: 5%;}
+  .bio.read {display:flex;align-items:center}
+  .bio.read span {margin-right:2vmax;}
   #Player {width: 30vh;}
   .panel .ll {margin-left:0}
 }
+
 /* Tablet */
 @media screen and (min-width: 50em) {
+  .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;text-align: justify;}
   .bio.read {width:10vmin;padding:1vmin 0;margin-right:1vmin;}
   .listing:not(:first-of-type), .search li:not(:first-of-type) { border-top:1px solid #EEE;}
@@ -284,7 +287,7 @@ body[data-view='browse'] #media {
   .two-thirds {width:70%;}
 
   nav[role] > ul > li {background-color:#fff }
-  #browse > header {padding:0 1vw;}
+  #browse > header {padding:0 1vw;border-bottom: 1px solid rgba(0,0,0,0.1);}
   body[data-view] > #media  {top:0;width:20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
   body[data-view] > #browse { left:20vw;width:80vw;height:100vh;}
 
