@@ -1,3 +1,4 @@
+.listen:hover {background-size: auto 0%;color: #5B9B98;}
 .listen {
   background-size: auto 100%;
   background-image: url(/images/listen.svg);
@@ -9,97 +10,44 @@
 }
 
 
-.listen:hover {
-  background-size: auto 0%;
-  color: #5B9B98;
-}
-
 button.listen {
   box-shadow:none;
   border: 3px solid #5B9B98;
   overflow: hidden;
-  height: calc(1.5em + 5vmax);
-  width: calc(1.5em + 5vmax);
+  height: calc(1.5em + 5vh);
+  width: calc(1.5em + 5vh);
   border-radius: 45%;
 }
 
-.bg button.listen {
-  background-color:rgba(255,255,255,0.75);
-}
 
 
-.queued {
-  opacity: 0.5;
-}
-
-
-
-.playlist li {
-  font-size:1em;
-  line-height:1em;
-  padding:1em;
-  border-bottom:1px dashed #EEE;
-}
-
-.playlist {
-  box-shadow:inset 0 -0.125em 0.25em rgba(0,0,0,0.05);
-}
-
-li.played {
-  color:#999;
-  background-color:#F8F8F8;
-}
-
+.playlist {background-color: rgba(250, 250, 250, 0.59);}
+.playlist li {padding: 1.5vmax 1em;border-bottom:2px solid rgba(255,255,255, 1);}
+.playlist li.current:before { content: '\25B6\FE0E'; margin-right:0.5em; }
 .playlist li.current {
-  background-color: #D9EAEA;
-  font-weight:600;
-  color:#88746A;
+  background-color: #fff;
+  color: #88746a;
 }
 
-li.current span:before {
-  content: '▶ '
-}
+li.played { opacity:0.5 }
 
 
 
-.playlist li:not(.current):hover {
-  color: #88746A;
-}
-.playlist li:not(.current) {
-  cursor:pointer;
-}
 
 
-@media screen and (min-width: 40em) {
-  #Player button, #Player .progress { width: 100% }
-}
-
-#Player button, #Player .progress {
-  display: block;
-  vertical-align:middle;
-  font-size:1em;
-}
-
-#Player button {
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-}
+#Player button {border: none;padding: 0;}
+#Player button svg path { stroke: none; }
 
 
 #Player button svg {
-  width: 100%;
-  height: 100%;
+   width: 100%;
+   height: 100%;
   fill: #88746A;
-  margin: 0%
 }
 
 #Player .progress path, .progress:hover .handle, .progress circle {
   stroke: #88746A;
   fill: none;
-  transition: stroke-width 1s;
 }
 
 .progress circle {
@@ -109,17 +57,12 @@ li.current span:before {
   pointer-events: none;
 }
 
- .progress:hover .handle{
-  stroke-width: 4;
-  stroke-opacity: 1;
-}
+.progress:hover .handle { stroke-opacity: 0.75 }
+.progress:hover .status { stroke-width: 1 }
 
-#Player button svg path {
-  stroke: none;
-}
 
 .progress:hover {
-  cursor: pointer;
+  cursor: crosshair;
 }
 
 .progress .handle {
@@ -140,9 +83,7 @@ li.current span:before {
   stroke-opacity: 0.75;
 }
 
-.progress span, .progress .handle {
-  pointer-events: none;
-}
+.progress span, .progress .handle { pointer-events: none }
 
 #Player .progress span {
   top: 30%;
@@ -172,11 +113,7 @@ li.current span:before {
   color: #888;
 }
 
-button path.indicator {
-  stroke: none;
-  transition: fill-opacity 0.75s;
-  fill-opacity: 1;
-}
+
 
 button path.wait {
   fill: transparent;
@@ -222,34 +159,4 @@ button.error {
 .progress[data-state='waiting'] svg path {
   stroke-width:1 !important;
   stroke-opacity: 0 !important;
-}
-
-
-body[data-engage] #Player {
-  position:fixed;
-  height:4em;
-  z-index:5;
-  overflow:hidden;
-  box-shadow:0 0 0.5em rgba(0,0,0,0.15);
-}
-
-
-body[data-engage] #Player .controls {
-  height:100%;
-  width:9em !important;
-  text-align:center;
-  float:left;
-}
-
-body[data-engage] #Player .playlist {
-  height:100%;
-}
-
-body[data-engage] #Player .playlist {
-  float:left;
-}
-body[data-engage] #Player .controls button, body[data-engage] #Player .controls div {
-  width:4em;
-  height:4em;
-  display:inline-block;
-}
+tant;
