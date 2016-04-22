@@ -255,9 +255,9 @@ body[data-view='browse'] #media {
 @media screen and (max-width: 50em) {
   body[data-view='browse'] #media { overflow:hidden}
   #Player button, #Player .progress { width: 100% }
-  h5 a, h2 a {border-bottom:1px dotted rgba(0,0,0,0.1)}
+  h5 a, h2 a, .sink a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #867670;}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
-  .panel > .two-thirds, .panel > .half {width:100%;margin: 1.25em 0;flex: 1 0 100%;}
+  .panel > .two-thirds, .panel > .half {margin: 1.25em 0;flex: 1 0 100%;min-width: 100%;}
   article.listing {background-color:rgba(255,255,255,0.75);margin:1em 0;}
   .gallery {width:100%}
   .gallery img {max-width:100%;padding: 5%;}
@@ -270,8 +270,8 @@ body[data-view='browse'] #media {
     display:flex;
     flex-wrap:wrap;
   }
-  ul.sink li:nth-child(2) { padding-right:75%; }
-  ul.sink li { padding:0.25em; }
+  ul.sink li:nth-child(2) {padding-right: 70%;}
+  ul.sink li {padding: 0.25em 0.5em;}
 }
 
 /* Tablet */

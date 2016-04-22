@@ -14,8 +14,8 @@ button.listen {
   box-shadow:none;
   border: 3px solid #5B9B98;
   overflow: hidden;
-  height: calc(1.5em + 5vh);
-  width: calc(1.5em + 5vh);
+  height: calc(1.5em + 4.5vh);
+  width: calc(1.5em + 4.5vh);
   border-radius: 45%;
 }
 

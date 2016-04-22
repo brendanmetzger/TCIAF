@@ -15,16 +15,17 @@
       <h4 class="h3">[$item:premier:@date / $item:premier, $item:location]</h4>
     </div>
   </header>
-  <section class="panel">
+  <hr class="ruled"/>
+  <section class="panel flip">
+    <figure class="one-third gallery">
+      <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
+    </figure>
     <div class="two-thirds">
       <div property="description">[$item:content:description]</div>
       <h4 class="brown caps-lock strong t">produced by</h4>
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
     </div>
-    <figure class="one-third gallery">
-      <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
-    </figure>
   </section>
   <hr/>
   <nav class="two-thirds">
