@@ -14,7 +14,7 @@ body {
 .brown, .markdown h3 { color:#77635c; }
 .white-bg, body, .gallery img, button, .button { background-color:#fff }
 .gray {color:#BEBEBE}
-.gray-bg { background-color:#EEE; color: #706F73 }
+.gray-bg {background-color: rgba(0,0,0,0.025);color: #706F73;}
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
 .brown-bg a { color:#AAA }
 
@@ -372,3 +372,4 @@ ul.dash li:before {
 .search li.article { border-left-color:rgba(212, 217, 154, 0.46) }
 
 input, textarea, fieldset { width:100%; padding:0;border: 1px solid #ccc; }
+; }
