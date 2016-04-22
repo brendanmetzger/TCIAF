@@ -44,7 +44,7 @@ p a {text-decoration:underline}
   margin: 0.5em 0 1em;
 }
 
-.markdown h3 { margin:0.5em 0 }
+.markdown h3 {margin: 2vmax 0;font-weight: 600;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
 .caps-lock, .markdown h3, article nav > ul.plain li > a {text-transform:uppercase;}
@@ -269,7 +269,7 @@ ul.dash li:before {
   h5 a, h2 a, .sink a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #5b9b98;}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
   .panel > .two-thirds, .panel > .half {margin: 1.25em 0;flex: 1 0 100%;min-width: 100%;}
-  article.listing {background-color: rgba(255,255,255,0.85);margin:1em 0;border: 1px dashed rgba(0,0,0,0.05);}
+  article.listing {background-color: rgba(255,255,255,0.85);margin:1em 0;/* padding: 0 2vmax; */}
   .gallery {width:100%}
   .gallery img {max-width:100%;padding: 5%;}
   .bio.read {display:flex;align-items:center}
