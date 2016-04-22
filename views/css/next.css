@@ -61,8 +61,8 @@ p a {text-decoration:underline}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
 
 p, .p {max-width:55em;}
-h1, h2 {max-width:75vh}
-h1, .h1 {font-size: calc(1.em + 1.5vmax);line-height:1.25;margin:0;}
+h1, h2 {max-width: 70vw;}
+h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.125em + 1.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
 h3, .h3 {f;font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
 h4, .h4, .markdown h3, article nav > ul.plain li > a  {font-size: calc(0.75em + 1.125vh);}
