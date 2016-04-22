@@ -1,6 +1,6 @@
 * { box-sizing:border-box }
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
-audio, img:not([src]), a:not([href]), nav[data-pages='1'] {display:none}
+img:not([src]), a:not([href]), nav[data-pages='1'] {display:none}
 
 body {
   font: normal normal 300 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
@@ -27,10 +27,10 @@ p a {text-decoration:underline}
 .plain    {list-style:none;padding:0;}
 .plain li {font-size:100%;}
 
-.t { margin-top:1.5vmax }
-.tt, .markdown h2, hr, .hr { margin-top:3.0vmax }
-.b  { margin-bottom:1.5vmax }
-.bb, hr, .hr { margin-bottom:3.0vmax }
+.t, hr, .hr, .markdown h2 {margin-top: calc(2.5vmax - 1vmin);}
+.tt {margin-top: calc(1em + 4.0vmax - 1vmin);}
+.b   {margin-bottom: calc(2.5vmax - 1vmin);}
+.bb, hr, .hr {margin-bottom: calc(1em + 4.0vmax - 1vmin);}
 .l  {margin-left:1vw}
 .ll {margin-left:2vw}
 .r {margin-right:1vw;}
@@ -180,6 +180,7 @@ nav[role] > ul > li {
   background-color: #f8f8f8;
 }
 
+#browse > header {border-bottom: 1px solid rgba(0,0,0,0.075);}
 #browse > header nav li > a {
   flex: 1 1 auto;
   font-weight:400;
@@ -264,6 +265,13 @@ body[data-view='browse'] #media {
   .bio.read span {margin-right:2vmax;}
   #Player {width: 30vh;}
   .panel .ll {margin-left:0}
+  ul.sink {
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+  }
+  ul.sink li:nth-child(2) { padding-right:75%; }
+  ul.sink li { padding:0.25em; }
 }
 
 /* Tablet */
@@ -289,7 +297,7 @@ body[data-view='browse'] #media {
   .two-thirds {width:70%;}
 
   nav[role] > ul > li {background-color:#fff }
-  #browse > header {padding:0 1vw;border-bottom: 1px solid rgba(0,0,0,0.075);}
+  #browse > header {padding:0 1vw;}
   body[data-view] > #media  {top:0;width:20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
   body[data-view] > #browse { left:20vw;width:80vw;height:100vh;}
 

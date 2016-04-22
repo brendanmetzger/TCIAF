@@ -43,7 +43,7 @@ namespace models;
     public function getFeatures(\DOMElement $context)
     {
       return $context->find("edge[@type='item']")->map(function($edge) {
-        return ['feature' => new Feature($edge['@vertex'])];
+        return ['item' => new Feature($edge['@vertex'])];
       });
     }
 
@@ -69,7 +69,7 @@ namespace models;
       ];
       foreach ($this->features as $feature) {
         $out['length']+=1;
-        $out['duration']+= $feature['feature']->duration;
+        $out['duration']+= $feature['item']->duration;
       }
 
       $out['duration'] = round($out['duration'] / 60, 1);

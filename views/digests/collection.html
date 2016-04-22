@@ -5,16 +5,26 @@
   <header class="two-thirds tt b">
     <h1 class="lead display strong tracked" data-id="[$item:@id]">[$item:title]</h1>
   </header>
-  <div class="panel">
-    <section class="two-thirds">[$item:content:description]</section>
-    <figure class="gallery">
+  <section class="flip panel">
+    <figure class="gallery one-third">
       <img src="[http://s3.amazonaws.com/$item:photo:url]"/>
       <figcaption>[$item:photo:caption]</figcaption>
     </figure>
-  </div>
+    <div class="two-thirds h5">[$item:content:description]</div>
+  </section>
   <hr/>
   <section>
     <!-- iterate item:features -->
-    <!-- insert views/cards/feature.html -->
+    <article data-updated="[$item:@updated]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad card">
+      <div class="controls">
+        <!-- iterate item:media:audio -->
+        <!--  insert views/partials/play-button.html-->
+      </div>
+      <div style="width:60%">
+        <h3 class="display strong" data-id="[$item:@id]"><a href="[$item:permalink]" property="name">[$item:title]</a></h3>
+        <p>[$item:summary]</p>
+      </div>
+      <!-- insert views/cards/credits.html -->
+    </article>
   </section>
 </article>

@@ -32,7 +32,7 @@
   </style>
   <header>
     <h3 class="brown caps-lock strong t b">Listen</h3>
-    <h1 class="lead display strong tracked tt bb">Our Library Speaks Volumes</h1>
+    <h1 class="lead display strong tracked tt b">Our Library Speaks Volumes</h1>
     <!-- replace blurb -->
     <nav class="pad-v">
       <ul class="plain path">
@@ -58,7 +58,7 @@
   </header>
   <hr class="ruled"/>
   <!-- iterate list -->
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad ">
+  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad">
     <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">
       <!-- iterate item:media:audio -->
       <!--  insert views/partials/play-button.html-->
@@ -67,11 +67,7 @@
       <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
     </header>
-    <ul class="plain h5 pad ll sink">
-      <li class="strong">[$item:premier:@date / $item:duration min.]</li>
-      <!-- iterate item:producers -->
-      <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
-    </ul>
+    <!-- insert views/cards/credits.html -->
   </article>
   <footer class="center">
     <!-- insert views/partials/navigator.html -->
