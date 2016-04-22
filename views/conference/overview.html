@@ -1,5 +1,11 @@
 <article>
 <style media="screen">
+  .upcoming:first-of-type {
+      align-self:flex-start;
+      padding:2.5em 2.5em 10vh;
+      flex-grow:1;
+      box-shadow:0 0 5em rgba(0,0,0,0.05);
+    }
   .conf-banner * {color:#FFF;}
   .conf-banner {
     background:#F26322 url(/images/conference-16.svg) no-repeat  200% 0;
@@ -9,17 +15,17 @@
   <header class="b ruled">
     <h3 class="caps-lock brown strong t b">Conferences</h3>
     <h1 class="lead display tracked strong tt b" data-id="[$item:@id]">[$item:title]</h1>
-    <div class="panel">
-      <section property="description two-thirds" class="pad">[$item:content:about]</section>
+    <section class="panel flip">
       <!-- iterate item:upcoming -->
-      <div class="conf-banner one-third pad b">
+      <aside class="conf-banner pad b one-third upcoming">
         <h4><time>[$item:date]</time></h4>
         <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;padding:5%" data-aspect="[$item:banner:mark]"/>
         <h2 data-id="[$item:@id]">[$item:title]</h2>
         <h3><a href="[$item:permalink]">Learn More</a></h3>
-      </div>
+      </aside>
+      <section property="description" class="two-thirds pad">[$item:content:about]</section>
 
-    </div>
+    </section>
   </header>
 
 
