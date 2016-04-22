@@ -277,7 +277,7 @@ ul.dash li:before {
   #Player {width: 30vh;}
   .panel .ll {margin-left:0}
   ul.sink {
-    width:100%;
+    min-width: 100%;
     display:flex;
     flex-wrap:wrap;
   }
@@ -372,4 +372,3 @@ ul.dash li:before {
 .search li.article { border-left-color:rgba(212, 217, 154, 0.46) }
 
 input, textarea, fieldset { width:100%; padding:0;border: 1px solid #ccc; }
-; }
