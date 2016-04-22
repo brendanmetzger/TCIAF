@@ -61,7 +61,7 @@ p a {text-decoration:underline}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
 
 p, .p {max-width:55em;}
-h1, h2 {max-width: 70vw;}
+h1, h2 {max-width: 75vw;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 2.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
 h3, .h3 {f;font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
@@ -266,7 +266,7 @@ ul.dash li:before {
   body[data-view='browse'] #media { overflow:hidden}
   #Player button, #Player .progress { width: 100% }
   section#browse main {background-color: #fefefe;}
-  h5 a, h2 a, .sink a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #867670;}
+  h5 a, h2 a, .sink a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #5b9b98;}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
   .panel > .two-thirds, .panel > .half {margin: 1.25em 0;flex: 1 0 100%;min-width: 100%;}
   article.listing {background-color: rgba(255,255,255,0.85);margin:1em 0;border: 1px dashed rgba(0,0,0,0.05);}

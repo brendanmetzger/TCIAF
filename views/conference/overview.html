@@ -1,19 +1,31 @@
 <article>
+<style media="screen">
+  .conf-banner * {color:#FFF;}
+  .conf-banner {
+    background:#F26322 url(/images/conference-16.svg) no-repeat  200% 0;
+    background-size: auto 100%;
+  }
+</style>
   <header class="b ruled">
     <h3 class="caps-lock brown strong t b">Conferences</h3>
     <h1 class="lead display tracked strong tt b" data-id="[$item:@id]">[$item:title]</h1>
-    <section property="description" class="pad">[$item:content:about]</section>
+    <div class="panel">
+      <section property="description two-thirds" class="pad">[$item:content:about]</section>
+      <!-- iterate item:upcoming -->
+      <div class="conf-banner one-third pad b">
+        <h4><time>[$item:date]</time></h4>
+        <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;padding:5%" data-aspect="[$item:banner:mark]"/>
+        <h2 data-id="[$item:@id]">[$item:title]</h2>
+        <h3><a href="[$item:permalink]">Learn More</a></h3>
+      </div>
+
+    </div>
   </header>
+
+
   <!-- iterate item:conferences -->
   <article class="listing panel pad">
     <h2 class="half center"><a href="[/overview/conference/$edition:@id]" data-id="[$edition:@id]"><strong class="display strong" style="font-size:165%;letter-spacing:0.075em;display:block;">[$edition:year]</strong> Third Coast Conference</a></h2>
     <p class="half pad">[$edition:summary]</p>
   </article>
-  <!-- iterate item:upcoming -->
-  <div class="trans-blocks">
-    <time class="h1 center">[$item:date]</time>
-    <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:90%;padding:5%" data-aspect="[$item:banner:mark]"/>
-    <h2 class="h1 condensed" data-id="[$item:@id]">[$item:title]</h2>
-    <h3><a href="[$item:permalink]">Learn More</a></h3>
-  </div>
 </article>
