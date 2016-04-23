@@ -16,7 +16,7 @@ button.listen {
   overflow: hidden;
   height: calc(1.5em + 4.5vh);
   width: calc(1.5em + 4.5vh);
-  border-radius: 45%;
+  border-radius: 50%;
 }
 
 

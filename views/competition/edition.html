@@ -7,7 +7,7 @@
     <nav class="caps-lock h6">
       <a href="/overview/competition">Competitions</a> / <span class="selected">[$item:title]</span> / <a href="[/overview/competition/$item:@id/participants]">Participants</a>
     </nav>
-    <h1 class="lead tracked display strong tt b" data-id="[$item:@id]">[$item:title]</h1>
+    <h1 class="lead tracked display strong tt bb" data-id="[$item:@id]">[$item:title]</h1>
   </header>
   <section class="[$item:type panel]">
     <div class="two-thirds">
@@ -22,8 +22,8 @@
 
         </nav>
         <!-- iterate item:awards -->
-        <article property="workPerformed" typeof="CreativeWork" class="pad tt bb" data-updated="[$feature:@updated]" id="[$id]">
-          <header class="pulled">
+        <article property="workPerformed" typeof="CreativeWork" class="tt bb" data-updated="[$feature:@updated]" id="[$id]">
+          <header class="pulled gray-bg">
             <div class="controls">
               <!-- iterate feature:media:audio -->
               <!-- insert views/partials/play-button.html -->

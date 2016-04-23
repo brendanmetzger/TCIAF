@@ -51,7 +51,7 @@ use \models\graph;
         $query .= "[media[@type='audio' and @mark>'{$l}' and @mark<'{$u}']]";
       }
 
-      $this->list = Graph::group('feature')
+      $this->features = Graph::group('feature')
            ->find($query)
            ->sort(Graph::sort($sort))
            ->map(function($vertex) {

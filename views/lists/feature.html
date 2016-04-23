@@ -1,35 +1,4 @@
-<article class="features">
-  <style media="screen">
-    div[data-award] {
-      background:transparent url(/images/medal.svg) no-repeat right top;
-      background-size:auto 50%;
-    }
-    .bg {
-      background-size:cover;
-      background-position: 50% 0;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      width:95%;
-      padding:5em 0;
-      box-shadow:inset 0 0 0 0.5em rgba(0,0,0,0.1);
-      margin:2.5% auto;
-    }
-    .bg button.listen { background-color:rgba(255,255,255,0.75) }
-    article.panel.listing header { width:100% }
-    @media screen and (min-width: 50em) {
-      article.panel.listing header {
-        width:50%;
-      }
-      article.panel.listing ul {
-        width:30%;
-      }
-      .bg {
-        width:20%;
-        margin:0;
-      }
-    }
-  </style>
+<article class="feature">
   <header>
     <h3 class="brown caps-lock strong b">Listen</h3>
     <h1 class="lead display strong tracked tt b">Our Library Speaks Volumes</h1>
@@ -49,7 +18,8 @@
         <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
         <li><a class="[$duration]" href="[/overview/library/$filter/duration]">Duration</a></li>
       </ul>
-      <ul style="display:none">
+      <ul class="plain path" style="display:none">
+        <!--  eventually iterate sub -->
         <li><a class="[$length05]" href="[/overview/library/length:0-5/$sort]">Short</a></li>
         <li><a class="[$length530]" href="[/overview/library/length:5-30/$sort]">Medium</a></li>
         <li><a class="[$length30100]" href="[/overview/library/length:30-100/$sort]">Long</a></li>
@@ -57,18 +27,8 @@
     </nav>
   </header>
   <hr class="ruled"/>
-  <!-- iterate list -->
-  <article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" class="panel listing pad">
-    <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">
-      <!-- iterate item:media:audio -->
-      <!--  insert views/partials/play-button.html-->
-    </div>
-    <header class="ll pad-h">
-      <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
-      <p>[$item:summary]</p>
-    </header>
-    <!-- insert views/cards/credits.html -->
-  </article>
+  <!-- iterate features -->
+  <!-- insert views/cards/feature.html -->
   <footer class="center">
     <!-- insert views/partials/navigator.html -->
     <p>Looking for more to listen to? Check out our <a href="/overview/playlists">Playlists</a></p>

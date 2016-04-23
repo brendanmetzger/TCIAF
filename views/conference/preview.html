@@ -54,15 +54,12 @@
         </ul>
       </nav>
       <!-- iterate item:sessions -->
-      <article id="[$session:@id]" class="listing pad">
+      <article id="[$session:@id]" class="pad">
         <header class="controls">
-          <!-- iterate session:media:audio -->
-          <!-- insert views/partials/play-button.html -->
-          <h2 data-id="[$session:@id]" class="display strong"><a href="[$session:permalink]">[$session:title]</a></h2>
+          <h2 data-id="[$session:@id]" class="display strong">[$session:title]</h2>
         </header>
         <p class="pad-h">[$session:summary]</p>
-        <h4 class="strong brown caps-lock t b">Featuring</h4>
-        <section class="panel space pad-v">
+        <section class="panel space pad">
           <!-- iterate session:presenters -->
           <figure class="bio">
             <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>

@@ -1,0 +1,16 @@
+<article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad card">
+  <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">
+    <!-- iterate item:media:audio -->
+    <!--  insert views/partials/play-button.html-->
+  </div>
+  <header class="ll pad-h">
+    <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
+    <p>[$item:summary]</p>
+  </header>
+  <ul class="plain h5 ll pad sink">
+    <li class="strong">[$item:premier:@date]</li>
+    <li>[$item:duration min]</li>
+    <!-- iterate item:producers -->
+    <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:title]</a></li>
+  </ul>
+</article>
