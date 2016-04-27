@@ -18,8 +18,11 @@
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
     </div>
-    <nav class="caps-lock tt b h6">
-      <a href="/overview/competition">Competitions</a> / <span class="selected">[$item:title]</span>
+    <nav>
+      <ul class="plain path">
+        <!-- iterate item:articles -->
+        <li><a href="[#$item:@id]">[$item:title]</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -27,7 +30,7 @@
     <div class="two-thirds pad">
       <section class="markdown">[$item:about]</section>
       <!-- iterate item:articles -->
-      <article class="pad">
+      <article class="pad" id="[$item:@id]">
         <h2 class="display" data-id="[$item:@id]">[$item:title]</h2>
         <section class="markdown">[$item:content:description]</section>
       </article>
