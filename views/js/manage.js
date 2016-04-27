@@ -20,7 +20,7 @@ bloc.init(bloc.define('stylesheets', function () {
 function goto(url, evt) {
   evt.preventDefault();
   evt.stopPropagation();
-  
+
 
   if (evt.metaKey) {
     document.location.assign(url);
@@ -58,6 +58,14 @@ function Markdown(container, options) {
     t.addEventListener('keyup', this.fit.bind(this, t));
     t.addEventListener('select', this.watch.bind(this));
     t.addEventListener('focus', this.show.bind(this));
+    t.addEventListener('dragover', function (evt) {
+      evt.preventDefault();
+      evt.target.focus();
+    });
+    t.addEventListener('drop', function (evt) {
+      evt.preventDefault();
+      this.value += evt.dataTransfer.getData('markdown');
+    });
   }, this);
 
   if (this.textareas.length > 0) {
@@ -565,10 +573,8 @@ Spectra.prototype.correlate = function (evt) {
 
 
 function sortable(selector, targetname, onUpdate) {
-
    var dragEl;
    var rootEl = selector instanceof Element ? selector : document.querySelector(selector);
-
 
    // Making all siblings movable
    [].slice.call(rootEl.getElementsByTagName(targetname)).forEach(function (itemEl) {
@@ -580,6 +586,7 @@ function sortable(selector, targetname, onUpdate) {
        evt.preventDefault();
        evt.dataTransfer.dropEffect = 'move';
        var target = evt.target;
+
        if( target && target !== dragEl && target.nodeName.toLowerCase() == targetname.toLowerCase() ){
          // Sorting
 
@@ -610,6 +617,7 @@ function sortable(selector, targetname, onUpdate) {
        // Limiting the movement type
        evt.dataTransfer.effectAllowed = 'move';
        evt.dataTransfer.setData('Text', dragEl.textContent);
+       event.dataTransfer.setData("markdown", dragEl.dataset.url);
 
 
        // Subscribing to the events at dnd
