@@ -37,27 +37,27 @@
         </ul>
       </nav>
       <!-- iterate item:sessions -->
-      <article id="[$session:@id]" class="pad tt bb ruled">
-        <header class="pulled">
-          <div class="controls">
+      <article id="[$session:@id]">
+        <hr class="ruled"/>
+        <header>
+          <div class="controls pulled-left">
             <!-- iterate session:media:audio -->
             <!-- insert views/partials/play-button.html -->
             <h2 data-id="[$session:@id]" class="display strong"><a href="[$session:permalink]">[$session:title]</a></h2>
           </div>
-          <p class="pad-h">[$session:summary]</p>
+          <p class="b h4 ll">[$session:summary]</p>
         </header>
 
-        <section class="panel space pad-v">
+        <section class="panel space">
           <!-- iterate session:presenters -->
           <figure class="bio">
             <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-            <figcaption class="pad h4"><a href="[$person:permalink]">[$person:title]</a></figcaption>
+            <figcaption class="pad h5"><a href="[$person:permalink]">[$person:title]</a></figcaption>
           </figure>
         </section>
       </article>
     </section>
-    <section class="one-third ll pad gray-bg" id="sponsors">
-      <h5 class="brown center strong caps-lock">Sponsors</h5>
+    <section class="one-third ll">
       <!-- insert views/partials/sponsors.html -->
     </section>
   </section>

@@ -1,5 +1,5 @@
 <article class="competition page"  vocab="http://schema.org/" typeof="Event">
-  <header>
+  <header id="overview">
     <div class="[banner $item:type]" data-something="[$item:type]" data-aspect="[$item:banner:mark]">
       <h4 class="bb"><time>[$item:date]</time></h4>
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
@@ -12,19 +12,18 @@
       </ul>
     </nav>
   </header>
-
   <article class="panel">
     <div class="two-thirds pad">
-      <section class="markdown">[$item:about]</section>
+      <section class="markdown">[$item:content:description]</section>
       <!-- iterate item:articles -->
-      <article class="pad" id="[$item:@id]">
+      <article class="pad t" id="[$item:@id]">
         <h2 class="display" data-id="[$item:@id]">[$item:title]</h2>
         <section class="markdown">[$item:content:description]</section>
+        <hr class="ruled"/>
+        <a href="#overview" class="h4">Back to top</a>
       </article>
     </div>
-
-    <section class="gray-bg one-third ll">
-      <h4 class="brown caps-lock pad" id="sponsors">Sponsors</h4>
+    <section class="one-third ll">
       <!-- insert views/partials/sponsors.html -->
     </section>
   </article>

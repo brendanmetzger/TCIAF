@@ -19,11 +19,10 @@
             <!-- iterate item:awards -->
             <li><a href="[#$id]">[$award]</a></li>
           </ul>
-
         </nav>
         <!-- iterate item:awards -->
-        <article property="workPerformed" typeof="CreativeWork" class="tt bb" data-updated="[$feature:@updated]" id="[$id]">
-          <header class="pulled gray-bg">
+        <article property="workPerformed" typeof="CreativeWork" class="t b" data-updated="[$feature:@updated]" id="[$id]">
+          <header class="pulled-left gray-bg">
             <div class="controls">
               <!-- iterate feature:media:audio -->
               <!-- insert views/partials/play-button.html -->
@@ -37,24 +36,17 @@
           </section>
         </article>
       </section>
-      <hr/>
-      <section property="attendees" id="judges">
+    </div>
+    <section class="one-third ll">
+      <div id="judges" property="attendees" class="gray-bg spot">
         <h4 class="strong brown caps-lock">Judges</h4>
-        <ul class="plain judges t b h4">
+        <ul class="plain judges t">
           <li>
-          <!-- iterate item:judges -->
-          <a href="[$person:permalink]" vocab="http://schema.org/" typeof="Person">
-            <figure class="bio">
-              <!-- <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span> -->
-              <figcaption class="strong"  property="name" data-id="[$person:@id]">[$person:@title]</figcaption>
-            </figure>
-          </a>
+            <!-- iterate item:judges -->
+            <h5><a href="[$person:permalink]" vocab="http://schema.org/" typeof="Person">[$person:@title]</a></h5>
           </li>
         </ul>
-      </section>
-    </div>
-    <section class="one-third ll pad gray-bg" id="sponsors">
-      <h5 class="brown center strong caps-lock">Sponsors</h5>
+      </div>
       <!-- insert views/partials/sponsors.html -->
     </section>
   </section>

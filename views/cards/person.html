@@ -1,10 +1,10 @@
 
-<article vocab="http://schema.org/" typeof="Person" class="listing panel pad card" data-id="[$person:@id]" id="[$person:@id]">
-  <a href="[$person:permalink]" property="name" class="pad">
+<article vocab="http://schema.org/" typeof="Person" class="listing panel card" data-id="[$person:@id]" id="[$person:@id]">
+  <a href="[$person:permalink]" property="name" class="t">
     <figure class="bio read center">
       <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-      <figcaption class="h4 pad-v">[$person:@title]</figcaption>
+      <figcaption class="h5 pad-v">[$person:@title]</figcaption>
     </figure>
   </a>
-  <p class="pad">[$person:summary]</p>
+  <p class="pad t">[$person:summary]</p>
 </article>

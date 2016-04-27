@@ -13,7 +13,7 @@ body {
 
 .brown, .markdown h3 { color:#77635c; }
 .white-bg, body, .gallery img, button, .button { background-color:#fff }
-.gray {color:#BEBEBE}
+.gray {color: #979797;}
 .gray-bg {background-color: rgba(0,0,0,0.1);color: #706F73;}
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
 .brown-bg a { color:#AAA }
@@ -28,7 +28,7 @@ p a {text-decoration:underline}
 .plain    {list-style:none;padding:0;}
 .plain li {font-size:100%;}
 
-.t, hr, .hr, .markdown h2 {margin-top: calc(2.5vmax - 1vmin);}
+.t, hr, .hr, .markdown h2 {margin-top: calc(3.5vmax - 1vmin);}
 .tt {margin-top: calc(1em + 4.0vmax - 1vmin);}
 .b   {margin-bottom: calc(2.5vmax - 1vmin);}
 .bb, hr, .hr {margin-bottom: calc(1em + 4.0vmax - 1vmin);}
@@ -93,7 +93,7 @@ hr, .hr, .ruled {
 
 a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 .bio.head {width:15%; display:inline-block;}
-.bio figcaption {line-height: 1.125}
+.bio figcaption {line-height: 1.125;}
 .bio > span {
   background-size:cover;
   background-position:top center;
@@ -116,7 +116,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 
 .path li a {padding: 0.5em 0.75em 0.25em;background-image: linear-gradient(0deg, rgba(0,0,0,0), rgba(0, 0, 0, 0.01));border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;transition:border-color 0.25s}
 .lead {font-size: calc(2em + 2vw);line-height:1;}
-
+.spot {padding:2vmax;margin:0 0 2vmax;}
 .controls, .path, .triptych > * {display:flex;}
 .controls {
   padding: 2.5%;
@@ -245,8 +245,10 @@ body[data-view='browse'] #media {
   height: 15vh;
   box-shadow: 0 -0.125em 0.125em rgba(0,0,0,0.1);
 }
-.pulled {margin:0 -2vw;padding:2.5vw;}
-ul.dash li {margin: 0.75em 0;padding-left:2.5em;text-indent:-2.5em;}
+.pulled, .pulled-left, .pulled-right {padding:2.5vw;}
+.pulled-left, .pulled {margin-left:-2vw}
+.pulled-right, .pulled {margin-right:-2vw}
+ul.dash li {margin: em 0;padding-left:2.5em;text-indent:-2.5em;}
 ul.dash li:before {
   content: '---';
 
@@ -306,7 +308,7 @@ div[data-award] {
 @media screen and (min-width: 50em) {
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;}
-  .bio.read {width:10vmin;padding:1vmin 0;margin-right:1vmin;}
+  .bio.read {width:10vmin;/* padding:1vmin 0; */margin-right:1vmin;}
   .listing:not(:first-of-type), .search li:not(:first-of-type) { border-top:1px solid #EEE;}
   button, .button {border:1px solid rgba(0,0,0,0.25);}
   .columns {column-gap:1em;}
