@@ -391,3 +391,14 @@ div[data-award] {
 .search li.article { border-left-color:rgba(212, 217, 154, 0.46) }
 
 input, textarea, fieldset { width:100%; padding:0;border: 1px solid #ccc; }
+
+
+.driehaus.banner {
+  background: #EE3124 url(/images/driehaus.svg) no-repeat right bottom;
+  color:#fff;
+  background-size:auto 100%;
+}
+.shortdocs.banner {
+  background-color: #333;
+  color:#fff;
+}
