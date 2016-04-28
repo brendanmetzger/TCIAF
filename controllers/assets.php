@@ -21,7 +21,8 @@ class Assets extends Manage
   public function GETscale($max, $image)
   {
     // File and new size
-    $filename  = PATH . 'data/media/' . $image . '.jpg';
+    $type = \bloc\request::$data['content-type'];
+    $filename  = PATH . 'data/media/' . $image . '.' . $type;
 
     // Get new sizes
     list($width, $height) = getimagesize($filename);
@@ -51,6 +52,7 @@ class Assets extends Manage
     imagedestroy($thumb);
     imagedestroy($source);
 
+    // \bloc\Application::instance()->getExchange('response')->addHeader("Content-Type: image/{$type}");
     return $output;
   }
 

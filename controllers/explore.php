@@ -8,7 +8,7 @@ use \bloc\types\dictionary;
 use \models\graph;
 
 /**
- * Explore Represents the user's interest.
+ * Explore
  */
 
 class Explore extends Manage
@@ -62,16 +62,12 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
-
     $this->item   = $i = Graph::FACTORY(Graph::ID($id));
     $this->title  = strip_tags($this->item['title']);
-
     $view = new view('views/layout.html');
-
     $view->content = "views/digests/{$i->template('digest')}.html";
     return $view->render($this());
   }
-
 
   public function GETbehindTheScenes($sort = 'date', $index = 1, $per = 25)
   {
@@ -89,9 +85,6 @@ class Explore extends Manage
 
     return $view->render($this());
   }
-
-
-
 
   public function GETmedia($type = 'image', $index = 1, $per = 25)
   {
@@ -115,11 +108,4 @@ class Explore extends Manage
 
     return $view->render($this($media->slug));
   }
-
-  public function GETdesign()
-  {
-    $view = new view('views/switch.html');
-    return $view->render($this());
-  }
-
 }

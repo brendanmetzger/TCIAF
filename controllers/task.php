@@ -44,7 +44,6 @@ class Task extends \bloc\controller
 
     echo "Available Methods in {$instance_class_name}\n";
 
-
     print_r($methods);
 
   }
@@ -69,8 +68,6 @@ class Task extends \bloc\controller
 
       $this->CLIcompress($file);
     }
-
-
   }
 
   public function CLIvalid()
@@ -84,14 +81,12 @@ class Task extends \bloc\controller
         print_r($error);
       }
     }
-
   }
 
   public function CLIcompress($file)
   {
     $text = file_get_contents(PATH . $file);
     $compressed = gzencode($text, 3);
-
     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
   }
 
@@ -100,7 +95,6 @@ class Task extends \bloc\controller
     if (unlink("/tmp/curlCookies.txt")) {
       echo "\nGoodbye!\n";
     }
-
   }
 
   public function CLILoginBak($xml)

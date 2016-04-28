@@ -22,7 +22,6 @@ class Manage extends \bloc\controller
   {
     View::addRenderer('before', Render::PARTIAL());
     View::addRenderer('after',  Render::HTML());
-
 		$this->year        = date('Y');
     $this->title       = "Third Coast International Audio Festival";
     $this->_redirect   = $request->redirect;
@@ -108,7 +107,8 @@ class Manage extends \bloc\controller
   public function POSTLogin($request, $key)
   {
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
-    $key = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
+    $key  = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
+    $type = 'expired';
     $username = $request->post(String::rotate('username', $token));
     $password = $request->post(String::rotate('password', $token));
     $redirect = $request->post(String::rotate('redirect', $token));
@@ -116,20 +116,14 @@ class Manage extends \bloc\controller
     if ($key) {
       try {
         $id = 'p-' . preg_replace('/\W/', '', $username);
-
         $user = (new \models\person($id))->authenticate($password);
-
         Application::instance()->session('TCIAF', ['id' => $id, 'user' =>  $user->getAttribute('title')]);
-
         \bloc\router::redirect($redirect ?: '/');
       } catch (\InvalidArgumentException $e) {
         $type = 'invalid';
       }
-    } else {
-      $type = 'expired';
     }
     $retry = sprintf('/manage/login/%s/%s/%s', base64_encode($redirect), $type, base64_encode($username));
-
     \bloc\router::redirect($retry);
   }
 
@@ -197,7 +191,6 @@ class Manage extends \bloc\controller
     }
 
     $this->archive = Graph::group('archive')->find('vertex');
-
     $view->content = 'views/lists/archive.html';
     return $view->render($this());
   }
@@ -227,68 +220,56 @@ class Manage extends \bloc\controller
 
         \bloc\router::redirect("/manage/edit/{$instance['@id']}");
       } else {
-        // echo $instance->context->write(true);
         return $this->GETedit($instance);
-
       }
     }
   }
 
   protected function POSTupload(Admin $user, $request)
   {
-    $name   = base_convert($_FILES['upload']['size'], 10, 36) . '_' . strtolower(preg_replace(['/\.[a-z34]{3,4}$/i', '/[^a-zA-Z0-9\-\:\/\_]/'], ['', ''], $_FILES['upload']['name']));
-
-    $mime   = $_FILES['upload']['type'];
+    $upload = $_FILES['upload'];
+    $size   = base_convert($upload['size'], 10, 36);
+    $base   = preg_replace(['/\.[a-z34]{3,4}$/i', '/[^A-z0-9\-:\/_]/'], '', $upload['name']);
+    $mime   = explode('/', $upload['type']);
+    $type   = $mime[0];
+    $name   = strtolower("{$size}_{$base}.{$mime[1]}");
     $bucket = 'tciaf-media';
+    $source = PATH . "data/media/{$name}";
 
-    $slash = strpos($mime, '/');
-    $type = substr($mime, 0, $slash);
-    $name = $name . '.' . substr($mime, $slash + 1);
-    $src    = 'data/media/' . $name;
 
-    if (move_uploaded_file($_FILES['upload']['tmp_name'], PATH . $src)) {
-
+    if (move_uploaded_file($upload['tmp_name'], $source)) {
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
-
       try {
-        $config = [
+        $filename = "{$type}/{$name}";
+        $config   = [
           'Bucket' => $bucket,
-          'Key'    => $type . '/' . $name,
+          'Key'    => $filename,
           'ACL'    => 'public-read',
         ];
-        if ($type === 'image') {
-          if (substr($name, -3) === 'jpg') {
-            $config['Body'] =  file_get_contents("http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}");
-          } else {
-            $config['Body'] =  file_get_contents(PATH . $src);
-          }
 
+        if ($type === 'image') {
+          $path = preg_match('/\.jpe?g$/i', $name) ? "http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}" : $source;
+          $config['Body'] =  file_get_contents($path);
         } else {
-          $config['SourceFile'] = PATH . $src;
+          $config['SourceFile'] = $source;
         }
 
         $result = $client->putObject($config);
 
         if ($type == 'audio' && $result) {
           $transcoder = \Aws\ElasticTranscoder\ElasticTranscoderClient::factory(['profile' => 'TCIAF', 'region' => 'us-east-1']);
-
           $key = preg_replace('/\.?mp3/i', '', $name) . '.m4a';
           $job = $transcoder->createJob([
             'PipelineId' => '1439307152758-prv5fa',
-            'Input' => [
-              'Key' => $type . '/' . $name,
-            ],
-            'Output' => [
-              'Key'      => $key,
-              'PresetId' => '1439308682558-sehqe8',
-            ]
+            'Input'  => ['Key' => $filename],
+            'Output' => ['Key' => $key, 'PresetId' => '1439308682558-sehqe8']
           ]);
 
           $pending = "?/tciaf-audio/{$key}";
           $mark = 0;
         } else {
-          $size = getimagesize(PATH . $src);
-          $mark = round($size[0] / $size[1], 1);
+          $dims = getimagesize($source);
+          $mark = round($dims[0] / $dims[1], 1);
           $pending = "";
         }
 
@@ -305,13 +286,9 @@ class Manage extends \bloc\controller
 
         return $view->render($this($model->slug));
       } catch (\Exception $e) {
-
         return $this->GETerror("The file was unable to be uploaded to amazon.\n\n{$e->getMessage()}", 500);
         exit();
       }
-
-
-
     } else {
       return $this->GETerror("The Server has refused this file", 400);
     }
@@ -320,12 +297,8 @@ class Manage extends \bloc\controller
   public function POSTcorrelate($request)
   {
     $this->item = Graph::FACTORY(Graph::ID($_POST['vertex']['@']['id']), $_POST);
-
-
     $view = new view('views/layout.html');
     $view->content = 'views/lists/recommendation.html';
-
     return $view->render($this());
   }
-
 }
