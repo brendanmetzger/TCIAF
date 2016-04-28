@@ -39,14 +39,14 @@ p a {text-decoration:underline}
 .pad   {padding: 1vmax;}
 .pad-h { padding: 0 1.5vmin }
 .pad-v {padding: 1.5vmax 0;}
-.m, p, label { margin: 0.5em 0 1em }
+.m, p { margin: 0.5em 0 1em }
 
 .markdown h3 {margin: 2vmax 0;font-weight: 600;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
 .caps-lock, .markdown h3, article nav > ul.plain li > a {text-transform:uppercase;}
 .fade {opacity:0;}
-.inline:not(ul), .inline li, .inline dd, ul.divide li  {display:inline-block;}
+.inline:not(ul), .inline li, .inline dd, ul.divide li, label  {display:inline-block;}
 .rag-right {text-align:left;}
 .rag-left {text-align:right;}
 .center, .gallery {text-align:center;}
