@@ -48,27 +48,6 @@ class Task extends \bloc\controller
 
   }
 
-  public function CLIedgeproducer()
-  {
-    $doc  = new \bloc\DOM\Document('data/db5');
-    $xml  = new \DomXpath($doc);
-
-    $edges = $xml->query('//group[@type="feature"]/token/edge');
-
-    foreach ($edges as $edge) {
-      $token = $doc->getElementById($edge->getAttribute('token'));
-      $edge->setAttribute('token', $edge->parentNode->getAttribute('id'));
-      $token->appendChild($edge);
-    }
-
-    if ($doc->validate()) {
-      $file = 'data/db6.xml';
-      echo "New File: {$file}\n";
-      $doc->save(PATH . $file);
-
-      $this->CLIcompress($file);
-    }
-  }
 
   public function CLIvalid()
   {
@@ -170,8 +149,6 @@ class Task extends \bloc\controller
   protected function CLIpassword($username = false)
   {
     if (!$username) return "Provide a username as the first argument";
-
-
     echo "\nPlease Enter new password for '{$username}': ";
     $password = trim(fgets(STDIN));
 
@@ -201,11 +178,81 @@ class Task extends \bloc\controller
         'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
     ]);
     print($result);
-    // foreach ($result['Buckets'] as $bucket) {
-    //   print_r($bucket);
-    //     // Each Bucket value will contain a Name and CreationDate
-    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
-    // }
+  }
+
+  public function CLIbuildSortKey()
+  {
+
+    $doc  = new \bloc\DOM\Document('data/tciaf');
+    $xml  = new \DomXpath($doc);
+
+    $vertices = $xml->query('//group/vertex');
+    print_r($vertices);
+    $count = 0;
+    foreach ($vertices as $vertex) {
+      $id = $vertex['@id'];
+      if (preg_match('/^[a-z]{1,2}\-/i', $id)) {
+        $slug = self::sluggify($vertex);
+
+        echo "{$id} into {$slug}, change {$edges->length} edges\n";
+        $vertex->setAttribute('id', $slug);
+
+        $edges = $xml->query("//group/vertex/edge[@vertex='{$id}']");
+        foreach ($edges as $edge) {
+          $edge->setAttribute('vertex', $slug);
+        }
+
+        if ($count++ % 50 === 0) {
+          if ($doc->validate()) {
+            $file = 'data/tciaf.xml';
+            echo "___SAVED___: {$file}\n";
+            $doc->save(PATH . $file);
+            $this->CLIbuildSortKey();
+            // $this->CLIcompress($file);
+          } else {
+            print_r($doc->errors());
+          }
+        }
+
+      } else {
+        echo "no slug for {$id}\n";
+      }
+
+
+    }
+
+
+    if ($doc->validate()) {
+      $file = 'data/tciaf.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+
+      // $this->CLIcompress($file);
+    } else {
+      print_r($doc->errors());
+    }
+
+
+
+  }
+
+  static public function sluggify(\DOMElement $vertex)
+  {
+    $find = [
+      '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
+      '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
+      '/^the\s/i',
+      '/^\W+|\W+$/',
+      '/[^a-z\d]+/i',
+      '/^([^a-z])/i',
+      '/\-([ntscw]\-)/'
+    ];
+
+    $slug = preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $vertex['@title']);
+    while (\models\Graph::ID($sort)) {
+      $slug .=  date('-m-d-y', strtotime($vertex['@created']));
+    }
+    return strtolower($slug);
   }
 
   static public function pearson($id = null)

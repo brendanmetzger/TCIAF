@@ -62,10 +62,15 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
+
     $this->item   = $i = Graph::FACTORY(Graph::ID($id));
+
+
     $this->title  = strip_tags($this->item['title']);
     $view = new view('views/layout.html');
+
     $view->content = "views/digests/{$i->template('digest')}.html";
+
     return $view->render($this());
   }
 
