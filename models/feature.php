@@ -2,6 +2,10 @@
 
 namespace models;
 
+function timecode($time) {
+  return $time < 60 ?   sprintf('%02d', round($time)) : timecode($time / 60) .':'. sprintf('%02d', $time % 60);
+}
+
 /**
   * Feature
   *
@@ -96,7 +100,7 @@ namespace models;
 
     public function getDuration(\DOMElement $context)
     {
-      return $this->media['size']['audio'] > 0 ? round($this->media['audio'][0]->mark / 60) : 0;
+      return $this->media['size']['audio'] > 0 ? timecode($this->media['audio'][0]->mark) : 0;
     }
 
     public function getImage(\DOMElement $context)

@@ -35,7 +35,7 @@
                   <div class="controls">
                     <!-- iterate item:media:audio -->
                     <!--  insert views/partials/play-button.html-->
-                    <span class="h4" style="margin-left:1em;">[$item:premier:@date / $item:duration min]</span>
+                    <span class="h4" style="margin-left:1em;">[$item:premier:@date / $item:duration]</span>
                   </div>
                     <h3 class="display strong tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
                     <p>[$item:summary]</p>
@@ -48,10 +48,10 @@
             </ul>
           </article>
           <hr />
-          <article class="pad-v">
+          <article class="pad">
             <!-- iterate collection:articles -->
-            <section>
-              <h4 class="brown caps-lock b" data-id="[$article:@id]">[$article:title]</h4>
+            <section class="listing">
+              <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
               <div class="markdown">[$article:content:description]</div>
             </section>
           </article>

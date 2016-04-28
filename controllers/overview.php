@@ -4,6 +4,17 @@ namespace controllers;
 use \bloc\view;
 use \models\graph;
 
+function alphabet($alpha, $category)
+{
+  return (new \bloc\types\Dictionary(range('A', 'Z')))->map(function($letter) use($alpha, $category) {
+    $map = ['letter' => $letter, 'category' => $category];
+    if ($alpha == $letter) {
+      $map['selected'] = 'selected';
+    }
+    return $map;
+  });
+
+}
 
 /**
  * Overview covers 'pages' that have a categorical agenda.
@@ -18,7 +29,7 @@ use \models\graph;
       return $view->render($this());
     }
 
-    public function GETLibrary($filter = "all", $sort = 'newest', $index = 1, $per = 25)
+    public function GETLibrary($filter = "all", $sort = 'newest', $group = null, $index = 1, $per = 25)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/feature.html";
@@ -26,38 +37,66 @@ use \models\graph;
 
       $this->filter = $filter;
       $this->sort   = $sort;
+      $this->group  = $group;
       $this->title  = 'Library';
       $this->{$sort}   = "selected";
       $this->{$filter} = "selected";
-      $query = 'vertex';
+
+      $query = "edge";
 
       if ($filter == 'shows') {
         $view->blurb = "views/pages/{$filter}.html";
-        $query .= '[edge[@vertex="TCIAF"]]';
+        $query = 'edge[@vertex="TCIAF"]';
         $this->title  = "Shows";
       } else if ($filter == 'conference-audio') {
-        $query .= '[edge[@type="presenter"]]';
+        $query = 'edge[@type="presenter"]';
         $this->title  = "Conference Audio";
       } else if ($filter == 'shortdocs') {
-        $query .= '[edge[@type="participant"]]';
+        $query = 'edge[@type="participant"]';
         $this->title  = "ShortDocs";
       } else if ($filter == 'awards') {
-        $query .= '[edge[@type="award"]]';
+        $query = 'edge[@type="award"]';
         $this->title  = "TCF Award Recipients";
-      } else if (substr($filter,0,6) == 'length') {
-        $lim = explode('-', substr($filter, 7));
-        $l = $lim[0] * 60;
-        $u = $lim[1] * 60;
-        $query .= "[media[@type='audio' and @mark>'{$l}' and @mark<'{$u}']]";
       }
 
+      if ($sort == 'alpha-numeric') {
+        // show the picker
+        $alpha = substr($group, 6, 1);
+        $query .= " and starts-with(@title, '{$alpha}')";
+        $this->alphabet = alphabet($alpha, $filter);
+        $view->picker = "views/partials/alpha-numeric.html";
+      }
+
+      if ($sort == 'duration') {
+
+        $lim = explode('-', substr($group ?: 'length:0-100', 7));
+
+        $l = $lim[0] * 60;
+        $u = $lim[1] * 60;
+        $len = 'length'.$lim[0].$lim[1];
+
+        $this->{$len} = "selected";
+        $query .= " and media[@type='audio' and @mark>'{$l}' and @mark<'{$u}']";
+        $view->picker = "views/partials/duration.html";
+      }
+
+      if ($sort == 'date') {
+        // show the picker
+        $year = $group ?: 2016;
+        $query .= " and premier[starts-with(@date, '{$year}')]";
+        // $this->alphabet = alphabet($alpha, $filter);
+        $view->picker = "views/partials/date.html";
+      }
+
+
+
       $this->features = Graph::group('feature')
-           ->find($query)
+           ->find("vertex[{$query}]")
            ->sort(Graph::sort($sort))
            ->map(function($vertex) {
              return ['item' => Graph::FACTORY($vertex)];
            })
-           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/library/{$filter}/{$sort}"]));
+           ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "overview/library/{$filter}/{$sort}/{$group}"]));
 
       return $view->render($this());
     }
@@ -81,13 +120,8 @@ use \models\graph;
         $alpha = substr($filter, 6, 1);
         $query .= "and starts-with(@title, '{$alpha}')";
       }
-      $this->alphabet = (new \bloc\types\Dictionary(range('A', 'Z')))->map(function($letter) use($alpha, $category) {
-        $map = ['letter' => $letter, 'category' => $category];
-        if ($alpha == $letter) {
-          $map['selected'] = 'selected';
-        }
-        return $map;
-      });
+
+      $this->alphabet = alphabet($alpha, $category);
 
       $this->{$category} = "selected";
       $this->{$filter} = 'selected';
