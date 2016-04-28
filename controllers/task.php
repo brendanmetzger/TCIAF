@@ -192,26 +192,33 @@ class Task extends \bloc\controller
     foreach ($vertices as $vertex) {
       $id = $vertex['@id'];
       if (preg_match('/^[a-z]{1,2}\-/i', $id)) {
+        $edges = $xml->query("//group/vertex/edge[@vertex='{$id}']");
         $slug = self::sluggify($vertex);
-
-        echo "{$id} into {$slug}, change {$edges->length} edges\n";
         $vertex->setAttribute('id', $slug);
 
-        $edges = $xml->query("//group/vertex/edge[@vertex='{$id}']");
-        foreach ($edges as $edge) {
-          $edge->setAttribute('vertex', $slug);
+        echo "{$id} into {$slug}, change {$edges->length} edges\n";
+
+        if (! $doc->validate()) {
+          print_r($doc->errors());
+          $vertex->setAttribute('title', 'REVIEW ' . $vertex['@title']);
+          echo $vertex->write();
+          echo "\n\n confirm (Y/n)\n\n";
+          if ('Y' !== trim(fgets(STDIN))) {
+            break;
+          }
+          $slug = self::sluggify($vertex);
+          $vertex->setAttribute('id', $slug);
+        } else {
+          foreach ($edges as $edge) {
+            $edge->setAttribute('vertex', $slug);
+          }
         }
 
-        if ($count++ % 2 === 0) {
-          if ($doc->validate()) {
-            $file = 'data/tciaf.xml';
-            echo "___SAVED___: {$file}\n";
-            $doc->save(PATH . $file);
-            $this->CLIbuildSortKey();
-            // $this->CLIcompress($file);
-          } else {
-            print_r($doc->errors());
-          }
+        if ($count++ % 50 == 0) {
+          $file = 'data/tciaf.xml';
+          echo "___SAVED___: {$file}\n";
+          $doc->save(PATH . $file);
+          $this->CLIbuildSortKey();
         }
 
       } else {
