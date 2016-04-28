@@ -3,23 +3,26 @@
     <h3 class="brown caps-lock strong b">Listen</h3>
     <h1 class="lead display strong tracked tt b">Our Library Speaks Volumes</h1>
     <!-- replace blurb -->
-    <nav class="pad-v">
-      <ul class="plain path">
-        <li><a class="[$all]" href="[/overview/library/all/$sort/$group]">All</a></li>
-        <li><a class="[$stories]" href="[/overview/library/stories/$sort/$group]" onclick="alert('this page is not configured');return false;">Stories</a></li>
-        <li><a class="[$shows]" href="[/overview/library/shows/$sort/$group]">Re:Sound</a></li>
-        <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort/$group]">Conf. Sessions</a></li>
-        <li><a class="[$shortdocs]" href="[/overview/library/shortdocs/$sort/$group]">Short Docs</a></li>
-        <li><a class="[$awards]" href="[/overview/library/awards/$sort/$group]">Winners</a></li>
-      </ul>
-      <ul class="plain path">
-        <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Created</a></li>
-        <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric/alpha:A]">Alphabet</a></li>
-        <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
-        <li><a class="[$duration]" href="[/overview/library/$filter/duration/length:0-100]">Duration</a></li>
-      </ul>
-      <!-- replace picker  -->
-    </nav>
+    <div class="pad-v panel" style="align-items:stretch;">
+      <span class="caps-lock" style="border-right:1px solid #eee;padding:2em;text-align:center;"><span class="h1 brown">[$paginate:total]</span><br/>results</span>
+      <nav>
+        <ul class="plain path">
+          <li><a class="[$all]" href="[/overview/library/all/$sort/$group]">All</a></li>
+          <li><a class="[$stories]" href="[/overview/library/stories/$sort/$group]" onclick="alert('this page is not configured');return false;">Stories</a></li>
+          <li><a class="[$shows]" href="[/overview/library/shows/$sort/$group]">Re:Sound</a></li>
+          <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort/$group]">Conf. Sessions</a></li>
+          <li><a class="[$shortdocs]" href="[/overview/library/shortdocs/$sort/$group]">Short Docs</a></li>
+          <li><a class="[$awards]" href="[/overview/library/awards/$sort/$group]">Winners</a></li>
+        </ul>
+        <ul class="plain path">
+          <li><a class="[$newest]" href="[/overview/library/$filter/newest]">Newest</a></li>
+          <li><a class="[$alphanumeric]" href="[/overview/library/$filter/alpha-numeric/alpha:A]">Alphabet</a></li>
+          <li><a class="[$date]" href="[/overview/library/$filter/date]">Year Produced</a></li>
+          <li><a class="[$duration]" href="[/overview/library/$filter/duration/length:0-100]">Duration</a></li>
+        </ul>
+        <!-- replace picker  -->
+      </nav>
+    </div>
   </header>
   <hr class="ruled"/>
   <!-- iterate features -->

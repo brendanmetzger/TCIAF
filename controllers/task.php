@@ -44,34 +44,10 @@ class Task extends \bloc\controller
 
     echo "Available Methods in {$instance_class_name}\n";
 
-
     print_r($methods);
 
   }
 
-  public function CLIedgeproducer()
-  {
-    $doc  = new \bloc\DOM\Document('data/db5');
-    $xml  = new \DomXpath($doc);
-
-    $edges = $xml->query('//group[@type="feature"]/token/edge');
-
-    foreach ($edges as $edge) {
-      $token = $doc->getElementById($edge->getAttribute('token'));
-      $edge->setAttribute('token', $edge->parentNode->getAttribute('id'));
-      $token->appendChild($edge);
-    }
-
-    if ($doc->validate()) {
-      $file = 'data/db6.xml';
-      echo "New File: {$file}\n";
-      $doc->save(PATH . $file);
-
-      $this->CLIcompress($file);
-    }
-
-
-  }
 
   public function CLIvalid()
   {
@@ -84,14 +60,12 @@ class Task extends \bloc\controller
         print_r($error);
       }
     }
-
   }
 
   public function CLIcompress($file)
   {
     $text = file_get_contents(PATH . $file);
     $compressed = gzencode($text, 3);
-
     file_put_contents(PATH . substr($file, 0, -4), $compressed, LOCK_EX);
   }
 
@@ -100,7 +74,6 @@ class Task extends \bloc\controller
     if (unlink("/tmp/curlCookies.txt")) {
       echo "\nGoodbye!\n";
     }
-
   }
 
   public function CLILoginBak($xml)
@@ -176,8 +149,6 @@ class Task extends \bloc\controller
   protected function CLIpassword($username = false)
   {
     if (!$username) return "Provide a username as the first argument";
-
-
     echo "\nPlease Enter new password for '{$username}': ";
     $password = trim(fgets(STDIN));
 
@@ -207,11 +178,81 @@ class Task extends \bloc\controller
         'Marker' => 'mp3s/1000/We_Believe_We_Are_Invincible.mp3',
     ]);
     print($result);
-    // foreach ($result['Buckets'] as $bucket) {
-    //   print_r($bucket);
-    //     // Each Bucket value will contain a Name and CreationDate
-    //     echo "{$bucket['Name']} - {$bucket['CreationDate']}\n";
-    // }
+  }
+
+  public function CLIbuildSortKey()
+  {
+
+    $doc  = new \bloc\DOM\Document('data/tciaf');
+    $xml  = new \DomXpath($doc);
+
+    $vertices = $xml->query('//group/vertex[starts-with(@id, "f-")]');
+    print_r($vertices);
+    $count = 1;
+    foreach ($vertices as $vertex) {
+      $id = $vertex['@id'];
+      if (preg_match('/^[a-z]{1,2}\-/i', $id)) {
+        $slug = self::sluggify($vertex);
+
+        echo "{$id} into {$slug}, change {$edges->length} edges\n";
+        $vertex->setAttribute('id', $slug);
+
+        $edges = $xml->query("//group/vertex/edge[@vertex='{$id}']");
+        foreach ($edges as $edge) {
+          $edge->setAttribute('vertex', $slug);
+        }
+
+        if ($count++ % 2 === 0) {
+          if ($doc->validate()) {
+            $file = 'data/tciaf.xml';
+            echo "___SAVED___: {$file}\n";
+            $doc->save(PATH . $file);
+            $this->CLIbuildSortKey();
+            // $this->CLIcompress($file);
+          } else {
+            print_r($doc->errors());
+          }
+        }
+
+      } else {
+        echo "no slug for {$id}\n";
+      }
+
+
+    }
+
+
+    if ($doc->validate()) {
+      $file = 'data/tciaf.xml';
+      echo "New File: {$file}\n";
+      $doc->save(PATH . $file);
+
+      // $this->CLIcompress($file);
+    } else {
+      print_r($doc->errors());
+    }
+
+
+
+  }
+
+  static public function sluggify(\DOMElement $vertex)
+  {
+    $find = [
+      '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
+      '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
+      '/^the\s/i',
+      '/^\W+|\W+$/',
+      '/[^a-z\d]+/i',
+      '/^([^a-z])/i',
+      '/\-([ntscw]\-)/'
+    ];
+
+    $slug = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $vertex['@title']));
+    while (\models\Graph::ID($slug)) {
+      $slug .=  date('-m-d-y', strtotime($vertex['@created']));
+    }
+    return $slug;
   }
 
   static public function pearson($id = null)

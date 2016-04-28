@@ -34,7 +34,6 @@ class Search extends Manage
   {
     $list   = Graph::group($type)->find('vertex');
     $search = new \models\search($list);
-
     return $search->asJSON('group', $subset, $type);
   }
 

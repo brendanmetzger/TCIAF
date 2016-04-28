@@ -1,6 +1,6 @@
-<nav data-pages="[$paginate:total]" class="h3 pad-v">
+<nav data-pages="[$paginate:pages]" class="h3 pad-v">
   <a href="[/$paginate:prefix/$paginate:previous]" title="previous page">◀</a>
-  <em class="pad-h">[$paginate:index of $paginate:total]</em>
+  <em class="pad-h">[$paginate:index of $paginate:pages]</em>
   <a href="[/$paginate:prefix/$paginate:next]" title="next page">▶</a>
   <!-- <input type="range" min="1" max="[$paginate:total]" value="[$paginate:index]" step="1" onchange="[navigateToPage.call({href: '/$paginate:prefix/'+this.value}, event);]" oninput="this.parentNode.querySelector('em').innerHTML = 'Go to page ' + this.value"/> -->
 </nav>

@@ -64,7 +64,10 @@ function Markdown(container, options) {
     });
     t.addEventListener('drop', function (evt) {
       evt.preventDefault();
-      this.value += evt.dataTransfer.getData('markdown');
+      var embed = "\n" + evt.dataTransfer.getData('markdown');
+      this.value += embed;
+      var size = this.value.length;
+      this.setSelectionRange(size-embed.length + 1, size);
     });
   }, this);
 
