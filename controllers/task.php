@@ -186,9 +186,9 @@ class Task extends \bloc\controller
     $doc  = new \bloc\DOM\Document('data/tciaf');
     $xml  = new \DomXpath($doc);
 
-    $vertices = $xml->query('//group/vertex');
+    $vertices = $xml->query('//group/vertex[starts-with(@id, "f-")]');
     print_r($vertices);
-    $count = 0;
+    $count = 1;
     foreach ($vertices as $vertex) {
       $id = $vertex['@id'];
       if (preg_match('/^[a-z]{1,2}\-/i', $id)) {
@@ -202,7 +202,7 @@ class Task extends \bloc\controller
           $edge->setAttribute('vertex', $slug);
         }
 
-        if ($count++ % 50 === 0) {
+        if ($count++ % 2 === 0) {
           if ($doc->validate()) {
             $file = 'data/tciaf.xml';
             echo "___SAVED___: {$file}\n";
@@ -248,11 +248,11 @@ class Task extends \bloc\controller
       '/\-([ntscw]\-)/'
     ];
 
-    $slug = preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $vertex['@title']);
-    while (\models\Graph::ID($sort)) {
+    $slug = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $vertex['@title']));
+    while (\models\Graph::ID($slug)) {
       $slug .=  date('-m-d-y', strtotime($vertex['@created']));
     }
-    return strtolower($slug);
+    return $slug;
   }
 
   static public function pearson($id = null)
