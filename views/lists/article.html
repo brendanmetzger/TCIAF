@@ -1,24 +1,28 @@
 <article>
 	<header>
 		<h3 class="brown strong caps-lock">Behind-the-scenes Interviews</h3>
-		<h1 class="display lead strong tracked tt bb">Go Behind the Scenes</h1>
+		<h1 class="display lead strong tracked tt">Go Behind the Scenes</h1>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut massa ex. Donec ullamcorper ex molestie semper finibus. Pellentesque vel quam vel arcu lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut massa ex. Donec ullamcorper ex molestie semper finibus.</p>
-		<nav>
-			<ul class="plain path">
-				<li><a class="[$newest]" href="/explore/behindthescenes/newest">Created</a></li>
-				<li><a class="[$alphanumeric]" href="/explore/behindthescenes/alpha-numeric">Alphabet</a></li>
-			</ul>
+		<nav class="t">
+			<div class="filter panel">
+				<h6 class="brown strong caps-lock">Sort By</h6>
+				<ul class="plain path">
+					<li><a class="[$newest]" href="/explore/behindthescenes/newest">Newest</a></li>
+					<li><a class="[$alphanumeric]" href="/explore/behindthescenes/alpha-numeric">Alphabet</a></li>
+				</ul>
+			</div>
+			<!-- replace picker  -->
 		</nav>
 	</header>
-	<ul class="plain two-thirds">
+	<hr class="ruled"/>
+	<ul class="plain">
 		<!-- iterate list -->
 		<li data-created="[$item:@created]" data-updated="[$item:@updated]" class="listing">
-			<h5><time datetime="[$item:premier:@date]">[$item:date]</time></h5>
-			<h2 class="display t"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:suffix]</a></h2>
-			<p>[$item:summary]</p>
+			<h5 class="t"><time datetime="[$item:premier:@date]">[$item:date]</time></h5>
+			<h2 class="display"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:suffix]</a></h2>
 		</li>
 	</ul>
-	<footer>
+	<footer class="center">
 		<!-- insert views/partials/navigator.html -->
 	</footer>
 </article>
