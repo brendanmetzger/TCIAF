@@ -117,8 +117,8 @@ function alphabet($alpha, $category)
       }
 
       if ($filter != 'any') {
-        $alpha = substr($filter, 6, 1);
-        $query .= "and starts-with(@title, '{$alpha}')";
+        $alpha = strtolower(substr($filter, 6, 1));
+        $query .= "and starts-with(@id, '{$alpha}')";
       }
 
       $this->alphabet = alphabet($alpha, $category);
