@@ -43,7 +43,7 @@ class Person extends Vertex  implements \bloc\types\authentication
 
   public function authenticate($token)
   {
-    if (! password_verify($token, $this->context->getAttribute('hash'))) {
+    if (! password_verify($token, $this->context['@hash'])) {
       throw new \InvalidArgumentException("Credentials do not match", 1);
     }
     return $this->context;

@@ -33,7 +33,8 @@ function goto(url, evt) {
       form.querySelector('input').focus();
     },
     submit: function (evt) {
-      // var res = evt.target.responseXML;
+      var res = evt.target.responseXML;
+      console.log(res, res.querySelector('main form[id]'));
       this.modal.close();
       var exist = document.querySelector('main');
       new Request({

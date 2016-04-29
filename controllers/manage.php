@@ -115,7 +115,7 @@ class Manage extends \bloc\controller
 
     if ($key) {
       try {
-        $id = 'p-' . preg_replace('/\W/', '', $username);
+        $id = strtolower(preg_replace('/\W/', '-', $username));
         $user = (new \models\person($id))->authenticate($password);
         Application::instance()->session('TCIAF', ['id' => $id, 'user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect ?: '/');
@@ -210,17 +210,18 @@ class Manage extends \bloc\controller
   protected function POSTedit(Admin $user, $request, $model, $id = null)
   {
     if ($instance = Graph::FACTORY( (Graph::ID($id) ?: $model), $_POST)) {
+
+      $instance->slugify();
+
       if ($instance->save()) {
         // clear and rebuild caches w/o slowing down response
         \models\search::CLEAR();
         get_headers('http://'.$_SERVER['HTTP_HOST'].'/search/index');
 
-        // Check about slugs; make ID fields represent actual content instead of random strings.
-        // $instance->slugify();
 
-        \bloc\router::redirect("/manage/edit/{$instance['@id']}");
+        \bloc\router::redirect("/manage/edit/{$instance->context['@id']}");
       } else {
-        return $this->GETedit($instance);
+        return $this->GETedit($user, $instance);
       }
     }
   }

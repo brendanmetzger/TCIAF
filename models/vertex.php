@@ -289,15 +289,33 @@ abstract class Vertex extends \bloc\Model
   {
     // check that title and ID are somewhat similar
     if (levenshtein($this->context['@title'], $this->context['@id']) > 10) {
-      // trim title
-      // create a slug based on title, sans-non-word characters, replaced with hyphens
-      // ensure that title starts with [a-z], else assign an underscore
+
+      $find = [
+        '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
+        '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
+        '/^the\s/i',
+        '/^\W+|\W+$/',
+        '/[^a-z\d]+/i',
+        '/^([^a-z])/i',
+        '/\-([ntscw]\-)/',
+      ];
+      $id = $this->context['@id'];
+      $slug = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
+
+      while (Graph::ID($slug)) {
+        $slug .=  date('-m-d-y', strtotime($this->context['@created']));
+      }
+
       // set new id to slugged title
-      // set all abstracts using old id as path to new id
+      $this->setIdAttribute($this->context, $slug);
+
       // find all edges with a vertex referencing old id and replace new id
-      // save, if document is valid we'll be in fine shape, otherwise, log error
-      // echo "<pre>" . print_r($instance['@title'], true)."</pre>";
-      // echo "<pre>" . print_r($instance['@id'], true)."</pre>";
+      $edges = Graph::instance()->query('/graph/group/vertex/')->find("edge[@vertex='{$id}']");
+
+      foreach ($edges as $edge) {
+        $edge->setAttribute('vertex', $slug);
+      }
+
     }
   }
 }
