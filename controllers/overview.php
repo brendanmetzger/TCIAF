@@ -13,7 +13,17 @@ function alphabet($alpha, $category)
     }
     return $map;
   });
+}
 
+function calendar($start, $year, $category)
+{
+  return (new \bloc\types\Dictionary(range($start, 2000)))->map(function($current) use($year, $category) {
+    $map = ['year' => $current, 'category' => $category];
+    if ($current == $year) {
+      $map['selected'] = 'selected';
+    }
+    return $map;
+  });
 }
 
 /**
@@ -41,7 +51,7 @@ function alphabet($alpha, $category)
       $this->title  = 'Library';
       $this->{$sort}   = "selected";
       $this->{$filter} = "selected";
-
+      $this->{$group}  = "selected";
       $query = "edge";
 
       if ($filter == 'shows') {
@@ -82,9 +92,11 @@ function alphabet($alpha, $category)
 
       if ($sort == 'date') {
         // show the picker
-        $year = $group ?: 2016;
+        $now = (int)date('Y', time());
+        $year = $group ?: $now;
         $query .= " and premier[starts-with(@date, '{$year}')]";
-        // $this->alphabet = alphabet($alpha, $filter);
+        $this->years = calendar($now, $year, $filter);
+
         $view->picker = "views/partials/date.html";
       }
 

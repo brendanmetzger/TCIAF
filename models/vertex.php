@@ -287,25 +287,23 @@ abstract class Vertex extends \bloc\Model
 
   public function slugify()
   {
-    // check that title and ID are somewhat similar
-    if (levenshtein($this->context['@title'], $this->context['@id']) > 10) {
+    $find = [
+      '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
+      '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
+      '/^the\s/i',
+      '/^\W+|\W+$/',
+      '/[^a-z\d]+/i',
+      '/^([^a-z])/i',
+      '/\-([ntscw]\-)/',
+    ];
+    $id = $this->context['@id'];
+    $slug = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
 
-      $find = [
-        '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
-        '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
-        '/^the\s/i',
-        '/^\W+|\W+$/',
-        '/[^a-z\d]+/i',
-        '/^([^a-z])/i',
-        '/\-([ntscw]\-)/',
-      ];
-      $id = $this->context['@id'];
-      $slug = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
-
+    // only interested in this rigamarole if the slug and id are quite different
+    if (levenshtein($slug, $id) > 10) {
       while (Graph::ID($slug)) {
         $slug .=  date('-m-d-y', strtotime($this->context['@created']));
       }
-
       // set new id to slugged title
       $this->setIdAttribute($this->context, $slug);
 
