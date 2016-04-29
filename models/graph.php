@@ -72,7 +72,7 @@ use \bloc\dom\query;
           return strtotime($a->getAttribute('updated')) < strtotime($b->getAttribute('updated'));
         },
         'alpha-numeric' => function($a, $b) {
-          return ucfirst(ltrim($a->getAttribute('title'), "\x00..\x2F")) > ucfirst(ltrim($b->getAttribute('title'), "\x00..\x2F"));
+          return $a->getAttribute('id') > $b->getAttribute('id');
         },
         'date' => function($a, $b) {
           return strtotime($a->getFirst('premier', 0, false)->getAttribute('date')) < strtotime($b->getFirst('premier', 0, false)->getAttribute('date'));

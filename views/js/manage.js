@@ -34,7 +34,7 @@ function goto(url, evt) {
     },
     submit: function (evt) {
       var res = evt.target.responseXML;
-      console.log(res, res.querySelector('main form[id]'));
+      console.log(res, res.getElementById('vertex').value);
       this.modal.close();
       var exist = document.querySelector('main');
       new Request({

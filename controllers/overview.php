@@ -6,7 +6,7 @@ use \models\graph;
 
 function alphabet($alpha, $category)
 {
-  return (new \bloc\types\Dictionary(range('A', 'Z')))->map(function($letter) use($alpha, $category) {
+  return (new \bloc\types\Dictionary(range('a', 'z')))->map(function($letter) use($alpha, $category) {
     $map = ['letter' => $letter, 'category' => $category];
     if ($alpha == $letter) {
       $map['selected'] = 'selected';
@@ -61,8 +61,8 @@ function alphabet($alpha, $category)
 
       if ($sort == 'alpha-numeric') {
         // show the picker
-        $alpha = substr($group, 6, 1);
-        $query .= " and starts-with(@title, '{$alpha}')";
+        $alpha = strtolower(substr($group, 6, 1));
+        $query .= " and starts-with(@id, '{$alpha}')";
         $this->alphabet = alphabet($alpha, $filter);
         $view->picker = "views/partials/alpha-numeric.html";
       }
