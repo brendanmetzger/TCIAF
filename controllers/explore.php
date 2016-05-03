@@ -47,14 +47,9 @@ class Explore extends Manage
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$filter}/{$sort}"]));
     } else {
       // the homepage is a collection.
-      $this->collection = Graph::FACTORY(Graph::ID('homepage'));
-      $this->playlists = Graph::GROUP('collection')
-            ->find("vertex[location[@ref='homepage']]")
-            ->map(function($vertex) {
-              return ['playlist' => new \models\collection($vertex)];
-            });
-
-      $this->search   = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $collections = Graph::GROUP('collection');
+      $this->collection = $c = new \models\collection($collections->find("vertex[@mark='homepage']")->pick(0));
+      $this->search     = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
     }
 
     return $view->render($this());

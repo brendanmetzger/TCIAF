@@ -287,6 +287,7 @@ abstract class Vertex extends \bloc\Model
 
   public function slugify()
   {
+    if ($this->context['@mark'] == 'lock') return;
     $find = [
       '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
       '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
