@@ -113,7 +113,7 @@ button.error { background-color: #ED1C24 }
   background-size: cover;
 }
 
-.progress.spin svg, .progress[data-state='waiting'] svg { animation: spin .75s infinite linear }
+.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 0.85s infinite linear;}
 
 .progress[data-state='playing'] span {
   opacity:1 !important;

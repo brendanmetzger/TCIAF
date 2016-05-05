@@ -37,10 +37,11 @@ Track.prototype = {
   }
 };
 
-var Playlist = function (container, attributes) {
+var Playlist = function (player, attributes) {
   this.tracks  = [];
   this.pointer = null;
-  this.element = container.appendChild(document.createElement('ul')['@'](attributes));
+  this.player = player;
+  this.element = player.container.appendChild(document.createElement('ul')['@'](attributes));
 };
 
 Playlist.prototype = {
@@ -53,9 +54,10 @@ Playlist.prototype = {
       currentTrack.audio.pause();
     }
     this.pointer = index;
+    this.player.meter.update(0);
     setTimeout(function () {
       this.play();
-    }.bind(this.current.audio), 750);
+    }.bind(this.player), 500);
 
     this.current.trigger(evt);
   },
@@ -126,7 +128,7 @@ var Player = function (container, data, message) {
     'type': 'button'
   }));
 
-  this.playlist = new Playlist(this.container, {'class': data.playlist});
+  this.playlist = new Playlist(this, {'class': data.playlist});
   this.button   = new Button(button, 'play');
   this.meter    = new Progress(controls);
 
@@ -155,6 +157,7 @@ Player.prototype = {
   },
   play: function () {
     var current = this.playlist.current;
+    console.log(current.id);
     this.stylesheet.insertRule('.'+current.id+' button {background-position:50% 82.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff}', 0);
     this.container.dataset.position = current.position;
     current.audio.play();
@@ -163,6 +166,7 @@ Player.prototype = {
   pause: function () {
     if (this.stylesheet.rules.length > 0) {
       this.stylesheet.deleteRule(0);
+      console.log(this.stylesheet);
     }
 
     this.button.setState('play');
@@ -228,21 +232,24 @@ function loadButtonAudio(button, evt) {
   };
 
 
-  var selected = button.parentNode.querySelector('audio');
+  var selected = button.parentNode.querySelector('audio:not(.processed)');
   player.playlist.clear(player.playlist.getUnplayed());
 
   document.querySelectorAll('audio').forEach(function (audio) {
+    audio.className = 'processed';
     // select the button that was responsible for playing this track
     var aux_button = audio.parentNode.querySelector('button.listen');
     var track  = player.attach(audio, audio.parentNode.className);
-    if (aux_button != button) {
-      aux_button.onclick = '';
-      aux_button.addEventListener('click', player.playlist.select.bind(player.playlist, track.position));
+
+    if (aux_button && aux_button != button) {
+      aux_button.removeAttribute('onclick');
+      track.trigger = function (evt) {
+        navigateToPage.call({href: this.audio.dataset.ref}, evt);
+      }
+      aux_button.addEventListener('click', track.trigger);
     }
 
-    track.trigger = function (evt) {
-      navigateToPage.call({href: this.audio.dataset.ref}, evt);
-    }
+
     if (selected === audio) {
       // set this to be selected
       player.playlist.pointer = track.position;
