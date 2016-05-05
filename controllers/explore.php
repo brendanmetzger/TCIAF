@@ -47,7 +47,7 @@ class Explore extends Manage
            ->limit($index, $per, $this->setProperty('paginate', ['prefix' => "explore/index/{$group}/{$filter}/{$sort}"]));
     } else {
       // the homepage is a collection.
-      $this->collection = new \models\collection(Graph::GROUP('collection')->pick("vertex[@ref='homepage']"));
+      $this->collection = new \models\collection(Graph::GROUP('collection')->pick("vertex[@sticky='homepage']"));
       $this->search     = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
     }
 

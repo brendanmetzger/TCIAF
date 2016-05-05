@@ -65,7 +65,13 @@ function calendar($start, $year, $category)
 
       $query = $filter == 'all' || $filter == 'stories' ? 'edge' : $query = $queries[$filter];
 
-      $this->blurb = Graph::FACTORY(Graph::ID($filter));
+      try {
+          $this->blurb = Graph::FACTORY(Graph::group('article')->pick("vertex[@sticky='{$filter}']"));
+      } catch (\Exception $e) {
+
+      }
+
+
 
       if ($filter == 'shows') {
         $this->title  = "Shows";
@@ -202,8 +208,8 @@ function calendar($start, $year, $category)
         $this->banner = 'Competitions';
 
         $this->competitions = [
-          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@ref="driehaus"]'))],
-          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@ref="shortdocs"]'))],
+          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@sticky="driehaus"]'))],
+          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@sticky="shortdocs"]'))],
         ];
 
         $page = 'competition/overview';
