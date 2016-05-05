@@ -1,9 +1,10 @@
-<article data-created="[$item:@created]" data-updated="[$item:@updated]" data-award="[$item:award:title]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad card">
+<article data-created="[$item:@created]" data-type="[$item:types]" data-updated="[$item:@updated]" data-award="[$item:award:title]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad card">
   <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">
     <!-- iterate item:media:audio -->
     <!--  insert views/partials/play-button.html-->
   </div>
   <header class="ll pad-h">
+    <h6>[$caption]</h6>
     <h2 class="display strong"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
     <p>[$item:summary]</p>
   </header>

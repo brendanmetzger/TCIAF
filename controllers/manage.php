@@ -61,7 +61,7 @@ class Manage extends \bloc\controller
   {
     $this->message = parent::GETerror($message, $code);
     $view = new \bloc\View('views/layout.html');
-    $view->content = 'views/layouts/error.html';
+    $view->content = 'views/pages/error.html';
     return $view->render($this());
   }
 

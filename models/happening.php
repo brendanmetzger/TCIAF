@@ -11,8 +11,8 @@ namespace models;
     use traits\navigation;
     use traits\banner, traits\sponsor, traits\periodical;
 
-    public $_location = "Ticket Website";
-    public $_premier = "Event Date";
+    public $_location = "Date Range (if applicable)";
+    public $_premier = "Live Date";
 
     static public $fixture = [
       'vertex' => [
@@ -73,6 +73,11 @@ namespace models;
         }
       }
       return 'edition';
+    }
+
+    public function getTeaser(\DOMElement $context)
+    {
+      return $context['location']['@ref'] ?: $this->date;
     }
 
     public function getPermalink(\DOMElement $context)

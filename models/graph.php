@@ -48,8 +48,11 @@ use \bloc\dom\query;
         if ($model === 'archive') {
           $model = $element->getAttribute('mark');
         }
-      } else {
+      } else if (is_string($model)){
         $element = null;
+      } else {
+        throw new \RunTimeException("Not Found", 404);
+
       }
 
       $classname = NS . __NAMESPACE__ . NS . $model;

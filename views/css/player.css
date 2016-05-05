@@ -1,21 +1,21 @@
-.listen:hover {background-size: auto 0%;color: #5B9B98;}
+.listen:hover, .bg .listen:hover {background-size: auto 0%; color: #5B9B98;background-color:rgba(255,255,255,0.75)}
 .listen {
-  background-size: auto 100%;
+  background-size: auto 125%;
   background-image: url(/images/listen.svg);
   background-position: 50% 46.5%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
   letter-spacing: 0.075em;
-  transition: color 0.25s, background-size 0.25s;
+  transition: color 0.25s, background-size 0.25s, background-color 0.25s;
 }
 
-
+.bg .listen {background-color: rgba(255,255,255,0.0);}
 button.listen {
-  box-shadow:none;
+  box-shadow:0 0 5em rgba(255,255,255,0.5);
   border: 3px solid #5B9B98;
   overflow: hidden;
   height: calc(1.5em + 4.5vh);
-  width: calc(1.5em + 4.5vh);
+  width:  calc(1.5em + 4.5vh);
   border-radius: 50%;
 }
 
@@ -28,8 +28,6 @@ button.listen {
 }
 
 li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
-
-
 
 #Player button {border: none;padding: 0;}
 #Player button svg path { stroke: none; }

@@ -42,8 +42,9 @@ namespace models;
 
     public function getFeatures(\DOMElement $context)
     {
-      return $context->find("edge[@type='item']")->map(function($edge) {
-        return ['item' => new Feature($edge['@vertex'])];
+      $markdown = new \vendor\Parsedown;
+      return $context->find("edge[@type='item']")->map(function($edge) use ($markdown){
+        return ['item' => new Feature($edge['@vertex']), 'caption' => strip_tags($markdown->text($edge), '<em><strong>')];
       });
     }
 

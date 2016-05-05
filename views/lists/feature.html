@@ -1,15 +1,15 @@
 <article class="feature">
   <header>
     <h3 class="brown caps-lock strong b">Listen</h3>
-    <h1 class="lead display strong tracked tt b">Our Library Speaks Volumes</h1>
-    <!-- replace blurb -->
+    <h1 class="lead display strong tracked tt b" data-id="[$blurb:@id]">[$blurb:title]</h1>
+    <section>[$blurb:content:description]</section>
     <div class="t">
       <nav>
         <div class="filter panel">
           <h6 class="strong orange">[($paginate:total)]</h6>
           <ul class="plain path">
             <li><a class="[$all]" href="[/overview/library/all/$sort/$group]">All</a></li>
-            <li><a class="[$stories]" href="[/overview/library/stories/$sort/$group]" onclick="alert('this page is not configured');return false;">Stories</a></li>
+            <li><a class="[$stories]" href="[/overview/library/stories/$sort/$group]">Stories</a></li>
             <li><a class="[$shows]" href="[/overview/library/shows/$sort/$group]">Re:sound</a></li>
             <li><a class="[$conferenceaudio]" href="[/overview/library/conference-audio/$sort/$group]">Conf Sessions</a></li>
             <li><a class="[$shortdocs]" href="[/overview/library/shortdocs/$sort/$group]">ShortDocs</a></li>

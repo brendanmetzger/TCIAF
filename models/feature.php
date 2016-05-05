@@ -81,6 +81,18 @@ function timecode($time) {
       return parent::setAbstract($context, $abstract);
     }
 
+    public function getTypes(\DOMElement $context)
+    {
+      $types = [];
+
+      foreach ($context->find("edge[@type]") as $edge) {
+        if ($edge->getAttribute('vertex') === 'TCIAF') return "show";
+        $types[] = $edge->getAttribute('type');
+      }
+
+      return implode(' ', array_unique($types, SORT_STRING));
+    }
+
     public function getAward(\DOMElement $context)
     {
       $award = $context->find("edge[@type='award']");

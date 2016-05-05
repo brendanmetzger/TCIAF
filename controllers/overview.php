@@ -39,7 +39,7 @@ function calendar($start, $year, $category)
       return $view->render($this());
     }
 
-    public function GETLibrary($filter = "all", $sort = 'newest', $group = null, $index = 1, $per = 25)
+    public function GETLibrary($filter = "all", $sort = 'newest', $group = 'any', $index = 1, $per = 25)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/feature.html";
@@ -52,21 +52,44 @@ function calendar($start, $year, $category)
       $this->{$sort}   = "selected";
       $this->{$filter} = "selected";
       $this->{$group}  = "selected";
-      $query = "edge";
+
+
+
+
+      $queries = [
+        'shows' => 'edge[@vertex="TCIAF"]',
+        'conference-audio' => 'edge[@type="session"]',
+        'shortdocs' => 'edge[@type="participant"]',
+        'awards' => 'edge[@type="award"]',
+      ];
+
+      $query = $filter == 'all' || $filter == 'stories' ? 'edge' : $query = $queries[$filter];
+
 
       if ($filter == 'shows') {
-        $view->blurb = "views/pages/{$filter}.html";
-        $query = 'edge[@vertex="TCIAF"]';
+        $this->blurb = Graph::FACTORY(Graph::ID('about-resound'));
         $this->title  = "Shows";
       } else if ($filter == 'conference-audio') {
-        $query = 'edge[@type="presenter"]';
         $this->title  = "Conference Audio";
+        $this->blurb = Graph::FACTORY(Graph::ID('about-conference-sessions'));
       } else if ($filter == 'shortdocs') {
-        $query = 'edge[@type="participant"]';
         $this->title  = "ShortDocs";
+        $this->blurb = Graph::FACTORY(Graph::ID('about-shortdocs'));
       } else if ($filter == 'awards') {
-        $query = 'edge[@type="award"]';
         $this->title  = "TCF Award Recipients";
+        $this->blurb = Graph::FACTORY(Graph::ID('about-winners'));
+      } else if ($filter == "stories") {
+        // combine all queries and negate, whatevers left is a story.
+        $query = implode(' and ', array_map(function($item) {
+          return "not($item)";
+        }, array_values($queries)));
+
+        // \bloc\application::instance()->log($result);
+
+        $this->blurb = Graph::FACTORY(Graph::ID('about-stories'));
+        $this->title = 'Stories';
+      } else {
+        $this->blurb = Graph::FACTORY(Graph::ID('about-the-library'));
       }
 
       if ($sort == 'alpha-numeric') {

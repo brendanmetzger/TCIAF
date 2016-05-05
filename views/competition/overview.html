@@ -14,11 +14,11 @@
   <!-- iterate competitions -->
   <article id="[$item:@id]" class="panel flip">
     <!-- iterate item:upcoming -->
-    <aside class="[one-third upcoming ll $item:type]">
+    <a class="[one-third upcoming ll $item:type]" href="[$item:permalink]">
       <h4 class="caps-lock strong b">Coming Up</h4>
       <h3 class="display strong tracked" data-id="[$item:@id]">[$item:title]</h3>
-      <h4 class="caps-lock t b"><a href="[$item:permalink]">Learn More</a></h4>
-    </aside>
+      <h3>Learn More</h3>
+    </a>
     <div class="two-thirds">
       <header class="pad-v b">
         <h1 class="lead display strong tracked" data-id="[$item:@id]">[$item:title]</h1>
@@ -45,13 +45,13 @@
       flex-grow:1;
       box-shadow:0 0 5em rgba(0,0,0,0.05);
     }
-    aside * {color:#fff;}
-    aside.driehaus {
-      background: #EE3124 url(/images/driehaus.svg) no-repeat -500% 0;
+    a.upcoming * {color:#fff;}
+    a.upcoming.driehaus {
+      background: #EE3124 url(/images/driehaus.svg) no-repeat -100% 0;
       background-size:auto 100%;
     }
 
-    aside.shortdocs {
+    a.upcoming.shortdocs {
       background-color: #333;
 
     }
