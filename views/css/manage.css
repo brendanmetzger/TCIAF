@@ -1,5 +1,7 @@
 .group{display:block;}
-
+a.trash:not([data-locked='no']) {
+  display:none;
+}
 
 *.edit > button[title=edit]:focus {
   outline:none;

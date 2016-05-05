@@ -2,7 +2,7 @@
   <button type="submit">Save Changes</button>
   <span class="[$item:status:type button center]"><em>[$item:status:text]</em></span>
 
-  <a class="trash button" href="[/manage/group/archive/$item:_model/$item:@id]">[Archive "$item:title"]</a>
+  <a class="trash button" data-locked="[$item:locked]" href="[/manage/group/archive/$item:_model/$item:@id]">[Archive "$item:title"]</a>
   <!-- iterate item:status:errors -->
   <h3 class="error">[$message]</h3>
 </div>

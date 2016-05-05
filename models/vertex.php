@@ -106,6 +106,11 @@ abstract class Vertex extends \bloc\Model
     }
   }
 
+  public function getLocked(\DOMElement $context)
+  {
+    return $context['@sticky'] ?: 'no';
+  }
+
   public function getBody(\DOMElement $context)
   {
 		$abstract = $this->getAbstract($context, false);
