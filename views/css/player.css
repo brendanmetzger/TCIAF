@@ -1,8 +1,8 @@
-.listen:hover, .bg .listen:hover {background-size: auto 0%; color: #5B9B98;background-color:rgba(255,255,255,0.75)}
+.listen:hover, .listen:focus, .bg .listen:hover {background-color:rgba(255,255,255,0.75);box-shadow: 0 0 1em rgba(91, 156, 153, 0.25)}
 .listen {
-  background-size: auto 125%;
+  background-size: 175% auto;
   background-image: url(/images/listen.svg);
-  background-position: 50% 46.5%;
+  background-position: 50% 15%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
   letter-spacing: 0.075em;

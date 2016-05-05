@@ -3,7 +3,8 @@
 
 // TODO - scroll playlist.
 
-function Track(audio) {
+function Track(audio, id) {
+  this.id = id;
   this.audio = audio;
   this.playcount = 0;
   this.trigger = function(){};
@@ -103,6 +104,8 @@ Playlist.prototype = {
 var Player = function (container, data, message) {
   this.container = container;
   this.container.id  = 'Player';
+  this.stylesheet = document.head.appendChild(document.createElement('style')).sheet;
+
   this.elements = [];
   this.index    = 0;
 
@@ -147,11 +150,13 @@ Player.prototype = {
   },
   play: function () {
     var current = this.playlist.current;
+    this.stylesheet.insertRule('.'+current.id+' button {background-position:50% 82.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff}', 0);
     this.container.dataset.position = current.position;
     current.audio.play();
     window.addEventListener('unload', Player.prototype.cleanup);
   },
   pause: function () {
+    this.stylesheet.deleteRule(0);
     this.button.setState('play');
     this.playlist.current.audio.pause();
     window.removeEventListener('unload', Player.prototype.cleanup);
@@ -188,9 +193,9 @@ Player.prototype = {
     this.meter.update(t/d, new Date(t).parse(m) + new Date(d-t).parse(m));
   },
   // Returns `new Track` instance
-  attach: function (audio_element) {
+  attach: function (audio_element, id) {
     // TODO: check for track in list
-    var track = this.playlist.enQueue(new Track(audio_element));
+    var track = this.playlist.enQueue(new Track(audio_element, id));
 
     track.events.forEach(function (trigger) {
       audio_element.addEventListener(trigger, this[trigger].bind(this), false);
@@ -200,17 +205,25 @@ Player.prototype = {
   }
 };
 
-function loadButtonAudio(button) {
-  var selected = button.parentNode.querySelector('audio');
+function loadButtonAudio(button, id, evt) {
+  evt.preventDefault();
   var player = bloc.module('Player');
+  // a trick, if the button has a border color of white, it's active, don't load it.
+  if (window.getComputedStyle(button).getPropertyValue('opacity') < 1) {
+    player.pause();
+    return false;
+  };
+
+
+  var selected = button.parentNode.querySelector('audio');
   player.playlist.clear(player.playlist.getUnplayed());
 
   document.querySelectorAll('audio').forEach(function (audio) {
     // select the button that was responsible for playing this track
-    var button = audio.parentNode.querySelector('button.listen');
-    var track  = player.attach(audio);
-    if (button) {
-      button.addEventListener('click', player.playlist.select.bind(player.playlist, track.position));
+    var aux_button = audio.parentNode.querySelector('button.listen');
+    var track  = player.attach(audio, id);
+    if (aux_button != button) {
+      aux_button.addEventListener('click', player.playlist.select.bind(player.playlist, track.position));
     }
 
     track.trigger = function (evt) {
@@ -223,7 +236,7 @@ function loadButtonAudio(button) {
   });
 
   player.play();
-  button.classList.add('queued');
+  return false;
 }
 
 

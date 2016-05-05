@@ -386,7 +386,7 @@ if (window.history.pushState) {
         evt.target.dispatchEvent(new ProgressEvent('error'));
       }
 
-      document.querySelectorAll('head title, head style').forEach(function(node) {
+      document.querySelectorAll('head title, head style[type]').forEach(function(node) {
         document.head.removeChild(node);
       });
 
@@ -425,7 +425,12 @@ if (window.history.pushState) {
   window.navigateToPage = function (evt) {
     if (evt.type != 'popstate') {
       history.pushState(null, null, this.href);
-    }
+    } else if (evt.timeStamp > window.dataLayer[0].start && evt.timeStamp - window.dataLayer[0].start < 1000) {
+      // Safari consistently fires this event on load, which refreshes the page.
+      // This checks the event time vs. the recorded start and avoid it... hack.
+      return;
+    };
+
     Content.get(this.href);
     document.body.classList.add('transition');
     var style = getComputedStyle(document.body);

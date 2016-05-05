@@ -60,7 +60,7 @@ p, .p {max-width:55em;}
 h1, h2 {max-width: 75vw;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
-h3, .h3 {f;font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
+h3, .h3 {font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
 h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(0.75em + 1.35vh);}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.45;}
 h5 {font-weight:400}
@@ -244,7 +244,7 @@ body > section[id] { position:fixed; width:100vw; }
 #browse {z-index:1;top: 0;height:90vh;}
 
 body[data-view='browse'] #media {
-  height: 15vh;
+  height: 7.5vh;
   box-shadow: 0 -0.125em 0.125em rgba(0,0,0,0.1);
 }
 .pulled, .pulled-left, .pulled-right {padding:2.5vw;}
@@ -282,7 +282,6 @@ div[data-award] {
 /* Mobile only */
 @media screen and (max-width: 50em) {
   body[data-view='browse'] #media { overflow:hidden}
-  #Player button, #Player .progress { width: 100% }
   section#browse main {background-color: #f1f1f1;}
   h5 a, h2 a, .sink a, h3 a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #5b9b98;}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
@@ -292,7 +291,10 @@ div[data-award] {
   .gallery img {max-width:100%;padding: 5%;}
   .bio.read {display:flex;align-items:center}
   .bio.read span {margin-right:2vmax;}
-  #Player {width: 30vh;}
+  #Player button, #Player .progress { width: auto; height: 7.5vh}
+  body[data-view='browse'] #media #Player {width: 60%;}
+  body[data-view='browse'] #media form {width:40%; }
+  #Player .controls { padding:0; width:15vh}
   .panel .ll {margin-left:0}
   ul.sink {
     min-width: 100%;
