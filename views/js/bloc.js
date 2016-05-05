@@ -371,7 +371,7 @@ var Progress = function(container) {
   this.setState = function (state) {
     this.element.dataset.state = state;
     if (state == 'waiting') {
-      message.innerHTML = "patience<br/>is a...";
+      message.innerHTML = "...one<br/>moment";
     }
   };
 

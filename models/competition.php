@@ -47,7 +47,7 @@ namespace models;
       if ($edges->count() > 1) {
         return 'competition/overview';
       } else {
-        $this->type = $edges->pick()['@vertex'];
+        $this->competition = new self(Graph::ID($edges->pick(0)->getAttribute('vertex')));
         if ($context['premier']->count() > 0 && strtotime($context['premier']['@date']) > time()) {
           return 'competition/preview';
         }

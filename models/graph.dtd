@@ -23,6 +23,7 @@
 
 <!ELEMENT vertex (abstract*,edge*,media*,location?,premier?,spectra?)*>
 <!ATTLIST vertex id ID #REQUIRED>
+<!ATTLIST vertex ref CDATA #IMPLIED>
 <!ATTLIST vertex hash CDATA #IMPLIED>
 <!ATTLIST vertex created CDATA #IMPLIED>
 <!ATTLIST vertex updated CDATA #IMPLIED>

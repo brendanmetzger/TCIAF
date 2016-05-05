@@ -65,31 +65,22 @@ function calendar($start, $year, $category)
 
       $query = $filter == 'all' || $filter == 'stories' ? 'edge' : $query = $queries[$filter];
 
+      $this->blurb = Graph::FACTORY(Graph::ID($filter));
 
       if ($filter == 'shows') {
-        $this->blurb = Graph::FACTORY(Graph::ID('about-resound'));
         $this->title  = "Shows";
       } else if ($filter == 'conference-audio') {
         $this->title  = "Conference Audio";
-        $this->blurb = Graph::FACTORY(Graph::ID('about-conference-sessions'));
       } else if ($filter == 'shortdocs') {
         $this->title  = "ShortDocs";
-        $this->blurb = Graph::FACTORY(Graph::ID('about-shortdocs'));
       } else if ($filter == 'awards') {
         $this->title  = "TCF Award Recipients";
-        $this->blurb = Graph::FACTORY(Graph::ID('about-winners'));
       } else if ($filter == "stories") {
         // combine all queries and negate, whatevers left is a story.
         $query = implode(' and ', array_map(function($item) {
           return "not($item)";
         }, array_values($queries)));
-
-        // \bloc\application::instance()->log($result);
-
-        $this->blurb = Graph::FACTORY(Graph::ID('about-stories'));
         $this->title = 'Stories';
-      } else {
-        $this->blurb = Graph::FACTORY(Graph::ID('about-the-library'));
       }
 
       if ($sort == 'alpha-numeric') {
@@ -101,9 +92,7 @@ function calendar($start, $year, $category)
       }
 
       if ($sort == 'duration') {
-
         $lim = explode('-', substr($group ?: 'length:0-100', 7));
-
         $l = $lim[0] * 60;
         $u = $lim[1] * 60;
         $len = 'length'.$lim[0].$lim[1];
@@ -208,11 +197,15 @@ function calendar($start, $year, $category)
     {
       $view = new view('views/layout.html');
       if ($id === null) {
+
+
         $this->banner = 'Competitions';
+
         $this->competitions = [
-          ['item' => Graph::FACTORY(Graph::ID('driehaus'))],
-          ['item' => Graph::FACTORY(Graph::ID('shortdocs'))],
+          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@ref="driehaus"]'))],
+          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@ref="shortdocs"]'))],
         ];
+
         $page = 'competition/overview';
       } else {
         $this->item = Graph::FACTORY(Graph::ID($id));
