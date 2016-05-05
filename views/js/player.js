@@ -61,7 +61,7 @@ Playlist.prototype = {
   },
   next: function (idx) {
     this.tracks[this.pointer].state = 'played';
-    this.pointer += (this.pointer < this.length) ? 1 : this.length * -1;
+    this.pointer = ++this.pointer % this.length;
     return this.current;
   },
   get length () {
@@ -85,8 +85,13 @@ Playlist.prototype = {
   // not a real queue, as some elements bay be skipped
   deQueue: function (_Track) {
     // FIXME: Error occurs here sometimes
-    this.element.removeChild(_Track.element);
-    return this.tracks.splice(_Track.position, 1);
+    try {
+      this.element.removeChild(_Track.element);
+      return this.tracks.splice(_Track.position, 1);
+    } catch (e) {
+      alert('A (known) error has occured.');
+      console.info(e);
+    }
   },
   getUnplayed: function () {
     return this.tracks.filter(function (track) {
@@ -156,13 +161,21 @@ Player.prototype = {
     window.addEventListener('unload', Player.prototype.cleanup);
   },
   pause: function () {
-    this.stylesheet.deleteRule(0);
+    if (this.stylesheet.rules.length > 0) {
+      this.stylesheet.deleteRule(0);
+    }
+
     this.button.setState('play');
     this.playlist.current.audio.pause();
     window.removeEventListener('unload', Player.prototype.cleanup);
   },
   ended: function (evt) {
-    this.playlist.next().play();
+    this.pause();
+    if (this.playlist.length > 0) {
+      this.playlist.next();
+      this.play();
+    }
+
   },
   playing: function (evt) {
     this.button.setState('pause');
@@ -205,7 +218,7 @@ Player.prototype = {
   }
 };
 
-function loadButtonAudio(button, id, evt) {
+function loadButtonAudio(button, evt) {
   evt.preventDefault();
   var player = bloc.module('Player');
   // a trick, if the button has a border color of white, it's active, don't load it.
@@ -221,8 +234,9 @@ function loadButtonAudio(button, id, evt) {
   document.querySelectorAll('audio').forEach(function (audio) {
     // select the button that was responsible for playing this track
     var aux_button = audio.parentNode.querySelector('button.listen');
-    var track  = player.attach(audio, id);
+    var track  = player.attach(audio, audio.parentNode.className);
     if (aux_button != button) {
+      aux_button.onclick = '';
       aux_button.addEventListener('click', player.playlist.select.bind(player.playlist, track.position));
     }
 

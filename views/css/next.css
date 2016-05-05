@@ -301,12 +301,18 @@ div[data-award] {
     display:flex;
     flex-wrap:wrap;
   }
-  ul.sink li:nth-child(2) {padding-right: 70%;}
+  ul.sink li:nth-child(2) {padding-right: 75%;}
   ul.sink li {padding: 0.25em 0.5em;}
   nav[role] > ul { align-items:stretch }
 }
 
 .p-cols li {flex: 0 0 50%;margin:0.25em 0;padding: 0em 0.5em;}
+
+/* Hack for tablet to deal with images in playlist/lib*/
+@media screen and (min-width:40em) {
+  .bg {width:25%;}
+  .feature article.panel.listing header {width:70%;padding:2.5%;}
+}
 
 /* Tablet */
 @media screen and (min-width: 50em) {
@@ -331,8 +337,8 @@ div[data-award] {
 
   nav[role] > ul > li {background-color:#fff }
   #browse > header {padding: 0 1.5vw;}
-  body[data-view] > #media  {top:0;width:20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
-  body[data-view] > #browse {left:20vw;width:80vw;height:100vh;}
+  body[data-view] > #media  {top:0;width: 20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
+  body[data-view] > #browse {left: 20vw;width: 80vw;height:100vh;}
 
   .triptych > * {
     flex: 0 0 calc(33.3% - 0.5em);
