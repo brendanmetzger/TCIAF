@@ -48,6 +48,11 @@ namespace models;
       });
     }
 
+    public function getTriptych(\DOMElement $context)
+    {
+      return $this->features->limit(1, 3);
+    }
+
     public function getArticles(\DOMElement $context)
     {
       return $context->find("edge[@type='page']")->map(function($edge) {

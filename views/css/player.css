@@ -27,6 +27,7 @@ button.listen {
   color: #88746a;
 }
 
+.playlist li > span {pointer-events:none;}
 li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
 #Player button {border: none;padding: 0;}
