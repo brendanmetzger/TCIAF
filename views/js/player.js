@@ -110,7 +110,7 @@ var Player = function (container, data, message) {
   this.index    = 0;
 
   this.container.appendChild(document.createElement('p')['@']({
-    'class': 'intro h2 pad rag-left brown r'
+    'class': 'intro h4 pad rag-left brown r'
   })).textContent = message;
 
   var controls = this.container.appendChild(document.createElement('div')['@']({

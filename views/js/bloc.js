@@ -451,7 +451,7 @@ if (window.history.pushState) {
         }
       } else if (evt.target.matches("a:not(.button)[href^='/']")) {
         evt.preventDefault();
-        if (evt.target.pathname.substring(0, 25) != window.location.pathname.substring(0,25)) {
+        if (evt.target.pathname.split('/').slice(1,4).join('-') != window.location.pathname.split('/').slice(1,4).join('-')) {
           setTimeout(function () {
             document.querySelector('#browse').scrollTop = 0;
           }, 150);
