@@ -44,19 +44,19 @@ var Playlist = function (player, attributes) {
 Playlist.prototype = {
   select: function (evt) {
     // if we are on the ceurrent event
-
+    console.log(evt.target.id);
     if (evt.target.id === this.pointer) {
-      console.info('TODO: we are on current track, investigate if we should play or pause');
+      // if we are clicking the button that is playing, toggle play/pause
+      this.player[this.player.audio.paused ? 'play' : 'pause']();
       return;
     }
-
-    this.pointer = evt.target.id;
 
     if (! this.player.audio.paused) {
       this.current.state = 'played';
       this.player.pause();
     }
 
+    this.pointer = evt.target.id;
     this.player.play();
     this.current.callback(evt);
   },
@@ -64,11 +64,12 @@ Playlist.prototype = {
     var track = this.tracks[this.pointer];
     track.state = 'played';
     if (track.element.nextSibling) {
-      console.info('TODO: there is a sibling, play it;', track.element.nextSibling.id);
+      console.info('Attempting to play next track');
+      this.pointer = track.element.nextSibling.id;
+      return true;
     }
-  },
-  get length () {
-    return this.tracks.length - 1;
+    this.pointer = this.element.firstElementChild.id;
+    return false;
   },
   get current() {
     if (this.pointer) {
@@ -104,7 +105,6 @@ Playlist.prototype = {
 var Player = function (container, data, message) {
   this.container = container;
   this.container.id  = 'Player';
-  this.stylesheet = document.head.appendChild(document.createElement('style')).sheet;
 
   this.elements = [];
   this.index    = 0;
@@ -148,6 +148,7 @@ var Player = function (container, data, message) {
 
 
 Player.prototype = {
+  stylesheet: null,
   cleanup: function () {
     var player = bloc.module('Player');
     player.pause();
@@ -158,24 +159,23 @@ Player.prototype = {
     if (this.audio.src != track.src) {
       this.audio.src = track.src;
     }
-    this.stylesheet.insertRule('.'+track.id+' button {background-position:50% 82.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff}', 0);
+    this.css = document.head.appendChild(document.createElement('style'))
+    this.css.sheet.insertRule('.'+track.id+' button {background-position:50% 82.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff}', 0);
+    this.css.sheet.insertRule('#'+track.id+' {border-color:#5B9B98;background-color:#5B9B98;color:#fff', 1);
     this.container.dataset.position = track.position;
     this.audio.play();
-    window.addEventListener('unload', Player.prototype.cleanup);
   },
   pause: function () {
-    if (this.stylesheet.rules.length > 0) {
-      this.stylesheet.deleteRule(0);
+    if (this.css) {
+      this.css.parentNode.removeChild(this.css);
+      this.css = null;
     }
-
     this.button.setState('play');
     this.audio.pause();
-    window.removeEventListener('unload', Player.prototype.cleanup);
   },
   ended: function (evt) {
     this.pause();
-    if (this.playlist.length > 0) {
-      this.playlist.next();
+    if (this.playlist.next()) {
       this.play();
     }
 
@@ -215,8 +215,9 @@ function loadButtonAudio(button, evt) {
   // a trick, if the button has a border color of white, it's active, don't load it.
   if (window.getComputedStyle(button).getPropertyValue('opacity') < 1) {
     player.pause();
+    console.info('TODO: if on a new page and beginning the play/pause, make sure after pausing we do not reload the same track if it is in the queue');
     return false;
-  };
+  }
 
 
   var selected = button.parentNode.querySelector('audio');
@@ -225,6 +226,7 @@ function loadButtonAudio(button, evt) {
   document.querySelectorAll('main audio').forEach(function (audio) {
     // select the button that was responsible for playing this track
     var aux_button = audio.parentNode.querySelector('button.listen');
+    aux_button.classList.add('parsed');
 
     var track = new Track({
       id: audio.parentNode.className,
@@ -241,9 +243,11 @@ function loadButtonAudio(button, evt) {
     if (aux_button && aux_button != button) {
       track.callback = function (evt) {
         // proxy a click to the playlist.
+        console.info("TODO: should only visit new page if user clicks info button (i)");
         navigateToPage.bind({href: audio.dataset.ref})
       };
-      aux_button.onClick = player.playlist.select.bind(player.playlist, {target: {id: track.id}});
+      aux_button.removeAttribute('onclick');
+      aux_button.addEventListener('click', player.playlist.select.bind(player.playlist, {target: {id: track.id}}));
     }
 
 
