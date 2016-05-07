@@ -472,6 +472,9 @@ if (window.history.pushState) {
 }
 
 bloc.init(function () {
+  if (mobile) {
+    document.body.scrollTop = 10;
+  }
   window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
 });
