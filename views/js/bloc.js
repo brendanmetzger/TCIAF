@@ -406,7 +406,6 @@ if (window.history.pushState) {
 
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
-        document.querySelector('#browse').scrollTop = 0;
         document.body.classList.remove('transition');
       }, 10);
 
@@ -452,6 +451,12 @@ if (window.history.pushState) {
         }
       } else if (evt.target.matches("a:not(.button)[href^='/']")) {
         evt.preventDefault();
+        if (evt.target.pathname.substring(0, 25) != window.location.pathname.substring(0,25)) {
+          setTimeout(function () {
+            document.querySelector('#browse').scrollTop = 0;
+          }, 150);
+        }
+
         navigateToPage.call(evt.target, evt);
       } else {
         if (! evt.target.classList.contains('button')) {
