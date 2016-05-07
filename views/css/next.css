@@ -240,7 +240,7 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
 body > section[id] { position:fixed; width:100vw; }
 
-#media  {z-index:2;bottom:0;transition: height 0.25s cubic-bezier(0, 0.68, 0.62, 0.99);}
+#media  {z-index:2;bottom:0;transition: height 0.25s linear;}
 #browse {z-index:1;top: 0;height: 90vh;}
 
 body[data-view='browse'] #media {
