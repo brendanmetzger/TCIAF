@@ -42,7 +42,7 @@ p a {text-decoration:underline}
 .pad-v {padding: 1.5vmax 0;}
 .m, p { margin: 0.5em 0 1em }
 
-.markdown h3 {margin: 2vmax 0;font-weight: 600;}
+.markdown h3 {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
 .caps-lock, .markdown h3, article nav > ul.plain li > a {text-transform:uppercase;}
@@ -188,7 +188,7 @@ nav[role] > ul > li {
 article nav > ul.plain {margin: 1.5vh 0;}
 body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
-.finder input:focus {background-size: auto 37%;}
+.finder input:focus {background-size: auto 37%;background-position: 1em 50%;}
 .finder input {
   /* transition: background-size 1.25s; */
   margin: 0;
@@ -240,7 +240,7 @@ button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
 body > section[id] { position:fixed; width:100vw; }
 
-#media  { z-index:2; bottom:0; }
+#media  {z-index:2;bottom:0;transition: height 0.25s cubic-bezier(0, 0.68, 0.62, 0.99);}
 #browse {z-index:1;top: 0;height: 90vh;}
 
 body[data-view='browse'] #media {
@@ -300,8 +300,14 @@ div[data-award] {
     background-position: 75% 40%;
     background-size: auto 40%;
   }
+
+  body[data-view='media'] #media {height:100vh;flex-direction: column;}
+  body[data-view='media'] #media form { width: 100%; }
+  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;}
+  body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}
+
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}
-  #Player .controls {padding: 0 2.5%;max-width: 25vmax;max-height: 12.5vmax;}
+  body[data-view='browse'] #Player .controls {padding: 0 2.5%;max-width: 25vmax;max-height: 12.5vmax;}
   body[data-view='browse'] #media p {padding: 1.25em 0 0 3.5em;color:#AAA;}
   body[data-view='browse'] #media #Player ul:not(:empty) {
     width: auto;
@@ -333,6 +339,7 @@ div[data-award] {
 
 /* Tablet */
 @media screen and (min-width: 50em) {
+  #Player[data-position] .intro {display:none}
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;}
   .bio.read {width:10vmin;/* padding:1vmin 0; */margin-right:1vmin;}
@@ -354,7 +361,7 @@ div[data-award] {
 
   nav[role] > ul > li {background-color:#fff }
   #browse > header {padding: 0 1.5vw;}
-  body[data-view] > #media  {top:0;width: 20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
+  body[data-view] > #media  {top:0; width: 20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
   body[data-view] > #browse {left: 20vw;width: 80vw;height:100vh;}
 
   .triptych > * {

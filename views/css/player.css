@@ -32,7 +32,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
 #Player button {border: none;padding: 0;}
 #Player button svg path { stroke: none; }
-#Player[data-position] .intro, #Player:not([data-position]) .controls, audio {display:none}
+#Player:not([data-position]) .controls, audio  {display:none}
 #Player svg {
   width: 100%;
   height: 100%;

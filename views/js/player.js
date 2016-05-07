@@ -109,9 +109,14 @@ var Player = function (container, data, message) {
   this.elements = [];
   this.index    = 0;
 
-  this.container.appendChild(document.createElement('p')['@']({
+  var toggle = this.container.appendChild(document.createElement('p')['@']({
     'class': 'intro h4 pad rag-left brown r'
-  })).textContent = message;
+  }));
+  toggle.textContent = message;
+
+  toggle.addEventListener('click', function (evt) {
+    document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
+  });
 
   var controls = this.container.appendChild(document.createElement('div')['@']({
     'class': data.controls

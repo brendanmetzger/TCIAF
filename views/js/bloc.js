@@ -378,8 +378,6 @@ var Progress = function(container) {
 };
 
 
-
-
 if (window.history.pushState) {
 
   var Content = new Request({
@@ -495,6 +493,7 @@ bloc.init(bloc.define('autoload', function () {
 
 bloc.define('site-search', function (instance) {
   instance.subscribers.select.push(function (dataset, evt) {
+    document.body.dataset.view = 'browse';
     var url = (Number(dataset.index) < 0)
             ? '/search/full?query=' + dataset.text
             : '/explore/detail/'+dataset.id;
