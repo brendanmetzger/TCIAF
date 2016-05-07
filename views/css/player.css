@@ -20,7 +20,7 @@ button.listen {
 }
 
 
-.playlist li {padding: 0.75vmax 1em;border-top: 1px solid rgba(0,0,0,0.1);border-left: 0.5em solid rgb(91, 156, 153);}
+.playlist li {padding: 0.75vmax 1em;border-top: 1px solid rgba(0,0,0,0.1);border-left: 0.5vw solid rgb(91, 156, 153);}
 .playlist li.current:before { content: '\25B6\FE0E'; margin-right:0.5em; }
 .playlist li.current {
   border-left-color: #88746a;
