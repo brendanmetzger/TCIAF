@@ -297,7 +297,7 @@ div[data-award] {
   body[data-view='browse'] #media form input {
     height: 12.5vmax;
     border: none;
-    background-position: 100% 40%;
+    background-position: 75% 40%;
     background-size: auto 40%;
   }
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}

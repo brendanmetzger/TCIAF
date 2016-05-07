@@ -364,7 +364,6 @@ var Progress = function(container) {
   };
 
   this.position = function () {
-    console.log(handle.position);
     return handle.position;
   };
 

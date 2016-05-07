@@ -141,6 +141,7 @@ var Player = function (container, data, message) {
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
+    this.meter.element.blur();
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
