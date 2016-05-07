@@ -473,7 +473,8 @@ if (window.history.pushState) {
 
 bloc.init(function () {
   if (mobile) {
-    document.body.scrollTop = 10;
+    document.body.style.paddingTop = '20px';
+    document.body.scrollTop = '20px';
   }
   window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
