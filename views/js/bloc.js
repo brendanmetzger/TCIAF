@@ -347,7 +347,7 @@ var Progress = function(container) {
   svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
-  grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 7.5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
+  grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
 
 
   this.update = function(percentage, text, scrub) {
@@ -478,7 +478,7 @@ if (window.history.pushState) {
 }
 
 bloc.init(function () {
-  window.Adjust = smoothScroll(mobile ? document.body : document.querySelector('#browse'));
+  window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
 });
 
