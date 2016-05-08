@@ -54,6 +54,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 #Player .progress path, .progress:hover .handle, .progress circle {
   stroke: #88746A;
   fill: none;
+  stroke-linecap: round;
 }
 
 .progress circle {
@@ -80,7 +81,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 .progress .handle, .progress span, .progress .grab {
   stroke-opacity: 0;
   fill-opacity:0;
-  transition: stroke-opacity 0.75s;
+  transition: stroke-opacity 0.5s 0.125s;
   pointer-events: none;
 }
 
@@ -88,7 +89,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 #Player .progress span {
   top: 30%;
   color: #9d9d9d;
-  font-size:1.25vmax;
+  font-size: 1.5vmax;
   transition:opacity 0.5s 0.25s;
   font-weight:200;
 }

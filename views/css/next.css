@@ -240,7 +240,7 @@ button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.125em 0 r
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
 
-#media  {z-index:2;top: 87.5vh;transition: top 0.25s linear;}
+#media  {z-index:2;top: 77.5vh;transition: top 0.25s linear;}
 #browse {z-index:1;top: 0;height: auto;}
 
 body[data-view='browse'] #media {
@@ -282,6 +282,7 @@ div[data-award] {
 section#media {width:100vw;position:fixed;left:0;}
 /* Mobile only */
 @media screen and (max-width: 50em) {
+  html, body {height:100%}
   body {padding-bottom:12.5vmax}
   body[data-view='browse'] #media { overflow:hidden}
   section#browse main {background-color: #f1f1f1;}
@@ -345,6 +346,7 @@ section#media {width:100vw;position:fixed;left:0;}
 @media screen and (min-width: 50em) {
   body > section[id] {position:fixed;width:100vw;}
   #Player[data-position] .intro {display:none}
+  #Player button {width: 70%;margin-left: 5%;}
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;}
   .bio.read {width:10vmin;/* padding:1vmin 0; */margin-right:1vmin;}
@@ -374,6 +376,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .feature article.panel.listing header { width:50% }
   .feature article.panel.listing ul { width:30% }
   .bg {width:20%;margin:0;align-self: flex-start;}
+
 }
 
 /* Desktop*/
