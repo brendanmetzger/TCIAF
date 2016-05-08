@@ -55,7 +55,7 @@ p a {text-decoration:underline}
 .justify {text-align: justify;}
 .clear {clear:both;}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
-
+.lock {overflow:hidden}
 p, .p {max-width:55em;}
 h1, h2 {max-width: 75vw;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
@@ -124,7 +124,6 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   flex-flow:row;
   align-items: center;
   flex-grow: 1;
-  background-color: #FAFAFA;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
 .display, .markdown h2 { font-family: 'Source Serif Pro', Baskerville, Didot, Serif; }
@@ -154,12 +153,13 @@ section#browse > main {
 nav a.logo {
   margin: 0;
   min-width: 10em;
-  background: #fff url(/images/full-logo.svg) no-repeat -10% -100%;
   color:rgba(0,0,0,0);
-  background-size: 155% auto;
+  background: #fff url(/images/full-logo.svg) no-repeat -25% 0.75em;
+  background-size: 140% auto;
   align-self: center;
-  min-height: 5em;
+  min-height: 8em;
 }
+
 
 nav[role] > ul {
   display:flex;
@@ -211,9 +211,9 @@ button[type='submit'] {
 /* components  */
 .award > *, address span  { display:block }
 .award {
-  padding: 0 0 0 2.5em;
+  padding: 0 0 0 3.5em;
   min-height:3em;
-  background: transparent url(/images/medal.svg) no-repeat 0 10%;
+  background: transparent url(/images/medal.svg) no-repeat 0 35%;
   background-size:auto 3vh;
   display: block;
   margin-left: 1em;
@@ -305,9 +305,9 @@ section#media {width:100vw;position:fixed;left:0;}
   body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: #fff;top: 0;}
   body[data-view='media'] #media form {width: 100%;height: 6vh;}
   body[data-view='media'] #Player .progress span {font-size:2.25em;}
-  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 30vh;overflow: hidden;min-height: 50vw;}
+  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 30vh;overflow: hidden;min-height: 50vw;background-color: #FAFAFA;}
   body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#EEE;color:#FC6202;padding: 0.5em 1em;margin:0;}
-  body[data-view='media'] #media .playlist {height: 65vh;overflow:auto;}
+  body[data-view='media'] #media .playlist {height: 60vh;overflow:auto;}
   body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}
 
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}

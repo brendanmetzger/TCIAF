@@ -64,9 +64,9 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 }
 
 .desktop .progress:hover { cursor: crosshair }
-.desktop .progress:hover .handle, .mobile .progress.hover .handle { stroke-opacity: 0.75 }
-.desktop .progress:hover .status, .mobile .progress.hover .status { stroke-width: 1 }
-.desktop .progress:hover .grab, .mobile .progress.hover .grab {
+.desktop .progress:hover .handle, .touch .progress.hover .handle { stroke-opacity: 0.75 }
+.desktop .progress:hover .status, .touch .progress.hover .status { stroke-width: 1 }
+.touch .progress.hover .grab {
   fill-opacity:1;
   stroke-opacity:1;
 }

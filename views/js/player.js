@@ -145,6 +145,12 @@ var Player = function (container, data, message) {
   this.meter.element.addEventListener(mobile ? 'touchstart' : 'mouseover', function (evt) {
     this.meter.element.classList.add('hover');
     this.meter.update(evt.theta() / 360, null, true);
+    document.body.classList.add('lock');
+  }.bind(this));
+
+  this.meter.element.addEventListener(mobile ? 'touchend' : 'mouseout', function (evt) {
+    this.meter.element.classList.remove('hover');
+    document.body.classList.remove('lock');
   }.bind(this));
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
@@ -152,7 +158,6 @@ var Player = function (container, data, message) {
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
-    this.meter.element.classList.remove('hover');
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
