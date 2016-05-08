@@ -30,7 +30,7 @@ button.listen {
 .playlist li > span {pointer-events:none;}
 li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
-#Player button {border: none;padding: 0;}
+#Player button {border: none;padding: 0;background-color: rgba(0,0,0,0);}
 #Player button svg path { stroke: none; }
 #Player:not([data-position]) .controls, audio  {display:none}
 #Player svg {
@@ -67,10 +67,13 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 .desktop .progress:hover .handle, .mobile .progress.hover .handle { stroke-opacity: 0.75 }
 .desktop .progress:hover .status, .mobile .progress.hover .status { stroke-width: 1 }
 .desktop .progress:hover .grab, .mobile .progress.hover .grab {
-  fill: #88746a;
   fill-opacity:1;
-  stroke:#fff;
   stroke-opacity:1;
+}
+
+.grab {
+  fill: #88746a;
+  stroke:#fff;
   stroke-dashArray:0;
 }
 
@@ -127,10 +130,10 @@ button.error { background-color: #ED1C24 }
   opacity:1 !important;
 }
 
-.progress[data-state='waiting'] svg circle {
+.progress[data-state='waiting'] svg circle:not(.grab) {
   stroke-opacity: 1;
   stroke-dashArray: 50 50;
-  stroke:#000;
+  stroke:#888;
 }
 
 .progress[data-state='waiting'] svg path {

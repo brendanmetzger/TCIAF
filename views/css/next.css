@@ -278,7 +278,7 @@ div[data-award] {
 }
 
 .feature article.panel.listing header { width:100% }
-section#media {width:100vw;position:fixed}
+section#media {width:100vw;position:fixed;left:0;}
 /* Mobile only */
 @media screen and (max-width: 50em) {
   body {padding-bottom:12.5vmax}
@@ -300,11 +300,11 @@ section#media {width:100vw;position:fixed}
     background-position: 75% 45%;
     background-size: auto 40%;
   }
-  body[data-view='media'] {overflow:hidden}
+  body[data-view='media'] {overflow:hidden;}
   body[data-view='media'] #media {height:100vh;flex-direction: column;}
   body[data-view='media'] #media form {width: 100%;height: 7.5vh;}
   body[data-view='media'] #Player .progress span {font-size:2.25em;}
-  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 26.5vh;overflow: hidden;}
+  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 26.5vh;overflow: hidden;background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(0,0,0,0.05) 100%);}
   body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#EEE;color:#FC6202;padding: 0.5em 1em;margin:0;}
   body[data-view='media'] #media .playlist {height: 65vh;overflow:auto;}
   body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}

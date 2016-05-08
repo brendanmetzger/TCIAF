@@ -146,6 +146,7 @@ var Player = function (container, data, message) {
     this.meter.element.classList.add('hover');
     this.meter.update(evt.theta() / 360, null, true);
   }.bind(this));
+
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
     this.meter.update(evt.theta() / 360, null, true);
   }.bind(this), false);
