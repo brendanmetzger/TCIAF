@@ -345,6 +345,7 @@ var Progress = function(container) {
   svg = new SVG(this.element, 100, 100);
   svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
+  grab   = svg.createElement('circle', { 'cx': 0, 'cy': 0, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
 
 
@@ -355,9 +356,12 @@ var Progress = function(container) {
     var y = (Math.sin(radian) * 35) + 50;
 
     var data = "M85,50A35,35 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
+
     if (scrub) {
       handle.setAttribute('d', data);
       handle.position = percentage;
+      grab.setAttribute('cx', x);
+      grab.setAttribute('cy', y);
     } else {
       path.setAttribute('d', data);
     }
@@ -450,6 +454,7 @@ if (window.history.pushState) {
         evt.preventDefault();
         if (evt.target.pathname.split('/').slice(1,4).join('-') != window.location.pathname.split('/').slice(1,4).join('-')) {
           setTimeout(function () {
+            document.body.scrollTop = 0;
             document.querySelector('#browse').scrollTop = 0;
           }, 150);
         }
@@ -472,10 +477,6 @@ if (window.history.pushState) {
 }
 
 bloc.init(function () {
-  if (mobile) {
-    document.body.style.paddingTop = '20px';
-    document.body.scrollTop = '20px';
-  }
   window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
 });

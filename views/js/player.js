@@ -115,6 +115,7 @@ var Player = function (container, data, message) {
   toggle.textContent = message;
 
   toggle.addEventListener('click', function (evt) {
+    this.textContent = "×";
     document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
   });
 

@@ -238,10 +238,9 @@ button,.button, .playlist li:not(.current) {text-decoration:none;border-radius:0
 button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.125em 0 rgba(0,0,0,0.25);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
-body > section[id] { position:fixed; width:100vw; }
 
 #media  {z-index:2;bottom:0;transition: height 0.25s linear;}
-#browse {z-index:1;top: 0;height: 90vh;}
+#browse {z-index:1;top: 0;height: auto;}
 
 body[data-view='browse'] #media {
   height: 12.5vmax;
@@ -279,9 +278,10 @@ div[data-award] {
 }
 
 .feature article.panel.listing header { width:100% }
-
+section#media {width:100vw;position:fixed}
 /* Mobile only */
 @media screen and (max-width: 50em) {
+  body {padding-bottom:12.5vmax}
   body[data-view='browse'] #media { overflow:hidden}
   section#browse main {background-color: #f1f1f1;}
   h5 a, h2 a, .sink a, h3 a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #5b9b98;}
@@ -300,14 +300,17 @@ div[data-award] {
     background-position: 75% 40%;
     background-size: auto 40%;
   }
-
+  body[data-view='media'] {overflow:hidden}
   body[data-view='media'] #media {height:100vh;flex-direction: column;}
-  body[data-view='media'] #media form { width: 100%; }
-  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;}
+  body[data-view='media'] #media form {width: 100%;height: 7.5vh;}
+  body[data-view='media'] #Player .progress span {font-size:2.25em;}
+  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 26.5vh;overflow: hidden;}
+  body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#EEE;color:#FC6202;padding: 0.5em 1em;margin:0;}
+  body[data-view='media'] #media .playlist {height: 65vh;overflow:auto;}
   body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}
 
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}
-  body[data-view='browse'] #Player .controls {padding: 0 2.5%;max-width: 25vmax;max-height: 12.5vmax;}
+  body[data-view='browse'] #Player .controls {padding: 0 2.5%;max-width: 35vmax;max-height: 12.5vmax;}
   body[data-view='browse'] #media p {padding: 1.25em 0 0 3.5em;color:#AAA;}
   body[data-view='browse'] #media #Player ul:not(:empty) {
     width: auto;
@@ -339,6 +342,7 @@ div[data-award] {
 
 /* Tablet */
 @media screen and (min-width: 50em) {
+  body > section[id] {position:fixed;width:100vw;}
   #Player[data-position] .intro {display:none}
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;}
@@ -348,9 +352,7 @@ div[data-award] {
   .columns {column-gap:1em;}
   .columns.three{column-count:3;}
   .columns.four{column-count:3;}
-
   body {overflow:hidden }
-
   nav a.logo {margin: 1em 0 0;min-width: 22.5em;background-size: contain;background-position: 40% 70%;min-height: 8.5vh;}
   .column { flex-direction: column }
 
