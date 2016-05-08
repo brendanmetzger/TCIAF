@@ -20,9 +20,9 @@
       <main>
         <!-- replace content nextSibling -->
         <section class="landing">
-          <div style="background-color:#ffc22d;" class="banner">
+          <div style="[background:#ffc22d url(http://s3.amazonaws.com/$collection:photo:url) no-repeat 0 0;background-size:cover;]" class="banner">
             <div>
-              <h2 data-id="[$collection:@id]">[$collection:title]</h2>
+              <h2 data-id="[$collection:@id]" style="color:rgba(0,0,0,0);">[$collection:title]</h2>
               <p>[$collection:content:about]</p>
             </div>
           </div>

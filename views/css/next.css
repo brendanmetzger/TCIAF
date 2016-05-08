@@ -77,7 +77,7 @@ ul, ol { padding:0 0 0 2em }
 
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
-  min-height:25vw;
+  min-height: 30vw;
   margin: -2vmax -2vmax 2vmax;
   padding:2.5vw 30vw 2.5vw 5vw;
 }
@@ -124,6 +124,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   flex-flow:row;
   align-items: center;
   flex-grow: 1;
+  background-color: #FAFAFA;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
 .display, .markdown h2 { font-family: 'Source Serif Pro', Baskerville, Didot, Serif; }
@@ -297,14 +298,14 @@ section#media {width:100vw;position:fixed;left:0;}
   body[data-view='browse'] #media form input {
     height: 12.5vmax;
     border: none;
-    background-position: 75% 45%;
-    background-size: auto 40%;
+    background-position: 50% 50%;
+    background-size: auto 30%;
   }
-  body[data-view='media'] {overflow:hidden;}
-  body[data-view='media'] #media {height:100vh;flex-direction: column;}
-  body[data-view='media'] #media form {width: 100%;height: 7.5vh;}
+  body[data-view='media'] {/* overflow:hidden; */}
+  body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: #fff;}
+  body[data-view='media'] #media form {width: 100%;height: 6vh;}
   body[data-view='media'] #Player .progress span {font-size:2.25em;}
-  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 26.5vh;overflow: hidden;background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(0,0,0,0.05) 100%);}
+  body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 26.5vh;overflow: hidden;}
   body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#EEE;color:#FC6202;padding: 0.5em 1em;margin:0;}
   body[data-view='media'] #media .playlist {height: 65vh;overflow:auto;}
   body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}
@@ -386,7 +387,6 @@ section#media {width:100vw;position:fixed;left:0;}
 .legal { font-size:1.25em }
 .sponsor a { padding:0.5rem; }
 .sponsor img { height:5vmin }
-.social { padding:1em }
 .social a {
   display:inline-block;
   height:3em;
@@ -397,7 +397,7 @@ section#media {width:100vw;position:fixed;left:0;}
   background-size:3em auto;
   color:rgba(0,0,0,0);
 }
-.twitter   {background-position:0 0.5em}
+.twitter   {background-position: 0 0.35em;}
 .facebook  {background-position:-0.25em -3em}
 .instagram {background-position:0 -6.5em}
 
