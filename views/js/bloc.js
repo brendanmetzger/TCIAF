@@ -184,7 +184,7 @@ Search.instance = null;
 Search.prototype = {
   results: null,
   indices: {},
-  command: {up: -1, down: 1, enter: 'select', arrowdown:1, arrowup:-1 },
+  command: {up: -1, down: 1, enter: 'select', arrowdown:1, arrowup: -1 },
   request: function (path, topics, callback) {
 
     return topics.map(function (topic) {
@@ -478,7 +478,7 @@ if (window.history.pushState) {
 }
 
 bloc.init(function () {
-  window.Adjust = smoothScroll(document.querySelector('#browse'));
+  window.Adjust = smoothScroll(mobile ? document.body : document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
 });
 

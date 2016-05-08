@@ -121,7 +121,7 @@ button.error { background-color: #ED1C24 }
 
 .progress {
   position: relative;
-  background-size: cover;
+  min-width:50%;
 }
 
 .progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 0.85s infinite linear;}
