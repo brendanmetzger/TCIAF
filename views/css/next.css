@@ -297,7 +297,7 @@ section#media {width:100vw;position:fixed}
   body[data-view='browse'] #media form input {
     height: 12.5vmax;
     border: none;
-    background-position: 75% 40%;
+    background-position: 75% 45%;
     background-size: auto 40%;
   }
   body[data-view='media'] {overflow:hidden}

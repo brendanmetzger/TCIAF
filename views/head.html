@@ -43,7 +43,7 @@
     var mobile = (/mobile|iPhone/i).test(navigator.userAgent),
         dataLayer = [{'start': Date.now()}],
         WebFontConfig = { google: { families: [ 'Source+Serif+Pro:700', 'Source+Sans+Pro:400,300,600,700,400italic' ] } };
-
+    document.documentElement.classList.add(mobile ? 'touch' : 'desktop');
     // Embed script for site
     bloc.require('/js/bloc.js')
     bloc.require('/js/player.js');

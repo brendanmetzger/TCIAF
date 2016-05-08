@@ -63,13 +63,15 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   pointer-events: none;
 }
 
-.progress:hover { cursor: crosshair }
-.progress:hover .handle { stroke-opacity: 0.75 }
-.progress:hover .status { stroke-width: 1 }
-.progress:hover .grab {
-  fill: #5B9B98;
+.desktop .progress:hover { cursor: crosshair }
+.desktop .progress:hover .handle, .mobile .progress.hover .handle { stroke-opacity: 0.75 }
+.desktop .progress:hover .status, .mobile .progress.hover .status { stroke-width: 1 }
+.desktop .progress:hover .grab, .mobile .progress.hover .grab {
+  fill: #88746a;
   fill-opacity:1;
-  stroke:none;
+  stroke:#fff;
+  stroke-opacity:1;
+  stroke-dashArray:0;
 }
 
 .progress .handle, .progress span, .progress .grab {

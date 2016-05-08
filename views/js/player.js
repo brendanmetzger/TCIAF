@@ -142,12 +142,16 @@ var Player = function (container, data, message) {
     this[this.button.state].call(this);
   }.bind(this));
 
+  this.meter.element.addEventListener(mobile ? 'touchstart' : 'mouseover', function (evt) {
+    this.meter.element.classList.add('hover');
+    this.meter.update(evt.theta() / 360, null, true);
+  }.bind(this));
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
     this.meter.update(evt.theta() / 360, null, true);
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
-    this.meter.element.blur();
+    this.meter.element.classList.remove('hover');
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
