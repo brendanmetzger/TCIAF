@@ -184,7 +184,7 @@ Search.instance = null;
 Search.prototype = {
   results: null,
   indices: {},
-  command: {up: -1, down: 1, enter: 'select' },
+  command: {up: -1, down: 1, enter: 'select', arrowdown:1, arrowup:-1 },
   request: function (path, topics, callback) {
 
     return topics.map(function (topic) {
@@ -249,7 +249,7 @@ Search.prototype = {
     }
   },
   checkUp: function (evt) {
-    var meta  = this.command[evt.keyIdentifier.toLowerCase()];
+    var meta  = this.command[evt.key.toLowerCase()];
     if (meta) {
       if (isNaN(meta)) {
         this.select(evt);
@@ -267,7 +267,8 @@ Search.prototype = {
     this.processMatches();
   },
   checkDown: function (evt) {
-    var meta  = this.command[evt.keyIdentifier.toLowerCase()];
+    var meta  = this.command[evt.key.toLowerCase()];
+    console.log(evt.key);
     if (meta) {
       evt.preventDefault();
       // Cycle through list if up/down key is hit
