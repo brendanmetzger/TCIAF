@@ -71,7 +71,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   stroke-opacity:1;
 }
 
-.grab {
+.progress circle.grab {
   fill: #88746a;
   stroke:#fff;
   stroke-dashArray:0;

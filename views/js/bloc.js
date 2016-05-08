@@ -345,8 +345,8 @@ var Progress = function(container) {
   svg = new SVG(this.element, 100, 100);
   svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
-  grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
+  grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
 
 
   this.update = function(percentage, text, scrub) {
