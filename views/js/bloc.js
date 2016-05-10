@@ -249,7 +249,8 @@ Search.prototype = {
     }
   },
   checkUp: function (evt) {
-    var meta  = this.command[evt.key.toLowerCase()];
+    var key = evt.key || evt.keyIdentifier;
+    var meta  = this.command[key.toLowerCase()];
     if (meta) {
       if (isNaN(meta)) {
         this.select(evt);
@@ -267,8 +268,9 @@ Search.prototype = {
     this.processMatches();
   },
   checkDown: function (evt) {
-    var meta  = this.command[evt.key.toLowerCase()];
-    console.log(evt.key);
+    var key = evt.key || evt.keyIdentifier;
+    var meta  = this.command[key.toLowerCase()];
+
     if (meta) {
       evt.preventDefault();
       // Cycle through list if up/down key is hit
