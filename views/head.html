@@ -50,6 +50,16 @@
 
     // Lastly, fonts and analytics
     bloc.require('//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js', true);
+    bloc.require('https://www.google-analytics.com/analytics.js', true);
+
+    window.GoogleAnalyticsObject = 'ga';
+    window.ga = function() {
+      (window.ga.q = window.ga.q || []).push(arguments);
+    };
+    window.ga.l = Date.now();
+
+    ga('create', 'UA-15066679-2', 'auto');
+    ga('send', 'pageview');
     // ]]>
   </script>
 </head>

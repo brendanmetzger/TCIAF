@@ -434,8 +434,8 @@ if (window.history.pushState) {
       // This checks the event time vs. the recorded start and avoid it... hack.
       return;
     };
-
-    Content.get(this.href);
+    Content.get(this.href + '?xhr=true');
+    ga('send', 'pageview');
     document.body.classList.add('transition');
     var style = getComputedStyle(document.body);
     document.body.style.backgroundSize = style.backgroundSize.match(/([0-9\-\.]+)/g).map(adjust).join(', ');
