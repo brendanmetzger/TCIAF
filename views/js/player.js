@@ -158,6 +158,7 @@ var Player = function (container, data, message) {
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
+    ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
@@ -181,6 +182,7 @@ Player.prototype = {
     this.css.sheet.insertRule('#'+track.id+' {border-color:#5B9B98;background-color:#5B9B98;color:#fff;}', 1);
     this.container.dataset.position = track.position;
     this.audio.play();
+    ga('send', 'event', 'Audio', 'play', track.id);
   },
   pause: function () {
     if (this.css) {
@@ -189,9 +191,11 @@ Player.prototype = {
     }
     this.button.setState('play');
     this.audio.pause();
+    ga('send', 'event', 'Audio', 'pause', this.playlist.current.id);
   },
   ended: function (evt) {
     this.pause();
+    ga('send', 'event', 'Audio', 'finished', this.playlist.current.id);
     if (this.playlist.next()) {
       this.play();
     }
@@ -213,6 +217,7 @@ Player.prototype = {
     this.meter.setState('playing');
   },
   error: function (evt) {
+    ga('send', 'event', 'Audio', 'error', this.playlist.current.id);
     console.log('error', evt);
   },
   timeupdate: function (evt) {
