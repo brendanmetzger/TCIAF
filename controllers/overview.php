@@ -111,7 +111,7 @@ function calendar($start, $year, $category)
       if ($sort == 'date') {
         // show the picker
         $now = (int)date('Y', time());
-        $year = $group ?: $now;
+        $year = $group == 'any' ? $now : (int)$group;
         $query .= " and premier[starts-with(@date, '{$year}')]";
         $this->years = calendar($now, $year, $filter);
 
