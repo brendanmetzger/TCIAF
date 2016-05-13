@@ -110,7 +110,7 @@ var Player = function (container, data, message) {
   this.index    = 0;
 
   var toggle = this.container.appendChild(document.createElement('p')['@']({
-    'class': 'intro h4 pad rag-left brown r'
+    'class': 'intro h4 pad l brown'
   }));
   toggle.textContent = message;
 

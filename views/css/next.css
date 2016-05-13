@@ -78,7 +78,7 @@ ul, ol { padding:0 0 0 2em }
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
   min-height: 25vmax;
-  margin: -2vmax -2vmax 2vmax;
+  margin: -2vmax -2vmax 2vmax -5vmax;
   padding:2.5vw 30vw 2.5vw 5vw;
 }
 
@@ -145,7 +145,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 section#browse > main {
   transition:opacity 0.75s, background-color 1.5s 0.125s;
   background-color:#FAFAFA;
-  padding: 2vmax;
+  padding: 2vmax 2.5vmax 2vmax 5vmax;
 }
 
 .transition #browse > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
@@ -193,14 +193,27 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 .finder input {
   /* transition: background-size 1.25s; */
   margin: 0;
-  padding: 1.25em 0.5em 1.25em 2.5em;
-  background: transparent url(/images/search.svg) no-repeat 5% 50%;
+  padding: 1.5em 0.5em 1em 2.5em;
+  background: transparent url(/images/search.svg) no-repeat 5% 25%;
   background-size: auto 75%;
   border:none;
   border-bottom:1px dashed #ddd;
+  font-size: 1.5em;
 }
 
+::-webkit-input-placeholder {
+   font-size:1.5em;
+   letter-spacing:0.125em;
+   font-weight:100;
+   text-align:left;
+   text-indent:1.25em;
+   color:#BBB;
+   text-transform:uppercase;
+}
 
+input:focus::-webkit-input-placeholder {
+  opacity:0.2;
+}
 button[type='submit'] {
   border-color: rgba(0,0,0,0.25);
   padding: 0.5em;
@@ -373,9 +386,9 @@ section#media {width:100vw;position:fixed;left:0;}
   .two-thirds {width:70%;}
 
   nav[role] > ul > li {background-color:#fff }
-  #browse > header {padding: 0 1.5vw;}
-  body[data-view] > #media  {top:0; width: 20vw;height:100vh;box-shadow:0.125em 0 0.125em rgba(0,0,0,0.1);}
-  body[data-view] > #browse {left: 20vw;width: 80vw;height:100vh;}
+  #browse > header {padding: 0 2vw;}
+  body[data-view] > #media  {top:0;width: 20vw;height:100vh;box-shadow: -0.125em 0 0.75em rgba(0,0,0,0.15);left: 80vw;border-top: 1vw solid #77635c;}
+  body[data-view] > #browse {left: 0;width: 80vw;height:100vh;}
 
   .triptych > * {
     flex: 0 0 calc(33.3% - 0.5em);

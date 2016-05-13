@@ -461,13 +461,9 @@ if (window.history.pushState) {
         }
 
         navigateToPage.call(evt.target, evt);
-      } else {
-        if (! evt.target.classList.contains('button')) {
-          if (evt.target.matches("a[href^='http'])")) {
-            evt.preventDefault();
-            window.open(evt.target.href);
-          }
-        }
+      } else if (evt.target.matches("a[href^='http']")) {
+        evt.preventDefault();
+        window.open(evt.target.href);
       }
     }
   }, true);
