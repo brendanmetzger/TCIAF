@@ -249,7 +249,8 @@ Search.prototype = {
     }
   },
   checkUp: function (evt) {
-    var meta  = this.command[evt.key.toLowerCase()];
+    var key = evt.key || evt.keyIdentifier;
+    var meta  = this.command[key.toLowerCase()];
     if (meta) {
       if (isNaN(meta)) {
         this.select(evt);
@@ -267,8 +268,9 @@ Search.prototype = {
     this.processMatches();
   },
   checkDown: function (evt) {
-    var meta  = this.command[evt.key.toLowerCase()];
-    console.log(evt.key);
+    var key = evt.key || evt.keyIdentifier;
+    var meta  = this.command[key.toLowerCase()];
+
     if (meta) {
       evt.preventDefault();
       // Cycle through list if up/down key is hit
@@ -434,8 +436,8 @@ if (window.history.pushState) {
       // This checks the event time vs. the recorded start and avoid it... hack.
       return;
     };
-
-    Content.get(this.href);
+    Content.get(this.href + '?xhr=true');
+    ga('send', 'pageview');
     document.body.classList.add('transition');
     var style = getComputedStyle(document.body);
     document.body.style.backgroundSize = style.backgroundSize.match(/([0-9\-\.]+)/g).map(adjust).join(', ');
