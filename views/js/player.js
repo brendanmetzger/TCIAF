@@ -176,10 +176,11 @@ Player.prototype = {
     var track = this.playlist.current;
     if (this.audio.src != track.src) {
       this.audio.src = track.src;
+      this.pause();
     }
     this.css = document.head.appendChild(document.createElement('style'))
     this.css.sheet.insertRule('.'+track.id+' button {background-position:50% 82.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff}', 0);
-    this.css.sheet.insertRule('#'+track.id+' {border-color:#5B9B98;background-color:#5B9B98;color:#fff;}', 1);
+    this.css.sheet.insertRule('li#'+track.id+' {border-color:#5B9B98;background-color:#5B9B98;color:#fff;}', 1);
     this.container.dataset.position = track.position;
     this.audio.play();
     ga('send', 'event', 'Audio', 'play', track.id);
