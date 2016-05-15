@@ -203,14 +203,17 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 }
 
 ::-webkit-input-placeholder {
-   font-size:1.125em;
    letter-spacing:0.125em;
    font-weight:100;
    text-align:left;
    text-indent:1.5em;
-   color:#BBB;
    text-transform:uppercase;
+   font-style:italic;
+   color:#AAA;
+   letter-spacing:0.075em;
+   font-size:0.75em;
 }
+
 
 input:focus::-webkit-input-placeholder {
   opacity:0.2;

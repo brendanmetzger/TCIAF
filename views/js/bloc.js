@@ -184,7 +184,7 @@ Search.instance = null;
 Search.prototype = {
   results: null,
   indices: {},
-  command: {up: -1, down: 1, enter: 'select', arrowdown:1, arrowup: -1 },
+  command: {up: -1, down: 1, enter: 'select', arrowdown:1, arrowup: -1, escape: 'reset' },
   request: function (path, topics, callback) {
 
     return topics.map(function (topic) {
@@ -197,6 +197,7 @@ Search.prototype = {
   },
   reset: function (evt) {
     this.input.value = '';
+    this.input.blur();
     this.indices = {};
     this.menu.reset();
   },
@@ -212,7 +213,6 @@ Search.prototype = {
     this.subscribers.select.forEach(function (item) {
       item.call(this, this.input.dataset, evt);
     }, this);
-    this.input.blur();
     this.reset();
   },
   processIndices: function (group, evt) {
@@ -250,10 +250,11 @@ Search.prototype = {
   },
   checkUp: function (evt) {
     var key = evt.key || evt.keyIdentifier;
+    console.log(key);
     var meta  = this.command[key.toLowerCase()];
     if (meta) {
       if (isNaN(meta)) {
-        this.select(evt);
+        this[meta](evt);
       }
       return
     }

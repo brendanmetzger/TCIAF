@@ -475,19 +475,6 @@ div.edge.highlight {
   color:#333;
 }
 
-::-webkit-input-placeholder {
-  font-style:italic;
-  color:#AAA;
-  letter-spacing:0.075em;
-  font-size:0.75em;
-  padding:0.25em;
-}
-
-
-
-
-
-
 
 
 fieldset.edges dl {
