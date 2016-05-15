@@ -124,6 +124,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   flex-flow:row;
   align-items: center;
   flex-grow: 1;
+  transition: background-color 1s;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
 .display, .markdown h2 { font-family: 'Source Serif Pro', Baskerville, Didot, Serif; }
@@ -194,19 +195,19 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
   /* transition: background-size 1.25s; */
   margin: 0;
   padding: 1.5em 0.5em 1em 2.5em;
-  background: transparent url(/images/search.svg) no-repeat 5% 25%;
-  background-size: auto 75%;
+  background: transparent url(/images/search.svg) no-repeat 5% 45%;
+  background-size: auto 65%;
   border:none;
   border-bottom:1px dashed #ddd;
   font-size: 1.5em;
 }
 
 ::-webkit-input-placeholder {
-   font-size:1.5em;
+   font-size:1.125em;
    letter-spacing:0.125em;
    font-weight:100;
    text-align:left;
-   text-indent:1.25em;
+   text-indent:1.5em;
    color:#BBB;
    text-transform:uppercase;
 }
@@ -253,7 +254,7 @@ button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.125em 0 r
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
 
-#media  {z-index:2;top: 87.5vh;transition: top 0.085s linear;}
+#media  {z-index:2;top: 87.5vh;}
 #browse {z-index:1;top: 0;height: auto;}
 
 body[data-view='browse'] #media {
@@ -318,8 +319,8 @@ section#media {width:100vw;position:fixed;left:0;}
   }
 
   body[data-view='media'] {/* overflow:hidden; */}
-  body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: rgba(85, 85, 85, 0.36);top: 0;}
-  body[data-view='media'] #media form {width: 100%;/* height: 6vh; */}
+  body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: #fff;top: 0;}
+  body[data-view='media'] #media form {width: 100%;height: 9vh;}
   body[data-view='media'] #Player .progress span {font-size:2.25em;}
   body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 30vh;overflow: hidden;min-height: 50vw;background-color: #FAFAFA;}
   body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#FC6202;color:#FFF;padding:1.125em 1.65em;margin:0;}
