@@ -74,7 +74,7 @@ abstract class Vertex extends \bloc\Model
   {
     if ($context['abstract']->count() < 1) {
       return [[
-       'type' => strtolower(static::$fixture['vertex']['abstract'][0]['@']['content']),
+       'type' => strtolower(array_pop(static::$fixture['vertex']['abstract'])['@']['content']),
        'index' => 0,
        'text' => '',
        'required' => 'required',

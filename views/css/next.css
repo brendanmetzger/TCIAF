@@ -82,7 +82,7 @@ ul, ol { padding:0 0 0 2em }
   margin: -2vmax -2vmax 2vmax -5vmax;
   padding:2.5vw 30vw 2.5vw 5vw;
 }
-.banner-bg * {color:#FFF;}
+.banner-bg * {color:#FFF;text-shadow: 0 0 0.25em rgba(0,0,0,0.25);}
 .banner-bg {
   background-color:#333;
   background-repeat: no-repeat;

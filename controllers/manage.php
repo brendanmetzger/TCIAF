@@ -161,6 +161,7 @@ class Manage extends \bloc\controller
     $this->references = null;
     $this->edges      = null;
 
+    
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
     return $view->render($this());

@@ -11,15 +11,17 @@ class Task extends \bloc\controller
 {
   public function __construct($request)
   {
-    if ($request->type == 'CLI') {
+    $this->request = $request;
+    if ($this->request->type == 'CLI') {
       $this->sessionfile = '/tmp/'.$_SERVER['USER'].'-tciaf-login';
-      $this->authenticated = file_exists($this->sessionfile);
+      $this->authenticated = file_exists($this->sessionfile) ? file_get_contents($this->sessionfile) : false;
     }
   }
 
   public function authenticate()
   {
-    # code...
+    echo "Authenticating..\n";
+    return $this->authenticated ? new \models\person($this->authenticated) : null;
   }
 
   public function CLIindex()
@@ -134,9 +136,9 @@ class Task extends \bloc\controller
       echo "\nPlease Enter your password: ";
       $password = trim(fgets(STDIN));
 
-      $user = (new \models\person('p-' . preg_replace('/\W/', '', $username)))->authenticate($password);
+      $user = (new \models\person(preg_replace('/\W/', '-', $username)))->authenticate($password);
 
-      touch($this->sessionfile);
+      file_put_contents($this->sessionfile, $user['@id']);
 
       echo "-- Session Created, you may now run restricted commands --";
 
@@ -354,5 +356,39 @@ class Task extends \bloc\controller
       \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
       if ($count-- < 0) break;
     }
+  }
+
+  protected function CLIbio()
+  {
+    $abstracts = \models\Graph::group('person')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'bio');
+    }
+
+    $abstracts = \models\Graph::group('organization')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'about');
+    }
+
+    $abstracts = \models\Graph::group('happening')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      $abstract->setAttribute('content', 'about');
+    }
+
+    $abstracts = \models\Graph::group('competition')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'about');
+    }
+
+    $abstracts = \models\Graph::group('competition')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'about');
+    }
+
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
 }
