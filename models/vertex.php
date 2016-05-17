@@ -65,6 +65,7 @@ abstract class Vertex extends \bloc\Model
     $context->setAttribute('content', $abstract['@']['content']);
 
     $markdown = new \vendor\Parsedown;
+    $markdown->setBreaksEnabled(true);
     file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
     return true;
   }

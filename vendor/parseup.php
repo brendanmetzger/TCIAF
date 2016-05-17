@@ -243,7 +243,6 @@ class Parseup
                 $markdown = "- - - - - -" . PHP_EOL . PHP_EOL;
                 break;
             case "br":
-            return;
                 $markdown = "  " . PHP_EOL;
                 break;
             case "blockquote":
