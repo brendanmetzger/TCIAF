@@ -4,7 +4,6 @@
     <span class="selected">[$item:title]</span>
   </nav>
   <header>
-    <a class="award" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
     <div class="two-thirds controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
@@ -21,7 +20,7 @@
       <img src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
     </figure>
     <div class="two-thirds">
-      <div property="description">[$item:content:description]</div>
+      <div class="markdown" property="description">[$item:content:description]</div>
       <h4 class="brown caps-lock strong t">produced by</h4>
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->

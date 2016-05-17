@@ -263,7 +263,7 @@ Search.prototype = {
     this.input.dataset.id = '';
 
     if (this.input.value.length < 1) {
-      this.reset();
+      this.menu.reset();
       return;
     }
     this.processMatches();
