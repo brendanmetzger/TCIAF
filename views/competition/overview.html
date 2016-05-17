@@ -14,9 +14,9 @@
   <!-- iterate competitions -->
   <article id="[$item:@id]" class="panel flip">
     <!-- iterate item:upcoming -->
-    <a class="[one-third upcoming ll $item:competition:@sticky]" href="[$item:permalink]">
+    <a class="[one-third upcoming ll $item:competition:@sticky banner-bg]" href="[$item:permalink]" style="[background-image:url(http://s3.amazonaws.com/$item:banner:url)]">
       <h4 class="caps-lock strong b">Coming Up</h4>
-      <h3 class="display strong tracked" data-id="[$item:@id]">[$item:title]</h3>
+      <h3 class="display strong tracked">[$item:title]</h3>
       <h3>Learn More</h3>
     </a>
     <div class="two-thirds">
@@ -46,15 +46,7 @@
       box-shadow:0 0 5em rgba(0,0,0,0.05);
     }
     a.upcoming * {color:#fff;}
-    a.upcoming.driehaus {
-      background: #EE3124 url(/images/driehaus.svg) no-repeat right 0;
-      background-size:auto 100%;
-    }
 
-    a.upcoming.shortdocs {
-      background-color: #333;
-
-    }
     /* ]]> */
   </style>
 </article>

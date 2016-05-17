@@ -34,13 +34,13 @@
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
     </div>
-    <nav class="caps-lock t b h6">
-      <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
-    </nav>
-    <section>[$item:content:about]</section>
   </header>
   <section class="panel">
     <section class="two-thirds">
+      <nav class="caps-lock t b h6">
+        <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
+      </nav>
+      <section>[$item:content:about]</section>
       <!-- iterate item:articles -->
       <article class="memo">
         <h2 class="display">[$item:title]</h2>
@@ -69,6 +69,7 @@
       </article>
     </section>
     <section class="one-third ll">
+      <img src="[http://s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
       <!-- insert views/partials/sponsors.html -->
     </section>
   </section>

@@ -73,7 +73,7 @@ abstract class Vertex extends \bloc\Model
   {
     if ($context['abstract']->count() < 1) {
       return [[
-       'type' => static::$fixture['vertex']['abstract'][0]['@']['content'],
+       'type' => strtolower(static::$fixture['vertex']['abstract'][0]['@']['content']),
        'index' => 0,
        'text' => '',
        'required' => 'required',
@@ -81,7 +81,6 @@ abstract class Vertex extends \bloc\Model
     }
 
     return $context['abstract']->map(function($abstract) use($parse){
-
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
 
@@ -228,6 +227,7 @@ abstract class Vertex extends \bloc\Model
 		foreach ($this->getAbstract($context, false) as $abstract) {
 			$dict[$abstract['type']] = $abstract['text'];
     }
+
 		return new \bloc\types\Dictionary($dict);
   }
 

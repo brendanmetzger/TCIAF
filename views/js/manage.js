@@ -636,3 +636,35 @@ function sortable(selector, targetname, onUpdate) {
        }, 0);
    }, false);
 }
+
+
+function duplicateTextbox(evt) {
+  evt.preventDefault();
+  var divs = document.querySelectorAll('div.abstract');
+  if (divs.length > 1) {
+    if(window.confirm('Since you already have an extra, would you like to rid yourself of this one?')) {
+      var idx = divs.length - 1;
+      divs.item(idx).querySelector('textarea').value = '';
+    }
+    return;
+  }
+
+  var clone    = divs.item(0).cloneNode(true),
+      index    = Math.floor(Date.now()/-1e8),
+      label    = clone.querySelector('label'),
+      input    = clone.querySelector('input[type=hidden]'),
+      textarea = clone.querySelector('textarea');
+
+  label.textContent = 'Extras';
+  label.for = label.getAttribute('for').replace(/[0-9]+/, index);
+
+  input.value = 'Extras';
+  input.name = input.name.replace(/[0-9]+/, index);
+
+  textarea.value = '';
+  textarea.placeholder = 'Enter extra information';
+  textarea.name = textarea.name.replace(/[0-9]+/, index);
+
+  evt.target.parentNode.insertBefore(clone, evt.target);
+  return false;
+}

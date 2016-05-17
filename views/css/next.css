@@ -11,7 +11,7 @@ body {
   color: #3d3d3d;
 }
 
-.brown, .markdown h3 { color:#77635c; }
+.brown, .markdown h3, .markdown h4 { color:#77635c; }
 .white-bg, body, .gallery img, button, .button { background-color:#fff }
 .gray {color: #979797;}
 .gray-bg {background-color: rgba(0,0,0,0.1);color: #706F73;}
@@ -43,9 +43,10 @@ p a {text-decoration:underline}
 .m, p { margin: 0.5em 0 1em }
 
 .markdown h3 {margin: 2vmax 0 0;}
+.markdown h4:not(:first-of-type) {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
-.caps-lock, .markdown h3, article nav > ul.plain li > a {text-transform:uppercase;}
+.caps-lock, .markdown h3, .markdown h4, article nav > ul.plain li > a {text-transform:uppercase;}
 .fade {opacity:0;}
 .inline:not(ul), .inline li, .inline dd, ul.divide li, label  {display:inline-block;}
 .rag-right {text-align:left;}
@@ -65,7 +66,7 @@ h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(0.75em + 1
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.45;}
 h5 {font-weight:400}
 h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
-strong, .strong, .selected {font-weight:600;}
+strong, .strong, .selected, .markdown h4 {font-weight:600;}
 input, select {font-size: inherit }
 em, .em, blockquote {font-style:italic }
 ul { list-style-type: square; }
@@ -80,6 +81,17 @@ ul, ol { padding:0 0 0 2em }
   min-height: 25vmax;
   margin: -2vmax -2vmax 2vmax -5vmax;
   padding:2.5vw 30vw 2.5vw 5vw;
+}
+.banner-bg * {color:#FFF;}
+.banner-bg {
+  background-color:#333;
+  background-repeat: no-repeat;
+  background-position:75% bottom;
+  background-size: auto 100%;
+}
+
+.banner.banner-bg {
+  background-size:cover;
 }
 
 hr, .hr, .ruled {
@@ -461,15 +473,6 @@ section#media {width:100vw;position:fixed;left:0;}
 input, textarea, fieldset { width:100%; padding:0;border: 1px solid #ccc; }
 
 
-.driehaus.banner {
-  background: #EE3124 url(/images/driehaus.svg) no-repeat right bottom;
-  color:#fff;
-  background-size:auto 100%;
-}
-.shortdocs.banner {
-  background-color: #333;
-  color:#fff;
-}
 
 div.filter > h6 {
   padding: 1em 2vmin;
