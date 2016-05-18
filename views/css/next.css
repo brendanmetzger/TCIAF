@@ -87,7 +87,7 @@ ul, ol { padding:0 0 0 2em }
   background-color:#333;
   background-repeat: no-repeat;
   background-position:75% bottom;
-  background-size: auto 100%;
+  background-size: cover;
 }
 
 .banner.banner-bg {
@@ -211,7 +211,6 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
   background: transparent url(/images/search.svg) no-repeat 5% 45%;
   background-size: auto 65%;
   border:none;
-  border-bottom:1px dashed #ddd;
   font-size: 1.5em;
 }
 
@@ -331,7 +330,16 @@ section#media {width:100vw;position:fixed;left:0;}
 
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}
   body[data-view='browse'] #Player .controls {padding: 0 2.5%;max-width: 30vmax;max-height: 12.5vmax;}
-  body[data-view='browse'] #media p {padding: 1.25em 0 0 3.5em;color:#AAA;}
+  body[data-view='browse'] #media p {
+    padding: 2em 7.5em;
+    color: #AAA;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+  }
   body[data-view='browse'] #media #Player ul:not(:empty) {
     width: auto;
     display: inline-block;
@@ -394,7 +402,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .columns {column-gap:1em;}
   .columns.three{column-count:3;}
   .columns.four{column-count:3;}
-  body {overflow:hidden }
+  body {overflow:hidden;}
   nav a.logo {margin: 1em 0 0;min-width: 22.5em;background-size: contain;background-position: 40% 70%;min-height: 8.5vh;}
   .column { flex-direction: column }
 
@@ -405,8 +413,8 @@ section#media {width:100vw;position:fixed;left:0;}
 
   nav[role] > ul > li {background-color:#fff }
   #browse > header {padding: 0 2vw;}
-  body[data-view] > #media  {top:0;width: 20vw;height:100vh;box-shadow: -0.125em 0 0.75em rgba(0,0,0,0.15);left: 80vw;border-top: 1vw solid #77635c;}
-  body[data-view] > #browse {left: 0;width: 80vw;height:100vh;overflow-x: hidden;}
+  body[data-view] > #media  {top:0;width: 15vw;height:100vh;box-shadow: -0.125em 0 0.75em rgba(0,0,0,0.15);left: 85vw;border-top: 1vw solid #77635c;}
+  body[data-view] > #browse {left: 0;width: 85vw;height:100vh;overflow-x: hidden;}
 
   .triptych > * {
     flex: 0 0 calc(33.3% - 0.5em);

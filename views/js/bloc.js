@@ -250,7 +250,6 @@ Search.prototype = {
   },
   checkUp: function (evt) {
     var key = evt.key || evt.keyIdentifier;
-    console.log(key);
     var meta  = this.command[key.toLowerCase()];
     if (meta) {
       if (isNaN(meta)) {

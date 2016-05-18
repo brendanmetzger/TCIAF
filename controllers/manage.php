@@ -161,7 +161,7 @@ class Manage extends \bloc\controller
     $this->references = null;
     $this->edges      = null;
 
-    
+
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));
     return $view->render($this());
@@ -250,7 +250,7 @@ class Manage extends \bloc\controller
         ];
 
         if ($type === 'image') {
-          $path = preg_match('/\.jpe?g$/i', $name) ? "http://{$_SERVER['HTTP_HOST']}/assets/scale/800/{$name}" : $source;
+          $path = preg_match('/\.jpe?g$/i', $name) ? "http://{$_SERVER['HTTP_HOST']}/assets/scale/1000/{$name}" : $source;
           $config['Body'] =  file_get_contents($path);
         } else {
           $config['SourceFile'] = $source;

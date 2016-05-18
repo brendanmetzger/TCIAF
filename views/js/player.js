@@ -114,7 +114,7 @@ var Player = function (container, data, message) {
   }));
   toggle.textContent = message;
 
-  toggle.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
+  toggle.addEventListener('click', function (evt) {
     this.textContent = "×";
     document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
   });

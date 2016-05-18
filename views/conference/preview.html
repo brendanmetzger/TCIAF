@@ -23,13 +23,9 @@
       color:rgba(0,0,0,0.5);
       top:1em;
     }
-    .conf-banner {
-      background:#F26322 url(/images/conference-16.svg) no-repeat right bottom;
-      color:#FFF;
-    }
   </style>
   <header>
-    <div class="banner conf-banner"  data-aspect="[$item:banner:mark]">
+    <div class="banner banner-bg"  data-aspect="[$item:banner:mark]" style="[background-image:url(http://s3.amazonaws.com/$item:banner:url)]">
       <h4 class="bb strong">[$item:teaser]</h4>
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
