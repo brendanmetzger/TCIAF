@@ -39,6 +39,7 @@ var Playlist = function (player, attributes) {
   this.player  = player;
   this.element = player.container.appendChild(document.createElement('ul')['@'](attributes));
   this.element.addEventListener('click', this.select.bind(this));
+  this.scroller = smoothScroll(this.element);
 };
 
 Playlist.prototype = {
@@ -177,7 +178,7 @@ Player.prototype = {
     if (this.audio.src != track.src) {
       this.audio.src = track.src;
       this.container.dataset.position = track.position;
-      track.element.scrollIntoView();
+      this.playlist.scroller.scroll(track.element.offsetTop - this.playlist.element.offsetTop, 1000);
       this.pause();
     }
     this.css = document.head.appendChild(document.createElement('style'))
