@@ -29,7 +29,7 @@ button.listen {
 .playlist li > span {pointer-events:none;}
 li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
-#Player button {border: none;padding: 0;background-color: rgba(0,0,0,0);}
+#Player button {border: none;padding: 0;background-color: rgba(0,0,0,0);border-radius: 50%;padding:1em;}
 #Player button svg path { stroke: none; }
 #Player:not([data-position]) .controls, audio  {display:none}
 #Player svg {

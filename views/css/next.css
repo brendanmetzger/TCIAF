@@ -2,6 +2,16 @@
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
 img:not([src]), a:not([href]), nav[data-pages='1'] {display:none }
 img {max-width:100%;}
+
+a:focus {
+  text-decoration:underline;
+  outline:none;
+}
+button:focus, input:focus {
+  outline:none;
+  border-color: #FC6202 !important;
+  box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.05) !important;
+}
 body {
   font: normal normal 300 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
   background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
@@ -17,7 +27,7 @@ body {
 .gray-bg {background-color: rgba(0,0,0,0.1);color: #706F73;}
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
 .brown-bg a {color: #EEE;}
-.orange, .display > strong {color:#FC6202;}
+.orange, .display > strong, a:focus {color:#FC6202;}
 
 a {color:#706F73;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
@@ -250,7 +260,7 @@ button[type='submit'] {
 .search li:hover, .search li.highlight { background-color:#5B9B98; color:#FFF; }
 
 button,.button, .playlist li:not(.current) {text-decoration:none;border-radius:0;cursor:pointer;}
-button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.125em 0 rgba(0,0,0,0.25);}
+button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.25em 0 rgba(0,0,0,0.05);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
 

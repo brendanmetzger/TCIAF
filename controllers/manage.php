@@ -250,7 +250,7 @@ class Manage extends \bloc\controller
         ];
 
         if ($type === 'image') {
-          $path = preg_match('/\.jpe?g$/i', $name) ? "http://{$_SERVER['HTTP_HOST']}/assets/scale/1000/{$name}" : $source;
+          $path = preg_match('/\.jpe?g$/i', $name) ? "http://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
           $config['Body'] =  file_get_contents($path);
         } else {
           $config['SourceFile'] = $source;
