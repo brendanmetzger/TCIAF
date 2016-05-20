@@ -28,6 +28,7 @@ trait banner {
   {
     $images = $this->media['image'];
 
+    // a square image has special placement; left in a little wiggle room, as a square as haspect ration of 1:1
     while ($images->valid() && ($images->current()->mark > 1.1 || $images->current()->mark < 0.9)) {
       $images->next();
     }

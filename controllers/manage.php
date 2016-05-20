@@ -272,7 +272,19 @@ class Manage extends \bloc\controller
           $pending = "?/tciaf-audio/{$key}";
           $mark = 0;
         } else {
-          $dims = getimagesize($source);
+          if ($ext == 'svg') {
+            // this rigamarole is to ensure we can gather the aspect ratio
+            // of an svg (xml) which is important for banner placement.
+            $doc  = new \bloc\DOM\Document($source, [], 3);
+            if ($viewbox =  $doc->documentElement->getAttribute('viewBox')) {
+                $dims = array_slice(explode(' ', $viewbox), 2);
+            } else {
+              $dims = [0, 1];
+            }
+          } else {
+            $dims = getimagesize($source);
+          }
+
           $mark = round($dims[0] / $dims[1], 1);
           $pending = "";
         }

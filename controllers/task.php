@@ -358,37 +358,4 @@ class Task extends \bloc\controller
     }
   }
 
-  protected function CLIbio()
-  {
-    $abstracts = \models\Graph::group('person')->find('vertex/abstract[@content="description"]');
-    foreach ($abstracts as $abstract) {
-      echo "{$abstract->write()}\n";
-      $abstract->setAttribute('content', 'bio');
-    }
-
-    $abstracts = \models\Graph::group('organization')->find('vertex/abstract[@content="description"]');
-    foreach ($abstracts as $abstract) {
-      echo "{$abstract->write()}\n";
-      $abstract->setAttribute('content', 'about');
-    }
-
-    $abstracts = \models\Graph::group('happening')->find('vertex/abstract[@content="description"]');
-    foreach ($abstracts as $abstract) {
-      $abstract->setAttribute('content', 'about');
-    }
-
-    $abstracts = \models\Graph::group('competition')->find('vertex/abstract[@content="description"]');
-    foreach ($abstracts as $abstract) {
-      echo "{$abstract->write()}\n";
-      $abstract->setAttribute('content', 'about');
-    }
-
-    $abstracts = \models\Graph::group('competition')->find('vertex/abstract[@content="description"]');
-    foreach ($abstracts as $abstract) {
-      echo "{$abstract->write()}\n";
-      $abstract->setAttribute('content', 'about');
-    }
-
-    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
-  }
 }
