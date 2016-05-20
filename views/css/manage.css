@@ -352,7 +352,7 @@ dd.image {
   width:20%;
   height:10em;
   cursor:move;
-  background-color:#333;
+  background-color: #ffffff;
   background-size:cover;
   background-position:50% 50%;
   display:block;
@@ -532,14 +532,14 @@ dd.sorting div.edge {
   cursor:move;
 }
 dl[data-priority='normal'] dt:after {
-  content: ' ▾ '
+  content: ' â–¾ '
 }
 
 dl[data-priority] {
   cursor:pointer;
 }
 dl[data-priority='low'] dt:after {
-  content: ' ▸ ';
+  content: ' â–¸ ';
 }
 dl[data-priority='low'] > dd {
   display:none;

@@ -234,7 +234,8 @@ class Manage extends \bloc\controller
     $base   = preg_replace(['/\.[a-z34]{3,4}$/i', '/[^A-z0-9\-:\/_]/'], '', $upload['name']);
     $mime   = explode('/', $upload['type']);
     $type   = $mime[0];
-    $name   = strtolower("{$size}_{$base}.{$mime[1]}");
+    $ext    = preg_replace('/[^a-z].*/i', '', $mime[1]);
+    $name   = strtolower("{$size}_{$base}.{$ext}");
     $bucket = 'tciaf-media';
     $source = PATH . "data/media/{$name}";
 
@@ -247,6 +248,7 @@ class Manage extends \bloc\controller
           'Bucket' => $bucket,
           'Key'    => $filename,
           'ACL'    => 'public-read',
+          'ContentType' => $upload['type'],
         ];
 
         if ($type === 'image') {
