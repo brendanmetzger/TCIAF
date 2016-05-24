@@ -5,5 +5,5 @@
     <rect x="39" y="135" width="10" height="25"/>
     <rect x="51" y="135" width="10" height="25"/>
   </g>
-  <polygon points="40,35         40,65         65,50" fill="#5b9c99"/>
+  <polygon points="40,35         40,65         65,50" style="fill:#5b9c99;stroke:#447371;stroke-width:2;stroke-opacity:0.35;stroke-alignment:inner;" />
 </svg>

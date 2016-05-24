@@ -432,7 +432,7 @@ section#media {width:100vw;position:fixed;left:0;}
   }
   .feature article.panel.listing header { width:50% }
   .feature article.panel.listing ul { width:30% }
-  .bg {width:20%;margin:0;align-self: flex-start;background-color: rgba(214, 214, 214, 0.5);background-blend-mode: screen;}
+  .bg {width:20%;margin:0;align-self: flex-start;background-color: rgba(214, 214, 214, 0.5);}
 
 }
 

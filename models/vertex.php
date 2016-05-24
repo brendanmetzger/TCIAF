@@ -288,7 +288,7 @@ abstract class Vertex extends \bloc\Model
 
   public function GETpermalink(\DOMNode $context)
   {
-    return "/explore/detail/{$context['@id']}";
+    return "/explore/{$this->_model}/{$context['@id']}";
   }
 
   public function slugify()
