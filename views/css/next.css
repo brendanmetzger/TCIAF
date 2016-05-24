@@ -18,7 +18,7 @@ body {
   background-size:100%, 100%;
   background-position:100% 100%, 100% 100%;
   transition:background-position 2s, background-size 1.5s;
-  color: #3d3d3d;
+  color: #252525;
 }
 
 .brown, .markdown h3, .markdown h4 { color:#77635c; }

@@ -59,6 +59,7 @@ Playlist.prototype = {
 
     this.pointer = evt.target.id;
     this.player.play();
+    console.log(this.current);
     this.current.callback(evt);
   },
   next: function (idx) {
@@ -269,8 +270,8 @@ function loadButtonAudio(button, evt) {
     if (aux_button && aux_button != button) {
       track.callback = function (evt) {
         // proxy a click to the playlist.
-        console.info("TODO: should only visit new page if user clicks info button (i)");
-        navigateToPage.bind({href: audio.dataset.ref})
+        console.log(evt.target, audio.dataset.ref);
+        navigateToPage.call({href: audio.dataset.ref}, evt);
       };
       aux_button.removeAttribute('onclick');
       aux_button.addEventListener('click', player.playlist.select.bind(player.playlist, {target: {id: track.id}}));
