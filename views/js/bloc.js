@@ -426,7 +426,14 @@ if (window.history.pushState) {
     },
     error: function (evt) {
       // should just redirect
-      console.error('FIX this now! look at console..');
+      console.error('FIX this now! look at console..', navigator.onLine);
+      var message = "Your browser is offline.";
+
+      if (navigator.onLine) {
+        message = "We were unable to fulfill that request. Please try again.";
+      }
+      alert(message);
+      document.body.classList.remove('transition');
       // console.dir(evt.target);
       // console.log(this);
     }
@@ -489,6 +496,9 @@ if (window.history.pushState) {
 bloc.init(function () {
   window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
+  window.addEventListener('offline', function () {
+    alert("Your internet connection has been terminated. Browsing and playback may be affected.");
+  });
 });
 
 
