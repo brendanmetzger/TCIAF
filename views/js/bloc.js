@@ -525,9 +525,15 @@ bloc.init(bloc.define('autoload', function () {
 bloc.define('site-search', function (instance) {
   instance.subscribers.select.push(function (dataset, evt) {
     document.body.dataset.view = 'browse';
-    var url = (Number(dataset.index) < 0)
-            ? '/search/full?q=' + dataset.text
-            : '/explore/detail/'+dataset.id;
+
+    if (Number(dataset.index) < 0) {
+      url = '/search/full?q=' + dataset.text;
+      type = 'full';
+    } else {
+      url = '/explore/detail/'+dataset.id;
+      type = 'filter';
+    }
+    ga('send', 'event', 'Search', type, dataset.text);
     navigateToPage.call({href: url}, evt);
   });
 });
