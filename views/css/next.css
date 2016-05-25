@@ -1,8 +1,8 @@
 * { box-sizing:border-box }
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
-body[data-status='offline'] #browse header {border-color:#fb6868;position: fixed;}
+body[data-status='offline'] #browse header {border-color:#fb6868;}
 body[data-status='offline'] #browse > header:after {
-  content: 'Your browser is currently offline ðŸ¤”';
+  content: 'Your browser is currently offline 🤔';
   text-align:center;
   font-size:1.75em;
   width:100%;
