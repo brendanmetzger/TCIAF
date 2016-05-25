@@ -447,12 +447,10 @@ if (window.history.pushState) {
 
 
     if (evt.type != 'popstate') {
-      if (!this.pathname || evt.target.pathname.split('/').slice(1,4).join('-') != window.location.pathname.split('/').slice(1,4).join('-')) {
-        setTimeout(function () {
-          document.body.scrollTop = 0;
-          document.querySelector('#browse').scrollTop = 0;
-        }, 150);
-      }
+      setTimeout(function () {
+        document.body.scrollTop = 0;
+        document.querySelector('#browse').scrollTop = 0;
+      }, 150);
       history.pushState(null, null, this.href);
     } else if (evt.timeStamp > window.dataLayer[0].start && evt.timeStamp - window.dataLayer[0].start < 1000) {
       // Safari consistently fires this event on load, which refreshes the page.
