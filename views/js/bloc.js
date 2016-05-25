@@ -106,9 +106,10 @@ var smoothScroll = function (elem) {
 };
 
 
-var Request = function (callbacks) {
+var Request = function (callbacks, timeout) {
   this.request = new XMLHttpRequest();
   this.request.overrideMimeType('text/xml');
+  this.request.timeout = timeout || 5000;
   for (var action in callbacks) {
     this.request.addEventListener(action, callbacks[action].bind(this), false);
   }
@@ -117,10 +118,12 @@ var Request = function (callbacks) {
 
 Request.prototype = {
   get: function (url) {
+    this.url = url;
     this.request.open('GET', url);
     this.request.send();
   },
   post: function (url) {
+    this.url = url;
     this.request.open('POST', url);
     this.request.send();
   }
@@ -416,13 +419,18 @@ if (window.history.pushState) {
       // if
       bloc.load(true);
     },
+    timeout: function (evt) {
+      alert('Either the server is struggling to keep up or your internet connection has lost its muster. Please try again!');
+      ga('send', 'event', 'Error', 'timeout', this.url.replace(/.*\.org/, ''));
+      document.body.classList.remove('transition');
+    },
     error: function (evt) {
       // should just redirect
-      // console.error('FIX this now! look at console..');
+      console.error('FIX this now! look at console..');
       // console.dir(evt.target);
       // console.log(this);
     }
-  });
+  }, 4500);
 
   var adjust = function (num) {
     return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))) + '%';

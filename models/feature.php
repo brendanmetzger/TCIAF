@@ -3,7 +3,7 @@
 namespace models;
 
 function timecode($time) {
-  return $time < 60 ?   sprintf('%02d', round($time)) : timecode($time / 60) .':'. sprintf('%02d', $time % 60);
+  return $time <= 60 ?   sprintf('%02d', floor($time)) : timecode($time / 60) .':'. sprintf('%02d', $time % 60);
 }
 
 /**
