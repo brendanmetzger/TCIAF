@@ -72,7 +72,6 @@ function calendar($start, $year, $category)
       }
 
 
-
       if ($filter == 'shows') {
         $this->title  = "Shows";
       } else if ($filter == 'conference-audio') {

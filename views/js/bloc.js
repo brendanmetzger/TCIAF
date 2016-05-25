@@ -420,7 +420,7 @@ if (window.history.pushState) {
       bloc.load(true);
     },
     timeout: function (evt) {
-      alert('Either the server is struggling to keep up or your internet connection has lost its muster. Please try again!');
+      alert('This page is taking a bit long... either our server is struggling or your internet connection is. Please try again!');
       ga('send', 'event', 'Error', 'timeout', this.url.replace(/.*\.org/, ''));
       document.body.classList.remove('transition');
     },
