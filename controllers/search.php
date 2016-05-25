@@ -51,7 +51,7 @@ class Search extends Manage
 
   public function GETfull()
   {
-    $this->query = \bloc\request::$data['query'];
+    $this->query = \bloc\request::$data['q'];
     $view = new View('views/layout.html');
     $view->content= 'views/pages/search.html';
     return $view->render($this());

@@ -461,7 +461,8 @@ if (window.history.pushState) {
       // This checks the event time vs. the recorded start and avoid it... hack.
       return;
     };
-    Content.get(this.href + '?xhr=true');
+
+    Content.get(this.href + this.href.match(/\?/) ? '' : '?xhr=true');
     ga('send', 'pageview');
     document.body.classList.add('transition');
     var style = getComputedStyle(document.body);
@@ -525,7 +526,7 @@ bloc.define('site-search', function (instance) {
   instance.subscribers.select.push(function (dataset, evt) {
     document.body.dataset.view = 'browse';
     var url = (Number(dataset.index) < 0)
-            ? '/search/full?query=' + dataset.text
+            ? '/search/full?q=' + dataset.text
             : '/explore/detail/'+dataset.id;
     navigateToPage.call({href: url}, evt);
   });
