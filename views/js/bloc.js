@@ -118,14 +118,16 @@ var Request = function (callbacks, timeout) {
 
 Request.prototype = {
   get: function (url) {
-    this.url = url;
-    this.request.open('GET', url);
-    this.request.send();
+    this.make('GET', url);
   },
   post: function (url) {
+    this.make('POST', url);
+  },
+  make: function (type, url) {
     this.url = url;
-    this.request.open('POST', url);
+    this.request.open(type, url);
     this.request.send();
+    this.benchmark = performance.now();
   }
 };
 
@@ -416,6 +418,8 @@ if (window.history.pushState) {
         document.body.classList.remove('transition');
       }, 10);
 
+      // track page timings in analytics
+      ga('send', 'timing', 'XHR Request', 'load', Math.round(performance.now() - this.benchmark));
       // if
       bloc.load(true);
     },
