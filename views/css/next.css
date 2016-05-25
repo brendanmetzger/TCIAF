@@ -1,5 +1,17 @@
 * { box-sizing:border-box }
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
+body[data-status='offline'] #browse header {border-color:#fb6868;position: fixed;}
+body[data-status='offline'] #browse > header:after {
+  content: 'Your browser is currently offline ðŸ¤”';
+  text-align:center;
+  font-size:1.75em;
+  width:100%;
+  padding:1em;
+  display:block;
+  color:#fb6868;
+  letter-spacing:0.075em;
+
+}
 img:not([src]), a:not([href]), nav[data-pages='1'] {display:none }
 img {max-width:100%;}
 

@@ -491,12 +491,15 @@ if (window.history.pushState) {
   };
 }
 
+function toggleStatus(evt) {
+  document.body.dataset.status = evt.type;
+}
+
 bloc.init(function () {
   window.Adjust = smoothScroll(document.querySelector('#browse'));
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
-  window.addEventListener('offline', function () {
-    alert("Your internet connection has been terminated. Browsing and playback may be affected.");
-  });
+  window.addEventListener('offline', toggleStatus);
+  window.addEventListener('online', toggleStatus);
 });
 
 
