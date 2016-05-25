@@ -69,6 +69,7 @@ class Explore extends Manage
   public function GETperson($id) { return $this->GETdetail($id); }
   public function GETfeature($id) { return $this->GETdetail($id); }
   public function GETcollection($id) { return $this->GETdetail($id); }
+  public function GETarticle($id) { return $this->GETdetail($id); }
 
   public function GETbehindTheScenes($sort = 'newest', $index = 1, $per = 25)
   {
