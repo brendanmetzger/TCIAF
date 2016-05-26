@@ -23,6 +23,11 @@ class Person extends Vertex  implements \bloc\types\authentication
     ]
   ];
 
+  static public function N2ID($name)
+  {
+    return strtolower(preg_replace('/\W/', '-', $name));
+  }
+
   protected $edges = [
     'producer'    => ['feature', 'broadcast', 'article'],
     'presenter'   => ['feature', 'happening'],

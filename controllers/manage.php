@@ -70,9 +70,16 @@ class Manage extends \bloc\controller
     return (new View('views/layout.html'))->render($this());
   }
 
-  public function GETlogin($redirect = '/', $status = "default", $username = null)
+  public function GETlogin($redirect = null, $status = "default", $username = null)
   {
     if ($this->authenticated) \bloc\router::redirect('/manage/logout');
+
+    if ($redirect === null) {
+      $redirect =  array_key_exists('ref', $_GET)? $_GET['ref']: base64_encode($this->_redirect);
+    }
+
+    $redirect = base64_decode($redirect);
+
     Application::instance()->getExchange('response')->addHeader("HTTP/1.0 401 Unauthorized");
 
     $messages = [
@@ -93,7 +100,7 @@ class Manage extends \bloc\controller
       'username' => base64_decode($username),
       'password' => null,
       'action'   => $redirect,
-      'redirect' =>  base64_decode($redirect),
+      'redirect' =>  $redirect,
       'tokens'   => [
         'username' => String::rotate('username', $token),
         'password' => String::rotate('password', $token),
@@ -115,7 +122,7 @@ class Manage extends \bloc\controller
 
     if ($key) {
       try {
-        $id = strtolower(preg_replace('/\W/', '-', $username));
+        $id = \models\person::N2ID($username);
         $user = (new \models\person($id))->authenticate($password);
         Application::instance()->session('TCIAF', ['id' => $id, 'user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect ?: '/');
@@ -160,7 +167,6 @@ class Manage extends \bloc\controller
     $this->action     = "Create New {$model}";
     $this->references = null;
     $this->edges      = null;
-
 
     $view = new view('views/layout.html');
     $view->content = sprintf("views/forms/%s.html", $this->item->template('form'));

@@ -449,6 +449,7 @@ if (window.history.pushState) {
 
   window.navigateToPage = function (evt) {
 
+    var append = this.href.match(/\?/) ? '' : '?ref='+btoa(window.location.pathname);
 
     if (evt.type != 'popstate') {
       setTimeout(function () {
@@ -462,7 +463,8 @@ if (window.history.pushState) {
       return;
     };
 
-    Content.get(this.href + this.href.match(/\?/) ? '' : '?xhr=true');
+
+    Content.get(this.href + append);
     ga('send', 'pageview');
     document.body.classList.add('transition');
     var style = getComputedStyle(document.body);

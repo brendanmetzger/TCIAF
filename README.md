@@ -1,10 +1,11 @@
 # Third Coast International Audio Festival
 
-## Data will persist in a graph-like structure
+## Data is a saved and modeled as a [graph](https://en.wikipedia.org/wiki/Graph_(abstract_data_type))
+The database is a document consisisting of vertices and edges. All objects in the site descend from a common type (read: the same thing), and then depending on properties and context, they mean things like "feature", "person".
 
-### Vertex
+### A Vertex
 
-A vertex is just a type of node tracked in the xml file. They have identical structure but meaning takes shape around particular use of a vertex and its edges. This is largely defined in application data Models that are responsible for figuring out what edges-vertex relationships ought to mean.
+A vertex is just a type of node tracked in the xml file. Again, they have identical structure but meaning takes shape around particular use of a vertex and its edges. All meaning is defined in application data models that are responsible for figuring out what edges-vertex relationships ought to mean.
 
 #### Types of vertices
 
@@ -45,4 +46,3 @@ From the previous example, you can describe a great deal based on context, witho
 - Sponsor (organization) of *Competition*
 - Sponsor (organization) of *Event*
 - Sponsor (person) of *Organization*
-

@@ -136,7 +136,7 @@ class Task extends \bloc\controller
       echo "\nPlease Enter your password: ";
       $password = trim(fgets(STDIN));
 
-      $user = (new \models\person(preg_replace('/\W/', '-', $username)))->authenticate($password);
+      $user = (new \models\person(\models\person::N2ID($username)))->authenticate($password);
 
       file_put_contents($this->sessionfile, $user['@id']);
 
@@ -148,9 +148,10 @@ class Task extends \bloc\controller
 
   }
 
-  protected function CLIpassword($username = false)
+  protected function CLIpassword($user, $username = false)
   {
     if (!$username) return "Provide a username as the first argument";
+
     echo "\nPlease Enter new password for '{$username}': ";
     $password = trim(fgets(STDIN));
 
@@ -161,8 +162,10 @@ class Task extends \bloc\controller
       return "\n\nPasswords DO NOT MATCH...";
     }
 
-    $user = new \models\person('p-' . preg_replace('/\W/', '', $username));
+    $user = new \models\person(\models\person::N2ID($username));
     $user->context->setAttribute('hash', $user->getHash($password));
+
+    echo $user->getHash($password);
 
     if ($user->save()) {
       return "Saved new password";
@@ -318,7 +321,7 @@ class Task extends \bloc\controller
     return self::pearson($id);
   }
 
-  protected function CLImarkMedia($per = 25)
+  protected function CLImarkMedia($user, $per = 25)
   {
     $unmarked = \models\Graph::group('feature')->find('vertex/media[@type="image" and @mark=0]');
     if ($unmarked->count() < 1) {
@@ -342,7 +345,7 @@ class Task extends \bloc\controller
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
 
-  protected function CLIduration($count = 10)
+  protected function CLIduration($user, $count = 10)
   {
     $media = \models\Graph::group('feature')->find('vertex/media[@type="audio" and not(@mark)]');
     echo "\n\nThere are -- {$media->count()} -- tracks with no known duration\n\n";
@@ -358,37 +361,37 @@ class Task extends \bloc\controller
     }
   }
 
-  protected function CLIbio()
-{
-  $abstracts = \models\Graph::group('person')->find('vertex/abstract[@content="description"]');
-  foreach ($abstracts as $abstract) {
-    echo "{$abstract->write()}\n";
-    $abstract->setAttribute('content', 'bio');
-  }
+  protected function CLIbio($user)
+  {
+    $abstracts = \models\Graph::group('person')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'bio');
+    }
 
-  $abstracts = \models\Graph::group('organization')->find('vertex/abstract[@content="description"]');
-  foreach ($abstracts as $abstract) {
-    echo "{$abstract->write()}\n";
-    $abstract->setAttribute('content', 'about');
-  }
+    $abstracts = \models\Graph::group('organization')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'about');
+    }
 
-  $abstracts = \models\Graph::group('happening')->find('vertex/abstract[@content="description"]');
-  foreach ($abstracts as $abstract) {
-    $abstract->setAttribute('content', 'about');
-  }
+    $abstracts = \models\Graph::group('happening')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      $abstract->setAttribute('content', 'about');
+    }
 
-  $abstracts = \models\Graph::group('competition')->find('vertex/abstract[@content="description"]');
-  foreach ($abstracts as $abstract) {
-    echo "{$abstract->write()}\n";
-    $abstract->setAttribute('content', 'about');
-  }
+    $abstracts = \models\Graph::group('competition')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'about');
+    }
 
-  $abstracts = \models\Graph::group('collection')->find('vertex/abstract[@content="description"]');
-  foreach ($abstracts as $abstract) {
-    echo "{$abstract->write()}\n";
-    $abstract->setAttribute('content', 'about');
-  }
+    $abstracts = \models\Graph::group('collection')->find('vertex/abstract[@content="description"]');
+    foreach ($abstracts as $abstract) {
+      echo "{$abstract->write()}\n";
+      $abstract->setAttribute('content', 'about');
+    }
 
-  \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
-}
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+  }
 }
