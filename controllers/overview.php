@@ -53,9 +53,6 @@ function calendar($start, $year, $category)
       $this->{$filter} = "selected";
       $this->{$group}  = "selected";
 
-
-
-
       $queries = [
         'shows' => 'edge[@vertex="TCIAF"]',
         'conference-audio' => 'edge[@type="session"]',
@@ -135,7 +132,7 @@ function calendar($start, $year, $category)
       $view = new view('views/layout.html');
       $view->content = "views/lists/person.html";
       $this->search  = ['topic' => 'people', 'path' => 'search/group', 'area' => 'explore/detail'];
-      $this->title = ucfirst($category).'s, Third Coast International Audio Festival';
+      $this->title = ucfirst($category).', Third Coast International Audio Festival';
       $alpha = null;
 
       $query = "edge[@type]";
