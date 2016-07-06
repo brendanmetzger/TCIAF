@@ -5,7 +5,10 @@ trait sponsor {
   public function getSponsors(\DOMElement $context)
   {
     $output = [];
-    foreach ($context->find("edge[@type='sponsor']") as $edge) {
+    $sponsors = $context->find("edge[@type='sponsor']");
+    if ($sponsors->count() < 1) return null;
+
+    foreach ($sponsors as $edge) {
       $key = (string)$edge ?: 'Sponsor';
       if (! array_key_exists($key, $output)) {
         $output[$key] = ['group' => ['name' => $key, 'items' => []]];

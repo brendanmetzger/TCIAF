@@ -89,14 +89,22 @@ namespace models;
     public function getSessions(\DOMElement $context)
     {
       return $context->find("edge[@type='session']")->map(function($edge) {
-        return ['session' => new Feature($edge['@vertex'])];
+        return ['session' => new Feature($edge['@vertex']), 'edge' => $edge];
       });
     }
 
     public function getParticipants(\DOMElement $context)
     {
       return $context->find("edge[@type='participant']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex'])];
+        return ['person' => new Person($edge['@vertex']), 'edge' => $edge];
+      });
+    }
+
+    public function getPresenters(\DOMElement $context)
+    {
+      $presenters = $context->find("edge[@type='presenter']");
+      return $presenters->count() < 1 ? null : $presenters->map(function($edge) {
+        return ['person' => new Person($edge['@vertex']), 'edge' => $edge];
       });
     }
 

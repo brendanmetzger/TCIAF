@@ -77,8 +77,8 @@ class Person extends Vertex  implements \bloc\types\authentication
       if ($items->count() > 0) {
         $out[] = [
           'name' => $key,
-          'items' => $items->map(function($collection) {
-            return ['item' => Graph::FACTORY(Graph::ID($collection['@vertex']))];
+          'items' => $items->map(function($edge) {
+            return ['item' => Graph::FACTORY(Graph::ID($edge['@vertex'])), 'edge' => $edge];
           }),
         ];
       }

@@ -191,7 +191,12 @@ function calendar($start, $year, $category)
 
       $view = new View('views/layout.html');
       $view->content = "views/conference/{$template}.html";
-
+      if ($this->item->presenters) {
+        $view->sponsors =  "views/partials/presenters.html";
+      }
+      if ($this->item->sponsors) {
+        $view->sponsors =  "views/partials/sponsors.html";
+      }
       return $view->render($this());
     }
 
