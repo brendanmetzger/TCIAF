@@ -2,7 +2,7 @@
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
 body[data-status='offline'] #browse header {border-color:#fb6868;}
 body[data-status='offline'] #browse > header:after {
-  content: 'Your browser is currently offline 🤔';
+  content: 'Your browser is currently offline ðŸ¤”';
   text-align:center;
   font-size:1.75em;
   width:100%;
@@ -458,7 +458,7 @@ section#media {width:100vw;position:fixed;left:0;}
 /* FOOTER */
 .legal { font-size:1.25em }
 .sponsor a { padding:0.5rem; }
-.sponsor img { height:5vmin }
+.sponsor img {height: 10vmin;}
 .social a {
   display:inline-block;
   height:3em;
@@ -518,7 +518,4 @@ div.filter.panel:not(:first-of-type) {
 
 article[data-type='show'] ul li:nth-child(n + 6) {
   display:none;
-;
-;
-;
-;
+}
