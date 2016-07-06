@@ -2,7 +2,7 @@
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
 body[data-status='offline'] #browse header {border-color:#fb6868;}
 body[data-status='offline'] #browse > header:after {
-  content: 'Your browser is currently offline ðŸ¤”';
+  content: 'Your browser is currently offline Ã°Å¸Â¤â€';
   text-align:center;
   font-size:1.75em;
   width:100%;
@@ -387,7 +387,7 @@ section#media {width:100vw;position:fixed;left:0;}
 /* Hack for tablet to deal with images in playlist/lib*/
 @media screen and (min-width:40em) {
   .bg {width:25%;}
-  .feature article.panel.listing header {width:70%;padding:2.5%;}
+  .feature article.panel.listing header {width:70%;padding:0 2.5%;}
 }
 
 /* hack to deal with ios annoyance and bottom player*/
@@ -518,4 +518,6 @@ div.filter.panel:not(:first-of-type) {
 
 article[data-type='show'] ul li:nth-child(n + 6) {
   display:none;
+}
+ne;
 }

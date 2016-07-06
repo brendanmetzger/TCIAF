@@ -3,6 +3,7 @@
     <a href="/overview/playlists">Playlists</a> / <span class="selected">[$item:title]</span>
   </nav>
   <header class="two-thirds tt b">
+    <button class="listen" style="float:left;font-size:250%;margin-right:2vmin;" onclick="quickPlay(this, event);">Play This</button>
     <h1 class="lead display strong tracked" data-id="[$item:@id]">[$item:title]</h1>
   </header>
   <section class="flip panel">
@@ -15,4 +16,16 @@
   <hr/>
   <!-- iterate item:features -->
   <!-- insert views/cards/feature.html -->
+  <script>
+    function quickPlay(active, evt) {
+      active.style.display = 'none';
+      evt.preventDefault();
+      var button = document.querySelector('span > button.listen');
+      console.log(button);
+      var click = document.createEvent('MouseEvents');
+      click.initEvent('click', true, true);
+      button.dispatchEvent(click);
+
+    }
+  </script>
 </article>
