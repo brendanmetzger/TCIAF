@@ -54,7 +54,7 @@ class Task extends \bloc\controller
   public function CLIvalid()
   {
     libxml_use_internal_errors(true);
-    $doc  = new \bloc\DOM\Document('data/db5');
+    $doc  = new \bloc\DOM\Document('data/tciaf');
     if ($doc->validate()) {
 
     } else {
@@ -272,7 +272,6 @@ class Task extends \bloc\controller
 
   public function CLItranscode($size = 5)
   {
-
     $pipeline = [
       'new' => '1439307152758-prv5fa',
       'old' => '1439307760286-8f5hu5',
@@ -359,6 +358,20 @@ class Task extends \bloc\controller
       \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
       if ($count-- < 0) break;
     }
+  }
+
+  public function CLIabstracts()
+  {
+    $doc  = new \bloc\DOM\Document('data/tciaf');
+    $files = glob('../data/abstracts/*.html');
+
+
+    foreach ($files as $file) {
+      $path = substr($file, 3);
+      if ($doc->find("//abstract[@src={$path}]")->count() == 0) {
+        echo "delete {$file}";
+      }
+
   }
 
   protected function CLIbio($user)

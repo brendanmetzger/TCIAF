@@ -79,7 +79,9 @@ namespace models;
 
     public function getJudges(\DOMElement $context)
     {
-      return $context->find("edge[@type='judge']")->map(function($edge) {
+      $judges = $context->find("edge[@type='judge']");
+
+      return $judges->count() < 1 ? null : $judges->map(function($edge) {
         return ['person' => new Person($edge['@vertex'])];
       });
     }
@@ -94,7 +96,8 @@ namespace models;
 
     public function getSponsors(\DOMElement $context)
     {
-      return $context->find("edge[@type='sponsor']")->map(function($edge) {
+      $sponsors = $context->find("edge[@type='sponsor']");
+      return $sponsors->count() < 1 ? null : $sponsors->map(function($edge) {
         return ['organization' => new Organization($edge['@vertex'])];
       });
     }

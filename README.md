@@ -12,11 +12,10 @@ A vertex is just a type of node tracked in the xml file. Again, they have identi
 Despite all being of the same type, a vertex can be grouped for faster data retrieval and generally keeping things a bit more organized. The groups are thus:
 
 - person
-- published
+- feature
+- collection
 - organization
-- event
-- conference
-- festival
+- event (conference and festival)
 - competition
 
 ### Edges
@@ -46,3 +45,10 @@ From the previous example, you can describe a great deal based on context, witho
 - Sponsor (organization) of *Competition*
 - Sponsor (organization) of *Event*
 - Sponsor (person) of *Organization*
+
+
+# Competitions
+
+## Preview Mode vs. Archive Mode
+
+A competition has two states, and those states are determined by the **date** field. A date landing in the future will compose a competition page in *preview mode*, which indicates it will have a banner and any associated articles linked and organized in the main content area. (TODO: create video). When a date falls in the past, it will enter archive mode, which will highlight winners instead.

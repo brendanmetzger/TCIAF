@@ -199,25 +199,34 @@ function calendar($start, $year, $category)
     {
       $view = new view('views/layout.html');
       if ($id === null) {
-
-
         $this->banner = 'Competitions';
-
         $this->competitions = [
           ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@sticky="driehaus"]'))],
           ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@sticky="shortdocs"]'))],
         ];
-
-        $page = 'competition/overview';
+        $view->content = "views/competition/overview.html";
       } else {
         $this->item = Graph::FACTORY(Graph::ID($id));
+
+
+
         if ($participants) {
           $page = 'competition/listing';
         } else {
           $page = $this->item->template['digest'];
         }
+
+        $view->content = "views/{$page}.html";
+
+        if ($this->item->judges) {
+          $view->judges = 'views/partials/judges.html';
+        }
+
+        if ($this->item->sponsors) {
+          $view->sponsors =  "views/partials/sponsors.html";
+        }
       }
-      $view->content = "views/{$page}.html";
+
       return $view->render($this());
     }
 
