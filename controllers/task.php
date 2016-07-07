@@ -365,13 +365,12 @@ class Task extends \bloc\controller
     $doc  = new \bloc\DOM\Document('data/tciaf');
     $files = glob('../data/abstracts/*.html');
 
-
     foreach ($files as $file) {
       $path = substr($file, 3);
       if ($doc->find("//abstract[@src={$path}]")->count() == 0) {
         echo "delete {$file}";
       }
-
+    }
   }
 
   protected function CLIbio($user)

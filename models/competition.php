@@ -43,12 +43,12 @@ namespace models;
 
     protected function _template(\DOMElement $context)
     {
-      $edges = $context->find("edge[@type='edition']");
-      if ($edges->count() < 1) return;
-      if ($edges->count() > 1) {
+      if ($this->editions->count() < 1) return;
+      if ($this->editions->count() > 1) {
         return 'competition/overview';
       } else {
-        $this->competition = new self(Graph::ID($edges->pick(0)->getAttribute('vertex')));
+        $this->origin = $this->editions->current()['edition'];
+
         if ($context['premier']->count() > 0 && strtotime($context['premier']['@date']) > time()) {
           return 'competition/preview';
         }
@@ -56,7 +56,6 @@ namespace models;
         return 'competition/edition';
       }
     }
-
 
     public function getPermalink(\DOMElement $context)
     {

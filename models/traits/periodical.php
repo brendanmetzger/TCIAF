@@ -25,7 +25,7 @@ trait periodical {
 
   public function getEditions(\DOMElement $context)
   {
-    return $context->find("edge[@type='edition']")->map(function($edge) {
+    return $context->find("edge[@type='edition']")->map(function($edge) use ($context) {
       return ['edition' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex']))];
     });
   }

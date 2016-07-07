@@ -13,7 +13,6 @@ namespace models;
 
     public $_location = "Date Range (if applicable)";
     public $_premier = "Live Date";
-
     static public $fixture = [
       'vertex' => [
         'abstract' => [
@@ -63,6 +62,10 @@ namespace models;
     {
       parent::__construct($id, $data);
       $this->template['form'] = 'vertex';
+      if ($this->editions->count() == 1) {
+        $this->origin = $this->editions->current()['edition'];
+      }
+
     }
 
     public function get_template(\DOMElement $context)

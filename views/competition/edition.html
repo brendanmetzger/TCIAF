@@ -7,7 +7,12 @@
     <nav class="caps-lock h6">
       <a href="/overview/competition">Competitions</a> / <span class="selected">[$item:title]</span> / <a href="[/overview/competition/$item:@id/participants]">Participants</a>
     </nav>
-    <h1 class="lead tracked display strong tt bb" data-id="[$item:@id]">[$item:title]</h1>
+    <div class="panel tt bb" style="align-items:center;">
+      <span style="padding:2vmax;">
+        <button class="listen" onclick="quickPlay(this, event);" style="transition:opacity 0.5s;">Play This</button>
+      </span>
+      <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
+    </div>
   </header>
   <section class="[$item:type panel]">
     <div class="two-thirds">
@@ -40,6 +45,13 @@
     <section class="one-third ll">
       <img src="[http://s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
       <!-- replace judges -->
+      <div class="gray-bg spot">
+        <h4 class="brown caps-lock strong">[$item:origin:title by year]</h4>
+        <ul class="plain path h4 m">
+          <!-- iterate item:origin:competitions -->
+          <li><a href="[/overview/competition/$edition:@id]">[$edition:year]</a></li>
+        </ul>
+      </div>
       <!-- replace sponsors -->
     </section>
   </section>

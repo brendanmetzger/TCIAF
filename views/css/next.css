@@ -12,7 +12,7 @@ body[data-status='offline'] #browse > header:after {
   letter-spacing:0.075em;
 
 }
-img:not([src]), a:not([href]), nav[data-pages='1'] {display:none }
+img:not([src]), a:not([href]), nav[data-pages='1'], *:empty {display:none }
 img {max-width:100%;}
 
 a:focus {
@@ -349,7 +349,6 @@ section#media {width:100vw;position:fixed;left:0;}
   body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#FC6202;color:#FFF;padding: 2.75vmax 4vmax;margin:0;}
   body[data-view='media'] #media .playlist {height: 55vh;overflow:auto;}
   body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}
-
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}
   body[data-view='browse'] #Player .controls {padding: 0 2.5%;max-width: 30vmax;max-height: 12.5vmax;}
   body[data-view='browse'] #media p {
@@ -478,7 +477,7 @@ section#media {width:100vw;position:fixed;left:0;}
 .console {
   background-color:rgba(33,33,33,0.75);
   color:#fff;
-  width:25vw;
+  width:35vw;
   font-size:1.25em;
   padding:2em;
   display:block;
@@ -487,7 +486,7 @@ section#media {width:100vw;position:fixed;left:0;}
   top:0;
   right:0;
   height:100vh;
-  font-family:Inconsolata;
+  font-family:Inconsolata, 'Courier New';
   white-space: pre-wrap;
   word-break: break-all;
   z-index:5;

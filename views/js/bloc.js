@@ -416,6 +416,9 @@ if (window.history.pushState) {
       document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
+        [].forEach.call(document.querySelectorAll('main a[href="'+window.location.pathname+'"]'), function (a) {
+          a.classList.add('selected');
+        });
       }, 10);
 
       // track page timings in analytics
@@ -430,7 +433,7 @@ if (window.history.pushState) {
     },
     error: function (evt) {
       // should just redirect
-      console.error('FIX this now! look at console..', navigator.onLine);
+      console.error('FIX this now! look at console..', navigator.onLine, evt);
       var message = "Your browser is offline.";
 
       if (navigator.onLine) {
@@ -500,6 +503,16 @@ if (window.history.pushState) {
 
 function toggleStatus(evt) {
   document.body.dataset.status = evt.type;
+}
+
+function quickPlay(active, evt) {
+  active.style.opacity = 0.15;
+  evt.preventDefault();
+  var button = document.querySelector('span[class] > button.listen');
+  console.log(button);
+  var click = document.createEvent('MouseEvents');
+  click.initEvent('click', true, true);
+  button.dispatchEvent(click);
 }
 
 bloc.init(function () {
