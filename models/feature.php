@@ -130,6 +130,20 @@ function timecode($time) {
       });
     }
 
+    public function getProducer(\DOMElement $context)
+    {
+      return preg_replace('/(.*),/','$1 and', implode(', ', array_map(function($item) {
+        return $item['person']->title;
+      }, iterator_to_array($this->producers))));
+    }
+
+    public function getPresenter(\DOMElement $context)
+    {
+      return preg_replace('/(.*),/','$1 and', implode(', ', array_map(function($item) {
+        return $item['person']->title;
+      }, iterator_to_array($this->presenters))));
+    }
+
     public function getPresenters(\DOMElement $context)
     {
       $presenters = $context->find("edge[@type='presenter']");

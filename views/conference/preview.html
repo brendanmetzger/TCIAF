@@ -46,17 +46,17 @@
       <nav>
         <ul class="dash plain">
           <!-- iterate item:sessions -->
-          <li><a href="[#$session:@id]">[$session:title]</a></li>
+          <li><a href="[#$item:@id]">[$item:title]</a></li>
         </ul>
       </nav>
       <!-- iterate item:sessions -->
-      <article id="[$session:@id]" class="pad">
+      <article id="[$item::@id]" class="pad">
         <header class="controls">
-          <h2 data-id="[$session:@id]" class="display strong">[$session:title]</h2>
+          <h2 data-id="[$item::@id]" class="display strong">[$item:title]</h2>
         </header>
-        <p class="pad-h">[$session:summary]</p>
+        <p class="pad-h">[$item:summary]</p>
         <section class="panel space pad">
-          <!-- iterate session:presenters -->
+          <!-- iterate item:presenters -->
           <figure class="bio">
             <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
             <figcaption class="strong"><a href="[$person:permalink]">[$person:title]</a></figcaption>

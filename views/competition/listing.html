@@ -1,18 +1,17 @@
 <article class="competitions listing page">
-  <header>
-    <nav class="caps-lock brown h6">
-      <a href="/overview/competition">Competitions</a> / <a href="[/overview/competition/$item:@id]">[$item:title]</a> / <span class="selected">Participants</span>
-    </nav>
+  <div class="panel">
+    <header class="two-thirds">
+      <nav class="caps-lock brown h6">
+        <a href="/overview/competition">Competitions</a> / <a href="[/overview/competition/$item:@id]">[$item:title]</a> / <span class="selected">Participants</span>
+      </nav>
 
-    <h1 class="lead display tracked strong tt bb">[$item:title Contentstants]</h1>
-    <img src="[http://s3.amazonaws.com/$item:banner:url]" style="width:25%;margin:0" data-aspect="[$item:banner:mark]"/>
-  </header>
-  <ul class="plain panel path">
+      <h1 class="lead display tracked strong tt bb">[$item:title]</h1>
+    </header>
+    <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:25%;margin:0" data-aspect="[$item:banner:mark]"/>
+
+  </div>
+  <section>
     <!-- iterate item:participants -->
-    <li style="padding:1em;margin:0.25%;background-color:#fff;flex:1 1 24%;">
-      <h4 class="display"><a href="[$feature:permalink]">[$feature:title]</a></h4>
-      <!-- iterate feature:producers -->
-      <h5><a href="[$person:permalink]">[$person:title]</a></h5>
-    </li>
-  </ul>
+    <!-- insert views/cards/feature.html -->
+  </section>
 </article>

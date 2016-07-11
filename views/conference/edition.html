@@ -14,55 +14,41 @@
       align-items: center;
       text-align: center;
     }
+    .plain.ruled li {
+      margin:1em 0;
+      border-bottom:1px dashed #eee;
+    }
   </style>
-  <header>
-    <nav class="caps-lock t b h6">
-      <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
-    </nav>
-    <div class="panel tt b" style="align-items:center;">
-      <span style="padding:2vmax;">
-        <button class="listen" onclick="quickPlay(this, event);" style="transition:opacity 0.5s;">Play This</button>
-      </span>
-      <div  data-aspect="[$item:banner:mark]">
-        <h1 class="lead tracked display strong b" data-id="[$item:@id]">[$item:title]</h1>
-        <h4><time>[$item:date]</time></h4>
+  <nav class="caps-lock t b h6">
+    <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
+  </nav>
+  <header class="panel"  style="align-items:center;">
+    <div class="two-thirds">
+      <div class="panel tt b">
+        <span style="padding:2vmax;">
+          <button class="listen" onclick="quickPlay(this, event);" style="transition:opacity 0.5s;">Play This</button>
+        </span>
+        <div  data-aspect="[$item:banner:mark]">
+          <h1 class="lead tracked display strong b" data-id="[$item:@id]">[$item:title]</h1>
+          <h4><time>[$item:date]</time></h4>
+        </div>
       </div>
     </div>
-    <hr class="ruled"/>
-    <section>[$item:content:about]</section>
+    <figure class="one-third ll">
+      <img src="[http://s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
+    </figure>
   </header>
+  <hr class="ruled"/>
+  <section>[$item:content:about]</section>
   <section class="panel">
     <section class="two-thirds">
       <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
-      <nav>
-        <ul class="dash plain">
-          <!-- iterate item:sessions -->
-          <li><a href="[#$session:@id]">[$session:title]</a></li>
-        </ul>
-      </nav>
-      <!-- iterate item:sessions -->
-      <article id="[$session:@id]">
-        <hr class="ruled"/>
-        <header>
-          <div class="controls pulled-left">
-            <!-- iterate session:media:audio -->
-            <!-- insert views/partials/play-button.html -->
-            <h2 data-id="[$session:@id]" class="display strong"><a href="[$session:permalink]">[$session:title]</a></h2>
-          </div>
-          <p class="b h4 ll">[$session:summary]</p>
-        </header>
-
-        <section class="panel space">
-          <!-- iterate session:presenters -->
-          <figure class="bio">
-            <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-            <figcaption class="pad h5"><a href="[$person:permalink]">[$person:title]</a></figcaption>
-          </figure>
-        </section>
-      </article>
+      <ul class="plain ruled h4">
+        <!-- iterate item:sessions -->
+        <li><a href="[#goto-$item:@id]"><em>[$item:title]</em> with <span>[$item:presenter]</span></a></li>
+      </ul>
     </section>
     <section class="one-third ll">
-      <img src="[http://s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
       <div class="gray-bg spot">
         <h4 class="brown caps-lock strong">More Conferences</h4>
         <ul class="plain path h4 m">
@@ -70,7 +56,12 @@
           <li><a href="[/overview/conference/$edition:@id]">[$edition:year]</a></li>
         </ul>
       </div>
-      <!-- insert views/partials/sponsors.html -->
+      <!-- replace sponsors -->
     </section>
+  </section>
+  <hr class="ruled"/>
+  <section>
+    <!-- iterate item:sessions -->
+    <!-- insert views/cards/feature.html -->
   </section>
 </article>

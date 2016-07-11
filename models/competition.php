@@ -72,7 +72,7 @@ namespace models;
     public function getParticipants(\DOMElement $context)
     {
       return $context->find("edge[@type='participant']")->map(function($edge) {
-        return ['feature' => new Feature($edge['@vertex'])];
+        return ['item' => new Feature($edge['@vertex'])];
       });
     }
 
@@ -89,7 +89,7 @@ namespace models;
     {
       return $context->find("edge[@type='award']")->map(function($edge) {
         $feature = new Feature($edge['@vertex']);
-        return ['feature' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];
+        return ['item' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];
       });
     }
 

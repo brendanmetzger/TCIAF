@@ -92,7 +92,7 @@ namespace models;
     public function getSessions(\DOMElement $context)
     {
       return $context->find("edge[@type='session']")->map(function($edge) {
-        return ['session' => new Feature($edge['@vertex']), 'edge' => $edge];
+        return ['item' => new Feature($edge['@vertex']), 'edge' => $edge];
       });
     }
 

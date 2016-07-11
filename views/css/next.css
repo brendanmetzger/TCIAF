@@ -12,7 +12,7 @@ body[data-status='offline'] #browse > header:after {
   letter-spacing:0.075em;
 
 }
-img:not([src]), a:not([href]), nav[data-pages='1'], *:empty {display:none }
+img:not([src]), a:not([href]), nav[data-pages='1'], small:empty {display:none }
 img {max-width:100%;}
 
 a:focus {
@@ -287,16 +287,6 @@ body[data-view='browse'] #media {
 .pulled, .pulled-left, .pulled-right {padding:2.5vw;}
 .pulled-left, .pulled {margin-left:-2vw}
 .pulled-right, .pulled {margin-right:-2vw}
-ul.dash li {margin: em 0;padding-left:2.5em;text-indent:-2.5em;}
-ul.dash li:before {
-  content: '---';
-
-  line-height:0;
-  position:relative;
-  vertical-align:top;
-  color:rgba(0,0,0,0.5);
-  top:1em;
-}
 
 div[data-award] {
   background:transparent url(/images/medal.svg) no-repeat right top;
@@ -441,7 +431,7 @@ section#media {width:100vw;position:fixed;left:0;}
     flex: 0 0 calc(33.3% - 0.5em);
     margin: 0;
   }
-  .feature article.panel.listing header { width:50% }
+  .feature article.panel.listing header, .competition article.panel.listing header, .conference article.panel.listing header { width:50% }
   .feature article.panel.listing ul { width:30% }
   .bg {width:20%;margin:0;align-self: flex-start;background-color: rgba(214, 214, 214, 0.5);}
 

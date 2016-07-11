@@ -3,47 +3,35 @@
     .shortdocs .jump-nav, .shortdocs .award{ display:none}
     .intro {font-size:225%;}
   </style>
-  <header>
-    <nav class="caps-lock h6">
-      <a href="/overview/competition">Competitions</a> / <span class="selected">[$item:title]</span> / <a href="[/overview/competition/$item:@id/participants]">Participants</a>
-    </nav>
-    <div class="panel tt bb" style="align-items:center;">
+  <nav class="caps-lock h6">
+    <a href="/overview/competition">Competitions</a> / <span class="selected">[$item:title]</span> / <a href="[/overview/competition/$item:@id/participants]">Participants</a>
+  </nav>
+  <header class="panel">
+    <div class="panel tt bb two-thirds" style="align-items:center;">
       <span style="padding:2vmax;">
         <button class="listen" onclick="quickPlay(this, event);" style="transition:opacity 0.5s;">Play This</button>
       </span>
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
     </div>
+    <figure class="one-third ll">
+      <img src="[http://s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
+    </figure>
   </header>
+  <hr class="ruled"/>
   <section class="[$item:type panel]">
     <div class="two-thirds">
       <section class="markdown">[$item:content:about]</section>
       <section class="[$item:type awards container]" id="awards">
         <nav class="jump-nav">
-          <h4 class="strong brown caps-lock">Awards</h4>
-          <ul class="dash plain">
+          <h4 class="strong brown caps-lock t b">Awards</h4>
+          <ul>
             <!-- iterate item:awards -->
-            <li><a href="[#$id]">[$award]</a></li>
+            <li><a href="[#goto-$id]"><em>[$award]</em>, by <span>[$item:producer]</span>, <span>[$item:location]</span></a></li>
           </ul>
         </nav>
-        <!-- iterate item:awards -->
-        <article property="workPerformed" typeof="CreativeWork" class="t b" data-updated="[$feature:@updated]" id="[$id]">
-          <header class="pulled-left" style="border-top:0.5vh solid #5b9c99;">
-            <div class="controls">
-              <!-- iterate feature:media:audio -->
-              <!-- insert views/partials/play-button.html -->
-              <h1 class="display"><a href="[$feature:permalink]" data-id="[$feature:@id]">[$feature:title]</a></h1>
-            </div>
-            <p property="description" class="intro">[$feature:summary]</p>
-          </header>
-          <section>
-            <!-- iterate feature:producers -->
-            <!-- insert views/cards/person.html -->
-          </section>
-        </article>
       </section>
     </div>
     <section class="one-third ll">
-      <img src="[http://s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
       <!-- replace judges -->
       <div class="gray-bg spot">
         <h4 class="brown caps-lock strong">[$item:origin:title by year]</h4>
@@ -55,4 +43,10 @@
       <!-- replace sponsors -->
     </section>
   </section>
+  <hr class="ruled"/>
+  <section>
+    <!-- iterate item:awards -->
+    <!-- insert views/cards/feature.html -->
+  </section>
+
 </article>

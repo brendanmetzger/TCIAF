@@ -283,7 +283,9 @@ Upload.prototype = {
   addTrigger: function (element) {
     element.addEventListener('click', function (evt) {
       evt.preventDefault();
-      this.input.dispatchEvent(new Event('click'));
+      var e = document.createEvent('MouseEvents');
+      e.initEvent('click', true, true);
+      this.input.dispatchEvent(e);
     }.bind(this), false);
   },
   invoke: function (evt) {
