@@ -2,7 +2,7 @@
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
 body[data-status='offline'] #browse header {border-color:#fb6868;}
 body[data-status='offline'] #browse > header:after {
-  content: 'Your browser is currently offline Ã°Å¸Â¤â€';
+  content: 'Your browser is currently offline ÃƒÂ°Ã…Â¸Ã‚Â¤Ã¢â‚¬Â';
   text-align:center;
   font-size:1.75em;
   width:100%;
@@ -190,10 +190,10 @@ nav a.logo {
   margin: 0;
   min-width: 10em;
   color:rgba(0,0,0,0);
-  background: #fff url(/images/full-logo.svg) no-repeat -25% 0.75em;
+  background: #fff url(/images/full-logo.svg) no-repeat -25% 1.75em;
   background-size: 140% auto;
   align-self: center;
-  min-height: 5em;
+  min-height: 8em;
 }
 
 
@@ -220,6 +220,7 @@ nav[role] > ul > li {
   flex: 1 1 auto;
   font-weight:400;
   padding: 0.75rem 0.25rem;
+  min-width: 100%;
 }
 
 article nav > ul.plain {margin: 1.5vh 0;}
@@ -308,6 +309,7 @@ div[data-award] {
 section#media {width:100vw;position:fixed;left:0;}
 /* Mobile only */
 @media screen and (max-width: 50em) {
+  .hide {display:none !important;}
   ::-webkit-input-placeholder {opacity:0}
   html, body {height:100%}
   body {padding-bottom:12.5vmax}
@@ -331,6 +333,8 @@ section#media {width:100vw;position:fixed;left:0;}
     background-size: auto 30%;
   }
 
+  body:not(.index) nav a.logo {background-position: 125% 60%;background-size: auto 65%;min-width: 7.5em;}
+  nav[role] > ul > li {min-width:25%;}
   body[data-view='media'] {/* overflow:hidden; */}
   body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: #fff;top: 0;}
   body[data-view='media'] #media form {width: 100%;height: 9vh;}
@@ -415,6 +419,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .columns.four{column-count:3;}
   body {overflow:hidden;}
   nav a.logo {margin: 1.5vmin 0 0;min-width: 22.5em;background-size: contain;background-position: 40% 70%;min-height: 8.5vmin;}
+
   .column { flex-direction: column }
 
   .half       {width:50%   }
