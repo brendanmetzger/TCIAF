@@ -1,0 +1,77 @@
+Using Proper syntax is a great idea—not all humans see what we see, but if text is formatted acording to semantics instead of visual preference, not only is it preferred for accessibility, but you can do interesting things. Questions used as heading level 3 could do something like automatically make a database of questions.
+
+Markdown	HTML
+Plain Text
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, accusantium provident necessitatibus corrupti culpa cum? Culpa, aspernatur vel perferendis doloremque facere reiciendis illum eaque laborum, voluptatum, quos minus omnis dicta.	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, accusantium provident necessitatibus corrupti culpa cum? Culpa, aspernatur vel perferendis doloremque facere reiciendis illum eaque laborum, voluptatum, quos minus omnis dicta.</p>
+Headings
+# Text	<h1>Text</h1>
+## Text	<h2>Text</h2>
+### Text	<h3>Text</h3>
+#### Text	<h4>Text</h4>
+##### Text	<h5>Text</h5>
+###### Text	<h6>Text</h6>
+Emphasis
+**Strong**	<strong>Strong</strong>
+*Emphasis*	<em>Emphasis</em>
+
+~~Strikethrough~~	<del>Strikethrough</del>
+
+Links
+[MTE](http://maketecheasier.com/)	<a href=”http://maketecheasier.com/”>MTE</a>
+[MTE](http://maketecheasier.com/ “Search”)	<a href=”http://maketecheasier.com/” title=”Search”>MTE</a>
+[mte]:http://maketecheasier.com/ “Search”[MTE][mte]	<a href=”http://maketecheasier.com/” title=”Search”>MTE</a>
+<http://maketecheasier.com>	<a href=”http://maketecheasier.com”>http://maketecheasier.com</a>
+
+
+Images
+![Alt Text](/path/to/img.jpg)	<img src=”/path/to/img.jpg” alt=”Alt Text” />
+![Alt Text](/path/to/img.jpg “Title”)	<img src=”/path/to/img.jpg” alt=”Alt Text” title=”Title”/>
+[img1]: /path/to/img.jpg “Title” ![Alt Text] [img1]	<img src=”/path/to/img.jpg” alt=”Alt Text” title=”Title”/>
+
+Horizontal Rule
+* * *	<hr />
+- - -	<hr />
+
+Lists
+Unordered List
+
+* Android
+* Windows
+* Linux
+    * Ubuntu
+    * Linux Mint	<ul> <li>Android</li>
+<li>Windows</li>
+<li>Linux
+<ul>
+<li>Ubuntu</li>
+<li>Linux Mint </li>
+</ul></li>
+</ul>
+
+
+Ordered List
+
+1. First
+2. Second
+3. Third
+    1. Alpha
+    2. Beta
+<ol>
+    <li>First</li>
+    <li>Second</li>
+    <li>Third
+    <ol>
+        <li>Alpha</li>
+        <li>Beta</li>
+    </ol>
+    </li>
+</ol>
+
+Blockquotes
+> make tech
+> easier	<blockquote>
+    <p>make tech easier</p>
+</blockquote>
+> make tech easier	<blockquote>
+    <<p>make tech easier</p>
+</blockquote>

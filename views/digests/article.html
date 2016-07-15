@@ -3,17 +3,21 @@
     <nav class="caps-lock h6">
   		<a href="/explore/behindthescenes">Behind the Scenes</a> / <span class="selected">[$item:suffix]</span>
   	</nav>
-    <h1 class="display lead strong tt b" data-id="[$item:@id]">[$item:title]</h1>
+    <div class="panel tt b ">
+      <h1 class="display lead strong two-thirds" data-id="[$item:@id]">[$item:title]</h1>
+      <figure class="gallery one-third">
+        <img src="[http://s3.amazonaws.com/$item:photo:url]"/>
+        <figcaption>[$item:photo:caption]</figcaption>
+      </figure>
+    </div>
   </header>
-
   <div class="panel">
     <section class="two-thirds">[$item:content:description]</section>
     <aside class="one-third">
-      <img src="[http://s3.amazonaws.com/$item:photo:url]"/>
       <!-- iterate item:media:audio -->
-      <span>
-        <audio src="[http://s3.amazonaws.com/$src]" title="[$caption]" controls="controls" preload="metadata">Audio</audio>
-        <button class="listen" onclick="loadButtonAudio(this);return false;">Listen</button>
+      <span class="[$model:@id]">
+        <audio src="[http://s3.amazonaws.com/$src]" title="[$model:title]" data-ref="[$model:permalink]" preload="none">Audio</audio>
+        <button class="listen" onclick="return loadButtonAudio(this, event);" title="[Listen to '$model:title']">Play Now</button>
         <p>[$caption]</p>
       </span>
     </aside>
