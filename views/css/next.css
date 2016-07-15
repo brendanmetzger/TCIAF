@@ -367,11 +367,10 @@ section#media {width:100vw;position:fixed;left:0;}
   .panel .ll {margin-left:0}
   ul.sink {
     min-width: 100%;
-    display:flex;
-    flex-wrap:wrap;
+    display:block;
   }
-  ul.sink li:nth-child(2) {padding-right: 75%;}
-  ul.sink li {padding: 0.25em 0.5em;}
+  ul.sink li:nth-child(3) {clear:left}
+  ul.sink li {float:left;padding: 0.25em 0.5em;}
   nav[role] > ul { align-items:stretch }
 }
 
