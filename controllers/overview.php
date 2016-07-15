@@ -194,7 +194,7 @@ function calendar($start, $year, $category)
 
       // Presenters and Sponsers only show up when available
       if ($this->item->presenters) {
-        $view->sponsors =  "views/partials/presenters.html";
+        $view->presenters =  "views/partials/presenters.html";
       }
 
       if ($this->item->sponsors) {
