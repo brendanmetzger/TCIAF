@@ -43,6 +43,8 @@ body {
 
 a {color:#706F73;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
+a > img {pointer-events:all}
+a > img:hover {opacity:0.9}
 a:hover {color:#5a9a98;}
 .selected, .selected:hover{text-decoration:none;cursor:default;}
 .selected, .selected:hover, .path li a:hover {color:#555;border-color: #5b9b98 !important;}
