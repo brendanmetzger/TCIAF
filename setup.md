@@ -50,6 +50,7 @@ Rewrites are very simple, and map the url to a controller and action, and then e
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^([a-zA-Z]*)\/?([a-zA-Z]*)\/?([a-zA-Z0-9\-\:\/\_\*\=]*)\.?(json|xml|html|svg|jpe?g)?$ index.php?controller=$1&action=$2&params=$3&content-type=$4 [B,QSA,L]
 </IfModule>
+```
 
 ## Other Configs
 Various other configs are self explanatory, AWS is configured here, if keys change server must be restarted
@@ -96,3 +97,11 @@ post_max_size = bigger
 upload_max_filesize = bigger
 
 (to see current settings, investigate php.ini (100M))
+
+
+
+# Site Pages
+
+## Competitions
+
+The competition landing page has two sections, RHD/TCF and ShortDocs. Whenever there is an *upcoming date* 
