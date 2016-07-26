@@ -11,6 +11,8 @@ abstract class Vertex extends \bloc\Model
   public $_location = 'Link';
   public $_premier  = 'Date';
 
+  protected $_help = [];
+
   public $template = ['form' => null, 'digest' => null, 'card' => null, 'index' => null, 'upload' => 'image'];
 
   static public $fixture = [
@@ -35,6 +37,11 @@ abstract class Vertex extends \bloc\Model
       'edge'  => [],
     ]
   ];
+
+  public function getHelp(\DOMElement $context)
+  {
+    return new \bloc\types\Dictionary($this->_help);
+  }
 
   public function setIdAttribute(\DOMElement $context, $id)
   {

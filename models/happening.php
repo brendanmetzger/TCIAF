@@ -12,7 +12,8 @@ namespace models;
     use traits\banner, traits\sponsor, traits\periodical;
 
     public $_location = "Date Range (if applicable)";
-    public $_premier = "Live Date";
+    public $_premier = "Archive Date";
+    
     static public $fixture = [
       'vertex' => [
         'abstract' => [

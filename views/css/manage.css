@@ -531,16 +531,11 @@ dd.sorting div.edge {
   margin-bottom:1px;
   cursor:move;
 }
-dl[data-priority='normal'] dt:after {
-  content: ' â–¾ '
-}
 
 dl[data-priority] {
   cursor:pointer;
 }
-dl[data-priority='low'] dt:after {
-  content: ' â–¸ ';
-}
+
 dl[data-priority='low'] > dd {
   display:none;
 }
@@ -572,3 +567,47 @@ div.receipt span, .trash { padding:0.5em;border:none;}
 
 input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
 input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}
+
+span.hint {
+  display:none;
+}
+
+*[data-help]:after {
+  content: '?';
+  border: none;
+  color: #fff;
+  margin:0 0 0 5px;
+  text-transform:lowercase;
+  padding:5px !important;
+  display: inline-block;
+  line-height: 1;
+  background-color: rgba(224, 81, 154, 0.9);
+  font-size: 10px !important;
+  letter-spacing: 0;
+  vertical-align: top;
+  border-radius:5px;
+  align-self:flex-start;
+  cursor:pointer;
+  opacity: 0.85;
+}
+*[data-help] {
+  position:relative;
+}
+*[data-help]:hover:before {
+  content: attr(data-help);
+  position:absolute;
+  top:-3.5em;
+  left:-0.75vw;
+  width:75vw;
+  background-color:#50a4ff;
+  color:#fff;
+  padding:1em;
+  font-size:15px !important;
+  line-height:1.25;
+  letter-spacing:normal;
+  font-weight:200;
+  border-radius:0.25em;
+  box-shadow:0 0.125em 0.25em rgba(0,0,0,0.25);
+  z-index:2;
+  text-transform:none;
+}

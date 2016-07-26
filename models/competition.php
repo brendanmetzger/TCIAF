@@ -11,6 +11,15 @@ namespace models;
   {
     use traits\banner, traits\sponsor, traits\periodical;
 
+    public $_premier = "Archive Date";
+
+
+    protected $_help = [
+      'overview' => 'Competition',
+      'premier' => 'Use this field to automatically set the page into archive mode. When the date is in the future, the page will be in preview mode.',
+      'edges' => 'All competitions MUST have at least one edition. Main competitions (those on the landing page) will have many editions. The annual representation of each competition needs only ONE parent edition, which is the competition it is a part of. All other edges are use-as-necessary.'
+    ];
+
     static public $fixture = [
       'vertex' => [
         'abstract' => [
