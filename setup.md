@@ -17,12 +17,19 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 ```
 
-sudo apt-get install apache2
-sudo apt-get install php5
-sudo apt-get install libapache2-mod-php5
-sudo apachectl -k start
+- sudo apt-get update
+- sudo apt-get install apache2
+- sudo apt-get install php5
+- sudo apt-get install libapache2-mod-php5
+- sudo apt-get install curl
+- sudo apt-get install php5-curl
+- sudo apachectl -k start
 
 ```
+
+# Data
+
+A dev server has been set up, and that dev server has a git repository that can serve as a data backup and distribution point.
 
 # Apache Config
 
