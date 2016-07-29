@@ -1,4 +1,37 @@
 <fieldset>
+  <details class="explainer">
+    <summary class="h5 rag-left">About Markdown</summary>
+    <p>Markdown is a system for adding simple characters to stylize text as well as create links, embed images, and make lists. You can use the toolbar for basic formatting, but with practice, it's quite easy to just input manually as you type.</p>
+    <section>
+      <h2>Headings</h2>
+      <p>Headings are just what they sound like, but unlike bold and italic, they have <em>semantic meaning</em> in that search engines and devices that aid accessibility can derive the correct meaning from them. The also have styles associated, so consistent use will ensure proper colors, margins, and default styles for a consistent look site-wide.</p>
+      <div class="markdown example">
+        <h1><span class="example">#</span> at the beginning of a line will produce text like this.</h1>
+        <h2><span class="example">##</span> at the beginning of a line will produce text like this.</h2>
+        <h3><span class="example">###</span> at the beginning of a line will produce text like this.</h3>
+        <h4><span class="example">####</span> at the beginning of a line will produce text like this.</h4>
+        <h5><span class="example">#####</span> at the beginning of a line will produce text like this.</h5>
+      </div>
+    </section>
+    <hr/>
+    <section>
+      <h2>Italics, Bold, Lists and Rules</h2>
+      <p>
+        Italics and bold are straightforward, as seen in the toolbar. Lists can be ordered by prefixing lines with a number, or unorderd (bulleted) by prefixing with a hyphen (-) or asterisk (*). Horizontal rules can be created by a string of three or more hyphens (---) or asterisks (***) on its very own line.
+      </p>
+    </section>
+    <hr/>
+    <section>
+      <h2>Links and Images</h2>
+      <p>The syntax for adding links and images is very similar because they are conceptually similar. When adding a link (or image), you are providing a reference to another piece of content via a <abbr title="uniform resource identifier">url</abbr>. While you can do that manually with images, often you will just drag and drop from the media panel and it will write the syntax for you. When adding hyperlinks, there is a button in the toolbar, but there are some important things to keep in mind.</p>
+      <ul>
+        <li><abbr title="uniform resource identifier">url</abbr>s that start with <code>http://</code> followed by a domain name will open in a new window.</li>
+        <li><abbr title="uniform resource identifier">url</abbr>s that start with a forward slash <code>(/)</code> will take advantage of the persistent player.</li>
+        <li>When linking to another site, the link should be starting with http, ie. <span class="example">[Wbez](http://wbez.org)</span></li>
+        <li>When linking to your content, the link should start with a slash and <strong>not</strong> have a domain, ie. <span class="example">[our library](/overview/library)</span></li>
+      </ul>
+    </section>
+  </details>
   <input type="hidden" name="vertex[@][id]" value="[$item:@id]" id="vertex"/>
   <input type="hidden" name="vertex[@][created]" value="[$item:@created]" />
   <legend>Basic</legend>
@@ -12,4 +45,5 @@
     <textarea name="[vertex[abstract][$index][CDATA]]" rows="8" cols="40" id="[abstract-$index-$type]" class="text" required="[$required]" placeholder="[$type is Required]">[$text]</textarea>
   </div>
   <a class="toggle_extra button pad" href="[#/manage/edge/$item:_model/inside/$item:@id]" onclick="return duplicateTextbox(event);">+/- Extra</a>
+  <em class="hint">[$item:help:extras:markdown]</em>
 </fieldset>

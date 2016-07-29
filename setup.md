@@ -17,15 +17,28 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 ```
 
-- sudo apt-get update
-- sudo apt-get install apache2
-- sudo apt-get install php5
-- sudo apt-get install libapache2-mod-php5
-- sudo apt-get install curl
-- sudo apt-get install php5-curl
-- sudo apachectl -k start
+- `sudo apt-get update`
+- `sudo apt-get install apache2`
+- `sudo apt-get install php5`
+- `sudo apt-get install libapache2-mod-php5`
+- `sudo apt-get install curl`
+- `sudo apt-get install php5-curl`
+- `sudo apachectl -k start` (if not running)
+- `sudo apt-get install git`
+
 
 ```
+
+## Application
+
+- Clone the github repository at https://github.com/brendanmetzger/TCIAF.git into the web root. I have made a directory called thirdcoastfestival.org, and cloned directly into that directory. The bloc application is stored as a submodule as well as the data.
+
+- `mkdir /var/www/thirdcoastfestival.org`
+- `cd /var/www/thirdcoastfestival.org`
+- `git clone https://github.com/brendanmetzger/TCIAF.git .`
+- `git submodule init`
+- `git submodule update` (this will fail - need a private key [ssh or gpg in github account contact brendan.metzger@gmail.com)
+
 
 # Data
 
@@ -48,7 +61,7 @@ RedirectMatch 301 ^/happenings.*$ /overview/events
 ```
 
 ## Rewrites
-Rewrites are very simple, and map the url to a controller and action, and then everything else is 'paramaters'.
+Rewrites are very simple, and map the url to a controller and action, and then everything else is 'parameters'.
 
 ```
 
@@ -111,4 +124,4 @@ upload_max_filesize = bigger
 
 ## Competitions
 
-The competition landing page has two sections, RHD/TCF and ShortDocs. Whenever there is an *upcoming date* 
+The competition landing page has two sections, RHD/TCF and ShortDocs. Whenever there is an *upcoming date*

@@ -532,13 +532,20 @@ dd.sorting div.edge {
   cursor:move;
 }
 
+dl[data-priority='normal'] dt:after {
+  content: ' ▾'
+}
+
 dl[data-priority] {
   cursor:pointer;
 }
-
+dl[data-priority='low'] dt:after {
+  content: ' ▸';
+}
 dl[data-priority='low'] > dd {
   display:none;
 }
+
 
 form.modified button[type='submit'] {
   font-size:225%;
@@ -568,8 +575,12 @@ div.receipt span, .trash { padding:0.5em;border:none;}
 input[type=checkbox], input[type=radio] {width:auto;vertical-align:text-bottom;}
 input[type=checkbox] + label, input[type=radio] + label {margin:0 0.25em 0 0 !important;max-width:95%;}
 
-span.hint {
-  display:none;
+.hint {
+  font-size: 8px;
+  display:inline-block;
+  max-width:85%;
+  margin: 1em;
+  vertical-align: middle;
 }
 
 *[data-help]:after {
@@ -593,6 +604,14 @@ span.hint {
 *[data-help] {
   position:relative;
 }
+.help {
+  background-color:#aaffcf;
+  margin:2vmax 0;
+  border-radius:1em;
+  padding:1em 2em;
+  color:#333;
+}
+
 *[data-help]:hover:before {
   content: attr(data-help);
   position:absolute;
@@ -610,4 +629,38 @@ span.hint {
   box-shadow:0 0.125em 0.25em rgba(0,0,0,0.25);
   z-index:2;
   text-transform:none;
+}
+
+.explainer summary {
+  outline:none;
+  cursor:pointer;
+  color:#888;
+}
+.explainer {
+  padding:0 2em;
+}
+.explainer[open] {
+  margin:-1em -1em 2em;
+  padding:1em 3em 3em;
+  background-color:#fff;
+}
+.markdown.example {
+  background-color:#f8f8f8;
+  color:#333;
+  padding:2em;
+  margin:1em 0;
+}
+span.example {
+  background-color:#333;
+  color:#fff;
+  padding:0.125em 0.25em;
+  display:inline-block;
+  min-width:4em;
+  text-align:center;
+  font-size:15px;
+  vertical-align:middle;
+}
+abbr {
+  text-transform:lowercase;
+  font-variant:small-caps;
 }

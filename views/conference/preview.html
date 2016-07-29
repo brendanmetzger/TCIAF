@@ -34,13 +34,18 @@
   <section class="panel">
     <section class="two-thirds">
       <nav class="caps-lock t b h6">
-        <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
+        <ul class="plain path">
+          <!-- iterate item:articles -->
+          <li><a href="[#$item:@id]">[$item:title]</a></li>
+        </ul>
       </nav>
       <section>[$item:content:about]</section>
       <!-- iterate item:articles -->
-      <article class="memo">
-        <h2 class="display">[$item:title]</h2>
-        <section>[$item:content:description]</section>
+      <article class="pad t" id="[$item:@id]">
+        <h2 class="display" data-id="[$item:@id]">[$item:title]</h2>
+        <section class="markdown">[$item:content:description]</section>
+        <hr class="ruled"/>
+        <a href="#overview" class="h4">Back to top</a>
       </article>
       <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
       <nav>

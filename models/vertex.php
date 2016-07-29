@@ -40,7 +40,12 @@ abstract class Vertex extends \bloc\Model
 
   public function getHelp(\DOMElement $context)
   {
-    return new \bloc\types\Dictionary($this->_help);
+    $markdown = new \vendor\Parsedown;
+    $markdown->setBreaksEnabled(true);
+    $help = array_map(function($text) use ($markdown){
+      return ['markdown' => $markdown->text($text), 'plain' => $text] ;
+    }, $this->_help);
+    return new \bloc\types\Dictionary($help);
   }
 
   public function setIdAttribute(\DOMElement $context, $id)
