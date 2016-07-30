@@ -365,8 +365,7 @@ class Task extends \bloc\controller
     $premiers = \models\Graph::group('feature')->find('vertex/premier[@date!=""]');
     foreach ($premiers as $premier) {
       $date = $premier->getAttribute('date');
-      echo $date;
-      continue;
+
       if (strlen($date) == 4) {
         $date = '01/01/'.$date;
       }
