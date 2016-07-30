@@ -4,7 +4,6 @@ namespace controllers;
 use \bloc\application;
 use \bloc\view;
 use \bloc\view\renderer as Render;
-use \bloc\types\string;
 use \bloc\types\dictionary;
 use \models\person as Admin;
 
@@ -57,7 +56,7 @@ class Manage extends \bloc\controller
     return $this->authenticated  ? new \models\person($_SESSION['id']) : null;
   }
 
-  public function GETError($message, $code)
+  public function GETError($message, $code = 404)
   {
     $this->message = parent::GETerror($message, $code);
     $view = new \bloc\View('views/layout.html');
@@ -102,9 +101,9 @@ class Manage extends \bloc\controller
       'action'   => $redirect,
       'redirect' =>  $redirect,
       'tokens'   => [
-        'username' => String::rotate('username', $token),
-        'password' => String::rotate('password', $token),
-        'redirect' => String::rotate('redirect', $token),
+        'username' => \bloc\types\string ::rotate('username', $token),
+        'password' => \bloc\types\string ::rotate('password', $token),
+        'redirect' => \bloc\types\string ::rotate('redirect', $token),
       ]
     ]);
 
@@ -116,9 +115,9 @@ class Manage extends \bloc\controller
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key  = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
     $type = 'expired';
-    $username = $request->post(String::rotate('username', $token));
-    $password = $request->post(String::rotate('password', $token));
-    $redirect = $request->post(String::rotate('redirect', $token));
+    $username = $request->post(\bloc\types\string ::rotate('username', $token));
+    $password = $request->post(\bloc\types\string ::rotate('password', $token));
+    $redirect = $request->post(\bloc\types\string ::rotate('redirect', $token));
 
     if ($key) {
       try {
