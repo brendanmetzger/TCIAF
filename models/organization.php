@@ -12,6 +12,13 @@ namespace models;
     use traits\banner;
     public $_location = "Website";
     public $_premier = "Expires";
+
+    protected $_help = [
+      'overview' => 'Organizations are typically sponsors, but can also be used to collect groups of individuals—such as TCF itself.',
+      'edges' => 'If the organization is a sponsor, labeling the edge will be utilized. Review other organizations to see current implementations.',
+      'extras' => '(not implemented)'
+    ];
+
     static public $fixture = [
       'vertex' => [
         'abstract' => [

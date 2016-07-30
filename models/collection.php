@@ -13,6 +13,14 @@ namespace models;
     public $_location = 'Feature (where)';
     public $_premier  = 'Date';
 
+    protected $_help = [
+      'overview' => 'Collections generally serve as playlists, see associtions below for adding items.',
+      'premier' => '(not implemented)',
+      'location' => '(not implemented)',
+      'edges' => 'Generally the most important association is item, where you can select features to add. Note, when adding a feature, consider using the "item type" field to discuss why you added the feature to that particular playlist—you can use markdown as well. Adding curators will show the names of the poeple involved in the playlist.',
+      'extras' => '(not implemented for collections)'
+    ];
+
     static public $fixture = [
       'vertex' => [
         'abstract' => [
