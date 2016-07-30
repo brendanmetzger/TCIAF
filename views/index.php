@@ -74,5 +74,12 @@ $app->prepare('debug', function ($app, $response) {
 
 #4. Run the app. Nothing happens w/o this. Can call different stuff from the queue.
 $app->execute('session-start');
-$app->execute('http-request', $_REQUEST);
+try {
+  $app->execute('http-request', $_REQUEST);
+} catch (\Exception $e) {
+  echo "<pre>";
+  print_r($e);
+  echo "</pre>";
+}
+
 $app->execute('clean-up');
