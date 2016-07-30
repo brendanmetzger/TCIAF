@@ -19,10 +19,10 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 - `sudo apt-get update`
 - `sudo apt-get install apache2`
-- `sudo apt-get install php5`
-- `sudo apt-get install libapache2-mod-php5`
+- `sudo apt-get install php`
+- `sudo apt-get install libapache2-mod-php`
 - `sudo apt-get install curl`
-- `sudo apt-get install php5-curl`
+- `sudo apt-get install php-curl`
 - `sudo a2enmod rewrite`
 - `sudo apachectl -k start` (if not running)
 - `sudo apt-get install git`
@@ -43,7 +43,7 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 # Data
 
-A dev server has been set up, and that dev server has a git repository that can serve as a data backup and distribution point.
+A dev server has been set up, and that dev server has a git repository that can serve as a data backup and distribution point. Data should be cloned and pushed here.
 
 # Apache Config
 

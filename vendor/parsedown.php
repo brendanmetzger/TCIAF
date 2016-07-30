@@ -909,9 +909,9 @@ class Parsedown
         {
             $markup .= '>';
 
-            if (isset($Element['handler']))
+            if (isset($this->$Element['handler']))
             {
-                $markup .= $this->$Element['handler']($Element['text']);
+              $markup .= $this->$Element['handler']($Element['text']);
             }
             else
             {
