@@ -9,6 +9,17 @@ use \models\person as Admin;
 
 use \models\graph;
 
+function rotate($string, $n = 13) {
+    $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+    $n = (int)$n % 26;
+    if (!$n) return $string;
+    if ($n < 0) $n += 26;
+    if ($n == 13) return str_rot13($string);
+
+    $rep = substr($letters, $n * 2) . substr($letters, 0, $n * 2);
+    return strtr($string, $letters, $rep);
+}
+
 /**
  * Third Coast International Audio Festival Defaults
  */
@@ -71,6 +82,7 @@ class Manage extends \bloc\controller
 
   public function GETlogin($redirect = null, $status = "default", $username = null)
   {
+
     if ($this->authenticated) \bloc\router::redirect('/manage/logout');
 
     if ($redirect === null) {
@@ -101,12 +113,11 @@ class Manage extends \bloc\controller
       'action'   => $redirect,
       'redirect' =>  $redirect,
       'tokens'   => [
-        'username' => \bloc\types\string ::rotate('username', $token),
-        'password' => \bloc\types\string ::rotate('password', $token),
-        'redirect' => \bloc\types\string ::rotate('redirect', $token),
+        'username' => rotate('username', $token),
+        'password' => rotate('password', $token),
+        'redirect' => rotate('redirect', $token),
       ]
     ]);
-
     return $view->render($this());
   }
 
@@ -115,9 +126,9 @@ class Manage extends \bloc\controller
     $token = date('zG') + 1 + strlen(getenv('HTTP_USER_AGENT'));
     $key  = ($key === base_convert((ip2long($_SERVER['REMOTE_ADDR']) + ip2long($_SERVER['SERVER_ADDR'])), 10, date('G')+11));
     $type = 'expired';
-    $username = $request->post(\bloc\types\string ::rotate('username', $token));
-    $password = $request->post(\bloc\types\string ::rotate('password', $token));
-    $redirect = $request->post(\bloc\types\string ::rotate('redirect', $token));
+    $username = $request->post(rotate('username', $token));
+    $password = $request->post(rotate('password', $token));
+    $redirect = $request->post(rotate('redirect', $token));
 
     if ($key) {
       try {

@@ -15,12 +15,15 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 ## Software
 
+The list below is the basic software necessary to get the server up and running. Depending on the distribution, some of this may be extraneous. The most recent version of ubuntu left out a lot of packages that were in by default (xml, curl), so in the future the list may actually need to get longer.
+
 ```
 
 - `sudo apt-get update`
 - `sudo apt-get install apache2`
 - `sudo apt-get install php`
 - `sudo apt-get install libapache2-mod-php`
+- `sudo apt-get install php-xml`
 - `sudo apt-get install curl`
 - `sudo apt-get install php-curl`
 - `sudo a2enmod rewrite`
