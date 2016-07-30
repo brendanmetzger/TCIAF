@@ -60,7 +60,7 @@ function calendar($start, $year, $category)
         'awards' => 'edge[@type="award"]',
       ];
 
-      $query = $filter == 'all' || $filter == 'stories' ? 'edge' : $query = $queries[$filter];
+      $query = $filter == 'all' || $filter == 'stories' ? 'premier[@date!=""]' : $query = $queries[$filter];
 
       try {
           $this->blurb = Graph::FACTORY(Graph::group('article')->pick("vertex[@sticky='{$filter}']"));

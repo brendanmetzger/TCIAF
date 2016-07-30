@@ -360,6 +360,25 @@ class Task extends \bloc\controller
     }
   }
 
+  protected function CLIresetDates($user)
+  {
+    $premiers = \models\Graph::group('feature')->find('vertex/premier[@date!=""]');
+    foreach ($premiers as $premier) {
+      $date = $premier->getAttribute('date');
+      echo $date;
+      continue;
+      if (strlen($date) == 4) {
+        $date = '01/01/'.$date;
+      }
+
+      $date = (new \DateTime())->format('Y-m-d H:i:s');
+      $premier->setAttribute('date', $date);
+      echo "setting premier to {$date}\n";
+    }
+
+    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
+  }
+
   public function CLIabstracts()
   {
     $doc  = new \bloc\DOM\Document('data/tciaf');

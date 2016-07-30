@@ -12,6 +12,15 @@ function timecode($time) {
   */
   class Feature extends Vertex
   {
+
+    protected $_help = [
+      'overview' => '',
+      'premier' => 'Any date entered into this field will be converted to a timestamp, though the user will only see as a year. This helps Re:sound keep track of order. If this field is empty, the feature will NOT show up in library—use to your advantage!.',
+      'edges' => 'A story should have a producer edge, wheras a conference session should have a presenter edge. Re:sounds should have TCF as a producer in order to be organized correctly.',
+      'extras' => 'Extras for features are to accomodate the old site—they do not serve a particularly useful function'
+    ];
+
+
     static public $fixture = [
       'vertex' => [
         'spectra' => [
@@ -41,6 +50,19 @@ function timecode($time) {
         $this->template['digest'] = 'broadcast';
       }
     }
+
+    public function setDateAttribute(\DOMElement $context, $date)
+    {
+      if (! empty($date) && $date = (new \DateTime($date))->format('Y-m-d H:i:s')) {
+        $context->setAttribute('date', $date);
+      }
+    }
+
+    public function getYear(\DOMElement $context)
+    {
+      return (new \DateTime($context['premier']['@date']))->format('Y');
+    }
+
 
     public function getSpectra(\DOMElement $context)
     {
