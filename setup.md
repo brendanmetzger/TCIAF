@@ -23,6 +23,7 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 - `sudo apt-get install libapache2-mod-php5`
 - `sudo apt-get install curl`
 - `sudo apt-get install php5-curl`
+- `sudo a2enmod rewrite`
 - `sudo apachectl -k start` (if not running)
 - `sudo apt-get install git`
 
