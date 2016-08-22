@@ -366,11 +366,15 @@ class Task extends \bloc\controller
     foreach ($premiers as $premier) {
       $date = $premier->getAttribute('date');
 
+
       if (strlen($date) == 4) {
         $date = '01/01/'.$date;
+        echo "{$date}\n";
+      } else {
+        continue;
       }
 
-      $date = (new \DateTime())->format('Y-m-d H:i:s');
+      $date = (new \DateTime($date))->format('Y-m-d H:i:s');
       $premier->setAttribute('date', $date);
       echo "setting premier to {$date}\n";
     }
