@@ -1,7 +1,7 @@
 # Launching instance
 
 ## EC2
-- Ubuntu HVM, t2.micro
+- Ubuntu HVM, t2.micro production (free tier for 12 months as of June 2016), t2.nano development server (with a prepaid reserved instance)
 - Moved storage up to 16gb (as this is a site uploading lots of audio, **disc usage needs to be monitored in some fashion**
 - Creating a security group called 'web' that will allow access to the EC2 on ports 22, 80, and 443 (ssh, http, https)
 
@@ -15,7 +15,7 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 ## Software
 
-The list below is the basic software necessary to get the server up and running. Depending on the distribution, some of this may be extraneous. The most recent version of ubuntu left out a lot of packages that were in by default (xml, curl), so in the future the list may actually need to get longer.
+The list below is the basic software necessary to get the server up and running. Depending on the distribution, some of this may be extraneous. The most recent version of ubuntu left out a lot of packages that were in by default (xml, curl), so in the future the list may actually need to get longer. At the  moment, both the dev server as well as the production have been set to the latest release of Ubuntu - (16.04).
 
 ```
 
@@ -35,7 +35,7 @@ The list below is the basic software necessary to get the server up and running.
 
 ## Application
 
-- Clone the github repository at https://github.com/brendanmetzger/TCIAF.git into the web root. I have made a directory called thirdcoastfestival.org, and cloned directly into that directory. The bloc application is stored as a submodule as well as the data.
+- Clone the github repository at https://github.com/brendanmetzger/TCIAF.git into the web root. I have made a directory called thirdcoastfestival.org, and cloned directly into that directory. The bloc application is stored as a submodule as well as the data. The application is written in PHP, and while it technically has no dependencies, there is a vendor directory for AWS services, as well as a few modest markdown librarys—these need not be installed. The application was designed to run in PHP 5.6, but the servers are running php 7, so future versions and updates to the application will likely take advantage of PHP 7 features, so it may be wise to consider that requisite.
 
 - `mkdir /var/www/thirdcoastfestival.org`
 - `cd /var/www/thirdcoastfestival.org`

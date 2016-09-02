@@ -2,7 +2,7 @@
 body, ul, ol, form, h2, h3, h4, h5, h6, figure, blockquote { margin:0;font-weight:300; }
 body[data-status='offline'] #browse header {border-color:#fb6868;}
 body[data-status='offline'] #browse > header:after {
-  content: 'Your browser is currently offline ÃƒÂ°Ã…Â¸Ã‚Â¤Ã¢â‚¬Â';
+  content: 'Your browser is currently offline ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â¤ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â';
   text-align:center;
   font-size:1.75em;
   width:100%;
@@ -297,7 +297,7 @@ div[data-award] {
 }
 .bg {
   background-size:cover;
-  background-position: 50% 0;
+  background-position: 50% 25%;
   display:flex;
   justify-content:center;
   align-items:center;
