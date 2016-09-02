@@ -60,7 +60,12 @@ function timecode($time) {
 
     public function getYear(\DOMElement $context)
     {
-      return (new \DateTime($context['premier']['@date']))->format('Y');
+      try {
+        return (new \DateTime($context['premier']['@date']))->format('Y');
+      } catch (\Exception $e) {
+        return 'NA';
+      }
+      
     }
 
 
