@@ -9,7 +9,7 @@ namespace models;
 
   class Organization extends Vertex
   {
-    use traits\banner;
+    use traits\banner, traits\sponsor;
     public $_location = "Website";
     public $_premier = "Expires";
 
@@ -75,15 +75,13 @@ namespace models;
 
     public function getFriends(\DOMElement $context)
     {
-      return $context->find("edge[@type='friend']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex']), 'type' => $edge->nodeValue];
-      });
+      // see traits\sponsor
+      return $this->groupByTitle($context, 'friend');
     }
 
     public function getFunders(\DOMElement $context)
     {
-      return $context->find("edge[@type='sponsor']")->map(function($edge) {
-        return ['organization' => new Organization($edge['@vertex']), 'type' => $edge->nodeValue];
-      });
+      // see traits\sponsor
+      return $this->groupByTitle($context, 'sponsor');
     }
   }
