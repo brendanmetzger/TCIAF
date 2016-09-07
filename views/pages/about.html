@@ -21,6 +21,18 @@
       <img src="[http://s3.amazonaws.com/$item:photo:url]" style="width:100%;padding:5%;background-color:rgba(255,255,255,0.25);border:1px solid #eee;" alt="third coast"/>
       <cite>[$item:photo:caption]</cite>
       <section class="markdown">[$item:content:about]</section>
+      <h2 class="display t">Funders</h2>
+      <h4 class="t b">Organizations</h4>
+      <ul>
+        <!-- iterate item:funders-->
+        <li>[$organization:title]</li>
+      </ul>
+      <h4 class="t b">Individuals</h4>
+      <ul>
+        <!-- iterate item:friends -->
+        <li>[$person:title]</li>
+      </ul>
+
     </section>
     <nav class="one-third ll">
       <div class="gray-bg spot">

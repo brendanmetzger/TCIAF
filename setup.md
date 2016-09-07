@@ -26,6 +26,7 @@ The list below is the basic software necessary to get the server up and running.
 - `sudo apt-get install php-xml`
 - `sudo apt-get install curl`
 - `sudo apt-get install php-curl`
+- `sudo apt-get install php-gd`
 - `sudo a2enmod rewrite`
 - `sudo apachectl -k start` (if not running)
 - `sudo apt-get install git`
@@ -47,6 +48,7 @@ The list below is the basic software necessary to get the server up and running.
 # Data
 
 A dev server has been set up, and that dev server has a git repository that can serve as a data backup and distribution point. Data should be cloned and pushed here.
+The production server will backup to the dev server every night, so within 24 hours, the servers will always be in sync.
 
 # Apache Config
 

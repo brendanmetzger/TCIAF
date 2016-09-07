@@ -71,7 +71,19 @@ namespace models;
       return $context->find("edge[@type='sponsor' and contains(., 'Support')]")->map(function($edge) {
         return ['organization' => new Organization($edge['@vertex']), 'type' => $edge->nodeValue];
       });
-
     }
 
+    public function getFriends(\DOMElement $context)
+    {
+      return $context->find("edge[@type='friend']")->map(function($edge) {
+        return ['person' => new Person($edge['@vertex']), 'type' => $edge->nodeValue];
+      });
+    }
+
+    public function getFunders(\DOMElement $context)
+    {
+      return $context->find("edge[@type='sponsor']")->map(function($edge) {
+        return ['organization' => new Organization($edge['@vertex']), 'type' => $edge->nodeValue];
+      });
+    }
   }
