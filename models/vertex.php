@@ -74,7 +74,7 @@ abstract class Vertex extends \bloc\Model
     $url = Graph::instance()->storage->createAttribute('src');
     $url->appendChild(Graph::instance()->storage->createTextNode($src));
     $context->setAttributeNode($url);
-    $context->setAttribute('content', $abstract['@']['content']);
+    $context->setAttribute('content', $abstract['@']['content'] ?? self::$fixture['vertex']['abstract'][0]['@']['content']);
 
     $markdown = new \vendor\Parsedown;
     $markdown->setBreaksEnabled(true);

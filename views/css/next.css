@@ -24,6 +24,7 @@ button:focus, input:focus {
   border-color: #FC6202 !important;
   box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.05) !important;
 }
+
 body {
   font: normal normal 400 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
   background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
