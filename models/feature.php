@@ -65,9 +65,7 @@ function timecode($time) {
       } catch (\Exception $e) {
         return 'NA';
       }
-      
     }
-
 
     public function getSpectra(\DOMElement $context)
     {

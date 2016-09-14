@@ -325,6 +325,16 @@ abstract class Vertex extends \bloc\Model
       // set new id to slugged title
       $this->setIdAttribute($this->context, $slug);
 
+      // move the abstracts
+      foreach ($this->context->find('abstract') as $abstract) {
+        if (file_exists(PATH.$abstract['@src'])) {
+          $old = PATH.$abstract['@src'];
+          $new = str_replace($id, $slug, $old);
+          rename($old, $new);
+        }
+      }
+      
+
       // find all edges with a vertex referencing old id and replace new id
       $edges = Graph::instance()->query('/graph/group/vertex/')->find("edge[@vertex='{$id}']");
 
