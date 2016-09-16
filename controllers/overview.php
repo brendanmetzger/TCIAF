@@ -43,7 +43,7 @@ function calendar($start, $year, $category)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/feature.html";
-      $this->search = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->search = ['topic' => 'feature', 'path' => 'search/cluster', 'area' => 'explore/detail'];
 
       $this->filter = $filter;
       $this->sort   = $sort;
@@ -131,7 +131,7 @@ function calendar($start, $year, $category)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/person.html";
-      $this->search  = ['topic' => 'people', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->search  = ['topic' => 'people', 'path' => 'search/cluster', 'area' => 'explore/detail'];
       $this->title = ucfirst($category).', Third Coast International Audio Festival';
       $alpha = null;
 
@@ -243,7 +243,7 @@ function calendar($start, $year, $category)
     {
       $view = new view('views/layout.html');
       $view->content = "views/lists/collection.html";
-      $this->search = ['topic' => 'playlist', 'path' => 'search/group', 'area' => 'overview/playlists'];
+      $this->search = ['topic' => 'playlist', 'path' => 'search/cluster', 'area' => 'overview/playlists'];
       $this->group = 'collection';
       $this->{$sort} = "selected";
       $this->list = Graph::group('collection')

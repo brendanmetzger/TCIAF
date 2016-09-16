@@ -22,7 +22,7 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     if ($group !== null) {
       $view->content = "views/lists/{$group}.html";
-      $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->search  = ['topic' => $group, 'path' => 'search/cluster', 'area' => 'explore/detail'];
       $this->group   = $group;
       $alpha = null;
       if (strtolower(substr($filter, 0, 5)) == 'alpha') {
@@ -48,7 +48,7 @@ class Explore extends Manage
     } else {
       // the homepage is a collection.
       $this->collection = new \models\collection(Graph::GROUP('collection')->pick("vertex[@sticky='homepage']"));
-      $this->search     = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->search     = ['topic' => 'feature', 'path' => 'search/cluster', 'area' => 'explore/detail'];
     }
 
     return $view->render($this());
@@ -76,7 +76,7 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     $view->content = 'views/lists/article.html';
     $this->{$sort} = "selected";
-    $this->search  = ['topic' => 'article', 'path' => 'search/group', 'area' => 'explore/detail'];
+    $this->search  = ['topic' => 'article', 'path' => 'search/cluster', 'area' => 'explore/detail'];
     $this->list    = Graph::group('article')
          ->find("vertex[starts-with(translate(@title, 'BEH*', 'beh'), 'beh')]")
          ->sort(Graph::sort($sort))

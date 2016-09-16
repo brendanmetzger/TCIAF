@@ -92,7 +92,7 @@ abstract class Vertex extends \bloc\Model
        'required' => 'required',
       ]];
     }
-
+    
     return $context['abstract']->map(function($abstract) use($parse){
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
