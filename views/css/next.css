@@ -68,6 +68,11 @@ p a {text-decoration:underline}
 .m, p { margin: 0.5em 0 1em }
 
 .markdown h3 {margin: 2vmax 0 0;}
+.markdown strong em {
+  font-style: normal;
+  font-weight:normal;
+  color: #FC6202;
+}
 .markdown h4:not(:first-of-type) {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}

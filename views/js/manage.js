@@ -103,6 +103,12 @@ Markdown.prototype = {
         return {value: Markdown.prototype.wrap('*', message, begin, end)};
       }
     },
+    special: {
+      format: '<var>***</var><span style="color:#FC6202">special</span><var>***</var>',
+      insert: function (message, begin, end) {
+        return {value: Markdown.prototype.wrap('***', message, begin, end)};
+      }
+    },
     list   : {
       format: '<var>-</var> list',
       insert: function (message, begin, end) {
