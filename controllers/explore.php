@@ -56,13 +56,10 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
-
     $this->item = Graph::FACTORY(Graph::ID($id));
     $this->title  = strip_tags($this->item['title']);
-
     $view = new view('views/layout.html');
     $view->content = "views/digests/{$this->item->template('digest')}.html";
-
     return $view->render($this());
   }
 
@@ -102,12 +99,19 @@ class Explore extends Manage
     return $view->render($this());
   }
 
+  public function GETshoppe()
+  {
+    $view = new View('views/layout.html');
+    $view->content = 'views/lists/shoppe.html';
+    $this->item  = new \models\Article('shoppe');
+    return $view->render($this());
+  }
+
   public function GETresource($type, $context, $index = 0)
   {
-    $view = new view('views/layout.html');
+    $view = new View('views/layout.html');
     $view->content = 'views/forms/partials/image.html';
     $media = new \models\Media(Graph::ID($context)->getElementsByTagName('media')->item($index));
-
     return $view->render($this($media->slug));
   }
 }

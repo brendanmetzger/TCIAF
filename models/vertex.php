@@ -75,10 +75,14 @@ abstract class Vertex extends \bloc\Model
     $url->appendChild(Graph::instance()->storage->createTextNode($src));
     $context->setAttributeNode($url);
     $context->setAttribute('content', $abstract['@']['content'] ?? self::$fixture['vertex']['abstract'][0]['@']['content']);
+    $text = $abstract['CDATA'];
+    if ($context->parentNode['@mark'] != 'html') {
+      $markdown = new \vendor\Parsedown;
+      $markdown->setBreaksEnabled(true);
+      $text = $markdown->text($abstract['CDATA']);
 
-    $markdown = new \vendor\Parsedown;
-    $markdown->setBreaksEnabled(true);
-    file_put_contents(PATH . $src, $markdown->text($abstract['CDATA']));
+    }
+    file_put_contents(PATH . $src, $text);
     return true;
   }
 
@@ -92,14 +96,16 @@ abstract class Vertex extends \bloc\Model
        'required' => 'required',
       ]];
     }
-    
-    return $context['abstract']->map(function($abstract) use($parse){
+
+    return $context['abstract']->map(function($abstract) use($parse, $context){
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
+
+      $text = $parse && $context['@mark'] != 'html' ? (new \vendor\Parseup($content))->output() : $parse ? htmlentities($content) : $content;
       return [
-       'type' => $abstract->getAttribute('content'),
-       'index' => $abstract->getIndex(),
-       'text' => $parse ? (new \vendor\Parseup($content))->output() : $content,
+       'type'    => $abstract->getAttribute('content'),
+       'index'   => $abstract->getIndex(),
+       'text'    => $text,
       ];
     });
   }
@@ -304,7 +310,8 @@ abstract class Vertex extends \bloc\Model
 
   public function slugify()
   {
-    if ($this->context['@mark'] == 'lock') return;
+    $mark = $this->context['@mark'];
+    if ($mark == 'lock' || $mark == 'html') return;
     $find = [
       '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
       '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
