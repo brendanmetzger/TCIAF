@@ -101,7 +101,7 @@ abstract class Vertex extends \bloc\Model
 			$path = PATH . $abstract->getAttribute('src');
 			$content = file_exists($path) ? file_get_contents($path) : null;
 
-      $text = $parse && $context['@mark'] != 'html' ? (new \vendor\Parseup($content))->output() : $parse ? htmlentities($content) : $content;
+      $text = $parse && $context['@mark'] != 'html' ? (new \vendor\Parseup($content))->output() : ($parse ? htmlentities($content) : $content);
       return [
        'type'    => $abstract->getAttribute('content'),
        'index'   => $abstract->getIndex(),
