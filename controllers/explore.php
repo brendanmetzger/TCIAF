@@ -22,7 +22,7 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     if ($group !== null) {
       $view->content = "views/lists/{$group}.html";
-      $this->search  = ['topic' => $group, 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->search  = ['topic' => $group, 'path' => 'search/cluster', 'area' => 'explore/detail'];
       $this->group   = $group;
       $alpha = null;
       if (strtolower(substr($filter, 0, 5)) == 'alpha') {
@@ -48,7 +48,7 @@ class Explore extends Manage
     } else {
       // the homepage is a collection.
       $this->collection = new \models\collection(Graph::GROUP('collection')->pick("vertex[@sticky='homepage']"));
-      $this->search     = ['topic' => 'feature', 'path' => 'search/group', 'area' => 'explore/detail'];
+      $this->search     = ['topic' => 'feature', 'path' => 'search/cluster', 'area' => 'explore/detail'];
     }
 
     return $view->render($this());
@@ -56,13 +56,10 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
-
     $this->item = Graph::FACTORY(Graph::ID($id));
     $this->title  = strip_tags($this->item['title']);
-
     $view = new view('views/layout.html');
     $view->content = "views/digests/{$this->item->template('digest')}.html";
-
     return $view->render($this());
   }
 
@@ -76,7 +73,7 @@ class Explore extends Manage
     $view = new view('views/layout.html');
     $view->content = 'views/lists/article.html';
     $this->{$sort} = "selected";
-    $this->search  = ['topic' => 'article', 'path' => 'search/group', 'area' => 'explore/detail'];
+    $this->search  = ['topic' => 'article', 'path' => 'search/cluster', 'area' => 'explore/detail'];
     $this->list    = Graph::group('article')
          ->find("vertex[starts-with(translate(@title, 'BEH*', 'beh'), 'beh')]")
          ->sort(Graph::sort($sort))
@@ -102,12 +99,19 @@ class Explore extends Manage
     return $view->render($this());
   }
 
+  public function GETshoppe()
+  {
+    $view = new View('views/layout.html');
+    $view->content = 'views/lists/shoppe.html';
+    $this->item  = new \models\Article('shoppe');
+    return $view->render($this());
+  }
+
   public function GETresource($type, $context, $index = 0)
   {
-    $view = new view('views/layout.html');
+    $view = new View('views/layout.html');
     $view->content = 'views/forms/partials/image.html';
     $media = new \models\Media(Graph::ID($context)->getElementsByTagName('media')->item($index));
-
     return $view->render($this($media->slug));
   }
 }

@@ -14,7 +14,7 @@ trait sponsor {
     if ($sponsors->count() < 1) return null;
 
     foreach ($sponsors as $edge) {
-      $key = (string)$edge ?: $type;
+      $key = trim((string)$edge ?: $type);
       if (! array_key_exists($key, $output)) {
         $output[$key] = ['group' => ['name' => $key, 'items' => []]];
       }

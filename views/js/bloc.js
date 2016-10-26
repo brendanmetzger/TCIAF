@@ -524,6 +524,7 @@ bloc.init(function () {
 
 
 bloc.init(bloc.define('autoload', function () {
+
   document.querySelectorAll('noscript').forEach(function (elem) {
     var swap = document.createElement('div');
     elem.parentNode.replaceChild(swap, elem);

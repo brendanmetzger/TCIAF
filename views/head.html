@@ -1,32 +1,35 @@
 <head>
   <title>[$title]</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8" />
   <meta name="msapplication-tap-highlight" content="no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Third Coast International Audio Festival"/>
-  <link rel="shortcut icon" href="/images/favicon.ico"/>
+  <meta name="apple-mobile-web-app-title" content="Third Coast International Audio Festival" />
+  <link rel="shortcut icon" href="/images/favicon.ico" />
   <link rel="stylesheet" media="screen" type="text/css" href="/css/player.css" />
   <link rel="stylesheet" media="screen" type="text/css" href="/css/next.css" />
   <script type="text/javascript">
     // <![CDATA[
-    (function(exports,s,c,p1,p2) {
-      s.type='text/javascript';
+    (function(exports, s, c, p1, p2) {
+      s.type = 'text/javascript';
       exports.cache = Object.create(null);
-      exports.require = function (u, p) {
-        var ctx = s.cloneNode(); ctx.src = u; ctx.async = p;
-            p ? p2.push(ctx) : ctx.onload = exports.load.bind(ctx, p1.push(ctx));
+      exports.require = function(u, p) {
+        var ctx = s.cloneNode();
+        ctx.src = u;
+        ctx.async = p;
+        p ? p2.push(ctx) : ctx.onload = exports.load.bind(ctx, p1.push(ctx));
       };
-      exports.load = function (i, e) {
-        if (i===e) return p1.concat(p2).map(Node.prototype.appendChild.bind(document.head));
-        if (e && p1.length === i || i === true) while(c.length > 0) c.shift().call();
+      exports.load = function(i, e) {
+        if (i === e) return p1.concat(p2).map(Node.prototype.appendChild.bind(document.head));
+        if (e && p1.length === i || i === true)
+          while (c.length > 0) c.shift().call();
 
       };
       exports.init = function(f, w) {
-        c[w||'push'](f);
+        c[w || 'push'](f);
       };
       exports.module = function(k) {
         return (k in exports.cache) ? exports.cache[k] : exports.define.bind(exports, k);
@@ -34,15 +37,22 @@
       exports.remove = function(k) {
         delete exports.cache[k];
       }
-      exports.define = function (k, f) {
+      exports.define = function(k, f) {
         return (k in exports.cache) ? exports.cache[k] : exports.cache[k] = f;
       };
 
-    }(this.bloc = {}, document.createElement('script'),[],[],[]));
+    }(this.bloc = {}, document.createElement('script'), [], [], []));
 
     var mobile = (/mobile|iPhone/i).test(navigator.userAgent),
-        dataLayer = [{'start': Date.now()}],
-        WebFontConfig = { google: { families: [ 'Source+Serif+Pro:700', 'Source+Sans+Pro:400,300,600,700,400italic' ] } };
+      dataLayer = [{
+        'start': Date.now()
+      }],
+      WebFontConfig = {
+        google: {
+          families: ['Source+Serif+Pro:700', 'Source+Sans+Pro:400,300,600,700,400italic']
+        }
+      };
+
     document.documentElement.classList.add(mobile ? 'touch' : 'desktop');
     // Embed script for site
     bloc.require('/js/bloc.js')

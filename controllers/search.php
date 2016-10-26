@@ -14,7 +14,7 @@ use \models\Graph;
 class Search extends Manage
 {
 
-  public function GETindex($token)
+  public function GETindex()
   {
     echo "ok";
     flush();
@@ -30,7 +30,7 @@ class Search extends Manage
     \models\search::BUILD();
   }
 
-  public function GETgroup($type, $subset = null)
+  public function GETcluster($type, $subset = null)
   {
     $list   = Graph::group($type)->find('vertex');
     $search = new \models\search($list);
@@ -51,8 +51,33 @@ class Search extends Manage
 
   public function GETfull()
   {
-    $this->query = \bloc\request::$data['q'];
+
+    $term = \bloc\request::$data['q'];
+    $q = urlencode($term);
     $view = new View('views/layout.html');
+
+
+    $g = [
+      'cx' => getenv('SEARCH_CX'),
+      'key'  => getenv('SEARCH_KEY'),
+    ];
+
+
+    $data = json_decode(file_get_contents("https://www.googleapis.com/customsearch/v1?q={$q}&cx={$g['cx']}&key={$g['key']}"));
+    $total = $data->queries->request[0]->totalResults;
+    if ($total > 0) {
+      $this->message = "Results for <q>{$term}</q>";
+      $this->results = (new Dictionary($data->items))->map(function($item) {
+        return [
+          'title' => str_replace(' & ', ' &amp; ', html_entity_decode(strip_tags($item->htmlTitle, '<b><em><i><strong>'))),
+          'copy' => str_replace(' & ', ' &amp; ', html_entity_decode(strip_tags($item->htmlSnippet, '<b><em><i><strong>'))),
+          'link' => preg_replace('/^http.*thirdcoastfestival.org/', '', $item->link),
+        ];
+      });
+    } else {
+      $this->message = "No results for <q>{$term}</q>";
+    }
+
     $view->content= 'views/pages/search.html';
     return $view->render($this());
   }
@@ -60,7 +85,7 @@ class Search extends Manage
   public function GETform($type)
   {
     $view = new View('views/forms/partials/search.html');
-    $this->search = ['topic' => $type, 'path' => 'search/group'];
+    $this->search = ['topic' => $type, 'path' => 'search/cluster'];
     return $view->render($this());
   }
 }
