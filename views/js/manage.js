@@ -421,6 +421,7 @@ Modal.Form.prototype = {
     });
 
     bloc.remove('Edge');
+    bloc.remove('Spectra');
     bloc.remove('Markdown');
     bloc.module('autoload')();
 
