@@ -5,6 +5,19 @@
 - Moved storage up to 16gb (as this is a site uploading lots of audio, **disc usage needs to be monitored in some fashion**
 - Creating a security group called 'web' that will allow access to the EC2 on ports 22, 80, and 443 (ssh, http, https)
 
+The Apache configuration on a micro needs to be adjusted, because there is only about half a gig of memory available, and pushing that goes into swap memory, and the freezes to the point of a crash, which makes adjustments pretty hard to make. Here is the config to make sure servers don't get greedy
+
+```
+# file is /etc/apache2/mods-enabled/mpm_prefork.conf 
+<IfModule mpm_prefork_module>
+  StartServers               3       (normally 5)
+  MinSpareServers		         2       (normally 5)
+  MaxSpareServers		         5       (normally 10)
+  MaxRequestWorkers	        10       (normally 150)
+  MaxConnectionsPerChild   100       (normally 0)
+</IfModule>
+
+```
 
 ## S3
 
@@ -17,7 +30,6 @@ An elastic IP (viewable in AWS Console), and that is the destination address in 
 
 The list below is the basic software necessary to get the server up and running. Depending on the distribution, some of this may be extraneous. The most recent version of ubuntu left out a lot of packages that were in by default (xml, curl), so in the future the list may actually need to get longer. At the  moment, both the dev server as well as the production have been set to the latest release of Ubuntu - (16.04).
 
-```
 
 - `sudo apt-get update`
 - `sudo apt-get install apache2`
@@ -31,8 +43,6 @@ The list below is the basic software necessary to get the server up and running.
 - `sudo apachectl -k start` (if not running)
 - `sudo apt-get install git`
 
-
-```
 
 ## Application
 
@@ -76,6 +86,7 @@ Rewrites are very simple, and map the url to a controller and action, and then e
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^([a-zA-Z]*)\/?([a-zA-Z]*)\/?([a-zA-Z0-9\-\:\/\_\*\=]*)\.?(json|xml|html|svg|jpe?g)?$ index.php?controller=$1&action=$2&params=$3&content-type=$4 [B,QSA,L]
 </IfModule>
+
 ```
 
 ## Other Configs

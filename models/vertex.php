@@ -90,7 +90,7 @@ abstract class Vertex extends \bloc\Model
   {
     if ($context['abstract']->count() < 1) {
       return [[
-       'type' => strtolower(array_pop(static::$fixture['vertex']['abstract'])['@']['content']),
+       'type' => strtolower(array_pop(static::$fixture['vertex']['abstract'])['@']['content'] ?? 'description'),
        'index' => 0,
        'text' => '',
        'required' => 'required',
@@ -340,7 +340,7 @@ abstract class Vertex extends \bloc\Model
           rename($old, $new);
         }
       }
-      
+
 
       // find all edges with a vertex referencing old id and replace new id
       $edges = Graph::instance()->query('/graph/group/vertex/')->find("edge[@vertex='{$id}']");
