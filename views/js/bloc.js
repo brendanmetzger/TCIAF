@@ -444,7 +444,7 @@ if (window.history.pushState) {
       // console.dir(evt.target);
       // console.log(this);
     }
-  }, 5500);
+  }, 7500);
 
   var adjust = function (num) {
     return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))) + '%';
