@@ -255,7 +255,6 @@ class Manage extends \bloc\controller
     $bucket = 'tciaf-media';
     $source = PATH . "data/media/{$name}";
 
-
     if (move_uploaded_file($upload['tmp_name'], $source)) {
       $client = \Aws\S3\S3Client::factory(['profile' => 'TCIAF']);
       try {
@@ -265,6 +264,7 @@ class Manage extends \bloc\controller
           'Key'    => $filename,
           'ACL'    => 'public-read',
           'ContentType' => $upload['type'],
+          'CacheControl' => 'max-age=604800'
         ];
 
         if ($type === 'image') {

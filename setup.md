@@ -126,6 +126,16 @@ I added a few other configs to deflate, as the content-type returned from the ap
 
 ```
 
+## Caching
+
+Cache static stuff for about a week (in seconds here), this requires `a2enmod headers` on ubuntu.
+
+```
+<filesMatch ".(ico|pdf|jpg|jpeg|png|svg|gif|js|css)$">
+   Header set Cache-Control "max-age=600000, public"
+</filesMatch>
+```
+
 ## PHP configs
 
 The site requires PHP 5.5, which should be fairly standard at this point. Installing PHP with the apt-get command does almost all of the legwork, but there are a few things to adjust in php.ini

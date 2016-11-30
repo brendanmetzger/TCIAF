@@ -46,7 +46,7 @@ $app->prepare('http-request', function ($app, $params) {
     $app->execute('debug', $response);
   }
 
-  echo $response;
+  echo trim($response);
 });
 
 
