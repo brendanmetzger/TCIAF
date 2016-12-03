@@ -115,7 +115,7 @@
     </style>
     <script type="text/javascript">
       // <![CDATA[
-        if (! sessionStorage.getItem('winter-fund')) {
+        if (new Date(2017, 0, 1) > new Date() && (! sessionStorage.getItem('winter-fund'))) {
           var splash = document.body.appendChild(document.createElement('div'));
           splash.appendChild(document.createElement('span')).textContent = '✕ Click background to close';
 
