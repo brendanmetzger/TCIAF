@@ -1,7 +1,7 @@
 .listen:hover, .listen:focus, .bg .listen:hover {background-color:rgba(255,255,255,1);}
 .listen {
   background-size: 175% auto;
-  background-image: url(/images/listen.svg);
+  background-image: url(http://tciaf-media.s3.amazonaws.com/image/_assets/listen.svg);
   background-position: 50% 15%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
