@@ -27,7 +27,7 @@ button:focus, input:focus {
 
 body {
   font: normal normal 400 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
-  background: url(/images/birds-background-B.png) repeat-y 100% 100% fixed, url(/images/birds-background-A.png) repeat-y fixed;
+    background: url(http://tciaf-media.s3.amazonaws.com/image/birds-background-B.png) repeat-y 100% 100% fixed, url(http://tciaf-media.s3.amazonaws.com/image/birds-background-A.png) repeat-y fixed;
   background-size:100%, 100%;
   background-position:100% 100%, 100% 100%;
   transition:background-position 2s, background-size 1.5s;
