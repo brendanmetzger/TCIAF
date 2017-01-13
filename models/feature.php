@@ -84,7 +84,7 @@ function timecode($time) {
 
     public function getGradient(\DOMElement $context)
     {
-      $color = '-webkit-linear-gradient(left, %s)';
+      $color = 'linear-gradient(90deg, %s)';
       $count = 0;
 
       foreach ($this->getSpectra($context) as $spectra) {
@@ -211,7 +211,7 @@ function timecode($time) {
       $correlation = \controllers\Task::pearson($context['@id'])->best;
       arsort($correlation);
 
-      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 3, true))))->map(function($id) {
+      return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 6, true))))->map(function($id) {
        return ['item' => Graph::FACTORY(Graph::ID($id))];
       });
     }
