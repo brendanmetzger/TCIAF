@@ -37,7 +37,7 @@
                     <div>
                       <!-- iterate item:media:audio -->
                       <!--  insert views/partials/play-button.html-->
-                      <h4 style="margin: 0.5em 0 0">[$item:year / $item:duration]</h4>
+                      <h4 style="margin: 0.5em 0 0;text-shadow: 1px -1px 2px rgba(255,255,255,0.75);">[$item:year / $item:duration]</h4>
                     </div>
                   </div>
                   <div class="multi-line">
@@ -45,7 +45,7 @@
                   </div>
                   <p class="pad">[$item:summary]</p>
                 </div>
-                <ul class="plain path" style="[border-top-style:solid;border-top-width:0.25em;border-image: $item:gradient 30 30 stretch; margin:0 -1.25em -1.25em; padding:0;min-height:5em;]">
+                <ul class="plain path" style="margin:0 -1.25em -1.25em; padding:0;border-top:2px solid #fafafa;">
                   <!-- iterate item:producers -->
                   <li style="flex: 1 1 auto;"><a href="[$person:permalink]" data-id="[$person:@id]" class="h5" style="display:flex;justify-content:center;">[$person:@title]</a></li>
                 </ul>
