@@ -18,7 +18,7 @@ class Task extends \bloc\controller
     }
   }
 
-  public function authenticate()
+  public function authenticate($user = null)
   {
     echo "Authenticating..\n";
     return $this->authenticated ? new \models\person($this->authenticated) : null;
@@ -187,12 +187,11 @@ class Task extends \bloc\controller
 
   static public function pearson($id = null)
   {
-
     $spectrum  = \models\Graph::group('feature')->find('vertex/spectra');
     $list      = [];
 
     $count = 7;
-
+    
     foreach ($spectrum as $spectra) {
       $item = new \stdClass;
       $item->sum    = 0;
@@ -201,9 +200,7 @@ class Task extends \bloc\controller
       $item->best   = [];
       $item->id     = $spectra->parentNode['@id'];
 
-      $skip = 0;
       foreach ($spectra->attributes as $attr) {
-        if ($skip++ < 1) continue; // do not factor recommendation into correlation
         $value = (int)$attr->nodeValue;
         $item->sum += $value;
         $item->sumsq += pow($value, 2);

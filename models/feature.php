@@ -208,9 +208,11 @@ function timecode($time) {
 
     public function getRecommended(\DOMElement $context)
     {
+
+     
       $correlation = \controllers\Task::pearson($context['@id'])->best;
       arsort($correlation);
-
+      
       return (new \bloc\types\Dictionary(array_keys(array_slice($correlation, 0, 6, true))))->map(function($id) {
        return ['item' => Graph::FACTORY(Graph::ID($id))];
       });

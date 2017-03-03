@@ -56,17 +56,19 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
+
     $this->item = Graph::FACTORY(Graph::ID($id));
     $this->title  = strip_tags($this->item['title']);
+
     $view = new view('views/layout.html');
     $view->content = "views/digests/{$this->item->template('digest')}.html";
     return $view->render($this());
   }
 
-  public function GETperson($id) { return $this->GETdetail($id); }
-  public function GETfeature($id) { return $this->GETdetail($id); }
+  public function GETperson($id)     { return $this->GETdetail($id); }
+  public function GETfeature($id)    { return $this->GETdetail($id); }
   public function GETcollection($id) { return $this->GETdetail($id); }
-  public function GETarticle($id) { return $this->GETdetail($id); }
+  public function GETarticle($id)    { return $this->GETdetail($id); }
 
   public function GETbehindTheScenes($sort = 'newest', $index = 1, $per = 25)
   {

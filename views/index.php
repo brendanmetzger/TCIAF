@@ -38,6 +38,7 @@ $app->prepare('http-request', function ($app, $params) {
     $view->content = 'views/layouts/error.html';
     $output = $view->render(['message' => $e->getMessage()]);
   }
+  
 
   // default controller and action as arguments, in case nothin doin in the request
   $response->setBody($output);

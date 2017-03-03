@@ -62,7 +62,7 @@ class Manage extends \bloc\controller
 
   }
 
-  public function authenticate()
+  public function authenticate($user = null)
   {
     return $this->authenticated  ? new \models\person($_SESSION['id']) : null;
   }

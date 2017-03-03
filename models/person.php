@@ -68,6 +68,11 @@ class Person extends Vertex  implements \bloc\types\authentication
       });
     }
   }
+  
+  public function getLast(\DOMElement $context)
+  {
+    return implode(' ', array_slice(explode(' ', $context['@title']), 1));
+  }
 
   public function getContributions(\DOMElement $context)
   {

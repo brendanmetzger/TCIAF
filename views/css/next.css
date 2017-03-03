@@ -27,7 +27,7 @@ button:focus, input:focus {
 
 body {
   font: normal normal 400 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
-    background: url(http://tciaf-media.s3.amazonaws.com/image/_assets/birds-background-B.png) repeat-y 100% 100% fixed, url(http://tciaf-media.s3.amazonaws.com/image/_assets/birds-background-A.png) repeat-y fixed;
+  background: url(http://tciaf-media.s3.amazonaws.com/image/_assets/birds-background-B.png) repeat-y 100% 100% fixed, url(http://tciaf-media.s3.amazonaws.com/image/_assets/birds-background-A.png) repeat-y fixed;
   background-size:100%, 100%;
   background-position:100% 100%, 100% 100%;
   transition:background-position 2s, background-size 1.5s;
@@ -42,7 +42,7 @@ body {
 .brown-bg a {color: #EEE;}
 .orange, .display > strong, a:focus {color:#FC6202;}
 
-a {color:#706F73;text-decoration:none;}
+a {color:#4b3c6e;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
 a > img {pointer-events:all}
 a > img:hover {opacity:0.9}
@@ -158,7 +158,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 }
 
 
-.path li a {padding: 0.75em 0.5em 0.25em;background-image: linear-gradient(0deg, rgba(0,0,0,0), rgba(0, 0, 0, 0.01));border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;transition:border-color 0.25s;}
+.path li a {padding: 0.25em 0.5em;border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;transition:border-color 0.25s;}
 .lead {font-size: calc(2em + 2vw);line-height:1;}
 .spot {padding:2vmax;margin:0 0 2vmax;}
 .controls, .path, .triptych > * {display: inline-flex;}
@@ -170,14 +170,14 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   transition: background-color 1s;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
-.display, .markdown h2 { font-family: 'Source Serif Pro', Baskerville, Didot, Serif; }
+.display, .markdown h2 { font-family: Baskerville,  Didot, 'Times New Roman', Serif; }
 
 .panel, .triptych {display:flex;}
 .sink {flex: 1 0 10vw;}
 #browse article.panel, #browse section.panel {flex-wrap:wrap;}
 .triptych {justify-content:space-between;flex-wrap:wrap;}
 .triptych > * {
-  background-color: rgba(255,255,255,0.75);
+  background-color: #fff;
   flex-flow: column;
   flex-wrap:wrap;
   justify-content:space-between;
