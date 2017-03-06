@@ -189,7 +189,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 section#browse > main {
   transition:opacity 0.75s, background-color 1.5s 0.125s;
   background-color:#FAFAFA;
-  padding: 2vmax 2.5vmax 2vmax 5vmax;
+  padding: 2vmax 1.5vmax 2vmax 5vmax;
 }
 
 .transition #browse > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
@@ -320,7 +320,7 @@ section#media {width:100vw;position:fixed;left:0;}
   body {padding-bottom:12.5vmax}
   .banner {margin-left:-2.5vmax}
   body[data-view='browse'] #media { overflow:hidden}
-  section#browse main {background-color: #f1f1f1;padding-left: 2.5vmax;}
+  section#browse main {background-color: #f1f1f1;padding-left: 1.5vmax;}
   h5 a, h2 a, .sink a, h3 a {border-bottom: 1px dashed rgba(91, 156, 153, 0.2);color: #5b9b98;}
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
   .panel > .two-thirds, .panel > .half {margin: 1.25em 0;flex: 1 0 100%;min-width: 100%;}
@@ -379,8 +379,6 @@ section#media {width:100vw;position:fixed;left:0;}
   nav[role] > ul { align-items:stretch }
 }
 
-.p-cols li {flex: 0 0 50%;margin:0.25em 0;padding: 0em 0.5em;}
-
 /* Hack for tablet to deal with images in playlist/lib*/
 @media screen and (min-width:40em) {
   .bg {width:25%;}
@@ -395,8 +393,40 @@ section#media {width:100vw;position:fixed;left:0;}
   }
 }}
 
+
+section.listing {
+  background-image: linear-gradient(#fff, rgba(255,255,255,0));
+  box-shadow: 0 -0.125em 0.25em  rgba(0,0,0,0.05);
+  padding: 2em;
+  margin:1em -2em;
+}
+
+
+
+section.listing div.markdown h2 {
+  text-transform: uppercase;
+  line-height:1;
+  color:hsla(16, 30%, 30%, 1);
+}
+
 /* Tablet */
 @media screen and (min-width: 50em) {
+  
+  section.listing div.markdown :first-child {
+    margin-top:0;
+  }
+  
+  section.listing {
+    padding: 3em 6vmax;
+    margin: 0 -3.5vmax 0 -6vmax;
+  }
+  section.listing div.markdown {
+    padding:2em 0;
+    column-count: 2;
+    column-gap:5em;
+    column-rule: 1px solid #eee;
+  }
+  
   input:focus::-webkit-input-placeholder { opacity:0.2; }
   ::-webkit-input-placeholder {
      letter-spacing:0.125em;
@@ -516,6 +546,4 @@ div.filter.panel:not(:first-of-type) {
 
 article[data-type='show'] ul li:nth-child(n + 6) {
   display:none;
-}
-ne;
 }

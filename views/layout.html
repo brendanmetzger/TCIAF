@@ -53,14 +53,21 @@
             </ul>
           </article>
           <hr />
-          <article class="pad">
-            <!-- iterate collection:articles -->
-            <section class="listing">
-              <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
-              <div class="markdown">[$article:content:description]</div>
-            </section>
-          </article>
+          
+          <!-- iterate collection:articles -->
+          <section class="listing">
+            <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
+            <div class="markdown">[$article:content:description]</div>
+          </section>
+          
+          <section class="listing" style="display:none;">
+            <h4 class="brown caps-lock">Interviews</h4>
+            <blockquote>
+              <em style="font-size:5em;font-family:Baskerville;line-height:1;padding:5em;">You’ve been covering education for over a decade, why has this beat been so important to you?</em>
+            </blockquote>
+          </section>
         </section>
+        
       </main>
       <!-- insert views/pages/footer.html -->
       <!-- replace helper -->
