@@ -138,12 +138,12 @@ Cache static stuff for about a week (in seconds here), this requires `a2enmod he
 
 ## PHP configs
 
-The site requires PHP 5.5, which should be fairly standard at this point. Installing PHP with the apt-get command does almost all of the legwork, but there are a few things to adjust in php.ini
+The site requires PHP 7, which should be fairly standard at this point. Installing PHP with the apt-get command does almost all of the legwork, but there are a few things to adjust in php.ini
 
 post_max_size = bigger
 upload_max_filesize = bigger
 
-(to see current settings, investigate php.ini (100M))
+(to see current settings, investigate php.ini)
 
 
 

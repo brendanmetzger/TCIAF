@@ -33,41 +33,30 @@
               <!-- iterate collection:triptych -->
               <li>
                 <div>
-                  <div class="tryp" style="[background-image:url($item:image:domain/$item:image:url);]">
-                    <div>
-                      <!-- iterate item:media:audio -->
-                      <!--  insert views/partials/play-button.html-->
-                      <h4 style="margin: 0.5em 0 0;text-shadow: 1px -1px 2px rgba(255,255,255,0.75);">[$item:year / $item:duration]</h4>
-                    </div>
+                  <div class="controls">
+                    <!-- iterate item:media:audio -->
+                    <!--  insert views/partials/play-button.html-->
+                    <span class="h4" style="margin-left:1em;">[$item:year / $item:duration]</span>
                   </div>
-                  <div class="multi-line">
-                    <h3 class="display"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
-                  </div>
-                  <p class="pad">[$item:summary]</p>
+                    <h3 class="display strong tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
+                    <p>[$item:summary]</p>
                 </div>
-                <ul class="plain path" style="margin:0 -1.25em -1.25em; padding:0;border-top:2px solid #fafafa;">
+                <ul class="plain path h4">
                   <!-- iterate item:producers -->
-                  <li style="flex: 1 1 auto;"><a href="[$person:permalink]" data-id="[$person:@id]" class="h5" style="display:flex;justify-content:center;">[$person:@title]</a></li>
+                  <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
                 </ul>
               </li>
             </ul>
           </article>
           <hr />
-          
-          <!-- iterate collection:articles -->
-          <section class="listing">
-            <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
-            <div class="markdown">[$article:content:description]</div>
-          </section>
-          
-          <section class="listing" style="display:none;">
-            <h4 class="brown caps-lock">Interviews</h4>
-            <blockquote>
-              <em style="font-size:5em;font-family:Baskerville;line-height:1;padding:5em;">You’ve been covering education for over a decade, why has this beat been so important to you?</em>
-            </blockquote>
-          </section>
+          <article class="pad">
+            <!-- iterate collection:articles -->
+            <section class="listing">
+              <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
+              <div class="markdown">[$article:content:description]</div>
+            </section>
+          </article>
         </section>
-        
       </main>
       <!-- insert views/pages/footer.html -->
       <!-- replace helper -->
@@ -85,33 +74,6 @@
     <script type="text/javascript">bloc.load();</script>
     <style type="text/css" media="screen">
       /* <![CDATA[ */
-      
-      .multi-line {
-        padding-top:9em;
-        height:10em;
-        overflow: hidden;
-        margin-top:-2em;
-      }
-      .multi-line > * {
-        vertical-align:bottom;
-        display: block;
-        transform: translate(0, -100%);
-        background-color:rgba(255,255,255,0.5);
-        padding:0.25em;
-      }
-      .tryp {
-        margin:-1.25em -1.25em 0;
-        background-size:cover;
-        background-position: 50% 50%;
-        overflow: auto;
-        isolation: isolate;
-      }
-      
-      .tryp > div {
-        box-shadow: inset 0 -0.5em 1em rgba(0,0,0,0.125);
-        background-image: linear-gradient(50deg, rgba(265,255,255,0.75) 10%, rgba(255,255,255,0.15) 60%);
-        padding: 5vw 2em 2em;          
-      }
       div#ad {
         width: 100vw;
         height: 100vh;

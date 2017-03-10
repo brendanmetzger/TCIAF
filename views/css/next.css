@@ -394,21 +394,21 @@ section#media {width:100vw;position:fixed;left:0;}
 }}
 
 
-section.listing {
+/*section.listing {
   background-image: linear-gradient(#fff, rgba(255,255,255,0));
   box-shadow: 0 -0.125em 0.25em  rgba(0,0,0,0.05);
   padding: 2em;
   margin:1em -2em;
 }
+*/
 
 
-
-section.listing div.markdown h2 {
+/*section.listing div.markdown h2 {
   text-transform: uppercase;
   line-height:1;
   color:hsla(16, 30%, 30%, 1);
 }
-
+*/
 /* Tablet */
 @media screen and (min-width: 50em) {
   
@@ -420,13 +420,13 @@ section.listing div.markdown h2 {
     padding: 3em 6vmax;
     margin: 0 -3.5vmax 0 -6vmax;
   }
-  section.listing div.markdown {
+/*  section.listing div.markdown {
     padding:2em 0;
     column-count: 2;
     column-gap:5em;
     column-rule: 1px solid #eee;
   }
-  
+*/  
   input:focus::-webkit-input-placeholder { opacity:0.2; }
   ::-webkit-input-placeholder {
      letter-spacing:0.125em;
