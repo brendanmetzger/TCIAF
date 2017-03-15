@@ -42,7 +42,7 @@ body {
 .brown-bg a {color: #EEE;}
 .orange, .display > strong, a:focus {color:#FC6202;}
 
-a {color:#4b3c6e;text-decoration:none;}
+a {color:#555;text-decoration:none;}
 a > *:not(button) {pointer-events: none;}
 a > img {pointer-events:all}
 a > img:hover {opacity:0.9}
