@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
+  <!-- insert views/head.html-->
+  <body class="[$_action panel]" data-user="[$user]" data-view="browse">
+    <section id="browse" class="column">
+      <header class="white-bg">
+        <nav role="navigation" class="panel">
+          <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
+          <ul class="plain caps-lock h6">
+            <li><a href="/overview/library">Listen</a></li>
+            <li><a href="/overview/playlists">Playlists</a></li>
+            <li><a href="/overview/conference">Conference</a></li>
+            <li><a href="/overview/competition">Competitions</a></li>
+            <li><a href="/overview/events">Events</a></li>
+            <li class="hide"><a href="/overview/tciaf">About</a></li>
+            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button">Donate</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <!-- replace content nextSibling -->
+        <section class="landing">
+          
+          <article>
+            <h4 data-id="[$collection:@id]" class="brown caps-lock t b">[$collection:title]</h4>
+            <ul class="plain triptych">
+              <!-- iterate collection:triptych -->
+              <li>
+                <div>
+                  <div class="tryp" style="[background-image:url($item:image:domain/$item:image:url);]">
+                    <div>
+                      <!-- iterate item:media:audio -->
+                      <!--  insert views/partials/play-button.html-->
+                      <h4 style="margin: 0.5em 0 0;text-shadow: 1px -1px 2px rgba(255,255,255,0.75);">[$item:year / $item:duration]</h4>
+                    </div>
+                  </div>
+                  <div class="multi-line">
+                    <h3 class="display"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
+                  </div>
+                  <p class="pad-h">[$item:summary]</p>
+                </div>
+                <ul class="plain conjunct pad-h">
+                  <!-- iterate item:producers -->
+                  <li><a href="[$person:permalink]" data-id="[$person:@id]" class="h5">[$person:@title]</a></li>
+                </ul>
+              </li>
+            </ul>
+          </article>
+          
+          <div style="[background:#ffc22d url(http://s3.amazonaws.com/$collection:photo:url) no-repeat 0 50%;background-size:cover;]" class="banner">
+            <div>
+              <p style="position:absolute;bottom: 0;left: 1.5em;width:60%;line-height:1em;">[$collection:summary]</p>
+            </div>
+          </div>
+          
+          <!-- iterate collection:articles -->
+          <section class="listing">
+            <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
+            <div class="markdown">[$article:content:description]</div>
+          </section>
+          
+        </section>
+        
+      </main>
+      <!-- insert views/pages/footer.html -->
+      <!-- replace helper -->
+    </section>
+    <section id="media" class="column panel white-bg">
+      <form class="finder search white-bg" style="padding:2.25vmin 0 1.75vmin 0;border-bottom:1px solid #f8f8f8;">
+        <span style="display:none;">Limit: Feature, Happening, Competition, Person, Article</span>
+        <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>
+        <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
+      </form>
+      <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist h6 white-bg">
+        <p>Click any play button to begin</p>
+      </noscript>
+    </section>
+    <script type="text/javascript">bloc.load();</script>
+    <style type="text/css" media="screen">
+      /* <![CDATA[ */
+      
+      ul.conjunct a {
+        padding:0;
+        text-transform: uppercase;
+        font-size:120%;
+        color: #BBB;
+        line-height:1;
+      }
+      ul.conjunct li {
+        display:inline;
+      }
+      ul.conjunct li:nth-child(n + 2):before {
+        content: ', ';
+        color:#CCC;
+      }
+      ul.conjunct li:last-child:not(:first-child):before {
+        content: ' &';
+      }
+      .multi-line {
+        padding-top:9em;
+        height:10em;
+        overflow: hidden;
+        margin-top:-2em;
+      }
+      .multi-line > * {
+        vertical-align:bottom;
+        display: block;
+        transform: translate(0, -100%);
+        background-color:rgba(255,255,255,0.75);
+        padding:0.25em;
+      }
+      .tryp {
+        margin:-1.25em -1.25em 0;
+        background-size:cover;
+        background-position: 50% 50%;
+        overflow: auto;
+        isolation: isolate;
+      }
+      
+      .tryp > div {
+        box-shadow: inset 0 -0.5em 1em rgba(0,0,0,0.125);
+        background-image: linear-gradient(50deg, rgba(265,255,255,0.75) 10%, rgba(255,255,255,0.15) 60%);
+        padding: 5vw 2em 2em;          
+      }
+      div#ad {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        text-align: right;
+        font-size:1.25em;
+        background-color: rgba(25,20,15,0.9);
+        box-shadow: inset 0 0 10em rgba(0,0,0,0.1);
+        transition: opacity 0.5s;
+      }
+      div#ad > span {
+        position: absolute;
+        top: 2em;
+        right: 2em;
+        color: #fff;
+        text-transform:uppercase;
+      }
+      div#ad > span:hover {
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
+      }
+      div#ad a {
+        display: block;
+        width: 60vw;
+        margin: 50vh auto;
+        transform: translate(0, -50%);
+        box-shadow: 0 0 15em rgba(0,0,0,0.25);
+      }
+      div#ad img {
+        width: 100%;
+      }
+      div#ad ~ * {
+        filter: blur(2px);
+      }
+      /* ]]> */
+    </style>
+    <script type="text/javascript">
+      // <![CDATA[
+        if (new Date(2017, 0, 1) > new Date() && (! sessionStorage.getItem('winter-fund'))) {
+          var splash = document.body.appendChild(document.createElement('div'));
+          splash.appendChild(document.createElement('span')).textContent = '✕ Click background to close';
+
+          var link =  splash.appendChild(document.createElement('a'));
+          var img  = link.appendChild(document.createElement('img'));
+          
+          splash.classList.add('fade');
+          splash.id   = 'ad';
+          link.href   = 'https://donatenow.networkforgood.org/ThirdCoast';
+          link.target = '_blank';
+          img.src     = 'http://3rdcoast-cms.s3.amazonaws.com/Splash-Page-for-Fund-Drive.jpg';
+          
+          splash.addEventListener('click', function (evt) {
+            this.parentNode.removeChild(this);
+          });
+          setTimeout(document.insertBefore.bind(document.body, splash, document.body.firstChild), 750);
+          setTimeout(DOMTokenList.prototype.remove.bind(splash.classList, 'fade'), 250);
+          sessionStorage.setItem('winter-fund', true);
+        }
+      
+      // ]]>
+    </script>
+  </body>
+</html>

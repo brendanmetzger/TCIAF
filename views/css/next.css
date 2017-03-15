@@ -76,7 +76,7 @@ p a {text-decoration:underline}
 .markdown h4:not(:first-of-type) {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
-.caps-lock, .markdown h3, .markdown h4, article nav > ul.plain li > a {text-transform:uppercase;}
+.caps-lock, .markdown h3, .markdown h4, article nav > ul.plain li > a {text-transform:uppercase;letter-spacing: 0.025ch;}
 .fade {opacity:0;}
 .inline:not(ul), .inline li, .inline dd, ul.divide li, label  {display:inline-block;}
 .rag-right {text-align:left;}
@@ -109,8 +109,9 @@ ul, ol { padding:0 0 0 2em }
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
   min-height: 25vmax;
-  margin: -2vmax -2vmax 2vmax -5vmax;
-  padding:2.5vw 30vw 2.5vw 5vw;
+  margin: 2vmax -1.5vmax 2vmax calc(-5vmax);
+  padding: 2.5vw 30vw 2.5vw 5vw;
+  box-shadow: 0 0 5em rgba(0,0,0,0.1);
 }
 .banner-bg * {color:#FFF;text-shadow: 0 0 0.25em rgba(0,0,0,0.25);}
 .banner-bg {
@@ -245,6 +246,19 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
   font-size: 1.5em;
 }
 
+.insist {
+  background: linear-gradient(270deg, rgba(253, 184, 19,1), rgba(253, 184, 19,0.75));
+  border: none;
+  padding: 1.5em 2em;
+  box-shadow: 0 0 0.25em rgba(0,0,0,0.2);
+  border-radius: 0.125em;
+}
+
+.insist:hover {
+  color:#000;
+  background: linear-gradient(0deg, rgba(253, 184, 19,1), rgba(253, 184, 19,0.75));
+  box-shadow: inset 0 0 0.25em rgba(0,0,0,0.2);
+}
 
 button[type='submit'] {
   border-color: rgba(0,0,0,0.25);
