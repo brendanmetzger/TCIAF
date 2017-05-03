@@ -19,7 +19,7 @@ class Explore extends Manage
    */
   public function GETindex($group = null, $filter = 'all', $sort = 'alpha-numeric', $index = 1, $per = 100, $query = '')
   {
-    $view = new view('views/next.html');
+    $view = new view('views/layout.html');
     if ($group !== null) {
       $view->content = "views/lists/{$group}.html";
       $this->search  = ['topic' => $group, 'path' => 'search/cluster', 'area' => 'explore/detail'];
