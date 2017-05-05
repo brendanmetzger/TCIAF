@@ -52,7 +52,11 @@ namespace models;
     {
       $markdown = new \vendor\Parsedown;
       return $context->find("edge[@type='item']")->map(function($edge) use ($markdown){
-        return ['item' => new Feature($edge['@vertex']), 'caption' => strip_tags($markdown->text($edge), '<em><strong>')];
+        $out = ['item' => new Feature($edge['@vertex'])];
+        if ($edge->nodeValue) {
+          $out['caption'] = strip_tags($markdown->text($edge), '<em><strong>');
+        }
+        return $out;
       });
     }
 

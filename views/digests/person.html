@@ -23,6 +23,9 @@
     .cluster > .panel {
       flex: 1 0 auto;
     }
+    .controls h2.display small {
+      display: block;
+    }
   }
   </style>
   <section class="panel flip">
@@ -42,7 +45,7 @@
           <div class="controls">
             <!-- iterate item:media:audio -->
             <!-- insert views/partials/play-button.html -->
-            <h2 class="strong display"><small>[$edge]</small><br/><a href="[$item:permalink]">[$item:title]</a></h2>
+            <h2 class="display"><small>[$edge]</small><a href="[$item:permalink]">[$item:title]</a></h2>
           </div>
         </div>
         <p class="ll pad-h">[$item:summary]</p>

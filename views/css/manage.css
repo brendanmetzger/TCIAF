@@ -665,9 +665,6 @@ abbr {
   font-variant:small-caps;
 }
 
-fieldset.spectra label > strong {
-  filter: blur(4px);
-}
 
 fieldset.recommended h3 {
   font-size:50%;

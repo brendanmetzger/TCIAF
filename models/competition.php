@@ -97,9 +97,14 @@ namespace models;
 
     public function getAwards(\DOMElement $context)
     {
-      return $context->find("edge[@type='award']")->map(function($edge) {
+      $markdown = new \vendor\Parsedown;
+      return $context->find("edge[@type='award']")->map(function($edge)  {
         $feature = new Feature($edge['@vertex']);
-        return ['item' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];
+        $out = ['item' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];
+        if ($edge->nodeValue) {
+          $out['caption'] = $edge->nodeValue;
+        }
+        return $out;
       });
     }
 

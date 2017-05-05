@@ -91,7 +91,7 @@ p a {text-decoration:underline}
 p, .p {max-width:55em;}
 h1, h2 {max-width: 75vw;font-weight:400;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
-h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
+h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.35;}
 h3, .h3 {font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
 h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(0.75em + 1.35vh);}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.45;}
