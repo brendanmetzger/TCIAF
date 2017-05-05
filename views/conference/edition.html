@@ -14,10 +14,14 @@
       align-items: center;
       text-align: center;
     }
-    .plain.ruled li {
-      margin:1em 0;
-      border-bottom:1px dashed #eee;
+    .two-thirds .plain.h4 li {
+      padding:0.5em;
     }
+    .two-thirds .plain.h4 li span {
+      display: block;
+      margin-left:0.5em;
+    }
+
   </style>
   <nav class="caps-lock t b h6">
     <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
@@ -29,7 +33,7 @@
           <button class="listen" onclick="quickPlay(this, event);" style="transition:opacity 0.5s;">Play This</button>
         </span>
         <div  data-aspect="[$item:banner:mark]">
-          <h1 class="lead tracked display strong b" data-id="[$item:@id]">[$item:title]</h1>
+          <h1 class="lead tracked display b" data-id="[$item:@id]">[$item:title]</h1>
           <h4><time>[$item:date]</time></h4>
         </div>
       </div>
@@ -43,9 +47,9 @@
   <section class="panel">
     <section class="two-thirds">
       <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
-      <ul class="plain ruled h4">
+      <ul class="plain h4">
         <!-- iterate item:sessions -->
-        <li><a href="[#goto-$item:@id]"><em>[$item:title]</em> with <span>[$item:presenter]</span></a></li>
+        <li><a href="[#goto-$item:@id]"><em>[$item:title]</em> <span>[with $item:presenter]</span></a></li>
       </ul>
     </section>
     <section class="one-third ll">

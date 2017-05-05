@@ -103,11 +103,4 @@ namespace models;
       });
     }
 
-    public function getSponsors(\DOMElement $context)
-    {
-      $sponsors = $context->find("edge[@type='sponsor']");
-      return $sponsors->count() < 1 ? null : $sponsors->map(function($edge) {
-        return ['organization' => new Organization($edge['@vertex'])];
-      });
-    }
   }

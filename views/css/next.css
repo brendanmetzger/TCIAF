@@ -55,10 +55,10 @@ p a {text-decoration:underline}
 .plain    {list-style:none;padding:0;}
 .plain li {font-size:100%;}
 
-.t, hr, .hr, .markdown h2 {margin-top: calc(3.5vmax - 1vmin);}
-.tt {margin-top: calc(1em + 4.0vmax - 1vmin);}
-.b   {margin-bottom: calc(2.5vmax - 1vmin);}
-.bb, hr, .hr {margin-bottom: calc(1em + 4.0vmax - 1vmin);}
+.t, hr, .hr, .markdown h2 {margin-top: calc(0.5em + 1vmax);}
+.tt {margin-top: calc(0.5em + 2vmax);}
+.b   {margin-bottom: calc(0.5em + 1vmax);}
+.bb, hr, .hr {margin-bottom: calc(0.5em + 2vmax);}
 .l  {margin-left:1vw}
 .ll, .controls h1, .controls h2 {margin-left:2vw}
 .r {margin-right:1vw;}
@@ -89,7 +89,7 @@ p a {text-decoration:underline}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
 .lock {overflow:hidden}
 p, .p {max-width:55em;}
-h1, h2 {max-width: 75vw;}
+h1, h2 {max-width: 75vw;font-weight:400;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.35;margin: 0.5em 0 0;}
 h3, .h3 {font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
@@ -162,7 +162,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 
 .path li a {padding: 0.25em 0.5em;border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;transition:border-color 0.25s;}
 .lead {font-size: calc(2em + 2vw);line-height:1;}
-.spot {padding:2vmax;margin:0 0 2vmax;}
+.spot {padding:2vmin;margin:0 0 2vmax;}
 .controls, .path, .triptych > * {display: inline-flex;}
 .controls {
   padding: 2.5%;
@@ -172,7 +172,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   transition: background-color 1s;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
-.display, .markdown h2 { font-family: Baskerville,  Didot, 'Times New Roman', Serif; }
+.display, .markdown h2 { font-family: 'Source Serif Pro', Baskerville,  Didot, 'Times New Roman', Serif; }
 
 .panel, .triptych {display:flex;}
 .sink {flex: 1 0 10vw;}
