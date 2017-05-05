@@ -15,10 +15,13 @@ function alphabet($alpha, $category)
   });
 }
 
-function calendar($start, $year, $category)
+function calendar($start, $year, $category, $query)
 {
-  return (new \bloc\types\Dictionary(range($start, 2000)))->map(function($current) use($year, $category) {
-    $map = ['year' => $current, 'category' => $category];
+  $x = new \DOMXpath(Graph::instance()->storage);
+  return (new \bloc\types\Dictionary(range($start, 2000)))->map(function($current) use($year, $category, $x, $query) {
+    $q = sprintf("/graph/group[@type='feature']/vertex[{$query}]", $current);
+    $g = $x->query($q)->length;
+    $map = ['year' => $current, 'category' => $category, 'count' => $g];
     if ($current == $year) {
       $map['selected'] = 'selected';
     }
@@ -108,8 +111,9 @@ function calendar($start, $year, $category)
         // show the picker
         $now = (int)date('Y', time());
         $year = $group == 'any' ? $now : (int)$group;
-        $query .= " and premier[starts-with(@date, '{$year}')]";
-        $this->years = calendar($now, $year, $filter);
+        $query .= " and premier[starts-with(@date, '%s')]";
+        $this->years = calendar($now, $year, $filter, $query);
+        $query = sprintf($query, $year);
 
         $view->picker = "views/partials/date.html";
       }

@@ -427,9 +427,12 @@ section#media {width:100vw;position:fixed;left:0;}
 /* Tablet */
 @media screen and (min-width: 50em) {
   
+
+  
   section.listing div.markdown :first-child {
     margin-top:0;
   }
+  
   
   section.listing {
     padding: 3em 6vmax;
@@ -495,6 +498,9 @@ section#media {width:100vw;position:fixed;left:0;}
 @media screen and (min-width: 80em){
   .lead { max-width: calc(75vw - 5em) }
   .columns.four { column-count:4 }
+  nav[role] > ul {
+    margin:0 0 0 10%;
+  }
 }
 
 

@@ -1,7 +1,12 @@
 <div class="filter panel">
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    li[data-size='0'] {display:none;}
+    /* ]]> */
+  </style>
   <h6 class="brown caps-lock strong">Fliter</h6>
   <ul class="plain path">
     <!-- iterate years -->
-    <li><a class="[$selected]" href="[/overview/library/$category/date/$year/]">[$year]</a></li>
+    <li data-size="[$count]"><a class="[$selected]" href="[/overview/library/$category/date/$year/]">[$year]</a></li>
   </ul>
 </div>
