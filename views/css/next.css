@@ -19,10 +19,11 @@ a:focus {
   text-decoration:underline;
   outline:none;
 }
+
 button:focus, input:focus {
   outline:none;
-  border-color: #FC6202 !important;
-  box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.05) !important;
+  border-color: #5b9b98 !important;
+  box-shadow: inset 0 0 0.25em rgba(0, 0, 0, 0.05) !important;
 }
 
 body {
@@ -176,7 +177,7 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 
 .panel, .triptych {display:flex;}
 .sink {flex: 1 0 10vw;}
-#browse article.panel, #browse section.panel {flex-wrap:wrap;}
+#browse article.panel, #browse section.panel, .panel.wrap {flex-wrap:wrap;}
 .triptych {justify-content:space-between;flex-wrap:wrap;}
 .triptych > * {
   background-color: #fff;
@@ -236,14 +237,13 @@ nav[role] > ul > li {
 article nav > ul.plain {margin: 1.5vh 0;}
 body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
-.finder input:focus {background-size: auto 37%;background-position: 1em 50%;}
 .finder input {
-  /* transition: background-size 1.25s; */
   margin: 0;
-  padding: 1.5vmin 0.5em 2vmin 2.5em;
-  background: transparent url(http://tciaf-media.s3.amazonaws.com/image/_assets/search.svg) no-repeat 10% 45%;
-  background-size: auto 65%;
+  padding: 1.5vmin 2.5em;
+  background: transparent url(http://tciaf-media.s3.amazonaws.com/image/_assets/search.svg) no-repeat 1em 50%;
+  background-size: auto 35%;
   border:none;
+  border-bottom: 1px solid #eee;
   font-size: 1.5em;
 }
 
@@ -447,15 +447,10 @@ section#media {width:100vw;position:fixed;left:0;}
 */  
   input:focus::-webkit-input-placeholder { opacity:0.2; }
   ::-webkit-input-placeholder {
-     letter-spacing:0.125em;
      font-weight:100;
      text-align:left;
-     text-indent:2em;
-     text-transform:uppercase;
-     font-style:italic;
-     color:#AAA;
-     letter-spacing:0.075em;
-     font-size:0.75em;
+     text-transform: capitalize;
+     color:#999;
   }
 
   body > section[id] {position:fixed;width:100vw;}
@@ -481,7 +476,7 @@ section#media {width:100vw;position:fixed;left:0;}
 
   nav[role] > ul > li {background-color:#fff }
   #browse > header {padding: 0 2vw;}
-  body[data-view] > #media  {top:0;width: 15vw;height:100vh;box-shadow: -0.125em 0 0.75em rgba(0,0,0,0.15);left: 85vw;border-top: 1vw solid #77635c;}
+  body[data-view] > #media  {top:0;width: 15vw;height:100vh;left: 85vw;}
   body[data-view] > #browse {left: 0;width: 85vw;height:100vh;overflow-x: hidden;}
 
   .triptych > * {
