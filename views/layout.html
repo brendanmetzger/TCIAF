@@ -41,7 +41,7 @@
                     <h3 class="display tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
                     <p>[$item:summary]</p>
                 </div>
-                <ul class="plain path h4">
+                <ul class="plain conjunct">
                   <!-- iterate item:producers -->
                   <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
                 </ul>
@@ -94,6 +94,25 @@
         color: #fff;
         text-transform:uppercase;
       }
+      
+      ul.conjunct a {
+        padding:0;
+        text-transform: uppercase;
+        font-size:120%;
+        color: #BBB;
+        line-height:1;
+      }
+      ul.conjunct li {
+        display:inline;
+      }
+      ul.conjunct li:nth-child(n + 2):before {
+        content: ', ';
+        color:#CCC;
+      }
+      ul.conjunct li:last-child:not(:first-child):before {
+        content: ' &';
+      }
+      
       div#ad > span:hover {
         color: rgba(255,255,255,0.5);
         cursor: pointer;
