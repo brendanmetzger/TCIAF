@@ -93,7 +93,7 @@ p, .p {max-width:55em;}
 h1, h2 {max-width: 75vw;font-weight:400;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.35;}
-h3, .h3 {font-size: calc(1em + 2vmin);line-height: 1.2;margin: 0.5em 0;}
+h3, .h3 {font-size: calc(1.25em + 1vmin);line-height: 1.2;margin: 0.5em 0;}
 h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(0.75em + 1.35vh);}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.45;}
 h5 {font-weight:400}
@@ -111,7 +111,7 @@ ul, ol { padding:0 0 0 2em }
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
   min-height: 22vmax;
-  margin: 2vmax -1.5vmax 2vmax calc(-5vmax);
+  margin: 2vmax -1.5vmax 2vmax -5vmax;
   padding: 2.5vw 30vw 2.5vw 5vw;
   box-shadow: 0 0 5em rgba(0,0,0,0.1);
 }
