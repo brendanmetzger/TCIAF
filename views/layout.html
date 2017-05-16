@@ -30,9 +30,9 @@
           <article>
             
             <ul class="plain seven">
-              <li>
-                <h4 class="h1 display lead pad" style="color:#5b9c99;">Listen</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing</p>
+              <li style="color:#5b9c99;">
+                <h4 class="h1 display lead pad"><span style="font-size:125%">Listen</span></h4>
+                <p class="pad-h">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
               </li>
               <!-- iterate collection:seven -->
               <li>
@@ -53,12 +53,19 @@
             </ul>
           </article>
           <hr />
-          <article class="pad">
+          <article>
             <!-- iterate collection:articles -->
-            <section class="listing">
-              <h4 class="brown caps-lock" data-id="[$article:@id]">[$article:title]</h4>
-              <div class="markdown">[$article:content:description]</div>
-            </section>
+            <ul class="plain seven">
+              <li style="color:#5b9c99;">
+                <h2 class="h1 display lead pad" data-id="[$article:@id]">[$article:title]</h2>
+                <p class="pad-h">Catch up on the latest news and events</p>
+              </li>
+              <!-- iterate article:sections -->
+              <li>
+                <h3 class="display tracked h4">[$title]</h3>
+                <div class="markdown">[$content]</div>
+              </li>
+            </ul>
           </article>
         </section>
       </main>

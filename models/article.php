@@ -52,5 +52,26 @@ class Article extends Vertex
     \bloc\application::instance()->log();
     return substr(strip_tags($this->title), 18);
   }
+  
+  public function getSections(\DOMElement $context) 
+  {
+    // 'sectionize' text on h2 elements.
+    $object    = \bloc\dom\document::ELEM("<div>{$this->content->description}</div>");
+    $current   = $object->firstChild;
+    $out = [];
+    while ($current) {
+      if ($current->nodeName == 'h2') {
+        $out[] = ['title' => $current->nodeValue, 'content' => ''];
+      } else {
+
+        $out[count($out)-1]['content'] .= $current->write();
+      }
+      
+      $current = $current->nextSibling;
+    }
+    
+    
+    return $out;
+  }
 
 }
