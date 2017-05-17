@@ -155,8 +155,6 @@ var Player = function (container, data, message) {
   }.bind(this));
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
-    this.meter.element.classList.add('scrubbing');
-    setTimeout(DOMTokenList.prototype.remove.bind(this.meter.element.classList, 'scrubbing'), 150);
     var p  = evt.theta() / 360;
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
@@ -166,6 +164,7 @@ var Player = function (container, data, message) {
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);
+    this.meter.element.classList.remove('hover');
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
@@ -231,7 +230,7 @@ Player.prototype = {
     console.log('error', evt);
   },
   timeupdate: function (evt) {
-    if (this.meter.element.classList.contains('scrubbing')) return;
+    if (this.meter.element.classList.contains('hover')) return;
     var elem = evt.target;
     var t = Math.ceil(elem.currentTime) * 1e3;
     var d = Math.ceil(elem.duration) * 1e3;
