@@ -35,7 +35,7 @@
                 <p class="pad-h">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
               </li>
               <!-- iterate collection:seven -->
-              <li style="[background-image:linear-gradient(rgba(255,255,255,0.125) 0%, #fff 10em), url($item:image:domain/$item:image:url)]">
+              <li style="[background-image:linear-gradient(rgba(255,255,255,0) 0%, #fff 16em), url($item:image:domain/$item:image:url)]">
                 <div>
                   <div class="controls">
                     <!-- iterate item:media:audio -->
@@ -98,14 +98,20 @@
           flex-direction: column;
         }
       }
+      .seven.features > li h3 {
+        margin: 0.25em -1.5em;
+        padding: 0.75em 1.5em 0;
+        background-color: rgba(255,255,255,0.85);
+      }
       .seven > li {
         border-radius:0.25em;
         margin: 0.5em;
         background-color: #fff;
         flex: 2 0 calc(25% - 1em);
         min-width: 20em;
-        padding:2.5em 1.5em;
+        padding:6.5em 1.5em 2em;
         background-repeat: no-repeat;
+        background-position: 50% 0;
         background-size:100% auto;
       }
       @media (max-width: 40em) {
