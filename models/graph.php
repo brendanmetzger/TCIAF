@@ -52,7 +52,6 @@ use \bloc\dom\query;
         $element = null;
       } else {
         throw new \RunTimeException("Not Found", 404);
-
       }
 
       $classname = NS . __NAMESPACE__ . NS . $model;

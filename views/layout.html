@@ -29,23 +29,23 @@
           </div>
           <article>
             
-            <ul class="plain seven">
+            <ul class="plain seven features">
               <li style="color:#5b9c99;">
                 <h4 class="h1 display lead pad"><span style="font-size:125%">Listen</span></h4>
                 <p class="pad-h">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
               </li>
               <!-- iterate collection:seven -->
-              <li>
+              <li style="[background-image:linear-gradient(rgba(255,255,255,0.125) 0%, #fff 10em), url($item:image:domain/$item:image:url)]">
                 <div>
                   <div class="controls">
                     <!-- iterate item:media:audio -->
                     <!--  insert views/partials/play-button.html-->
-                    <span class="h4" style="margin-left:1em;">[$item:year / $item:duration]</span>
                   </div>
-                    <h3 class="display tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
-                    <p>[$item:summary]</p>
+                  <h3 class="display tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
+                  <h6>[$item:year / $item:duration]</h6>
+                  <p>[$item:summary]</p>
                 </div>
-                <ul class="plain conjunct" style="display:none">
+                <ul class="plain conjunct">
                   <!-- iterate item:producers -->
                   <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
                 </ul>
@@ -89,25 +89,29 @@
         display: flex;
         flex-wrap: wrap;
       }
-      @media (min-width: 850px) {
+      @media (min-width: 800px) {
         .seven {
           margin-left:-3.5vmax;
         }
+        .seven.features > li:not(:first-of-type) {
+          display: flex;
+          flex-direction: column;
+        }
       }
       .seven > li {
+        border-radius:0.25em;
         margin: 0.5em;
         background-color: #fff;
         flex: 2 0 calc(25% - 1em);
         min-width: 20em;
-        padding:1.5em;
+        padding:2.5em 1.5em;
+        background-repeat: no-repeat;
+        background-size:100% auto;
       }
       @media (max-width: 40em) {
         .seven {
           margin-left:0;
           flex-direction: column;
-        }
-        .seven > li {
-          height: auto;
         }
       }
       div#ad {

@@ -416,6 +416,7 @@ Modal.Form.prototype = {
     this.callbacks[evt] = callback;
   },
   processForm: function (evt) {
+    console.log(evt.target);
     evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
       eval(script.text);
     });
