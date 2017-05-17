@@ -54,7 +54,6 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 #Player .progress path, .progress:hover .handle, .progress circle {
   stroke: #88746A;
   fill: none;
-  stroke-linecap: round;
 }
 
 .progress circle {

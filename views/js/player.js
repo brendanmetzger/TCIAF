@@ -158,7 +158,7 @@ var Player = function (container, data, message) {
     var p  = evt.theta() / 360;
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
-    var m = "go to<br/>{h}:{m}:{s}";
+    var m = Math.round(p * 100) + "%<br/>{h}:{m}:{s}";
     this.meter.update(p, new Date(d-t).parse(m), true);
   }.bind(this), false);
 
