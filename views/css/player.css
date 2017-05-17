@@ -64,7 +64,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   pointer-events: none;
 }
 
-.desktop .progress:hover { cursor: crosshair }
+.desktop .progress:hover { cursor: pointer }
 .desktop .progress:hover .handle, .touch .progress.hover .handle { stroke-opacity: 0.75 }
 .desktop .progress:hover .status, .touch .progress.hover .status { stroke-width: 1 }
 .touch .progress.hover .grab {

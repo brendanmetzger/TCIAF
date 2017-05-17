@@ -113,10 +113,10 @@ var Player = function (container, data, message) {
   var toggle = this.container.appendChild(document.createElement('p')['@']({
     'class': 'intro h4 pad l brown'
   }));
+
   toggle.textContent = message;
 
   toggle.addEventListener('click', function (evt) {
-    this.textContent = "×";
     document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
   });
 
@@ -155,7 +155,13 @@ var Player = function (container, data, message) {
   }.bind(this));
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
-    this.meter.update(evt.theta() / 360, null, true);
+    this.meter.element.classList.add('scrubbing');
+    setTimeout(DOMTokenList.prototype.remove.bind(this.meter.element.classList, 'scrubbing'), 150);
+    var p  = evt.theta() / 360;
+    var d = this.audio.duration * 1e3;
+    var t = d * (1 - p);
+    var m = "go to<br/>{h}:{m}:{s}";
+    this.meter.update(p, new Date(d-t).parse(m), true);
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
@@ -225,10 +231,11 @@ Player.prototype = {
     console.log('error', evt);
   },
   timeupdate: function (evt) {
+    if (this.meter.element.classList.contains('scrubbing')) return;
     var elem = evt.target;
     var t = Math.ceil(elem.currentTime) * 1e3;
     var d = Math.ceil(elem.duration) * 1e3;
-    var m = "{m}:{s}<br/>";
+    var m = "{h}:{m}:{s}<br/>";
     this.meter.update(t/d, new Date(t).parse(m) + new Date(d-t).parse(m));
   },
 };

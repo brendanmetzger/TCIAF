@@ -30,7 +30,7 @@ if (!Element.prototype.matches && Element.prototype.msMatchesSelector) {
 
 Date.prototype.parse = function (pattern) {
   var code = {
-    h: ('00'+this.getUTCHours()).slice(-2),
+    h: ('0'+this.getUTCHours()).slice(-1),
     m: ('00'+this.getUTCMinutes()).slice(-2),
     s: ('00'+this.getSeconds()).slice(-2)
   };
@@ -355,9 +355,15 @@ var Progress = function(container) {
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
   grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
+  
+  this.jumps = function(quantity) {
+    var g = svg.createElement('g');
+    for (var i = quantity; i > 0; i--) {
+      svg.createElement('path', {'d': M})
+    }
+  }
 
-
-  this.update = function(percentage, text, scrub) {
+  this.update = function (percentage, text, scrub) {
     message.innerHTML = text || message.innerHTML;
     var radian = (2 * Math.PI) * percentage;
     var x = (Math.cos(radian) * 35) + 50;
