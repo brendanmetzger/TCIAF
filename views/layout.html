@@ -88,21 +88,26 @@
       .seven {
         display: flex;
         flex-wrap: wrap;
-        margin-left:-3.5vmax;
+      }
+      @media (min-width: 850px) {
+        .seven {
+          margin-left:-3.5vmax;
+        }
       }
       .seven > li {
         margin: 0.5em;
         background-color: #fff;
         flex: 2 0 calc(25% - 1em);
         min-width: 20em;
-        padding:1em;
-        display: flex;
-        flex-direction: column;
+        padding:1.5em;
       }
       @media (max-width: 40em) {
         .seven {
           margin-left:0;
           flex-direction: column;
+        }
+        .seven > li {
+          height: auto;
         }
       }
       div#ad {
