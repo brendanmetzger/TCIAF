@@ -564,3 +564,28 @@ div.filter.panel:not(:first-of-type) {
 article[data-type='show'] ul li:nth-child(n + 6) {
   display:none;
 }
+
+ul.conjunct a {
+  padding:0;
+  text-transform: uppercase;
+  font-size:120%;
+  color: #AAA;
+  line-height:1;
+}
+ul.conjunct li {
+  display:inline;
+}
+ul.conjunct li:nth-child(n + 2):before {
+  content: ', ';
+  color:#CCC;
+}
+ul.conjunct li:last-child:not(:first-child):before {
+  content: ' &';
+}
+
+.image-tab {
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size:100% auto;
+  padding-top: 6.5em;
+}

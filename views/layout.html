@@ -35,7 +35,7 @@
                 <p class="pad-h">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
               </li>
               <!-- iterate collection:seven -->
-              <li style="[background-image:linear-gradient(rgba(255,255,255,0) 0%, #fff 17.5em), url($item:image:domain/$item:image:url)]">
+              <li style="[background-image:linear-gradient(rgba(255,255,255,0) 0%, #fff 17.5em), url($item:image:domain/$item:image:url)]" class="image-tab">
                 <div>
                   <div class="controls">
                     <!-- iterate item:media:audio -->
@@ -114,9 +114,6 @@
         flex: 2 0 calc(25% - 1em);
         min-width: 20em;
         padding:6.5em 1.5em 2em;
-        background-repeat: no-repeat;
-        background-position: 50% 0;
-        background-size:100% auto;
       }
       @media (max-width: 40em) {
         .seven {
@@ -144,25 +141,7 @@
         color: #fff;
         text-transform:uppercase;
       }
-      
-      ul.conjunct a {
-        padding:0;
-        text-transform: uppercase;
-        font-size:120%;
-        color: #BBB;
-        line-height:1;
-      }
-      ul.conjunct li {
-        display:inline;
-      }
-      ul.conjunct li:nth-child(n + 2):before {
-        content: ', ';
-        color:#CCC;
-      }
-      ul.conjunct li:last-child:not(:first-child):before {
-        content: ' &';
-      }
-      
+            
       div#ad > span:hover {
         color: rgba(255,255,255,0.5);
         cursor: pointer;
