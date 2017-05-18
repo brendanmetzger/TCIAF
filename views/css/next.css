@@ -230,7 +230,7 @@ nav[role] > ul > li {
 #browse > header nav li > a {
   flex: 1 1 auto;
   font-weight:400;
-  padding: 0.75rem 0.25rem;
+  padding: 0.5rem 0;
   min-width: 100%;
 }
 
@@ -461,7 +461,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .card p {flex: 1 0 50%;}
   .bio.read {width:10vmin;/* padding:1vmin 0; */margin-right:1vmin;}
   .listing:not(:first-of-type), .search li:not(:first-of-type) { border-top:1px solid #EEE;}
-  button, .button {border:1px solid rgba(0,0,0,0.25);}
+  button, .button {border:1px solid #5b9b98; color: #5b9b98;}
   .columns {column-gap:1em;}
   .columns.three{column-count:3;}
   .columns.four{column-count:3;}
