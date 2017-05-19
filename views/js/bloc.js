@@ -351,25 +351,18 @@ var Progress = function(container) {
   }
   message = this.element.appendChild(document.createElement('span'));
   svg = new SVG(this.element, 100, 100);
-  svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
-  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
+  svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 40 });
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
+  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
   grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
-  
-  this.jumps = function(quantity) {
-    var g = svg.createElement('g');
-    for (var i = quantity; i > 0; i--) {
-      svg.createElement('path', {'d': M})
-    }
-  }
 
   this.update = function (percentage, text, scrub) {
     message.innerHTML = text || message.innerHTML;
     var radian = (2 * Math.PI) * percentage;
-    var x = (Math.cos(radian) * 35) + 50;
-    var y = (Math.sin(radian) * 35) + 50;
+    var x = (Math.cos(radian) * 40) + 50;
+    var y = (Math.sin(radian) * 40) + 50;
 
-    var data = "M85,50A35,35 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
+    var data = "M90,50A40,40 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
 
     if (scrub) {
       handle.setAttribute('d', data);

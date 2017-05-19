@@ -158,8 +158,8 @@ var Player = function (container, data, message) {
     var p  = evt.theta() / 360;
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
-    var m = "go to<br/>{h}:{m}:{s}";
-    this.meter.update(p, new Date(d-t).parse(m), true);
+    var m = "<time>{h}:{m}:{s}</time>";
+    this.meter.update(p, new Date(d-t).parse(m) + new Date(t).parse(m), true);
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
@@ -234,7 +234,7 @@ Player.prototype = {
     var elem = evt.target;
     var t = Math.ceil(elem.currentTime) * 1e3;
     var d = Math.ceil(elem.duration) * 1e3;
-    var m = "{h}:{m}:{s}<br/>";
+    var m = "<time>{h}:{m}:{s}</time>";
     this.meter.update(t/d, new Date(t).parse(m) + new Date(d-t).parse(m));
   },
 };
