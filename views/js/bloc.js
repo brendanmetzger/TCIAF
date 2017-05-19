@@ -351,28 +351,21 @@ var Progress = function(container) {
   }
   message = this.element.appendChild(document.createElement('span'));
   svg = new SVG(this.element, 100, 100);
-  svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 35 });
-  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
+  svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 40 });
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
+  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
   grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
-  
-  this.jumps = function(quantity) {
-    var g = svg.createElement('g');
-    for (var i = quantity; i > 0; i--) {
-      svg.createElement('path', {'d': M})
-    }
-  }
 
   this.update = function (percentage, text, scrub) {
     message.innerHTML = text || message.innerHTML;
     var radian = (2 * Math.PI) * percentage;
-    var x = (Math.cos(radian) * 35) + 50;
-    var y = (Math.sin(radian) * 35) + 50;
+    var x = (Math.cos(radian) * 40) + 50;
+    var y = (Math.sin(radian) * 40) + 50;
 
-    var data = "M85,50A35,35 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
+    var data = "M90,50A40,40 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
 
     if (scrub) {
-      handle.setAttribute('d', data);
+      handle.setAttribute('d', data + 'L50,50z');
       handle.position = percentage;
       grab.setAttribute('cx', x);
       grab.setAttribute('cy', y);
@@ -400,26 +393,31 @@ if (window.history.pushState) {
 
   var Content = new Request({
     load: function (evt) {
-      if (! evt.target.responseXML) {
-        evt.target.dispatchEvent(new ProgressEvent('error'));
+      var doc = evt.target.responseXML;
+      if (! doc) {
+        var parser = new DOMParser();
+        doc = parser.parseFromString(evt.target.responseText, "application/xml");
+        if (! doc) {
+          evt.target.dispatchEvent(new ProgressEvent('error'));
+        }
       }
 
       document.querySelectorAll('head title, head style[type]').forEach(function(node) {
         document.head.removeChild(node);
       });
 
-      evt.target.responseXML.querySelectorAll('head title, head style').forEach(function (node) {
+      doc.querySelectorAll('head title, head style').forEach(function (node) {
         document.head.appendChild(node);
       });
 
-      evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+      doc.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
         eval(script.text);
       });
 
       var main = document.body.querySelector('main');
-      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
+      main.parentNode.replaceChild(doc.querySelector('main'), main);
 
-      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
+      document.body.className = doc.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
         [].forEach.call(document.querySelectorAll('main a[href="'+window.location.pathname+'"]'), function (a) {
@@ -450,7 +448,7 @@ if (window.history.pushState) {
       // console.dir(evt.target);
       // console.log(this);
     }
-  }, 7500);
+  }, 8500);
 
   var adjust = function (num) {
     return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))) + '%';

@@ -7,7 +7,6 @@
   color: rgba(0,0,0,0);
   letter-spacing: 0.075em;
   transition: color 0.25s, background-size 0.25s, background-color 0.25s;
-/*  box-shadow:0 0 2em 0 rgba(0,0,0,0.25);*/
   background-color: rgba(255,255,255,0.65);
 }
 
@@ -47,25 +46,33 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   fill: none;
   margin: 0;
   stroke: #333;
-  stroke-width: 5;
-  stroke-opacity: 0.75;
+  stroke-width: 3;
 }
 
-#Player .progress path, .progress:hover .handle, .progress circle {
-  stroke: #88746A;
-  fill: none;
+
+#Player .progress path {
+  stroke: #5b9b98;
+}
+
+#Player .progress .handle {
+  stroke: none;
+  fill: #5b9b98;
+  transition: fill-opacity 0.5s;
+}
+#Player .progress:hover .handle {
+  fill-opacity:0.1;
 }
 
 .progress circle {
-  stroke-opacity:0.2;
-  stroke-dashArray: 5 2;
-  stroke-width: 1px;
+  stroke-width: 3;
   pointer-events: none;
+  stroke: #ddd;
+  stroke-dasharray: 30.416 1;
 }
 
 .desktop .progress:hover { cursor: pointer }
-.desktop .progress:hover .handle, .touch .progress.hover .handle { stroke-opacity: 0.75 }
-.desktop .progress:hover .status, .touch .progress.hover .status { stroke-width: 1 }
+.desktop .progress:hover .handle, .touch .progress.hover .handle { stroke-opacity: 1 }
+
 .touch .progress.hover .grab {
   fill-opacity:1;
   stroke-opacity:1;
@@ -86,11 +93,26 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
 
 #Player .progress span {
-  top: 30%;
+  top: 50%;
+  transform: translateY(-50%);
   color: #9d9d9d;
   font-size: 1.25vmax;
   transition:opacity 0.5s 0.25s;
   font-weight:200;
+  font-family: 'Courier New';
+  line-height: 1.25;
+  letter-spacing: -0.185ch;
+}
+
+#Player .progress span time {
+  display: block;
+}
+#Player .progress span time:first-child {
+  color: #5b9c99;
+}
+
+#Player .progress span time:last-child {
+  color: #ddd;
 }
 
 .progress span {

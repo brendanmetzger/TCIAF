@@ -85,9 +85,10 @@ namespace models;
         'length'   => 0,
         'duration' => 0,
       ];
+
       foreach ($this->features as $feature) {
-        $out['length']+=1;
-        $out['duration']+= $feature['item']->duration;
+        $out['length'] += 1;
+        $out['duration'] += (int)$feature['item']->duration;
       }
 
       $out['duration'] = round($out['duration'] / 60, 1);
