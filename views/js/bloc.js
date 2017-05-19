@@ -393,26 +393,31 @@ if (window.history.pushState) {
 
   var Content = new Request({
     load: function (evt) {
-      if (! evt.target.responseXML) {
-        evt.target.dispatchEvent(new ProgressEvent('error'));
+      var doc = evt.target.responseXML;
+      if (! doc) {
+        var parser = new DOMParser();
+        doc = parser.parseFromString(evt.target.responseText, "application/xml");
+        if (! doc) {
+          evt.target.dispatchEvent(new ProgressEvent('error'));
+        }
       }
 
       document.querySelectorAll('head title, head style[type]').forEach(function(node) {
         document.head.removeChild(node);
       });
 
-      evt.target.responseXML.querySelectorAll('head title, head style').forEach(function (node) {
+      doc.querySelectorAll('head title, head style').forEach(function (node) {
         document.head.appendChild(node);
       });
 
-      evt.target.responseXML.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
+      doc.documentElement.querySelectorAll('body script[async]').forEach(function (script) {
         eval(script.text);
       });
 
       var main = document.body.querySelector('main');
-      main.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), main);
+      main.parentNode.replaceChild(doc.querySelector('main'), main);
 
-      document.body.className = evt.target.responseXML.querySelector('body').getAttribute('class') + ' transition';
+      document.body.className = doc.querySelector('body').getAttribute('class') + ' transition';
       setTimeout(function () {
         document.body.classList.remove('transition');
         [].forEach.call(document.querySelectorAll('main a[href="'+window.location.pathname+'"]'), function (a) {
@@ -443,7 +448,7 @@ if (window.history.pushState) {
       // console.dir(evt.target);
       // console.log(this);
     }
-  }, 7500);
+  }, 8500);
 
   var adjust = function (num) {
     return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))) + '%';
