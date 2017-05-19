@@ -365,7 +365,7 @@ var Progress = function(container) {
     var data = "M90,50A40,40 0 " + (y < 50 ? 1 : 0) + "1 " + x + "," + y;
 
     if (scrub) {
-      handle.setAttribute('d', data);
+      handle.setAttribute('d', data + 'L50,50z');
       handle.position = percentage;
       grab.setAttribute('cx', x);
       grab.setAttribute('cy', y);
