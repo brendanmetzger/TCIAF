@@ -62,7 +62,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   stroke-width: 3;
   pointer-events: none;
   stroke: #ddd;
-  stroke-dasharray: 26.5 1;
+  stroke-dasharray: 31.416 1;
 }
 
 .desktop .progress:hover { cursor: pointer }
