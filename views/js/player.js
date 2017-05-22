@@ -113,10 +113,10 @@ var Player = function (container, data, message) {
   var toggle = this.container.appendChild(document.createElement('p')['@']({
     'class': 'intro h4 pad l brown'
   }));
+
   toggle.textContent = message;
 
   toggle.addEventListener('click', function (evt) {
-    this.textContent = "×";
     document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
   });
 
@@ -155,11 +155,16 @@ var Player = function (container, data, message) {
   }.bind(this));
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
-    this.meter.update(evt.theta() / 360, null, true);
+    var p  = evt.theta() / 360;
+    var d = this.audio.duration * 1e3;
+    var t = d * (1 - p);
+    var m = "<time>{h}:{m}:{s}</time>";
+    this.meter.update(p, new Date(d-t).parse(m) + new Date(t).parse(m), true);
   }.bind(this), false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);
+    this.meter.element.classList.remove('hover');
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
   }.bind(this), false);
 
@@ -225,10 +230,11 @@ Player.prototype = {
     console.log('error', evt);
   },
   timeupdate: function (evt) {
+    if (this.meter.element.classList.contains('hover')) return;
     var elem = evt.target;
     var t = Math.ceil(elem.currentTime) * 1e3;
     var d = Math.ceil(elem.duration) * 1e3;
-    var m = "{m}:{s}<br/>";
+    var m = "<time>{h}:{m}:{s}</time>";
     this.meter.update(t/d, new Date(t).parse(m) + new Date(d-t).parse(m));
   },
 };
