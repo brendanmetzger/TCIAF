@@ -35,21 +35,21 @@
                 <p class="pad-h">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
               </li>
               <!-- iterate collection:seven -->
-              <li style="[background-image:linear-gradient(rgba(255,255,255,0) 0%, #fff 17.5em), url($item:image:domain/$item:image:url)]" class="image-tab">
+              <li style="[background-image:linear-gradient(rgba(255,255,255,0) 0%, #fff 17.5em), url($item:image:domain/$item:image:url)]" class="image-tab" data-id="[$item:@id]">
                 <div>
                   <div class="controls">
                     <!-- iterate item:media:audio -->
                     <!--  insert views/partials/play-button.html-->
                   </div>
                   <div class="opaque">
-                    <h3 class="display tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
+                    <h3 class="display tracked multi-line"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
                     <h6>[$item:year / $item:duration]</h6>
                     <p>[$item:summary]</p>
                   </div>
                 </div>
-                <ul class="plain conjunct">
+                <ul class="plain conjunct" style="margin-top: auto;">
                   <!-- iterate item:producers -->
-                  <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+                  <li><a href="[$person:permalink]">[$person:@title]</a></li>
                 </ul>
               </li>
             </ul>
@@ -87,6 +87,20 @@
     <script type="text/javascript">bloc.load();</script>
     <style type="text/css" media="screen">
       /* <![CDATA[ */
+      
+      .multi-line {
+        padding-top:4.5em;
+        height:4em;
+        overflow: hidden;
+        margin-top:-2em;
+      }
+
+      .multi-line > * {
+        vertical-align:bottom;
+        display: block;
+        transform: translate(0, -100%);
+      }
+      
       .seven {
         display: flex;
         flex-wrap: wrap;
@@ -102,18 +116,21 @@
       }
       
       .seven.features > li .opaque {
-        margin: 0.25em -1.5em;
+        margin: 0.25em -1.25em;
         padding: 0.75em 1.5em 0;
         background-color: rgba(255,255,255,0.75);
       }
-      
+      .seven p {
+        line-height:1.35;
+        font-size:calc(1em + 0.35vmax);;
+      }
       .seven > li {
         border-radius:0.25em;
         margin: 0.5em;
         background-color: #fff;
         flex: 2 0 calc(25% - 1em);
         min-width: 20em;
-        padding:6.5em 1.5em 2em;
+        padding:6.5em 1.25em 2em;
       }
       @media (max-width: 40em) {
         .seven {
