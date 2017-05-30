@@ -69,7 +69,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
 .b   {margin-bottom: calc(0.5em + 1vmax);}
 .bb, hr, .hr {margin-bottom: calc(0.5em + 2vmax);}
 .l  {margin-left:1vw}
-.ll, .controls h1, .controls h2 {margin-left:2vw}
+.ll, .controls h1, .controls h2 {margin-left:1.5vw}
 .r {margin-right:1vw;}
 .rr {margin-right: 2vw;}
 .pad   {padding: 1vmax;}
@@ -86,7 +86,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
 .markdown h4:not(:first-of-type) {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
-.caps-lock, .markdown h3, .markdown h4, article nav > ul.plain li > a {text-transform:uppercase;letter-spacing: 0.025ch;}
+.caps-lock, .markdown h3, .markdown h4, article nav > ul.plain li > a {text-transform:uppercase;letter-spacing: 0.125ch;}
 .fade {opacity:0;}
 .inline:not(ul), .inline li, .inline dd, ul.divide li, label  {display:inline-block;}
 .rag-right {text-align:left;}
@@ -130,11 +130,8 @@ ul, ol { padding:0 0 0 2em }
 hr, .hr, .ruled {
   border: none;
   clear: both;
-  min-height:1px;
-  background-image: linear-gradient(to right, rgba(0,0,0,0.125) 60%, rgba(255,255,255,0) 0%);
-  background-position: bottom;
-  background-size: 2em 1px;
-  background-repeat: repeat-x;
+  border-bottom: 2px solid #5b9c99;
+  margin-left:-3.5vmax;
 }
 
 a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
@@ -201,7 +198,7 @@ nav a.logo {
   margin: 0;
   min-width: 10em;
   color:rgba(0,0,0,0);
-  background: #fff url(http://tciaf-media.s3.amazonaws.com/image/_assets/full-logo.svg) no-repeat -25% 1.75em;
+  background: #fff url(http://tciaf-media.s3.amazonaws.com/image/_assets/skinny-logo.svg) no-repeat -15% 1.75em;
   background-size: 140% auto;
   align-self: center;
   min-height: 8em;
@@ -293,7 +290,8 @@ button[type='submit'] {
 
 .search li:hover, .search li.highlight { background-color:#5B9B98; color:#FFF; }
 
-button,.button, .playlist li:not(.current) {text-decoration:none;border-radius:0;cursor:pointer;}
+button, .button, .playlist li:not(.current) {text-decoration:none;border-radius:0;cursor:pointer;}
+.button.special {border-color:#598784; color: #598784; border-width: 2px; }
 button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.25em 0 rgba(0,0,0,0.05);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
@@ -354,7 +352,7 @@ section#media {width:100vw;position:fixed;left:0;}
     background-size: auto 30%;
   }
 
-  body:not(.index) nav a.logo {background-position: 125% 60%;background-size: auto 64%;min-width: 7.5em;}
+  body:not(.index) nav a.logo {background-position: 115% 60%;background-size: auto 64%;min-width: 7.5em;}
   nav[role] > ul > li {flex-basis:25%;}
   body[data-view='media'] {/* overflow:hidden; */}
   body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: #fff;top: 0;}
@@ -466,7 +464,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .columns.three{column-count:3;}
   .columns.four{column-count:3;}
   body {overflow:hidden;}
-  nav a.logo {margin: 1.5vmin 0 0;min-width: 22.5em;background-size: contain;background-position: 40% 70%;min-height: 8.5vmin;}
+  nav a.logo {margin: 0.75vmin 1em 0 0.25vmin;min-width: 22.5em;background-size: contain;background-position: 40% 70%;min-height: 8.5vmin;}
 
   .column { flex-direction: column }
 

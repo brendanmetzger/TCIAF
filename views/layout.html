@@ -14,7 +14,7 @@
             <li><a href="/overview/competition">Competitions</a></li>
             <li><a href="/overview/events">Events</a></li>
             <li class="hide"><a href="/overview/tciaf">About</a></li>
-            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button">Donate</a></li>
+            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button special">Donate</a></li>
           </ul>
         </nav>
       </header>
@@ -40,7 +40,7 @@
                   <div class="controls">
                     <!-- iterate item:media:audio -->
                     <!--  insert views/partials/play-button.html-->
-                    <span class="h4" style="margin-left:1em;">[$item:year / $item:duration]</span>
+                    <span class="h4 ll">[$item:year / $item:duration]</span>
                   </div>
                     <h3 class="display tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
                     <p>[$item:summary]</p>
@@ -52,7 +52,7 @@
               </li>
             </ul>
           </article>
-          <hr />
+          <hr style="margin-top:1vh;margin-bottom:1vh;"/>
           <article>
             <!-- iterate collection:articles -->
             <ul class="plain seven">
@@ -91,7 +91,7 @@
       }
       @media (min-width: 850px) {
         .seven {
-          margin-left:-3.5vmax;
+          margin-left:-2.5vmax;
         }
       }
       .seven > li {
