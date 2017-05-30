@@ -37,7 +37,7 @@ body {
 }
 
 .brown, .markdown h3, .markdown h4 { color:#77635c; }
-.white-bg, body, .gallery img, button, .button { background-color:#fff }
+.white-bg, body, .gallery img, button { background-color:#fff }
 .gray {color: #979797;}
 .gray-bg {background-color: rgba(0,0,0,0.1);color: #706F73;}
 .brown-bg { color:#EEE; background-color:rgb(119, 99, 92) }
@@ -69,7 +69,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
 .b   {margin-bottom: calc(0.5em + 1vmax);}
 .bb, hr, .hr {margin-bottom: calc(0.5em + 2vmax);}
 .l  {margin-left:1vw}
-.ll, .controls h1, .controls h2 {margin-left:1.5vw}
+.ll, .controls h1, .controls h2 {margin-left:0.5em}
 .r {margin-right:1vw;}
 .rr {margin-right: 2vw;}
 .pad   {padding: 1vmax;}
@@ -227,7 +227,8 @@ nav[role] > ul > li {
 #browse > header nav li > a {
   flex: 1 1 auto;
   font-weight:400;
-  padding: 0.75rem 0.25rem;
+  padding: 0.25rem;
+  align-self: center;
   min-width: 100%;
 }
 
@@ -291,7 +292,7 @@ button[type='submit'] {
 .search li:hover, .search li.highlight { background-color:#5B9B98; color:#FFF; }
 
 button, .button, .playlist li:not(.current) {text-decoration:none;border-radius:0;cursor:pointer;}
-.button.special {border-color:#598784; color: #598784; border-width: 2px; padding:0.25rem !important; }
+.button.special {border-color:#598784; color: #598784; border-width: 2px;}
 button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.25em 0 rgba(0,0,0,0.05);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
