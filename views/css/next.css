@@ -291,7 +291,7 @@ button[type='submit'] {
 .search li:hover, .search li.highlight { background-color:#5B9B98; color:#FFF; }
 
 button, .button, .playlist li:not(.current) {text-decoration:none;border-radius:0;cursor:pointer;}
-.button.special {border-color:#598784; color: #598784; border-width: 2px; }
+.button.special {border-color:#598784; color: #598784; border-width: 2px; padding:0.25rem !important; }
 button:hover,.button:hover,input[type=checkbox]:hover{box-shadow:0 0 0.25em 0 rgba(0,0,0,0.05);}
 button[disabled],button[disabled]:hover{opacity:0.5;box-shadow:none;color:#888;}
 
