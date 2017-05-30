@@ -223,7 +223,7 @@ nav[role] > ul > li {
   align-items: stretch;
 }
 
-#browse > header {border-bottom: 1px solid rgba(0,0,0,0.075);border-top: 1vw solid #5b9b98;}
+#browse > header {border-bottom: 1px solid rgba(0,0,0,0.075);border-top: 0.5vw solid #5b9b98;}
 #browse > header nav li > a {
   flex: 1 1 auto;
   font-weight:400;
