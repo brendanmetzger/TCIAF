@@ -4,15 +4,6 @@
  * provided the first argument is an object
  */
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-  .then(function(reg){
-    console.log("Worker Registered.");
-  }).catch(function(err) {
-    console.log("No Worker: ", err)
-  });
-}
-
 String.prototype.format = function() {
   var args = typeof arguments[0] === 'object' ? arguments[0] : arguments;
   return this.replace(/{((?:\d+)|(?:[a-z]+))}/g, function(match, key) {

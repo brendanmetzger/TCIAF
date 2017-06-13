@@ -25,7 +25,7 @@
     }
   </style>
   <header>
-    <div class="banner banner-bg"  data-aspect="[$item:banner:mark]" style="[background-image:url(http://s3.amazonaws.com/$item:banner:url)]">
+    <div class="banner banner-bg"  data-aspect="[$item:banner:mark]" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
       <h4 class="bb strong">[$item:teaser]</h4>
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
@@ -63,14 +63,14 @@
         <section class="panel space pad">
           <!-- iterate item:presenters -->
           <figure class="bio">
-            <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
+            <span style="[background-image:url(//s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
             <figcaption class="strong pad-v"><a href="[$person:permalink]">[$person:title]</a></figcaption>
           </figure>
         </section>
       </article>
     </section>
     <section class="one-third ll">
-      <img src="[http://s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
+      <img src="[//s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
       <div class="gray-bg spot markdown">
         <aside>[$item:content:Extras]</aside>
       </div>

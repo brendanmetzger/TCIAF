@@ -6,7 +6,7 @@
     <div class="panel tt b ">
       <h1 class="display lead strong two-thirds" data-id="[$item:@id]">[$item:title]</h1>
       <figure class="gallery one-third">
-        <img src="[http://s3.amazonaws.com/$item:photo:url]"/>
+        <img src="[//s3.amazonaws.com/$item:photo:url]"/>
         <figcaption>[$item:photo:caption]</figcaption>
       </figure>
     </div>
@@ -16,7 +16,7 @@
     <aside class="one-third">
       <!-- iterate item:media:audio -->
       <div class="[$model:@id pad-h l]">
-        <audio src="[http://s3.amazonaws.com/$src]" title="[$model:title]" data-ref="[$model:permalink]" preload="none">Audio</audio>
+        <audio src="[//s3.amazonaws.com/$src]" title="[$model:title]" data-ref="[$model:permalink]" preload="none">Audio</audio>
         <button class="listen r" style="float: left;" onclick="return loadButtonAudio(this, event);" title="[Listen to '$model:title']">Play Now</button>
         <span>[$caption]</span>
       </div>
