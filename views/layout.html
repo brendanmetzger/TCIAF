@@ -21,18 +21,17 @@
       <main>
         <!-- replace content nextSibling -->
         <section class="landing">
-          <div style="[background:#ffc22d url(http://s3.amazonaws.com/$collection:photo:url) no-repeat 0 50%;background-size:cover;margin-top:-2vmax;]" class="banner">
+          <div style="[background:#ffc22d url(//s3.amazonaws.com/$collection:photo:url) no-repeat 0 50%;background-size:cover;margin-top:-2vmax;]" class="banner">
             <div>
               <h2 data-id="[$collection:@id]" style="color:rgba(0,0,0,0);">[$collection:title]</h2>
               <p style="position:absolute;bottom: 0;left: 1.5em;width:60%;line-height:1em;">[$collection:summary]</p>
             </div>
           </div>
           <article>
-            
             <ul class="plain seven">
               <li style="color:#5b9c99;">
                 <h4 class="h1 display lead pad"><span style="font-size:125%">Listen</span></h4>
-                <p class="pad-h">Click play to hear the best in radio &amp; podcasting, curated worldwide since 2001.</p>
+                <p class="pad-h">Click the play button to hear the best in radio &amp; podcasting, curated worldwide since 2001.</p>
               </li>
               <!-- iterate collection:seven -->
               <li>
@@ -40,7 +39,7 @@
                   <div class="controls">
                     <!-- iterate item:media:audio -->
                     <!--  insert views/partials/play-button.html-->
-                    <span class="h4" style="margin-left:1em">[$item:year / $item:duration]</span>
+                    <span class="h4" style="margin:0.25em 0 0 0.75em">[$item:year / $item:duration]</span>
                   </div>
                     <h3 class="display tracked"><a href="[$item:permalink]" class="blocky">[$item:title]</a></h3>
                     <p>[$item:summary]</p>

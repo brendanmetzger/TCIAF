@@ -3,6 +3,16 @@
  * becomes variadic. If the key is text, then the function can use an object
  * provided the first argument is an object
  */
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+  .then(function(reg){
+    console.log("Worker Registered.");
+  }).catch(function(err) {
+    console.log("No Worker: ", err)
+  });
+}
+
 String.prototype.format = function() {
   var args = typeof arguments[0] === 'object' ? arguments[0] : arguments;
   return this.replace(/{((?:\d+)|(?:[a-z]+))}/g, function(match, key) {
@@ -543,7 +553,7 @@ bloc.init(bloc.define('autoload', function () {
   Array.from(document.querySelectorAll('*[data-path]')).forEach(function (item) {
     var a = item.insertBefore(document.createElement('a'), item.firstChild);
     a.href = "txmt://open?url=file://" + item.dataset.path;
-    a.innerHTML = '<img src="/images/file-code.svg"/>';
+    a.innerHTML = '<img src="/images/file-code.svg" alt="open '+item.dataset.path+'"/>';
     a.style = 'position:absolute;transform:scale(0.5) translate(-150%, -150%);padding:0';
   });
   return this;
@@ -564,3 +574,4 @@ bloc.define('site-search', function (instance) {
     navigateToPage.call({href: url}, evt);
   });
 });
+

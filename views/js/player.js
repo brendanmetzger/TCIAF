@@ -147,12 +147,12 @@ var Player = function (container, data, message) {
     this.meter.element.classList.add('hover');
     this.meter.update(evt.theta() / 360, null, true);
     document.body.classList.add('lock');
-  }.bind(this));
+  }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'mouseout', function (evt) {
     this.meter.element.classList.remove('hover');
     document.body.classList.remove('lock');
-  }.bind(this));
+  }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
     var p  = evt.theta() / 360;
@@ -160,13 +160,13 @@ var Player = function (container, data, message) {
     var t = d * (1 - p);
     var m = "<time>{h}:{m}:{s}</time>";
     this.meter.update(p, new Date(d-t).parse(m) + new Date(t).parse(m), true);
-  }.bind(this), false);
+  }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);
     this.meter.element.classList.remove('hover');
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
-  }.bind(this), false);
+  }.bind(this), mobile ? {passive: true} : false);
 
 };
 

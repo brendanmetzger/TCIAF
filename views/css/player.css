@@ -1,8 +1,8 @@
 .listen:hover, .listen:focus, .bg .listen:hover {background-color:rgba(255,255,255,1);}
 .listen {
-  background-size: 175% auto;
-  background-image: url(http://tciaf-media.s3.amazonaws.com/image/_assets/listen.svg);
-  background-position: 50% 15%;
+  background-size: 125% auto;
+  background-image: url(//tciaf-media.s3.amazonaws.com/image/_assets/listen.svg);
+  background-position: 50% 7.5%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
   letter-spacing: 0.075em;
@@ -11,10 +11,10 @@
 }
 
 button.listen {
-  border: 3px solid #5b9c99;
+  border: 2px solid #5b9c99;
   overflow: hidden;
   height: calc(1.5em + 3vh);
-  width:  calc(1.5em + 3vh);
+  width: calc(1.5em + 3vh);
   border-radius: 50%;
 }
 

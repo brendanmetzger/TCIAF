@@ -16,7 +16,7 @@ namespace models;
     public function __construct(\DOMNode $media, $index = null)
     {
       $plain  = $media->nodeValue ?: str_replace('_', ' ', substr($media['@src'], strrpos($media['@src'], '/') + 1, -4));
-      $domain = 'http://s3.amazonaws.com';
+      $domain = '//s3.amazonaws.com';
       $parsedown = new \vendor\Parsedown;
       $this->slug = [
         'domain'  => $domain,

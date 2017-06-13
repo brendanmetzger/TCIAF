@@ -28,7 +28,7 @@ button:focus, input:focus {
 
 body {
   font: normal normal 400 62.5%/1.35 'Source Sans Pro', 'Franklin Gothic Book', 'Avenir Next', Verdana, sans-serif;
-  background: url(http://tciaf-media.s3.amazonaws.com/image/_assets/birds-background-B.png) repeat-y 100% 100% fixed, url(http://tciaf-media.s3.amazonaws.com/image/_assets/birds-background-A.png) repeat-y fixed;
+  background: url(//tciaf-media.s3.amazonaws.com/image/_assets/birds-background-B.png) repeat-y 100% 100% fixed, url(//tciaf-media.s3.amazonaws.com/image/_assets/birds-background-A.png) repeat-y fixed;
   background-size:100%, 100%;
   background-position:100% 100%, 100% 100%;
   will-change: background-size, background-position;
@@ -198,7 +198,7 @@ nav a.logo {
   margin: 0;
   min-width: 10em;
   color:rgba(0,0,0,0);
-  background: #fff url(http://tciaf-media.s3.amazonaws.com/image/_assets/skinny-logo.svg) no-repeat -15% 1.75em;
+  background: #fff url(//tciaf-media.s3.amazonaws.com/image/_assets/skinny-logo.svg) no-repeat -15% 1.75em;
   background-size: 140% auto;
   align-self: center;
   min-height: 8em;
@@ -238,7 +238,7 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 .finder input {
   margin: 0;
   padding: 1.5vmin 2.5em;
-  background: transparent url(http://tciaf-media.s3.amazonaws.com/image/_assets/search.svg) no-repeat 1em 50%;
+  background: transparent url(//tciaf-media.s3.amazonaws.com/image/_assets/search.svg) no-repeat 1em 50%;
   background-size: auto 35%;
   border:none;
   border-bottom: 1px solid #eee;
@@ -269,7 +269,7 @@ button[type='submit'] {
 .award {
   padding: 0 0 0 3.5em;
   min-height:3em;
-  background: transparent url(http://tciaf-media.s3.amazonaws.com/image/_assets/medal.svg) no-repeat 0 35%;
+  background: transparent url(//tciaf-media.s3.amazonaws.com/image/_assets/medal.svg) no-repeat 0 35%;
   background-size:auto 3vh;
   display: block;
   margin-left: 1em;
@@ -310,7 +310,7 @@ body[data-view='browse'] #media {
 .pulled-right, .pulled {margin-right:-2vw}
 
 div[data-award] {
-  background:transparent url(http://tciaf-media.s3.amazonaws.com/image/_assets/medal.svg) no-repeat right top;
+  background:transparent url(//tciaf-media.s3.amazonaws.com/image/_assets/medal.svg) no-repeat right top;
   background-size:auto 50%;
 }
 .bg {
@@ -496,6 +496,10 @@ section#media {width:100vw;position:fixed;left:0;}
   nav[role] > ul {
     margin:0 0 0 10%;
   }
+  
+  .seven > li {
+    max-width: calc(25% - 1em);
+  }
 }
 
 
@@ -508,7 +512,7 @@ section#media {width:100vw;position:fixed;left:0;}
   height:3em;
   width:3em;
   overflow:hidden;
-  background-image:url(http://tciaf-media.s3.amazonaws.com/image/_assets/social.svg);
+  background-image:url(//tciaf-media.s3.amazonaws.com/image/_assets/social.svg);
   background-repeat:no-repeat;
   background-size:3em auto;
   color:rgba(0,0,0,0);

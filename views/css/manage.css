@@ -559,7 +559,7 @@ div.receipt > * {flex:1 0 20%; margin:0.5%;}
 
 div.receipt span, .trash { padding:0.5em;border:none;}
 .trash {
-  background:#777777 url(http://tciaf-media.s3.amazonaws.com/image/_assets/trash.svg) no-repeat 0.25em center;
+  background:#777777 url(//tciaf-media.s3.amazonaws.com/image/_assets/trash.svg) no-repeat 0.25em center;
   padding-left:2.5em;
   color:#fff;
 }
