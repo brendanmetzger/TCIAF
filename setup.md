@@ -62,6 +62,13 @@ The production server will backup to the dev server every night, so within 24 ho
 
 # Apache Config
 
+## HTTP/2
+
+Add to ssl version of vhost file
+
+```
+  Protocols h2 http/1.1
+```
 In ubuntu, this directive is set on the document root, and in ubuntu that is likely to be located in /etc/apache2/sites-enabled/000-something.conf
 
 ## Security
