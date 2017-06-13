@@ -240,7 +240,7 @@ class Parseup
                 $markdown = $this->convert_emphasis($tag, $value);
                 break;
             case "hr":
-                $markdown = "- - - - - -" . PHP_EOL . PHP_EOL;
+                $markdown = "____________________" . PHP_EOL . PHP_EOL;
                 break;
             case "br":
                 $markdown = "  " . PHP_EOL;

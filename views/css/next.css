@@ -57,7 +57,7 @@ h1, h2 {max-width: 75vw;font-weight:400;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.3;}
 h3, .h3 {font-size: calc(1.25em + 1vmin);line-height: 1.2;margin: 0.5em 0;}
-h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(0.75em + 1.35vh);}
+h4, .h4, .markdown h3 {font-size: calc(0.75em + 1.35vh);}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.5vmax);line-height: 1.4;}
 h5 {font-weight:400}
 h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
@@ -86,7 +86,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
 .markdown h4:not(:first-of-type) {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
-.caps-lock, .markdown h3, .markdown h4, article nav > ul.plain li > a {text-transform:uppercase;letter-spacing: 0.125ch;}
+.caps-lock, .markdown h3, .markdown h4 {text-transform:uppercase;letter-spacing: 0.125ch;}
 .fade {opacity:0;}
 .inline:not(ul), .inline li, .inline dd, ul.divide li, label  {display:inline-block;}
 .rag-right {text-align:left;}
@@ -111,7 +111,7 @@ ul, ol { padding:0 0 0 2em }
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
   min-height: 22vmax;
-  margin: 2vmax -1.5vmax 2vmax -5vmax;
+  margin: -2vmax -1.5vmax 2vmax -5vmax;
   padding: 2.5vw 30vw 2.5vw 5vw;
   box-shadow: 0 0 5em rgba(0,0,0,0.1);
 }
@@ -221,6 +221,20 @@ nav[role] > ul > li {
   margin: 1px 1px 0 0;
   background-color: #f8f8f8;
   align-items: stretch;
+}
+a.jump {
+  display:block;
+  text-transform:lowercase;
+  font-variant: small-caps;
+}
+a.jump:before {
+  content: '▴ ';
+}
+nav.jump:before {
+  content: 'quick links';
+  text-transform: lowercase;
+  font-variant:small-caps;
+  color:#999;
 }
 
 #browse > header {border-bottom: 1px solid rgba(0,0,0,0.075);border-top: 0.5vw solid #5b9b98;}
@@ -550,4 +564,19 @@ div.filter.panel:not(:first-of-type) {
 
 article[data-type='show'] ul li:nth-child(n + 6) {
   display:none;
+}
+
+
+pre.console {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 20vh;
+  width: 100vw;
+  z-index: 10;
+  background-color: #eee;
+  color: red;
+  padding: 2em;
+  overflow: auto;
+  font-size: 1.5em;
 }

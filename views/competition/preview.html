@@ -4,7 +4,7 @@
       <h1 class="lead tracked display strong t" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
     </div>
-    <nav>
+    <nav class="jump h5">
       <ul class="plain path">
         <!-- iterate item:articles -->
         <li><a href="[#$item:@id]">[$item:title]</a></li>
@@ -18,8 +18,7 @@
       <article class="pad t" id="[$item:@id]">
         <h2 class="display" data-id="[$item:@id]">[$item:title]</h2>
         <section class="markdown">[$item:content:description]</section>
-        <hr class="ruled"/>
-        <a href="#overview" class="h4">Back to top</a>
+        <a href="#overview" class="h4 pad-v jump">Back to top</a>
       </article>
     </div>
     <section class="one-third ll">
