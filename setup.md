@@ -69,11 +69,15 @@ In ubuntu, this directive is set on the document root, and in ubuntu that is lik
 Certificates are provided through [Certbot](https://certbot.eff.org/), and all traffic redirects to the https config in the default.conf file with:
 
 ```
-ServerName domain.thirdcoastfestival.org
-Redirect "/" "https://domain.thirdcoastfestival.org/"
+<VirtualHost *:80>
+	ServerName domain.thirdcoastfestival.org
+  Redirect "/" "https://domain.thirdcoastfestival.org/"
+</VirtualHost>
 ```
 
 There is a cron setup in the root users table to run twice a day and check to renew the certificate, as [Let's Encript](https://letsencrypt.org/) certificates are only valid for 6 months... but the workaround is pretty nice considering they are free certs.
+
+`(TBD) * * * * * /usr/bin/certbot renew -q`
 
 
 ## Redirects
