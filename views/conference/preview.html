@@ -24,8 +24,8 @@
       top:1em;
     }
   </style>
-  <header>
-    <div class="banner banner-bg"  data-aspect="[$item:banner:mark]" style="[background-image:url(http://s3.amazonaws.com/$item:banner:url)]">
+  <header id="overview">
+    <div class="banner banner-bg"  data-aspect="[$item:banner:mark]" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
       <h4 class="bb strong">[$item:teaser]</h4>
       <h1 class="lead tracked display strong" data-id="[$item:@id]">[$item:title]</h1>
       <p>[$item:summary]</p>
@@ -33,44 +33,23 @@
   </header>
   <section class="panel">
     <section class="two-thirds">
-      <nav class="caps-lock t b h6">
+      <nav class="h5 pad-h jump">
         <ul class="plain path">
           <!-- iterate item:articles -->
           <li><a href="[#$item:@id]">[$item:title]</a></li>
         </ul>
       </nav>
-      <section class="markdown">[$item:content:about]</section>
+      <section class="markdown pad">[$item:content:about]</section>
       <!-- iterate item:articles -->
       <article class="pad t" id="[$item:@id]">
         <h2 class="display" data-id="[$item:@id]">[$item:title]</h2>
         <section class="markdown">[$item:content:description]</section>
-        <hr class="ruled"/>
-        <a href="#overview" class="h4">Back to top</a>
+        <a href="#overview" class="h4 pad-v jump">back to top</a>
       </article>
-      <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
-      <nav>
-        <ul class="dash plain">
-          <!-- iterate item:sessions -->
-          <li><a href="[#$item:@id]">[$item:title]</a></li>
-        </ul>
-      </nav>
-      <!-- iterate item:sessions -->
-      <article id="[$item::@id]" class="pad">
-        <header class="controls">
-          <h2 data-id="[$item::@id]" class="display strong">[$item:title]</h2>
-        </header>
-        <p class="pad-h">[$item:summary]</p>
-        <section class="panel space pad">
-          <!-- iterate item:presenters -->
-          <figure class="bio">
-            <span style="[background-image:url(http://s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-            <figcaption class="strong pad-v"><a href="[$person:permalink]">[$person:title]</a></figcaption>
-          </figure>
-        </section>
-      </article>
+      <!-- replace sessions -->
     </section>
     <section class="one-third ll">
-      <img src="[http://s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
+      <img src="[//s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
       <div class="gray-bg spot markdown">
         <aside>[$item:content:Extras]</aside>
       </div>

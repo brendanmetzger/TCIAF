@@ -44,6 +44,22 @@ The list below is the basic software necessary to get the server up and running.
 - `sudo apt-get install git`
 
 
+## HTTP/2
+
+I have set up usage of http/2  (h2) for future work/optimization, 
+
+```
+apt-get install python-software-properties
+add-apt-repository -y ppa:ondrej/apache2
+apt-key update
+apt-get update
+
+apt-get --only-upgrade install apache2 -y
+
+a2enmod http2
+```
+
+**note** might need to run `apt-get dist-upgrade` if the version of apache is old for whatever reason.
 ## Application
 
 - Clone the github repository at https://github.com/brendanmetzger/TCIAF.git into the web root. I have made a directory called thirdcoastfestival.org, and cloned directly into that directory. The bloc application is stored as a submodule as well as the data. The application is written in PHP, and while it technically has no dependencies, there is a vendor directory for AWS services, as well as a few modest markdown librarys—these need not be installed. The application was designed to run in PHP 5.6, but the servers are running php 7, so future versions and updates to the application will likely take advantage of PHP 7 features, so it may be wise to consider that requisite.
@@ -62,7 +78,31 @@ The production server will backup to the dev server every night, so within 24 ho
 
 # Apache Config
 
+
+Add to ssl version of vhost file
+
+```
+  Protocols h2 http/1.1
+```
+
+
+
 In ubuntu, this directive is set on the document root, and in ubuntu that is likely to be located in /etc/apache2/sites-enabled/000-something.conf
+
+## Security
+
+Certificates are provided through [Certbot](https://certbot.eff.org/), and all traffic redirects to the https config in the default.conf file with:
+
+```
+<VirtualHost *:80>
+	ServerName domain.thirdcoastfestival.org
+  Redirect "/" "https://domain.thirdcoastfestival.org/"
+</VirtualHost>
+```
+
+There is a cron setup in the root users table to run twice a day and check to renew the certificate, as [Let's Encript](https://letsencrypt.org/) certificates are only valid for 6 months... but the workaround is pretty nice considering they are free certs.
+
+`(TBD) * * * * * /usr/bin/certbot renew -q`
 
 
 ## Redirects
@@ -98,6 +138,7 @@ SetEnv AWS_ACCESS_KEY_ID     "K_E_Y"
 SetEnv AWS_SECRET_ACCESS_KEY "S_E_C_R_E_T"
 
 ServerName www.thirdcoastfestival.org
+ServerAlias thirdcoastfestival.org
 
 ServerAdmin email@domain
 DocumentRoot /path`

@@ -147,12 +147,12 @@ var Player = function (container, data, message) {
     this.meter.element.classList.add('hover');
     this.meter.update(evt.theta() / 360, null, true);
     document.body.classList.add('lock');
-  }.bind(this));
+  }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'mouseout', function (evt) {
     this.meter.element.classList.remove('hover');
     document.body.classList.remove('lock');
-  }.bind(this));
+  }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
     var p  = evt.theta() / 360;
@@ -160,13 +160,13 @@ var Player = function (container, data, message) {
     var t = d * (1 - p);
     var m = "<time>{h}:{m}:{s}</time>";
     this.meter.update(p, new Date(d-t).parse(m) + new Date(t).parse(m), true);
-  }.bind(this), false);
+  }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);
     this.meter.element.classList.remove('hover');
     this.audio.currentTime = this.audio.duration * (evt.type == 'touchend' ? this.meter.position() : (evt.theta() / 360));
-  }.bind(this), false);
+  }.bind(this), mobile ? {passive: true} : false);
 
 };
 
@@ -187,7 +187,7 @@ Player.prototype = {
       this.pause();
     }
     this.css = document.head.appendChild(document.createElement('style'))
-    this.css.sheet.insertRule('.'+track.id+' button {background-position:50% 82.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff;mix-blend-mode:normal !important;}', 0);
+    this.css.sheet.insertRule('.'+track.id+' button {background-position:50% 87.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff;mix-blend-mode:normal !important;}', 0);
     this.css.sheet.insertRule('li#'+track.id+' {border-color:#5B9B98;background-color:#5B9B98;color:#fff;}', 1);
 
     this.audio.play();

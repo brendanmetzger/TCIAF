@@ -14,14 +14,14 @@
             <li><a href="/overview/competition">Competitions</a></li>
             <li><a href="/overview/events">Events</a></li>
             <li class="hide"><a href="/overview/tciaf">About</a></li>
-            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button">Donate</a></li>
+            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button special">Donate</a></li>
           </ul>
         </nav>
       </header>
       <main>
         <!-- replace content nextSibling -->
         <section class="landing">
-          <div style="[background:#ffc22d url(http://s3.amazonaws.com/$collection:photo:url) no-repeat 0 50%;background-size:cover;margin-top:-2vmax;]" class="banner">
+          <div style="[background:#ffc22d url(//s3.amazonaws.com/$collection:photo:url) no-repeat 0 50%;background-size:cover;margin-top:-2vmax;]" class="banner">
             <div>
               <h2 data-id="[$collection:@id]" style="color:rgba(0,0,0,0);">[$collection:title]</h2>
               <p style="position:absolute;bottom: 0;left: 1.5em;width:60%;line-height:1em;">[$collection:summary]</p>
@@ -30,9 +30,10 @@
           <article>
             
             <ul class="plain seven features">
+
               <li style="color:#5b9c99;">
                 <h4 class="h1 display lead pad"><span style="font-size:125%">Listen</span></h4>
-                <p class="pad-h">Lorem ipsum dolor sit amet, consectetur adipisicing</p>
+                <p class="pad-h">Click the play button to hear the best in radio &amp; podcasting, curated worldwide since 2001.</p>
               </li>
               <!-- iterate collection:seven -->
               <li style="[background-image:linear-gradient(transparent, rgba(255,255,255,0) 20%, #fff 20em), url($item:image:domain/$item:image:url)]" class="image-tab" data-id="[$item:@id]">
@@ -54,7 +55,7 @@
               </li>
             </ul>
           </article>
-          <hr />
+          <hr style="margin-top:1vh;margin-bottom:1vh;"/>
           <article>
             <!-- iterate collection:articles -->
             <ul class="plain seven">
@@ -107,7 +108,7 @@
       }
       @media (min-width: 800px) {
         .seven {
-          margin-left:-3.5vmax;
+          margin-left:-2.5vmax;
         }
         .seven.features > li:not(:first-of-type) {
           display: flex;

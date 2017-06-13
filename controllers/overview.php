@@ -217,7 +217,13 @@ function calendar($start, $category, $query)
       $view = new View('views/layout.html');
       $view->content = "views/conference/{$template}.html";
 
-      // Presenters and Sponsers only show up when available
+      // Sessions, Presenters and Sponsers only show up when available
+      
+      if ($this->item->sessions->count() > 0) {
+        $view->sessions = 'views/partials/sessions.html';
+
+      }
+
       if ($this->item->presenters) {
         $view->presenters =  "views/partials/presenters.html";
       }

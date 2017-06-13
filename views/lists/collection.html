@@ -5,12 +5,11 @@
 	    <!-- insert views/partials/navigator.html -->
 	  </nav>
 	</header>
-	<hr class="ruled"/>
 	<!-- iterate list -->
   <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="panel listing pad">
     
 		<header class="two-thirds container">
-      <img src="[http://s3.amazonaws.com/$item:photo:url]" class="tester"/>
+      <img src="[//s3.amazonaws.com/$item:photo:url]" class="tester"/>
       <h2 class="display tracked t"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
 		</header>

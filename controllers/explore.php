@@ -49,6 +49,10 @@ class Explore extends Manage
       // the homepage is a collection.
       $this->collection = new \models\collection(Graph::GROUP('collection')->pick("vertex[@sticky='homepage']"));
       $this->search     = ['topic' => 'feature', 'path' => 'search/cluster', 'area' => 'explore/detail'];
+      header("Link: </css/player.css>; rel=preload; as=style", false);
+      header("Link: </css/next.css>; rel=preload; as=style", false);
+      header("Link: </js/bloc.js>; rel=preload; as=script", false);
+      header("Link: </js/player.js>; rel=preload; as=script", false);
     }
 
     return $view->render($this());
