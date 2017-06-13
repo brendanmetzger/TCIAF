@@ -69,7 +69,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
 .b   {margin-bottom: calc(0.5em + 1vmax);}
 .bb, hr, .hr {margin-bottom: calc(0.5em + 2vmax);}
 .l  {margin-left:1vw}
-.ll, .controls h1, .controls h2 {margin-left:0.5em}
+.ll, .controls h1, .controls h2 {margin-left:2vw}
 .r {margin-right:1vw;}
 .rr {margin-right: 2vw;}
 .pad   {padding: 1vmax;}

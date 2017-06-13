@@ -53,12 +53,13 @@ apt-get install python-software-properties
 add-apt-repository -y ppa:ondrej/apache2
 apt-key update
 apt-get update
-apt-get dist-upgrade
 
 apt-get --only-upgrade install apache2 -y
 
 a2enmod http2
 ```
+
+**note** might need to run `apt-get dist-upgrade` if the version of apache is old for whatever reason.
 ## Application
 
 - Clone the github repository at https://github.com/brendanmetzger/TCIAF.git into the web root. I have made a directory called thirdcoastfestival.org, and cloned directly into that directory. The bloc application is stored as a submodule as well as the data. The application is written in PHP, and while it technically has no dependencies, there is a vendor directory for AWS services, as well as a few modest markdown librarys—these need not be installed. The application was designed to run in PHP 5.6, but the servers are running php 7, so future versions and updates to the application will likely take advantage of PHP 7 features, so it may be wise to consider that requisite.
@@ -137,6 +138,7 @@ SetEnv AWS_ACCESS_KEY_ID     "K_E_Y"
 SetEnv AWS_SECRET_ACCESS_KEY "S_E_C_R_E_T"
 
 ServerName www.thirdcoastfestival.org
+ServerAlias thirdcoastfestival.org
 
 ServerAdmin email@domain
 DocumentRoot /path`
