@@ -55,11 +55,11 @@ p a {text-decoration:underline}
 p, .p {max-width:55em;font-weight:400;}
 h1, h2 {max-width: 75vw;font-weight:400;}
 h1, .h1 {font-size: calc(1.5em + 1.5vmax);line-height:1.25;margin:0;}
-h2, .h2 {font-size: calc(1.25em + 1.5vmin);line-height: 1.3;}
-h3, .h3 {font-size: calc(1.25em + 1vmin);line-height: 1.2;margin: 0.5em 0;}
-h4, .h4, .markdown h3 {font-size: calc(0.75em + 1.25vmax);}
-h5, .h5, p, .p, li, label, input {font-size: calc(1.125em + 0.5vh);line-height: 1.4;}
-h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
+h2, .h2 {font-size: calc(1.25em + 1.5vmax);line-height: 1.3;}
+h3, .h3 {font-size: calc(1em + 1vmax);line-height: 1.2;margin: 0.5em 0;}
+h4, .h4, .markdown h3 {font-size: calc(1em + 0.75vmax);}
+h5, .h5, p, .p, li, label, input {font-size: calc(1em + 0.5vmax);line-height: 1.4;}
+h6, .h6, form button, form .button {font-size:calc(1em + 0.25vmax);}
 h2,h3,h4,h5 {font-weight:300;}
 .plain    {list-style:none;padding:0;}
 .plain li {font-size:100%;}
