@@ -517,24 +517,6 @@ section#media {width:100vw;position:fixed;left:0;}
 }
 
 
-/* FOOTER */
-.legal { font-size:1.25em }
-.sponsor a { padding:0.5rem; }
-.sponsor img {height: 10vmin;}
-.social a {
-  display:inline-block;
-  height:3em;
-  width:3em;
-  overflow:hidden;
-  background-image:url(//tciaf-media.s3.amazonaws.com/image/_assets/social.svg);
-  background-repeat:no-repeat;
-  background-size:3em auto;
-  color:rgba(0,0,0,0);
-}
-.twitter   {background-position: 0 0.35em;}
-.facebook  {background-position:-0.25em -3em}
-.instagram {background-position:0 -6.5em}
-
 @keyframes spin { from { transform:rotate(0deg) } to { transform:rotate(360deg); } }
 
 
