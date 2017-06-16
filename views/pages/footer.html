@@ -4,24 +4,44 @@
     #browse > footer * {
       font-weight: 300;
     }
+    
     #browse > footer .info {
       background-color:#4a8984;
-      padding: 6em 1em;
+      padding: 1em;
     }
     
-    footer .info.panel > * {
+    footer > div.info {
+      display: flex;
+      flex-flow: column;
+    }
+    
+    
+    
+    
+    footer > div.info > * {
       flex: 1 1 25%;
       padding: 1em 2em;
     }
+    
+    
+    
+    footer > div.info > * {
+      flex: 1 1 25%;
+      padding: 1em 2em;
+    }
+    
+    
     address {
       font-style: normal;
     }
     #browse > footer a, footer .info {
       color: #fff;
     }
-
+    nav.sponsors ul {
+      flex-flow: wrap;
+    }
     nav.sponsors img {
-      height: 10em;
+      height: 7.5em;
       padding: 0.5em;
     }
     a[data-before]:before {
@@ -37,7 +57,7 @@
       
     .button.low-contrast {
       padding: 0.75em;
-      border-color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.8);
       display: inline-block;
     }
     
@@ -46,24 +66,56 @@
     }
     
     .social a {
-      font-size:150%;
+      font-size:100%;
       display:inline-block;
-      height:4em;
-      width:4em;
+      height:3.25em;
+      margin-right: 1em;
       overflow:hidden;
       background-image:url(//tciaf-media.s3.amazonaws.com/image/_assets/social.svg);
       background-repeat:no-repeat;
       background-size:5em auto;
       color:rgba(0,0,0,0) !important;
     }
-    .twitter   {background-position: -0.5em 0.35em;}
-    .facebook  {background-position:-0.75em -5em;}
-    .instagram {background-position:0 -11em;}
+
+    @media screen and (min-width: 50em) {
+      
+      #browse > footer .info {
+        background-color:#4a8984;
+        padding: 6em 1em;
+      }
+      
+      footer > div.info {
+        flex-flow: row;
+      }
+      
+      footer > div.info div {
+        transform: translateY(-4.5em);
+      }
+    }
     
+    @media screen and (max-width: 50em) {
+      footer > div.info > * {
+        padding: 1rem;
+      }
+      footer > div.info > *:nth-child(1) { order: 4;}
+      footer > div.info > *:nth-child(2) { order: 1;}
+      footer > div.info > *:nth-child(3) { order: 2;}
+      footer > div.info > *:nth-child(4) { order: 3;}
+      
+      nav.sponsors li:first-child {
+        width: 100% !important;
+        margin-bottom: 2em;
+      }
+      
+      nav.sponsors img {
+        height: 5em;
+        padding: 0.5em;
+      }
+    }
 
     /* ]]> */
   </style>
-  <div class="info panel">
+  <div class="info">
     
     <address class="p">
       <span class="display">Third Coast International Audio Festival</span>
@@ -95,9 +147,9 @@
     <div>
       <h3 class="display">Connect</h3>
       <nav class="social b">
-        <a class="facebook" href="https://www.facebook.com/thirdcoastfest?ref=ts">Facebook</a>
-        <a class="twitter" href="https://twitter.com/ThirdCoastFest">Twitter</a>
-        <a class="instagram" href="https://instagram.com/thirdcoastfest/">Instagram</a>
+        <a title="facebook" style="background-position:-1.5em -5.5em; width: 2em;" href="https://www.facebook.com/thirdcoastfest?ref=ts">Facebook</a>
+        <a title="twitter" style="background-position:-0.75em 0; width:3.5em;" href="https://twitter.com/ThirdCoastFest">Twitter</a>
+        <a title="instagram" style="background-position:-1em -11.35em; width: 3em;" href="https://instagram.com/thirdcoastfest/">Instagram</a>
       </nav>
       <a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/" class="button low-contrast caps-lock h5">Third Coast Newsletter</a>
     </div>
@@ -109,7 +161,7 @@
 
   <nav class="sponsors" style="background-color: #fff; color:#888;padding:4em;">
     <ul class="plain panel">
-      <li style="max-width:30%;align-self:center;padding-right:4em;font-size:125%">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
+      <li style="width:30%;align-self:center;padding-right:4em;font-size:125%">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
       <!-- iterate supporters -->
       <li>
         <a href="[$organization:location]"><img data-src="[//s3.amazonaws.com/$organization:photo:url]" alt="[$organization:@title]" /></a>
