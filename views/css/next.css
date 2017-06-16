@@ -345,7 +345,6 @@ section#media {width:100vw;position:fixed;left:0;}
   }
   .hide {display:none !important;}
   ::-webkit-input-placeholder {opacity:0}
-  html, body {height:100%}
   body {padding-bottom:12.5vmax}
   .banner {margin-left:-2.5vmax}
   body[data-view='browse'] #media { overflow:hidden}
