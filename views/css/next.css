@@ -96,8 +96,10 @@ h2,h3,h4,h5 {font-weight:300;}
 .justify {text-align: justify;}
 .clear {clear:both;}
 .close {height:2em;width:2em;line-height:0;padding:0.5em;}
-.lock {overflow:hidden}
-
+.lock, .lock body {overflow:hidden;height:100vh;}
+body {
+  touch-action: none;
+}
 strong, .strong, .selected, .markdown h4 {font-weight:600;}
 input, select {font-size: inherit }
 em, .em, blockquote {font-style:italic }
@@ -335,7 +337,7 @@ div[data-award] {
   margin: 2.5% auto;
   padding: 10vmin 1em 1em
 }
-
+#Player button.toggle {display: none;}
 .feature article.panel.listing header { width:100% }
 section#media {width:100vw;position:fixed;left:0;}
 /* Mobile only */
@@ -367,27 +369,31 @@ section#media {width:100vw;position:fixed;left:0;}
     background-size: auto 30%;
   }
 
+
   body:not(.index) nav a.logo {background-position: 115% 60%;background-size: auto 64%;min-width: 7.5em;}
   nav[role] > ul > li {flex-basis:25%;}
-
+  #media #Player button.toggle {
+   position:absolute;
+   top:0;
+   border-radius: 0;
+   margin: 0;
+  }
   body[data-view='media'] #media {height: 100vh;flex-direction: column;background-color: #fff;top: 0;}
   body[data-view='media'] #media form {width: 100%;height: 9vh;}
   body[data-view='media'] #Player .progress span {font-size:2.25em;}
+  body[data-view='media'] .finder input {font-size: 3em;}
   body[data-view='media'] #Player .controls {width:100vw;justify-content: space-around;height: 30vh;overflow: hidden;min-height: 50vw;background-color: #FAFAFA;}
-  body[data-view='media'] #media p {position:absolute;top:0;right:0;background-color:#FC6202;color:#FFF;padding: 2.75vmax 4vmax;margin:0;}
+  body[data-view='media'] #Player button.toggle {right: 0;background-color: #FC6202;color: #FFF;padding: 1.5vmin 0.65em;font-size: 3em;line-height: 1.45;}
   body[data-view='media'] #media .playlist {height: 55vh;overflow:auto;}
   body[data-view='browse'] #Player[data-position] .intro {color: rgba(0,0,0,0);position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;margin: 0;background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);}
   body[data-view='browse'] #media .playlist li:first-of-type {border-top:none}
   body[data-view='browse'] #Player .controls {padding: 0 2.5%;max-width: 30vmax;max-height: 12.5vmax;}
-  body[data-view='browse'] #media p {
+  body[data-view='browse'] #Player button.toggle {
     padding: 2em 1em 2em 7.5em;
-    color: #AAA;
     width: 100%;
     height: 100%;
-    position: absolute;
     left: 0;
-    top: 0;
-    margin: 0;
+    color: rgba(0,0,0,0);
   }
   body[data-view='browse'] #media #Player ul:not(:empty) {
     width: auto;
@@ -414,7 +420,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .feature article.panel.listing header {width:70%;padding:0 2.5%;}
 }
 
-;/* Tablet */
+/* Tablet */
 @media screen and (min-width: 50em) {
   section.listing div.markdown :first-child {
     margin-top:0;

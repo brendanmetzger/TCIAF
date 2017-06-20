@@ -110,11 +110,11 @@ var Player = function (container, data, message) {
   this.elements = [];
   this.index    = 0;
 
-  var toggle = this.container.appendChild(document.createElement('p')['@']({
-    'class': 'intro h4 pad l brown'
+  var toggle = this.container.appendChild(document.createElement('button')['@']({
+    'class': 'toggle',
   }));
 
-  toggle.textContent = message;
+  toggle.textContent = '✕';
 
   toggle.addEventListener('click', function (evt) {
     document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
@@ -146,15 +146,17 @@ var Player = function (container, data, message) {
   this.meter.element.addEventListener(mobile ? 'touchstart' : 'mouseover', function (evt) {
     this.meter.element.classList.add('hover');
     this.meter.update(evt.theta() / 360, null, true);
-    document.body.classList.add('lock');
+    document.documentElement.classList.add('lock');
   }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'mouseout', function (evt) {
     this.meter.element.classList.remove('hover');
-    document.body.classList.remove('lock');
+    document.documentElement.classList.remove('lock');
   }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
     var p  = evt.theta() / 360;
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
