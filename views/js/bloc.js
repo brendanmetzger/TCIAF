@@ -541,12 +541,12 @@ bloc.init(bloc.define('autoload', function () {
     }
   });
   
-  Array.from(document.querySelectorAll('*[data-path]')).forEach(function (item) {
-    var a = item.insertBefore(document.createElement('a'), item.firstChild);
-    a.href = "txmt://open?url=file://" + item.dataset.path;
-    a.innerHTML = '<img src="/images/file-code.svg" alt="open '+item.dataset.path+'"/>';
-    a.style = 'position:absolute;transform:scale(0.5) translate(-150%, -150%);padding:0';
-  });
+  // Array.from(document.querySelectorAll('*[data-path]')).forEach(function (item) {
+  //   var a = item.insertBefore(document.createElement('a'), item.firstChild);
+  //   a.href = "txmt://open?url=file://" + item.dataset.path;
+  //   a.innerHTML = '<img src="/images/file-code.svg" alt="open '+item.dataset.path+'"/>';
+  //   a.style = 'position:absolute;transform:scale(0.5) translate(-150%, -150%);padding:0';
+  // });
   return this;
 }), 'unshift');
 
