@@ -14,6 +14,13 @@ bloc.init(bloc.define('stylesheets', function () {
   var bg   = btoa("<svg xmlns='http://www.w3.org/2000/svg' width='"+size+"px' height='"+size+"px' viewBox='0 0 50 50'><line x1='0' y1='50' x2='50' y2='50' stroke='#9DD1EF' fill='none'/></svg>");
   stylesheet.insertRule('form.editor .text {background: transparent url(data:image/svg+xml;base64,'+bg+') repeat 0 '+ size + 'px' +' }', stylesheet.cssRules.length);
   // show an indicator next to all editable elements
+  
+  Array.from(document.querySelectorAll('*[data-path]')).forEach(function (item) {
+    var a = item.insertBefore(document.createElement('a'), item.firstChild);
+    a.href = "txmt://open?url=file://" + item.dataset.path;
+    a.innerHTML = '<img src="/images/file-code.svg" alt="open '+item.dataset.path+'"/>';
+    a.style = 'position:absolute;transform:scale(0.5) translate(-150%, -150%);padding:0';
+  });
 }));
 
 
