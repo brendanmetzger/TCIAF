@@ -121,9 +121,22 @@
       </li>
     </ul>
   </nav>
-  <script type="text/javascript">
-    [].forEach.call(document.querySelectorAll('img[data-src]'), function (img) {
-      img.src = img.dataset.src;
-    });
+  <script type="text/javascript" async="true">
+    // <![CDATA[
+
+      // This is reliant on position, using IntersectionObserver
+
+      setTimeout(function () {
+        document.querySelectorAll('img[data-src]').forEach(function (img) {
+          if (window.lazyload) {
+            console.log('we can add to the observer');
+            window.lazyload.observe(img);
+          } else {
+            img.addEventListener('load', reveal);
+            img.src = img.dataset.src;
+          }
+        });
+      }, 250);
+    // ]]>
   </script>
 </footer>
