@@ -33,7 +33,7 @@
   </header>
   <section class="panel">
     <section class="two-thirds">
-      <nav class="h5 pad-h jump">
+      <nav class="h4 pad-h jump">
         <ul class="plain path">
           <!-- iterate item:articles -->
           <li><a href="[#$item:@id]">[$item:title]</a></li>
@@ -49,7 +49,7 @@
       <!-- replace sessions -->
     </section>
     <section class="one-third ll">
-      <img src="[//s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
+      <img data-src="[//s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
       <div class="gray-bg spot markdown">
         <aside>[$item:content:Extras]</aside>
       </div>

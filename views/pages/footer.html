@@ -1,51 +1,141 @@
-<footer class="white-bg">
-  <section style="background-color:#DDD;margin:0;padding:2em 10%;align-items:center;" class="panel">
-    <p class="two-thirds rr"><strong class="caps-lock brown">Sign Up for our newsletter</strong> Be the first to hear new docs, get the scoop on Third Coast events, and go behind-the-scenes with producers.</p>
-    <a href="/overview/subscribe" class="h4 insist caps-lock">Subscribe</a>
-  </section>
-  <section class="container brown-bg" style="padding:1em;">
-    <div class="panel" style="justify-content:space-between;">
-      <ul class="pad plain h6" style="column-count:2">
-        <li><a href="/overview/tciaf">About</a></li>
-        <li><a href="/overview/people">Producer Index</a></li>
-        <li><a href="/overview/subscribe">Subscribe to Podcast</a></li>
-        <li><a href="/overview/opportunities">Jobs and Internships</a></li>
-        <li><a href="/overview/playlists">Playlists</a></li>
-        <li><a href="/explore/shoppe">Shoppe</a></li>
-        <li><a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/">Newsletter</a></li>
-        <li><a href="/explore/behindthescenes">Behind-the-Scenes Interviews</a></li>
-        <li style="margin-top:1em"><a href="https://donatenow.networkforgood.org/ThirdCoast" style="background-color:#eee;padding:0.25em 0.5em;color:#333">Donate</a></li>
+<footer id="footer">
+  <style type="text/css" media="screen">
+    /* <![CDATA[ */
+    #browse > footer *     { font-weight: 300; }
+    
+    footer > div.aqua-bg {
+      display: flex;
+      flex-flow: column;
+    }
+    
+    footer > div.aqua-bg > * {
+      flex: 1 1 25%;
+      padding: 1em 2em;
+    }
+
+    footer .aqua-bg,
+    #browse > footer a       { color: #fff }
+    #browse > footer a:hover { text-decoration: underline }
+
+    nav.sponsors ul  { flex-flow: wrap }
+    nav.sponsors img {
+      height: 7.5em;
+      padding: 0.5em;
+    }
+    
+    .low-contrast,
+    a[data-before]:before { opacity: 0.8 }
+    a[data-before]:before {
+      content: attr(data-before);
+      text-transform: lowercase;
+      font-variant: small-caps;
+      padding-right: 0.25em;
+    }
+    
+    ul.low-contrast li    { padding: 0.175em 0 }  
+    .button.low-contrast  {
+      padding: 0.75em;
+      border: 1px solid rgba(255,255,255,0.8);
+      display: inline-block;
+    }
+    
+    .social a {
+      font-size:100%;
+      display:inline-block;
+      height:3.25em;
+      margin-right: 1em;
+      overflow:hidden;
+      background-repeat:no-repeat;
+      background-size:5em auto;
+      color:rgba(0,0,0,0) !important;
+    }
+
+    @media screen and (min-width: 50em) {
+      #browse > footer .aqua-bg { padding: 6em 1em }
+      footer > div.aqua-bg     { flex-flow: row }
+      footer > div.aqua-bg div { transform: translateY(-4.5em) }
+    }
+    
+    @media screen and (max-width: 50em) {
+      footer > div.aqua-bg > *              { padding: 1rem }
+      footer > div.aqua-bg > *:nth-child(1) { order: 4 }
+      footer > div.aqua-bg > *:nth-child(2) { order: 1 }
+      footer > div.aqua-bg > *:nth-child(3) { order: 2 }
+      footer > div.aqua-bg > *:nth-child(4) { order: 3 }
+      
+      nav.sponsors li:first-child {
+        width: 100% !important;
+        margin-bottom: 2em;
+      }
+      
+      nav.sponsors img {
+        height: 5em;
+        padding: 0.5em;
+      }
+    }
+
+    /* ]]> */
+  </style>
+  <div class="aqua-bg">
+    <address class="p">
+      <span class="display">Third Coast International Audio Festival</span>
+      <span>Navy Pier</span>
+      <span>848 East Grand</span>
+      <span>Chicago, Illinois 60611-3509</span>
+      <small style="margin-top:0.5em;padding-top:0.25em;border-top: 1px solid rgba(255,255,255,0.2); display: block;color:rgba(255,255,255,0.8);"><time datetime="[$timestamp:wc3]">[© $timestamp:year]</time> <a href="/overview/policy" style="padding-left: 0.5em; margin-left: 0.5em; border-left: 1px solid rgba(255,255,255,0.1)">Terms &amp; Conditions</a></small>
+      <ul class="plain t">
+        <li><a data-before="phone" href="tel:312-948-4682">(312) 948-4682</a></li>
+        <li><a data-before="email" href="mailto:info@thirdcoastfestival.org">info@thirdcoastfestival.org</a></li>
       </ul>
-      <aside class="pad rr">
-        <address style="font-style:normal;font-size:1.25em;">
-          <h4 style="color:rgba(255,255,255,0);background:transparent url(//tciaf-media.s3.amazonaws.com/image/_assets/wordmark.svg) no-repeat 0 0;background-size:75% auto;min-height:3em">Third Coast Festival</h4>
-          <span>Navy Pier</span>
-          <span>848 East Grand</span>
-          <span>Chicago, Illinois 60611-3509</span>
-          <span>312-948-4682</span>
-          <a href="mailto:info@thirdcoastfestival.org">info@thirdcoastfestival.org</a>
-        </address>
-        <nav class="social" style="margin-top:1em">
-          <a class="twitter" href="https://twitter.com/ThirdCoastFest">Twitter</a>
-          <a class="instagram l" href="https://instagram.com/thirdcoastfest/">Instagram</a>
-          <a class="facebook l" href="https://www.facebook.com/thirdcoastfest?ref=ts">Facebook</a>
-        </nav>
-      </aside>
+    </address>
+    <ul class="caps-lock plain low-contrast h6">
+      <li><a href="/overview/tciaf">About</a></li>
+      <li><a href="/overview/people">Producer Index</a></li>
+      <li><a href="/overview/subscribe">Subscribe</a></li>
+      <li><a href="/overview/opportunities">Jobs &amp; Internships</a></li>
+      <li><a href="/overview/playlists">Playlists</a></li>
+      <li><a href="/explore/shoppe">Shoppe</a></li>
+      <li><a href="/explore/behindthescenes">Behind-the-Scenes Interviews</a></li>
+    </ul>
+    <div>
+      <h3 class="display">Support</h3>
+      <p class="low-contrast">Your gift to the Third Coast means the world to us, and helps us do what we do best: bring you the best audio stories from around the world</p>
+      <a href="https://donatenow.networkforgood.org/ThirdCoast" class="button low-contrast caps-lock h5">Donate Now</a>
     </div>
-  </section>
-  <section class="sponsor panel" style="align-items:center;">
-    <p class="pad">Thank you to the following foundations for their major support of the Third Coast Festival.</p>
-    <nav class="center">
+    <div>
+      <h3 class="display">Connect</h3>
+      <nav class="social b">
+        <a title="facebook" style="background-position:-1.5em -5.5em; width: 2em;" href="https://www.facebook.com/thirdcoastfest?ref=ts">Facebook</a>
+        <a title="twitter" style="background-position:-0.75em 0; width:3.5em;" href="https://twitter.com/ThirdCoastFest">Twitter</a>
+        <a title="instagram" style="background-position:-1em -11.35em; width: 3em;" href="https://instagram.com/thirdcoastfest/">Instagram</a>
+      </nav>
+      <a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/" class="button low-contrast caps-lock h5">Third Coast Newsletter</a>
+    </div>
+  </div>
+  <nav class="sponsors" style="background-color: #fff; color:#888;padding:4em;">
+    <ul class="plain panel">
+      <li style="width:35%;align-self:center;padding-right:4em;font-size:150%;font-weight:400;">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
       <!-- iterate supporters -->
-      <a href="[$organization:location]"><img data-src="[//s3.amazonaws.com/$organization:photo:url]" alt="[$organization:@title]" /></a>
-    </nav>
-  </section>
-  <section class="pad">
-    <p class="legal caps-lock middle pad">© <time>[$year]</time> Third Coast International Audio Festival. All rights reserved. <a href="/overview/policy">Terms and Conditions</a> <a class="context login l" href="/manage/login">[$_login]</a></p>
-  </section>
-  <script type="text/javascript">
-    [].forEach.call(document.querySelectorAll('img[data-src]'), function (img) {
-      img.src = img.dataset.src;
-    });
+      <li>
+        <a href="[$organization:location]"><img data-src="[//s3.amazonaws.com/$organization:photo:url]" alt="[$organization:@title]" /></a>
+      </li>
+    </ul>
+  </nav>
+  <script type="text/javascript" async="true">
+    // <![CDATA[
+
+      // This is reliant on position, using IntersectionObserver
+
+      setTimeout(function () {
+        document.querySelectorAll('img[data-src]').forEach(function (img) {
+          if (window.lazyload) {
+            window.lazyload.observe(img);
+          } else {
+            img.addEventListener('load', reveal);
+            img.src = img.dataset.src;
+          }
+        });
+      }, 250);
+    // ]]>
   </script>
 </footer>
