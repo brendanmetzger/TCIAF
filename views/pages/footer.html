@@ -129,7 +129,6 @@
       setTimeout(function () {
         document.querySelectorAll('img[data-src]').forEach(function (img) {
           if (window.lazyload) {
-            console.log('we can add to the observer');
             window.lazyload.observe(img);
           } else {
             img.addEventListener('load', reveal);

@@ -534,9 +534,7 @@ bloc.init(function () {
   var browse = document.querySelector('#browse');
   window.Adjust = smoothScroll(browse);
   window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
-          console.log(entries);
     entries.forEach(function (entry) {
-
       if (entry.isIntersecting) {
         entry.target.addEventListener('load', reveal);
         entry.target.src = entry.target.dataset.src;
