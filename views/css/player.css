@@ -1,7 +1,7 @@
 .listen:hover, .listen:focus, .bg .listen:hover {background-color:rgba(255,255,255,1);}
 .listen {
   background-size: 125% auto;
-  background-image: url(//tciaf-media.s3.amazonaws.com/image/_assets/listen.svg);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200"><g fill="#5b9c99"><path d="M39 135h10v25H39zM51 135h10v25H51z"/></g><path style="stroke-alignment:inner" fill="#5b9c99" stroke="#447371" stroke-width="2" stroke-opacity=".3" d="M40 35v30l25-15z"/></svg>');
   background-position: 50% 7.5%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
@@ -20,6 +20,10 @@ button.listen {
 
 .playlist {max-height: 72.5vh;overflow-y:scroll;}
 .playlist li {padding: 1vmin;border-top: 1px solid rgba(0,0,0,0.1);}
+body[data-view='media'] .playlist li {
+  padding: 1em;
+  font-size:125%;
+}
 .playlist li.current:before { content: '\25B6\FE0E'; margin-right:0.5em; }
 .playlist li.current {
   border-left-color: #88746a;

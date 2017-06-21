@@ -4,7 +4,7 @@
     <h1 class="strong lead display tracked tt bb">Producer Index</h1>
     <nav>
       <div>
-        <ul class="plain path">
+        <ul class="plain path h5">
           <li><a class="[$all]" href="[/overview/people/all/$filter]">All</a></li>
           <li><a class="[$producers]" href="[/overview/people/producers/$filter]">Producers</a></li>
           <li><a class="[$presenters]" href="[/overview/people/presenters/$filter]">Presenters</a></li>
@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="pad-v">
-        <ul class="plain path">
+        <ul class="plain path h5">
           <li><a class="[$any]" href="[/overview/people/$category/any]">#</a></li>
           <!--  iterate alphabet -->
           <li><a class="[$selected]" href="[/overview/people/$category/alpha:$letter/]">[$letter]</a></li>
@@ -24,15 +24,14 @@
     /* <![CDATA[ */
     ul.people a {
       display:block;
-      border-bottom:1px dashed #CCC;
-      margin:1px;
+      border-top:1px dashed #CCC;
       padding:0.25em;
     }
 
     /* ]]> */
   </style>
   <nav class="t b">
-    <ul class="people plain columns four">
+    <ul class="people plain columns four h5">
       <!-- iterate list -->
       <li><a href="[$item:permalink]">[$item:@title]</a></li>
     </ul>

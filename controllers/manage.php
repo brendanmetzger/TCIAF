@@ -32,11 +32,17 @@ class Manage extends \bloc\controller
   {
     View::addRenderer('before', Render::PARTIAL());
     View::addRenderer('after',  Render::HTML());
-		$this->year        = date('Y');
     $this->title       = "Third Coast International Audio Festival";
     $this->_redirect   = $request->redirect;
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
+		$this->timestamp   = [
+      'year'  => date('Y'),
+      'month' => date('m'),
+      'day'   => date('d'),
+      'wc3'   => date(DATE_W3C)
+    ];
+    
 
     $tciaf = Graph::FACTORY(Graph::ID('TCIAF'));
 
@@ -77,7 +83,7 @@ class Manage extends \bloc\controller
 
   public function GETindex()
   {
-    return (new View('views/layout.html'))->render($this());
+    \bloc\router::redirect('/manage/login');
   }
 
   public function GETlogin($redirect = null, $status = "default", $username = null)
