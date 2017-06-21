@@ -1,7 +1,7 @@
 .listen:hover, .listen:focus, .bg .listen:hover {background-color:rgba(255,255,255,1);}
 .listen {
   background-size: 125% auto;
-  background-image: url(//tciaf-media.s3.amazonaws.com/image/_assets/listen.svg);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200"><g fill="#5b9c99"><path d="M39 135h10v25H39zM51 135h10v25H51z"/></g><path style="stroke-alignment:inner" fill="#5b9c99" stroke="#447371" stroke-width="2" stroke-opacity=".3" d="M40 35v30l25-15z"/></svg>');
   background-position: 50% 7.5%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);

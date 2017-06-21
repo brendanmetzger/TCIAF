@@ -541,12 +541,13 @@ bloc.init(bloc.define('autoload', function () {
     }
   });
   
-  // Array.from(document.querySelectorAll('*[data-path]')).forEach(function (item) {
-  //   var a = item.insertBefore(document.createElement('a'), item.firstChild);
-  //   a.href = "txmt://open?url=file://" + item.dataset.path;
-  //   a.innerHTML = '<img src="/images/file-code.svg" alt="open '+item.dataset.path+'"/>';
-  //   a.style = 'position:absolute;transform:scale(0.5) translate(-150%, -150%);padding:0';
-  // });
+  Array.from(document.querySelectorAll('*[data-path]')).forEach(function (item) {
+    var a = item.insertBefore(document.createElement('a'), item.firstChild);
+    a.href = "txmt://open?url=file://" + item.dataset.path;
+    a.innerHTML = '<img src="/images/file-code.svg" alt="open '+item.dataset.path+'"/>';
+    a.style = 'position:absolute;transform:scale(0.5) translate(-150%, -150%);padding:0';
+  });
+  
   return this;
 }), 'unshift');
 
@@ -566,3 +567,15 @@ bloc.define('site-search', function (instance) {
   });
 });
 
+
+
+function encodeSVGDataUri(svgString) {
+  var uriPayload = encodeURIComponent(svgString.replace(/\n+/g, ''))
+    .replace(/%20/g, ' ') // put spaces back in
+    .replace(/%3D/g, '=') // ditto equals signs
+    .replace(/%3A/g, ':') // ditto colons
+    .replace(/%2F/g, '/') // ditto slashes
+    .replace(/%22/g, "'"); // replace quotes with apostrophes (may break certain SVGs)
+
+  return 'data:image/svg+xml,' + uriPayload;
+}

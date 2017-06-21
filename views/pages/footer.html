@@ -1,14 +1,7 @@
 <footer id="footer">
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-    #browse > footer * {
-      font-weight: 300;
-    }
-    
-    #browse > footer .info {
-      background-color:#46817c;
-      padding: 1em;
-    }
+    #browse > footer *     { font-weight: 300; }
     
     footer > div.info {
       display: flex;
@@ -19,29 +12,19 @@
       flex: 1 1 25%;
       padding: 1em 2em;
     }
-    
-    footer > div.info > * {
-      flex: 1 1 25%;
-      padding: 1em 2em;
-    }
-    
-    
-    address {
-      font-style: normal;
-    }
-    #browse > footer a, footer .info {
-      color: #fff;
-    }
-    #browse > footer a:hover {
-      text-decoration: underline;
-    }
-    nav.sponsors ul {
-      flex-flow: wrap;
-    }
+
+    footer .info,
+    #browse > footer a       { color: #fff }
+    #browse > footer a:hover { text-decoration: underline }
+
+    nav.sponsors ul  { flex-flow: wrap }
     nav.sponsors img {
       height: 7.5em;
       padding: 0.5em;
     }
+    
+    .low-contrast,
+    a[data-before]:before { opacity: 0.8 }
     a[data-before]:before {
       content: attr(data-before);
       text-transform: lowercase;
@@ -49,18 +32,11 @@
       padding-right: 0.25em;
     }
     
-    a[data-before]:before, .low-contrast {
-      opacity: 0.8;
-    }
-      
-    .button.low-contrast {
+    ul.low-contrast li    { padding: 0.175em 0 }  
+    .button.low-contrast  {
       padding: 0.75em;
       border: 1px solid rgba(255,255,255,0.8);
       display: inline-block;
-    }
-    
-    ul.low-contrast li {
-      padding: 0.175em 0;
     }
     
     .social a {
@@ -69,36 +45,23 @@
       height:3.25em;
       margin-right: 1em;
       overflow:hidden;
-      background-image:url(//tciaf-media.s3.amazonaws.com/image/_assets/social.svg);
       background-repeat:no-repeat;
       background-size:5em auto;
       color:rgba(0,0,0,0) !important;
     }
 
     @media screen and (min-width: 50em) {
-      
-      #browse > footer .info {
-        background-color:#46817c;
-        padding: 6em 1em;
-      }
-      
-      footer > div.info {
-        flex-flow: row;
-      }
-      
-      footer > div.info div {
-        transform: translateY(-4.5em);
-      }
+      #browse > footer .info { padding: 6em 1em }
+      footer > div.info     { flex-flow: row }
+      footer > div.info div { transform: translateY(-4.5em) }
     }
     
     @media screen and (max-width: 50em) {
-      footer > div.info > * {
-        padding: 1rem;
-      }
-      footer > div.info > *:nth-child(1) { order: 4;}
-      footer > div.info > *:nth-child(2) { order: 1;}
-      footer > div.info > *:nth-child(3) { order: 2;}
-      footer > div.info > *:nth-child(4) { order: 3;}
+      footer > div.info > *              { padding: 1rem }
+      footer > div.info > *:nth-child(1) { order: 4 }
+      footer > div.info > *:nth-child(2) { order: 1 }
+      footer > div.info > *:nth-child(3) { order: 2 }
+      footer > div.info > *:nth-child(4) { order: 3 }
       
       nav.sponsors li:first-child {
         width: 100% !important;
@@ -113,8 +76,7 @@
 
     /* ]]> */
   </style>
-  <div class="info">
-    
+  <div class="info aqua-bg">
     <address class="p">
       <span class="display">Third Coast International Audio Festival</span>
       <span>Navy Pier</span>
@@ -126,7 +88,6 @@
         <li><a data-before="email" href="mailto:info@thirdcoastfestival.org">info@thirdcoastfestival.org</a></li>
       </ul>
     </address>
-    
     <ul class="caps-lock plain low-contrast h6">
       <li><a href="/overview/tciaf">About</a></li>
       <li><a href="/overview/people">Producer Index</a></li>
@@ -136,13 +97,11 @@
       <li><a href="/explore/shoppe">Shoppe</a></li>
       <li><a href="/explore/behindthescenes">Behind-the-Scenes Interviews</a></li>
     </ul>
-    
     <div>
       <h3 class="display">Support</h3>
       <p class="low-contrast">Your gift to the Third Coast means the world to us, and helps us do what we do best: bring you the best audio stories from around the world</p>
       <a href="https://donatenow.networkforgood.org/ThirdCoast" class="button low-contrast caps-lock h5">Donate Now</a>
     </div>
-
     <div>
       <h3 class="display">Connect</h3>
       <nav class="social b">
@@ -152,22 +111,16 @@
       </nav>
       <a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/" class="button low-contrast caps-lock h5">Third Coast Newsletter</a>
     </div>
-
-    
   </div>
-
-  
-
   <nav class="sponsors" style="background-color: #fff; color:#888;padding:4em;">
     <ul class="plain panel">
-      <li style="width:30%;align-self:center;padding-right:4em;font-size:125%">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
+      <li style="width:35%;align-self:center;padding-right:4em;font-size:150%;font-weight:400;">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
       <!-- iterate supporters -->
       <li>
         <a href="[$organization:location]"><img data-src="[//s3.amazonaws.com/$organization:photo:url]" alt="[$organization:@title]" /></a>
       </li>
     </ul>
   </nav>
-
   <script type="text/javascript">
     [].forEach.call(document.querySelectorAll('img[data-src]'), function (img) {
       img.src = img.dataset.src;
