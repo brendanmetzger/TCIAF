@@ -547,7 +547,6 @@ bloc.init(function () {
     threshold: [0, 0.5, 1]
   }) : false;
   
-  console.log(window.lazyload);
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('offline', toggleStatus);
   window.addEventListener('online', toggleStatus);
