@@ -19,8 +19,7 @@
 
     nav.sponsors ul  { flex-flow: wrap }
     nav.sponsors img {
-      height: 7.5em;
-      padding: 0.5em;
+      padding: 0.25em;
     }
     
     .low-contrast,
@@ -54,6 +53,9 @@
       #browse > footer .aqua-bg { padding: 6em 1em }
       footer > div.aqua-bg     { flex-flow: row }
       footer > div.aqua-bg div { transform: translateY(-4.5em) }
+      nav.sponsors img {
+        height: 5.5vw;
+      }
     }
     
     @media screen and (max-width: 50em) {
@@ -112,9 +114,9 @@
       <a href="https://app.e2ma.net/app2/audience/signup/1400701/1400216/" class="button low-contrast caps-lock h5">Third Coast Newsletter</a>
     </div>
   </div>
-  <nav class="sponsors" style="background-color: #fff; color:#888;padding:4em;">
+  <nav class="sponsors" style="background-color: #fff; color:#888;padding:4em 0 4em 4em;">
     <ul class="plain panel">
-      <li style="width:35%;align-self:center;padding-right:4em;font-size:150%;font-weight:400;">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
+      <li style="width:35%;align-self:center;padding-right:3em;font-size:150%;font-weight:400;">Thank you to the following foundations for their major support of the Third Coast Festival.</li>
       <!-- iterate supporters -->
       <li>
         <a href="[$organization:location]"><img data-src="[//s3.amazonaws.com/$organization:photo:url]" alt="[$organization:@title]" /></a>
