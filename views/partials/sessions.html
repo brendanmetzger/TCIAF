@@ -1,18 +1,18 @@
 <article id="conf-sessions">
-  <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
+  <h2 class="display edit tt" id="sessions">Conference Sessions</h2>
   <!-- iterate item:sessions -->
-  <section>
+  <section class="pad-v">
     <header class="controls" id="[$item::@id]">
-      <h2 data-id="[$item::@id]" class="display strong">[$item:title]</h2>
+      <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:caption]" class="landscape"/>
+      <div>
+        <h3 data-id="[$item::@id]" class="strong">[$item:title]</h3>
+        <p>[$item:summary]</p>
+      </div>
     </header>
-    <p class="pad-h">[$item:summary]</p>
-    <div class="panel space pad">
+    <ul class="plain conjunct pad-h">
       <!-- iterate item:presenters -->
-      <figure class="bio">
-        <span style="[background-image:url(//s3.amazonaws.com/$person:photo:url);]">[$person:photo:caption]</span>
-        <figcaption class="strong pad-v"><a href="[$person:permalink]">[$person:title]</a></figcaption>
-      </figure>
-    </div>
+      <li><a href="[$person:permalink]" data-id="[$person:@id]" class="h6">[$person:@title]</a></li>
+    </ul>
   </section>
   <script type="text/javascript">
     // <![CDATA[
@@ -22,3 +22,5 @@
     // ]]>
   </script>
 </article>
+
+

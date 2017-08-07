@@ -131,7 +131,7 @@ hr, .hr, .ruled {
   border: none;
   clear: both;
   border-bottom: 2px solid #5b9c99;
-  margin-left:-3vmax;
+  margin-left:-1vmax;
 }
 
 a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
@@ -155,6 +155,21 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   padding:calc(2.5em - 1vw);
   max-width: 80%;
   box-shadow: 0 0 0.125em 0 rgba(0,0,0,0.1);
+}
+
+header > img {
+  display: block;
+  margin:1em 2em 1em 0;
+  float:left;
+  width:20vmin;
+  height:20vmin;
+  object-fit: cover;
+  box-shadow: -0.125em 0.125em 0.25em rgba(0,0,0,0.1);
+  object-position:50% 50%;
+}
+
+header > img.landscape {
+  height: 12vmin;
 }
 
 
@@ -237,6 +252,26 @@ nav.jump:before {
   text-transform: lowercase;
   font-variant:small-caps;
   color:#999;
+}
+
+ul.conjunct a {
+  padding:0;
+  text-transform: uppercase;
+  color: #888;
+  line-height:1;
+}
+ul.conjunct li {
+  display:inline;
+}
+ul.conjunct li:nth-child(n + 2):before {
+  content: ', ';
+  color:#CCC;
+  margin: 0 0.5ch 0 -0.25ch;
+}
+
+ul.conjunct li:last-child:not(:first-child):before {
+  content: ' & ';
+  margin: 0 0.5ch;
 }
 
 #browse > header {border-bottom: 1px solid rgba(0,0,0,0.075);border-top: 0.5vw solid #5b9b98;}
@@ -540,6 +575,175 @@ pre.console {
   font-size: 1.5em;
 }
 
+
+.listen:hover, .listen:focus, .bg .listen:hover {background-color:rgba(255,255,255,1);}
+.listen {
+  background-size: 125% auto;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200"><g fill="#5b9c99"><path d="M39 135h10v25H39zM51 135h10v25H51z"/></g><path style="stroke-alignment:inner" fill="#5b9c99" stroke="#447371" stroke-width="2" stroke-opacity=".3" d="M40 35v30l25-15z"/></svg>');
+  background-position: 50% 7.5%;
+  background-repeat: no-repeat;
+  color: rgba(0,0,0,0);
+  letter-spacing: 0.075em;
+  transition: color 0.25s, background-size 0.25s, background-color 0.25s, background-position 0.25s;
+  background-color: rgba(255,255,255,0.65);
+}
+
+button.listen {
+  border: 2px solid #5b9c99;
+  overflow: hidden;
+  height: calc(1.5em + 3vh);
+  width: calc(1.5em + 3vh);
+  border-radius: 50%;
+}
+
+.playlist {max-height: 72.5vh;overflow-y:scroll;}
+.playlist li {padding: 1vmin;border-top: 1px solid rgba(0,0,0,0.1);}
+body[data-view='media'] .playlist li {
+  padding: 1em;
+  font-size:125%;
+}
+.playlist li.current:before { content: '\25B6\FE0E'; margin-right:0.5em; }
+.playlist li.current {
+  border-left-color: #88746a;
+  color: #88746a;
+}
+
+.playlist li > span {pointer-events:none;}
+li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
+
+#Player button {border: none;padding: 0;background-color: rgba(0,0,0,0);border-radius: 50%;padding:1em;}
+#Player button svg path { stroke: none; }
+#Player:not([data-position]) .controls, audio  {display:none}
+#Player svg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#Player button svg {
+  fill: #88746A;
+}
+
+.progress svg {
+  fill: none;
+  margin: 0;
+  stroke: #333;
+  stroke-width: 3;
+}
+
+
+#Player .progress path {
+  stroke: #5b9b98;
+}
+
+#Player .progress .handle {
+  stroke: none;
+  fill: #5b9b98;
+  transition: fill-opacity 0.5s;
+}
+#Player .progress:hover .handle {
+  fill-opacity:0.1;
+}
+
+.progress circle {
+  stroke-width: 3;
+  pointer-events: none;
+  stroke: #ddd;
+  stroke-dasharray: 30.416 1;
+}
+
+.desktop .progress:hover { cursor: pointer }
+.desktop .progress:hover .handle, .touch .progress.hover .handle { stroke-opacity: 1 }
+
+.touch .progress.hover .grab {
+  fill-opacity:1;
+  stroke-opacity:1;
+}
+
+.progress circle.grab {
+  fill: #88746a;
+  stroke:#fff;
+  stroke-dashArray:0;
+}
+
+.progress .handle, .progress span, .progress .grab {
+  stroke-opacity: 0;
+  fill-opacity:0;
+  transition: stroke-opacity 0.5s 0.125s;
+  pointer-events: none;
+}
+
+
+#Player .progress span {
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9d9d9d;
+  font-size: 1.25vmax;
+  transition:opacity 0.5s 0.25s;
+  font-weight:200;
+  font-family: 'Courier New';
+  line-height: 1.25;
+  letter-spacing: -0.185ch;
+}
+
+#Player .progress span time {
+  display: block;
+}
+#Player .progress span time:first-child {
+  color: #5b9c99;
+}
+
+#Player .progress span time:last-child {
+  color: #ddd;
+}
+
+.progress span {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+
+button path.wait {
+  fill: transparent;
+  stroke-opacity: 1;
+  transition: stroke-opacity 0.25s;
+}
+
+button:not(.wait) path.wait { stroke-opacity: 0 }
+
+button.wait svg path.indicator {
+  fill-opacity: 0;
+  fill: #AAA;
+}
+
+button.error { background-color: #ED1C24 }
+
+.progress {
+  position: relative;
+  min-width:50%;
+}
+
+.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 0.85s infinite linear;}
+
+.progress[data-state='playing'] span {
+  opacity:1 !important;
+}
+
+.progress[data-state='waiting'] svg circle:not(.grab) {
+  stroke-opacity: 1;
+  stroke-dashArray: 50 50;
+  stroke:#888;
+}
+
+.progress[data-state='waiting'] svg path {
+  stroke-width:1 !important;
+  stroke-opacity: 0
+}
 
 /* images encoded w/ https://jakearchibald.github.io/svgomg/ */
 div[data-award], .award { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path fill="#333;" d="M200.9 193.17l46.13 66.44L433.46 0 304.7.3"/><path fill="#444" d="M304.75 178.87L247.5 259.6 64.23 0 193 .3"/><path fill="#DED7B8" d="M321.7 423.58l9.4 29.04-29.15-9.02-.04 30.5-24.93-17.58-9.47 29-18.28-24.42-17.97 24.66-9.84-28.9-24.7 17.92-.43-30.52-29.03 9.4 9.02-29.16-30.52-.04 17.6-24.94-29.02-9.47 24.44-18.28-24.67-17.97 28.88-9.84-17.9-24.7 30.52-.44-9.4-29.03 29.16 9 .04-30.5 24.94 17.6 9.47-29.02 18.3 24.43 17.96-24.65 9.83 28.9 24.7-17.92.43 30.52 29.04-9.4-9.02 29.16 30.5.05-17.58 24.94 29 9.46-24.43 18.28 24.67 17.97-28.88 9.85 17.9 24.7"/></svg>');}

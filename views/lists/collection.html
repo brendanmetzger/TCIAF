@@ -7,9 +7,8 @@
 	</header>
 	<!-- iterate list -->
   <article data-created="[$item:@created]" data-updated="[$item:@updated]" class="panel listing pad">
-    
 		<header class="two-thirds container">
-      <img src="[//s3.amazonaws.com/$item:photo:url]" class="tester"/>
+      <img data-src="[//s3.amazonaws.com/$item:photo:url]"/>
       <h2 class="display tracked t"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
       <p>[$item:summary]</p>
 		</header>
@@ -20,19 +19,4 @@
 			<li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
 		</ul>
   </article>
-  <style type="text/css" media="screen">
-    /* <![CDATA[ */
-    .tester {
-      filter: saturate(50%) brightness(1.25);
-      margin:2em;
-      float:left;
-      width:25vmin;
-      height:25vmin;
-      object-fit: cover;
-      
-      box-shadow: -0.125em 0.125em 0.25em rgba(0,0,0,0.1);
-      object-position:50% 50%;
-    }
-    /* ]]> */
-  </style>
 </article>

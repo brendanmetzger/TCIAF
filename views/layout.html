@@ -73,7 +73,7 @@
     </section>
     <section id="media" class="column panel white-bg">
       <form class="finder search white-bg">
-        <label style="display:none;" for="finder">Search for features, events, competitions or People</label>
+        <label style="height:0;display:block;overflow:hidden;" for="finder">Search for features, events, competitions or People</label>
         <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>
         <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>
@@ -128,24 +128,6 @@
         right: 2em;
         color: #fff;
         text-transform:uppercase;
-      }
-      
-      ul.conjunct a {
-        padding:0;
-        text-transform: uppercase;
-        font-size:120%;
-        color: #BBB;
-        line-height:1;
-      }
-      ul.conjunct li {
-        display:inline;
-      }
-      ul.conjunct li:nth-child(n + 2):before {
-        content: ', ';
-        color:#CCC;
-      }
-      ul.conjunct li:last-child:not(:first-child):before {
-        content: ' &';
       }
       
       div#ad > span:hover {
