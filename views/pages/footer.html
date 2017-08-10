@@ -134,7 +134,12 @@
             window.lazyload.observe(img);
           } else {
             img.addEventListener('load', function () {
-              this.removeAttribute('data-src');
+              if (this.classList.contains('proxy')) {
+                this.parentNode.style.backgroundImage = `url(${this.src})`;
+                this.remove();
+              } else {
+                this.removeAttribute('data-src');
+              }
             });
             img.src = img.dataset.src;
           }
