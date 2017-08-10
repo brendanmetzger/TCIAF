@@ -1,5 +1,6 @@
 <article id="[goto-$item:@id]" data-created="[$item:@created]" data-type="[$item:types]" data-updated="[$item:@updated]" data-award="[$item:award:title]" vocab="http://schema.org/" typeof="CreativeWork" class="feature panel listing pad card">
-  <div style="[background-image:url($item:image:domain/$item:image:url);]" class="bg">
+  <div  class="bg">
+    <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:caption]" class="proxy"/>
     <!-- iterate item:media:audio -->
     <!--  insert views/partials/play-button.html-->
   </div>

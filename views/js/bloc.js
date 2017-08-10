@@ -506,6 +506,7 @@ if (window.history.pushState) {
   };
 }
 
+
 function toggleStatus(evt) {
   document.body.dataset.status = evt.type;
 }
@@ -520,8 +521,32 @@ function quickPlay(active, evt) {
   button.dispatchEvent(click);
 }
 
+var reveal = function () {
+  if (this.classList.contains('proxy')) {
+    this.parentNode.style.backgroundImage = `url(${this.src})`;
+    this.remove();
+  } else {
+    this.removeAttribute('data-src');
+  }
+}
+
 bloc.init(function () {
-  window.Adjust = smoothScroll(document.querySelector('#browse'));
+  var browse = document.querySelector('#browse');
+  window.Adjust = smoothScroll(browse);
+  window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.addEventListener('load', reveal);
+        entry.target.src = entry.target.dataset.src;
+        window.lazyload.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px',
+    root: browse,
+    threshold: [0, 0.5, 1]
+  }) : false;
+  
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('offline', toggleStatus);
   window.addEventListener('online', toggleStatus);
