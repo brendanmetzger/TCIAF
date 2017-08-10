@@ -378,7 +378,11 @@ div[data-award] {
   background-repeat: no-repeat;
   background-position: right-top;
 }
+.bg:not([style]) {
+  opacity: 0;
+}
 .bg {
+  transition: opacity 1s;
   background-size: cover;
   background-position: 50% 25%;
   width: 95%;
