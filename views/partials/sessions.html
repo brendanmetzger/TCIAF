@@ -2,10 +2,10 @@
   <h2 class="display edit tt" id="sessions">Conference Sessions</h2>
   <!-- iterate item:sessions -->
   <section class="pad-v">
-    <header class="controls" id="[$item::@id]">
+    <header class="controls" id="[$item::@id]" style="padding-bottom:0;">
       <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:caption]" class="landscape"/>
       <div>
-        <h3 data-id="[$item::@id]" class="strong">[$item:title]</h3>
+        <h3 data-id="[$item::@id]"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h3>
         <p>[$item:summary]</p>
       </div>
     </header>
