@@ -14,11 +14,14 @@
       <li><a href="[$person:permalink]" data-id="[$person:@id]" class="h6">[$person:@title]</a></li>
     </ul>
   </section>
-  <script type="text/javascript">
+  <script type="text/javascript" async="true">
     // <![CDATA[
-      var link = document.querySelector('nav.jump ul').appendChild(document.createElement('li')).appendChild(document.createElement('a'));
-      link.href = "#conf-sessions";
-      link.textContent = "Conference Sessions";
+      bloc.init(function () {
+        var link = document.querySelector('nav.jump ul').appendChild(document.createElement('li')).appendChild(document.createElement('a'));
+        link.href = "#conf-sessions";
+        link.textContent = "Conference Sessions";
+        
+      });
     // ]]>
   </script>
 </article>
