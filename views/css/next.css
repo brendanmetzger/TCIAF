@@ -12,8 +12,19 @@ body[data-status='offline'] #browse > header:after {
   letter-spacing:0.075em;
 }
 
+
 img:not([src]), a:not([href]), nav[data-pages='1'], small:empty {display:none }
-img {max-width:100%;}
+img {
+  max-width:100%;
+  transition: opacity 1s;
+}
+img.proxy {height:1px;width:1px;opacity:0;display:block;}
+img[data-src] {
+  opacity: 0;
+  min-height: 1px;
+  min-width: 1px;
+  display:inline-block;
+}
 
 a:focus {
   text-decoration:underline;
@@ -138,7 +149,9 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
 .card {min-height:14vmin}
 .bio.head {width:15%; display:inline-block;}
 .bio figcaption {line-height: 1.125;}
+.bio > span:not([style]) { opacity: 0 }
 .bio > span {
+  transition: opacity 1s;
   background-size:cover;
   background-position:top center;
   background-repeat:no-repeat;
@@ -367,7 +380,11 @@ div[data-award] {
   background-repeat: no-repeat;
   background-position: right-top;
 }
+.bg:not([style]) {
+  opacity: 0;
+}
 .bg {
+  transition: opacity 1s;
   background-size: cover;
   background-position: 50% 25%;
   width: 95%;
