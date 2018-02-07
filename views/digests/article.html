@@ -12,7 +12,7 @@
     </div>
   </header>
   <div class="panel">
-    <section class="two-thirds interview">[$item:content:description]</section>
+    <section class="two-thirds">[$item:content:description]</section>
     <aside class="one-third">
       <!-- iterate item:media:audio -->
       <div class="[$model:@id pad-h l]">
@@ -54,26 +54,4 @@
     }
     /* ]]> */
   </style>
-  <script type="text/javascript" async="true">
-    // <![CDATA[
-      bloc.init(function () {
-        
-        setTimeout(function () {
-          document.querySelectorAll('.interview > h3').forEach(function(q) {
-            q.id = q.innerHTML.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
-          });
-        
-          if (window.location.hash) {
-            var elem = document.getElementById(window.location.hash.substr(1));
-            if (elem) {
-              window.Adjust.scroll(+elem.offsetTop - 10, 750);
-            }
-          
-          }
-          
-        }, 750);
-        
-      });
-    // ]]>
-  </script>
 </article>

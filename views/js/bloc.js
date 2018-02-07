@@ -106,7 +106,6 @@ var smoothScroll = function (elem) {
   };
 };
 
-
 var Request = function (callbacks, timeout) {
   this.request = new XMLHttpRequest();
   this.request.overrideMimeType('text/xml');
@@ -506,7 +505,6 @@ if (window.history.pushState) {
   };
 }
 
-
 function toggleStatus(evt) {
   document.body.dataset.status = evt.type;
 }
@@ -548,10 +546,24 @@ bloc.init(function () {
     threshold: [0, 0.5, 1]
   }) : false;
   
-  console.log(window.lazyload);
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('offline', toggleStatus);
   window.addEventListener('online', toggleStatus);
+  
+  setTimeout(function () {
+
+    document.querySelectorAll('article h3').forEach(function(q) {
+      q.id = q.innerHTML.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
+    });
+    
+    if (window.location.hash) {
+      var elem = document.getElementById(window.location.hash.substr(1));
+      if (elem) {
+        window.Adjust.scroll(+elem.offsetTop - 10, 750);
+      }
+    }
+  }, 750);
+  
 });
 
 
