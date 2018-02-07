@@ -531,7 +531,7 @@ var reveal = function () {
 }
 
 bloc.init(function () {
-  var browse = mobile ? document.documentElement : document.querySelector('#browse');
+  var browse = mobile ? document.body : document.querySelector('#browse');
 
   window.Adjust = smoothScroll(browse);
   window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
