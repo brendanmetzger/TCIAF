@@ -461,7 +461,7 @@ if (window.history.pushState) {
 
     if (evt.type != 'popstate') {
       setTimeout(function () {
-        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
         document.querySelector('#browse').scrollTop = 0;
       }, 150);
       history.pushState(null, null, this.href);
@@ -544,7 +544,7 @@ bloc.init(function () {
     });
   }, {
     rootMargin: '0px',
-    root: mobile ? null : browse,
+    root: browse,
     threshold: [0, 0.5, 1]
   }) : false;
   
