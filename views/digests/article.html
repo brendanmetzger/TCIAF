@@ -57,9 +57,25 @@
   <script type="text/javascript" async="true">
     // <![CDATA[
       bloc.init(function () {
-        document.querySelectorAll('.interview > h3').forEach(function(q) {
-          q.id = q.innerHTML.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
-        });
+        
+        setTimeout(function () {
+          document.querySelectorAll('.interview > h3').forEach(function(q) {
+            q.id = q.innerHTML.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
+          });
+        
+        
+          if (window.location.hash) {
+            console.log(window.location.hash.substr(1));
+            var elem = document.getElementById(window.location.hash.substr(1));
+
+            if (elem) {
+              console.log(window.Adjust, elem.offsetTop);
+              window.Adjust.scroll(+elem.offsetTop - 10, 750);
+            }
+          
+          }
+          
+        }, 500);
         
       });
     // ]]>
