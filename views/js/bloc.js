@@ -461,7 +461,7 @@ if (window.history.pushState) {
 
     if (evt.type != 'popstate') {
       setTimeout(function () {
-        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
         document.querySelector('#browse').scrollTop = 0;
       }, 150);
       history.pushState(null, null, this.href);
@@ -544,10 +544,11 @@ bloc.init(function () {
     });
   }, {
     rootMargin: '0px',
-    root: browse,
+    root: mobile ? null : browse,
     threshold: [0, 0.5, 1]
   }) : false;
   
+  console.log(window.lazyload);
   window.addEventListener('popstate', navigateToPage.bind(document.location), false);
   window.addEventListener('offline', toggleStatus);
   window.addEventListener('online', toggleStatus);
