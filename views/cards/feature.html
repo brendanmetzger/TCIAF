@@ -4,14 +4,14 @@
     <!-- iterate item:media:audio -->
     <!-- insert views/partials/play-button.html-->
   </div>
-  <header class="ll pad-h">
+  <header class="ll">
     <h6 class="b">[$caption]</h6>
     <h2 class="display"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h2>
     <p>[$item:summary]</p>
   </header>
-  <ul class="plain h5 ll pad-h sink container">
+  <ul class="plain h5 ll sink container">
     <li class="strong">[$item:year]</li>
-    <li>[$item:duration]</li>
+    <li style="margin-bottom:0.5em">[$item:duration]</li>
     <!-- iterate item:producers -->
     <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:title]</a></li>
   </ul>
