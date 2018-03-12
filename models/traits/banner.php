@@ -14,14 +14,17 @@ trait banner {
   public function getBanner(\DOMElement $context)
   {
     $query = 'media[@type="image" and @mark > 2.5]';
-    $banner  = $this->context->find($query)->pick();
-    
-    if ($banner instanceof \bloc\DOM\Element) {
-      return new \models\media($banner);
-    } else {
+    $banner  = $this->context->find($query);
+
+    if ($banner->count() > 0) {
+      return new \models\media($banner->pick());
+    } elseif ($this->editions->count() > 1) {
       $this->competitions->rewind();
-      $edition = ($this->editions->count() > 1) ?  : $this;
-      return new \models\media($this->competitions->current()['edition']->context->find($query)->pick());
+      $banner = $this->competitions->current()['edition']->context->find($query);
+      if ($banner->count() > 0) {
+        return new \models\media($banner->pick());
+      }
+      
     }
   }
 

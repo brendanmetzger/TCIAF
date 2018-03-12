@@ -74,12 +74,9 @@ namespace models;
     
     public function getCompetitions()
     {
-      
-      $editions = $this->editions->sort(function($a, $b) {
+      return $this->editions->sort(function($a, $b) {
         return substr($b['edition']['title'], 0, 4) - substr($a['edition']['title'], 0, 4);
       });
-      
-      return $editions;
     }
 
     public function getParticipants(\DOMElement $context)
