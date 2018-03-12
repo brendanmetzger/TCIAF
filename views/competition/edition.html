@@ -2,9 +2,6 @@
   <style media="screen">
     .shortdocs .jump-nav, .shortdocs .award{ display:none}
     .intro {font-size:225%;}
-    .awards strong {
-      display:block;
-    }
     .awards {
       list-style:none;
       padding: 0;
@@ -12,7 +9,6 @@
     .awards li {
       margin: 0.25em 0;
     }
-
   </style>
   <nav class="caps-lock h6">
     <a href="/overview/competition">Competitions</a> / <span class="selected">[$item:title]</span> / <a href="[/overview/competition/$item:@id/participants]">Participants</a>
@@ -37,20 +33,21 @@
           <h4 class="strong brown caps-lock t b">Awards</h4>
           <ul class="awards">
             <!-- iterate item:awards -->
-            <li><a href="[#goto-$id]"><strong>[$award]</strong><span>[$item:producer]</span>, <span>[$item:location]</span></a></li>
+            <li><a href="[#goto-$id]"><strong>[$award]</strong> — <em>[$item:title]</em> by <span>[$item:producer]</span>, <span>[$item:location]</span></a></li>
           </ul>
         </nav>
       </section>
     </div>
     <section class="one-third ll">
       <!-- replace judges -->
-      <div class="gray-bg spot">
-        <h4 class="brown caps-lock strong">[$item:origin:title by year]</h4>
-        <ul class="plain path h4 m two-columns">
+      <form method="GET" class="spot">
+        <h5 class="brown caps-lock strong">[$item:origin:title by year]</h5>
+        <select onchange="navigateToPage.call({href: this.value}, event);">
+          <option>Select Year</option>
           <!-- iterate item:origin:competitions -->
-          <li><a href="[/overview/competition/$edition:@id]">[$edition:year]</a></li>
-        </ul>
-      </div>
+          <option value="[/overview/competition/$edition:@id]">[$edition:year]</option>
+        </select>
+      </form>
     </section>
   </section>
   <hr class="ruled"/>

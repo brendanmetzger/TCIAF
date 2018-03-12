@@ -455,9 +455,7 @@ if (window.history.pushState) {
   };
 
   window.navigateToPage = function (evt) {
-
     var append = this.href.match(/\?/) ? '' : '?ref='+btoa(window.location.pathname);
-
     if (evt.type != 'popstate') {
       setTimeout(function () {
         document.body.scrollTop = 0;
@@ -500,7 +498,7 @@ if (window.history.pushState) {
     }
   }, true);
 } else {
-  window.navigateToPage = function (evt) {
+  window.o = function (evt) {
     document.location.assign(this.href);
   };
 }
@@ -546,9 +544,9 @@ bloc.init(function () {
     threshold: [0, 0.5, 1]
   }) : false;
   
-  window.addEventListener('popstate', navigateToPage.bind(document.location), false);
-  window.addEventListener('offline', toggleStatus);
-  window.addEventListener('online', toggleStatus);
+  addEventListener('popstate', navigateToPage.bind(document.location), false);
+  addEventListener('offline', toggleStatus);
+  addEventListener('online', toggleStatus);
   
   setTimeout(function () {
 

@@ -13,14 +13,15 @@ trait banner {
 
   public function getBanner(\DOMElement $context)
   {
-    $images = $this->media['image'];
-
-    while ($images->valid() && $images->current()->mark < 2.25) {
-      $images->next();
-    }
-
-    if ($photo = $images->current()) {
-      return $photo;
+    $query = 'media[@type="image" and @mark > 2.5]';
+    $banner  = $this->context->find($query)->pick();
+    
+    if ($banner instanceof \bloc\DOM\Element) {
+      return new \models\media($banner);
+    } else {
+      $this->competitions->rewind();
+      $edition = ($this->editions->count() > 1) ?  : $this;
+      return new \models\media($this->competitions->current()['edition']->context->find($query)->pick());
     }
   }
 

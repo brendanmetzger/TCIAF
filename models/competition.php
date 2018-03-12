@@ -71,12 +71,15 @@ namespace models;
     {
       return "/overview/competition/{$context['@id']}";
     }
-
+    
     public function getCompetitions()
     {
-      return $this->editions->sort(function($a, $b) {
-        return substr($a['edition']['title'], 0, 4) < substr($b['edition']['title'], 0, 4);
+      
+      $editions = $this->editions->sort(function($a, $b) {
+        return substr($b['edition']['title'], 0, 4) - substr($a['edition']['title'], 0, 4);
       });
+      
+      return $editions;
     }
 
     public function getParticipants(\DOMElement $context)
@@ -102,7 +105,7 @@ namespace models;
         $feature = new Feature($edge['@vertex']);
         $out = ['item' => $feature, 'award' => $edge->nodeValue ?: $feature['title'], 'id' => $edge['@vertex']];
         if ($edge->nodeValue) {
-          $out['caption'] = $edge->nodeValue;
+          $out['caption'] = "Winner of the {$this->title} {$edge->nodeValue} Award" ;
         }
         return $out;
       });

@@ -72,9 +72,9 @@ h3, .h3 {font-size: calc(1.25em + 1vmax);line-height: 1.2;margin: 0.5em 0;}
 h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(1.25em + 0.5vmax);font-weight:300;}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.35vmax);line-height: 1.55;}
 h5 {font-weight:400}
-h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw);}
+h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw); font-weight: 600;}
 .plain    {list-style:none;padding:0;}
-.plain li {font-size:100%; line-height:1.125; margin: 0.25em;}
+.plain li {font-size:100%; line-height:1.125;}
 
 .t, .markdown h2 {margin-top: calc(0.5em + 1vmax);}
 .tt,hr, .hr {margin-top: calc(0.5em + 2vmax);}
@@ -395,6 +395,22 @@ div[data-award] {
   margin: -2vmax -2vmax 2em;
   padding: 10vmax 1em 1em;
 }
+
+form[method="GET"] select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path stroke="#333" stroke-width="2" stroke-linejoin="miter" fill="none" d="M1,0L50,45L99,0"/></svg>') no-repeat 95% 50%;
+    background-size: auto 33%;
+  width: 100%;
+  text-transform: uppercase;
+  border: 1px solid rgba(0,0,0,0.25);
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 0;
+  font-size:1.25em;
+  color: rgba(0,0,0,0.65);
+}
+
 #Player button.toggle {display: none;}
 .feature article.panel.listing header { width:100% }
 section#media {width:100vw;position:fixed;left:0;}
@@ -412,7 +428,7 @@ section#media {width:100vw;position:fixed;left:0;}
   section#browse main {background-color: #f1f1f1;padding-left: 1.5vmax;}
   h1, h2 { max-width: 100%;}
   h5 a, h2 a, .sink a, h3 a {
-    color:#54807e;
+/*    color:#54807e;*/
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.125) 75%, transparent) repeat-x 0 1em;
     background-size: 5px 1px;
     padding: 0 0.125em;
@@ -432,8 +448,7 @@ section#media {width:100vw;position:fixed;left:0;}
     background-position: 50% 50%;
     background-size: auto 30%;
   }
-
-
+  
   body:not(.index) nav a.logo {background-position: 115% 60%;background-size: auto 64%;min-width: 7.5em;}
   nav[role] > ul > li {flex-basis:25%;}
   #media #Player button.toggle {
@@ -479,6 +494,10 @@ section#media {width:100vw;position:fixed;left:0;}
   ul.sink li:nth-child(3) {clear:left}
   ul.sink li {float:left;padding: 0.25em 0; margin: 0 0.25em;}
   nav[role] > ul { align-items:stretch }
+}
+
+.one-third {
+  width: 100%;
 }
 
 /* Hack for tablet to deal with images in playlist/lib*/

@@ -1,30 +1,40 @@
 <article>
+  
   <!-- iterate competitions -->
-  <article id="[$item:@id]" class="panel flip">
-    <!-- iterate item:upcoming -->
-    <a class="[one-third upcoming ll $item:@sticky banner-bg]" href="[$item:permalink]" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
-      <h3 class="display tracked">[$item:title]</h3>
-      <h3>Learn More</h3>
-    </a>
-    <div class="two-thirds">
-      <header class="pad-v b">
-        <h1 class="lead display tracked" data-id="[$item:@id]">[$item:title]</h1>
-        <img style="width:50%" src="[//s3.amazonaws.com/$item:banner:url]" />
-      </header>
-      <section>[$item:content:about]</section>
-      <nav class="pad-h b tt">
-        <h4 class="brown caps-lock strong">[$item:title by year]</h4>
-        <ul class="plain path h5">
-          <!-- iterate item:competitions -->
-          <li class="year"><a href="[/overview/competition/$edition:@id]">[$edition:year]</a></li>
-        </ul>
+  <article id="[$item:@id]" style="margin-bottom: 5vmax">
+    <header class="banner" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
+      <h1 class="lead display tracked" data-id="[$item:@id]">[$item:title]</h1>
+    </header>
+    
+    <div class="wrap panel">
+      <section class="two-thirds">[$item:content:about]</section>
+    
+      <nav class="one-third">
+        <form method="GET" class="spot" >
+          <h5 class="brown caps-lock strong">[$item:title by year]</h5>
+          <select onchange="navigateToPage.call({href: this.value}, event);">
+            <option>Select Year</option>
+            <!-- iterate item:competitions -->
+            <option value="[/overview/competition/$edition:@id]">[$edition:year]</option>
+          </select>
+        </form>
       </nav>
     </div>
   </article>
 
   <style type="text/css" media="screen">
     /* <![CDATA[ */
-
+    article header.banner {
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      background-color: #242020;
+      background-position: 100% 50%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      color: #fff;
+      width: calc(100% + 6.5vmax);
+    }
     .upcoming:first-of-type {
       align-self:flex-start;
       padding:2.5em 2.5em 10vh;
