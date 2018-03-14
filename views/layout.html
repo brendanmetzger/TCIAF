@@ -152,7 +152,7 @@
     </style>
     <script type="text/javascript">
       // <![CDATA[
-        if (new Date(2017, 0, 1) > new Date() && (! sessionStorage.getItem('winter-fund'))) {
+        if (new Date(2018, 4, 16) > new Date() && (! sessionStorage.getItem('splash-page'))) {
           var splash = document.body.appendChild(document.createElement('div'));
           splash.appendChild(document.createElement('span')).textContent = '✕ Click background to close';
 
@@ -161,16 +161,16 @@
           
           splash.classList.add('fade');
           splash.id   = 'ad';
-          link.href   = 'https://donatenow.networkforgood.org/ThirdCoast';
+          link.href   = 'https://third-coast-festival.networkforgood.com/events/5827-third-coast-extravaganza';
           link.target = '_blank';
-          img.src     = 'http://3rdcoast-cms.s3.amazonaws.com/Splash-Page-for-Fund-Drive.jpg';
+          img.src     = 'https://3rdcoast-cms.s3.amazonaws.com/splash-page-extravaganza.jpg';
           
           splash.addEventListener('click', function (evt) {
             this.parentNode.removeChild(this);
           });
           setTimeout(document.insertBefore.bind(document.body, splash, document.body.firstChild), 750);
           setTimeout(DOMTokenList.prototype.remove.bind(splash.classList, 'fade'), 250);
-          sessionStorage.setItem('winter-fund', true);
+          sessionStorage.setItem('splash-page', true);
         }
       
       // ]]>
