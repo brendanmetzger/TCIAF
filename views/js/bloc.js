@@ -31,7 +31,7 @@ if (!Element.prototype.matches && Element.prototype.msMatchesSelector) {
 
 Date.prototype.parse = function (pattern) {
   var code = {
-    h: ('0'+this.getUTCHours()).slice(-1),
+    h: ('00'+this.getUTCHours()).slice(-2),
     m: ('00'+this.getUTCMinutes()).slice(-2),
     s: ('00'+this.getSeconds()).slice(-2)
   };
@@ -142,11 +142,19 @@ var SVG = function (node, width, height) {
   this.point = this.element.createSVGPoint();
 };
 
+
 SVG.prototype.createElement = function(name, opt, parent) {
   var node = document.createElementNS('http://www.w3.org/2000/svg', name);
-  for (var key in opt) node.setAttribute(key, opt[key]);
+  for (var key in opt) {
+    if(key == "xlink:href"){
+      node.setAttributeNS('http://www.w3.org/1999/xlink', 'href', opt[key]);
+    } else {
+      node.setAttribute(key, opt[key]);
+    }
+  }
   return parent === null ? node : (parent || this.element).appendChild(node);
 };
+
 
 // Get point in global SVG space
 SVG.prototype.cursorPoint = function(evt){
@@ -340,6 +348,7 @@ Menu.prototype = {
 
 // Progress/Patience
 var Progress = function(container) {
+
   var svg, path, handle, message;
   this.element = document.createElement('div');
   this.element.className = 'progress';
@@ -351,13 +360,26 @@ var Progress = function(container) {
   }
   message = this.element.appendChild(document.createElement('span'));
   svg = new SVG(this.element, 100, 100);
+  
+  defs = svg.createElement('defs');
+
+  svg.createElement('path', {'id': 'upper', 'd': 'M20,35 C 35 10, 65 10, 80 35' }, defs);
+  svg.createElement('path', {'id': 'lower', 'd': 'M20,65 C 35 90, 65 90, 80 65' }, defs);
+  
+  elapsed   = svg.createElement('textPath', {'xlink:href': '#upper', 'startOffset': '50%'}, svg.createElement('text', {'dy': '7.5'}));
+  remaining = svg.createElement('textPath', {'xlink:href': '#lower', 'startOffset': '50%'}, svg.createElement('text', {'dy': '0'}));
+  
   svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 40 });
+  
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
   grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
-
-  this.update = function (percentage, text, scrub) {
+  
+  
+  this.update = function (percentage, text, scrub, elapsed_msg, remain_msg) {
     message.innerHTML = text || message.innerHTML;
+    elapsed.textContent = elapsed_msg;
+    remaining.textContent = remain_msg;
     var radian = (2 * Math.PI) * percentage;
     var x = (Math.cos(radian) * 40) + 50;
     var y = (Math.sin(radian) * 40) + 50;
@@ -381,7 +403,8 @@ var Progress = function(container) {
   this.setState = function (state) {
     this.element.dataset.state = state;
     if (state == 'waiting') {
-      message.innerHTML = "...one<br/>moment";
+      elapsed.textContent = '...one';
+      remaining.textContent = 'moment';
     }
   };
 
@@ -511,7 +534,6 @@ function quickPlay(active, evt) {
   active.style.opacity = 0.15;
   evt.preventDefault();
   var button = document.querySelector('span[class] > button.listen');
-  console.log(button);
   var click = document.createEvent('MouseEvents');
   click.initEvent('click', true, true);
   button.dispatchEvent(click);
@@ -758,7 +780,7 @@ var Player = function (container, data, message) {
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
     var m = "<time>{h}:{m}:{s}</time>";
-    this.meter.update(p, new Date(d-t).parse(m) + new Date(t).parse(m), true);
+    this.meter.update(p, null, true, new Date(d-t).parse('{h}:{m}:{s}'), new Date(t).parse('{h}:{m}:{s}'));
   }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
@@ -834,7 +856,7 @@ Player.prototype = {
     var t = Math.ceil(elem.currentTime) * 1e3;
     var d = Math.ceil(elem.duration) * 1e3;
     var m = "<time>{h}:{m}:{s}</time>";
-    this.meter.update(t/d, new Date(t).parse(m) + new Date(d-t).parse(m));
+    this.meter.update(t/d, null, false, new Date(t).parse('{h}:{m}:{s}'), new Date(d-t).parse('{h}:{m}:{s}'));
   },
 };
 
@@ -903,7 +925,7 @@ var Button = function (button, state) {
 
   states = {
     play:  'M11,7.5 l0,30 l12.5,-8 l0-14 l-12.5,-8 m12.5,8 l0,14 l12.5,-7 l0,0  z',
-    pause: 'M11.5,10 l0,25l10,0 l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z',
+    pause: 'M10,10 l0,25l10,0 l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z',
     error: 'M16,10 l10,0l-3,20  l-3,0l-3,-20  m3,22  l4,0 l0,4    l-4,0 z',
     wait:  'M521.5,21.5A500,500 0 1 1 427.0084971874736,-271.39262614623664'
   };
@@ -953,7 +975,7 @@ var Button = function (button, state) {
   };
 
   g = svg.createElement('g', {
-    transform: 'scale(1) translate(0,0)'
+    transform: 'scale(1) translate(1,1)'
   });
 
   indicator = svg.createElement('path', {

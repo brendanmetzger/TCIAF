@@ -308,5 +308,13 @@ function calendar($start, $category, $query)
       $view->content = 'views/pages/subscribe.html';
       return $view->render($this());
     }
-
+    
+    
+    public function GETplayer()
+    {
+      $view = new view('views/layout.html');
+      $view->content = 'views/pages/test.html';
+      return $view->render($this());
+    }
+    
   }
