@@ -207,6 +207,9 @@ header > img.landscape {
 
 .panel, .triptych {display:flex;}
 .sink {flex: 1 0 10vw;}
+.sink li {
+  margin: 0.25em 0;
+}
 .fill { width: 100%; }
 #browse article.panel, #browse section.panel, .panel.wrap {flex-wrap:wrap;}
 .triptych {justify-content:space-between;flex-wrap:wrap;}
@@ -661,7 +664,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 #Player button {
   border: none;
   padding: 0;
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255,255,255,1);
   border-radius: 50%;
   width: 40%;
   top: 30%;
@@ -702,6 +705,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
 #Player .progress path {
   stroke: #5b9b98;
+  stroke-linecap: round;
 }
 
 #Player .progress .handle {
@@ -713,11 +717,18 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   fill-opacity:0.25;
 }
 
-.progress circle {
+/*.progress circle {
   stroke-width: 1;
   pointer-events: none;
   stroke: #ddd;
   stroke-dasharray: 30.416 1;
+}
+*/
+.progress circle {
+  stroke-width: 1;
+  pointer-events: none;
+  stroke: rgba(94, 165, 160, 0.25);
+  stroke-dasharray: 20 1;
 }
 
 .desktop .progress:hover { cursor: pointer }
