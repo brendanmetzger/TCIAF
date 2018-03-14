@@ -206,6 +206,7 @@ header > img.landscape {
 
 .panel, .triptych {display:flex;}
 .sink {flex: 1 0 10vw;}
+.fill { width: 100%; }
 #browse article.panel, #browse section.panel, .panel.wrap {flex-wrap:wrap;}
 .triptych {justify-content:space-between;flex-wrap:wrap;}
 .triptych > * {
@@ -493,6 +494,8 @@ section#media {width:100vw;position:fixed;left:0;}
   }
   ul.sink li:nth-child(3) {clear:left}
   ul.sink li {float:left;padding: 0.25em 0; margin: 0 0.25em;}
+  .reorder section:nth-child(2) { order: 3;}
+  
   nav[role] > ul { align-items:stretch }
 }
 

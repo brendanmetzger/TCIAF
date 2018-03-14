@@ -14,18 +14,17 @@
       align-items: center;
       text-align: center;
     }
-    .two-thirds .plain.h4 li {
+    .two-thirds .plain li {
       padding:0.5em;
+      margin: 0.25em 0;
+      border-bottom: 2px solid rgba(0,0,0,0.05);
     }
-    .two-thirds .plain.h4 li span {
-      display: block;
-      margin-left:0.5em;
+    .two-thirds .plain li span {
+      display:block;
+      margin:0 0.5em;
     }
-
   </style>
-  <nav class="caps-lock t b h6">
-    <a href="/overview/conference">Conferences</a> / <span class="selected">[$item:title]</span>
-  </nav>
+  
   <header class="panel"  style="align-items:center;">
     <div class="two-thirds">
       <div class="panel tt b">
@@ -42,30 +41,42 @@
       <img data-src="[//s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
     </figure>
   </header>
+  
   <hr class="ruled"/>
-  <section>[$item:content:about]</section>
-  <section class="panel">
-    <section class="two-thirds">
-      <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
-      <ul class="plain h4">
-        <!-- iterate item:sessions -->
-        <li><a href="[#goto-$item:@id]"><em>[$item:title]</em> <span>[with $item:presenter]</span></a></li>
-      </ul>
-    </section>
+  
+  <div class="panel wrap reorder">
+    
+    <div class="two-thirds">
+      <section>[$item:content:about]</section>
+
+      <nav>
+        <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
+        <ul class="plain">
+          <!-- iterate item:sessions -->
+          <li><a href="[#goto-$item:@id]"><strong>[$item:title]</strong><span>[with $item:presenter]</span></a></li>
+        </ul>
+      </nav>
+    </div>
+    
     <section class="one-third ll">
-      <div class="gray-bg spot">
+      <nav class="gray-bg spot">
         <h4 class="brown caps-lock strong">More Conferences</h4>
         <ul class="plain path h4 m">
           <!-- iterate item:origin:conferences -->
           <li><a href="[/overview/conference/$edition:@id]">[$edition:year]</a></li>
         </ul>
-      </div>
+      </nav>
       <!-- replace sponsors -->
     </section>
-  </section>
-  <hr class="ruled"/>
-  <section>
-    <!-- iterate item:sessions -->
-    <!-- insert views/cards/feature.html -->
-  </section>
+    
+    <hr class="ruled"/>
+    
+    <section>
+      <!-- iterate item:sessions -->
+      <!-- insert views/cards/feature.html -->
+    </section>
+    
+    
+  </div>
+  
 </article>
