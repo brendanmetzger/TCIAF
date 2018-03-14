@@ -200,6 +200,7 @@ header > img.landscape {
   align-items: center;
   flex-grow: 1;
   transition: background-color 1s;
+  position: relative;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
 .display, .markdown h2 { font-family: 'Source Serif Pro', Baskerville,  Didot, 'Times New Roman', Serif; font-weight:600; line-height: 1;}
@@ -348,7 +349,7 @@ button[type='submit'] {
   position: absolute;
   left:0;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   font-size:1.5em;
   background-color: rgba(255,255,255,0.95);
 }
@@ -526,7 +527,6 @@ section#media {width:100vw;position:fixed;left:0;}
 
   body > section[id] {position:fixed;width:100vw;}
   #Player[data-position] .intro {display:none}
-  #Player button {width: 70%;margin-left: 5%;}
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;}
   .bio.read {width:10vmin;/* padding:1vmin 0; */margin-right:1vmin;}
@@ -655,7 +655,17 @@ body[data-view='media'] .playlist li {
 .playlist li > span {pointer-events:none;}
 li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 
-#Player button {border: none;padding: 0;background-color: rgba(0,0,0,0);border-radius: 50%;padding:1em;}
+#Player button {
+  border: none;
+  padding: 0;
+  background-color: rgba(255,255,255,0.75);
+  border-radius: 50%;
+  width: 40%;
+  top: 30%;
+  left: 30%;
+  position: absolute;
+  z-index: 2;
+}
 #Player button svg path { stroke: none; }
 #Player:not([data-position]) .controls, audio  {display:none}
 #Player svg {
@@ -672,7 +682,18 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   fill: none;
   margin: 0;
   stroke: #333;
-  stroke-width: 3;
+  stroke-width: 2;
+}
+.progress text {
+  font-size: 1.125em;
+  text-anchor: middle;
+  stroke: none;
+  fill: #5b9c99;
+  font-family: 'Courier New';
+  pointer-events: none;
+}
+.progress text:last-of-type {
+  fill: #aaa;
 }
 
 
@@ -686,11 +707,11 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   transition: fill-opacity 0.5s;
 }
 #Player .progress:hover .handle {
-  fill-opacity:0.1;
+  fill-opacity:0.25;
 }
 
 .progress circle {
-  stroke-width: 3;
+  stroke-width: 1;
   pointer-events: none;
   stroke: #ddd;
   stroke-dasharray: 30.416 1;
@@ -772,7 +793,7 @@ button.error { background-color: #ED1C24 }
   min-width:50%;
 }
 
-.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 0.85s infinite linear;}
+.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 1.25s infinite linear;}
 
 .progress[data-state='playing'] span {
   opacity:1 !important;

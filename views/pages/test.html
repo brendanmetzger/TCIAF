@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<section xmlns="http://www.w3.org/1999/xhtml">
+  <div id="Player" data-position="undefined">
+    <button class="toggle">&#x2715;</button>
+    <div class="controls">
+      <button type="button" class="pause">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 45 45">
+          <g transform="scale(1) translate(0,0)">
+            <path d="M 11.5 10 l 0 25 l 10 0 l 0 -25 l -10 0 m 12 0 l 0 25 l 10 0 l 0 -25 Z" class="indicator">
+              <animate attributeName="d" attributeType="XML" from="M11,7.5 l0,30 l12.5,-8 l0-14 l-12.5,-8 m12.5,8 l0,14 l12.5,-7 l0,0  z" to="M11.5,10 l0,25l10,0 l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z" dur="0.25s" begin="indefinite" fill="freeze"/>
+            </path>
+            <path d="M521.5,21.5A500,500 0 1 1 427.0084971874736,-271.39262614623664" stroke="#000" stroke-width="35" class="wait"/>
+          </g>
+        </svg>
+      </button>
+      <div class="progress" data-state="playing">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100">
+          <defs>
+            <path id="upper" d="M20,35 C 35 10, 65 10, 80 35" />
+            <path id="lower" d="M20,65 C 35 90, 65 90, 80 65" />
+          </defs>
+          <circle cx="50" cy="50" r="40"/>
+          <path d="M90,50A40,40 0 01 89.93333987257753,52.308325501572234" class="status" transform="rotate(-90 50 50)"/>
+          <path d="M90,50A40,40 0 11 12.89758668403583,35.053062984966964L50,50z" class="handle" transform="rotate(-90 50 50)"/>
+          <circle cx="12.89758668403583" cy="35.053062984966964" r="5" class="grab" transform="rotate(-90 50 50)"/>
+          <text style="font-size: 1em; text-anchor: middle;stroke: none; fill: #5b9c99;letter-spacing:0.25em;font-family: 'Courier New';" dy="7.5">
+            <textPath xlink:href="#upper" startOffset="50%">0:00:11</textPath>
+          </text>
+          <text style="font-size: 1em; text-anchor: middle;stroke: none; fill: #aaa;letter-spacing:0.25em;font-family: 'Courier New';" >
+            <textPath xlink:href="#lower" startOffset="50%">0:19:46</textPath>
+          </text>
+        </svg>
+      </div>
+      <audio src="https://s3.amazonaws.com//tciaf-audio/bef0e_20031024joefrank.mp.m4a"/>
+    </div>
+  </div>
+</section>

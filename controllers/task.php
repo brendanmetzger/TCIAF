@@ -425,4 +425,5 @@ class Task extends \bloc\controller
 
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
+  
 }
