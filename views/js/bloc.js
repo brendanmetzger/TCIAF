@@ -349,7 +349,7 @@ Menu.prototype = {
 // Progress/Patience
 var Progress = function(container) {
 
-  var svg, path, handle, message;
+  var svg, path, handle, elapsed, remaining;
   this.element = document.createElement('div');
   this.element.className = 'progress';
   if (container) {
@@ -358,9 +358,8 @@ var Progress = function(container) {
       container.removeChild(this.element);
     };
   }
-  message = this.element.appendChild(document.createElement('span'));
+
   svg = new SVG(this.element, 100, 100);
-  
   defs = svg.createElement('defs');
 
   svg.createElement('path', {'id': 'upper', 'd': 'M20,35 C 35 10, 65 10, 80 35' }, defs);
@@ -376,8 +375,7 @@ var Progress = function(container) {
   grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
   
   
-  this.update = function (percentage, text, scrub, elapsed_msg, remain_msg) {
-    message.innerHTML = text || message.innerHTML;
+  this.update = function (percentage, scrub, elapsed_msg, remain_msg) {
     elapsed.textContent = elapsed_msg;
     remaining.textContent = remain_msg;
     var radian = (2 * Math.PI) * percentage;
@@ -764,7 +762,7 @@ var Player = function (container, data, message) {
 
   this.meter.element.addEventListener(mobile ? 'touchstart' : 'mouseover', function (evt) {
     this.meter.element.classList.add('hover');
-    this.meter.update(evt.theta() / 360, null, true);
+    this.meter.update(evt.theta() / 360, true);
     document.documentElement.classList.add('lock');
   }.bind(this), mobile ? {passive: true} : false);
 
@@ -779,8 +777,8 @@ var Player = function (container, data, message) {
     var p  = evt.theta() / 360;
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
-    var m = "<time>{h}:{m}:{s}</time>";
-    this.meter.update(p, null, true, new Date(d-t).parse('{h}:{m}:{s}'), new Date(t).parse('{h}:{m}:{s}'));
+    var m = "{h}:{m}:{s}";
+    this.meter.update(p, true, new Date(d-t).parse(m), new Date(t).parse(m));
   }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
@@ -843,8 +841,14 @@ Player.prototype = {
   },
   seeked: function (evt) {
     // animate here
-    this.button.setState('pause');
-    this.meter.setState('playing');
+    if (this.audio.paused) {
+      this.audio.play();
+    } else {
+      this.button.setState('pause');
+      this.meter.setState('playing');
+    }
+    
+    
   },
   error: function (evt) {
     ga('send', 'event', 'Audio', 'error', this.playlist.current.id);
@@ -855,8 +859,8 @@ Player.prototype = {
     var elem = evt.target;
     var t = Math.ceil(elem.currentTime) * 1e3;
     var d = Math.ceil(elem.duration) * 1e3;
-    var m = "<time>{h}:{m}:{s}</time>";
-    this.meter.update(t/d, null, false, new Date(t).parse('{h}:{m}:{s}'), new Date(d-t).parse('{h}:{m}:{s}'));
+    var m = "{h}:{m}:{s}";
+    this.meter.update(t/d, false, new Date(t).parse(m), new Date(d-t).parse(m));
   },
 };
 
