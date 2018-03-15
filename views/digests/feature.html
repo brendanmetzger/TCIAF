@@ -15,7 +15,6 @@
        </h4>
     </div>
   </header>
-  <hr />
   <section class="panel flip tt bb">
     <figure class="one-third gallery">
       <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
@@ -35,17 +34,17 @@
     <ul class="plain">
       <!-- iterate item:extras -->
       <li class="articles listing pad-v">
-        <h5><a href="[$article:permalink]">[$article:title]</a></h5>
+        <h5 class="strong"><a href="[$article:permalink]">[$article:title]</a></h5>
         <p class="pad-h">[$article:summary]</p>
       </li>
       <!-- iterate item:playlists -->
       <li class="playlists listing pad-v">
-        <h5><a href="[$collection:permalink]">[$collection:title]</a></h5>
+        <h5 class="strong"><a href="[$collection:permalink]">[$collection:title]</a></h5>
         <p class="pad-h">[$collection:summary]</p>
       </li>
       <!-- iterate item:competitions -->
       <li class="competitions listing pad-v">
-        <h5><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h5>
+        <h5 class="strong"><a href="[/overview/competition/$competition:@id]">[$competition:title]</a></h5>
         <p class="pad-h">[$competition:summary]</p>
       </li>
     </ul>

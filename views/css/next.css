@@ -69,7 +69,7 @@ h1, h2 {max-width: 75vw;font-weight:400;}
 h1, .h1 {font-size: calc(1.25em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 1.35vmax);line-height: 1.25;}
 h3, .h3 {font-size: calc(1.25em + 1vmax);line-height: 1.2;margin: 0.5em 0;}
-h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(1.25em + 0.5vmax);font-weight:300;}
+h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(1.25em + 0.25vmax);font-weight:300;}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.35vmax);line-height: 1.55;}
 h5 {font-weight:400}
 h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw); font-weight: 600;}
@@ -98,7 +98,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw); font-weigh
 .markdown h4:not(:first-of-type) {margin: 2vmax 0 0;}
 .container:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
 .capitalize {text-transform: capitalize;}
-.caps-lock, .markdown h3, .markdown h4 {text-transform:uppercase;letter-spacing: 0.125ch;}
+.caps-lock, .markdown h3, .markdown h4 {text-transform:uppercase;letter-spacing: 0.05ch;}
 .fade {opacity:0;}
 .inline:not(ul), .inline li, .inline dd, ul.divide li, label  {display:inline-block;}
 .rag-right {text-align:left;}
@@ -647,7 +647,18 @@ button.listen {
 }
 
 .playlist {max-height: 72.5vh;overflow-y:scroll;}
-.playlist li {padding: 1vmin;border-top: 1px solid rgba(0,0,0,0.1);}
+.playlist li {
+  padding: 0.5em 0.5em 0.5em 1em;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  line-height: 0.75;
+  color: #555;
+  text-transform: lowercase;
+  font-variant: all-small-caps;
+  text-indent: -0.5em;
+}
+.playlist li:nth-child(odd) {
+  background-color:rgba(220,220,220,0.025);
+}
 body[data-view='media'] .playlist li {
   padding: 1em;
   font-size:125%;
@@ -807,7 +818,7 @@ button.error { background-color: #ED1C24 }
   min-width:50%;
 }
 
-.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 1.25s infinite linear;}
+.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 2.25s 0.5s infinite cubic-bezier(0.21, 0.71, 0.98, 0.35);}
 
 .progress[data-state='playing'] span {
   opacity:1 !important;
