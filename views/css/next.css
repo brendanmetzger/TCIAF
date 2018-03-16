@@ -305,7 +305,7 @@ ul.conjunct li:last-child:not(:first-child):before {
   min-width: 100%;
 }
 
-article nav > ul.plain {margin: 1.5vh 0;}
+article nav > ul.plain {margin: 1.5vmin 0;}
 body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
 .finder input {
@@ -345,7 +345,7 @@ button[type='submit'] {
   min-height:3em;
   background-repeat: no-repeat;
   background-position: 0 35%;
-  background-size:auto 3vh;
+  background-size:auto 3vmin;
   display: block;
   margin-left: 1em;
 }
@@ -641,8 +641,8 @@ pre.console {
 button.listen {
   border: 2px solid #5b9c99;
   overflow: hidden;
-  height: calc(1.5em + 3vh);
-  width: calc(1.5em + 3vh);
+  height: calc(1.5em + 3vmin);
+  width: calc(1.5em + 3vmin);
   border-radius: 50%;
 }
 
@@ -692,7 +692,7 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
 }
 
 #Player button svg {
-  fill: #88746A;
+  fill: #5b9b98;
 }
 
 .progress svg {
@@ -705,12 +705,12 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   font-size: 1.125em;
   text-anchor: middle;
   stroke: none;
-  fill: #5b9c99;
+  fill: #85746b;
   font-family: 'Courier New';
   pointer-events: none;
 }
 .progress text:last-of-type {
-  fill: #aaa;
+  fill: #ab9589;
 }
 
 

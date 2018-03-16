@@ -39,6 +39,20 @@ use \bloc\dom\query;
 
       return $element;
     }
+    
+    static public function ALPHAID(int $n) {
+      $out = '';
+      $alphabet = array_merge(range('A', 'Z'), range('a', 'z'));
+      $b = count($alphabet);
+      do  {
+        $d = floor($n / $b);
+        $r = $n % $b;
+        $n = $d;
+        $out = $alphabet[$r] . $out;
+      } while ($n > 0);
+
+      return $out;
+    }
 
     static public function FACTORY($model, $data = [])
     {

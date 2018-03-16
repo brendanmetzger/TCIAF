@@ -379,6 +379,15 @@ class Task extends \bloc\controller
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
 
+  public function CLIsequencer($n = 100)
+  {
+    $count = \models\graph::instance()->query('/group[@type="person"]/')->find('vertex[@id]')->count();
+    for ($i=0; $i < $n; $i+= 1) {
+      echo \models\graph::ALPHAID($i) . "\n";
+    }
+    
+  }
+  
   public function CLIabstracts()
   {
     $doc  = new \bloc\DOM\Document('data/tciaf');
@@ -427,3 +436,4 @@ class Task extends \bloc\controller
   }
   
 }
+
