@@ -422,6 +422,11 @@ section#media {width:100vw;position:fixed;left:0;}
 /* Mobile only */
 @media screen and (max-width: 50em) {
   /* this is necessary for touch screens */
+  .page > header {
+    padding: 2.5vmax;
+    margin: -2vmax -1.5vmax 0;
+    background: linear-gradient(#fff, transparent);
+  }
   html, body {min-height:100%} 
   body[data-view='media'] #browse {display:none;}
   section#browse > main {background-color: #FAFAFA;}
@@ -630,7 +635,7 @@ pre.console {
 .listen {
   background-size: 125% auto;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200"><g fill="#5b9c99"><path d="M39 135h10v25H39zM51 135h10v25H51z"/></g><path style="stroke-alignment:inner" fill="#5b9c99" stroke="#447371" stroke-width="2" stroke-opacity=".3" d="M40 35v30l25-15z"/></svg>');
-  background-position: 50% 7.5%;
+  background-position: 50% 10%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
   letter-spacing: 0.075em;

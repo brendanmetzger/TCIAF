@@ -77,7 +77,7 @@ class Task extends \bloc\controller
       echo "\nGoodbye!\n";
     }
   }
-
+  
   public function CLILoginBak($xml)
   {
     $postdata = [];
@@ -381,10 +381,30 @@ class Task extends \bloc\controller
 
   public function CLIsequencer($n = 100)
   {
-    $count = \models\graph::instance()->query('/group[@type="person"]/')->find('vertex[@id]')->count();
+    $count = \models\graph::instance()->query('/group/')->find('vertex[@id]')->count();
+    echo $count . "\n";
     for ($i=0; $i < $n; $i+= 1) {
       echo \models\graph::ALPHAID($i) . "\n";
     }
+    
+  }
+  
+  public function CLIgenerateIndex($value='')
+  {
+
+    $db = new \DOMXpath(new \bloc\DOM\Document('data/tciaf'));
+    $idx = new \bloc\DOM\Document('data/index');
+    
+    $nodes = $db->query('//group/vertex[@id]');
+
+    foreach($nodes as $count => $node) {
+      $slug = $idx->documentElement->appendChild(new \DOMElement('key'));
+      $slug->setAttribute('slug', $node->getAttribute('id'));
+      $slug->setAttribute('id', \models\graph::ALPHAID($count));
+    }
+    $idx->save();
+
+    
     
   }
   
