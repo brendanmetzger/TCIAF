@@ -1,10 +1,7 @@
 <article class="person page">
-  <nav class="caps-lock b h6">
+  <nav class="caps-lock b">
     <a href="/overview/people">Producers Index</a> / <span class="selected">[$item:@title]</span>
   </nav>
-  <header>
-    <h1 class="strong lead display tracked tt b" data-id="[$item:@id]">[$item:title]</h1>
-  </header>
   <style media="screen">
   @media screen and (min-width:40em){
     .cluster {
@@ -29,10 +26,13 @@
   }
   </style>
   <section class="panel flip">
-    <figure class="one-third gallery">
+    <figure class="one-third gallery b">
       <img data-src="[//s3.amazonaws.com/$item:photo:url]" alt="[$item:photo:caption]"/>
     </figure>
-    <div class="two-thirds" style="font-size:125%;">[$item:content:bio]</div>
+    <div class="two-thirds">
+      <h1 class="strong lead display tracked tt b" data-id="[$item:@id]">[$item:title]</h1>
+      <div style="font-size:125%;">[$item:content:bio]</div>
+    </div>
   </section>
   <!-- iterate item:contributions -->
   <section class="listing cluster t">

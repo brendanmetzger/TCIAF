@@ -39,7 +39,7 @@ $app->prepare('listener', function ($app) {
 
        $result = $xpath->query($query);
 
-       socket_write($c, serialize(iterator_to_array($result)));
+       socket_write($c, print_r($_SERVER, true));
 
        print "Ran query in " . (microtime(true) - $start) . "\n";
        socket_close($c);
