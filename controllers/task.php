@@ -398,9 +398,8 @@ class Task extends \bloc\controller
     $nodes = $db->query('//group/vertex[@id]');
 
     foreach($nodes as $count => $node) {
-      $slug = $idx->documentElement->appendChild(new \DOMElement('key'));
-      $slug->setAttribute('slug', $node->getAttribute('id'));
-      $slug->setAttribute('id', \models\graph::ALPHAID($count));
+      $slug = $idx->documentElement->appendChild(new \DOMElement(\models\graph::ALPHAID($count)));
+      $slug->setAttribute('k', $node->getAttribute('id'));
     }
     $idx->save();
 
