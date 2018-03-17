@@ -391,18 +391,29 @@ class Task extends \bloc\controller
   
   public function CLIgenerateIndex($value='')
   {
-
-    $db = new \DOMXpath(new \bloc\DOM\Document('data/tciaf'));
+    $doc = new \bloc\DOM\Document('data/tciaf');
+    $db = new \DOMXpath($doc);
     $idx = new \bloc\DOM\Document('data/index');
     
-    $nodes = $db->query('//group/vertex[@id]');
+    $nodes = iterator_to_array($db->query('//group/vertex[@id]'));
+    
+    usort($nodes, function($a, $b) use($db){
+      return $db->query('edge', $a)->length < $db->query('edge', $b)->length;
+    });
 
     foreach($nodes as $count => $node) {
-      $slug = $idx->documentElement->appendChild(new \DOMElement(\models\graph::ALPHAID($count)));
-      $slug->setAttribute('k', $node->getAttribute('id'));
+      $id = \models\graph::ALPHAID($count);
+      $slug = $node->getAttribute('id');
+      $key = $idx->documentElement->appendChild(new \DOMElement($id));
+      $key->setAttribute('k', $slug);
+      
+      foreach ($db->query("//vertex[@id='{$slug}']/@id|//edge[@vertex='{$slug}']/@vertex") as $attr) {
+        $attr->nodeValue = $id;
+      }
+      
     }
     $idx->save();
-
+    $doc->save(PATH. 'data/tciaf2.xml');
     
     
   }

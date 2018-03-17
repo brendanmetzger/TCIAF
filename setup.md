@@ -1,11 +1,16 @@
 # Launching instance
 
+
+
 ## EC2
 - Ubuntu HVM, t2.micro production (free tier for 12 months as of June 2016), t2.nano development server (with a prepaid reserved instance)
 - Moved storage up to 16gb (as this is a site uploading lots of audio, **disc usage needs to be monitored in some fashion**
 - Creating a security group called 'web' that will allow access to the EC2 on ports 22, 80, and 443 (ssh, http, https)
 
 The Apache configuration on a micro needs to be adjusted, because there is only about half a gig of memory available, and pushing that goes into swap memory, and the freezes to the point of a crash, which makes adjustments pretty hard to make. Here is the config to make sure servers don't get greedy
+
+### Reminders/caveats
+Because of the id conventions and the way files are named and stored, a case-sensitive file system is necessary. Ubuntu has this by default, however, the Mac variant of unix does not. Mac users should (and this is a good idea in general) create a disk partition for their dev environment that is case sensitive. Also, if deploying from mac to linux, this clears up some of the most confounding and simple bugs I've ever experienced with lazy loading classes n such.
 
 ```
 # file is /etc/apache2/mods-enabled/mpm_prefork.conf 
