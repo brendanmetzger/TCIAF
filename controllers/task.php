@@ -517,7 +517,7 @@ class Task extends \bloc\controller
       $node = new \DOMElement($type);
       $media = $media->parentNode->replaceChild($node, $media);
       if ($media->nodeValue) {
-        $node->nodeValue = $media->nodeValue;
+        $node->nodeValue = trim($media->nodeValue);
       }
       $node->setAttribute('src', $media->getAttribute('src'));
       $node->setAttribute('mark', $media->getAttribute('mark'));

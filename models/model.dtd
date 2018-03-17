@@ -26,7 +26,7 @@
 <!ELEMENT group (v)*>
 <!ATTLIST group type (feature|person|organization|happening|competition|article|collection|archive) #REQUIRED>
 
-<!ELEMENT v (abstract*,media*,location?,premier?,spectra?,producer?,award?,edition?,extra?,presenter?,curator?,judge?,staff?,session?,item?,participant?,friend?,board?,sponsor?,host?,page?,playlist?)*>
+<!ELEMENT v (audio*,img*,location?,premier?,spectra?,producer?,award?,edition?,extra?,presenter?,curator?,judge?,staff?,session?,item?,participant?,friend?,board?,sponsor?,host?,page?,playlist?)*>
 
 <!ATTLIST v id ID #REQUIRED>
 <!ATTLIST v sticky CDATA #IMPLIED>
@@ -34,11 +34,8 @@
 <!ATTLIST v created CDATA #IMPLIED>
 <!ATTLIST v updated CDATA #IMPLIED>
 <!ATTLIST v title CDATA #REQUIRED>
+<!ATTLIST v txt CDATA #IMPLIED>
 <!ATTLIST v mark CDATA #IMPLIED>
-
-<!ELEMENT abstract (#PCDATA)>
-<!ATTLIST abstract content CDATA #IMPLIED>
-<!ATTLIST abstract src CDATA #IMPLIED>
 
 <!ELEMENT producer (label*)>
 <!ATTLIST producer %edge;> 
@@ -103,10 +100,13 @@
 <!ELEMENT premier (#PCDATA)>
 <!ATTLIST premier date CDATA #IMPLIED>
 
-<!ELEMENT media (#PCDATA)>
-<!ATTLIST media type (image|audio|document) #IMPLIED>
-<!ATTLIST media src CDATA #REQUIRED>
-<!ATTLIST media mark CDATA #IMPLIED>
+<!ELEMENT audio (#PCDATA)>
+<!ATTLIST audio src CDATA #REQUIRED>
+<!ATTLIST audio mark CDATA #IMPLIED>
+
+<!ELEMENT img (#PCDATA)>
+<!ATTLIST img src CDATA #REQUIRED>
+<!ATTLIST img mark CDATA #IMPLIED>
 
 
   
