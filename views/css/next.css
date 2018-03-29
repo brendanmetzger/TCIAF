@@ -123,7 +123,7 @@ ul, ol { padding:0 0 0 2em }
 
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
-  min-height: 22vmax;
+  min-height: 25em;
   margin: -2vmax -1.5vmax 2vmax -5vmax;
   padding: 2.5vw 30vw 2.5vw 5vw;
   box-shadow: 0 0 5em rgba(0,0,0,0.1);
@@ -415,7 +415,10 @@ form[method="GET"] select {
   font-size:1.25em;
   color: rgba(0,0,0,0.65);
 }
-
+article.page {
+  margin: 0 auto;
+  max-width: 125em;
+}
 #Player button.toggle {display: none;}
 .feature article.panel.listing header { width:100% }
 section#media {width:100vw;position:fixed;left:0;}
@@ -496,7 +499,9 @@ section#media {width:100vw;position:fixed;left:0;}
     vertical-align: top;
     flex-grow: 1;
   }
-  .panel .ll {margin-left:0}
+  .panel header.ll {margin-left:5%;width:70%;}
+  .panel .ll {margin-left:0;}
+
   ul.sink {
     min-width: 100%;
     display:block;
@@ -514,7 +519,7 @@ section#media {width:100vw;position:fixed;left:0;}
 
 /* Hack for tablet to deal with images in playlist/lib*/
 @media screen and (min-width:40em) {
-  .bg {width:25%;}
+  .bg {width:25%;border:0.5em solid #fff}
   .feature article.panel.listing header {width:70%;padding:0 2.5%;}
 }
 
