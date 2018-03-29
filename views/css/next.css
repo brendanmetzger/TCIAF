@@ -195,11 +195,12 @@ header > img.landscape {
 }
 .controls, .path, .triptych > * {display: inline-flex;}
 .controls {
+  opacity: 1;
   padding: 2.5%;
   flex-flow:row;
   align-items: center;
   flex-grow: 1;
-  transition: background-color 1s;
+  transition: background-color 1s, opacity 1s;
   position: relative;
 }
 .path {flex-wrap:wrap;justify-content: flex-start;}
@@ -694,7 +695,8 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   z-index: 2;
 }
 #Player button svg path { stroke: none; }
-#Player:not([data-position]) .controls, audio  {display:none}
+audio {display:none;}
+#Player:not([data-position]) .controls, audio  {opacity:0;}
 #Player svg {
   width: 100%;
   height: 100%;

@@ -1,0 +1,112 @@
+<!ENTITY p "producer">
+<!ENTITY absrc "data/abstracts">
+<!ENTITY % edge 'v IDREFS #REQUIRED mark CDATA #IMPLIED'>
+
+<!ELEMENT graph (config,group+)*>
+<!ATTLIST graph counter CDATA "0">
+<!ELEMENT config (key*,spectra*)*>
+
+<!ELEMENT key (#PCDATA)>
+<!ATTLIST key id ID #REQUIRED>
+
+<!ELEMENT spectra (#PCDATA)>
+<!ATTLIST spectra id ID #IMPLIED>
+<!ATTLIST spectra from CDATA #IMPLIED>
+<!ATTLIST spectra to CDATA #IMPLIED>
+<!ATTLIST spectra F CDATA #IMPLIED>
+<!ATTLIST spectra S CDATA #IMPLIED>
+<!ATTLIST spectra M CDATA #IMPLIED>
+<!ATTLIST spectra G CDATA #IMPLIED>
+<!ATTLIST spectra R CDATA #IMPLIED>
+<!ATTLIST spectra P CDATA #IMPLIED>
+<!ATTLIST spectra T CDATA #IMPLIED>
+<!ATTLIST spectra A CDATA #IMPLIED>
+<!ATTLIST spectra picks IDREFS #IMPLIED>
+
+<!ELEMENT group (v)*>
+<!ATTLIST group type (feature|person|organization|happening|competition|article|collection|archive) #REQUIRED>
+
+<!ELEMENT v (audio*,img*,location?,premier?,spectra?,producer?,award?,edition?,extra?,presenter?,curator?,judge?,staff?,session?,item?,participant?,friend?,board?,sponsor?,host?,page?,playlist?)*>
+
+<!ATTLIST v id ID #REQUIRED>
+<!ATTLIST v sticky CDATA #IMPLIED>
+<!ATTLIST v hash CDATA #IMPLIED>
+<!ATTLIST v created CDATA #IMPLIED>
+<!ATTLIST v updated CDATA #IMPLIED>
+<!ATTLIST v title CDATA #REQUIRED>
+<!ATTLIST v txt CDATA #IMPLIED>
+<!ATTLIST v mark CDATA #IMPLIED>
+
+<!ELEMENT producer (label*)>
+<!ATTLIST producer %edge;> 
+
+<!ELEMENT award (label*)>
+<!ATTLIST award %edge;> 
+
+<!ELEMENT edition (label*)>
+<!ATTLIST edition %edge;> 
+
+<!ELEMENT extra (label*)>
+<!ATTLIST extra %edge;> 
+
+<!ELEMENT presenter (label*)>
+<!ATTLIST presenter %edge;> 
+
+<!ELEMENT curator (label*)>
+<!ATTLIST curator %edge;> 
+
+<!ELEMENT judge (label*)>
+<!ATTLIST judge %edge;> 
+
+<!ELEMENT staff (label*)>
+<!ATTLIST staff %edge;> 
+
+<!ELEMENT session (label*)>
+<!ATTLIST session %edge;> 
+
+<!ELEMENT item (label*)>
+<!ATTLIST item %edge;> 
+
+<!ELEMENT participant (label*)>
+<!ATTLIST participant %edge;> 
+
+<!ELEMENT friend (label*)>
+<!ATTLIST friend %edge;> 
+
+<!ELEMENT board (label*)>
+<!ATTLIST board %edge;> 
+
+<!ELEMENT sponsor (label*)>
+<!ATTLIST sponsor %edge;> 
+
+<!ELEMENT host (label*)>
+<!ATTLIST host %edge;> 
+
+<!ELEMENT page (label*)>
+<!ATTLIST page %edge;> 
+
+<!ELEMENT playlist (label*)>
+<!ATTLIST playlist %edge;> 
+
+
+
+<!ELEMENT label (#PCDATA)>
+<!ATTLIST label for CDATA #REQUIRED>
+
+
+<!ELEMENT location (#PCDATA)>
+<!ATTLIST location ref CDATA #IMPLIED>
+
+<!ELEMENT premier (#PCDATA)>
+<!ATTLIST premier date CDATA #IMPLIED>
+
+<!ELEMENT audio (#PCDATA)>
+<!ATTLIST audio src CDATA #REQUIRED>
+<!ATTLIST audio mark CDATA #IMPLIED>
+
+<!ELEMENT img (#PCDATA)>
+<!ATTLIST img src CDATA #REQUIRED>
+<!ATTLIST img mark CDATA #IMPLIED>
+
+
+  

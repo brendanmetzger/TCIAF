@@ -391,6 +391,7 @@ class Task extends \bloc\controller
   
   public function CLIgenerateIndex($value='')
   {
+    return;
     $doc = new \bloc\DOM\Document('data/tciaf');
     $db = new \DOMXpath($doc);
     $idx = new \bloc\DOM\Document('data/index');
@@ -420,17 +421,111 @@ class Task extends \bloc\controller
   
   public function CLIabstracts()
   {
-    $doc  = new \bloc\DOM\Document('data/tciaf');
-    $files = glob('../data/abstracts/*.html');
+    $doc = new \bloc\DOM\Document('data/tciaf2');
+    $db  = new \DOMXpath($doc);
+    foreach ($db->query('//abstract') as $abstract) {
+      $id      = $abstract->parentNode->getAttribute('id');
+      $content = strtolower($abstract->getAttribute('content') ?: 'extras');
+      $path    = $abstract->getAttribute('src');
 
-    foreach ($files as $file) {
-      $path = substr($file, 3);
-      if ($doc->find("//abstract[@src={$path}]")->count() == 0) {
-        echo "delete {$file}";
+      if (! copy(PATH . $path, PATH . 'data/abstracts/' . $content . '/' . $id . '.html')) {
+        echo "did not save {$path}\n";
+      }
+      
+      $abstract->removeAttribute('src');
+      $abstract->setAttribute('content', $content);
+    }
+    
+    $doc->save();
+    
+  }
+  
+  public function CLIcompressedges()
+  {
+    $doc = new \bloc\DOM\Document('data/tciaf2');
+    $db  = new \DOMXpath($doc);
+    
+    foreach ($db->query('//group/vertex') as $vertex) {
+      $edges  = [];
+      $labels = [];
+      foreach ($db->query('edge', $vertex) as $idx => $edge) {
+        $type = $edge->getAttribute('type');
+        if (! array_key_exists($type, $edges)) {
+          $edges[$type] = [];
+          $labels[$type] = []; 
+        }
+        $edges[$type][] = $edge->getAttribute('vertex');
+        $labels[$type][] = $edge->nodeValue ?: null;
+        $edge->parentNode->removeChild($edge);
+      }
+      
+      foreach ($edges as $type => $ids) {
+        $v = $vertex->appendChild(new \DOMElement($type));
+        print_r($ids);
+        $v->setAttribute('v', implode(' ', $ids));
+        foreach (array_filter($labels[$type]) as $idx => $txt) {
+          $label = $v->appendChild(new \DOMElement('label', $txt));
+          $label->setAttribute('for', $idx);
+        }
       }
     }
+    $doc->save(PATH. 'data/tciaf3.xml');
   }
-
+  
+  public function CLImoveAbstracts()
+  {
+    $doc = new \bloc\DOM\Document('data/tciaf3');
+    $db  = new \DOMXpath($doc);
+    
+    foreach ($db->query('//group/vertex') as $vertex) {
+      $abstracts  = [];
+      
+      foreach ($db->query('abstract', $vertex) as $idx => $abstract) {
+        $abstracts[] = $abstract->getAttribute('content');
+        $abstract->parentNode->removeChild($abstract);
+      }
+      
+      $vertex->setAttribute('abstract', implode(' ', $abstracts));
+    }
+     $doc->save(PATH. 'data/tciaf4.xml');
+  }
+  
+  public function CLIcompressdates()
+  {
+    $doc = new \bloc\DOM\Document('data/tciaf4');
+    $db  = new \DOMXpath($doc);
+    
+    foreach ($db->query('//group/vertex') as $vertex) {
+      $vertex->setAttribute('created', base_convert(strtotime($vertex->getAttribute('created')),10,32));
+      $vertex->setAttribute('updated', base_convert(strtotime($vertex->getAttribute('created')),10,32));
+    }
+    
+    foreach ($db->query('//group/vertex/premier[@date]') as $premier) {
+      $premier->setAttribute('date', base_convert(strtotime($vertex->getAttribute('date')),10,32));
+    }
+    
+    $doc->save(PATH. 'data/tciaf5.xml');
+  }
+  
+  public function CLIrenameMediaElements()
+  {
+    $doc = new \bloc\DOM\Document('data/tciaf5');
+    $db  = new \DOMXpath($doc);
+    
+    foreach ($db->query('//group/vertex/media') as $media) {
+      $type = $media->getAttribute('type') == 'image' ? 'img' : $media->getAttribute('type');
+      $node = new \DOMElement($type);
+      $media = $media->parentNode->replaceChild($node, $media);
+      if ($media->nodeValue) {
+        $node->nodeValue = trim($media->nodeValue);
+      }
+      $node->setAttribute('src', $media->getAttribute('src'));
+      $node->setAttribute('mark', $media->getAttribute('mark'));
+      
+    }
+    $doc->save(PATH. 'data/tciaf6.xml');
+  }
+  
   protected function CLIbio($user)
   {
     $abstracts = \models\Graph::group('person')->find('vertex/abstract[@content="description"]');
