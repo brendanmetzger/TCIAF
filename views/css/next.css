@@ -517,7 +517,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .reorder section:nth-child(2) { order: 3;}
   
   nav[role] > ul { align-items:stretch }
-  select:focus, textarea:focus, input:focus {
+  select, textarea:focus, input:focus {
     font-size: 16px;
   }
 }
