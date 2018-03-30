@@ -423,7 +423,15 @@ article.page {
 #Player button.toggle {display: none;}
 .feature article.panel.listing header { width:100% }
 section#media {width:100vw;position:fixed;left:0;}
+
 /* Mobile only */
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* hack for zooming phones */
+  select:focus, textarea:focus, input:focus {
+    font-size: 16px;
+  }
+}
 @media screen and (max-width: 50em) {
   /* this is necessary for touch screens */
   .page > header {
