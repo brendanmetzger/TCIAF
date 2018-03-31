@@ -1,12 +1,12 @@
 
-<article vocab="http://schema.org/" typeof="Person" class="listing panel card pad-h" data-id="[$person:@id]" id="[$person:@id]">
-  <a href="[$person:permalink]" property="name" class="l t">
+<article vocab="http://schema.org/" typeof="Person" class="listing panel card pad" data-id="[$person:@id]" id="[$person:@id]">
+  <a href="[$person:permalink]" property="name">
     <figure class="bio read center">
       <span>
         <img data-src="[//s3.amazonaws.com/$person:photo:url]" alt="[$person:photo:caption]" class="proxy"/>
       </span>
-      <figcaption class="h5 pad-v">[$person:@title]</figcaption>
+      <figcaption class="h5">[$person:@title]</figcaption>
     </figure>
   </a>
-  <p class="pad t">[$person:summary]</p>
+  <p class="pad-h">[$person:summary]</p>
 </article>
