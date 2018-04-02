@@ -123,7 +123,7 @@ ul, ol { padding:0 0 0 2em }
 
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
-  min-height: 30vmin;
+  min-height: 35vmin;
   margin: -2vmax -1.5vmax 2vmax -5vmax;
   padding: 2.5vw 30vw 2.5vw 5vw;
 }
@@ -527,7 +527,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .reorder section:nth-child(2) { order: 3;}
   
   nav[role] > ul { align-items:stretch }
-  select, textarea:focus, input:focus {
+  form[method="GET"] select, textarea:focus, input:focus {
     font-size: 16px;
   }
 }
