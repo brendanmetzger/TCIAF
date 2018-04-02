@@ -22,7 +22,7 @@ img.proxy {height:1px;width:1px;opacity:0;display:block;}
 img[data-src] {
   opacity: 0;
   min-height: 1px;
-  min-width: 1px;
+  min-width:  1px;
   display:inline-block;
 }
 
@@ -62,7 +62,7 @@ a > img:hover {opacity:0.9}
 a:hover {color:#5a9a98;}
 .selected, .selected:hover{text-decoration:none;cursor:default;}
 .selected, .selected:hover, .path li a:hover {color:#555;border-color: #5b9b98 !important;}
-p a {text-decoration:underline}
+p a {text-decoration:underline;}
 p, .p {max-width:55em;font-weight:400;}
 h1, h2 {max-width: 75vw;font-weight:400;}
 
@@ -123,10 +123,12 @@ ul, ol { padding:0 0 0 2em }
 
 .banner, .listing, .search, .search ul li, article > header {position:relative;}
 .banner {
-  min-height: 25em;
+  min-height: 30vmin;
   margin: -2vmax -1.5vmax 2vmax -5vmax;
   padding: 2.5vw 30vw 2.5vw 5vw;
-  box-shadow: 0 0 5em rgba(0,0,0,0.1);
+}
+.banner a {
+  /* color: #fff; */
 }
 .banner.banner-bg { background-size:cover }
 .banner-bg *      { color:#FFF;text-shadow: 0 0 0.25em rgba(0,0,0,0.25) }
@@ -445,7 +447,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .hide {display:none !important;}
   ::-webkit-input-placeholder {opacity:0}
   body {padding-bottom:12.5vmax}
-  .banner {margin-left:-2.5vmax}
+  .banner {margin-left:-2.5vmax;}
   body[data-view='browse'] #media {overflow:hidden;justify-content: space-between;}
   section#browse main {background-color: #f1f1f1;padding-left: 1.5vmax;}
   h1, h2 { max-width: 100%;}
@@ -654,7 +656,7 @@ pre.console {
 .listen {
   background-size: 125% auto;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200"><g fill="%235b9c99"><path d="M39 135h10v25H39zM51 135h10v25H51z"/></g><path style="stroke-alignment:inner" fill="%235b9c99" stroke="%23447371" stroke-width="2" stroke-opacity=".3" d="M40 35v30l25-15z"/></svg>');
-  background-position: 50% 10%;
+  background-position: 50% 7%;
   background-repeat: no-repeat;
   color: rgba(0,0,0,0);
   letter-spacing: 0.075em;

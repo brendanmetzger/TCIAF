@@ -25,7 +25,7 @@
           <div style="[background:#ffc22d url(//s3.amazonaws.com/$collection:photo:url) no-repeat 0 50%;background-size:cover;margin-top:-2vmax;]" class="banner">
             <div>
               <h2 data-id="[$collection:@id]" style="color:rgba(0,0,0,0);">[$collection:title]</h2>
-              <p style="position:absolute;bottom: 0;left: 1.5em;width:60%;line-height:1em;">[$collection:summary]</p>
+              <div class="callout">[$collection:summary]</div>
             </div>
           </div>
           <article>
@@ -93,6 +93,9 @@
         .seven {
           margin-left:-2.5vmax;
         }
+        .banner div.callout {
+          font-size:1.75em;
+        }
       }
       .seven > li {
         margin: 0.5em;
@@ -109,6 +112,18 @@
         .seven > li {
           height: auto;
         }
+      }
+      .banner .callout {
+        position:absolute;
+        bottom: 0;
+        right: 0;
+        margin: 0;
+        line-height:0.5;
+        width: 100%;
+        background-color: #fff;
+        background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.75));
+        padding: 1em 5%;
+        font-size: 1.25em;
       }
       div#ad {
         width: 100vw;
