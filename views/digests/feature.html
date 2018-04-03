@@ -5,6 +5,7 @@
     }
   </style>
   <header class="t">
+    
     <div class="controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
@@ -12,30 +13,31 @@
     </div>
     <div class="two-thirds">
       <p class="h3">[$item:summary]</p>
-      <h4 class="h3 tt">
+      <a class="award h4" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
+      <h4 class="h4 tt strong">
         <span>[$item:year /]</span>
         <!-- iterate item:producers -->
         <a href="[#$person:@id]">[$person:title / ]</a>
         <span>[$item:premier, $item:location]</span>
        </h4>
     </div>
+    
   </header>
   <section class="panel flip tt bb">
-    <figure class="one-third gallery">
+    <figure class="one-third gallery ll">
       <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:plain]" property="image" data-ratio="[$item:image]"/>
     </figure>
     <div class="two-thirds">
       <div class="markdown" property="description">[$item:content:description]</div>
       <hr class="ruled"/>
-      <h4 class="brown caps-lock strong t b">produced by</h4>
+      <h4 class="brown caps-lock">produced by</h4>
       <!-- iterate item:producers -->
       <!-- insert views/cards/person.html -->
     </div>
   </section>
   <hr/>
-  <h4 class="strong caps-lock brown t b">Featured in</h4>
+  <h4 class="brown caps-lock">Featured in</h4>
   <nav class="two-thirds">
-    <a class="award h4" href="[/overview/competition/$item:award:competition:@id]" property="award">[$item:award:html]</a>
     <ul class="plain">
       <!-- iterate item:extras -->
       <li class="articles listing pad-v">
@@ -56,7 +58,7 @@
   </nav>
   <hr/>
   <section>
-    <h4 class="brown caps-lock strong t b">May we recommend…</h4>
+    <h4 class="brown caps-lock b">May we recommend…</h4>
     <!-- insert views/lists/recommendation.html -->
     <aside>[$item:content:extra]</aside>
   </section>

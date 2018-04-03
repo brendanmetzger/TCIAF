@@ -1,19 +1,45 @@
 <article class="text page">
   <header>
-    <nav class="caps-lock h6">
+    <nav class="caps-lock">
   		<a href="/explore/behindthescenes">Behind the Scenes</a> / <span class="selected">[$item:suffix]</span>
   	</nav>
-    <div class="panel tt b ">
+    <div class="panel tt">
       <h1 class="display lead strong two-thirds" data-id="[$item:@id]">[$item:title]</h1>
-      <figure class="gallery one-third">
-        <img data-src="[//s3.amazonaws.com/$item:photo:url]"/>
-        <figcaption>[$item:photo:caption]</figcaption>
+      <figure class="gallery one-third ll">
+        <img data-src="[//s3.amazonaws.com/$item:photo:url]" alt="[$item:photo:caption]"/>
       </figure>
     </div>
   </header>
-  <div class="panel">
-    <section class="two-thirds">[$item:content:description]</section>
-    <aside class="one-third">
+  <hr/>
+  <div class="wrap panel">
+    <section class="two-thirds rr">[$item:content:description]</section>
+    <aside class="one-third ll">
+      <nav>
+        <ul class="plain gray-bg spot">
+          <!-- iterate item:producers -->
+          <li class="person">
+            <h5 class="strong" data-id="[$person:@id]"><a href="[$person:permalink]">[$person:title]</a></h5>
+            <p>[$person:summary]</p>
+          </li>
+        </ul>
+        <ul class="plain">
+          <!-- iterate item:features -->
+          <li style="[background-image:linear-gradient(rgba(255,255,255,0) 25%, #fff 17.5em), url($feature:image:domain/$feature:image:url);]" class="image-tab"  data-id="[$feature:@id]">
+            <div style="width:100%;">
+              <div class="controls">
+                <!-- iterate feature:media:audio -->
+                <!--  insert views/partials/play-button.html-->
+              </div>
+              <div class="overleaf" data-award="[$feature:award:html]">
+                <h3 class="display tracked" ><a href="[$feature:permalink]">[$feature:title]</a></h3>
+                <h6>[$feature:year / $feature:duration]</h6>
+                <p>[$feature:summary]</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <hr />
       <!-- iterate item:media:audio -->
       <div class="[$model:@id pad-h l]">
         <audio src="[//s3.amazonaws.com/$src]" title="[$model:title]" data-ref="[$model:permalink]" preload="none">Audio</audio>
@@ -23,23 +49,11 @@
     </aside>
   </div>
   <hr />
-  <nav>
-    <h4 class="brown strong caps-lock t b">More</h4>
-    <ul class="plain">
-      <!-- iterate item:producers -->
-      <li class="person">
-        <h4 data-id="[$person:@id]"><a href="[$person:permalink]">[$person:title]</a></h4>
-        <p>[$person:summary]</p>
-      </li>
-      <!-- iterate item:features -->
-      <li class="feature">
-        <h4 data-id="[$feature:@id]"><a href="[$feature:permalink]">[$feature:title]</a></h4>
-        <p>[$feature:summary]</p>
-      </li>
-    </ul>
-  </nav>
   <style type="text/css" media="screen">
     /* <![CDATA[ */
+    spot:empty {
+      display:none;
+    }
     article.text h3 {
       font-weight:800;
       margin:2em 0 1em;

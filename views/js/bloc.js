@@ -812,7 +812,7 @@ Player.prototype = {
       this.pause();
     }
     this.css = document.head.appendChild(document.createElement('style'))
-    this.css.sheet.insertRule('.'+track.id+' button {background-position:50% 87.5%;border-width:0.25em}', 0);
+    this.css.sheet.insertRule('.'+track.id+' button {background-position:50% 87.5%;cursor:default;opacity:0.9;box-shadow:none;background-color:rgba(255,255,255,0.75) !important;border-color:#fff;mix-blend-mode:normal !important;}', 0);
     this.css.sheet.insertRule('li#'+track.id+' {border-color:#5B9B98;background-color:#5B9B98;color:#fff;}', 1);
 
     this.audio.play();

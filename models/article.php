@@ -53,6 +53,13 @@ class Article extends Vertex
     return substr(strip_tags($this->title), 18);
   }
   
+  public function getProducers(\DOMElement $context)
+  {
+    return $context->find("edge[@type='producer' and @vertex!='TCIAF']")->map(function($edge) {
+      return ['person' => new Person($edge['@vertex']), 'role' => 'Producer'];
+    });
+  }
+  
   public function getSections(\DOMElement $context) 
   {
     // 'sectionize' text on h2 elements.
