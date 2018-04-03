@@ -705,12 +705,17 @@ li.played {color:#BBB;border-left-color: rgb(230, 230, 230);}
   background-color: rgba(255,255,255,1);
   border-radius: 50%;
   width: 40%;
+  height: 40%;
   left: 30%;
   position: absolute;
   z-index: 2;
   top: 30%;
 }
-#Player button svg path { stroke: none; }
+#Player .controls button svg {
+  width: 60%;
+  height: 60%;
+}
+
 audio {display:none;}
 #Player:not([data-position]) .controls, audio  {opacity:0;}
 #Player svg {
@@ -721,6 +726,8 @@ audio {display:none;}
 
 #Player button svg {
   fill: #5b9b98;
+  stroke: #5b9b98;
+  stroke-width: 3;
 }
 
 .progress svg {

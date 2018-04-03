@@ -844,8 +844,8 @@ Player.prototype = {
     this.meter.setState('waiting');
   },
   seeking: function (evt) {
-    this.button.setState('wait');
-    this.meter.setState('waiting');
+    // this.button.setState('wait');
+    // this.meter.setState('waiting');
   },
   seeked: function (evt) {
     // animate here
@@ -933,13 +933,13 @@ var Button = function (button, state) {
   var svg, indicator, animate, states, scale, g;
   this.state = state || 'play';
 
-  svg = new SVG(button, 45, 45);
+  svg = new SVG(button, 100, 100);
 
   states = {
-    play:  'M11 7.5c0 0,0 30,0,30c0 0,12.5 -8,12.5 -8c0 0,0 -14,0 -14zm 12.5 8c0 0,0 14,0 14c0 0,12.5 -7,12.5 -7c0 0,0 0,0 0z',
-    pause: 'M10 10c0 0,0 25,0 25c0 0,10 0,10 0c0 0,0 -25,0 -25zm12,0c0 0,0 25,0 25c0 0,10 0,10 0c0 0,0 -25,0 -25z',
+    play:  'M 20 0 c 0  0, 0 100, 0 100 l 40 -30 l 0 -40 z m 40 30 c 0 0, 0 40, 0 40 l 30 -20 l 0 0 z',
+    pause: 'M 5 0 c 0  0, 0 100,  0 100 l  40 0 l 0 -100 z m 50 0 c 0  0, 0 100,    0 100 l 40 0 l 0 -100 z',
     error: 'M16,10 l10,0l-3,20  l-3,0l-3,-20  m3,22  l4,0 l0,4    l-4,0 z',
-    wait:  'M12 10 c0 10,9 5,9 25c0 0,10 0,9 0c0 -10,-10 -8,-8 -25zm9 0c0 20,-9 12,-9 25c0 0,0 0,9 0c0 -20,9 -15,9 -25z'
+    wait:  'M20 0 c 0 50, 60 50, 60 100 l -30 0 l 0 -100 z m 60 0 c 0 50, -60 50, -60 100 l 30 0 l 0 -100 z'
   };
 
 
@@ -951,12 +951,9 @@ var Button = function (button, state) {
 
   // states match the d
   this.setState = function (state, e) {
-    if (state === this.state) {
-      return;
-    }
+    if (state === this.state) return;
     
     indicator.setAttribute('d', states[this.state]);
-
 
     animate.setAttribute('from', states[this.state]);
     animate.setAttribute('to', states[state]);
