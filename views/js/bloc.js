@@ -401,12 +401,18 @@ var Progress = function(container) {
   this.setState = function (state) {
     this.element.dataset.state = state;
     if (state == 'waiting') {
+      // TODO, see below for better animation sequence
       elapsed.textContent = '...one';
       remaining.textContent = 'moment';
     }
   };
 
   return this;
+};
+
+var randomTimecode = function() {
+  container.innerHTML = new Array(3).fill(60).map(x=>Math.floor(x * Math.random())).map(x => ('00' + x).slice(-2)).join(':');
+  if (window.pending) setTimeout(update, 50);
 };
 
 
@@ -834,9 +840,11 @@ Player.prototype = {
     this.meter.setState('playing');
   },
   waiting: function (evt) {
+    this.button.setState('wait');
     this.meter.setState('waiting');
   },
   seeking: function (evt) {
+    this.button.setState('wait');
     this.meter.setState('waiting');
   },
   seeked: function (evt) {
@@ -928,18 +936,12 @@ var Button = function (button, state) {
   svg = new SVG(button, 45, 45);
 
   states = {
-    play:  'M11,7.5 l0,30 l12.5,-8 l0-14 l-12.5,-8 m12.5,8 l0,14 l12.5,-7 l0,0  z',
-    pause: 'M10,10 l0,25l10,0 l0-25l-10,0   m12,0  l0,25l10,0 l0,-25z',
+    play:  'M11 7.5c0 0,0 30,0,30c0 0,12.5 -8,12.5 -8c0 0,0 -14,0 -14zm 12.5 8c0 0,0 14,0 14c0 0,12.5 -7,12.5 -7c0 0,0 0,0 0z',
+    pause: 'M10 10c0 0,0 25,0 25c0 0,10 0,10 0c0 0,0 -25,0 -25zm12,0c0 0,0 25,0 25c0 0,10 0,10 0c0 0,0 -25,0 -25z',
     error: 'M16,10 l10,0l-3,20  l-3,0l-3,-20  m3,22  l4,0 l0,4    l-4,0 z',
-    wait:  'M521.5,21.5A500,500 0 1 1 427.0084971874736,-271.39262614623664'
+    wait:  'M12 10 c0 10,9 5,9 25c0 0,10 0,9 0c0 -10,-10 -8,-8 -25zm9 0c0 20,-9 12,-9 25c0 0,0 0,9 0c0 -20,9 -15,9 -25z'
   };
 
-  st2 = {
-    play: [['m',1,7.5],['l',0,30], ['l', 12.5,-8],['l',0,-14],['l',-12.5,-8],['m', 12.5, 8 ], ['l',0,14 ],['l',12.5,-7], ['l',0,0], ['z']],
-    pause: [],
-    error: [],
-    wait: []
-  };
 
   this.factor = 1;
 
@@ -952,25 +954,17 @@ var Button = function (button, state) {
     if (state === this.state) {
       return;
     }
-    if (state != 'wait') {
-      indicator.setAttribute('d', states[this.state]);
+    
+    indicator.setAttribute('d', states[this.state]);
 
 
-      animate.setAttribute('from', states[this.state]);
-      animate.setAttribute('to', states[state]);
+    animate.setAttribute('from', states[this.state]);
+    animate.setAttribute('to', states[state]);
 
-      animate.beginElement();
+    animate.beginElement();
 
-      this.state = state;
-      if (this.factor !== 1) {
-        this.zoom(1, this.factor);
-        this.factor = 1;
-      }
-    } else if (this.factor !== 0.2) {
-      this.zoom(0.02, this.factor);
-      this.factor = 0.02;
-    }
-
+    this.state = state;
+    
     // Delay this, just for appearance
     setTimeout(function () {
       button.className = state;
@@ -985,13 +979,6 @@ var Button = function (button, state) {
   indicator = svg.createElement('path', {
     'd': states[this.state],
     'class': 'indicator'
-  }, g);
-
-  svg.createElement('path', {
-    'd': states.wait,
-    'stroke': '#000',
-    'stroke-width':35,
-    'class': 'wait'
   }, g);
 
 
@@ -1012,14 +999,6 @@ var Button = function (button, state) {
     };
   }
 
-  this.zoom = function (from, to) {
-    requestAnimationFrame(transition.bind(g, Date.now(), function (begin) {
-      var ratio = (Date.now() - begin) / 500; // float % animation complete
-      var scale = ratio >= 1 ? from : Math.pow(ratio * (from - to), 5) + to;
-      var translate = (22.5 / scale) - 22.5;
-      this.setAttribute('transform', 'scale({0}) translate({1}, {1})'.format(scale, translate));
-      return (ratio < 1);
-    }));
-  };
+  
   this.setState(this.state);
 };

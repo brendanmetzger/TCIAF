@@ -826,18 +826,7 @@ audio {display:none;}
 }
 
 
-button path.wait {
-  fill: transparent;
-  stroke-opacity: 1;
-  transition: stroke-opacity 0.25s;
-}
 
-button:not(.wait) path.wait { stroke-opacity: 0 }
-
-button.wait svg path.indicator {
-  fill-opacity: 0;
-  fill: #AAA;
-}
 
 button.error { background-color: #ED1C24 }
 
