@@ -68,7 +68,7 @@ h1, h2 {max-width: 75vw;font-weight:400;}
 
 h1, .h1 {font-size: calc(1.25em + 1.5vmax);line-height:1.25;margin:0;}
 h2, .h2 {font-size: calc(1.25em + 1.35vmax);line-height: 1.25;}
-h3, .h3 {font-size: calc(1.25em + 1vmax);line-height: 1.2;margin: 0.5em 0;}
+h3, .h3 {font-size: calc(1.25em + 1vmax);line-height: 1.2;margin: 0.5em 0;font-weight: 300;}
 h4, .h4, .markdown h3, article nav  ul.plain li > a  {font-size: calc(1.25em + 0.25vmax);font-weight:300;}
 h5, .h5, p, .p, li, label, input {font-size: calc(1.075em + 0.35vmax);line-height: 1.55;}
 h5 {font-weight:400}
@@ -196,7 +196,7 @@ header > img.landscape {
 }
 
 
-.path li a {padding: 0.25em 0.5em;border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;transition:border-color 0.25s;}
+.path li a {padding: 0.25em 0.35em;border-bottom: 2px solid rgba(0,0,0,0.025);line-height: 2;transition:border-color 0.25s;}
 .lead {font-size: calc(2em + 2vw);line-height:1;}
 .spot {padding:1.5em;margin:0 0 2vmax;}
 .spot ul {
@@ -351,11 +351,11 @@ button[type='submit'] {
 /* components  */
 .award > *, address span  { display:block }
 .award {
-  padding: 0 0 0 3.5em;
+  padding: 0 0 0 3em;
   min-height:3em;
   background-repeat: no-repeat;
-  background-position: 0 35%;
-  background-size:auto 3vmin;
+  background-position: 0 30%;
+  background-size: auto 50%;
   display: block;
   margin-left: 1em;
 }
@@ -437,10 +437,6 @@ section#media {width:100vw;position:fixed;left:0;}
 
 @media screen and (max-width: 50em) {
   /* this is necessary for touch screens */
-  .page > header {
-    padding: 2.5vmax;
-    margin: -2vmax -1.5vmax 0;
-  }
   html, body {min-height:100%} 
   body[data-view='media'] #browse {display:none;}
   section#browse > main {background-color: #FAFAFA;}
@@ -452,7 +448,6 @@ section#media {width:100vw;position:fixed;left:0;}
   section#browse main {background-color: #f1f1f1;padding-left: 1.5vmax;}
   h1, h2 { max-width: 100%;}
   h5 a, h2 a, .sink a, h3 a {
-/*    color:#54807e;*/
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.125) 75%, transparent) repeat-x 0 1em;
     background-size: 5px 1px;
     padding: 0 0.125em;
@@ -523,7 +518,7 @@ section#media {width:100vw;position:fixed;left:0;}
     display:block;
   }
   ul.sink li:nth-child(3) {clear:left}
-  ul.sink li {float:left;padding: 0.25em 0; margin: 0 0.25em;}
+  ul.sink li {float:left;margin: 0 0.35em 0 0;}
   .reorder section:nth-child(2) { order: 3;}
   
   nav[role] > ul { align-items:stretch }
@@ -539,7 +534,7 @@ section#media {width:100vw;position:fixed;left:0;}
 /* Hack for tablet to deal with images in playlist/lib*/
 @media screen and (min-width:40em) {
   .bg {width:25%;border:0.5em solid #fff}
-  .feature article.panel.listing header {width:70%;padding:0 2.5%;}
+  article.panel.listing header {width:70%;padding:0 2.5%;}
 }
 
 /* Tablet */
@@ -667,11 +662,13 @@ pre.console {
 button.listen {
   border: 2px solid #5b9c99;
   overflow: hidden;
-  height: calc(1.5em + 3vmin);
-  width: calc(1.5em + 3vmin);
+  height: calc(1.5em + 3vmax);
+  width: calc(1.5em + 3vmax);
   border-radius: 50%;
   color: transparent;
 }
+
+.bg button.listen { box-shadow: 0 0 2.5em rgba(0,0,0,0.1); }
 
 .playlist {max-height: 72.5vh;overflow-y:scroll;}
 .playlist li {
