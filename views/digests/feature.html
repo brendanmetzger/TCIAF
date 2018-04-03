@@ -1,6 +1,11 @@
 <article class="feature page" vocab="http://schema.org/" typeof="CreativeWork">
+  <style type="text/css" media="screen">
+    .markdown[property] p:first-of-type {
+      display:none;
+    }
+  </style>
   <header class="t">
-    <div class="two-thirds controls">
+    <div class="controls">
       <!-- iterate item:media:audio -->
       <!-- insert views/partials/play-button.html -->
       <h1 data-id="[$item:@id]" property="name" class="lead display tracked" title="[$item:duration]">[$item:title]</h1>

@@ -597,7 +597,6 @@ section#media {width:100vw;position:fixed;left:0;}
 
 /* Desktop*/
 @media screen and (min-width: 80em){
-  .lead { max-width: calc(75vw - 5em) }
   .columns.four { column-count:4 }
   nav[role] > ul { margin:0 0 0 10% }
   .seven > li { max-width: calc(25% - 1em) }
