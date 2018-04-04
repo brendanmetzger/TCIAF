@@ -415,6 +415,12 @@ var Progress = function(container) {
   };
 };
 
+Progress.prototype = {
+  get rando() {
+    return Math.random();
+  }
+};
+
 
 if (window.history.pushState) {
 
@@ -927,15 +933,15 @@ function loadButtonAudio(button, evt) {
 }
 
 
-var Button = function (button, state) {
-  this.state    = state || 'play';
+var Button = function (trigger, state) {
+  this.state = state || 'play';
   
-  var svg = new SVG(button, 100, 100);
+  var svg = new SVG(trigger, 100, 100);
   
   var states = {
     play:  'm 20 0  l 0 100 l 40 -30 l 0 -40  z m 40 30 l   0 40 l 30 -20 l 0    0 z',
     pause: 'm 45 0  l 0 100 l -40  0 l 0 -100 z m 10  0 l  0 100 l 40   0 l 0 -100 z',
-    error: 'm 16 10 l 10 0  l -3 20 l -3 0   z m 3  22 l  4   0 l 0    4 l -4   0 z',
+    error: 'm 16 10 l 10 0  l -3 20  l -3 0   z m 3  22 l  4   0 l 0    4 l -4   0 z',
     wait:  'm 15 5  l 70 90 l -35  0 l 0 -90  z m 70  0 l -70 90 l 35   0 l  0 -90 z'
   };
 
@@ -948,13 +954,13 @@ var Button = function (button, state) {
   }, svg.createElement('path', { 'class': 'indicator',  'd': states[this.state] } ));
 
   
-  this.press    = EventTarget.prototype.addEventListener.bind(button, mobile ? 'touchend' : 'click');
+  this.press    = EventTarget.prototype.addEventListener.bind(trigger, mobile ? 'touchend' : 'click');
   this.setState = function (state, evt) {
     if (state === this.state) return;
     animate.setAttribute('from', states[this.state]);
     animate.setAttribute('to',    states[state]);
     animate.beginElement();
-    button.className = this.state = state;
+    trigger.className = this.state = state;
   };
 
   this.setState(this.state);

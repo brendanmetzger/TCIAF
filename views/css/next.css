@@ -406,7 +406,7 @@ body[data-view='browse'] #media {
 div[data-award] {
   background-size: auto 7.5em;
   background-repeat: no-repeat;
-  background-position: 115% 0;
+  background-position: calc(100% + 1.5vw) 0;
 }
 .bg:not([style]) {
   opacity: 0;
