@@ -857,8 +857,8 @@ button.error { background-color: #ED1C24 }
 .progress[data-state='waiting'] svg circle:not(.grab) {
   stroke-opacity: 1;
   stroke-dashArray: 5 5;
-  stroke:#FC6202;;
-  transition: stroke 1s;
+  stroke:#444;
+  transition: stroke 2s;
 }
 
 .progress[data-state='waiting'] svg path {
