@@ -345,8 +345,11 @@ Menu.prototype = {
   }
 };
 
+var randomTimecode = function() {
+  return new Array(3).fill(60).map(x=>Math.floor(x * Math.random())).map(x => ('00' + x).slice(-2)).join(':');
+};
 
-// Progress/Patience
+// Progress/Patience Constructor
 var Progress = function(container) {
 
   var svg, path, handle, elapsed, remaining;
@@ -376,8 +379,11 @@ var Progress = function(container) {
   
   
   this.update = function (percentage, scrub, elapsed_msg, remain_msg) {
-    elapsed.textContent = elapsed_msg;
+    if (isNaN(percentage)) return;
+    
+    elapsed.textContent   = elapsed_msg;
     remaining.textContent = remain_msg;
+
     var radian = (2 * Math.PI) * percentage;
     var x = (Math.cos(radian) * 40) + 50;
     var y = (Math.sin(radian) * 40) + 50;
@@ -399,20 +405,14 @@ var Progress = function(container) {
   };
 
   this.setState = function (state) {
-    this.element.dataset.state = state;
+    
     if (state == 'waiting') {
-      // TODO, see below for better animation sequence
       elapsed.textContent = '...one';
       remaining.textContent = 'moment';
     }
+    
+    this.element.dataset.state = state;
   };
-
-  return this;
-};
-
-var randomTimecode = function() {
-  container.innerHTML = new Array(3).fill(60).map(x=>Math.floor(x * Math.random())).map(x => ('00' + x).slice(-2)).join(':');
-  if (window.pending) setTimeout(update, 50);
 };
 
 
@@ -855,8 +855,6 @@ Player.prototype = {
       this.button.setState('pause');
       this.meter.setState('playing');
     }
-    
-    
   },
   error: function (evt) {
     ga('send', 'event', 'Audio', 'error', this.playlist.current.id);
@@ -930,72 +928,34 @@ function loadButtonAudio(button, evt) {
 
 
 var Button = function (button, state) {
-  var svg, indicator, animate, states, scale, g;
-  this.state = state || 'play';
-
-  svg = new SVG(button, 100, 100);
-
-  states = {
-    play:  'M 20 0 c 0  0, 0 100, 0 100 l 40 -30 l 0 -40 z m 40 30 c 0 0, 0 40, 0 40 l 30 -20 l 0 0 z',
-    pause: 'M 5 0 c 0  0, 0 100,  0 100 l  40 0 l 0 -100 z m 50 0 c 0  0, 0 100,    0 100 l 40 0 l 0 -100 z',
-    error: 'M16,10 l10,0l-3,20  l-3,0l-3,-20  m3,22  l4,0 l0,4    l-4,0 z',
-    wait:  'M20 0 c 0 50, 60 50, 60 100 l -30 0 l 0 -100 z m 60 0 c 0 50, -60 50, -60 100 l 30 0 l 0 -100 z'
+  this.state    = state || 'play';
+  
+  var svg = new SVG(button, 100, 100);
+  
+  var states = {
+    play:  'm 20 0  l 0 100 l 40 -30 l 0 -40  z m 40 30 l   0 40 l 30 -20 l 0    0 z',
+    pause: 'm 45 0  l 0 100 l -40  0 l 0 -100 z m 10  0 l  0 100 l 40   0 l 0 -100 z',
+    error: 'm 16 10 l 10 0  l -3 20 l -3 0   z m 3  22 l  4   0 l 0    4 l -4   0 z',
+    wait:  'm 15 5  l 70 90 l -35  0 l 0 -90  z m 70  0 l -70 90 l 35   0 l  0 -90 z'
   };
 
-
-  this.factor = 1;
-
-  this.press = function (callback) {
-    button.addEventListener(mobile ? 'touchend' : 'click', callback);
-  };
-
-  // states match the d
-  this.setState = function (state, e) {
-    if (state === this.state) return;
-    
-    indicator.setAttribute('d', states[this.state]);
-
-    animate.setAttribute('from', states[this.state]);
-    animate.setAttribute('to', states[state]);
-
-    animate.beginElement();
-
-    this.state = state;
-    
-    // Delay this, just for appearance
-    setTimeout(function () {
-      button.className = state;
-    }, 150);
-
-  };
-
-  g = svg.createElement('g', {
-    transform: 'scale(1) translate(1,1)'
-  });
-
-  indicator = svg.createElement('path', {
-    'd': states[this.state],
-    'class': 'indicator'
-  }, g);
-
-
-
-  animate = svg.createElement('animate', {
+  var animate = svg.createElement('animate', {
     attributeName: 'd',
     attributeType: 'XML',
-    from: states.play,
-    to: states.pause,
     dur: '0.25s',
     begin: 'indefinite',
     fill: 'freeze'
-  }, indicator);
-
-  if (! animate.beginElement) {
-    animate.beginElement = function () {
-      indicator.setAttribute('d', animate.getAttribute('to'));
-    };
-  }
+  }, svg.createElement('path', { 'class': 'indicator',  'd': states[this.state] } ));
 
   
+  this.press    = EventTarget.prototype.addEventListener.bind(button, mobile ? 'touchend' : 'click');
+  this.setState = function (state, evt) {
+    if (state === this.state) return;
+    animate.setAttribute('from', states[this.state]);
+    animate.setAttribute('to',    states[state]);
+    animate.beginElement();
+    button.className = this.state = state;
+  };
+
   this.setState(this.state);
 };

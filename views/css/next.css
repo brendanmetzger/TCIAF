@@ -841,8 +841,6 @@ audio {display:none;}
 }
 
 
-
-
 button.error { background-color: #ED1C24 }
 
 .progress {
@@ -850,7 +848,7 @@ button.error { background-color: #ED1C24 }
   min-width: 50%;
 }
 
-.progress.spin svg, .progress[data-state='waiting'] svg {animation: spin 2.25s 0.5s infinite cubic-bezier(0.21, 0.71, 0.98, 0.35);}
+.progress.spin svg, .progress[data-state='waiting'] svg circle {animation: spin 5s 0.125s infinite linear; transform-origin: 50% 50%;}
 
 .progress[data-state='playing'] span {
   opacity:1 !important;
@@ -858,8 +856,9 @@ button.error { background-color: #ED1C24 }
 
 .progress[data-state='waiting'] svg circle:not(.grab) {
   stroke-opacity: 1;
-  stroke-dashArray: 50 50;
-  stroke:#888;
+  stroke-dashArray: 5 5;
+  stroke:#FC6202;;
+  transition: stroke 1s;
 }
 
 .progress[data-state='waiting'] svg path {
