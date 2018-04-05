@@ -629,9 +629,6 @@ bloc.define('site-search', function (instance) {
   });
 });
 
-// _Capitalized word indicates an instance of an object
-
-
 function Track(config) {
   this.config = config;
   this.callback = function(){};
@@ -760,7 +757,6 @@ var Player = function (container, data, message) {
   this.playlist = new Playlist(this, {'class': data.playlist});
   this.button   = new Button(button, 'play');
   this.meter    = new Progress(controls);
-
   this.audio    = controls.appendChild(document.createElement('audio'));
 
   ['ended','timeupdate','error','seeked','seeking','playing','waiting'].forEach(function (event) {
@@ -786,7 +782,7 @@ var Player = function (container, data, message) {
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    var p  = evt.theta() / 360;
+    var p = evt.theta() / 360;
     var d = this.audio.duration * 1e3;
     var t = d * (1 - p);
     var m = "{h}:{m}:{s}";
@@ -836,9 +832,7 @@ Player.prototype = {
   ended: function (evt) {
     this.pause();
     ga('send', 'event', 'Audio', 'finished', this.playlist.current.id);
-    if (this.playlist.next()) {
-      this.play();
-    }
+    if (this.playlist.next()) this.play();
 
   },
   playing: function (evt) {
@@ -888,7 +882,6 @@ function loadButtonAudio(button, evt) {
     return false;
   }
 
-
   var selected = button.parentNode.querySelector('audio');
   player.playlist.clearUnplayed();
 
@@ -907,23 +900,13 @@ function loadButtonAudio(button, evt) {
     // do if in the playlist vs not in the playlist.
     player.playlist.add(track);
 
-    // this probably isn't important anymore, elim. condition
-    // perhaps set callback as part of config to track obj.
     if (aux_button && aux_button != button) {
-      track.callback = function (evt) {
-        // proxy a click to the playlist.
-        navigateToPage.call({href: audio.dataset.ref}, evt);
-      };
+      track.callback = navigateToPage.bind({href: audio.dataset.ref});
       aux_button.removeAttribute('onclick');
       aux_button.addEventListener('click', player.playlist.select.bind(player.playlist, {target: {id: track.id}}));
     }
 
-
-    if (selected === audio) {
-      // set this to be selected
-      player.playlist.pointer = track.id;
-    }
-
+    if (selected === audio) player.playlist.pointer = track.id;
     audio.parentNode.removeChild(audio);
 
   });
@@ -939,7 +922,7 @@ var Button = function (trigger, state) {
   var svg = new SVG(trigger, 100, 100);
   
   var states = {
-    play:  'm 20 0  l 0 100 l 40 -30 l 0 -40  z m 40 30 l   0 40 l 30 -20 l 0    0 z',
+    play:  'm 20 0  l 0 100 l 40 -30 l 0 -40  zm 70 50 l   -30 -20 l 0 40 l 30 -20 z',
     pause: 'm 45 0  l 0 100 l -40  0 l 0 -100 z m 10  0 l  0 100 l 40   0 l 0 -100 z',
     error: 'm 16 10 l 10 0  l -3 20  l -3 0   z m 3  22 l  4   0 l 0    4 l -4   0 z',
     wait:  'm 15 5  l 70 90 l -35  0 l 0 -90  z m 70  0 l -70 90 l 35   0 l  0 -90 z'
