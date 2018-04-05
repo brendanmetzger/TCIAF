@@ -39,20 +39,15 @@ Date.prototype.parse = function (pattern) {
 };
 
 
-Element.prototype['@'] = function (obj) {
-  for (var prop in obj) {
-    this.setAttribute(prop, obj[prop]);
-  }
+Element.prototype.attr = function (obj) {
+  for (var prop in obj) this.setAttribute(prop, obj[prop]);
   return this;
 };
 
-/* Allow looping through NodeLists akin to arrays.
- * (Nodelists are returned from querySelectorAll and other DOM stuff)
- */
-NodeList.prototype.forEach = Array.prototype.forEach;
 
 
-/* Animation function
+/*
+ * Animation function
  */
 var Animate = function (callback) {
   return {
@@ -374,7 +369,7 @@ var Progress = function(container) {
   svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 40 });
   
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
-  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)'});
+  handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)' });
   grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
   
   
@@ -663,7 +658,7 @@ var Playlist = function (player, attributes) {
   this.tracks  = {};
   this.pointer = null;
   this.player  = player;
-  this.element = player.container.appendChild(document.createElement('ul')['@'](attributes));
+  this.element = player.container.appendChild(document.createElement('ul').attr(attributes));
   this.element.addEventListener('click', this.select.bind(this));
   this.scroller = smoothScroll(this.element);
 };
@@ -708,7 +703,7 @@ Playlist.prototype = {
   add: function (track) {
     if (! this.tracks.hasOwnProperty(track.id)) {
       this.tracks[track.id] = track;
-      track.element = this.element.appendChild(document.createElement('li')['@']({id: track.id}));
+      track.element = this.element.appendChild(document.createElement('li').attr({id: track.id}));
     }
   },
   // not a real queue, as some elements bay be skipped
@@ -736,7 +731,7 @@ var Player = function (container, data, message) {
   this.elements = [];
   this.index    = 0;
 
-  var toggle = this.container.appendChild(document.createElement('button')['@']({
+  var toggle = this.container.appendChild(document.createElement('button').attr({
     'class': 'toggle',
   }));
 
@@ -746,11 +741,11 @@ var Player = function (container, data, message) {
     document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
   });
 
-  var controls = this.container.appendChild(document.createElement('div')['@']({
+  var controls = this.container.appendChild(document.createElement('div').attr({
     'class': data.controls
   }));
 
-  var button = controls.appendChild(document.createElement('button')['@']({
+  var button = controls.appendChild(document.createElement('button').attr({
     'type': 'button'
   }));
 
