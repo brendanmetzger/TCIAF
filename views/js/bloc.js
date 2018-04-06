@@ -479,7 +479,7 @@ if (window.history.pushState) {
   }, 8500);
 
   var adjust = function (num) {
-    return Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))) + '%';
+    return Math.max(Math.round((parseFloat(num, 10) + (Math.cos(Math.random() * 2 * Math.PI) * 25))), 75) + '%';
   };
 
   window.navigateToPage = function (evt) {
@@ -546,7 +546,15 @@ function quickPlay(active, evt) {
 
 var reveal = function () {
   if (this.classList.contains('proxy')) {
-    this.parentNode.style.backgroundImage = `url(${this.src})`;
+    var context = this.parentNode;
+    var prefix = context.style.backgroundImage;
+    if (prefix) {
+      prefix += ', ';
+    }
+    
+    context.style.backgroundImage = prefix + `url(${this.src})`;
+    setTimeout(DOMTokenList.prototype.add.bind(context.classList, 'loaded'), 10);
+    
     this.remove();
   } else {
     this.removeAttribute('data-src');

@@ -1,6 +1,7 @@
 <ul class="triptych plain recommended">
   <!-- iterate item:recommended -->
-  <li style="[background-image:linear-gradient(rgba(255,255,255,0) 25%, #fff 17.5em), url($item:image:domain/$item:image:url);]" class="image-tab"  data-id="[$item:@id]">
+  <li style="background-image:linear-gradient(rgba(255,255,255,0) 25%, #fff 17.5em)" class="image-tab"  data-id="[$item:@id]">
+    <img class="proxy" data-src="[$item:image:domain/$item:image:url]" />
     <div style="width:100%;">
       <div class="controls">
         <!-- iterate item:media:audio -->

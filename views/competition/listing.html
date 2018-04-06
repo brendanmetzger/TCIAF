@@ -1,17 +1,30 @@
 <article class="competitions listing page">
-  <div class="panel">
-    <header class="two-thirds">
-      <nav class="caps-lock brown h6">
-        <a href="/overview/competition">Competitions</a> / <a href="[/overview/competition/$item:@id]">[$item:title]</a> / <span class="selected">Participants</span>
-      </nav>
-
-      <h1 class="lead display tracked tt bb">[$item:title]</h1>
-    </header>
-    <img data-src="[//s3.amazonaws.com/$item:photo:url]" style="width:25%;margin:0" data-aspect="[$item:banner:mark]"/>
-
-  </div>
-  <section>
+  <header>
+    <nav class="caps-lock brown">
+      <a href="/overview/competition">Competitions</a> / <a href="[/overview/competition/$item:@id]">[$item:title]</a> / <span class="selected">Participants</span>
+    </nav>
+    <h1 class="lead display tracked tt bb">[$item:title]</h1>
+  </header>
+  <hr/>
+  <ul class="triptych plain">
     <!-- iterate item:participants -->
-    <!-- insert views/cards/feature.html -->
-  </section>
+    <li style="background-image:linear-gradient(rgba(255,255,255,0) 25%, #fff 17.5em)" class="image-tab"  data-id="[$item:@id]">
+      <img class="proxy" data-src="[$item:image:domain/$item:image:url]" />
+      <div style="width:100%;">
+        <div class="controls">
+          <!-- iterate item:media:audio -->
+          <!--  insert views/partials/play-button.html-->
+        </div>
+        <div class="overleaf" data-award="[$item:award:html]">
+          <h3 class="display tracked" ><a href="[$item:permalink]">[$item:title]</a></h3>
+          <h6>[$item:year / $item:duration]</h6>
+          <p>[$item:summary]</p>
+        </div>
+      </div>
+      <ul class="plain conjunct">
+        <!-- iterate item:producers -->
+        <li><a href="[$person:permalink]">[$person:@title]</a></li>
+      </ul>
+    </li>
+  </ul>
 </article>

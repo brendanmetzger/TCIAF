@@ -287,10 +287,18 @@ nav.jump:before {
 }
 
 .image-tab {
+  box-shadow: 0 0 0.125em 0.075em rgba(0,0,0,0.05);
+  opacity: 0;
   background-repeat: repeat-y;
-  background-position: 50% 0;
-  background-size:100% auto;
+  background-position: 50% 0, 50% -50%;
+  background-size:100% 100%, 100% auto;
   padding-top: 6.5em;
+  transition: opacity 0.5s 0.25s, background-position 1.125s;
+}
+
+.image-tab.loaded{
+  opacity: 1;
+  background-position: 50% 0, 50% 0;
 }
 .image-tab .overleaf {
   background-color:rgba(255,255,255,0.75);
@@ -463,7 +471,6 @@ section#media {width:100vw;position:fixed;left:0;}
   }
     nav[role] > ul {border-left: 1px solid #F8F8F8;}
   .panel > .two-thirds, .panel > .half {flex: 1 0 100%;min-width: 100%;padding: 0 2vw;}
-  article.listing {background-color: rgba(255,255,255,0.85);margin:1em 0;/* padding: 0 2vmax; */}
   .gallery {width:100%;}
   .gallery img {max-width:100%;padding: 5%;}
   .bio.read {display:flex;align-items:center}
