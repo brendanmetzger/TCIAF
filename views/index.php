@@ -35,7 +35,7 @@ $app->prepare('http-request', function ($app, $params) {
   } catch (\Exception $e) {
     \bloc\application::instance()->log($e->getTrace());
     $view = new View('views/layout.html');
-    $view->content = 'views/layouts/error.html';
+    $view->content = 'views/pages/error.html';
     $output = $view->render(['message' => $e->getMessage()]);
   }
   

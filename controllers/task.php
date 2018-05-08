@@ -356,6 +356,11 @@ class Task extends \bloc\controller
       if ($count-- < 0) break;
     }
   }
+  
+  public function CLImigration() {
+    $migration = new \models\migration;
+    $migration->execute();
+  }
 
   protected function CLIresetDates($user)
   {
@@ -377,67 +382,6 @@ class Task extends \bloc\controller
     }
 
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
-  }
-
-  public function CLIsequencer($n = 100)
-  {
-    $count = \models\graph::instance()->query('/group/')->find('vertex[@id]')->count();
-    echo $count . "\n";
-    for ($i=0; $i < $n; $i+= 1) {
-      echo \models\graph::ALPHAID($i) . "\n";
-    }
-    
-  }
-  
-  public function CLIgenerateIndex($value='')
-  {
-    return;
-    $doc = new \bloc\DOM\Document('data/tciaf');
-    $db = new \DOMXpath($doc);
-    $idx = new \bloc\DOM\Document('data/index');
-    
-    $nodes = iterator_to_array($db->query('//group/vertex[@id]'));
-    
-    usort($nodes, function($a, $b) use($db){
-      return $db->query('edge', $a)->length < $db->query('edge', $b)->length;
-    });
-
-    foreach($nodes as $count => $node) {
-      $id = \models\graph::ALPHAID($count);
-      $slug = $node->getAttribute('id');
-      $key = $idx->documentElement->appendChild(new \DOMElement($id));
-      $key->setAttribute('k', $slug);
-      
-      foreach ($db->query("//vertex[@id='{$slug}']/@id|//edge[@vertex='{$slug}']/@vertex") as $attr) {
-        $attr->nodeValue = $id;
-      }
-      
-    }
-    $idx->save();
-    $doc->save(PATH. 'data/tciaf2.xml');
-    
-    
-  }
-  
-  public function CLIabstracts()
-  {
-    $doc = new \bloc\DOM\Document('data/tciaf2');
-    $db  = new \DOMXpath($doc);
-    foreach ($db->query('//abstract') as $abstract) {
-      $id      = $abstract->parentNode->getAttribute('id');
-      $content = strtolower($abstract->getAttribute('content') ?: 'extras');
-      $path    = $abstract->getAttribute('src');
-
-      if (! copy(PATH . $path, PATH . 'data/abstracts/' . $content . '/' . $id . '.html')) {
-        echo "did not save {$path}\n";
-      }
-      
-      $abstract->removeAttribute('src');
-      $abstract->setAttribute('content', $content);
-    }
-    
-    $doc->save();
-    
   }
   
   public function CLIcompressedges()
@@ -472,23 +416,7 @@ class Task extends \bloc\controller
     $doc->save(PATH. 'data/tciaf3.xml');
   }
   
-  public function CLImoveAbstracts()
-  {
-    $doc = new \bloc\DOM\Document('data/tciaf3');
-    $db  = new \DOMXpath($doc);
-    
-    foreach ($db->query('//group/vertex') as $vertex) {
-      $abstracts  = [];
-      
-      foreach ($db->query('abstract', $vertex) as $idx => $abstract) {
-        $abstracts[] = $abstract->getAttribute('content');
-        $abstract->parentNode->removeChild($abstract);
-      }
-      
-      $vertex->setAttribute('abstract', implode(' ', $abstracts));
-    }
-     $doc->save(PATH. 'data/tciaf4.xml');
-  }
+  
   
   public function CLIcompressdates()
   {

@@ -925,7 +925,7 @@ var Button = function (trigger, state) {
   var svg = new SVG(trigger, 100, 100);
   
   var states = {
-    play:  'm 20 0  l 0 100 l 40 -30 l 0 -40  zm 70 50 l   -30 -20 l 0 40 l 30 -20 z',
+    play:  'm90 50 l -60 35  l 0 -35 l 0 -35 z    m 0 0 l -60 35  l 0 -35 l 0 -35 z',
     pause: 'm 45 0  l 0 100 l -40  0 l 0 -100 z m 10  0 l  0 100 l 40   0 l 0 -100 z',
     error: 'm 16 10 l 10 0  l -3 20  l -3 0   z m 3  22 l  4   0 l 0    4 l -4   0 z',
     wait:  'm 15 5  l 70 90 l -35  0 l 0 -90  z m 70  0 l -70 90 l 35   0 l  0 -90 z'

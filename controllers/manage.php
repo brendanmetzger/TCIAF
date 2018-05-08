@@ -44,7 +44,7 @@ class Manage extends \bloc\controller
     ];
     
 
-    $tciaf = Graph::FACTORY(Graph::ID('TCIAF'));
+    $tciaf = Graph::FACTORY(Graph::ID('A'));
 
     $this->supporters = $tciaf->supporters;
     $this->staff      = $tciaf->staff;
@@ -274,7 +274,7 @@ class Manage extends \bloc\controller
         ];
 
         if ($type === 'image') {
-          $path = preg_match('/\.jpe?g$/i', $name) ? "http://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
+          $path = preg_match('/\.jpe?g$/i', $name) ? "https://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
           $config['Body'] =  file_get_contents($path);
         } else {
           $config['SourceFile'] = $source;
