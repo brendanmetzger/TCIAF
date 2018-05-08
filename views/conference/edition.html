@@ -60,13 +60,17 @@
     </div>
     
     <section class="one-third ll">
-      <nav class="gray-bg spot">
-        <h4 class="brown caps-lock strong">More Conferences</h4>
-        <ul class="plain path h4 m">
+      
+      <form method="GET" class="spot">
+        <h5 class="brown caps-lock strong">[$item:origin:title by year]</h5>
+        <select onchange="navigateToPage.call({href: this.value}, event);">
+          <option>Select Year</option>
           <!-- iterate item:origin:conferences -->
-          <li><a href="[/overview/conference/$edition:@id]">[$edition:year]</a></li>
-        </ul>
-      </nav>
+          <option value="[/overview/conference/$edition:@id]">[$edition:year]</option>
+        </select>
+      </form>
+      
+      
       <!-- replace sponsors -->
     </section>
     
