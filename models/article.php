@@ -9,18 +9,7 @@ class Article extends Vertex
 {
   use traits\banner, traits\periodical;
   public $_premier = "Publication Date";
-  static public $fixture = [
-    'vertex' => [
-      'abstract' => [
-        [
-          'CDATA' => '',
-          '@' => [
-            'content' => 'description'
-          ]
-        ]
-      ]
-    ]
-  ];
+  static public $fixture = [];
 
   protected $edges = [
     'producer' => ['person'],

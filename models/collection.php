@@ -23,14 +23,7 @@ namespace models;
 
     static public $fixture = [
       'vertex' => [
-        'abstract' => [
-          [
-            'CDATA' => '',
-            '@' => [
-              'content' => 'about'
-            ]
-          ]
-        ]
+        '@' => ['text' => 'about']
       ]
     ];
 

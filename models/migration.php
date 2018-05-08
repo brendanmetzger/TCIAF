@@ -9,6 +9,10 @@
   [ ] apache rewrites and redirects
 
   manual caveats:
+  
+  there are some duplicate ids. don't know why.
+
+  change the file permissions of the text after going through the db conversion
 
   there are some static IDS that must be located. TCIAF, opportunities, and probably anything with 'sticky'
   line 206 on overview.php controller
@@ -25,8 +29,8 @@ class Migration {
   
   private function generateIndex() {
     
-    $index_doc = new \bloc\DOM\Document('<i/>', [], 2);
-    $nodes     = iterator_to_array($this->xpath->query('//group/vertex[@id]'));
+    $index = fopen(PATH . 'data/index.txt', 'w');
+    $nodes = iterator_to_array($this->xpath->query('//group/vertex[@id]'));
     
     usort($nodes, function($a, $b) {
       return $this->xpath->query('edge', $a)->length < $this->xpath->query('edge', $b)->length;
@@ -36,17 +40,20 @@ class Migration {
       $id   = Graph::ALPHAID($count);
       $slug = $node->getAttribute('id');
       
-      $key  = $index_doc->documentElement->appendChild(new \DOMElement($id));
-      $key->setAttribute('k', $slug);
-      
+      // id should be redundant as it is serialized
+      // fwrite($index, substr(str_pad($slug, 100, " ", STR_PAD_LEFT), 0, 100), 100);
+      fwrite($index, $slug . "\n");
+
       foreach ($this->xpath->query("//vertex[@id='{$slug}']/@id|//edge[@vertex='{$slug}']/@vertex") as $attr) {
         $attr->nodeValue = $id;
       }
       
-      echo "{$id} now represents {$slug}\n";
+      if ($node->hasAttribute('sticky')) {
+        echo "STICKY! {$slug} is now {$id}\n";
+      }
+      
     }
     
-    $index_doc->save(PATH . 'data/index.xml');
   }
   
   private function renameSpectra() {
@@ -55,25 +62,35 @@ class Migration {
     }
   }
   
-  protected function abstracts() {
+  private function copyAbstracts() {
     foreach ($this->xpath->query('//abstract') as $abstract) {
       
       $id      = $abstract->parentNode->getAttribute('id');
       $content = strtolower($abstract->getAttribute('content') ?: 'extras');
       $path    = $abstract->getAttribute('src');
-
-      if (! copy(PATH . $path, PATH . 'data/abstracts/' . $content . '/' . $id . '.html')) {
-        echo "did not save {$path}\n";
+      $dir     = PATH . 'data/text/' . $content;
+      if (!file_exists($dir)) {
+        mkdir($dir, 0774, true);
       }
       
-      $abstract->removeAttribute('src');
-      $abstract->setAttribute('content', $content);
+      if (file_exists(PATH . $path)) {
+        if (! copy(PATH . $path, $dir . '/' . $id . '.html')) {
+          echo "did not save {$dir}\n";
+        }
+        $abstract->removeAttribute('src');
+        $abstract->setAttribute('content', $content);
+      } else {
+        echo "There is no file at {$path}... removing attribute\n";
+        $abstract->parentNode->removeChild($abstract);
+      }
+      
+      
     }
     
     
   }
   
-  protected function moveAbstracts() {
+  protected function joinAbstracts() {
     foreach ($this->xpath->query('//group/vertex') as $vertex) {
       $abstracts  = [];
       
@@ -82,15 +99,24 @@ class Migration {
         $abstract->parentNode->removeChild($abstract);
       }
       
-      $vertex->setAttribute('abstract', implode(' ', $abstracts));
+      if (! empty($abstracts)) {
+        $vertex->setAttribute('text', implode(' ', $abstracts));
+      }
+      
     }
   }
   
   
   public function execute() {
-    // generateIndex
+    // generate new index with new ids
     $this->generateIndex();
-    // renameSpectra
+    // rename Spectra so there are no id conflicts
+    $this->renameSpectra();
+    // move abstracts into new files
+    $this->copyAbstracts();
+    // rename abstracts into attribute
+    $this->joinAbstracts();
+    
     $this->doc->save(PATH. 'data/tciaf2.xml');
   }
 }

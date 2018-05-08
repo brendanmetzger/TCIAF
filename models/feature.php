@@ -78,7 +78,7 @@ function timecode($time) {
       }
 
       return Graph::instance()->query('graph/config')->find('/spectra')->map(function($item) use($spectra) {
-        return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$item['@id']]];
+        return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[substr($item['@id'],1)]];
       });
     }
 

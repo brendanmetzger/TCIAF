@@ -44,6 +44,7 @@ use \bloc\dom\query;
       $out = '';
       $alphabet = array_merge(range('A', 'Z'), range('a', 'z'));
       $b = count($alphabet);
+      
       do  {
         $d = floor($n / $b);
         $r = $n % $b;
@@ -51,6 +52,17 @@ use \bloc\dom\query;
         $out = $alphabet[$r] . $out;
       } while ($n > 0);
 
+      return $out;
+    }
+    
+    static public function INTID(string $s) {
+      $out = 0;
+      $alphabet = array_flip(array_merge(range('A', 'Z'), range('a', 'z')));
+      $base     = count($alphabet);
+
+      foreach (array_reverse(str_split($s)) as $exp => $val) {
+        $out += ($base ** $exp) * $alphabet[$val];
+      }
       return $out;
     }
 

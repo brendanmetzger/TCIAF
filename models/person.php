@@ -14,12 +14,7 @@ class Person extends Vertex  implements \bloc\types\authentication
 
   static public $fixture = [
     'vertex' => [
-      'abstract' => [
-        [
-          'CDATA'  => '',
-          '@' => ['content' => 'bio']
-        ]
-      ]
+      '@' => ['text' => 'bio']
     ]
   ];
 

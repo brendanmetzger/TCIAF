@@ -21,7 +21,7 @@
 <!ELEMENT group (vertex)*>
 <!ATTLIST group type (feature|person|organization|happening|competition|article|collection|archive) #REQUIRED>
 
-<!ELEMENT vertex (abstract*,edge*,media*,location?,premier?,spectra?)*>
+<!ELEMENT vertex (edge*,media*,location?,premier?,spectra?)*>
 <!ATTLIST vertex id ID #REQUIRED>
 <!ATTLIST vertex sticky CDATA #IMPLIED>
 <!ATTLIST vertex hash CDATA #IMPLIED>
@@ -29,10 +29,8 @@
 <!ATTLIST vertex updated CDATA #IMPLIED>
 <!ATTLIST vertex title CDATA #REQUIRED>
 <!ATTLIST vertex mark CDATA #IMPLIED>
+<!ATTLIST vertex text NMTOKENS #IMPLIED>
 
-<!ELEMENT abstract (#PCDATA)>
-<!ATTLIST abstract content CDATA #IMPLIED>
-<!ATTLIST abstract src CDATA #IMPLIED>
 
 <!ELEMENT edge (#PCDATA)>
 <!ATTLIST edge type (producer|award|edition|extra|presenter|curator|judge|staff|session|item|participant|friend|board|sponsor|host|page|playlist) #REQUIRED>

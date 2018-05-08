@@ -17,13 +17,7 @@ abstract class Vertex extends \bloc\Model
 
   static public $fixture = [
     'vertex' => [
-      '@' => ['id' => null, 'title' => '', 'created' => '', 'updated' => '', 'mark' => 0],
-      'abstract' => [
-        [
-          'CDATA'  => '',
-          '@' => ['content' => 'description']
-        ]
-      ],
+      '@' => ['id' => null, 'title' => '', 'created' => '', 'updated' => '', 'mark' => 0, 'text' => 'description'],
       'location' => [
         'CDATA' => ''
       ],
@@ -69,6 +63,9 @@ abstract class Vertex extends \bloc\Model
 
   public function setAbstract(\DOMElement $context, array $abstract)
   {
+    /*
+      TODO ALL needs to be rewritten.
+    */
     if (empty($abstract['CDATA'])) return false;
     $src = 'data/abstracts/' .$context->parentNode->getAttribute('id') . '-' . $context->getIndex() . '.html';
     $url = Graph::instance()->storage->createAttribute('src');
@@ -88,23 +85,30 @@ abstract class Vertex extends \bloc\Model
 
   public function getAbstract(\DOMElement $context, $parse = true)
   {
-    if ($context['abstract']->count() < 1) {
+    $abstracts = new \bloc\types\dictionary(explode(' ', $context['@text']));
+    
+    if ($abstracts->count() < 1) {
       return [[
-       'type' => strtolower(array_pop(static::$fixture['vertex']['abstract'])['@']['content'] ?? 'description'),
+       'type' => strtolower(static::$fixture['vertex']['@']['text'] ?? 'description'),
        'index' => 0,
        'text' => '',
        'required' => 'required',
       ]];
     }
+    
+    
 
-    return $context['abstract']->map(function($abstract) use($parse, $context){
-			$path = PATH . $abstract->getAttribute('src');
+    return $abstracts->map(function($type, $idx) use($parse, $context){
+
+			$path = trim(PATH . "data/text/{$type}/{$context['@id']}.html");
+
 			$content = file_exists($path) ? file_get_contents($path) : null;
 
       $text = $parse && $context['@mark'] != 'html' ? (new \vendor\Parseup($content))->output() : ($parse ? htmlentities($content) : $content);
+    
       return [
-       'type'    => $abstract->getAttribute('content'),
-       'index'   => $abstract->getIndex(),
+       'type'    => $type,
+       'index'   => $idx,
        'text'    => $text,
       ];
     });

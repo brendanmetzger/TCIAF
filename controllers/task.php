@@ -361,6 +361,34 @@ class Task extends \bloc\controller
     $migration = new \models\migration;
     $migration->execute();
   }
+  
+  public function CLIconverter($alpha) {
+    // ann hepp BA
+
+    
+    $int = \Models\Graph::INTID($alpha);
+
+    echo "int conversion of {$alpha} is {$int}\n";
+    
+    // $h = fopen(PATH . 'data/index.txt', 'r');
+    // fseek($h, $int * 100);
+    // echo "the slug found is " . trim(fread($h, 100)) . "\n";
+    
+    $file = new \SplFileObject(PATH . 'data/index.txt', 'r');
+    $file->seek($int);
+    echo "the slug found is " . $file->current() . "\n";
+    
+  }
+  
+  public function CLIlookup($slug) {
+
+    foreach (new \SplFileObject(PATH . 'data/index.txt', 'r') as $line_num => $line) {
+      if (trim($line) == $slug) {
+        return \Models\Graph::ALPHAID($line_num);
+      }
+    }
+    
+  }
 
   protected function CLIresetDates($user)
   {
