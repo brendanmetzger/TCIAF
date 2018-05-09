@@ -87,8 +87,7 @@ function calendar($start, $category, $query)
       if ($sort == 'alpha-numeric') {
         // show the picker
         $alpha = strtolower(substr($group, 6, 1));
-        $upper = strtoupper($alpha);
-        $query .= " and starts-with(translate(@title, '{$upper}', '{$alpha}'), '{$alpha}')";
+        $query .= " and starts-with(@key, '{$alpha}')";
         $this->alphabet = alphabet($alpha, $filter);
         $view->picker = "views/partials/alpha-numeric.html";
       }
@@ -170,8 +169,7 @@ function calendar($start, $category, $query)
 
       if ($filter != 'any') {
         $alpha = strtolower(substr($filter, 6, 1));
-        $upper = strtoupper($alpha);
-        $query .= "and starts-with(translate(@title, '{$upper}', '{$alpha}'), '{$alpha}')";
+        $query .= "and starts-with(@key, '{$alpha}')";
       }
 
       $this->alphabet = alphabet($alpha, $category);

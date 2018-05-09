@@ -27,7 +27,7 @@ class Explore extends Manage
       $alpha = null;
       if (strtolower(substr($filter, 0, 5)) == 'alpha') {
         $alpha = substr($filter, 6, 1);
-        $query = "[starts-with(@title, '{$alpha}')]";
+        $query = "[starts-with(@key, '{$alpha}')]";
       }
       $this->alphabet = (new Dictionary(range('A', 'Z')))->map(function($letter) use($alpha) {
         $map = ['letter' => $letter];
@@ -66,11 +66,17 @@ class Explore extends Manage
     $view->content = "views/digests/{$this->item->template('digest')}.html";
     return $view->render($this());
   }
+  
+  
+  public function GETlookup($type, $slug) {
+    $this->item = Graph::Factory(Graph::group($type)->find("vertex[@key='{$slug}']")->pick(0));
+    $this->title  = strip_tags($this->item['title']);
 
-  // public function GETperson($slug, $id = null)     { return $this->GETdetail($slug, $id); }
-  // public function GETfeature($slug, $id = null)    { return $this->GETdetail($slug, $id); }
-  // public function GETcollection($slug, $id = null) { return $this->GETdetail($slug, $id); }
-  // public function GETarticle($slug, $id = null)    { return $this->GETdetail($slug, $id); }
+    $view = new view('views/layout.html');
+    $view->content = "views/digests/{$this->item->template('digest')}.html";
+    return $view->render($this());
+  }
+
 
   public function GETbehindTheScenes($sort = 'newest', $index = 1, $per = 25)
   {

@@ -67,11 +67,14 @@ abstract class Vertex extends \bloc\Model
       TODO ALL needs to be rewritten.
     */
     if (empty($abstract['CDATA'])) return false;
-    $src = 'data/abstracts/' .$context->parentNode->getAttribute('id') . '-' . $context->getIndex() . '.html';
+    
+    $type = $abstract['@']['content'] ?? self::$fixture['vertex']['@']['content'];
+    
+    $src = "data/text/{$type}/{$context->parentNode['@id']}.html";
     $url = Graph::instance()->storage->createAttribute('src');
     $url->appendChild(Graph::instance()->storage->createTextNode($src));
     $context->setAttributeNode($url);
-    $context->setAttribute('content', $abstract['@']['content'] ?? self::$fixture['vertex']['abstract'][0]['@']['content']);
+
     $text = $abstract['CDATA'];
     if ($context->parentNode['@mark'] != 'html') {
       $markdown = new \vendor\Parsedown;
@@ -290,7 +293,7 @@ abstract class Vertex extends \bloc\Model
 
 
     }
-
+    
     $out = [];
 
     foreach ($output as $type => $config) {
@@ -309,15 +312,10 @@ abstract class Vertex extends \bloc\Model
 
   public function getPermalink(\DOMElement $context)
   {
-    return "/{$this->_model}/{$this->slug}";
+    return "/{$this->_model}/{$context['@key']}";
   }
   
-  public function getSlug(\DOMElement $context)
-  {
-    return Search::IDtoSlug($context['@id']);
-  }
-
-  public function setSlug()
+  public function setKey(\DOMElement $context, $value, $unique = '')
   {
     $find = [
       '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
@@ -328,6 +326,8 @@ abstract class Vertex extends \bloc\Model
       '/^([^a-z])/i',
       '/\-([ntscw]\-)/',
     ];
-    return strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
+    $key = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
+    $context->setAttribute('key', $key);
+
   }
 }

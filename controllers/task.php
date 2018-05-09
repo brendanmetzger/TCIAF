@@ -362,22 +362,19 @@ class Task extends \bloc\controller
     $migration->execute();
   }
   
-  public function CLIconverter($alpha) {
-    // ann hepp BA
-
+  public function CLIslug($id, $replacement) {
     
-    $int = \Models\Graph::ALPHAID($alpha);
-
-    echo "int conversion of {$alpha} is {$int}\n";
+    $int = \Models\Graph::INTID($id);
     
-    return;
-    // $h = fopen(PATH . 'data/index.txt', 'r');
-    // fseek($h, $int * 100);
-    // echo "the slug found is " . trim(fread($h, 100)) . "\n";
+    // $handel = fopen(PATH . 'data/map.txt', 'r+');
     
-    $file = new \SplFileObject(PATH . 'data/index.txt', 'r');
+    $file = new \SplFileObject(PATH . 'data/map.txt', 'r+');
+    
     $file->seek($int);
-    echo "the slug found is " . $file->current() . "\n";
+    
+    $file->fwrite('EDIT' . $file->current());
+
+
     
   }
   

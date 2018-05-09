@@ -29,7 +29,7 @@ class Migration {
   
   private function generateIndex() {
     
-    $index = fopen(PATH . 'data/map.txt', 'w');
+    // $index = fopen(PATH . 'data/map.txt', 'w');
     
     $nodes = iterator_to_array($this->xpath->query('//group/vertex[@id]'));
     
@@ -41,9 +41,11 @@ class Migration {
       $id   = Graph::ALPHAID($count);
       $slug = $node->getAttribute('id');
       
+      $node->setAttribute('key', $slug);
       // id should be redundant as it is serialized
-      // fwrite($index, substr(str_pad($slug, 100, " ", STR_PAD_LEFT), 0, 100), 100);
-      fwrite($index, "{$slug} {$id} #{$count}\n");
+      // $key = substr(str_pad($slug, 90, " ", STR_PAD_RIGHT), 0, 90);
+      // $val = str_pad($id, 8, " ", STR_PAD_LEFT);
+      // fwrite($index, "{$key} {$val}\n", 100);
 
       foreach ($this->xpath->query("//vertex[@id='{$slug}']/@id|//edge[@vertex='{$slug}']/@vertex") as $attr) {
         $attr->nodeValue = $id;
