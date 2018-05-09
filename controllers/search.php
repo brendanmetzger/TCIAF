@@ -58,7 +58,7 @@ class Search extends Manage
 
 
     $g = [
-      'cx' => getenv('SEARCH_CX'),
+      'cx'   => getenv('SEARCH_CX'),
       'key'  => getenv('SEARCH_KEY'),
     ];
 
@@ -88,4 +88,5 @@ class Search extends Manage
     $this->search = ['topic' => $type, 'path' => 'search/cluster'];
     return $view->render($this());
   }
+  
 }

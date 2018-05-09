@@ -16,7 +16,18 @@ namespace models;
     public $key = '@id',
            $tag = '@title';
 
-
+    
+   static public function IDtoSlug(string $id) {
+     static $file = null;
+     
+     if ($file === null) {
+       $file = new \SplFileObject(PATH . 'data/map.txt', 'r'); 
+     }
+     
+     
+     $file->seek(Graph::INTID($id));
+     return substr($file->current(), 0, strpos($file->current(), ' '));
+   }
 
     static public function CLEAR($directory = '/')
     {
@@ -137,4 +148,5 @@ namespace models;
       }
       return $json;
     }
+  
   }

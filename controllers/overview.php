@@ -195,7 +195,7 @@ function calendar($start, $category, $query)
     {
       $view = new view('views/layout.html');
       $view->content = 'views/pages/about.html';
-      $this->item  = new \models\Organization('TCIAF');
+      $this->item  = new \models\Organization('A');
       return $view->render($this());
     }
 
@@ -203,14 +203,14 @@ function calendar($start, $category, $query)
     {
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/overview.html';
-      $this->item      = Graph::FACTORY(Graph::ID('BlT'));
+      $this->item      = Graph::FACTORY(Graph::ID('Bld'));
       return $view->render($this());
     }
 
     public function GETconference($id = null)
     {
       $this->banner = 'Conferences';
-      $this->item   = Graph::FACTORY(Graph::ID($id ?: 'tciaf-conference'));
+      $this->item   = Graph::FACTORY(Graph::ID($id ?: 'CI'));
 
       $template = $id === null ? 'overview' : $this->item->_template;
 

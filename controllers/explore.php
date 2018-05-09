@@ -58,7 +58,7 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
-
+    
     $this->item = Graph::FACTORY(Graph::ID($id));
     $this->title  = strip_tags($this->item['title']);
 
@@ -67,10 +67,10 @@ class Explore extends Manage
     return $view->render($this());
   }
 
-  public function GETperson($id)     { return $this->GETdetail($id); }
-  public function GETfeature($id)    { return $this->GETdetail($id); }
-  public function GETcollection($id) { return $this->GETdetail($id); }
-  public function GETarticle($id)    { return $this->GETdetail($id); }
+  // public function GETperson($slug, $id = null)     { return $this->GETdetail($slug, $id); }
+  // public function GETfeature($slug, $id = null)    { return $this->GETdetail($slug, $id); }
+  // public function GETcollection($slug, $id = null) { return $this->GETdetail($slug, $id); }
+  // public function GETarticle($slug, $id = null)    { return $this->GETdetail($slug, $id); }
 
   public function GETbehindTheScenes($sort = 'newest', $index = 1, $per = 25)
   {
@@ -107,7 +107,7 @@ class Explore extends Manage
   {
     $view = new View('views/layout.html');
     $view->content = 'views/lists/shoppe.html';
-    $this->item  = new \models\Article('shoppe');
+    $this->item  = new \models\Article('Ble');
     return $view->render($this());
   }
 

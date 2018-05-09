@@ -29,7 +29,8 @@ class Migration {
   
   private function generateIndex() {
     
-    $index = fopen(PATH . 'data/index.txt', 'w');
+    $index = fopen(PATH . 'data/map.txt', 'w');
+    
     $nodes = iterator_to_array($this->xpath->query('//group/vertex[@id]'));
     
     usort($nodes, function($a, $b) {
@@ -42,7 +43,7 @@ class Migration {
       
       // id should be redundant as it is serialized
       // fwrite($index, substr(str_pad($slug, 100, " ", STR_PAD_LEFT), 0, 100), 100);
-      fwrite($index, $slug . "\n");
+      fwrite($index, "{$slug} {$id} #{$count}\n");
 
       foreach ($this->xpath->query("//vertex[@id='{$slug}']/@id|//edge[@vertex='{$slug}']/@vertex") as $attr) {
         $attr->nodeValue = $id;

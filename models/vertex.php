@@ -307,15 +307,18 @@ abstract class Vertex extends \bloc\Model
 
   }
 
-  public function GETpermalink(\DOMElement $context)
+  public function getPermalink(\DOMElement $context)
   {
-    return "/explore/{$this->_model}/{$context['@id']}";
+    return "/{$this->_model}/{$this->slug}";
+  }
+  
+  public function getSlug(\DOMElement $context)
+  {
+    return Search::IDtoSlug($context['@id']);
   }
 
-  public function slugify()
+  public function setSlug()
   {
-    $mark = $this->context['@mark'];
-    if ($mark == 'lock' || $mark == 'html') return;
     $find = [
       '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
       '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
@@ -325,34 +328,6 @@ abstract class Vertex extends \bloc\Model
       '/^([^a-z])/i',
       '/\-([ntscw]\-)/',
     ];
-    $id = $this->context['@id'];
-    $slug = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
-
-    // only interested in this rigamarole if the slug and id are quite different
-    if (levenshtein($slug, $id) > 10) {
-      while (Graph::ID($slug)) {
-        $slug .=  date('-m-d-y', strtotime($this->context['@created']));
-      }
-      // set new id to slugged title
-      $this->setIdAttribute($this->context, $slug);
-
-      // move the abstracts
-      foreach ($this->context->find('abstract') as $abstract) {
-        if (file_exists(PATH.$abstract['@src'])) {
-          $old = PATH.$abstract['@src'];
-          $new = str_replace($id, $slug, $old);
-          rename($old, $new);
-        }
-      }
-
-
-      // find all edges with a vertex referencing old id and replace new id
-      $edges = Graph::instance()->query('/graph/group/vertex/')->find("edge[@vertex='{$id}']");
-
-      foreach ($edges as $edge) {
-        $edge->setAttribute('vertex', $slug);
-      }
-
-    }
+    return strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
   }
 }

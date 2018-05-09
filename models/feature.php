@@ -151,7 +151,7 @@ function timecode($time) {
     public function getProducers(\DOMElement $context)
     {
       return $context->find("edge[@type='producer' and @vertex!='TCIAF']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex']), 'role' => 'Producer'];
+        return ['person' => Graph::FACTORY(Graph::ID($edge['@vertex'])), 'role' => 'Producer'];
       });
     }
 

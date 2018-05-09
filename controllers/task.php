@@ -366,10 +366,11 @@ class Task extends \bloc\controller
     // ann hepp BA
 
     
-    $int = \Models\Graph::INTID($alpha);
+    $int = \Models\Graph::ALPHAID($alpha);
 
     echo "int conversion of {$alpha} is {$int}\n";
     
+    return;
     // $h = fopen(PATH . 'data/index.txt', 'r');
     // fseek($h, $int * 100);
     // echo "the slug found is " . trim(fread($h, 100)) . "\n";

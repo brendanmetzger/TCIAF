@@ -43,7 +43,7 @@ namespace models;
     public function getPermalink(\DOMElement $context)
     {
       $id = $context['@id'];
-      return $id == 'TCIAF' ? '/overview/tciaf' : '/explore/index/'. $id;
+      return $id == 'A' ? '/overview/tciaf' : '/explore/index/'. $id;
     }
     public function getStaff(\DOMElement $context)
     {
