@@ -69,12 +69,6 @@ abstract class Vertex extends \bloc\Model
     if (empty($abstract['CDATA'])) return false;
     
     $type = $abstract['@']['content'] ?? self::$fixture['vertex']['@']['content'];
-    
-    $src = "data/text/{$type}/{$context->parentNode['@id']}.html";
-    $url = Graph::instance()->storage->createAttribute('src');
-    $url->appendChild(Graph::instance()->storage->createTextNode($src));
-    $context->setAttributeNode($url);
-
     $text = $abstract['CDATA'];
     if ($context->parentNode['@mark'] != 'html') {
       $markdown = new \vendor\Parsedown;
@@ -82,7 +76,7 @@ abstract class Vertex extends \bloc\Model
       $text = $markdown->text($abstract['CDATA']);
 
     }
-    file_put_contents(PATH . $src, $text);
+    file_put_contents("data/text/{$type}/{$context->parentNode['@id']}.html", $text);
     return true;
   }
 
