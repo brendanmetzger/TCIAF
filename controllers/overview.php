@@ -53,7 +53,7 @@ function calendar($start, $category, $query)
       $this->{$group}  = "selected";
 
       $queries = [
-        'shows' => 'edge[@vertex="TCIAF"]',
+        'shows' => 'edge[@vertex="A"]',
         'conference-audio' => 'edge[@type="session"]',
         'shortdocs' => 'edge[@type="participant"]',
         'awards' => 'edge[@type="award"]',
@@ -87,7 +87,8 @@ function calendar($start, $category, $query)
       if ($sort == 'alpha-numeric') {
         // show the picker
         $alpha = strtolower(substr($group, 6, 1));
-        $query .= " and starts-with(@id, '{$alpha}')";
+        $upper = strtoupper($alpha);
+        $query .= " and starts-with(translate(@title, '{$upper}', '{$alpha}'), '{$alpha}')";
         $this->alphabet = alphabet($alpha, $filter);
         $view->picker = "views/partials/alpha-numeric.html";
       }
@@ -169,7 +170,8 @@ function calendar($start, $category, $query)
 
       if ($filter != 'any') {
         $alpha = strtolower(substr($filter, 6, 1));
-        $query .= "and starts-with(@id, '{$alpha}')";
+        $upper = strtoupper($alpha);
+        $query .= "and starts-with(translate(@title, '{$upper}', '{$alpha}'), '{$alpha}')";
       }
 
       $this->alphabet = alphabet($alpha, $category);
