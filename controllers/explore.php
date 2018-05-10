@@ -58,8 +58,10 @@ class Explore extends Manage
 
   public function GETdetail($id)
   {
-    
-    $this->item = Graph::FACTORY(Graph::ID($id));
+    if (! $id instanceof \DOMElement) {
+      $id = Graph::ID($id);
+    }
+    $this->item = Graph::FACTORY($id);
     $this->title  = strip_tags($this->item['title']);
 
     $view = new view('views/layout.html');
@@ -69,12 +71,7 @@ class Explore extends Manage
   
   
   public function GETlookup($type, $slug) {
-    $this->item = Graph::Factory(Graph::group($type)->find("vertex[@key='{$slug}']")->pick(0));
-    $this->title  = strip_tags($this->item['title']);
-
-    $view = new view('views/layout.html');
-    $view->content = "views/digests/{$this->item->template('digest')}.html";
-    return $view->render($this());
+    return $this->GETdetail(Graph::group($type)->find("vertex[@key='{$slug}']")->pick(0));
   }
 
 

@@ -46,14 +46,14 @@ function timecode($time) {
       $this->template['upload'] = 'audio-image';
       if ($this->happenings->count() > 0 && $this->presenters->count() > 0) {
         $this->template['digest'] = 'session';
-      } else if ($this->context->find('edge[@vertex="TCIAF"]')->count() > 0) {
+      } else if ($this->context->find('edge[@vertex="A"]')->count() > 0) {
         $this->template['digest'] = 'broadcast';
       }
     }
 
     public function setDateAttribute(\DOMElement $context, $date)
     {
-      if (! empty($date) && $date = (new \DateTime($date))->format('Y-m-d H:i:s')) {
+      if (! empty($date) && $date = (new \DateTime($date))->format('Y-m-d')) {
         $context->setAttribute('date', $date);
       }
     }
@@ -77,9 +77,11 @@ function timecode($time) {
         }
       }
 
-      return Graph::instance()->query('graph/config')->find('/spectra')->map(function($item) use($spectra) {
-        return ['item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[substr($item['@id'],1)]];
+      $sp = Graph::instance()->query('graph/config/')->find('spectra')->map(function($item) use($spectra) {
+        $key = substr($item['@id'], 1);
+        return ['key' => $key, 'item' => $item, 'title' => $item->nodeValue, 'value' => $spectra[$key]];
       });
+      return $sp;
     }
 
     public function getGradient(\DOMElement $context)
@@ -111,7 +113,7 @@ function timecode($time) {
       $types = [];
 
       foreach ($context->find("edge[@type]") as $edge) {
-        if ($edge->getAttribute('vertex') === 'TCIAF') return "show";
+        if ($edge->getAttribute('vertex') === 'A') return "show";
         $types[] = $edge->getAttribute('type');
       }
 
@@ -150,7 +152,7 @@ function timecode($time) {
 
     public function getProducers(\DOMElement $context)
     {
-      return $context->find("edge[@type='producer' and @vertex!='TCIAF']")->map(function($edge) {
+      return $context->find("edge[@type='producer' and @vertex!='A']")->map(function($edge) {
         return ['person' => Graph::FACTORY(Graph::ID($edge['@vertex'])), 'role' => 'Producer'];
       });
     }
@@ -208,8 +210,6 @@ function timecode($time) {
 
     public function getRecommended(\DOMElement $context)
     {
-
-     
       $correlation = \controllers\Task::pearson($context['@id'])->best;
       arsort($correlation);
       

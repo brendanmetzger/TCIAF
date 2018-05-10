@@ -21,15 +21,20 @@
 class Migration {
   private $doc, $xpath;
   
-  public function __construct() {
-    $this->doc   = new \bloc\DOM\Document('data/tciaf');
+  public function __construct($document = 'data/tciaf') {
+    $this->doc   = new \bloc\DOM\Document($document);
     $this->xpath = new \DOMXpath($this->doc);
   }
+  
+  public function save($db = 'data/tciaf2.xml')
+  {
+    $this->doc->save(PATH. $db);
+  }
+  
   
   
   private function generateIndex() {
     
-    // $index = fopen(PATH . 'data/map.txt', 'w');
     
     $nodes = iterator_to_array($this->xpath->query('//group/vertex[@id]'));
     
@@ -42,10 +47,6 @@ class Migration {
       $slug = $node->getAttribute('id');
       
       $node->setAttribute('key', $slug);
-      // id should be redundant as it is serialized
-      // $key = substr(str_pad($slug, 90, " ", STR_PAD_RIGHT), 0, 90);
-      // $val = str_pad($id, 8, " ", STR_PAD_LEFT);
-      // fwrite($index, "{$key} {$val}\n", 100);
 
       foreach ($this->xpath->query("//vertex[@id='{$slug}']/@id|//edge[@vertex='{$slug}']/@vertex") as $attr) {
         $attr->nodeValue = $id;
@@ -57,6 +58,13 @@ class Migration {
       
     }
     
+  }
+  
+  protected function getCardinality()
+  {
+    $size = $this->xpath->query('//group/vertex[@id]')->length;
+    $this->doc->documentElement->setAttribute('serial', $size);
+    echo $size;
   }
   
   private function renameSpectra() {
@@ -109,6 +117,77 @@ class Migration {
     }
   }
   
+  public function resetDates()
+  {
+
+    foreach ($this->xpath->query('//group/vertex/premier') as $premier) {
+
+      $date = $premier->getAttribute('date');
+      echo $date . "\n";
+      if (empty($date) || ! is_numeric($date[0])) {
+        $premier->parentNode->removeChild($premier);
+      } else {
+        if (strlen($date) == 4) {
+          $date = '01-01-'.$date;
+        }
+
+        $date = (new \DateTime($date))->format('Y-m-d');
+        $premier->setAttribute('date', $date);
+      }
+    }
+  }
+  
+  private function compressDates()
+  {
+    
+    foreach ($this->xpath->query('//group/vertex') as $vertex) {
+      $vertex->setAttribute('created', \models\graph::alphaid(strtotime($vertex->getAttribute('created'))));
+      $vertex->setAttribute('updated', \models\graph::alphaid(strtotime($vertex->getAttribute('updated'))));
+    }
+    
+  }
+  
+  private function removeRedundantCaptions()
+  {
+    foreach ($this->xpath->query('//group/vertex/media') as $media) {
+      $caption = strtolower(trim($media->nodeValue));
+      
+      if ($media->hasChildNodes() && ($caption == 'a caption' || strlen($caption) < 3)) {
+        $media->removeChild($media->firstChild);
+      }
+      
+    }
+  }
+  
+  public function removeRedundantMarks()
+  {
+    foreach ($this->xpath->query('//@mark') as $mark) {
+      echo $mark->nodeValue . "\n";
+      if ($mark->nodeValue == '0') {
+        $mark->parentNode->removeAttribute('mark');
+      }
+    }
+  }
+  
+  public function CLIrenameMediaElements()
+  {
+
+    foreach ($this->xpath->query('//group/vertex/media') as $media) {
+      $type = $media->getAttribute('type') == 'image' ? 'img' : $media->getAttribute('type');
+      $node = new \DOMElement($type);
+      $media = $media->parentNode->replaceChild($node, $media);
+      if ($media->nodeValue) {
+        $node->nodeValue = trim($media->nodeValue);
+      }
+      $node->setAttribute('src', $media->getAttribute('src'));
+      $node->setAttribute('mark', $media->getAttribute('mark'));
+      
+    }
+  }
+  
+  
+  
+  
   
   public function execute() {
     // generate new index with new ids
@@ -119,7 +198,17 @@ class Migration {
     $this->copyAbstracts();
     // rename abstracts into attribute
     $this->joinAbstracts();
+    // set cardinality
+    $this->getCardinality();
+    // reformat premier dates
+    $this->resetDates();
+    // compress crud
+    $this->compressDates();
+    // remove redundant captions
+    $this->removeRedundantCaptions();
+    // remove redundant marks
+    $this->removeRedundantMarks();
+    $this->save();
     
-    $this->doc->save(PATH. 'data/tciaf2.xml');
   }
 }

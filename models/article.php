@@ -44,7 +44,7 @@ class Article extends Vertex
   
   public function getProducers(\DOMElement $context)
   {
-    return $context->find("edge[@type='producer' and @vertex!='TCIAF']")->map(function($edge) {
+    return $context->find("edge[@type='producer' and @vertex!='A']")->map(function($edge) {
       return ['person' => new Person($edge['@vertex']), 'role' => 'Producer'];
     });
   }

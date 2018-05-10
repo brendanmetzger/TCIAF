@@ -17,17 +17,10 @@ abstract class Vertex extends \bloc\Model
 
   static public $fixture = [
     'vertex' => [
-      '@' => ['id' => null, 'title' => '', 'created' => '', 'updated' => '', 'mark' => 0, 'text' => 'description'],
-      'location' => [
-        'CDATA' => ''
-      ],
-      'premier' => [
-        'CDATA' => '',
-        '@' => [
-          'date' => null
-        ]
-      ],
+      '@' => ['id' => null, 'title' => '', 'created' => '', 'updated' => '', 'text' => 'description'],
       'media' => [],
+      'img' => [],
+      'audio' => [],
       'edge'  => [],
     ]
   ];
@@ -44,9 +37,15 @@ abstract class Vertex extends \bloc\Model
 
   public function setIdAttribute(\DOMElement $context, $id)
   {
+    $flag = 'pending-';
     if (empty($id)) {
-      $id = substr($this->_model, 0, 1) . '-' . uniqid();
+      $id = $flag . uniqid();
+    } else if (substr($id, 0, strlen($flag)) === $flag) {
+      $size = $context->ownerDocument->documentElement->getAttribute('serial') + 1;
+      $context->ownerDocument->documentElement->setAttribute('serial', $size);
+      $id = Graph::ALPHAID($size);
     }
+
     $context->setAttribute('id', $id);
   }
 
@@ -58,13 +57,17 @@ abstract class Vertex extends \bloc\Model
 
   public function setUpdatedAttribute(\DOMElement $context)
   {
-    $context->setAttribute('updated',  (new \DateTime())->format('Y-m-d H:i:s'));
+    $context->setAttribute('updated',  Graph::ALPHAID(time()));
   }
 
-  public function setTextAttribute(\DOMElement $context, array $abstract)
+  public function setTextAttribute(\DOMElement $context, $abstract)
   {
+    if (! is_array($abstract)) {
+      $abstract = array_fill_keys(explode(' ', $abstract), '');
+    }
+    
     foreach ($abstract as $type => $text) {
-      
+      if ($text == '') continue;
       if ($context['@mark'] != 'html') {
         $markdown = new \vendor\Parsedown;
         $markdown->setBreaksEnabled(true);
@@ -74,13 +77,15 @@ abstract class Vertex extends \bloc\Model
       file_put_contents(PATH . "data/text/{$type}/{$context['@id']}.html", $text);      
     }
     
+    $context->setAttribute('text', implode(' ', array_keys($abstract)));
+    
   }
 
   public function getAbstract(\DOMElement $context, $parse = true)
   {
     $abstracts = new \bloc\types\dictionary(explode(' ', $context['@text']));
-    
     if ($abstracts->count() < 1) {
+
       return [[
        'type' => strtolower(static::$fixture['vertex']['@']['text'] ?? 'description'),
        'index' => 0,
@@ -129,8 +134,12 @@ abstract class Vertex extends \bloc\Model
   {
 		$abstract = $this->getAbstract($context, false);
 		if (!is_object($abstract)) return;
+    /*
+      TODO should return first paragraph, not first element
+    */
     if ($node = \bloc\DOM\Document::ELEM("<root>{$abstract->current()['text']}</root>")) {
       if ($node->childNodes->length > 0) {
+        \bloc\application::instance()->log($node->firstChild->write());
         $len = strlen($node->firstChild->nodeName) + 2;
         return substr($node->firstChild->write(), $len, -($len + 1));
       }
@@ -181,7 +190,7 @@ abstract class Vertex extends \bloc\Model
     $context->setAttribute('src',  $media['@']['src']);
     $context->setAttribute('type', $media['@']['type']);
     $context->setAttribute('mark', $media['@']['mark']);
-    if (array_key_exists('CDATA', $media)) {
+    if (array_key_exists('CDATA', $media)  && strtolower($media['CDATA'] != 'a caption')) {
       $context->nodeValue = $media['CDATA'];
     }
   }
@@ -209,8 +218,8 @@ abstract class Vertex extends \bloc\Model
 
   public function getStatus($context)
   {
-    $created  = strtotime($context['@created']);
-    $updated  = strtotime($context['@updated']);
+    $created  = strtotime(Graph::INTID($context['@created']));
+    $updated  = strtotime(Graph::INTID($context['@updated']));
     $response = [];
 
     if (!empty($this->errors)) {
@@ -305,7 +314,7 @@ abstract class Vertex extends \bloc\Model
     return "/{$this->_model}/{$context['@key']}";
   }
   
-  public function setKey(\DOMElement $context, $value, $unique = '')
+  public function setKeyAttribute(\DOMElement $context, $value, $unique = '')
   {
     $find = [
       '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',

@@ -212,8 +212,6 @@ function calendar($start, $category, $query)
       $this->banner = 'Conferences';
       $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CI');
       $this->item   = Graph::FACTORY($node);
-      
-
 
       $template = $id === null ? 'overview' : $this->item->_template;
 
@@ -242,12 +240,16 @@ function calendar($start, $category, $query)
     {
       $view = new view('views/layout.html');
       $group = Graph::group('competition');
+      
       if ($id === null) {
         $this->banner = 'Competitions';
+        
+
         $this->competitions = [
           ['item' => new \models\competition($group->pick('vertex[@sticky="driehaus"]'))],
           ['item' => new \models\competition($group->pick('vertex[@sticky="shortdocs"]'))],
         ];
+
         $view->content = "views/competition/overview.html";
       } else {
         

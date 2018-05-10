@@ -243,6 +243,8 @@ class Manage extends \bloc\controller
 
         \bloc\router::redirect("/manage/edit/{$instance->context['@id']}");
       } else {
+        $instance['@id'] = 'pending-' . uniqid();
+        \bloc\application::instance()->log($instance->errors);
         return $this->GETedit($user, $instance);
       }
     }

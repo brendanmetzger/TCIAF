@@ -1,4 +1,5 @@
 <!ELEMENT graph (config,group+)*>
+<!ATTLIST graph serial CDATA "0">
 <!ELEMENT config (key*,spectra*)*>
 
 <!ELEMENT key (#PCDATA)>
@@ -23,12 +24,13 @@
 
 <!ELEMENT vertex (edge*,media*,location?,premier?,spectra?)*>
 <!ATTLIST vertex id ID #REQUIRED>
+<!ATTLIST vertex key NMTOKEN #IMPLIED>
 <!ATTLIST vertex sticky CDATA #IMPLIED>
 <!ATTLIST vertex hash CDATA #IMPLIED>
 <!ATTLIST vertex created CDATA #IMPLIED>
 <!ATTLIST vertex updated CDATA #IMPLIED>
 <!ATTLIST vertex title CDATA #REQUIRED>
-<!ATTLIST vertex mark CDATA #IMPLIED>
+<!ATTLIST vertex mark CDATA "0">
 <!ATTLIST vertex text NMTOKENS #IMPLIED>
 
 

@@ -217,8 +217,7 @@ class Task extends \bloc\controller
     if ($id !== null) {
 
       if (!array_key_exists($id, $list)) {
-        throw new \RuntimeException("No recommendations will be available", 25);
-
+        return (object) ['best' => []];
       }
       $A = $list[$id];
 
@@ -358,21 +357,15 @@ class Task extends \bloc\controller
   }
   
   public function CLImigration() {
-    $migration = new \models\migration;
-    $migration->execute();
+    $migration = new \models\migration('data/tciaf2');
+    // $migration->execute();
+    $migration->removeRedundantMarks();
+    $migration->save();
   }
   
-  public function CLIslug($id, $replacement) {
+  public function CLIslug() {
     
-    $int = \Models\Graph::INTID($id);
-    
-    // $handel = fopen(PATH . 'data/map.txt', 'r+');
-    
-    $file = new \SplFileObject(PATH . 'data/map.txt', 'r+');
-    
-    $file->seek($int);
-    
-    $file->fwrite('EDIT' . $file->current());
+    echo \models\graph::alphaid(time());
 
 
     
@@ -388,27 +381,6 @@ class Task extends \bloc\controller
     
   }
 
-  protected function CLIresetDates($user)
-  {
-    $premiers = \models\Graph::group('feature')->find('vertex/premier[@date!=""]');
-    foreach ($premiers as $premier) {
-      $date = $premier->getAttribute('date');
-
-
-      if (strlen($date) == 4) {
-        $date = '01/01/'.$date;
-        echo "{$date}\n";
-      } else {
-        continue;
-      }
-
-      $date = (new \DateTime($date))->format('Y-m-d H:i:s');
-      $premier->setAttribute('date', $date);
-      echo "setting premier to {$date}\n";
-    }
-
-    \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
-  }
   
   public function CLIcompressedges()
   {
@@ -441,44 +413,7 @@ class Task extends \bloc\controller
     }
     $doc->save(PATH. 'data/tciaf3.xml');
   }
-  
-  
-  
-  public function CLIcompressdates()
-  {
-    $doc = new \bloc\DOM\Document('data/tciaf4');
-    $db  = new \DOMXpath($doc);
     
-    foreach ($db->query('//group/vertex') as $vertex) {
-      $vertex->setAttribute('created', base_convert(strtotime($vertex->getAttribute('created')),10,32));
-      $vertex->setAttribute('updated', base_convert(strtotime($vertex->getAttribute('created')),10,32));
-    }
-    
-    foreach ($db->query('//group/vertex/premier[@date]') as $premier) {
-      $premier->setAttribute('date', base_convert(strtotime($vertex->getAttribute('date')),10,32));
-    }
-    
-    $doc->save(PATH. 'data/tciaf5.xml');
-  }
-  
-  public function CLIrenameMediaElements()
-  {
-    $doc = new \bloc\DOM\Document('data/tciaf5');
-    $db  = new \DOMXpath($doc);
-    
-    foreach ($db->query('//group/vertex/media') as $media) {
-      $type = $media->getAttribute('type') == 'image' ? 'img' : $media->getAttribute('type');
-      $node = new \DOMElement($type);
-      $media = $media->parentNode->replaceChild($node, $media);
-      if ($media->nodeValue) {
-        $node->nodeValue = trim($media->nodeValue);
-      }
-      $node->setAttribute('src', $media->getAttribute('src'));
-      $node->setAttribute('mark', $media->getAttribute('mark'));
-      
-    }
-    $doc->save(PATH. 'data/tciaf6.xml');
-  }
   
   protected function CLIbio($user)
   {
