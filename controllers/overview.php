@@ -210,7 +210,10 @@ function calendar($start, $category, $query)
     public function GETconference($id = null)
     {
       $this->banner = 'Conferences';
-      $this->item   = Graph::FACTORY(Graph::ID($id ?: 'CI'));
+      $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CI');
+      $this->item   = Graph::FACTORY($node);
+      
+
 
       $template = $id === null ? 'overview' : $this->item->_template;
 
@@ -238,17 +241,17 @@ function calendar($start, $category, $query)
     public function GETcompetition($id = null, $participants = false)
     {
       $view = new view('views/layout.html');
+      $group = Graph::group('competition');
       if ($id === null) {
         $this->banner = 'Competitions';
         $this->competitions = [
-          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@sticky="driehaus"]'))],
-          ['item' => new \models\competition(Graph::group('competition')->pick('vertex[@sticky="shortdocs"]'))],
+          ['item' => new \models\competition($group->pick('vertex[@sticky="driehaus"]'))],
+          ['item' => new \models\competition($group->pick('vertex[@sticky="shortdocs"]'))],
         ];
         $view->content = "views/competition/overview.html";
       } else {
-        $this->item = Graph::FACTORY(Graph::ID($id));
-
-
+        
+        $this->item = Graph::Factory($group->find("vertex[@key='{$id}']")->pick(0));
 
         if ($participants) {
           $page = 'competition/listing';
