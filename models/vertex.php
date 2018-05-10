@@ -61,23 +61,19 @@ abstract class Vertex extends \bloc\Model
     $context->setAttribute('updated',  (new \DateTime())->format('Y-m-d H:i:s'));
   }
 
-  public function setAbstract(\DOMElement $context, array $abstract)
+  public function setTextAttribute(\DOMElement $context, array $abstract)
   {
-    /*
-      TODO ALL needs to be rewritten.
-    */
-    if (empty($abstract['CDATA'])) return false;
-    
-    $type = $abstract['@']['content'] ?? self::$fixture['vertex']['@']['content'];
-    $text = $abstract['CDATA'];
-    if ($context->parentNode['@mark'] != 'html') {
-      $markdown = new \vendor\Parsedown;
-      $markdown->setBreaksEnabled(true);
-      $text = $markdown->text($abstract['CDATA']);
-
+    foreach ($abstract as $type => $text) {
+      
+      if ($context['@mark'] != 'html') {
+        $markdown = new \vendor\Parsedown;
+        $markdown->setBreaksEnabled(true);
+        $text = $markdown->text($text);
+      }
+      
+      file_put_contents(PATH . "data/text/{$type}/{$context['@id']}.html", $text);      
     }
-    file_put_contents("data/text/{$type}/{$context->parentNode['@id']}.html", $text);
-    return true;
+    
   }
 
   public function getAbstract(\DOMElement $context, $parse = true)

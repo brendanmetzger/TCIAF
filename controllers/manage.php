@@ -138,9 +138,10 @@ class Manage extends \bloc\controller
 
     if ($key) {
       try {
-        $id = \models\person::N2ID($username);
-        $user = (new \models\person($id))->authenticate($password);
-        Application::instance()->session('TCIAF', ['id' => $id, 'user' =>  $user->getAttribute('title')]);
+        $key = \models\person::N2ID($username);
+        $user = Graph::Factory(Graph::group('person')->find("vertex[@key='{$key}']")->pick(0));
+        $user->authenticate($password);
+        Application::instance()->session('TCIAF', ['id' => $user['@id'], 'user' =>  $user->getAttribute('title')]);
         \bloc\router::redirect($redirect ?: '/');
       } catch (\InvalidArgumentException $e) {
         $type = 'invalid';
@@ -233,8 +234,6 @@ class Manage extends \bloc\controller
   protected function POSTedit(Admin $user, $request, $model, $id = null)
   {
     if ($instance = Graph::FACTORY( (Graph::ID($id) ?: $model), $_POST)) {
-
-      $instance->slugify();
 
       if ($instance->save()) {
         // clear and rebuild caches w/o slowing down response

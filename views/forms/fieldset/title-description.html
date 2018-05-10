@@ -41,9 +41,9 @@
   <noscript class="Markdown" id="Markdown" data-selector="#Markdown ~ div.abstract textarea">Markdown Editor</noscript>
   <!-- iterate item:abstract -->
   <div class="abstract">
-    <label for="[abstract-$index-$type]">[$type]</label>
-    <input type="hidden" name="[vertex[abstract][$index][@][content]]" value="[$type]" />
-    <textarea name="[vertex[abstract][$index][CDATA]]" rows="8" cols="40" id="[abstract-$index-$type]" class="text" required="[$required]" placeholder="[$type is Required]">[$text]</textarea>
+    <label for="[abstract-$type]">[$type]</label>
+
+    <textarea id="[abstract-$type]" name="[vertex[@][text][$type]]" rows="8" cols="40" class="text" required="[$required]" placeholder="[$type is Required]">[$text]</textarea>
   </div>
   <a class="toggle_extra button pad" href="[#/manage/edge/$item:_model/inside/$item:@id]" onclick="return duplicateTextbox(event);">+/- Extra</a>
   <em class="hint">[$item:help:extras:markdown]</em>

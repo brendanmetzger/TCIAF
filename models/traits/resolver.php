@@ -24,7 +24,7 @@ trait resolver {
     if (empty($this->errors) && Graph::instance()->storage->validate() && is_writable($filepath)) {
       return Graph::instance()->storage->save($filepath);
     } else {
-      print_r(is_writable($filepath));
+
       $this->errors = array_merge(["Did not save"], $this->errors, array_map(function($error) {
         return $error->message;
       }, Graph::instance()->storage->errors()));
