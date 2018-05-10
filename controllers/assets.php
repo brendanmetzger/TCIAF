@@ -52,7 +52,7 @@ class Assets extends Manage
     imagedestroy($thumb);
     imagedestroy($source);
 
-    // \bloc\Application::instance()->getExchange('response')->addHeader("Content-Type: image/{$type}");
+    \bloc\Application::instance()->getExchange('response')->addHeader("Content-Type: image/{$type}");
     return $output;
   }
 

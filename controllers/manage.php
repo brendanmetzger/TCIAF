@@ -274,12 +274,14 @@ class Manage extends \bloc\controller
           'CacheControl' => 'max-age=604800'
         ];
 
-        if ($type === 'image') {
-          $path = preg_match('/\.jpe?g$/i', $name) ? "https://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
-          $config['Body'] =  file_get_contents($path);
-        } else {
-          $config['SourceFile'] = $source;
-        }
+        // if ($type === 'image') {
+        //   $path = preg_match('/\.jpe?g$/i', $name) ? "https://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
+        //
+        //   $config['Body'] =  file_get_contents($path);
+        // } else {
+        //
+        // }
+        $config['SourceFile'] = $source;
 
         $result = $client->putObject($config);
 
@@ -312,7 +314,7 @@ class Manage extends \bloc\controller
           $pending = "";
         }
 
-        $media = Graph::instance()->storage->createElement('media', 'A caption');
+        $media = Graph::instance()->storage->createElement('media');
         $media->setAttribute('src',  "/{$bucket}/{$type}/{$name}{$pending}");
         $media->setAttribute('name',  $name);
         $media->setAttribute('type', $type);
@@ -325,8 +327,7 @@ class Manage extends \bloc\controller
 
         return $view->render($this($model->slug));
       } catch (\Exception $e) {
-        return $this->GETerror("The file was unable to be uploaded to amazon.\n\n{$e->getMessage()}", 500);
-        exit();
+        return $e->getMessage();
       }
     } else {
       return $this->GETerror("The Server has refused this file", 400);
