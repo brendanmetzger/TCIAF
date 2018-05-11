@@ -359,8 +359,8 @@ class Task extends \bloc\controller
   public function CLImigration() {
     $migration = new \models\migration('data/tciaf2');
     // $migration->execute();
-    $migration->removeRedundantMarks();
-    $migration->save();
+    $migration->compressEdges();
+    $migration->save('data/tciaf3');
   }
   
   public function CLIslug() {
@@ -380,40 +380,6 @@ class Task extends \bloc\controller
     }
     
   }
-
-  
-  public function CLIcompressedges()
-  {
-    $doc = new \bloc\DOM\Document('data/tciaf2');
-    $db  = new \DOMXpath($doc);
-    
-    foreach ($db->query('//group/vertex') as $vertex) {
-      $edges  = [];
-      $labels = [];
-      foreach ($db->query('edge', $vertex) as $idx => $edge) {
-        $type = $edge->getAttribute('type');
-        if (! array_key_exists($type, $edges)) {
-          $edges[$type] = [];
-          $labels[$type] = []; 
-        }
-        $edges[$type][] = $edge->getAttribute('vertex');
-        $labels[$type][] = $edge->nodeValue ?: null;
-        $edge->parentNode->removeChild($edge);
-      }
-      
-      foreach ($edges as $type => $ids) {
-        $v = $vertex->appendChild(new \DOMElement($type));
-        print_r($ids);
-        $v->setAttribute('v', implode(' ', $ids));
-        foreach (array_filter($labels[$type]) as $idx => $txt) {
-          $label = $v->appendChild(new \DOMElement('label', $txt));
-          $label->setAttribute('for', $idx);
-        }
-      }
-    }
-    $doc->save(PATH. 'data/tciaf3.xml');
-  }
-    
   
   protected function CLIbio($user)
   {

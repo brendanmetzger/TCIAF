@@ -169,7 +169,7 @@ class Migration {
     }
   }
   
-  public function CLIrenameMediaElements()
+  public function renameMediaElements()
   {
 
     foreach ($this->xpath->query('//group/vertex/media') as $media) {
@@ -185,7 +185,50 @@ class Migration {
     }
   }
   
+  public function resetArchive()
+  {
+    foreach ($this->xpath->query('//group[@type="archive"]/vertex/edge') as $edge) {
+      // this list can be modified dynamically if archive edges are removed at runtime
+      if (!$edge->parentNode) continue;
+      $id  = $edge->parentNode->getAttribute('id');
+      $ref = $this->doc->getElementById($edge->getAttribute('vertex'));
+      $redges = $this->xpath->query("edge[@vertex='{$id}']", $ref);
+      echo "found {$redges->length} connections\n";
+      foreach ($redges as $redge) {
+        $ref->removeChild($redge);
+      }
+    }
+  }
   
+  public function compressEdges()
+  {
+
+    
+    foreach ($this->xpath->query('//group/vertex') as $vertex) {
+      $edges  = [];
+      $labels = [];
+      foreach ($this->xpath->query('edge', $vertex) as $idx => $edge) {
+        $type = $edge->getAttribute('type');
+        if (! array_key_exists($type, $edges)) {
+          $edges[$type] = [];
+          $labels[$type] = []; 
+        }
+        $edges[$type][] = $edge->getAttribute('vertex');
+        $labels[$type][] = $edge->nodeValue ?: null;
+        $edge->parentNode->removeChild($edge);
+      }
+      
+      foreach ($edges as $type => $ids) {
+        $v = $vertex->appendChild(new \DOMElement($type));
+        print_r($ids);
+        $v->setAttribute('v', implode(' ', $ids));
+        foreach (array_filter($labels[$type]) as $idx => $txt) {
+          $label = $v->appendChild(new \DOMElement('label', $txt));
+          $label->setAttribute('for', $idx);
+        }
+      }
+    }
+  }
   
   
   
@@ -208,6 +251,9 @@ class Migration {
     $this->removeRedundantCaptions();
     // remove redundant marks
     $this->removeRedundantMarks();
+    // change around edges in the archive
+    $this->resetArchive();
+    
     $this->save();
     
   }

@@ -149,30 +149,34 @@ abstract class Vertex extends \bloc\Model
 
   public function setEdge(\DOMElement $context, $value)
   {
-    $atts  = $value['@'];
-    $eid   = $context->parentNode['@id'];
-    $ref   = Graph::ID($atts['vertex']);
-
+    $atts = $value['@'];
+    $eid  = $context->parentNode['@id'];
+    $ref  = Graph::ID($atts['vertex']);
     $type =  $atts['type'] ?: $context['@type'];
-    $edges = $ref->find("edge[@vertex='{$eid}' and @type='{$type}']");
 
-    $connect = $edges->count() > 0 ? $edges->pick(0) : $ref->appendChild(Graph::instance()->storage->createElement('edge'));
-
-    if (empty($atts['type'])) {
-      $ref->removeChild($connect);
-      return false;
-    }
 
     $context->setAttribute('type',  $atts['type']);
-    $connect->setAttribute('type', $atts['type']);
-
     $context->setAttribute('vertex', $atts['vertex']);
-    $connect->setAttribute('vertex', $eid);
-
+    
     if (array_key_exists('CDATA', $value)) {
       $context->nodeValue = $value['CDATA'];
-      $connect->nodeValue = $value['CDATA'];
     }
+    
+
+    // find connected edges
+    $connected = $ref->find("edge[@vertex='{$eid}' and @type='{$type}']");
+    
+    
+    if ($context->parentNode->parentNode['@type'] != 'archive') {
+      if ($connected->count() < 1) {
+        $ref->appendChild($context->cloneNode(true))->setAttribute('vertex', $eid);
+      }
+    } else if ($connected->count() > 0) {
+      foreach ($connected as $connection) {
+        $ref->removeChild($connection);
+      }
+    }
+
   }
 
   public function setMedia(\DOMElement $context, $media)
@@ -317,15 +321,14 @@ abstract class Vertex extends \bloc\Model
   public function setKeyAttribute(\DOMElement $context, $value, $unique = '')
   {
     $find = [
-      '/^[^a-z]*(b)ehind\W+(t)he\W+(s)cenes[^a-z]*with(.*)/i',
-      '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i',
-      '/^the\s/i',
-      '/^\W+|\W+$/',
-      '/[^a-z\d]+/i',
-      '/^([^a-z])/i',
-      '/\-([ntscw]\-)/',
+      '/^[^a-z]*behind\W+the\W+scenes[^a-z]*with(.*)/i' => '$1-bts',
+      '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i' => '',
+      '/^the\s/i'    => '',
+      '/^\W+|\W+$/'  => '',
+      '/[^a-z\d]+/i' => '-',
+      '/\-([ntscwmd]\-)/' => "$1",
     ];
-    $key = strtolower(preg_replace($find, ['$4-$1$2$3', '', '', '', '-', "_$1", "$1"], $this->context['@title']));
+    $key = strtolower(preg_replace(array_keys($find), array_values($find), $this->context['@title']));
     $context->setAttribute('key', $key);
 
   }

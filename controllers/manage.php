@@ -190,27 +190,47 @@ class Manage extends \bloc\controller
     return $view->render($this());
   }
 
-  protected function GETgroup(Admin $user, $to_group = null, $from_group = null, $vertex = null)
+  protected function GETgroup(Admin $user, $to_group = null, $from_group = null, $id = null)
   {
     $view = new view('views/layout.html');
 
-    if ($vertex) {
-      $vertex = Graph::ID($vertex);
+    if ($id) {
+      $vertex = Graph::ID($id);
+      $edges  = $vertex->find('edge');
+      
       $dom = Graph::instance()->storage;
       $context = $dom->pick("/graph/group[@type='{$to_group}']");
+
       if ($to_group === 'archive') {
         $vertex->setAttribute('mark', $from_group);
         $vertex->setAttribute('updated', 'expunged');
+        // remove all edges from relationships
+        foreach ($edges as $edge) {
+          $ref = Graph::id($edge['@vertex']);
+          foreach ($ref->find("edge[@vertex='{$id}' and @type='{$edge['@type']}']") as $redge) {
+            $ref->removeChild($redge);
+          }
+        }
       } else {
+        // add all edges to relationships
         $vertex->removeAttribute('mark');
-        $vertex->setAttribute('updated', (new \DateTime())->format('Y-m-d H:i:s'));
+        $vertex->setAttribute('updated', \models\graph::ALPHAID(time()));
+        
+        foreach ($edges as $edge) {
+          $ref = Graph::id($edge['@vertex']);
+          $ref->appendChild($edge->cloneNode(true))->setAttribute('vertex', $id);
+        }
+        
       }
+
       $context->insertBefore($vertex, $context->firstChild);
       $filepath = PATH . Graph::DB . '.xml';
 
       if ($dom->validate() && is_writable($filepath)) {
         $dom->save($filepath);
         \models\Search::CLEAR();
+      } else {
+        \bloc\application::instance()->log($dom->errors());
       }
     }
 
@@ -274,13 +294,13 @@ class Manage extends \bloc\controller
           'CacheControl' => 'max-age=604800'
         ];
 
-        // if ($type === 'image') {
-        //   $path = preg_match('/\.jpe?g$/i', $name) ? "https://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
-        //
-        //   $config['Body'] =  file_get_contents($path);
-        // } else {
-        //
-        // }
+        if ($type === 'image') {
+          $path = preg_match('/\.jpe?g$/i', $name) ? "https://{$_SERVER['HTTP_HOST']}/assets/scale/1200/{$name}" : $source;
+
+          $config['Body'] =  file_get_contents($path);
+        } else {
+          
+        }
         $config['SourceFile'] = $source;
 
         $result = $client->putObject($config);

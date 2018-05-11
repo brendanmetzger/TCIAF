@@ -30,7 +30,7 @@
 <!ATTLIST vertex created CDATA #IMPLIED>
 <!ATTLIST vertex updated CDATA #IMPLIED>
 <!ATTLIST vertex title CDATA #REQUIRED>
-<!ATTLIST vertex mark CDATA "0">
+<!ATTLIST vertex mark CDATA #IMPLIED>
 <!ATTLIST vertex text NMTOKENS #IMPLIED>
 
 
