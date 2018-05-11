@@ -12,7 +12,7 @@
   </header>
   <hr/>
   <div class="wrap panel">
-    <section class="two-thirds rr">[$item:content:description]</section>
+    <section class="two-thirds rr interview">[$item:content:description]</section>
     <aside class="one-third ll">
       <nav>
         <ul class="plain gray-bg spot">
@@ -22,15 +22,19 @@
             <p>[$person:summary]</p>
           </li>
         </ul>
-        <ul class="plain">
+        
+        
+        <ul class="plain featurette">
           <!-- iterate item:features -->
-          <li style="[background-image:linear-gradient(rgba(255,255,255,0) 25%, #fff 17.5em), url($feature:image:domain/$feature:image:url);]" class="image-tab"  data-id="[$feature:@id]">
+          <li style="background-image:linear-gradient(rgba(255,255,255,0) 25%, #fff 17.5em)" class="image-tab b"  data-id="[$feature:@id]">
+            <img class="proxy" data-src="[$feature:image:domain/$feature:image:url]" />
             <div style="width:100%;">
-              <div class="controls">
-                <!-- iterate feature:media:audio -->
-                <!--  insert views/partials/play-button.html-->
-              </div>
+              
               <div class="overleaf" data-award="[$feature:award:html]">
+                <div class="controls">
+                  <!-- iterate feature:media:audio -->
+                  <!--  insert views/partials/play-button.html-->
+                </div>
                 <h3 class="display tracked" ><a href="[$feature:permalink]">[$feature:title]</a></h3>
                 <h6>[$feature:year / $feature:duration]</h6>
                 <p>[$feature:summary]</p>
@@ -39,7 +43,6 @@
           </li>
         </ul>
       </nav>
-      <hr />
       <!-- iterate item:media:audio -->
       <div class="[$model:@id pad-h l]">
         <audio src="[//s3.amazonaws.com/$src]" title="[$model:title]" data-ref="[$model:permalink]" preload="none">Audio</audio>
@@ -54,12 +57,16 @@
     spot:empty {
       display:none;
     }
-    article.text h3 {
+    article.text .interview h3 {
       font-weight:800;
       margin:2em 0 1em;
       text-transform:none;
       line-height:1.5;
       font-size:calc(1.15em + 0.35vw);
+    }
+    .featurette li {
+      padding:0 1.25em;
+      background-color: #fff;
     }
     div.producer {
       margin:2em 0;

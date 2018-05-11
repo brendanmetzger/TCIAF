@@ -34,6 +34,11 @@ abstract class Vertex extends \bloc\Model
     }, $this->_help);
     return new \bloc\types\Dictionary($help);
   }
+  
+  public function getCreated(\DOMElement $context)
+  {
+    return empty($context['@created']) ? time() : \models\graph::INTID($context['@created']);
+  }
 
   public function setIdAttribute(\DOMElement $context, $id)
   {

@@ -358,7 +358,7 @@ class Manage extends \bloc\controller
   {
     $this->item = Graph::FACTORY(Graph::ID($_POST['vertex']['@']['id']), $_POST);
     $view = new view('views/layout.html');
-    $view->content = 'views/lists/recommendation.html';
+    $view->content = 'views/lists/rec-light.html';
     return $view->render($this());
   }
 }

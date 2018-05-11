@@ -25,7 +25,7 @@ class Article extends Vertex
     parent::__construct($id, $data);
 
     if ($this->context['premier']->count() < 1) {
-      $this->context->getFirst('premier')->setAttribute('date', $this->context["@created"]);
+      $this->context->getFirst('premier')->setAttribute('date', date('Y-m-d', $this->created));
     }
   }
 

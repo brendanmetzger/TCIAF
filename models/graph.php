@@ -95,10 +95,10 @@ use \bloc\dom\query;
 
       return [
         'newest' => function($a, $b) {
-          return strtotime($a->getAttribute('created')) < strtotime($b->getAttribute('created'));
+          return $a->getAttribute('created') < $b->getAttribute('created');
         },
         'updated' => function($a, $b) {
-          return strtotime($a->getAttribute('updated')) < strtotime($b->getAttribute('updated'));
+          return $a->getAttribute('updated') < $b->getAttribute('updated');
         },
         'alpha-numeric' => function($a, $b) {
           return $a->getAttribute('id') > $b->getAttribute('id');

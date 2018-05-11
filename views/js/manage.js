@@ -44,6 +44,10 @@ function goto(url, evt) {
       console.log(res, res.getElementById('vertex').value);
       this.modal.close();
       var exist = document.querySelector('main');
+      evt.target.responseXML.querySelectorAll('body script[async]').forEach(function (script) {
+        eval(script.text);
+      });
+      
       new Request({
         load: function (evt) {
           exist.parentNode.replaceChild(evt.target.responseXML.querySelector('main'), exist);

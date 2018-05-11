@@ -6,7 +6,7 @@ trait periodical {
 
   public function setDateAttribute(\DOMElement $context, $date)
   {
-    if ($date = (new \DateTime($date))->format('Y-m-d H:i:s')) {
+    if ($date = (new \DateTime($date))->format('Y-m-d')) {
       $context->setAttribute('date', $date);
     }
   }
