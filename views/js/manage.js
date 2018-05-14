@@ -134,7 +134,7 @@ Markdown.prototype = {
     link   : {
       format: '<var>[</var>Link Text<var>](</var>url<var>)</var>',
       insert: function (message, begin, end) {
-        var url = window.prompt("Please insert a link", "http://");
+        var url = window.prompt("Please insert a link", "http://").replace(/https?:\/\/.*thirdcoastfestival.org/, '');
 
         if (url === null) {
           return string;

@@ -49,6 +49,22 @@ class Task extends \bloc\controller
     print_r($methods);
 
   }
+  
+  public function CLIbuildPhar()
+  {
+    $source = '../bloc';
+    $phar = new \Phar ('../bloc.phar');
+
+    $dir = new \RecursiveIteratorIterator (new \RecursiveDirectoryIterator ($source), \RecursiveIteratorIterator::SELF_FIRST);
+
+    foreach ($dir as $file) {
+      if (preg_match ('/.*\.php$/i', $file) ) {
+        $local = substr ($file, strlen ($source) + 1);
+        $content = php_strip_whitespace ($file);
+        $phar->addFromString ($local, $content);
+      } 
+    }
+  }
 
 
   public function CLIvalid()
