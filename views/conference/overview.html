@@ -10,18 +10,24 @@
   <header class="b">
     <h1 class="lead display tracked tt b" data-id="[$item:@id]">[$item:title]</h1>
     <section class="panel flip">
-      <!-- iterate item:upcoming -->
-      <a class="banner-bg pad b one-third upcoming" href="[$item:permalink]" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
-        <h4><time>[$item:date]</time></h4>
-        <h2 class="display">[$item:title]</h2>
-        <h3>Learn More</h3>
-      </a>
+      <div class="ll one-third">
+        <form method="GET" class="spot">
+          <h5 class="brown caps-lock strong">[$item:title by year]</h5>
+          <select onchange="navigateToPage.call({href: this.value}, event);">
+            <option>Select Year</option>
+            <!-- iterate item:conferences -->
+            <option value="[/conference/$edition:@key]">[$edition:year]</option>
+          </select>
+        </form>
+        <!-- iterate item:upcoming -->
+        <a class="banner-bg pad b upcoming" href="[$item:permalink]" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
+          <h4><time>[$item:date]</time></h4>
+          <h2 class="display">[$item:title]</h2>
+          <h3>Learn More</h3>
+        </a>
+        
+      </div>
       <section property="description" class="two-thirds pad">[$item:content:about]</section>
     </section>
   </header>
-  <!-- iterate item:conferences -->
-  <article class="listing panel pad">
-    <h3 class="half center"><a href="[/overview/conference/$edition:@id]" data-id="[$edition:@id]"><strong class="display strong" style="font-size:125%;letter-spacing:0.075em;display:block;">[$edition:year]</strong> Third Coast Conference</a></h3>
-    <p class="half pad">[$edition:summary]</p>
-  </article>
 </article>
