@@ -261,6 +261,7 @@ nav[role] > ul {
   align-items: center;
   flex-grow: 1;
   padding: 1px;
+  max-width: 50em;
 }
 
 nav[role] > ul > li {
@@ -340,12 +341,13 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
 .finder input {
   margin: 0;
-  padding: 2em 0 2em 3.5em;
+  padding: 2.35em 0 2.35em 3.5em;
   background-size: auto 35%;
   border:none;
-  font-size: 1.5em;
+  font-size: 1.35em;
   background-repeat: no-repeat;
-  background-position: 1em 50%; 
+  background-position: 1em 50%;
+  line-height:1;
 }
 
 .insist {
@@ -596,7 +598,9 @@ section#media {width:100vw;left:0;}
   .one-third.ll {width: calc(30% - 2vw)}
   .two-thirds {width:70%;}
   .two-thirds.rr {width:calc(70% - 2vw);}
-
+  nav[role].panel {
+    justify-content: space-between;
+  }
   nav[role] > ul > li {background-color:#fff }
   #media > header {padding: 0 2vw;}
   #media > form.finder {
