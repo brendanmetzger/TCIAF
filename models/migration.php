@@ -35,9 +35,9 @@ class Migration {
   
   private function generateIndex() {
     
-    
+    echo "Regenerating Index \n";
     $nodes = iterator_to_array($this->xpath->query('//group/vertex[@id]'));
-    
+    $total = count($nodes);
     usort($nodes, function($a, $b) {
       return $this->xpath->query('edge', $a)->length < $this->xpath->query('edge', $b)->length;
     });
@@ -52,9 +52,8 @@ class Migration {
         $attr->nodeValue = $id;
       }
       
-      if ($node->hasAttribute('sticky')) {
-        echo "STICKY! {$slug} is now {$id}\n";
-      }
+      $l = round(($count / $total) * 60);
+      echo  ' ' . str_repeat('#', $l) . str_repeat('-', 60 - $l) . "| {$count} / {$total} \r";
       
     }
     
@@ -68,12 +67,14 @@ class Migration {
   }
   
   private function renameSpectra() {
+    echo "Renaming Spectra\n";
     foreach ($this->xpath->query('//config/spectra') as $node) {
       $node->setAttribute('id', ':' . $node->getAttribute('id'));
     }
   }
   
   private function copyAbstracts() {
+    echo "Copying and moving abstracts\n";
     foreach ($this->xpath->query('//abstract') as $abstract) {
       
       $id      = $abstract->parentNode->getAttribute('id');
@@ -102,6 +103,7 @@ class Migration {
   }
   
   protected function joinAbstracts() {
+    echo "Joining Abstracts\n";
     foreach ($this->xpath->query('//group/vertex') as $vertex) {
       $abstracts  = [];
       
