@@ -4,21 +4,6 @@
   <!-- insert views/head.html-->
   <body class="[$_action panel]" data-user="[$user]" data-view="browse">
     <section id="browse" class="column">
-      <header class="white-bg">
-        <nav role="navigation" class="panel">
-          <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
-          <ul class="plain caps-lock h6">
-            <li><a href="/overview/library">Listen</a></li>
-            <li><a href="/overview/playlists">Playlists</a></li>
-            <li><a href="/overview/conference">Conference</a></li>
-            <li><a href="/overview/competition">Competitions</a></li>
-            <li><a href="/explore/shoppe">Shoppe</a></li>
-            <!-- <li><a href="/overview/events">Events</a></li> -->
-            <li class="hide"><a href="/overview/tciaf">About</a></li>
-            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button special">Donate</a></li>
-          </ul>
-        </nav>
-      </header>
       <main>
         <!-- replace content nextSibling -->
         <section class="landing">
@@ -73,6 +58,21 @@
       <!-- replace helper -->
     </section>
     <section id="media" class="column panel white-bg">
+      <header class="white-bg">
+        <nav role="navigation" class="panel">
+          <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
+          <ul class="plain caps-lock h6">
+            <li><a href="/overview/library">Listen</a></li>
+            <li><a href="/overview/playlists">Playlists</a></li>
+            <li><a href="/overview/conference">Conference</a></li>
+            <li><a href="/overview/competition">Competitions</a></li>
+            <li><a href="/explore/shoppe">Shoppe</a></li>
+            <!-- <li><a href="/overview/events">Events</a></li> -->
+            <li class="hide"><a href="/overview/tciaf">About</a></li>
+            <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button special">Donate</a></li>
+          </ul>
+        </nav>
+      </header>
       <form class="finder search white-bg">
         <label style="height:0;display:block;overflow:hidden;" for="finder">Search for features, events, competitions or People</label>
         <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>

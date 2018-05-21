@@ -327,8 +327,8 @@ ul.conjunct li:last-child:not(:first-child):before {
   margin: 0 0.5ch;
 }
 
-#browse > header {border-bottom: 1px solid rgba(0,0,0,0.075);border-top: 0.5vw solid #5b9b98;}
-#browse > header nav li > a {
+#media > header {border-bottom: 1px solid rgba(0,0,0,0.075);border-top: 0.5vw solid #5b9b98;box-shadow:0 0.5em 1em -0.5em rgba(0,0,0,0.05);}
+#media > header nav li > a {
   flex: 1 1 auto;
   font-weight:400;
   padding: 0.25rem;
@@ -340,10 +340,9 @@ body > section[id] {overflow:auto;-webkit-overflow-scrolling: touch;}
 
 .finder input {
   margin: 0;
-  padding: 1.5vmin 2.5em;
+  padding: 2em 0 2em 3.5em;
   background-size: auto 35%;
   border:none;
-  border-bottom: 1px solid #eee;
   font-size: 1.5em;
   background-repeat: no-repeat;
   background-position: 1em 50%; 
@@ -450,7 +449,7 @@ article.page {
 }
 #Player button.toggle {display: none;}
 .feature article.panel.listing header { width:100% }
-section#media {width:100vw;position:fixed;left:0;}
+section#media {width:100vw;left:0;}
 
 /* Mobile only */
 @media screen and (max-width: 50em) {
@@ -577,7 +576,7 @@ section#media {width:100vw;position:fixed;left:0;}
      color:#999;
   }
 
-  body > section[id] {position:fixed;width:100vw;}
+  body > section[id] {width:100vw;}
   #Player[data-position] .intro {display:none}
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;align-self: center;}
@@ -588,7 +587,7 @@ section#media {width:100vw;position:fixed;left:0;}
   .columns.three{column-count:3;}
   .columns.four{column-count:3;}
   body {overflow:hidden;}
-  nav a.logo {margin: 0.75vmin 1em 0 0.25vmin;min-width: 22.5em;background-size: contain;background-position: 40% 70%;min-height: 8.5vmin;}
+  nav a.logo {margin: 0 5em 0 0;background-size: contain;background-position: 40% 70%;height: 5em; width: 17.5em;}
 
   .column { flex-direction: column }
 
@@ -599,9 +598,18 @@ section#media {width:100vw;position:fixed;left:0;}
   .two-thirds.rr {width:calc(70% - 2vw);}
 
   nav[role] > ul > li {background-color:#fff }
-  #browse > header {padding: 0 2vw;}
-  body[data-view] > #media  {top:0;width: 15vw;height:100vh;left: 85vw;}
-  body[data-view] > #browse {left: 0;width: 85vw;height:100vh;overflow-x: hidden;}
+  #media > header {padding: 0 2vw;}
+  #media > form.finder {
+    border-top: 0.5vw solid #5a9a98;
+    box-shadow: 0 0.125em 1.25em -0.25em rgba(0,0,0,0.075);
+  }
+  body[data-view] > #media  {top:0;width: 15vw;height:100vh;background-color:#fdfdfd;}
+  body[data-view] > #media > header {
+    position: absolute;
+    left: 0;
+    width:85vw;
+  }
+  body[data-view] > #browse {left: 0;width: 85vw;height:calc(100vh - 8.5em);overflow-x: hidden;margin-top:8.5em;}
 
   
   .feature article.panel.listing header, .competition article.panel.listing header, .conference article.panel.listing header { width:48% }
