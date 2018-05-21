@@ -374,9 +374,9 @@ class Task extends \bloc\controller
   
   public function CLImigration() {
     $migration = new \models\migration('data/tciaf2');
-    // $migration->execute();
-    $migration->compressEdges();
-    $migration->save('data/tciaf3');
+    $migration->execute();
+    // $migration->compressEdges();
+    $migration->save('data/tciaf2');
   }
   
   public function CLIslug() {
