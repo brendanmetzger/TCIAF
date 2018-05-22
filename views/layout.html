@@ -2,7 +2,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
   <!-- insert views/head.html-->
-  <body class="[$_action panel]" data-user="[$user]" data-view="browse">
+  <body class="[$_action panel]" data-user="[$user]" data-position="0">
+    <button onclick="document.body.classList.toggle('menu');" class="menu-trigger">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" style="stroke:#444;stroke-width:0.5">
+        <path d="M2 3L8 3M2 5 L 8 5M 2 7L8 7"/>
+        <path class="action"/>
+        <path class="status"/>
+        <path d="M3 3L 7 7 M 7 3 L 3 7"/>
+      </svg>
+    </button>
     <section id="browse" class="column">
       <main>
         <!-- replace content nextSibling -->
@@ -63,6 +71,9 @@
         <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>
         <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>
+      <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist h6 white-bg">
+        <!-- player requires javascript -->
+      </noscript>
       <header class="white-bg">
         <nav role="navigation" class="panel">
           <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
@@ -73,15 +84,11 @@
             <li><a href="/overview/competition">Competitions</a></li>
             <li><a href="/explore/shoppe">Shoppe</a></li>
             <!-- <li><a href="/overview/events">Events</a></li> -->
-            <li class="hide"><a href="/overview/tciaf">About</a></li>
+            <li><a href="/overview/tciaf">About</a></li>
             <li><a href="https://donatenow.networkforgood.org/ThirdCoast" class="button special">Donate</a></li>
           </ul>
         </nav>
       </header>
-      
-      <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist h6 white-bg">
-        <!-- player requires javascript -->
-      </noscript>
     </section>
     <script type="text/javascript">bloc.load();</script>
     <style type="text/css" media="screen">

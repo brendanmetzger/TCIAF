@@ -486,11 +486,14 @@ if (window.history.pushState) {
     var append = this.href.match(/\?/) ? '' : '?ref='+btoa(window.location.pathname);
     if (evt.type != 'popstate') {
       setTimeout(function () {
+        console.log('here');
+        scrollTo(0,0);
         document.body.scrollTop = 0;
         document.querySelector('#browse').scrollTop = 0;
       }, 150);
       history.pushState(null, null, this.href);
     } else if (evt.timeStamp > window.dataLayer[0].start && evt.timeStamp - window.dataLayer[0].start < 1000) {
+      console.log(evt);
       // Safari consistently fires this event on load, which refreshes the page.
       // This checks the event time vs. the recorded start and avoid it... hack.
       return;
@@ -578,6 +581,10 @@ bloc.init(function () {
     root: browse,
     threshold: [0, 0.5, 1]
   }) : false;
+  
+  addEventListener('scroll', function(evt) {
+    document.body.dataset.position = Math.round(pageYOffset / (document.documentElement.scrollHeight - innerHeight) * 100);
+  }, {passive: true});
   
   addEventListener('popstate', navigateToPage.bind(document.location), false);
   addEventListener('offline', toggleStatus);
@@ -731,16 +738,6 @@ Playlist.prototype = {
     }
   }
 };
-
-// var toggle = this.container.appendChild(document.createElement('button').attr({
-//   'class': 'toggle',
-// }));
-//
-// toggle.textContent = '✕';
-//
-// toggle.addEventListener('click', function (evt) {
-//   document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
-// });
 
 
 var Player = function (container, data, message) {
