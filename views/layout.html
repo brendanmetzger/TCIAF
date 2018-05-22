@@ -58,6 +58,11 @@
       <!-- replace helper -->
     </section>
     <section id="media" class="column panel white-bg">
+      <form class="finder search white-bg">
+        <label style="height:0;display:block;overflow:hidden;" for="finder">Search for features, events, competitions or People</label>
+        <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>
+        <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
+      </form>
       <header class="white-bg">
         <nav role="navigation" class="panel">
           <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
@@ -73,11 +78,7 @@
           </ul>
         </nav>
       </header>
-      <form class="finder search white-bg">
-        <label style="height:0;display:block;overflow:hidden;" for="finder">Search for features, events, competitions or People</label>
-        <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>
-        <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
-      </form>
+      
       <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist h6 white-bg">
         <!-- player requires javascript -->
       </noscript>

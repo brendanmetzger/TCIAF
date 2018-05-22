@@ -732,6 +732,17 @@ Playlist.prototype = {
   }
 };
 
+// var toggle = this.container.appendChild(document.createElement('button').attr({
+//   'class': 'toggle',
+// }));
+//
+// toggle.textContent = '✕';
+//
+// toggle.addEventListener('click', function (evt) {
+//   document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
+// });
+
+
 var Player = function (container, data, message) {
   this.container = container;
   this.container.id  = 'Player';
@@ -739,15 +750,6 @@ var Player = function (container, data, message) {
   this.elements = [];
   this.index    = 0;
 
-  var toggle = this.container.appendChild(document.createElement('button').attr({
-    'class': 'toggle',
-  }));
-
-  toggle.textContent = '✕';
-
-  toggle.addEventListener('click', function (evt) {
-    document.body.dataset.view = document.body.dataset.view == 'browse' ? 'media' : 'browse';
-  });
 
   var controls = this.container.appendChild(document.createElement('div').attr({
     'class': data.controls
