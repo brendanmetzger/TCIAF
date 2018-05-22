@@ -264,12 +264,14 @@ nav[role] > ul {
 }
 
 nav[role] > ul > li {
-  text-align:center;
-  display:flex;
+  text-align: center;
+  display: flex;
   flex: 1 0 auto;
-  margin: 1px 1px 0 0;
-  background-color: #f8f8f8;
+  padding: 0.125em;
   align-items: stretch;
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
 }
 a.jump {
   display:block;
@@ -516,6 +518,15 @@ article.page {
   
   body:not(.menu) #Player .controls {
     width: 5em;
+    padding:0;
+    margin-left:75%;
+  }
+  
+  body:not(.menu) #Player .controls button {
+    height: 70%;
+    width: 70%;
+    top: 15%;
+    left: 15%;
   }
   .banner {margin-left:-2.5vmax;padding-right:5vw;}
   body.menu, body.menu #media {overflow:hidden;}
@@ -526,7 +537,7 @@ article.page {
     background-size: 5px 1px;
     padding: 0 0.125em;
   }
-  nav[role] > ul {border-left: 1px solid #F8F8F8;}
+  nav[role] > ul > li {  background-image: linear-gradient(90deg, #fff, rgba(0,0,0,0.05), #fff);}
   .panel > .two-thirds, .panel > .half {flex: 1 0 100%;min-width: 100%;padding: 0 2vw;}
   .gallery {width:100%;}
   .gallery img {max-width:100%;padding: 5%;}
