@@ -34,7 +34,6 @@ a:focus {
 button:focus, input:focus {
   outline:none;
   border-color: #5b9b98 !important;
-  box-shadow: inset 0 0 0.25em rgba(0, 0, 0, 0.05) !important;
 }
 
 body {
@@ -340,14 +339,12 @@ ul.conjunct li:last-child:not(:first-child):before {
 
 body > section[id] {overflow:auto;--webkit-overflow-scrolling: touch;}
 
-.finder {
-  width: 85%;
-}
 .finder input {
   margin: 0;
   padding: 1.25em 0 1.25em 3.5em;
   background-size: auto 35%;
   border:none;
+  border-bottom:1px solid #f8f8f8;
   font-size: 1.35em;
   background-repeat: no-repeat;
   background-position: 1em 50%;
@@ -373,10 +370,20 @@ body:not([data-position^='0']) button.menu-trigger {
   box-shadow: 0 0 0.75em -0.125em rgba(0,0,0,0.125);
 }
 
+#browse {
+  transition: box-shadow 0.25s;
+}
+body:not([data-position^='0']) #browse {
+  box-shadow: 0 -0.25em 1em rgba(0,0,0,0.075);
+}
+
 button.menu-trigger svg {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+}
+body.menu > button.menu-trigger path {
+  stroke: #f3a026;
 }
 body.menu > button.menu-trigger svg path:first-of-type {
   display:none;
@@ -490,7 +497,6 @@ article.page {
 @media screen and (max-width: 50em) {
   /* this is necessary for touch screens */
   html, body {min-height:100%} 
-  section#browse > main {background-color: #FAFAFA;}
   .hide {display:none !important;}
   body #media {height: 5em;transition: height 0.125s;}
   body.menu #media {
@@ -516,6 +522,14 @@ article.page {
     position: absolute;
   }
   
+  
+  body.menu .playlist {
+    display: none;
+  }
+  body.menu #Player .controls {
+    width: 70%;
+    margin:0 auto;
+  }
   body:not(.menu) #Player .controls {
     width: 5em;
     padding:0;
@@ -527,17 +541,18 @@ article.page {
     width: 70%;
     top: 15%;
     left: 15%;
+    padding: 0.5em;
   }
   .banner {margin-left:-2.5vmax;padding-right:5vw;}
   body.menu, body.menu #media {overflow:hidden;}
-  section#browse main {background-color: #f1f1f1;padding-left: 1.5vmax;}
+  section#browse main {background-color: #fafafa;padding-left: 1.5vmax;}
   h1, h2 { max-width: 100%;}
   h5 a, h2 a, .sink a, h3 a {
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.125) 75%, transparent) repeat-x 0 1em;
     background-size: 5px 1px;
     padding: 0 0.125em;
   }
-  nav[role] > ul > li {  background-image: linear-gradient(90deg, #fff, rgba(0,0,0,0.05), #fff);}
+  nav[role] > ul > li:not(:last-of-type) {  background-image: linear-gradient(90deg, #fff, rgba(0,0,0,0.05), #fff);}
   .panel > .two-thirds, .panel > .half {flex: 1 0 100%;min-width: 100%;padding: 0 2vw;}
   .gallery {width:100%;}
   .gallery img {max-width:100%;padding: 5%;}
@@ -566,7 +581,7 @@ article.page {
   ul.sink li {float:left;margin: 0 0.35em 0 0;}
   .reorder section:nth-child(2) { order: 3;}
   
-  nav[role] > ul { align-items:stretch }
+  nav[role] > ul { align-items:stretch; padding: 1em 0; }
   form[method="GET"] select, textarea:focus {
     font-size: 16px;
   }
@@ -616,6 +631,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   #Player[data-position] .intro {display:none}
   .finder input {
     padding: 2.35em 0 2.35em 3.5em;
+    border:none;
   }
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;align-self: center;}
@@ -642,7 +658,6 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   nav[role] > ul > li {background-color:#fff }
   #media > header {padding: 0 2vw;}
   #media form.finder {
-    width: 100%;
     border-top: 0.5vw solid #5a9a98;
     box-shadow: 0 0.125em 1.25em -0.25em rgba(0,0,0,0.075);
   }
