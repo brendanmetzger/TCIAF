@@ -773,12 +773,10 @@ var Player = function (container, data, message) {
   this.meter.element.addEventListener(mobile ? 'touchstart' : 'mouseover', function (evt) {
     this.meter.element.classList.add('hover');
     this.meter.update(evt.theta() / 360, true);
-    document.documentElement.classList.add('lock');
   }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'mouseout', function (evt) {
     this.meter.element.classList.remove('hover');
-    document.documentElement.classList.remove('lock');
   }.bind(this), mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchmove' : 'mousemove', function (evt) {
