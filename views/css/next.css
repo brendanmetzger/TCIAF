@@ -523,11 +523,13 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   body > header {
     position: fixed;
     z-index: 1;
-    height: 100vh;
+    height: 6em;
+    transition: height 0.125s;
   }
     
   body.menu > header {
     z-index: 2;
+    height: 100vh;
     flex-direction: column;
     justify-content: space-between;
   }
