@@ -3,33 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:lang="en" lang="en">
   <!-- insert views/head.html-->
   <body class="[$_action]" data-user="[$user]" data-position="0">
-    
+    <button onclick="document.body.classList.toggle('menu');" class="menu-trigger">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" style="stroke:#444;stroke-width:0.5">
+        <path d="M2 3L8 3M2 5 L 8 5M 2 7L8 7"/>
+        <path class="action"/>
+        <path class="status"/>
+        <path d="M3 3L 7 7 M 7 3 L 3 7"/>
+      </svg>
+    </button>
     
     <header class="panel white-bg">
-      
-      <section id="media">
-      
-        <button onclick="document.body.classList.toggle('menu');" class="menu-trigger">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" style="stroke:#444;stroke-width:0.5">
-            <path d="M2 3L8 3M2 5 L 8 5M 2 7L8 7"/>
-            <path class="action"/>
-            <path class="status"/>
-            <path d="M3 3L 7 7 M 7 3 L 3 7"/>
-          </svg>
-        </button>
-      
-        <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist h6 white-bg">
-          <!-- player requires javascript -->
-        </noscript>
-
-      
-      </section>
-      
       <form class="finder search white-bg">
         <label style="height:0;display:block;overflow:hidden;" for="finder">Search for features, events, competitions or People</label>
         <input type="text" value="" id="finder" data-path="search/cluster" data-topic="feature, happening, competition, person, article, collection" autocomplete="off" spellcheck="off" placeholder="search"/>
         <noscript id="site-search" class="Search" data-id="finder">The Third Coast Festival Audio Player Requires Javascript</noscript>
       </form>
+      
       <nav role="navigation" class="panel">
         <a href="/" class="logo" title="Go to the Third Coast Homepage">Home</a>
         <ul class="plain caps-lock h5 rag-left">
@@ -44,6 +33,11 @@
         </ul>
       </nav>
       
+      <section id="media">
+        <noscript id="Player" class="Player" data-queue="" data-controls="controls" data-playlist="plain playlist h6 white-bg">
+          <!-- player requires javascript -->
+        </noscript>
+      </section>
       
     </header>
     
