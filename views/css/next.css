@@ -233,6 +233,7 @@ body > header {
 #media {
   transition: padding-top 0.75s;
   z-index: 0;
+  background-color:#fcfcfc;
 }
 
 
@@ -609,7 +610,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   }
   body:not(.menu) div#Player {
     width: 6em;
-    margin: 0 1em;
+    margin: 0 2em;
   }
   body.menu .playlist {
     max-height: 30vh;
@@ -666,7 +667,6 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   }
   #media {
     height: 100vh;
-    background-color: #fcfcfc;
     right: 0;
     top: 0;
     position: fixed;
