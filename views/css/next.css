@@ -76,14 +76,14 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw); font-weigh
 .plain li {font-size:100%; line-height:1.125;}
 
 .t, .markdown h2 {margin-top: calc(0.5em + 1vmax);}
-.tt,hr, .hr {margin-top: calc(0.5em + 2vmin);}
+.tt,hr, .hr {margin-top: calc(0.5em + 1.5vmax);}
 .b   {margin-bottom: calc(0.5em + 1vmax);}
-.bb, hr, .hr {margin-bottom: calc(0.5em + 2vmin);}
+.bb, hr, .hr {margin-bottom: calc(0.5em + 1.5vmax);}
 .l  {margin-left:1vw}
 .ll, .controls h1, .controls h2 {margin-left:2vw}
 .r {margin-right:1vw;}
 .rr {margin-right: 2vw;}
-.pad   {padding: 2vmax;}
+.pad   {padding: 1.5vmax;}
 .pad-h { padding: 0 1.5vmin }
 .pad-v {padding: 2vmin 0;}
 .m, p {margin: 0.75em 0;}
@@ -637,7 +637,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
 /* Tablet */
 @media screen and (min-width: 50em) {
   h3, .h3 {
-    font-size: 275%;
+    font-size: 250%;
   }
   #browse {
     transition: box-shadow 0.25s;
