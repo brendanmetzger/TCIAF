@@ -16,7 +16,7 @@
           <select onchange="navigateToPage.call({href: this.value}, event);">
             <option>Select Year</option>
             <!-- iterate item:conferences -->
-            <option value="[/conference/$edition:@key]">[$edition:year]</option>
+            <option value="[/overview/conference/$edition:@id]">[$edition:year]</option>
           </select>
         </form>
         <!-- iterate item:upcoming -->
