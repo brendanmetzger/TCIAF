@@ -110,7 +110,7 @@ class Explore extends Manage
   {
     $view = new View('views/layout.html');
     $view->content = 'views/lists/shoppe.html';
-    $this->item  = new \models\Article('Ble');
+    $this->item  = new \models\Article('BlH');
     return $view->render($this());
   }
 
