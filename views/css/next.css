@@ -519,7 +519,9 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
 @media screen and (max-width: 50em) {
   body.menu {
     overflow: hidden;
+    overscroll-behavior-y: none
   }
+  
 
   body > header {
     position: fixed;
@@ -531,6 +533,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   body.menu > header {
     z-index: 2;
     height: 100vh;
+    overscroll-behavior-y: none
     flex-direction: column;
     justify-content: space-between;
   }
