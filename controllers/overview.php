@@ -203,14 +203,14 @@ function calendar($start, $category, $query)
     {
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/overview.html';
-      $this->item      = Graph::FACTORY(Graph::ID('Bld'));
+      $this->item      = Graph::FACTORY(Graph::ID('BlN'));
       return $view->render($this());
     }
 
     public function GETconference($id = null)
     {
       $this->banner = 'Conferences';
-      $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CI');
+      $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CJ');
       $this->item   = Graph::FACTORY($node);
 
       $template = $id === null ? 'overview' : $this->item->_template;
