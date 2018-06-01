@@ -586,6 +586,15 @@ bloc.init(function () {
     document.body.dataset.position = Math.round(pageYOffset / (document.documentElement.scrollHeight - innerHeight) * 100);
   }, {passive: true});
   
+  document.querySelector('button.menu-trigger').addEventListener('click', function(evt) {
+    if (document.body.classList.contains('menu')) {
+      // enter full screen
+      console.log('full screen')
+      this.parentNode.webkitRequestFullScreen()
+    } else {
+      document.webkitExitFullscreen();
+    }
+  });
   addEventListener('popstate', navigateToPage.bind(document.location), false);
   addEventListener('offline', toggleStatus);
   addEventListener('online', toggleStatus);
