@@ -210,7 +210,7 @@ function calendar($start, $category, $query)
     public function GETconference($id = null)
     {
       $this->banner = 'Conferences';
-      $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CI');
+      $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CJ');
       $this->item   = Graph::FACTORY($node);
 
       $template = $id === null ? 'overview' : $this->item->_template;
