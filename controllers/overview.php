@@ -203,7 +203,7 @@ function calendar($start, $category, $query)
     {
       $view = new view('views/layout.html');
       $view->content   = 'views/pages/overview.html';
-      $this->item      = Graph::FACTORY(Graph::ID('Bld'));
+      $this->item      = Graph::FACTORY(Graph::ID('BlN'));
       return $view->render($this());
     }
 
