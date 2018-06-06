@@ -911,13 +911,6 @@ audio {display:none;}
   fill-opacity:0.25;
 }
 
-/*.progress circle {
-  stroke-width: 1;
-  pointer-events: none;
-  stroke: #ddd;
-  stroke-dasharray: 30.416 1;
-}
-*/
 .progress circle {
   stroke-width: 1;
   pointer-events: none;

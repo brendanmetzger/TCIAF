@@ -137,12 +137,21 @@
           } else {
             img.addEventListener('load', function () {
               if (this.classList.contains('proxy')) {
-                this.parentNode.style.backgroundImage = `url(${this.src})`;
+                var context = this.parentNode;
+                var prefix = context.style.backgroundImage;
+                if (prefix) {
+                  prefix += ', ';
+                }
+    
+                context.style.backgroundImage = prefix + `url(${this.src})`;
+                setTimeout(DOMTokenList.prototype.add.bind(context.classList, 'loaded'), 10);
+    
                 this.remove();
               } else {
                 this.removeAttribute('data-src');
               }
             });
+            
             img.src = img.dataset.src;
           }
         });
