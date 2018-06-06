@@ -479,7 +479,7 @@ div[data-award] {
 }
 
 form[method="GET"] select {
-  --webkit-appearance: none;
+  -webkit-appearance: none;
   -moz-appearance: none;
   background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path stroke="%23333" stroke-width="2" stroke-linejoin="miter" fill="none" d="M1,0L50,45L99,0"/></svg>') no-repeat 95% 50%;
     background-size: auto 33%;
