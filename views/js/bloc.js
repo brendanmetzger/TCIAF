@@ -370,7 +370,6 @@ var Progress = function(container) {
   
   path   = svg.createElement('path', { 'd': 'M50,50', 'class': 'status', 'transform': 'rotate(-90 50 50)' });
   handle = svg.createElement('path', { 'd': 'M50,50', 'class': 'handle', 'transform': 'rotate(-90 50 50)' });
-  grab   = svg.createElement('circle', { 'cx': 50, 'cy': 50, 'r': 5, 'class': 'grab', 'transform': 'rotate(-90 50 50)'});
   
   
   this.update = function (percentage, scrub, elapsed_msg, remain_msg) {
@@ -388,8 +387,6 @@ var Progress = function(container) {
     if (scrub) {
       handle.setAttribute('d', data + 'L50,50z');
       handle.position = percentage;
-      grab.setAttribute('cx', x);
-      grab.setAttribute('cy', y);
     } else {
       path.setAttribute('d', data);
     }
@@ -486,7 +483,6 @@ if (window.history.pushState) {
     var append = this.href.match(/\?/) ? '' : '?ref='+btoa(window.location.pathname);
     if (evt.type != 'popstate') {
       setTimeout(function () {
-        console.log('here');
         scrollTo(0,0);
         document.body.scrollTop = 0;
         document.querySelector('#browse').scrollTop = 0;
@@ -565,7 +561,7 @@ var reveal = function () {
 }
 
 bloc.init(function () {
-  var browse = mobile ? document.body : document.querySelector('#browse');
+  var browse = document.body;
 
   window.Adjust = smoothScroll(browse);
   window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
@@ -586,15 +582,24 @@ bloc.init(function () {
     document.body.dataset.position = Math.round(pageYOffset / (document.documentElement.scrollHeight - innerHeight) * 100);
   }, {passive: true});
   
-  document.querySelector('button.menu-trigger').addEventListener('click', function(evt) {
+  var header = document.querySelector('body > header');
+  document.querySelector('button.menu-trigger').addEventListener('touchstart', function(evt) {
     if (document.body.classList.contains('menu')) {
-      // enter full screen
-      console.log('full screen')
-      this.parentNode.webkitRequestFullScreen()
+      this.removeAttribute('style');
     } else {
-      document.webkitExitFullscreen();
+      this.style.height = window.innerHeight + 'px';
+      this.style.overflow = 'hidden';
     }
-  });
+  }.bind(header));
+  
+  if (mobile) {
+    addEventListener('resize', function(evt) {
+      if (document.body.classList.contains('menu')) {
+        this.style.height = window.innerHeight + 'px';
+      }
+    }.bind(header));
+  }
+ 
   addEventListener('popstate', navigateToPage.bind(document.location), false);
   addEventListener('offline', toggleStatus);
   addEventListener('online', toggleStatus);
@@ -796,7 +801,7 @@ var Player = function (container, data, message) {
     var t = d * (1 - p);
     var m = "{h}:{m}:{s}";
     this.meter.update(p, true, new Date(d-t).parse(m), new Date(t).parse(m));
-  }.bind(this), mobile ? {passive: true} : false);
+  }.bind(this),  false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);

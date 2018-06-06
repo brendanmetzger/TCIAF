@@ -263,7 +263,6 @@ button.menu-trigger svg {
 }
 
 
-
 body.menu button.menu-trigger path {
   stroke: #f3a026;
 }
@@ -330,7 +329,7 @@ nav[role] > ul > li {
   background-position: left bottom;
 }
 header nav[role] > ul a {
-  padding: 0.25em;
+  padding: 0.5em;
 
 }
 
@@ -475,12 +474,12 @@ div[data-award] {
   background-position: 50% 25%;
   width: calc(100% + 4vmax);
   box-shadow: inset 0 -0.25em 0.5em rgba(0,0,0,0.05);
-  margin: -2vmax -2vmax 2em;
+  margin: -1.5vmax -1.5vmax 2em;
   padding: 10vmax 1em 1em;
 }
 
 form[method="GET"] select {
-  -webkit-appearance: none;
+  --webkit-appearance: none;
   -moz-appearance: none;
   background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path stroke="%23333" stroke-width="2" stroke-linejoin="miter" fill="none" d="M1,0L50,45L99,0"/></svg>') no-repeat 95% 50%;
     background-size: auto 33%;
@@ -502,8 +501,8 @@ article.page {
   width: 100%;
 }
 
-input:focus::-webkit-input-placeholder { opacity:0.2;}
-::-webkit-input-placeholder {
+input:focus::--webkit-input-placeholder { opacity:0.2;}
+::--webkit-input-placeholder {
   transition: opacity 0.25s;
   font-weight:100;
   text-align:left;
@@ -520,6 +519,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   body.menu {
     overflow: hidden;
     overscroll-behavior: none;
+    position: fixed;
   }
 
   body > header {
@@ -531,7 +531,6 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
     
   body.menu > header {
     z-index: 2;
-    height: 100vh;
     flex-direction: column;
     justify-content: space-between;
   }
@@ -551,6 +550,10 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
     display: none;
   }
   
+  body:not(.menu) #media {
+    background-color: #fff;
+  }
+  
   article.listing {background-color: rgba(255,255,255,0.85);margin:1em 0;}
   
   /* this is necessary for touch screens */
@@ -563,7 +566,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
     background-size: 5px 1px;
     padding: 0 0.125em;
   }
-  nav[role] > ul > li:not(:last-of-type) {  background-image: linear-gradient(90deg, #fff, rgba(0,0,0,0.05), #fff);}
+  nav[role] > ul > li:nth-last-child(n+3) {border-bottom: 1px dashed #eee;}
   .panel > .two-thirds, .panel > .half {flex: 1 0 100%;min-width: 100%;padding: 0 2vw;}
   .gallery {width:100%;}
   .gallery img {width:100%;padding: 5%;}
@@ -596,7 +599,7 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   
   nav[role] > ul { align-items:stretch; padding: 1em; }
   nav[role] li { padding: 0.75em }
-  form[method="GET"] select, textarea:focus {
+  form[method="GET"] select, textarea:focus, input:focus {
     font-size: 16px;
   }
   
@@ -620,6 +623,10 @@ input:focus::-webkit-input-placeholder { opacity:0.2;}
   
   body:not(.menu) .playlist {
     display: none;
+  }
+  
+  #Player .controls {
+    max-height: calc(50vw - 1em);
   }
   
 }
@@ -803,7 +810,7 @@ button.listen {
 
 .bg button.listen { box-shadow: 0 0 2.5em rgba(0,0,0,0.1); }
 
-.playlist {max-height: 72.5vh;overflow-y:scroll;}
+.playlist {max-height: 72.5vh;overflow-y:scroll;--webkit-overflow-scrolling: touch;}
 .playlist li {
   padding: 0.5em 0.5em 0.5em 1em;
   border-top: 1px solid rgba(0,0,0,0.05);
@@ -899,7 +906,8 @@ audio {display:none;}
   fill: #5b9b98;
   transition: fill-opacity 0.5s;
 }
-#Player .progress:hover .handle {
+
+#Player .progress:hover .handle, #Player .progress.hover .handle {
   fill-opacity:0.25;
 }
 
