@@ -507,7 +507,7 @@ if (window.history.pushState) {
 
   document.body.addEventListener('click', function (evt) {
     if (evt.target.nodeName.toLowerCase() === 'a') {
-      if (evt.target.hash) {
+      if (evt.target.hash && (window.location.pathname == evt.target.pathname)) {
         evt.preventDefault();
         var elem = document.getElementById(evt.target.hash.substr(1));
         if (elem) {
