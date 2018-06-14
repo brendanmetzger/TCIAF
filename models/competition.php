@@ -62,7 +62,7 @@ namespace models;
 
     public function getPermalink(\DOMElement $context)
     {
-      return "/competition/{$this->slug}";
+      return "/competition/{$context['@key']}";
     }
     
     public function getCompetitions()

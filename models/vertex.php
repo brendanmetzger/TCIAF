@@ -158,8 +158,17 @@ abstract class Vertex extends \bloc\Model
     $eid  = $context->parentNode['@id'];
     $ref  = Graph::ID($atts['vertex']);
     $type =  $atts['type'] ?: $context['@type'];
+    
+    // find connected edges
+    $connected = $ref->find("edge[@vertex='{$eid}' and @type='{$type}']");
 
-
+    if (empty($atts['type'])) {
+      foreach ($connected as $connection) {
+        $ref->removeChild($connection);
+      }
+      return false;
+    }
+    
     $context->setAttribute('type',  $atts['type']);
     $context->setAttribute('vertex', $atts['vertex']);
     
@@ -168,8 +177,6 @@ abstract class Vertex extends \bloc\Model
     }
     
 
-    // find connected edges
-    $connected = $ref->find("edge[@vertex='{$eid}' and @type='{$type}']");
     
     
     if ($context->parentNode->parentNode['@type'] != 'archive') {

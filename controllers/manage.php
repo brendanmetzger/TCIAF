@@ -254,7 +254,6 @@ class Manage extends \bloc\controller
   protected function POSTedit(Admin $user, $request, $model, $id = null)
   {
     if ($instance = Graph::FACTORY( (Graph::ID($id) ?: $model), $_POST)) {
-
       if ($instance->save()) {
         // clear and rebuild caches w/o slowing down response
         \models\search::CLEAR();
