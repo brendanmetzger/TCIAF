@@ -75,6 +75,7 @@ var Animate = function (callback) {
 };
 
 var smoothScroll = function (elem) {
+  console.log(elem);
   var scrolling = {stop: new Function()};
   var scroller = Animate(function (element) {
     var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % anim complete
@@ -509,7 +510,7 @@ if (window.history.pushState) {
     if (evt.target.nodeName.toLowerCase() === 'a') {
       if (evt.target.hash && (window.location.pathname == evt.target.pathname)) {
         evt.preventDefault();
-        var elem = document.getElementById(evt.target.hash.substr(1));
+        var elem = document.querySelector(evt.target.hash);
         if (elem) {
           window.Adjust.scroll(+elem.offsetTop, 500);
         }
@@ -561,7 +562,7 @@ var reveal = function () {
 }
 
 bloc.init(function () {
-  var browse = document.body;
+  var browse = document.documentElement;
 
   window.Adjust = smoothScroll(browse);
   window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {

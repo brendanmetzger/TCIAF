@@ -1,29 +1,27 @@
 <article id="conf-sessions">
   <h2 class="display edit tt" id="sessions">Conference Sessions</h2>
   <!-- iterate item:sessions -->
-  <section class="pad-v">
-    <header class="controls" id="[$item::@id]" style="padding-bottom:0;">
-      <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:caption]" class="landscape"/>
-      <div>
-        <h3 data-id="[$item::@id]"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h3>
-        <p>[$item:summary]</p>
-      </div>
-    </header>
-    <ul class="plain conjunct pad-h">
-      <!-- iterate item:presenters -->
-      <li><a href="[$person:permalink]" data-id="[$person:@id]" class="h6">[$person:@title]</a></li>
-    </ul>
+  <section class="controls pad-v" id="[$item::@id]">
+    <img data-src="[$item:image:domain/$item:image:url]" alt="[$item:image:caption]" class="landscape" />
+    <div>
+      <h3 data-id="[$item::@id]"><a href="[$item:permalink]" data-id="[$item:@id]">[$item:title]</a></h3>
+      <p>[$item:summary]</p>
+      <ul class="plain conjunct">
+        <!-- iterate item:presenters -->
+        <li><a href="[$person:permalink]" data-id="[$person:@id]">[$person:@title]</a></li>
+      </ul>
+    </div>
   </section>
-  <script type="text/javascript" async="true">
-    // <![CDATA[
-      bloc.init(function () {
-        var link = document.querySelector('nav.jump ul').appendChild(document.createElement('li')).appendChild(document.createElement('a'));
-        link.href = "#conf-sessions";
-        link.textContent = "Conference Sessions";
-        
-      });
-    // ]]>
-  </script>
+  
+  <style type="text/css" media="screen">
+    img.landscape {
+      padding: 1em;
+      margin-right: 2em;
+      width: 33%;
+      border: 1px solid #f8f8f8;
+      background-color: #fff;
+    }
+  </style>
 </article>
 
 
