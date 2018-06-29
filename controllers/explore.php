@@ -73,6 +73,10 @@ class Explore extends Manage
   public function GETlookup($type, $slug) {
     return $this->GETdetail(Graph::group($type)->find("vertex[@key='{$slug}']")->pick(0));
   }
+  
+  public function GETkey($slug) {
+    return $this->GETdetail(Graph::instance()->query('graph/group/')->find("vertex[@key='{$slug}']")->pick(0));
+  }
 
 
   public function GETbehindTheScenes($sort = 'newest', $index = 1, $per = 25)
