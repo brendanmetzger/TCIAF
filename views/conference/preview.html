@@ -47,7 +47,7 @@
       <div class="gray-bg spot markdown">
         <aside>[$item:content:Extras]</aside>
       </div>
-      <!-- replace sponsors -->
+      
       <form method="GET" class="spot">
         <h5 class="brown caps-lock strong">[$item:origin:title by year]</h5>
         <select onchange="navigateToPage.call({href: this.value}, event);">
@@ -56,6 +56,8 @@
           <option value="[/conference/$edition:@key]">[$edition:year]</option>
         </select>
       </form>
+      
+      <!-- replace sponsors -->
       
     </section>
   </section>
