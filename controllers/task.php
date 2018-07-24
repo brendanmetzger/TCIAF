@@ -379,11 +379,19 @@ class Task extends \bloc\controller
     $migration->save('data/tciaf2');
   }
   
-  public function CLIslug() {
+  public function CLIslug($title) {
     
-    echo \models\graph::alphaid(time());
-
-
+    $title = iconv('UTF-8', 'ASCII//TRANSLIT', $title);
+    $find = [
+      '/^[^a-z]*behind\W+the\W+scenes[^a-z]*with(.*)/i' => '$1-bts',
+      '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i' => '',
+      '/^the\s/i'    => '',
+      '/^\W+|\W+$/'  => '',
+      '/[^a-z\d\s]/i' => '',
+      '/\s+/' => '-',
+    ];
+    $key =  strtolower(preg_replace(array_keys($find), array_values($find), $title));
+    echo $key;
     
   }
   
