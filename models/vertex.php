@@ -332,7 +332,7 @@ abstract class Vertex extends \bloc\Model
   
   public function setKeyAttribute(\DOMElement $context, $value, $unique = '')
   {
-    $title = iconv('UTF-8', 'ASCII//TRANSLIT', trim($context->getAttribute('title')));
+    $title = iconv('UTF-8', 'ASCII//TRANSLIT', $this->title);
     $find = [
       '/^[^a-z]*behind\W+the\W+scenes[^a-z]*with(.*)/i' => '$1-bts',
       '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i' => '',
