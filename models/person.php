@@ -20,6 +20,7 @@ class Person extends Vertex  implements \bloc\types\authentication
 
   static public function N2ID($name)
   {
+    setlocale(LC_ALL, "en_US.utf8");
     $name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
     $find = [
       '/^[^a-z]*behind\W+the\W+scenes[^a-z]*with(.*)/i' => '$1-bts',
