@@ -379,9 +379,10 @@ class Task extends \bloc\controller
     $migration->save('data/tciaf2');
   }
   
-  public function CLIslug($title) {
+  public function CLIslug($id) {
     
-    $title = iconv('UTF-8', 'ASCII//TRANSLIT', $title);
+    $user = new \models\person($id);
+    $title = iconv('UTF-8', 'ASCII//TRANSLIT', $user->title);
     $find = [
       '/^[^a-z]*behind\W+the\W+scenes[^a-z]*with(.*)/i' => '$1-bts',
       '/(re:?sound\s+#\s*[0-9]{1,4}:?\s*|best\s+of\s+the\s+best:\s*)/i' => '',
