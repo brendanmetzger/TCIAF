@@ -85,8 +85,8 @@ namespace models;
 
     public function getPermalink(\DOMElement $context)
     {
-      $path = $this->editions->count() > 0 ? "/overview/conference/" : "/explore/detail/";
-      return $path . $context['@id'];
+      $path = $this->editions->count() > 0 ? "/conference/" : "/explore/lookup/happening/";
+      return $path . $context['@key'];
     }
 
     public function getSessions(\DOMElement $context)
