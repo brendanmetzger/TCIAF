@@ -320,7 +320,7 @@ nav[role] > ul {
   align-items: center;
   flex-grow: 1;
   padding: 1px;
-  max-width: 50em;
+  max-width: 55em;
 }
 
 nav[role] > ul > li {
