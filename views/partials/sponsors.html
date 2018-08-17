@@ -16,7 +16,7 @@
   <div class="center">
     <h6 class="caps-lock t rag-left r gray">[$group:name]</h6>
     <!-- iterate group:items -->
-    <a class="white-bg" vocab="http://schema.org/" typeof="Organization" href="[$item:location]">
+    <a class="white-bg" vocab="http://schema.org/" typeof="Organization" href="[$item:location:@ref]">
       <img src="[//s3.amazonaws.com/$item:photo:url]" alt="[$item:@title]" />
     </a>
   </div>
