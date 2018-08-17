@@ -13,7 +13,7 @@ body[data-status='offline']  header:after {
 }
 
 
-img:not([src]), a:not([href]), nav[data-pages='1'], small:empty {display:none }
+img:not([src]), a:not(.show):not([href]), nav[data-pages='1'], small:empty {display:none}
 img {
   max-width:100%;
   transition: opacity 1s;
