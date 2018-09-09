@@ -235,6 +235,23 @@ function calendar($start, $category, $query)
 
       return $view->render($this());
     }
+    
+    public function GETresidency($id = null) {
+      $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('BpW');
+      
+      $this->item   = Graph::FACTORY($node);
+
+      $template = $id === null ? 'overview' : $this->item->_template;
+      
+      $view = new View('views/layout.html');
+      $view->content = "views/residency/{$template}.html";
+      
+      if ($this->item->sponsors) {
+        $view->sponsors =  "views/partials/sponsors.html";
+      }
+      
+      return $view->render($this());
+    }
 
     public function GETcompetition($id = null, $participants = false)
     {

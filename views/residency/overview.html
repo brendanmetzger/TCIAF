@@ -1,0 +1,33 @@
+<article>
+  <style>
+    article header.banner {
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      background-position: 100% 0%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      color: #fff;
+    }
+  </style>
+  
+  <header class="banner banner-bg" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
+    <h1 class="lead display tracked" data-id="[$item:@id]">[$item:title]</h1>
+  </header>
+    
+  
+    <div class="panel flip">
+      <section class="ll one-third">
+        <form method="GET" class="spot" style="display:none">
+          <h5 class="brown caps-lock strong">[$item:title by year]</h5>
+          <select onchange="navigateToPage.call({href: this.value}, event);">
+            <option>Select Year</option>
+            <!-- iterate item:conferences -->
+            <option value="[/residency/$edition:@key]">[$edition:year]</option>
+          </select>
+        </form>
+      </section>
+      
+      <section property="description" class="two-thirds pad">[$item:content:about]</section>
+    </div>
+</article>
