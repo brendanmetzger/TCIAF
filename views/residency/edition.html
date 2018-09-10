@@ -27,17 +27,7 @@
   </style>
   
   <header class="panel"  style="align-items:center;">
-    <div class="two-thirds">
-      <div class="panel tt b">
-        <span style="padding:2vmax;">
-          <button class="listen" onclick="quickPlay(this, event);" style="transition:opacity 0.5s;">Play This</button>
-        </span>
-        <div  data-aspect="[$item:banner:mark]">
-          <h1 class="lead tracked display b" data-id="[$item:@id]">[$item:title]</h1>
-          <h4><time>[$item:date]</time></h4>
-        </div>
-      </div>
-    </div>
+    <h1 class="lead tracked display b tt pad-h" data-id="[$item:@id]">[$item:title]</h1>
     <figure class="one-third ll">
       <img data-src="[//s3.amazonaws.com/$item:photo:url]" alt="[$item:@title banner]" style="max-width:100%;" class="b"/>
     </figure>
@@ -49,14 +39,6 @@
     
     <div class="two-thirds">
       <section class="intro">[$item:content:about]</section>
-      <hr class="ruled"/>
-      <nav>
-        <h4 class="strong caps-lock brown t b" id="sessions">Conference Sessions</h4>
-        <ul class="plain">
-          <!-- iterate item:sessions -->
-          <li><a href="[#goto-$item:@id]"><strong>[$item:title]</strong><span>[with $item:presenter]</span></a></li>
-        </ul>
-      </nav>
     </div>
     
     <section class="one-third ll">
@@ -65,8 +47,8 @@
         <h5 class="brown caps-lock strong">[$item:origin:title by year]</h5>
         <select onchange="navigateToPage.call({href: this.value}, event);">
           <option>Select Year</option>
-          <!-- iterate item:origin:conferences -->
-          <option value="[/conference/$edition:@key]">[$edition:year]</option>
+          <!-- iterate item:origin:occurances -->
+          <option value="[/residency/$edition:@key]">[$edition:year]</option>
         </select>
       </form>
       
@@ -77,8 +59,9 @@
     <hr class="ruled fill"/>
     
     <section>
-      <!-- iterate item:sessions -->
-      <!-- insert views/cards/feature.html -->
+      <h4 class="strong caps-lock brown t b" id="sessions">[The $item:year Third Coast Radio Residents]</h4>
+      <!-- iterate item:participantsAlpha -->
+      <!-- insert views/cards/person.html -->
     </section>
     
     

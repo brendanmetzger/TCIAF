@@ -18,11 +18,11 @@
   
     <div class="panel flip">
       <section class="ll one-third">
-        <form method="GET" class="spot" style="display:none">
+        <form method="GET" class="spot">
           <h5 class="brown caps-lock strong">[$item:title by year]</h5>
           <select onchange="navigateToPage.call({href: this.value}, event);">
             <option>Select Year</option>
-            <!-- iterate item:conferences -->
+            <!-- iterate item:occurances -->
             <option value="[/residency/$edition:@key]">[$edition:year]</option>
           </select>
         </form>

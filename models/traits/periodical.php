@@ -18,8 +18,8 @@ trait periodical {
 
   public function getYear(\DOMElement $context)
   {
-    preg_match('/^([0-9]{4})\s*(.*)$/i', $context['@title'], $result);
-    return $result[1];
+    preg_match('/^(?:the\s)?([0-9]{4})\s*(.*)$/i', $context['@title'], $result);
+    return $result[1] ?? 0;
   }
 
 
@@ -29,7 +29,16 @@ trait periodical {
       return ['edition' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex']))];
     });
   }
-
+  
+  public function getOccurances(\DOMElement $context)
+  {
+    return $context->find("edge[@type='edition']")->map(function($edge) use ($context) {
+      return ['edition' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex']))];
+    })->sort(function($a, $b) {
+      return $a['edition']['year'] < $b['edition']['year'];
+    });
+  }
+  
   public function getArticles(\DOMElement $context)
   {
     return $context->find("edge[@type='page']")->map(function($edge) {
