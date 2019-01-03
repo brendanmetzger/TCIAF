@@ -112,6 +112,8 @@ class Explore extends Manage
 
   public function GETshoppe()
   {
+    // this is to make sure nobody goes to the shoppe while it is decommissioned.
+    \bloc\router::redirect("/");
     $view = new View('views/layout.html');
     $view->content = 'views/lists/shoppe.html';
     $this->item  = new \models\Article('BlH');
