@@ -591,7 +591,7 @@ bloc.init(function () {
       this.style.height = window.innerHeight + 'px';
       this.style.overflow = 'hidden';
     }
-  }.bind(header));
+  }.bind(header), {passive: true});
   
   if (mobile) {
     addEventListener('resize', function(evt) {
@@ -802,7 +802,7 @@ var Player = function (container, data, message) {
     var t = d * (1 - p);
     var m = "{h}:{m}:{s}";
     this.meter.update(p, true, new Date(d-t).parse(m), new Date(t).parse(m));
-  }.bind(this),  false);
+  }.bind(this),  mobile ? {passive: true} : false);
 
   this.meter.element.addEventListener(mobile ? 'touchend' : 'click', function (evt) {
     ga('send', 'event', 'Audio', 'scrub', this.playlist.current.id);
