@@ -1,0 +1,25 @@
+<form action="/manage/TBD">
+  <!-- iterate images -->
+  <img src="[//s3.amazonaws.com$@src]"/>
+  
+  <style type="text/css">
+    /*<![CDATA[*/
+    
+    img {
+      width: 15em;
+    }
+    /*]]>*/
+  </style>
+  
+  <script type="text/javascript">
+    var addFocus = function (evt) {
+      console.log(Math.round((evt.offsetX / this.width) * 100),  Math.round((evt.offsetY / this.height) * 100));
+      
+    };
+    
+    document.querySelectorAll('img').forEach(function(img) {
+      img.addEventListener('click', addFocus);
+    });
+    
+  </script>
+</form>

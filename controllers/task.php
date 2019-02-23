@@ -440,5 +440,17 @@ class Task extends \bloc\controller
     \models\Graph::instance()->storage->save(PATH . \models\Graph::DB . '.xml');
   }
   
+  public function GETfocus() {
+    $view = new \bloc\view('views/maintenance.html');
+    
+    $doc   = new \bloc\DOM\Document(\models\Graph::DB);
+    $xpath = new \DOMXpath($doc);
+    
+
+    $this->images = new \LimitIterator(new \bloc\DOM\iterator($xpath->query('//media[@type="image"]')), 300, 25);
+    $view->content = 'views/forms/media/images.html';
+    return $view->render($this());
+  }
+  
 }
 
