@@ -443,12 +443,14 @@ class Task extends \bloc\controller
   public function GETfocus() {
     $view = new \bloc\view('views/maintenance.html');
     
-    $doc   = new \bloc\DOM\Document(\models\Graph::DB);
-    $xpath = new \DOMXpath($doc);
     
-
-    $this->images = new \LimitIterator(new \bloc\DOM\iterator($xpath->query('//media[@type="image"]')), 300, 25);
+    $this->images = new \LimitIterator(\Models\Graph::instance()->query("/")->find('media[@type="image"]'), 300, 25);
+    foreach ($this->images as $img) {
+      $img->setAttribute("id", $img->parentNode['@id']);
+      $img->setAttribute("idx", $img->getNodePath());
+    }
     $view->content = 'views/forms/media/images.html';
+
     return $view->render($this());
   }
   
