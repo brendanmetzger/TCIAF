@@ -443,7 +443,6 @@ class Task extends \bloc\controller
   public function GETfocus() {
     $view = new \bloc\view('views/maintenance.html');
     
-    
     $this->images = new \LimitIterator(\Models\Graph::instance()->query("/")->find('media[@type="image"]'), 300, 25);
     foreach ($this->images as $img) {
       $img->setAttribute("id", $img->parentNode['@id']);
@@ -452,6 +451,11 @@ class Task extends \bloc\controller
     $view->content = 'views/forms/media/images.html';
 
     return $view->render($this());
+  }
+  
+  public function POSTfocus()
+  {
+    # code...
   }
   
 }
