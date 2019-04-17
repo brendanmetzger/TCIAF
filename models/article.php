@@ -38,8 +38,8 @@ class Article extends Vertex
 
   public function getSuffix(\DOMElement $context)
   {
-    \bloc\application::instance()->log();
-    return substr(strip_tags($this->title), 18);
+    // return substr(strip_tags($this->title), 18);
+    return preg_replace('/behind.the.scenes\s/i', '', strip_tags($this->title));
   }
   
   public function getProducers(\DOMElement $context)
