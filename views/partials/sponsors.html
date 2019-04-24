@@ -5,7 +5,7 @@
   }
   #sponsors a {
     padding:1em;
-    display:inline-block;
+    display:block;
     margin:2.5%;
     border:1px solid rgba(0,0,0,0.1);
     padding:15% 0;
@@ -14,7 +14,7 @@
   <h4 class="brown caps-lock strong">Supported by</h4>
   <!-- iterate item:sponsors -->
   <div class="center">
-    <h6 class="caps-lock t rag-left r gray">[$group:name]</h6>
+    <h6 class="t rag-left r gray" style="font-weight: 200">[$group:name]</h6>
     <!-- iterate group:items -->
     <a class="white-bg" vocab="http://schema.org/" typeof="Organization" href="[$item:location:@ref]">
       <img src="[//s3.amazonaws.com/$item:photo:url]" alt="[$item:@title]" />
