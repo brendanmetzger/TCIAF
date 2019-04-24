@@ -608,7 +608,7 @@ bloc.init(function () {
   setTimeout(function () {
 
     document.querySelectorAll('article h3, article > h2').forEach(function(q) {
-      q.id = q.innerHTML.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
+      q.id = q.firstChild.nodeValue.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
     });
     
     if (window.location.hash) {
