@@ -607,7 +607,7 @@ bloc.init(function () {
   
   setTimeout(function () {
 
-    document.querySelectorAll('article h3').forEach(function(q) {
+    document.querySelectorAll('article h3, article > h2').forEach(function(q) {
       q.id = q.innerHTML.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
     });
     
