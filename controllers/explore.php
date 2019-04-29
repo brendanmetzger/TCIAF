@@ -65,7 +65,8 @@ class Explore extends Manage
     $this->title  = strip_tags($this->item['title']);
 
     $view = new view('views/layout.html');
-    $view->content = "views/digests/{$this->item->template('digest')}.html";
+    $digest = ($this->item->_model == 'competition') ? '' : '/digests';
+    $view->content = "views{$digest}/{$this->item->template('digest')}.html";
     return $view->render($this());
   }
   
