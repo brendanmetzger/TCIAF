@@ -10,10 +10,14 @@
     border:1px solid rgba(0,0,0,0.1);
     padding:15% 0;
   }
+  #sponsors div.center h6 { font-size: 1em;line-height: 1; text-transform: uppercase;}
+  #sponsors div[data-group~='tech'] {
+    max-width: 33%;
+  }
   </style>
   <h4 class="brown caps-lock strong">Supported by</h4>
   <!-- iterate item:sponsors -->
-  <div class="center">
+  <div class="center" data-group="[$group:name]">
     <h6 class="t rag-left r gray" style="font-weight: 200">[$group:name]</h6>
     <!-- iterate group:items -->
     <a class="white-bg" vocab="http://schema.org/" typeof="Organization" href="[$item:location:@ref]">
