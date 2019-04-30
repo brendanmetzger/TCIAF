@@ -267,7 +267,6 @@ abstract class Vertex extends \bloc\Model
 		foreach ($this->getAbstract($context, false) as $abstract) {
 			$dict[$abstract['type']] = $abstract['text'];
     }
-
 		return new \bloc\types\Dictionary($dict);
   }
 
