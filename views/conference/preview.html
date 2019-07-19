@@ -33,6 +33,12 @@
   </header>
   <section class="panel">
     <section class="two-thirds">
+      <nav class="h4 pad-h jump">
+        <ul class="plain path">
+          <!-- iterate item:articles -->
+          <li><a href="[#$item:@id]">[$item:title]</a></li>
+        </ul>
+      </nav>
       <section class="markdown pad">[$item:content:about]</section>
       <!-- iterate item:articles -->
       <article class="pad t" id="[$item:@id]">
