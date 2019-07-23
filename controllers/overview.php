@@ -212,6 +212,7 @@ function calendar($start, $category, $query)
       $this->banner = 'Conferences';
       $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CJ');
       $this->item   = Graph::FACTORY($node);
+      $sections = [];
 
       $template = $id === null ? 'overview' : $this->item->_template;
 
@@ -224,15 +225,17 @@ function calendar($start, $category, $query)
         $view->sessions = 'views/partials/sessions.html';
 
       }
-
-      if ($this->item->presenters) {
+      
+      if ($this->item->presenters->count() > 0) {
+        $this->pkey = 'presenters';
+        $sections[] = ['id' => 'presenters', 'title' => 'Featured Presenters'];
         $view->presenters =  "views/partials/presenters.html";
       }
 
       if ($this->item->sponsors) {
         $view->sponsors =  "views/partials/sponsors.html";
       }
-
+      $this->sections = $sections;
       return $view->render($this());
     }
     

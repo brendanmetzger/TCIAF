@@ -1,10 +1,15 @@
-<div id="presenters" property="attendees" class="gray-bg spot">
-  <h4 class="strong brown caps-lock">Presenters</h4>
-  <ul class="plain presenters m">
-    <!-- iterate item:presenters -->
-    <li>
-      <em>[$edge]</em>
-      <h5><a href="[$person:permalink]" vocab="http://schema.org/" typeof="Person">[$person:@title]</a></h5>
-    </li>
-  </ul>
-</div>
+<article class="pad t" id="[$pkey]">
+  <h2 class="display">Featured in the 2019 Third Coast Conference</h2>
+  <!-- iterate item:presenters -->
+  <section vocab="http://schema.org/" typeof="Person" class="listing panel card pad" data-id="[$person:@id]" id="[$person:@id]">
+    <a href="[$person:permalink]" property="name">
+      <figure class="bio read center">
+        <span>
+          <img data-src="[//s3.amazonaws.com/$person:photo:url]" alt="[$person:photo:caption]" class="proxy"/>
+        </span>
+        <figcaption class="h5">[$person:@title]</figcaption>
+      </figure>
+    </a>
+    <p class="pad-h">[$person:summary]</p>
+  </section>
+</article>

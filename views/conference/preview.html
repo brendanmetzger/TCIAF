@@ -23,6 +23,9 @@
       color:rgba(0,0,0,0.5);
       top:1em;
     }
+    nav.jump li {
+      font-size: 110%;
+    }
   </style>
   <header id="overview">
     <div class="banner banner-bg"  data-aspect="[$item:banner:mark]" style="[background-image:url(//s3.amazonaws.com/$item:banner:url)]">
@@ -33,10 +36,12 @@
   </header>
   <section class="panel">
     <section class="two-thirds">
-      <nav class="h4 pad-h jump">
+      <nav class="pad-h jump">
         <ul class="plain path">
           <!-- iterate item:articles -->
           <li><a href="[#$item:@id]">[$item:title]</a></li>
+          <!-- iterate sections -->
+          <li><a href="[#$id]">[$title]</a></li>
         </ul>
       </nav>
       <section class="markdown pad">[$item:content:about]</section>
@@ -47,12 +52,7 @@
         <a href="#overview" class="h4 pad-v jump">back to top</a>
       </article>
       
-      <article class="pad t">
-        <h2 class="display">Featured in the 2019 Third Coast Conference</h2>
-        <!-- iterate item:presenters -->
-        <!-- insert views/cards/person.html -->
-      </article>
-      
+      <!-- replace presenters -->
       <!-- replace sessions -->
     </section>
     <section class="one-third ll">
