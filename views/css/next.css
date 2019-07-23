@@ -156,8 +156,8 @@ a:hover .bio > span { box-shadow:inset 0 0 0 0.125em rgba(0,0,0,0.25) }
   background-size:cover;
   background-position:top center;
   background-repeat:no-repeat;
-  width: 12vmin;
-  height: 14vmin;
+  width: 15vmin;
+  height: 18vmin;
   border-radius:50%;
   box-shadow:0 0 0 0.125em rgba(200,200,200,0.75);
   display: inline-block;
