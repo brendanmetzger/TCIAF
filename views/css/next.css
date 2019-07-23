@@ -12,7 +12,6 @@ body[data-status='offline']  header:after {
   letter-spacing:0.075em;
 }
 
-
 img:not([src]), a:not(.show):not([href]), nav[data-pages='1'], small:empty {display:none}
 img {
   max-width:100%;

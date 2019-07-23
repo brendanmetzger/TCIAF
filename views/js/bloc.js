@@ -54,6 +54,7 @@ var Animate = function (callback) {
     animations: [],
     tween: function (element, idx) {
       if (callback.call(this.animations[idx], element)) {
+        
         requestAnimationFrame(this.tween.bind(this, element, idx));
       } else {
         if (this.animations[idx].hasOwnProperty('finish')) {
@@ -75,12 +76,11 @@ var Animate = function (callback) {
 };
 
 var smoothScroll = function (elem) {
-  console.log(elem);
   var scrolling = {stop: new Function()};
   var scroller = Animate(function (element) {
     var ratio = Math.min(1, 1 - Math.pow(1 - (Date.now() - this.start) / this.duration, 5)); // float % anim complete
     var y = ratio >= 1 ? this.to : ( ratio * ( this.to - this.from ) ) + this.from;
-    element.scrollTop =  y;
+    element.scrollTop = Math.round(y);
     return (ratio < 1);
   });
   var cancelTransition = function (evt) {
@@ -513,6 +513,7 @@ if (window.history.pushState) {
       if (evt.target.hash && (window.location.pathname == evt.target.pathname)) {
         evt.preventDefault();
         var elem = document.querySelector(evt.target.hash);
+        
         if (elem) {
           window.Adjust.scroll(+elem.offsetTop, 500);
         }
@@ -580,7 +581,7 @@ var reveal = function () {
 }
 
 bloc.init(function () {
-  var browse = document.documentElement;
+  var browse = document.scrollingElement || document.documentElement;
 
   window.Adjust = smoothScroll(browse);
   window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
