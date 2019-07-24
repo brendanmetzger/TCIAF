@@ -36,6 +36,8 @@ class Manage extends \bloc\controller
     $this->_redirect   = $request->redirect;
     $this->_controller = $request->controller;
     $this->_action     = $request->action;
+    // $this->_revision   = substr(exec('tail -1 /var/www/thirdcoastfestival.org/.git/logs/HEAD'), 0, 15);
+    
 		$this->timestamp   = [
       'year'  => date('Y'),
       'month' => date('m'),
