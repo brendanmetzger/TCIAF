@@ -300,7 +300,6 @@ body:not(.menu) button.menu-trigger svg path:last-of-type {
   transition:opacity 0.75s, background-color 1.5s 0.125s;
   background-color:#f1f1f1;
   padding: 1.5vmax;
-  overflow: auto;
 }
 
 .transition #browse > main {opacity:0;background-color:rgba(248, 248, 248, 0);}
@@ -825,8 +824,8 @@ button.listen {
   font-variant: all-small-caps;
   text-indent: -0.5em;
 }
-.playlist li:nth-child(odd) {
-  background-color:rgba(220,220,220,0.025);
+.playlist li:first-of-type {
+  border:none;
 }
 .playlist li { padding: 0.5em 1em; }
 .playlist li.current:before { content: '\25B6\FE0E'; margin-right:0.5em; }
