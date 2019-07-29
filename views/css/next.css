@@ -74,7 +74,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw); font-weigh
 .plain    {list-style:none;padding:0;}
 .plain li {font-size:100%; line-height:1.125;}
 
-.t, .markdown h2 {margin-top: calc(0.5em + 1vmax);}
+.t, .markdown > h2 {margin-top: calc(0.5em + 1vmax);}
 .tt,hr, .hr {margin-top: calc(0.5em + 1.5vmax);}
 .b   {margin-bottom: calc(0.5em + 1vmax);}
 .bb, hr, .hr {margin-bottom: calc(0.5em + 1.5vmax);}
@@ -87,7 +87,7 @@ h6, .h6, form button, form .button {font-size:calc(1.125em + 0.35vw); font-weigh
 .pad-v {padding: 2vmin 0;}
 .m, p {margin: 0.75em 0;}
 
-.markdown h3 {margin: 2vmax 0 0;}
+.markdown > h3 {margin: 2vmax 0 0;}
 .markdown strong em {
   font-style: normal;
   font-weight:normal;
