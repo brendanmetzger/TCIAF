@@ -736,6 +736,10 @@ input:focus::--webkit-input-placeholder { opacity:0.2;}
     align-self: flex-start;
     background-color: rgba(214, 214, 214, 0.5);
   }
+  
+  .markdown img:last-of-type {
+    width: 25%;
+  }
 
 }
 
