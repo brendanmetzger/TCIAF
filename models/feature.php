@@ -15,7 +15,8 @@ function timecode($time) {
 
     protected $_help = [
       'overview' => 'Features represent Stories, Re:sounds, and Conference Sessions.',
-      'premier' => 'Any date entered into this field will be converted to a timestamp, though site visitors will only see the year. This helps Re:sound keep track of order. If this field is empty, the feature will NOT show up in library—use to your advantage!.',
+      'premier' => 'A full timestamp is used for accuracy, though in most instances site visitors will only see the year. This helps Re:sound keep track of order. If this field is empty, the feature will NOT show up in library—so leave empty if you would like to keep items hidden!.',
+      'duration' => 'This is only necessary if the feature/session item will show up on a schedule, ie., the TCF Conference',
       'edges' => 'A story should have a producer associated, wheras a conference session should have a presenter associated as well as be attached to the appropriate happening. Re:sounds should have the TCF (organization) listed as a producer in addition to other folks.',
       'extras' => '(extras are legacy to accomodate the old site—they do not serve a particularly useful function on new features)'
     ];

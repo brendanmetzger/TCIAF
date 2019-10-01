@@ -780,7 +780,7 @@ article[data-type='show'] ul li:nth-child(n + 6) { display:none}
 
 
 pre.console {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   height: 20vh;

@@ -7,9 +7,16 @@
     <fieldset class="extra group float-left">
       <legend>Details</legend>
       <label for="premier_date" data-help="[$item:help:premier:plain]">[$item:_premier]</label>
-      <input type="text" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
+      <input type="datetime-local" name="vertex[premier][@][date]" value="[$item:premier:@date]" id="premier_date" class="required text" />
+      <label for="premier_duration" data-help="[$item:help:duration:plain]">End time (if applicable)</label>
+      <input type="datetime-local" name="vertex[premier][@][date]" value="[$item:premier:@duration]" id="premier_duration" class="required text"/>
       <label for="location" data-help="[$item:help:location:plain]">[$item:_location]</label>
       <input type="text" name="vertex[location][@][ref]" value="[$item:location:@ref]" id="location" class="required text" />
+      
+      <input type="checkbox" name="vertex[@][mark]" value="hide" checked="[$item:mark]" id="mark" class="required" />
+      <label for="mark">[$item:_mark]</label>
+      
+      
     </fieldset>
     <!--  replace upload nextSibling -->
     <!-- insert views/forms/fieldset/media/image.html -->
