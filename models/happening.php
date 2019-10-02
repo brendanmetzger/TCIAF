@@ -92,6 +92,7 @@ namespace models;
 
     public function getSessions(\DOMElement $context)
     {
+      // TODO must be features, not happenings
       return $context->find("edge[@type='session']")->map(function($edge) {
         return ['item' => new Feature($edge['@vertex']), 'edge' => $edge];
       });
@@ -99,6 +100,7 @@ namespace models;
     
     public function getSchedule(\DOMElement $context)
     {
+      // features and happenings
       // need to sort/process dates
       return $context->find("edge[@type='session']")->map(function($edge) {
         return ['item' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex'])), 'edge' => $edge];
