@@ -214,8 +214,8 @@ function calendar($start, $category, $query)
       $this->item   = Graph::FACTORY($node);
       $sections = [];
 
-      $template = $id === null ? 'overview' : $this->item->_template;
-
+      $template = $id === null ? 'overview' : ( $schedule ? 'schedule' : $this->item->_template);
+      
       $view = new View('views/layout.html');
       $view->content = "views/conference/{$template}.html";
 

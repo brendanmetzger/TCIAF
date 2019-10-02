@@ -51,10 +51,10 @@ function timecode($time) {
         $this->template['digest'] = 'broadcast';
       }
     }
-
+    
     public function setDateAttribute(\DOMElement $context, $date)
     {
-      if (! empty($date) && $date = (new \DateTime($date))->format('Y-m-d')) {
+      if (! empty($date) && $date = (new \DateTime($date))->format($this->date_format)) {
         $context->setAttribute('date', $date);
       }
     }
