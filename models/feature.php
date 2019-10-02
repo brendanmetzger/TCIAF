@@ -54,7 +54,7 @@ function timecode($time) {
     
     public function setDateAttribute(\DOMElement $context, $date)
     {
-      if (! empty($date) && $date = (new \DateTime($date))->format($this->date_format)) {
+      if (! empty($date) && $date = (new \DateTime($date))->format('Y-m-d\TH:i')) {
         $context->setAttribute('date', $date);
       }
     }
