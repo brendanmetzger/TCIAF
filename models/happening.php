@@ -71,11 +71,10 @@ namespace models;
 
     public function get_template(\DOMElement $context)
     {
-      if ($context['premier']->count() > 0) {
-        if (strtotime($context['premier']['@date']) > time()) {
-          return 'preview';
-        }
-      }
+      $finish = $context['premier']['@duration'] ?? $context['premier']['@date'];
+      if (strtotime($finish) > time()) {
+        return 'preview';
+      }      
       return 'edition';
     }
 

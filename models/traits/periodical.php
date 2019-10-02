@@ -3,11 +3,11 @@ namespace models\traits;
 
 
 trait periodical {
-  private $format  = 'Y-m-d\TH:i';
+  private $date_format  = 'Y-m-d\TH:i';
 
   public function setDateAttribute(\DOMElement $context, $date)
   {
-    if ($date = (new \DateTime($date))->format($this->dateformat)) {
+    if ($date = (new \DateTime($date))->format($this->date_format)) {
       $context->setAttribute('date', $date);
     }
   }
