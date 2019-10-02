@@ -704,7 +704,7 @@ input:focus::--webkit-input-placeholder { opacity:0.2;}
   
   .flip {flex-direction:row-reverse;justify-content: flex-end;}
   .card p {flex: 1 0 50%;align-self: center;}
-  .bio.read {width:12em;margin-right:1vmin;}
+  .bio.read {width: 15em;margin-right:1vmin;}
   .listing:not(:first-of-type), .search li:not(:first-of-type) { border-top:2px solid #EEE;}
   button, .button {border:1px solid #5b9b98; color: #5b9b98;}
   .columns {column-gap:1em;}

@@ -3,11 +3,19 @@ namespace models\traits;
 
 
 trait periodical {
+  private $format  = 'Y-m-d\TH:i';
 
   public function setDateAttribute(\DOMElement $context, $date)
   {
-    if ($date = (new \DateTime($date))->format('Y-m-d')) {
+    if ($date = (new \DateTime($date))->format($this->dateformat)) {
       $context->setAttribute('date', $date);
+    }
+  }
+  
+  public function setDurationAttribute(\DOMElement $context, $date)
+  {
+    if ($date = (new \DateTime($date))->format($this->date_format)) {
+      $context->setAttribute('duration', $date);
     }
   }
 

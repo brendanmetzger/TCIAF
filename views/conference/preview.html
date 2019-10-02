@@ -41,7 +41,7 @@
       <p>[$item:summary]</p>
     </div>
   </header>
-  <section class="panel">
+  <section class="panel" id="content">
     <section class="two-thirds">
       
       <section class="markdown pad">[$item:content:about]</section>
@@ -53,7 +53,7 @@
       </article>
       
       <!-- replace presenters -->
-      <!-- replace sessions -->
+      <!-- replace schedule -->
     </section>
     <section class="one-third ll">
       <img data-src="[//s3.amazonaws.com/$item:square:url]" alt="[$item:@title banner]" style="max-width:100%;"/>
@@ -83,4 +83,41 @@
       
     </section>
   </section>
+  
+  <script type="text/javascript" async="true">
+    // <![CDATA[
+
+      var observeIntersection = function (entries) {
+        // var entry = entries.reduce((current, entry) => entry.intersectionRatio > current.intersectionRatio ? entry : current, entries[0]);
+        // console.log(entry.threshold);
+
+        entries.forEach(function (entry) {
+          console.log(entry.target.idx + ' ratio of ' + entry.intersectionRatio.toFixed(2));
+        });
+      };
+      
+      var section_observer = ('IntersectionObserver' in window) ? new IntersectionObserver(observeIntersection, {
+        // rootMargin: '0px',
+        // root: document.scrollingElement || document.documentElement,
+        threshold: [0.0, 1.0]
+      }) : false;
+      
+      document.querySelectorAll('#content article[id] > h2').forEach(function (elem, idx) {
+        elem.idx = idx;
+        section_observer.observe(elem);
+      });
+      
+      // window.lazyload = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      //   entries.forEach(function (entry) {
+      //     if (entry.isIntersecting) {
+      //       entry.target.addEventListener('load', reveal);
+      //       entry.target.src = entry.target.dataset.src;
+      //       window.lazyload.unobserve(entry.target);
+      //     }
+      //   });
+      // }, {
+        // }) : false;
+      
+    // ]]>
+  </script>
 </article>

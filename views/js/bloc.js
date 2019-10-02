@@ -551,6 +551,7 @@ function checkHashes() {
   setTimeout(function () {
 
     document.querySelectorAll('article h3, article > h2').forEach(function(q) {
+      if (!q.firstChild.nodeValue) return;
       q.id = q.firstChild.nodeValue.replace(/[^a-z]+/ig, '-').replace(/^-+|-+$/g, '').toLowerCase();
     });
     

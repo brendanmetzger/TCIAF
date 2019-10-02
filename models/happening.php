@@ -23,7 +23,7 @@ namespace models;
 
     static public $fixture = [
       'vertex' => [
-        '@' => ['text' => 'about']
+        '@' => ['text' => 'about', 'mark' => null]
       ]
     ];
 
@@ -31,7 +31,7 @@ namespace models;
       'host'        => ['person', 'organization'],
       'presenter'   => ['person'],
       'participant' => ['person'],
-      'session'     => ['feature'],
+      'session'     => ['feature', 'happening'],
       'edition'     => ['happening'],
       'page'        => ['article'],
       'playlist'    => ['collection'],
@@ -96,6 +96,15 @@ namespace models;
         return ['item' => new Feature($edge['@vertex']), 'edge' => $edge];
       });
     }
+    
+    public function getSchedule(\DOMElement $context)
+    {
+      // need to sort/process dates
+      return $context->find("edge[@type='session']")->map(function($edge) {
+        return ['item' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex'])), 'edge' => $edge];
+      });
+      
+    }
 
     public function getParticipants(\DOMElement $context)
     {
@@ -129,6 +138,15 @@ namespace models;
       return $this->participants->sort(function($a, $b) {
         return ucfirst(ltrim($a['person']->title, "\x00..\x2F")) > ucfirst(ltrim($b['person']->title, "\x00..\x2F"));
       });
+    }
+    
+    public function setMarkAttribute(\DOMElement $context, $value)
+    {
+      if (empty($value)) {
+        $context->removeAttribute('mark');
+      } else {
+        $context->setAttribute('mark', $value);
+      }
     }
     
     public function getMark(\DOMElement $context)
