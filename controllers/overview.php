@@ -222,8 +222,7 @@ function calendar($start, $category, $query)
       // Sessions, Presenters and Sponsers only show up when available
       
       if ($this->item->sessions->count() > 0) {
-        $view->schedule = 'views/conference/schedule.html';
-
+        // $view->schedule = 'views/conference/schedule.html';
       }
       
       if ($this->item->presenters->count() > 0) {

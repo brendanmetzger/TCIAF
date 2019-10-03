@@ -99,12 +99,10 @@ namespace models;
     
     public function getSchedule(\DOMElement $context)
     {
-      $edges = $context->find("edge[@type='session']");
-      // features and happenings
-      // need to sort/process dates
-      return $edges->map(function($edge) {
-        return ['item' => \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex'])), 'edge' => $edge];
-      });
+      $schedule = new \models\schedule($context->find("edge[@type='session']"));
+
+      
+      return $schedule->render();
       
     }
 
