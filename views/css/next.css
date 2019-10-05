@@ -791,6 +791,7 @@ pre.console {
   padding: 2em;
   overflow: auto;
   font-size: 1.5em;
+  display: none;
 }
 
 
