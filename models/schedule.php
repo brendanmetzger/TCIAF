@@ -36,6 +36,20 @@ class Schedule {
         
     $total_duration = round(($end_offset - $start_offset) / 60);
     
+    $size = $total_duration / 60 / 24;
+    $days = array_fill(0, $size, []);
+    $hours = array_fill(0,24,[]);
+    $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size) {
+      $day = $start_offset + $idx * 86400;
+      $value['title'] = date('l', $day);
+      $value['size'] = (1 / $size * 100) . '%';
+      $value['position'] = $idx;
+      $value['hours'] = array_map(function ($value, $idx) use($start_offset){
+        return ['time' => date('ga', $start_offset + $idx * 3600)];
+      }, $hours, array_keys($hours));
+      return $value;
+    }, $days, array_keys($days));
+    
     for ($day_of=$start_offset, $one_day = 86400; $day_of < $end_offset; $day_of+=$one_day) { 
       $dataset['timeline'][] = [
         'date' => date('l, F jS', $day_of),
@@ -64,9 +78,8 @@ class Schedule {
       }
     }
     
-    \bloc\application::instance()->log($this->dataset['events']);
     
-    return $this->dataset['events'];
+    return $this->dataset;
   }
   
   

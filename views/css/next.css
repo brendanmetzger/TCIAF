@@ -658,6 +658,7 @@ input:focus::--webkit-input-placeholder { opacity:0.2;}
   #browse > main {
     background-color: #fff;
     padding: 2vmax 1.5vmax 2vmax 5vmax;
+    min-height: 500vh;
   }
   
   body > header {

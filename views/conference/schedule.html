@@ -1,19 +1,62 @@
 <article id="conf-schedule">
-  <h2 class="display edit tt" id="sessions">Conference Schedule</h2>
+  <h1 class="lead display tracked tt center pad-v">[$item:title Schedule]</h1>
   <div class="schedule">
-    <!-- iterate item:schedule:events -->
-    <div data-id="[$item::id]" style="[top: $item:offset; height: $item:size;width:calc(100%/$item:layout:width);left:calc(calc(100%/$item:layout:width) * $item:layout:position);]">
-      <h4>[$item:title]</h4>
-      <span>[$item:human_time, $item:location]</span>
+    <div class="timeline">
+      <!-- iterate item:schedule:range -->
+      <div class="day" style="[height: $size;]">
+        <h3>[$title]</h3>
+        <!-- iterate hours -->
+        <div>[$time]</div>
+      </div>
+    </div>
+    <div class="events">
+      <!-- iterate item:schedule:events -->
+      <div data-id="[$item::id]" style="[top: $item:offset; height: $item:size;width:calc(100%/$item:layout:width);left:calc(calc(100%/$item:layout:width) * $item:layout:position);]">
+        <h4>[$item:title]</h4>
+        <span>[$item:human_time, $item:location]</span>
+      </div>
     </div>
   </div>
   <style type="text/css">
     div.schedule {
-      position:relative;
       height: 500vh;
+      overflow: auto;
+      position: relative;
+    }
+    div.schedule >  div.events {
+      position:absolute;
+      height: 100%;
+      width: calc(100% - 3em);
+      margin-left: 3em;
+      z-index: 2;
     }
     
-    div.schedule > div {
+    div.schedule > div.timeline {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index:1;
+    }
+
+    div.schedule > div.timeline > div.day > h3 {
+      position: absolute;
+      color: rgba(0,0,0,0.1);
+      font-size:24em;
+      text-align:center;
+      width: 100%;
+      text-transform: uppercase;
+      font-weight: 200;
+      letter-spacing: -0.075em;
+    }
+    
+    div.schedule > div.timeline > div.day > div {
+      width: 100%;
+      border-top: 1px dashed rgba(0,0,0,0.1);
+      height: calc(100% / 24);
+    }
+    
+
+    div.schedule > div.events > div {
       background-image: linear-gradient(0deg, rgba(255,255,255,0), rgba(255,0,0,0.05));
       padding:1em;
       position: absolute;
