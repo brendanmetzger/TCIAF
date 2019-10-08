@@ -13,7 +13,7 @@ namespace models;
 
     public $_location = "Location";
     public $_premier = "Start time";
-    public $_mark    = "Hide on events page";
+    public $_mark    = "Do not link to full page";
 
     protected $_help = [
       'overview' => 'Events can be one off in nature, or repeating like the conference. In the case of the conference, it is divided into years individually, and these are attached to the main conference via an edge labeled *edition* (see associations below). Happenings (as well as competitions) keep track of time, and can organize themselves in that regard. Because of this, they can appear in a preview state, which shows a template that is very informational in nature, and once their *archive date* has been surpassed, the template switches again to something resembling playlist.',

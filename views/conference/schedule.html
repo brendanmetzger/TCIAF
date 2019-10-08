@@ -4,22 +4,23 @@
     <div class="timeline">
       <!-- iterate item:schedule:range -->
       <div class="day" style="[height: $size;]">
-        <h3>[$title]</h3>
+        <h4><time>[$title]</time></h4>
         <!-- iterate hours -->
         <div>[$time]</div>
       </div>
     </div>
     <div class="events">
       <!-- iterate item:schedule:events -->
-      <div data-id="[$item::id]" style="[top: $item:offset; height: $item:size;width:calc(100%/$item:layout:width);left:calc(calc(100%/$item:layout:width) * $item:layout:position);]">
-        <h4>[$item:title]</h4>
-        <span>[$item:human_time, $item:location]</span>
+      <div class="event" data-id="[$item:id]" style="[top: $item:offset; height: $item:size;width:calc(100%/$item:layout:width);left:calc(calc(100%/$item:layout:width) * $item:layout:position);]">
+        <h3 class="display h4" style="margin-bottom:0">[$item:title]</h3>
+        <p style="margin:0">[$item:human_time, $item:location]</p>
+        <p><a href="[$item:link]">[$item:linktxt]</a></p>
       </div>
     </div>
   </div>
   <style type="text/css">
     div.schedule {
-      height: 500vh;
+      height: 400vh;
       overflow: auto;
       position: relative;
     }
@@ -37,16 +38,34 @@
       width: 100%;
       z-index:1;
     }
+    
+    div.events > div.event p {
+      margin: 0;
+    }
+    
+    div.schedule > div.timeline > div.day {
+      position: relative;
+    }
 
-    div.schedule > div.timeline > div.day > h3 {
+    div.schedule > div.timeline > div.day > h4 {
       position: absolute;
-      color: rgba(0,0,0,0.1);
-      font-size:24em;
+      color: rgba(91, 156, 153, 0.4);
+      font-size:15em;
       text-align:center;
       width: 100%;
+      font-weight: 400;
       text-transform: uppercase;
-      font-weight: 200;
-      letter-spacing: -0.075em;
+      line-height: 1;
+    }
+    
+    div.schedule > div.timeline > div.day > h4 small {
+      display: block;
+      font-size: 75%;
+      text-transform: none;
+    }
+    
+    small sup {
+      font-size: 50%;
     }
     
     div.schedule > div.timeline > div.day > div {
@@ -57,7 +76,7 @@
     
 
     div.schedule > div.events > div {
-      background-image: linear-gradient(0deg, rgba(255,255,255,0), rgba(255,0,0,0.05));
+      background-image: linear-gradient(0deg, rgba(255,255,255,0.75) 5%, rgba(255,0,0,0.05));
       padding:1em;
       position: absolute;
       border-left:2px solid rgba(255,0,0,0.5);

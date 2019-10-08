@@ -41,7 +41,7 @@ class Schedule {
     $hours = array_fill(0,24,[]);
     $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size) {
       $day = $start_offset + $idx * 86400;
-      $value['title'] = date('l', $day);
+      $value['title'] = date('l \<\s\m\a\l\l\>F j\<\s\u\p\>S\<\/\s\u\p\>\<\/\s\m\a\l\l>', $day);
       $value['size'] = (1 / $size * 100) . '%';
       $value['position'] = $idx;
       $value['hours'] = array_map(function ($value, $idx) use($start_offset){
@@ -93,6 +93,11 @@ class Schedule {
       'title' => $model->title,
       'location' => $model['location']['@ref'] ?: 'TBD',
     ];
+    
+    if ($model['@mark'] != 'hide') {
+      $event['link'] = $model['permalink'];
+      $event['linktxt'] = 'Learn more...';
+    }
     
     $event['human_time'] = date('g:ia', $event['start']) . '–' . date('g:ia', $event['end']);
     $event['duration'] = ($event['end'] - $event['start']) / 60; 
