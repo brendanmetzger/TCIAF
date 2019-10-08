@@ -1,16 +1,17 @@
-<article class="page panel">
-  <div class="two-thirds">
+<article class="page">
+  <header class="b">
     <nav class="caps-lock">
       <a href="/overview/events">Happenings</a> / <span class="selected">[$item:title]</span>
     </nav>
-    <header class="tt">
-      <h3 class="brown"><time>[$item:date]</time></h3>
-      <h1 class="lead display tracked" data-id="[$item:@id]">[$item:title]</h1>
-    </header>
-    <hr/>
-    <section class="markdown">[$item:content:about]</section>
+    <h3 class="brown"><time>[$item:date]</time></h3>
+    <h1 class="lead display tracked" data-id="[$item:@id]">[$item:title]</h1>
+  </header>
+  <div class="panel flip">
+    <figure class="one-third gallery ll" style="align-self: start;">
+      <img data-src="[//s3.amazonaws.com/$item:photo:url]" data-aspect="[$item:photo:mark]"/>
+    </figure>
+    <div class="two-thirds rr">
+      <section class="markdown">[$item:content:about]</section>
+    </div>
   </div>
-  <figure class="one-third gallery ll" style="align-self: start;">
-    <img data-src="[//s3.amazonaws.com/$item:photo:url]" data-aspect="[$item:photo:mark]"/>
-  </figure>
 </article>
