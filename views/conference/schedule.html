@@ -1,26 +1,27 @@
 <article id="conf-schedule">
-  <h1 class="lead display tracked tt center pad-v">[$item:title Schedule]</h1>
+  <h1 class="lead display tracked tt center pad-v bb">[$item:title Schedule]</h1>
   <div class="schedule">
     <div class="timeline">
       <!-- iterate item:schedule:range -->
       <div class="day" style="[height: $size;]">
         <h4><time>[$title]</time></h4>
         <!-- iterate hours -->
-        <div>[$time]</div>
+        <div class="time">[$time]</div>
       </div>
     </div>
     <div class="events">
       <!-- iterate item:schedule:events -->
-      <div class="event" data-id="[$item:id]" style="[top: $item:offset; height: $item:size;width:calc(100%/$item:layout:width);left:calc(calc(100%/$item:layout:width) * $item:layout:position);]">
-        <h3 class="display h4" style="margin-bottom:0">[$item:title]</h3>
+      <div class="event" data-id="[$item:id]" style="[top: $item:layout:top; height: $item:layout:height;width:calc(100%/$item:layout:width);left:calc(calc(100%/$item:layout:width) * $item:layout:position);]">
+        <h3 class="display h4" style="margin:0">[$item:title]</h3>
         <p style="margin:0">[$item:human_time, $item:location]</p>
         <p><a href="[$item:link]">[$item:linktxt]</a></p>
       </div>
     </div>
   </div>
   <style type="text/css">
+    /*<![CDATA[*/
     div.schedule {
-      height: 400vh;
+      height: 300vh;
       overflow: auto;
       position: relative;
     }
@@ -46,32 +47,31 @@
     div.schedule > div.timeline > div.day {
       position: relative;
     }
-
+    
+    
+    
     div.schedule > div.timeline > div.day > h4 {
       position: absolute;
-      color: rgba(91, 156, 153, 0.4);
-      font-size:15em;
-      text-align:center;
       width: 100%;
-      font-weight: 400;
-      text-transform: uppercase;
+      font-weight: 800;
+      font-size:2.5em;
       line-height: 1;
+      margin: 0.75em 0 0 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 0.075em;
     }
+
+
     
-    div.schedule > div.timeline > div.day > h4 small {
-      display: block;
-      font-size: 75%;
-      text-transform: none;
-    }
-    
-    small sup {
-      font-size: 50%;
-    }
     
     div.schedule > div.timeline > div.day > div {
       width: 100%;
       border-top: 1px dashed rgba(0,0,0,0.1);
-      height: calc(100% / 24);
+      height: calc(100% / 18);
+    }
+    
+    div.schedule > div.timeline > div.day > div.time:first-of-type {
+      border-top: 1px solid rgba(0,0,0,0.25);
     }
     
 
@@ -82,7 +82,7 @@
       border-left:2px solid rgba(255,0,0,0.5);
     }
         
-    
+    /*]]>*/
   </style>
 </article>
 

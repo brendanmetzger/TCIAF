@@ -17,31 +17,33 @@ class Schedule {
       return $a['item']['start'] > $b['item']['start'];
     });
     
-    // \bloc\application::instance()->log($this->draw());
     $this->draw();
   }
   
   public function render() {
-    // \bloc\application::instance()->log($this->events);
     return new \bloc\types\dictionary($this->dataset);
   }
   
   // divisor converts the length in seconds to something else (default is days 60 * 60 * 24)
   public function draw() {
+    $day_size = 86400; // one full 24 hour day in seconds (60 * 60 * 24)
+    $calendar_offset_hours = 6; // start time to draw the calendar in seconds (6 hours in this case);
+    
     $first = $this->dataset['events'][0]['item']['start'];
-    $last = $this->dataset['events'][$this->size - 1]['item']['end'];
+    $last  = $this->dataset['events'][$this->size - 1]['item']['end'];
+    
     
     $start_offset = mktime(0, 0, 0, ...explode(',', date('m,d,y', $first)));
     $end_offset   = mktime(23, 59, 59, ...explode(',', date('m,d,y', $last)));
         
     $total_duration = round(($end_offset - $start_offset) / 60);
-    
     $size = $total_duration / 60 / 24;
     $days = array_fill(0, $size, []);
-    $hours = array_fill(0,24,[]);
-    $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size) {
-      $day = $start_offset + $idx * 86400;
-      $value['title'] = date('l \<\s\m\a\l\l\>F j\<\s\u\p\>S\<\/\s\u\p\>\<\/\s\m\a\l\l>', $day);
+    $hours = array_fill($calendar_offset_hours,(24-$calendar_offset_hours),[]);
+    
+    $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size, $day_size) {
+      $day = $start_offset + $idx * $day_size;
+      $value['title'] = date('l, F j', $day);
       $value['size'] = (1 / $size * 100) . '%';
       $value['position'] = $idx;
       $value['hours'] = array_map(function ($value, $idx) use($start_offset){
@@ -49,24 +51,31 @@ class Schedule {
       }, $hours, array_keys($hours));
       return $value;
     }, $days, array_keys($days));
-    
-    for ($day_of=$start_offset, $one_day = 86400; $day_of < $end_offset; $day_of+=$one_day) { 
+        
+    for ($day_of=$start_offset; $day_of < $end_offset; $day_of+=$day_size) { 
       $dataset['timeline'][] = [
         'date' => date('l, F jS', $day_of),
-        'range' => [$day_of, $day_of + $one_day],
-        'events' => [],
+        'range' => [$day_of, $day_of + $day_size],
       ];
     }
     
 
-    
+    $offset_duration = $total_duration - ($size * $calendar_offset_hours * 60);
     foreach ($this->dataset['events'] as $idx => &$event) {
-      $event['item']['offset'] = ((($event['item']['start'] - $start_offset) / 60) / $total_duration * 100) . '%';
-      $event['item']['size'] = ($event['item']['duration'] / $total_duration * 100) . '%';
+      $start = ($event['item']['start'] - $start_offset) / 60;
+      $day_offset = ceil($start / 60 / 24);
+      $offset_mins = $calendar_offset_hours * $day_offset * 60;
+      
+
+
+      $offset = (($start - $offset_mins) / $offset_duration * 100) . '%';
+      $height = ($event['item']['duration'] / $offset_duration * 100) . '%';
       $slot = floor(($event['item']['start'] - $start_offset) / 3600);
       $length = $event['item']['duration'] / 60;
+      
+      
       $event['item']['range'] = [$slot, $slot + $length];
-      $event['item']['layout'] = ['width' => 1, 'position' => 0];
+      $event['item']['layout'] = ['width' => 1, 'position' => 0, 'height' => $height, 'top' => $offset];
       
       $prev = $idx - 1;
       
