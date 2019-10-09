@@ -21,9 +21,15 @@
   <style type="text/css">
     /*<![CDATA[*/
     div.schedule {
-      height: 225vmax;
+      height: 300vmax;
       overflow: auto;
       position: relative;
+    }
+    
+    @media screen and (max-width: 50em) {
+      div.schedule {
+        height: 420vmax;
+      }
     }
     div.schedule >  div.events {
       position:absolute;
