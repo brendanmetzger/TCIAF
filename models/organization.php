@@ -47,6 +47,29 @@ namespace models;
     }
     public function getStaff(\DOMElement $context)
     {
+      $output = [
+        'current' => [],
+        'emeritus' => [],
+        'cofounder' => [],
+      ];
+      
+      foreach ($context->find("edge[@type='staff']") as $edge) {
+        $person = new Person($edge['@vertex']);
+        $position = $edge->nodeValue;
+        $emeritus = stripos($position, 'emeritus');
+        $cofounder = stripos($position, 'co-founder');
+
+        if ($cofounder !== false) {
+          $output['cofounder'][] = ['person' => $person, 'position' => 'Co-Founder'];
+        } else if ($emeritus !== false) {
+          $output['emeritus'][] = ['person' => $person, 'position' => trim(substr_replace($position, '', $emeritus, 8))];
+        } else {
+          $output['current'][] = ['person' => $person, 'position' => $position];
+        }
+      }
+      
+      return new \bloc\types\Dictionary($output);
+
       return $context->find("edge[@type='staff']")->map(function($edge) {
         return ['person' => new Person($edge['@vertex']), 'position' => $edge->nodeValue];
       });

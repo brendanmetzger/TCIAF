@@ -195,7 +195,9 @@ function calendar($start, $category, $query)
     {
       $view = new view('views/layout.html');
       $view->content = 'views/pages/about.html';
+
       $this->item  = new \models\Organization('A');
+      
       return $view->render($this());
     }
 
