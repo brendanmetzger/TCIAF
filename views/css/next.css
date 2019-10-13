@@ -200,7 +200,8 @@ header > img.landscape {
   transition: border-color 0.25s;
 }
 .lead {font-size: calc(2em + 2vw);line-height:1;}
-.spot {padding:1.5em;margin:0 0 2vmax;}
+
+.spot {padding:1.5em;margin:0 0 1.5em;}
 .spot ul {
   column-count: 2;
 }
@@ -717,10 +718,12 @@ input:focus::--webkit-input-placeholder { opacity:0.2;}
 
   .column { flex-direction: column }
 
-  .half       {width:50%   }
-  .one-third  {width:30%;}
-  .one-third.ll {width: calc(30% - 2vw)}
-  .two-thirds {width:70%;}
+  .half          {width:50%   }
+  .one-third     {width:30%;}
+  .one-third.l   {width: calc(30% - 1vw)}
+  .one-third.ll  {width: calc(30% - 2vw)}
+  .two-thirds    {width:70%;}
+  .two-thirds.r  {width:calc(70% - 1vw);}
   .two-thirds.rr {width:calc(70% - 2vw);}
   nav[role].panel {
     justify-content: space-between;

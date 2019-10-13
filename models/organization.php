@@ -63,7 +63,7 @@ namespace models;
         $emeritus = stripos($position, 'emeritus');
         $cofounder = stripos($position, 'co-founder');
         if ($cofounder !== false) {
-          $output['cofounder'][] = ['person' => $person, 'position' => ''];
+          $output['cofounder'][] = ['person' => $person, 'position' => null];
         } else if ($emeritus !== false) {
           $output['emeritus'][] = ['person' => $person, 'position' => trim(substr_replace($position, '', $emeritus, 8))];
         } else {
@@ -78,9 +78,27 @@ namespace models;
 
     public function getBoard(\DOMElement $context)
     {
-      return $context->find("edge[@type='board']")->map(function($edge) {
-        return ['person' => new Person($edge['@vertex']), 'position' => $edge->nodeValue];
-      });
+      static $output = false;
+      
+      if ($output) return $output;
+      $output = [
+        'community' => [],
+        'directors' => [],
+      ];
+      
+      foreach ($context->find("edge[@type='board']") as $edge) {
+        $person    = new Person($edge['@vertex']);
+        $position  = $edge->nodeValue;
+        $community = stripos($position, 'community');
+        if ($community !== false) {
+          $output['community'][] = ['person' => $person, 'position' => null];
+        } else {
+          $output['directors'][] = ['person' => $person, 'position' => $position];
+        }
+      }
+            
+      $output = new \bloc\types\Dictionary($output);
+      return $output;
     }
 
     public function getSupporters(\DOMElement $context)
