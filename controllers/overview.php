@@ -198,6 +198,11 @@ function calendar($start, $category, $query)
 
       $this->item  = new \models\Organization('A');
       
+      if (true) {
+        \bloc\application::instance()->log($this->item->content->extras);
+        // $view->presenters =  "views/partials/presenters.html";
+      }
+      
       return $view->render($this());
     }
 
