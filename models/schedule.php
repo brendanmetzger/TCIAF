@@ -45,16 +45,16 @@ class Schedule {
     
     \bloc\application::instance()->log($size);
     
-    // $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size, $day_size) {
-    //   $day = $start_offset + $idx * $day_size;
-    //   $value['title'] = date('l, F j', $day);
-    //   $value['size'] = (1 / $size * 100) . '%';
-    //   $value['position'] = $idx;
-    //   $value['hours'] = array_map(function ($value, $idx) use($start_offset){
-    //     return ['time' => date('ga', $start_offset + $idx * 3600)];
-    //   }, $hours, array_keys($hours));
-    //   return $value;
-    // }, $days, array_keys($days));
+    $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size, $day_size) {
+      $day = $start_offset + $idx * $day_size;
+      $value['title'] = date('l, F j', $day);
+      $value['size'] = (1 / $size * 100) . '%';
+      $value['position'] = $idx;
+      $value['hours'] = array_map(function ($value, $idx) use($start_offset){
+        return ['time' => date('ga', $start_offset + $idx * 3600)];
+      }, $hours, array_keys($hours));
+      return $value;
+    }, $days, array_keys($days));
        
      
     for ($day_of=$start_offset; $day_of < $end_offset; $day_of+=$day_size) { 
