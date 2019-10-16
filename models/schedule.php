@@ -9,7 +9,7 @@ class Schedule {
   ];
   
   public function __construct (\iterator $edges) {
-    $this->size = $edges->count();
+
     foreach ($edges as $edge) {
       $this->place($edge);
     }
@@ -28,9 +28,11 @@ class Schedule {
   public function draw() {
     $day_size = 86400; // one full 24 hour day in seconds (60 * 60 * 24)
     $calendar_offset_hours = 6; // start time to draw the calendar in seconds (6 hours in this case);
+
     
     $first = $this->dataset['events'][0]['item']['start'];
     $last  = $this->dataset['events'][$this->size - 1]['item']['end'];
+
     
     
     $start_offset = mktime(0, 0, 0, ...explode(',', date('m,d,y', $first)));
@@ -41,17 +43,20 @@ class Schedule {
     $days = array_fill(0, $size, []);
     $hours = array_fill($calendar_offset_hours,(24-$calendar_offset_hours),[]);
     
-    $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size, $day_size) {
-      $day = $start_offset + $idx * $day_size;
-      $value['title'] = date('l, F j', $day);
-      $value['size'] = (1 / $size * 100) . '%';
-      $value['position'] = $idx;
-      $value['hours'] = array_map(function ($value, $idx) use($start_offset){
-        return ['time' => date('ga', $start_offset + $idx * 3600)];
-      }, $hours, array_keys($hours));
-      return $value;
-    }, $days, array_keys($days));
-        
+    \bloc\application::instance()->log($size);
+    
+    // $this->dataset['range'] = array_map(function ($value, $idx) use ($start_offset, $hours, $size, $day_size) {
+    //   $day = $start_offset + $idx * $day_size;
+    //   $value['title'] = date('l, F j', $day);
+    //   $value['size'] = (1 / $size * 100) . '%';
+    //   $value['position'] = $idx;
+    //   $value['hours'] = array_map(function ($value, $idx) use($start_offset){
+    //     return ['time' => date('ga', $start_offset + $idx * 3600)];
+    //   }, $hours, array_keys($hours));
+    //   return $value;
+    // }, $days, array_keys($days));
+       
+     
     for ($day_of=$start_offset; $day_of < $end_offset; $day_of+=$day_size) { 
       $dataset['timeline'][] = [
         'date' => date('l, F jS', $day_of),
@@ -94,23 +99,29 @@ class Schedule {
   
   
   private function place(\DOMnode $edge) {
+
     $model = \models\Graph::FACTORY(\models\Graph::ID($edge['@vertex']));
-    $event = [
-      'id'    => $edge['@vertex'],
-      'start' => strtotime($model['premier']['@date']),
-      'end'   => strtotime($model['premier']['@duration']),
-      'title' => $model->title,
-      'location' => $model['location']['@ref'] ?: 'TBD',
-    ];
+      
+    if ($start = strtotime($model['premier']['@date'])) {
+      $this->size++;
+      $event = [
+        'id'    => $edge['@vertex'],
+        'start' => $start,
+        'end'   => strtotime($model['premier']['@duration']),
+        'title' => $model->title,
+        'location' => $model['location']['@ref'] ?: 'TBD',
+      ];
     
-    if ($model['@mark'] != 'hide') {
-      $event['link'] = $model['permalink'];
-      $event['linktxt'] = 'Learn more...';
+      if ($model['@mark'] != 'hide') {
+        $event['link'] = $model['permalink'];
+        $event['linktxt'] = 'Learn more...';
+      }
+    
+      $event['human_time'] = date('g:ia', $event['start']) . '–' . date('g:ia', $event['end']);
+      $event['duration'] = ($event['end'] - $event['start']) / 60; 
+    
+      $this->dataset['events'][] = ['item' => $event];
+      
     }
-    
-    $event['human_time'] = date('g:ia', $event['start']) . '–' . date('g:ia', $event['end']);
-    $event['duration'] = ($event['end'] - $event['start']) / 60; 
-    
-    $this->dataset['events'][] = ['item' => $event];
   }
 }
