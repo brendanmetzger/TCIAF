@@ -124,7 +124,7 @@ var Player = function (container, data, message) {
     'class': data.controls
   }));
 
-  var button = controls.appendChild(document.createElement('button')['@']({
+  var button = controls.appendChild(document.createElement('button').attr({
     'type': 'button'
   }));
 

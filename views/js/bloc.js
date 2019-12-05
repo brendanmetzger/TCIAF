@@ -40,6 +40,7 @@ Date.prototype.parse = function (pattern) {
 
 
 Element.prototype.attr = function (obj) {
+  console.log(obj);
   for (var prop in obj) this.setAttribute(prop, obj[prop]);
   return this;
 };
@@ -776,7 +777,8 @@ var Player = function (container, data, message) {
   }));
 
   var button = controls.appendChild(document.createElement('button').attr({
-    'type': 'button'
+    'type': 'button',
+    'aria-label': 'Play Audio'
   }));
 
   this.playlist = new Playlist(this, {'class': data.playlist});
