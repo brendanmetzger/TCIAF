@@ -130,7 +130,7 @@ ul, ol { padding:0 0 0 2em }
 .banner.banner-bg { background-size:cover }
 .banner-bg *      { color:#FFF;text-shadow: 0 0 0.125em rgba(0,0,0,0.5) }
 .banner-bg        {
-  background-color:#EEE;
+  background-color:#5b9c99;
   background-repeat: no-repeat;
   background-position: 75% 50%;
   background-size: cover;
