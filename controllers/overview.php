@@ -218,21 +218,26 @@ function calendar($start, $category, $query)
     {
       $this->banner = 'Conferences';
       $node = $id ? Graph::group('happening')->find("vertex[@key='{$id}']")->pick(0) : GRAPH::ID('CJ');
+      
+
       $this->item   = Graph::FACTORY($node);
+
       $sections = [];
 
       $template = $id === null ? 'overview' : ( $schedule ? 'schedule' : $this->item->_template);
       
       $view = new View('views/layout.html');
       $view->content = "views/conference/{$template}.html";
-
+      
       // Sessions, Presenters and Sponsers only show up when available
       
       if ($this->item->sessions->count() > 0) {
         // $view->schedule = 'views/conference/schedule.html';
       }
       
-      if ($this->item->presenters->count() > 0) {
+
+      
+      if ($this->item->presenters && $this->item->presenters->count() > 0) {
         $this->pkey = 'presenters';
         $sections[] = ['id' => 'presenters', 'title' => 'Featured People'];
         $view->presenters =  "views/partials/presenters.html";
