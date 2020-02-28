@@ -25,6 +25,9 @@ trait banner {
         return new \models\media($banner->pick());
       }
       
+    } else {
+      //  default just in case //s3.amazonaws.com/
+      return ['mark' => 3, 'url' => '//s3.amazonaws.com/tciaf-mediaimage/_assets/default-banner.jpg']; 
     }
   }
 
