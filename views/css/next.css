@@ -345,13 +345,16 @@ a.jump {
 a.jump:before {
   content: '▴ ';
 }
-/*nav.jump:before {
-  content: 'quick links';
-  text-transform: lowercase;
-  font-variant:small-caps;
-  color:#999;
+
+nav.jump {
+  position: -moz-sticky;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  margin: 0 0 2em 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
-*/
+
 .image-tab {
   box-shadow: 0 0 0.125em 0.075em rgba(0,0,0,0.05);
   opacity: 0;
